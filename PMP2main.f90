@@ -78,9 +78,7 @@ Program PMP
 
 END Program PMP
 
-!--------------------------------------------
 subroutine Initialize(Path)
-!--------------------------------------------
     use Tools
     use LocalData
     use ExtradofBackgroundData  ! used for MG_model = 4 or 5
@@ -212,9 +210,7 @@ Subroutine SetSeeds
     close (1)
 end Subroutine SetSeeds
 
-!--------------------------------------------------
 SUBROUTINE SetTest
-!--------------------------------------------------
     use Tools
     Integer*8 :: ii
 
@@ -298,7 +294,7 @@ END SUBROUTINE ADDTIME
 SUBROUTINE MOVE(FactV)
 !------------------------------------------------
     use Tools
-    use ExtradofBackgroundData                                            ! used for MG_model = 4 (k-mouflage) or 5 (coupled scalar field)
+    use ExtradofBackgroundData ! used for MG_model = 4 (k-mouflage) or 5 (coupled scalar field)
 
 !             PCONST = factor to change velocities
 !             XCONST = factor to change coordinates
@@ -317,13 +313,12 @@ SUBROUTINE MOVE(FactV)
               GZ112, GZ212, GZ122, GZ222, &
               X, Y, Z
     integer*8 :: IN
-    integer*4 :: ist                                                     ! MG for background quantity interpolation
-    real*8    :: fric_fac, param_beta, bs_fct                              ! MG additional force coefficients
-    real*8    :: fct1, fct3, dphidN, HoH0, phidot, phidot2, fif2Newt           ! linearised kmoufage fifth force Baojiu-01-07-2021
+    integer*4 :: ist    ! MG for background quantity interpolation
+    real*8    :: fric_fac, param_beta, bs_fct   ! MG additional force coefficients
+    real*8    :: fct1, fct3, dphidN, HoH0, phidot, phidot2, fif2Newt    ! linearised kmoufage fifth force Baojiu-01-07-2021
     Logical   :: Linear_Kmo = .False.
 
-! Variables for linear nDGP model
-
+    ! Variables for linear nDGP model
     Logical :: Linear_nDGP = .False.
     Real*8  :: beta, Orc
 
@@ -480,7 +475,7 @@ SUBROUTINE MOVE(FactV)
 !$OMP PRIVATE (GY111,GY211,GY121,GY221,GY112,GY212,GY122,GY222) &
 !$OMP PRIVATE (GZ111,GZ211,GZ121,GZ221,GZ112,GZ212,GZ122,GZ222) &
 !$OMP REDUCTION(+:SVEL,SPHI)
-    DO IN = 1, Nparticles                                                    ! Loop over particles
+    DO IN = 1, Nparticles   ! Loop over particles
         X = XPAR(IN)
         Y = YPAR(IN)
         Z = ZPAR(IN)
@@ -510,7 +505,7 @@ SUBROUTINE MOVE(FactV)
         IF (K2 .GT. NGRID) K2 = K2 - NGRID
         K3 = K - 1
         IF (K3 .LT. 1) K3 = NGRID
-        F111 = FI(I, J, K)                                                 !  Read potential to Fij vars
+        F111 = FI(I, J, K)  !  Read potential to Fij vars
         F211 = FI(I1, J, K)
         F121 = FI(I, J1, K)
         F221 = FI(I1, J1, K)
