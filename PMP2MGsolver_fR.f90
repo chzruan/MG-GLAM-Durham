@@ -17,9 +17,7 @@
 ! since the scalar field and density fields etc. are stored in
 ! different places in these two cases.
 
-!-------------------------------------------------------------
 SUBROUTINE relaxation_iterations_fR(ilevel, redstep)
-!-------------------------------------------------------------
     use Tools
 
     implicit none
