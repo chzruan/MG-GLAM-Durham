@@ -4,7 +4,7 @@
 !        - Routines: ReadSetup, ReadDataPM,
 !                  seconds, Timing, TimingMain, Memory
 !-------------------------------------------------
-!
+
 Module Tools
       Real*4    :: Om,        &      ! cosmology
                    Omb,       &
@@ -276,11 +276,16 @@ subroutine ReadSetup
 
       ifile = 0
       jj    = 0
+
       If(moment<0)Then
-         write(Name,'(2a,i1.1,a)')Trim(Path),'PMcrs',ifile,'.DAT'
+         ! Use 'i0' for flexible integer width
+         ! origin code: write(Name,'(2a,i1.1,a)')Trim(Path),'PMcrs',ifile,'.DAT'
+         write(Name,'(2a,i0,a)')Trim(Path),'PMcrs',ifile,'.DAT'
       Else
-         write(Name,'(2a,i1.1,a,i4.4,a)')Trim(Path),'PMcrs',ifile,'.',moment,'.DAT'
+         write(Name,'(2a,i0,a,i4.4,a)')Trim(Path),'PMcrs',ifile,'.',moment,'.DAT'
       End If
+      
+      INQUIRE(file=TRIM(Name),EXIST=exst)
         INQUIRE(file=TRIM(Name),EXIST=exst)
         If(.not.exst)Stop ' File PMcrs0.DAT does not exist. Error'
         OPEN(UNIT=20,FILE=TRIM(Name),ACCESS='DIRECT', &
@@ -297,19 +302,12 @@ subroutine ReadSetup
       If(ierr /=0)Then
          close(20)
          ifile = ifile +1
+
          If(Moment<0)Then
-           If(ifile<10)Then
-             write(Name,'(2a,i1.1,a,i4.4,a)')Trim(Path),'PMcrs',ifile,'.DAT'
-           Else
-             write(Name,'(2a,i2.2,a,i4.4,a)')Trim(Path),'PMcrs',ifile,'.DAT'
-          EndIf
-       Else
-          If(ifile<10)Then
-             write(Name,'(2a,i1.1,a,i4.4,a)')Trim(Path),'PMcrs',ifile,'.',moment,'.DAT'
-          Else
-             write(Name,'(2a,i2.2,a,i4.4,a)')Trim(Path),'PMcrs',ifile,'.',moment,'.DAT'
-          EndIf
-       end If
+             write(Name,'(2a,i0,a)')Trim(Path),'PMcrs',ifile,'.DAT'
+         Else
+             write(Name,'(2a,i0,a,i4.4,a)')Trim(Path),'PMcrs',ifile,'.',moment,'.DAT'
+         end If
 
            jj = 1
            INQUIRE(file=TRIM(Name),EXIST=exst)
@@ -390,15 +388,21 @@ subroutine ReadSetup
       write(*,*) ' Npages      = ',Npages
       write(*,*) ' Write files = ',iFlag,moment
         !			open files
-     If(iFlag == 0)Then
+      If(iFlag == 0)Then
         Open (4,file =TRIM(Path)//'PMcrd.DAT',form ='UNFORMATTED',status ='UNKNOWN')
-          write(Name,'(a,i1,a)')'PMcrs',0,'.DAT'
+          
+          write(Name,'(a,i0,a)')'PMcrs',0,'.DAT'
+          
           OPEN(UNIT=20,FILE=TRIM(Path)//TRIM(Name),ACCESS='DIRECT', &
                  FORM='unformatted',STATUS='UNKNOWN',RECL=NACCESS)
      Else
         write(Name,'(a,i4.4,a)')'PMcrd.',moment,'.DAT'
         Open (4,file =TRIM(Path)//TRIM(Name),form ='UNFORMATTED',status ='UNKNOWN')
-          write(Name,'(a,i1,a,i4.4,a)')'PMcrs',0,'.',moment,'.DAT'
+          
+          ! --- FIXED CODE START ---
+          write(Name,'(a,i0,a,i4.4,a)')'PMcrs',0,'.',moment,'.DAT'
+          ! --- FIXED CODE END ---
+          
           write(*,'(a)') TRIM(Name)
         OPEN(UNIT=20,FILE=TRIM(Path)//TRIM(Name),ACCESS='DIRECT', &
                  FORM='unformatted',STATUS='UNKNOWN',RECL=NACCESS)
@@ -426,19 +430,13 @@ Do i=1,Npages         !-------- dump into  files
        close(20)
        jj = 1
        ifile = (i-1)/Nrecpage       ! construct file name
+       
        If(iFlag==0)Then
-          If(ifile<10)Then
-             write(Name,'(a,i1.1,a)')'PMcrs',ifile,'.DAT'
-          Else
-             write(Name,'(a,i2.2,a)')'PMcrs',ifile,'.DAT'
-          EndIf
+          write(Name,'(a,i0,a)')'PMcrs',ifile,'.DAT'
        Else
-          If(ifile<10)Then
-             write(Name,'(a,i1.1,a,i4.4,a)')'PMcrs',ifile,'.',moment,'.DAT'
-          Else
-             write(Name,'(a,i2.2,a,i4.4,a)')'PMcrs',ifile,'.',moment,'.DAT'
-          EndIf
+          write(Name,'(a,i0,a,i4.4,a)')'PMcrs',ifile,'.',moment,'.DAT'
        end If
+
        Open(20,file=TRIM(Path)//TRIM(Name),ACCESS='DIRECT', &
                  FORM='unformatted',STATUS='UNKNOWN',RECL=NACCESS)
        write(*,'(2i7,2a,3x,i9)') i,ifile,' Open file = ',TRIM(Name),Ninpage

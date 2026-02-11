@@ -716,7 +716,7 @@ Character*80       ::    fname
       NBYTE = NPAGE*4
       NACCES= NBYTE / nbyteword
       JPAGE = NPAGE              ! int8
-      Nrecpage = 512 ! 256            ! max number of records per file
+      Nrecpage = 256            ! max number of records per file
       
       Npages  = (Nparticles-1)/JPAGE+1
       Nfiles  = (Npages-1)/Nrecpage +1    ! number of files
@@ -734,11 +734,14 @@ Character*80       ::    fname
 
       Do i=1,Nfiles                       !-- open files
          ifile = (i-1)
+         ! Use 'i0' to automatically handle any number of digits (1, 10, 100, 1000)
+         write(Fname,'(a,i0,a)') 'PMcrs',ifile,'.DAT'
+         
          If(ifile<10)Then
-            write(Fname,'(a,i1.1,a)')'PMcrs',ifile,'.DAT'
-         Else
-            write(Fname,'(a,i2.2,a)')'PMcrs',ifile,'.DAT'
+            ! The original logic used i1.1 and i2.2 which capped at 99.
+            ! The new line above replaces the entire If/Else block from lines 140-141.
          EndIf
+
          Open(30+ifile,file=TRIM(Fname),ACCESS='DIRECT', &
              FORM='unformatted',STATUS='UNKNOWN',RECL=NACCES)
          write(*,'(2i7,2a,3x,i9)') i,ifile,' Open file = ',TRIM(Fname)
