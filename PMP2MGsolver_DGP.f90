@@ -73,7 +73,7 @@ use Tools
 
 !  tmp_sum = 0.0D0
 
-!!$OMP PARALLEL DO DEFAULT(SHARED) &
+!!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !!$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !!$OMP PRIVATE (Sigma) REDUCTION(+:tmp_sum)
 !  DO M3=1,ngrid_level
@@ -143,7 +143,7 @@ use Tools
 ! Baojiu-13-06-2021: modification to calculate S_mean -- end
 !-----------------------------------------------------------
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (L,Sigma)
   DO M3=1,ngrid_level
@@ -222,10 +222,8 @@ use Tools
            END IF
            ! update solution
            IF(ilevel.EQ.0) THEN      ! solution on PM grid
-!$OMP ATOMIC
                FI2(M1        ,M2        ,M3        ) = FI2(M1        ,M2        ,M3        ) - L/dLphi ! phi_old - L/(dL/dphi)
            ELSE                      ! solution on multigrid
-!$OMP ATOMIC
                FI3(M1+ioffset,M2+joffset,M3+koffset) = FI3(M1+ioffset,M2+joffset,M3+koffset) - L/dLphi ! phi_old - L/(dL/dphi)
            END IF
         END DO
@@ -283,7 +281,7 @@ use Tools
      koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
   END IF
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (OP,Sigma)
   DO M3=1,ngrid_level
@@ -366,7 +364,7 @@ use Tools
   RES = 0.0D0
   !
   IF(ilevel.EQ.0) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (N1,N2,N3) REDUCTION(+:RES)
      DO N3=1,ngrid_level
         DO N2=1,ngrid_level
@@ -397,7 +395,7 @@ END SUBROUTINE calculate_residual_DGP
 !  Ncells = NGRID**3
 !  sum = 0.0D0
   !
-!!$OMP PARALLEL DO DEFAULT(SHARED) &
+!!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !!$OMP PRIVATE (M1,M2,M3) REDUCTION(+:sum)
 !  DO M3=1,NGRID
 !     DO M2=1,NGRID
@@ -453,7 +451,7 @@ use Tools
   fct3  = DSIGN(0.75D0,alpha)
 
   IF(ilevel.EQ.1) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (Sigma_1,Sigma_2,Sigma_3,Sigma_4,Sigma_5,Sigma_6,Sigma_7,Sigma_8) &
 !$OMP PRIVATE (P,Q)
@@ -761,7 +759,7 @@ use Tools
      koffset  = 2**(levelmax-ilevel  )*(2**(ilevel  )-2)
      ioffset  = 2**(levelmax-ilevel+1)                        
      koffset2 = 2**(levelmax-ilevel+1)*(2**(ilevel-1)-1) 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3) &
 !$OMP PRIVATE (P)
      DO M3=1,ngrid_level
@@ -825,7 +823,7 @@ use Tools
   koffset  = 2**(levelmax-ilevel)*(2**ilevel-2)
   koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
  
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (OP,Sigma)
   DO M3=1,ngrid_level

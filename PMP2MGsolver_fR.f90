@@ -79,7 +79,7 @@ SUBROUTINE relaxation_iterations_fR(ilevel, redstep)
         koffset2 = NGRID/2**(ilevel)*(2**ilevel - 1)  ! Baojiu 2025 12 27
     END IF                                            ! Baojiu 2025 12 27
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (Delta21,Delta10,tmp1,tmp2,sqrt_Delta0) &
 !$OMP PRIVATE (P,L,S,CC)
@@ -306,7 +306,7 @@ SUBROUTINE calculate_residual_fR(ilevel, res_PM_grid)
         koffset2 = NGRID/2**(ilevel)*(2**ilevel - 1)                                 ! Baojiu 2025 12 17
     END IF                                                                        ! Baojiu 2025 12 17
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (OP)
     DO M3 = 1, ngrid_level
@@ -422,7 +422,7 @@ SUBROUTINE calculate_residual_fR(ilevel, res_PM_grid)
     RES = 0.0D0
 
     IF (ilevel .EQ. 0) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (N1,N2,N3) REDUCTION(+:RES)
         DO N3 = 1, ngrid_level
             DO N2 = 1, ngrid_level
@@ -484,7 +484,7 @@ SUBROUTINE restrict_residual_fR(ilevel)
     fct4 = fct2*a_fR_bg**(1.0D0/(1.0D0 + DBLE(fr_n)))
 
     IF (ilevel .EQ. 1) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (P,Q)
         DO M3 = 1, ngrid_level
@@ -654,7 +654,7 @@ SUBROUTINE restrict_residual_fR(ilevel)
         ioffset = NGRID/2**(ilevel - 1)                                             ! Baojiu 2025 12 17
         koffset = NGRID/2**(ilevel)*(2**(ilevel) - 2)                           ! Baojiu 2025 12 17
         koffset2 = NGRID/2**(ilevel - 1)*(2**(ilevel - 1) - 1)                           ! Baojiu 2025 12 17
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (P,Q)
         DO M3 = 1, ngrid_level
@@ -729,7 +729,7 @@ SUBROUTINE calculate_physical_right_hand_side_fR(ilevel)
     koffset = NGRID/2**(ilevel)*(2**ilevel - 2)                                    ! Baojiu 2025 12 17
     koffset2 = NGRID/2**(ilevel)*(2**ilevel - 1)                                    ! Baojiu 2025 12 17
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (OP)
     DO M3 = 1, ngrid_level

@@ -3,10 +3,10 @@
 #LDFLAGS =  -O2  -g -fbacktrace   -fopenmp   -mcmodel=medium -fconvert=big-endian
 # FC = ifort 
 FC = ifx
-FFLAGS =   -O2  -g -traceback -ftz -unroll  -qopenmp  -shared-intel -mcmodel=medium -convert big_endian
-LDFLAGS =  -O2   -g -traceback -ftz -unroll  -qopenmp  -shared-intel -mcmodel=medium -convert big_endian
+FFLAGS =   -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian
+LDFLAGS =  -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian
 FMPI = mpiifort
-MPIFLAGS =  -O2 -lmpi  -g -traceback -ftz -unroll  -qopenmp  -shared-intel -mcmodel=medium -convert big_endian
+MPIFLAGS =  -O3 -lmpi -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian
 
 #FC     = pgf77
 #FFLAGS = -O3  -mp  -byteswapio -mcmodel=medium -Mlarge_arrays -Mnoframe -Munroll -Knoieee

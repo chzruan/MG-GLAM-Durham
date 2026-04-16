@@ -50,7 +50,7 @@ use Tools
            R0_bg = 3.0D0*(Om         +4.0D0*OmL)
            fR_bg = fR0*(R0_bg/R_bg)**(fr_n+1)
            u_bg  = (DABS(fR_bg))**(1.0D0/(1.0D0+DBLE(fr_n)))
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3)
            DO M3=1,NGRID
               DO M2=1,NGRID
@@ -62,7 +62,7 @@ use Tools
         ENDIF ! IF(MG_model.EQ.1)
 
 !        IF(MG_model.EQ.2) THEN
-!!$OMP PARALLEL DO DEFAULT(SHARED) &
+!!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !!$OMP PRIVATE (M1,M2,M3)
 !           DO M3=1,NGRID
 !              DO M2=1,NGRID
@@ -134,7 +134,7 @@ use Tools
            R0_bg = 3.0D0*(Om         +4.0D0*OmL)
            fR_bg = fR0*(R0_bg/R_bg)**(fr_n+1)
            u_bg  = (DABS(fR_bg))**(-1.0D0/(1.0D0+DBLE(fr_n)))
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3)
            DO M3=1,NGRID
               DO M2=1,NGRID
@@ -146,7 +146,7 @@ use Tools
         ENDIF
 !        IF(MG_model.EQ.2) THEN
 !           CALL phi_mean_DGP
-!!$OMP PARALLEL DO DEFAULT(SHARED) &
+!!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !!$OMP PRIVATE (M1,M2,M3)
 !           DO M3=1,NGRID
 !              DO M2=1,NGRID
@@ -262,7 +262,7 @@ USE Tools
         R0_bg = 3.0D0*(Om         +4.0D0*OmL)
         fR_bg = fR0*(R0_bg/R_bg)**(fr_n+1)
         u_bg  = (DABS(fR_bg))**(1.0D0/(1.0D0+DBLE(fr_n)))
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3)
         DO M3=1,NGRID
            DO M2=1,NGRID
@@ -273,7 +273,7 @@ USE Tools
         END DO
      ! 2 - DGP model
      CASE(2)
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3)
         DO M3=1,NGRID
            DO M2=1,NGRID
@@ -306,7 +306,7 @@ USE Tools
       !   END DO
      ! 4 - k-mouflage model
      CASE(4)
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3)
         DO M3=1,NGRID
            DO M2=1,NGRID
@@ -317,7 +317,7 @@ USE Tools
         END DO
      ! 5 - coupled scalar field model
      CASE(5)
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3)
         DO M3=1,NGRID
            DO M2=1,NGRID
@@ -331,7 +331,7 @@ USE Tools
      !
   END SELECT
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3)
   DO M3=1,NGRID
      DO M2=1,NGRID
@@ -1196,7 +1196,7 @@ use Tools
   IF(ilevel.EQ.1) THEN
   ! case where fine level is the PM grid, where the density field
   ! on fine level is stored in array FI
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3) &
 !$OMP PRIVATE (P) 
      DO M3=1,ngrid_level
@@ -1220,7 +1220,7 @@ use Tools
   ELSE
   ! case where fine level is a multigrid level, where the density
   ! field on fine level is stored in a particular section of FI3
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3) &
 !$OMP PRIVATE (P) 
      DO M3=1,ngrid_level
@@ -1289,7 +1289,7 @@ use Tools
   IF(ilevel.EQ.1) THEN
   ! case where fine level is the PM grid, where the scalar field
   ! on fine level is stored in array FI2
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3) &
 !$OMP PRIVATE (P) 
      DO M3=1,ngrid_level
@@ -1315,7 +1315,7 @@ use Tools
   ELSE
   ! case where fine level is a multigrid level, where the scalar
   ! field on fine level is stored in a particular section of FI3
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3) &
 !$OMP PRIVATE (P) 
      DO M3=1,ngrid_level
@@ -1450,7 +1450,7 @@ SUBROUTINE correct_solution(ilevel)
 ! ENDIF
 
   IF(ilevel.EQ.1) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,pind,sind,ind,i1,i2,i3) &
 !$OMP PRIVATE (pid1,pid2,pid3) &
 !$OMP PRIVATE (P) 
@@ -1503,7 +1503,7 @@ SUBROUTINE correct_solution(ilevel)
         END DO
      END DO
   ELSE
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,pind,sind,ind,i1,i2,i3) &
 !$OMP PRIVATE (pid1,pid2,pid3) &
 !$OMP PRIVATE (P) 

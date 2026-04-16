@@ -67,7 +67,7 @@ SUBROUTINE relaxation_iterations_sym(ilevel,redstep)
      koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
   END IF
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (Delta1,Delta0,sqrt_Delta0,tmp1,tmp2) &
 !$OMP PRIVATE (P,Q,S,CC)
@@ -192,7 +192,7 @@ use Tools
      koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
   END IF
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (OP)
   DO M3=1,ngrid_level  
@@ -244,7 +244,7 @@ use Tools
   RES = 0.0D0
 
   IF(ilevel.EQ.0) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (N1,N2,N3) REDUCTION(+:RES)
      DO N3=1,ngrid_level
         DO N2=1,ngrid_level
@@ -298,7 +298,7 @@ use Tools
   fct2    = 0.5D0*(AEXPN/(ctilde*sym_xi))**2
 
   IF(ilevel.EQ.1) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (P,Q) 
      DO M3=1,ngrid_level
@@ -393,7 +393,7 @@ use Tools
      ioffset  = 2**(levelmax-ilevel+1)
      koffset  = 2**(levelmax-ilevel)*(2**ilevel-2)
      koffset2 = 2**(levelmax-ilevel+1)*(2**(ilevel-1)-1)
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (P,Q) 
      DO M3=1,ngrid_level
@@ -454,7 +454,7 @@ use Tools
   koffset  = 2**(levelmax-ilevel)*(2**ilevel-2)
   koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (OP) 
   DO M3=1,ngrid_level  
