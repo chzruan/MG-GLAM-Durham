@@ -19,7 +19,9 @@ use Tools
 
   real*8  :: L,dLphi,Sigma!,tmp_sum
   integer :: M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l
- 
+
+  CALL TimingMain(8, -1)
+
   ! constants
   ONEOVEREIGHT   = 0.125D0
   TWOOVERTHREE   = 2.0D0/3.0D0
@@ -230,7 +232,7 @@ use Tools
      END DO
   END DO
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
     
 END SUBROUTINE relaxation_iterations_DGP
 
@@ -252,6 +254,8 @@ use Tools
   integer :: N1,N2,N3
   real*8  :: RES,OP,Sigma
 
+  CALL TimingMain(8, -1)
+
   ! number of grid points on the coarse level
   ngrid_level = NGRID/2**ilevel
 
@@ -260,7 +264,7 @@ use Tools
   THREEOVERFOUR  = 3.0D0/4.0D0
   EIGHTOVERTHREE = 8.0D0/3.0D0
 
-  dx      = DBLE(2**ilevel) 
+  dx      = DBLE(2**ilevel)
   dx2     = dx*dx
   dx4     = dx2*dx2
   Orc     = 1.0D0/(4.0D0*H0rc**2)
@@ -359,7 +363,7 @@ use Tools
      END DO
   END DO
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 
   RES = 0.0D0
   !
@@ -425,6 +429,8 @@ use Tools
   integer :: M1,M2,M3,M1l,M1u,M2l,M2u,M3l,M3u
   real*8  :: P,Q
   real*8  :: Sigma_1,Sigma_2,Sigma_3,Sigma_4,Sigma_5,Sigma_6,Sigma_7,Sigma_8
+
+  CALL TimingMain(8, -1)
 
   ! number of grid points on the coarse level
   ngrid_level = NGRID/2**ilevel
@@ -780,7 +786,7 @@ use Tools
      END DO
   END IF
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 END SUBROUTINE restrict_residual_DGP
 
 !-------------------------------------------------------------
@@ -797,6 +803,8 @@ use Tools
 
   integer :: M1,M2,M3,M1l,M2l,M3l,M1u,M2u,M3u
   real*8  :: OP,Sigma
+
+  CALL TimingMain(8, -1)
 
   ! number of grid points on the coarse level
   ngrid_level = NGRID/2**ilevel
@@ -872,6 +880,6 @@ use Tools
      END DO
   END DO
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 
 END SUBROUTINE calculate_physical_right_hand_side_DGP

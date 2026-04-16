@@ -64,6 +64,10 @@ vcpkg_installed/
 # debug information files
 *.dwo
 
+# Intel ifx optimization reports (-qopt-report=2)
+*.optrpt
+*.opt.yaml
+
 # test output & cache
 Testing/
 .cache/

@@ -38,6 +38,8 @@ SUBROUTINE relaxation_iterations_csf(ilevel,redstep)
   real*8  :: phibar,A_phibar,V_phibar
   real*8  :: phi,rho,A_phi,V_phi,A_pp,V_pp,L,dL
 
+  CALL TimingMain(8, -1)
+
   IF(MG_test) WRITE(*,'(A,I5,F7.4)') 'Relaxation iterations on level',levelmax-ilevel,AEXPN
 
   ! number of grid points on the coarse level
@@ -165,7 +167,7 @@ SUBROUTINE relaxation_iterations_csf(ilevel,redstep)
 !    STOP
 ! ENDIF
 
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
     
 END SUBROUTINE relaxation_iterations_csf
 
@@ -194,6 +196,8 @@ SUBROUTINE calculate_residual_csf(ilevel,res_PM_grid)
   integer :: ist
   real*8  :: phibar,A_phibar,V_phibar
   real*8  :: phi,rho,A_phi,V_phi
+
+  CALL TimingMain(8, -1)
 
   IF(MG_test) WRITE(*,'(A,I5)') 'Calculate residual on level',levelmax-ilevel
 
@@ -318,7 +322,7 @@ SUBROUTINE calculate_residual_csf(ilevel,res_PM_grid)
 ! CLOSE(27)
 ! STOP
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
   RES = 0.0D0
 
   IF(ilevel.EQ.0) THEN
@@ -366,6 +370,8 @@ SUBROUTINE restrict_residual_csf(ilevel)
   integer :: ist
   real*8  :: phibar,A_phibar,V_phibar
   real*8  :: phi,rho,A_phi,V_phi
+
+  CALL TimingMain(8, -1)
 
   IF(MG_test) WRITE(*,'(A,I5)') 'Restrict residual to level',levelmax-ilevel
 
@@ -556,7 +562,7 @@ SUBROUTINE restrict_residual_csf(ilevel)
      END DO
   END IF
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 END SUBROUTINE restrict_residual_csf
 
 
@@ -582,6 +588,8 @@ SUBROUTINE calculate_physical_right_hand_side_csf(ilevel)
   integer :: M1,M2,M3,M1l,M2l,M3l,M1u,M2u,M3u
   real*8  :: OP
   !
+  CALL TimingMain(8, -1)
+
   IF(MG_test) WRITE(*,'(A,I5)') 'Calculate physical right-hand side on level',levelmax-ilevel
   !
   ! number of grid points on the coarse level
@@ -673,6 +681,6 @@ SUBROUTINE calculate_physical_right_hand_side_csf(ilevel)
 ! CLOSE(27)
 ! STOP
 
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 
 END SUBROUTINE calculate_physical_right_hand_side_csf

@@ -1175,6 +1175,8 @@ use Tools
   integer :: ioffset2,joffset2,koffset2 
   real*8  :: P
  
+  CALL TimingMain(8, -1)
+
   IF(MG_test .EQ. 1) WRITE(*,'(A,I5)') 'Call restrict_density on level',levelmax-ilevel
 
   ! number of grid points on the coarse level
@@ -1244,7 +1246,7 @@ use Tools
 
   ENDIF
  
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 
 END SUBROUTINE restrict_density
 
@@ -1267,6 +1269,8 @@ use Tools
   integer :: ioffset2,joffset2,koffset2 
   integer :: M1,M2,M3
   real*8  :: P             
+
+  CALL TimingMain(8, -1)
 
   IF(MG_test .EQ. 1) WRITE(*,'(A,I5)') 'Call restrict_scalar_field on level',levelmax-ilevel
 
@@ -1340,7 +1344,7 @@ use Tools
      END DO
   ENDIF
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 
 END SUBROUTINE restrict_scalar_field
 
@@ -1384,6 +1388,8 @@ SUBROUTINE correct_solution(ilevel)
   real*8  :: tmpt,ctilde,ctilde2
   integer :: ist
   real*8  :: phibar
+
+  CALL TimingMain(8, -1)
 
   IF(MG_test .EQ. 1) WRITE(*,'(A,I5)') 'Call correct_solution for level',levelmax-ilevel
   !
@@ -1567,7 +1573,7 @@ SUBROUTINE correct_solution(ilevel)
 !    STOP
 ! ENDIF
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 
 END SUBROUTINE correct_solution
 

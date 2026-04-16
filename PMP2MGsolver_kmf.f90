@@ -39,6 +39,8 @@ SUBROUTINE relaxation_iterations_kmf(ilevel,redstep)
   integer :: ist
   real*8  :: phibar,dphidN,HoH0,phidot,phidot2
 
+  CALL TimingMain(8, -1)
+
   IF(MG_test) WRITE(*,'(A,I5,F7.4)') 'Relaxation iterations on level',levelmax-ilevel,AEXPN
 
   ! number of grid points on the coarse level
@@ -248,7 +250,7 @@ SUBROUTINE relaxation_iterations_kmf(ilevel,redstep)
 !    STOP
 ! ENDIF
  
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
     
 END SUBROUTINE relaxation_iterations_kmf
 
@@ -277,6 +279,8 @@ SUBROUTINE calculate_residual_kmf(ilevel,res_PM_grid)
 
   integer :: ist
   real*8  :: phibar,dphidN,HoH0,phidot,phidot2
+
+  CALL TimingMain(8, -1)
 
   IF(MG_test) WRITE(*,'(A,I5)') 'Calculate residual on level',levelmax-ilevel
 
@@ -470,7 +474,7 @@ SUBROUTINE calculate_residual_kmf(ilevel,res_PM_grid)
      END DO
   END DO
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
   RES = 0.0D0
 
   IF(ilevel.EQ.0) THEN
@@ -518,6 +522,8 @@ SUBROUTINE restrict_residual_kmf(ilevel)
 
   integer :: ist
   real*8  :: phibar,dphidN,HoH0,phidot,phidot2
+
+  CALL TimingMain(8, -1)
 
   IF(MG_test) WRITE(*,'(A,I5)') 'Restrict residual to level',levelmax-ilevel
   !
@@ -1051,7 +1057,7 @@ SUBROUTINE restrict_residual_kmf(ilevel)
      END DO
   END IF
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 END SUBROUTINE restrict_residual_kmf
 
 
@@ -1079,6 +1085,8 @@ SUBROUTINE calculate_physical_right_hand_side_kmf(ilevel)
 
   integer :: ist
   real*8  :: phibar,dphidN,HoH0,phidot,phidot2
+
+  CALL TimingMain(8, -1)
 
   IF(MG_test) WRITE(*,'(A,I5)') 'Calculate physical right-hand side on level',levelmax-ilevel
   !
@@ -1214,6 +1222,6 @@ SUBROUTINE calculate_physical_right_hand_side_kmf(ilevel)
 ! CLOSE(27)
 ! STOP
 
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 
 END SUBROUTINE calculate_physical_right_hand_side_kmf
