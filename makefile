@@ -24,6 +24,16 @@ OBJ = PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod
 PMP2main: $(OBJ)  PMP2main.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
 
+# BDM halo finder (entry point PMP2bdm.f90). Reuse the full OBJ list so every
+# module dependency (Tools, Density, Structures/LinkerList, Random/LUXURY,
+# ExtradofBackgroundData) is satisfied.
+PMP2BDM: $(OBJ) PMP2bdm.o
+	$(FC) $(LDFLAGS) -o $@.exe $^
+
+# Gadget-2 -> MG-GLAM PM converter (reuses Tools/WriteDataPM).
+gadget2pm: PMP2mod_tools.o gadget2pm.o
+	$(FC) $(LDFLAGS) -o $@.exe $^
+
 # Build PMP2main with pre-Pass-4 FP-equivalent flags for the Task A race test.
 # Stashes an existing PMP2main.exe (if present), wipes all .o/.mod so the recursive
 # build uses bitmatch flags, links to PMP2main.exe, then renames. Restores the
