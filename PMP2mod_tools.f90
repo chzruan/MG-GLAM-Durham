@@ -537,5 +537,28 @@ Real*4 Function Memory(i_add)
     Memory = mem
     write(17,'(a,f8.3,a)') ' Current Memory = ',Memory,'Gb'
   end Function Memory
+!--------------------------------------------
+subroutine MG_scratch_release
+!--------------------------------------------
+!   Release the MG multigrid scratch FI3 around Analysis / WriteDataPM.
+!   FI3 content does not persist across timesteps — the MG solve rewrites
+!   it before reading. FI2 is deliberately kept (cross-step initial guess).
+    Real*4    :: myMemory
+    if (MG_flag /= 1) return
+    if (allocated(FI3)) then
+        myMemory = Memory(-1_8*NGRID*NGRID*NGRID)
+        deallocate(FI3)
+    end if
+end subroutine MG_scratch_release
+!--------------------------------------------
+subroutine MG_scratch_ensure
+!--------------------------------------------
+    Real*4    :: myMemory
+    if (MG_flag /= 1) return
+    if (.not. allocated(FI3)) then
+        myMemory = Memory(1_8*NGRID*NGRID*NGRID)
+        allocate(FI3(NGRID,NGRID,NGRID))
+    end if
+end subroutine MG_scratch_ensure
 
 end Module Tools
