@@ -39,6 +39,8 @@ SUBROUTINE relaxation_iterations_kmf(ilevel,redstep)
   integer :: ist
   real*8  :: phibar,dphidN,HoH0,phidot,phidot2
 
+  CALL TimingMain(8, -1)
+
   IF(MG_test) WRITE(*,'(A,I5,F7.4)') 'Relaxation iterations on level',levelmax-ilevel,AEXPN
 
   ! number of grid points on the coarse level
@@ -93,7 +95,7 @@ SUBROUTINE relaxation_iterations_kmf(ilevel,redstep)
      koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
   END IF
   !
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l,i) &
 !$OMP PRIVATE (tmp1,tmp2,Sigma1,Sigma2) &
 !$OMP PRIVATE (P,Q)
@@ -248,7 +250,7 @@ SUBROUTINE relaxation_iterations_kmf(ilevel,redstep)
 !    STOP
 ! ENDIF
  
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
     
 END SUBROUTINE relaxation_iterations_kmf
 
@@ -277,6 +279,8 @@ SUBROUTINE calculate_residual_kmf(ilevel,res_PM_grid)
 
   integer :: ist
   real*8  :: phibar,dphidN,HoH0,phidot,phidot2
+
+  CALL TimingMain(8, -1)
 
   IF(MG_test) WRITE(*,'(A,I5)') 'Calculate residual on level',levelmax-ilevel
 
@@ -330,7 +334,7 @@ SUBROUTINE calculate_residual_kmf(ilevel,res_PM_grid)
      koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
   END IF
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l,i) &
 !$OMP PRIVATE (tmp1,tmp2,Sigma1,Sigma2,OP)
   DO M3=1,ngrid_level  
@@ -470,11 +474,11 @@ SUBROUTINE calculate_residual_kmf(ilevel,res_PM_grid)
      END DO
   END DO
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
   RES = 0.0D0
 
   IF(ilevel.EQ.0) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (N1,N2,N3) REDUCTION(+:RES)
      DO N3=1,ngrid_level
         DO N2=1,ngrid_level
@@ -518,6 +522,8 @@ SUBROUTINE restrict_residual_kmf(ilevel)
 
   integer :: ist
   real*8  :: phibar,dphidN,HoH0,phidot,phidot2
+
+  CALL TimingMain(8, -1)
 
   IF(MG_test) WRITE(*,'(A,I5)') 'Restrict residual to level',levelmax-ilevel
   !
@@ -563,7 +569,7 @@ SUBROUTINE restrict_residual_kmf(ilevel)
   phidot2 = phidot**2                                                   ! [(d\varphi/d\tau)/H0]^2
   !
   IF(ilevel.EQ.1) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l,i) &
 !$OMP PRIVATE (S1,S2,S3,S4,S5,S6,S7,S8) &
 !$OMP PRIVATE (tmp1,tmp2,Sigma1,Sigma2,P,Q) 
@@ -1029,7 +1035,7 @@ SUBROUTINE restrict_residual_kmf(ilevel)
      ioffset  = 2**(levelmax-ilevel+1)
      koffset  = 2**(levelmax-ilevel)*(2**ilevel-2)
      koffset2 = 2**(levelmax-ilevel+1)*(2**(ilevel-1)-1)
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (P,Q) 
      DO M3=1,ngrid_level
@@ -1051,7 +1057,7 @@ SUBROUTINE restrict_residual_kmf(ilevel)
      END DO
   END IF
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 END SUBROUTINE restrict_residual_kmf
 
 
@@ -1079,6 +1085,8 @@ SUBROUTINE calculate_physical_right_hand_side_kmf(ilevel)
 
   integer :: ist
   real*8  :: phibar,dphidN,HoH0,phidot,phidot2
+
+  CALL TimingMain(8, -1)
 
   IF(MG_test) WRITE(*,'(A,I5)') 'Calculate physical right-hand side on level',levelmax-ilevel
   !
@@ -1127,7 +1135,7 @@ SUBROUTINE calculate_physical_right_hand_side_kmf(ilevel)
   koffset  = 2**(levelmax-ilevel)*(2**ilevel-2)
   koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l,i) &
 !$OMP PRIVATE (tmp1,tmp2,Sigma1,Sigma2,OP) 
   DO M3=1,ngrid_level  
@@ -1214,6 +1222,6 @@ SUBROUTINE calculate_physical_right_hand_side_kmf(ilevel)
 ! CLOSE(27)
 ! STOP
 
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 
 END SUBROUTINE calculate_physical_right_hand_side_kmf

@@ -59,12 +59,18 @@ Program PMP
 
         CALL ADDTIME               ! Advance time
 
-        IF (mod(ISTEP, Ncheckpoint) == 0) CALL WriteDataPM(0, Path)  ! checkpoint snapshot
+        IF (mod(ISTEP, Ncheckpoint) == 0) THEN
+            CALL MG_scratch_release
+            CALL WriteDataPM(0, Path)                                  ! checkpoint snapshot
+            CALL MG_scratch_ensure
+        END IF
 
         IF (Nlist(ISTEP) == 1) THEN
+            CALL MG_scratch_release
             mDENSIT = 1              ! flag for DM density. =0- dm is ready to use
             IF (iSave == 1) CALL WriteDataPM(1, Path)
             CALL Analysis(Path, mDENSIT)
+            CALL MG_scratch_ensure
         END IF
 
         Call TimingMain(0, 1)
@@ -74,7 +80,11 @@ Program PMP
         !
     END DO
 
-    If (iSave .ge. 1 .and. Nlist(ISTEP) /= 1) CALL WriteDataPM(1, Path)     ! make snapshot
+    If (iSave .ge. 1 .and. Nlist(ISTEP) /= 1) THEN
+        CALL MG_scratch_release
+        CALL WriteDataPM(1, Path)                                          ! make snapshot
+        ! no ensure — program ends here
+    END IF
 
 END Program PMP
 

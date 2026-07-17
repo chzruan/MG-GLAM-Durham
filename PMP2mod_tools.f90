@@ -507,7 +507,7 @@ subroutine TimingMain ( ielement , isign )
 !--------------------------------------------
         ! 0 - total
         ! 1 - force, 2- move
-        ! 3 - density, 4- IO, 5- biasing, 6- BDM, 7-Analysis
+        ! 3 - density, 4- IO, 5- biasing, 6- BDM, 7-Analysis, 8-MG solver
     Character*80 :: FName='timing.log'
     Integer OMP_GET_THREAD_NUM, OMP_GET_MAX_THREADS
     If(isign == 0)Then
@@ -516,10 +516,10 @@ subroutine TimingMain ( ielement , isign )
           write(30,'(3(a,i11))') ' Ngrid    = ',Ngrid, &
                                 ' Npart    = ',Nparticles, &
                                 ' Nthreads = ',OMP_GET_MAX_THREADS()
-          write(30,'(T3,a,T10,a,T23,a,T35,a,T49,a,T62,a,T73,a,T84,a,T95,a)')&
-               'Step','Tot/min','Force','Move','Density','IO','Bias','BDM','Analysis'
+          write(30,'(T3,a,T10,a,T23,a,T35,a,T49,a,T62,a,T73,a,T84,a,T95,a,T108,a)')&
+               'Step','Tot/min','Force','Move','Density','IO','Bias','BDM','Analysis','MG'
        End If
-       write(30,'(i5,1p,12G13.4)') iStep,CPU(0:7)/60.
+       write(30,'(i5,12F13.4)') iStep,CPU(0:8)/60.
        close(30)
        CPU(:) = 0
        return
@@ -537,5 +537,28 @@ Real*4 Function Memory(i_add)
     Memory = mem
     write(17,'(a,f8.3,a)') ' Current Memory = ',Memory,'Gb'
   end Function Memory
+!--------------------------------------------
+subroutine MG_scratch_release
+!--------------------------------------------
+!   Release the MG multigrid scratch FI3 around Analysis / WriteDataPM.
+!   FI3 content does not persist across timesteps — the MG solve rewrites
+!   it before reading. FI2 is deliberately kept (cross-step initial guess).
+    Real*4    :: myMemory
+    if (MG_flag /= 1) return
+    if (allocated(FI3)) then
+        myMemory = Memory(-1_8*NGRID*NGRID*NGRID)
+        deallocate(FI3)
+    end if
+end subroutine MG_scratch_release
+!--------------------------------------------
+subroutine MG_scratch_ensure
+!--------------------------------------------
+    Real*4    :: myMemory
+    if (MG_flag /= 1) return
+    if (.not. allocated(FI3)) then
+        myMemory = Memory(1_8*NGRID*NGRID*NGRID)
+        allocate(FI3(NGRID,NGRID,NGRID))
+    end if
+end subroutine MG_scratch_ensure
 
 end Module Tools

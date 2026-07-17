@@ -35,6 +35,6 @@
 
       tstart = seconds()
 
-      Call BDM
+      Call BDM(1)                               ! 1 = compute density on the Ng mesh
 
  end Program BDMrun

@@ -64,6 +64,18 @@ vcpkg_installed/
 # debug information files
 *.dwo
 
+# Intel ifx optimization reports (-qopt-report=2)
+*.optrpt
+*.opt.yaml
+
 # test output & cache
 Testing/
 .cache/
+
+# Simulation run output directories (each can be many GB/TB — never commit).
+# Covers the DEGRACE/fiducial campaign families plus any box-spec run dir
+# (e.g. F5_L512Np2048Ng4096/) regardless of gravity-model prefix.
+DEGRACE_*/
+fid_*/
+LCDM_*/
+*Np[0-9]*Ng[0-9]*/

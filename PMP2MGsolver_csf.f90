@@ -38,6 +38,8 @@ SUBROUTINE relaxation_iterations_csf(ilevel,redstep)
   real*8  :: phibar,A_phibar,V_phibar
   real*8  :: phi,rho,A_phi,V_phi,A_pp,V_pp,L,dL
 
+  CALL TimingMain(8, -1)
+
   IF(MG_test) WRITE(*,'(A,I5,F7.4)') 'Relaxation iterations on level',levelmax-ilevel,AEXPN
 
   ! number of grid points on the coarse level
@@ -83,7 +85,7 @@ SUBROUTINE relaxation_iterations_csf(ilevel,redstep)
      koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
   END IF
   !
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (phi,A_phi,V_phi,A_pp,V_pp,rho,L,dL)
   DO M3=1,ngrid_level
@@ -147,11 +149,9 @@ SUBROUTINE relaxation_iterations_csf(ilevel,redstep)
            !
            IF(ilevel.EQ.0) THEN
               ! solution on PM grid
-!$OMP ATOMIC
               FI2(M1,M2,M3)                         = FI2(M1,M2,M3)                        -L/dL
            ELSE
               ! solution on multigrid
-!$OMP ATOMIC
               FI3(M1+ioffset,M2+joffset,M3+koffset) = FI3(M1+ioffset,M2+joffset,M3+koffset)-L/dL
            ENDIF
         END DO
@@ -167,7 +167,7 @@ SUBROUTINE relaxation_iterations_csf(ilevel,redstep)
 !    STOP
 ! ENDIF
 
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
     
 END SUBROUTINE relaxation_iterations_csf
 
@@ -196,6 +196,8 @@ SUBROUTINE calculate_residual_csf(ilevel,res_PM_grid)
   integer :: ist
   real*8  :: phibar,A_phibar,V_phibar
   real*8  :: phi,rho,A_phi,V_phi
+
+  CALL TimingMain(8, -1)
 
   IF(MG_test) WRITE(*,'(A,I5)') 'Calculate residual on level',levelmax-ilevel
 
@@ -238,7 +240,7 @@ SUBROUTINE calculate_residual_csf(ilevel,res_PM_grid)
      koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
   END IF
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (phi,rho,A_phi,V_phi,OP)
   DO M3=1,ngrid_level  
@@ -320,11 +322,11 @@ SUBROUTINE calculate_residual_csf(ilevel,res_PM_grid)
 ! CLOSE(27)
 ! STOP
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
   RES = 0.0D0
 
   IF(ilevel.EQ.0) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (N1,N2,N3) REDUCTION(+:RES)
      DO N3=1,ngrid_level
         DO N2=1,ngrid_level
@@ -369,6 +371,8 @@ SUBROUTINE restrict_residual_csf(ilevel)
   real*8  :: phibar,A_phibar,V_phibar
   real*8  :: phi,rho,A_phi,V_phi
 
+  CALL TimingMain(8, -1)
+
   IF(MG_test) WRITE(*,'(A,I5)') 'Restrict residual to level',levelmax-ilevel
 
   ! number of grid points on the coarse level
@@ -402,7 +406,7 @@ SUBROUTINE restrict_residual_csf(ilevel)
   ENDIF
   !
   IF(ilevel.EQ.1) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (phi,rho,A_phi,V_phi,P,Q) 
      DO M3=1,ngrid_level
@@ -536,7 +540,7 @@ SUBROUTINE restrict_residual_csf(ilevel)
      ioffset  = 2**(levelmax-ilevel+1)
      koffset  = 2**(levelmax-ilevel)*(2**ilevel-2)
      koffset2 = 2**(levelmax-ilevel+1)*(2**(ilevel-1)-1)
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (P,Q) 
      DO M3=1,ngrid_level
@@ -558,7 +562,7 @@ SUBROUTINE restrict_residual_csf(ilevel)
      END DO
   END IF
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 END SUBROUTINE restrict_residual_csf
 
 
@@ -584,6 +588,8 @@ SUBROUTINE calculate_physical_right_hand_side_csf(ilevel)
   integer :: M1,M2,M3,M1l,M2l,M3l,M1u,M2u,M3u
   real*8  :: OP
   !
+  CALL TimingMain(8, -1)
+
   IF(MG_test) WRITE(*,'(A,I5)') 'Calculate physical right-hand side on level',levelmax-ilevel
   !
   ! number of grid points on the coarse level
@@ -621,7 +627,7 @@ SUBROUTINE calculate_physical_right_hand_side_csf(ilevel)
   koffset  = 2**(levelmax-ilevel)*(2**ilevel-2)
   koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
   !
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (phi,rho,A_phi,V_phi,OP) 
   DO M3=1,ngrid_level  
@@ -675,6 +681,6 @@ SUBROUTINE calculate_physical_right_hand_side_csf(ilevel)
 ! CLOSE(27)
 ! STOP
 
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 
 END SUBROUTINE calculate_physical_right_hand_side_csf

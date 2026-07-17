@@ -35,6 +35,8 @@ SUBROUTINE relaxation_iterations_sym(ilevel,redstep)
 
   integer :: nid,myid
 
+  CALL TimingMain(8, -1)
+
   IF(MG_test) WRITE(*,'(A,I5,F7.4)') 'Relaxation iterations on level',levelmax-ilevel,AEXPN
 
   ! constants
@@ -67,7 +69,7 @@ SUBROUTINE relaxation_iterations_sym(ilevel,redstep)
      koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
   END IF
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (Delta1,Delta0,sqrt_Delta0,tmp1,tmp2) &
 !$OMP PRIVATE (P,Q,S,CC)
@@ -145,7 +147,7 @@ SUBROUTINE relaxation_iterations_sym(ilevel,redstep)
      END DO
   END DO
 
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
     
 END SUBROUTINE relaxation_iterations_sym
 
@@ -170,6 +172,8 @@ use Tools
   integer :: N1,N2,N3
   real*8  :: RES,OP,RES2
 
+  CALL TimingMain(8, -1)
+
   IF(MG_test) WRITE(*,'(A,I5)') 'Calculate residual on level',levelmax-ilevel
 
   ! number of grid points on the coarse level
@@ -192,7 +196,7 @@ use Tools
      koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
   END IF
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (OP)
   DO M3=1,ngrid_level  
@@ -240,11 +244,11 @@ use Tools
      END DO
   END DO
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
   RES = 0.0D0
 
   IF(ilevel.EQ.0) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (N1,N2,N3) REDUCTION(+:RES)
      DO N3=1,ngrid_level
         DO N2=1,ngrid_level
@@ -284,6 +288,8 @@ use Tools
   integer :: M1u,M1l,M2u,M2l,M3u,M3l 
   real*8  :: P,Q
 
+  CALL TimingMain(8, -1)
+
   IF(MG_test) WRITE(*,'(A,I5)') 'Restrict residual to level',levelmax-ilevel
 
   ! number of grid points on the coarse level
@@ -298,7 +304,7 @@ use Tools
   fct2    = 0.5D0*(AEXPN/(ctilde*sym_xi))**2
 
   IF(ilevel.EQ.1) THEN
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (P,Q) 
      DO M3=1,ngrid_level
@@ -393,7 +399,7 @@ use Tools
      ioffset  = 2**(levelmax-ilevel+1)
      koffset  = 2**(levelmax-ilevel)*(2**ilevel-2)
      koffset2 = 2**(levelmax-ilevel+1)*(2**(ilevel-1)-1)
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (P,Q) 
      DO M3=1,ngrid_level
@@ -415,7 +421,7 @@ use Tools
      END DO
   END IF
     
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 END SUBROUTINE restrict_residual_sym
 
 
@@ -437,6 +443,8 @@ use Tools
   integer :: M1,M2,M3,M1l,M2l,M3l,M1u,M2u,M3u
   real*8  :: OP
 
+  CALL TimingMain(8, -1)
+
   IF(MG_test) WRITE(*,'(A,I5)') 'Calculate physical right-hand side on level',levelmax-ilevel
 
   ! number of grid points on the coarse level
@@ -454,7 +462,7 @@ use Tools
   koffset  = 2**(levelmax-ilevel)*(2**ilevel-2)
   koffset2 = 2**(levelmax-ilevel)*(2**ilevel-1)
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,M1u,M1l,M2u,M2l,M3u,M3l) &
 !$OMP PRIVATE (OP) 
   DO M3=1,ngrid_level  
@@ -489,6 +497,6 @@ use Tools
      END DO
   END DO
 
-  CALL TimingMain(3,1)
+  CALL TimingMain(8,1)
 
 END SUBROUTINE calculate_physical_right_hand_side_sym
