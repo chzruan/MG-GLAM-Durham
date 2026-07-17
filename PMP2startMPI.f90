@@ -409,9 +409,9 @@ INCLUDE 'luxuryp.h'
       Case (0)      ! free Gaussian field: normalize by the analytic expectation
           ALPHA = AMPLT / SQRT (SUMM_TH) * sqrt (8.)
       Case (2)      ! per-mode fixed (FML ic_fix_amplitude=true equivalent): not implemented
-          Stop ' Amplitude_mode=2 (per-mode fixed) not implemented'
+          Error Stop ' Amplitude_mode=2 (per-mode fixed) not implemented'
       Case Default
-          Stop ' Invalid Amplitude_mode (must be 0, 1, or 2)'
+          Error Stop ' Invalid Amplitude_mode (must be 0, 1, or 2)'
       End Select
 
       Write (*,'(10x,a,i2,a,i2)') 'SPECTR ==>  Amplitude_mode=', iAmpMode, '  Reverse_phases=', iRevPhase
