@@ -71,3 +71,6 @@ N=0128x0256L=0750zi100da=4.00E-04f0.040
     1              coupled scalar field model potential type: 1 - inverse power law, 2 - SUGRA
  1.00000E-01       coupled scalar field model potential parameter
 -2.00000E-01       coupled scalar field model coupling parameter
+ !------------ IC amplitude-realization + phase controls ---------------
+    1              Amplitude mode: 0-free Gaussian,1-pin box power(legacy),2-per-mode fixed(unimplemented)
+    0              Reverse phases: 0-no,1-flip delta -> -delta (paired sims)

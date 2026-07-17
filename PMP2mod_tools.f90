@@ -103,6 +103,12 @@ Module Tools
       Real*8   :: csf_beta
       Real*8   :: csf_lambda
 
+! IC amplitude-realization + phase controls (trailing Setup.dat/Init.dat
+! fields; iostat-guarded in ReadSetup/ReadInit so pre-existing files without
+! them fall back to the legacy defaults below).
+      Integer*4 :: iAmpMode  = 1   ! 0 - free Gaussian field, 1 - pin box power to target (legacy), 2 - per-mode fixed (unimplemented)
+      Integer*4 :: iRevPhase = 0   ! 0 - normal, 1 - reverse phases (delta -> -delta), for paired sims
+
   Contains
 !--------------------------------------------
 subroutine ReadSetup
@@ -205,6 +211,19 @@ subroutine ReadSetup
       read(11,*) csf_potential   !'type of potential: 1 - inverse power law; 2 - SUGRA '
       read(11,*) csf_alpha       !'potential parameter alpha        '
       read(11,*) csf_beta        !'coupling function parameter beta '
+
+      read(11,'(a)',iostat=ierr) Line
+      if (ierr == 0) then
+          write(*,*)TRIM(Line)
+          read(11,*,iostat=ierr) iAmpMode   !'Amplitude mode: 0-free Gaussian,1-pin box power(legacy),2-per-mode fixed(unimplemented)'
+          if (ierr /= 0) iAmpMode = 1
+          read(11,*,iostat=ierr) iRevPhase  !'Reverse phases: 0-no,1-flip delta->-delta (paired sims)'
+          if (ierr /= 0) iRevPhase = 0
+      else
+          iAmpMode  = 1   ! Setup.dat predates Amplitude_mode/Reverse_phases -- legacy default
+          iRevPhase = 0
+      end if
+      write (*,'(a,i2,a,i2)') ' Amplitude_mode=', iAmpMode, '  Reverse_phases=', iRevPhase
 
       write (*,*) ' Results were read from Setup.dat'
       CLOSE (11)

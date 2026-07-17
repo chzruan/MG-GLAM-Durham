@@ -54,3 +54,5 @@ csf_coupling              =         1
 csf_potential             =         1
 csf_alpha                 =   0.10000
 csf_beta                  =  -0.20000
+Amplitude_mode            =         1  0-free Gaussian,1-pin box power(legacy),2-per-mode fixed(unimplemented)
+Reverse_phases            =         0  0-no,1-flip delta -> -delta (paired sims)
