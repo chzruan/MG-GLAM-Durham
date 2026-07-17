@@ -267,6 +267,7 @@ Contains
         use Random
         INCLUDE 'luxuryp.h'
         REAL(8)   :: SUMM = 0., Wi3, Wj3, Wk3, WD, TS, TRX, ss
+        REAL(8)   :: SUMM_TH = 0., SUMM2_TH = 0., PT
         REAL      ::    t0 = 0, t1 = 0.        ! counters for timing
         INTEGER*4, allocatable, DIMENSION(:) :: mapz, map3
 
@@ -274,6 +275,8 @@ Contains
         allocate (mapz(NROW), map3(NROW))
 
         SUMM = 0.
+        SUMM_TH = 0.
+        SUMM2_TH = 0.
         map3(1) = 0
         mapz(1) = 1
         map3(NROW) = 0
@@ -300,8 +303,8 @@ Contains
 !                                      Set Spectrum
 !$OMP PARALLEL DO DEFAULT(SHARED)  &
 !$OMP PRIVATE(k,ksign,kz,k3,Wk3,j,jsign,jz,j3,Wj3,i,isign,iz,i3,Wi3)  &
-!$OMP PRIVATE(WD,Wk,TS,TRX,m,NRAND,gSet,iFlag)           &
-!$OMP REDUCTION(+:SUMM)
+!$OMP PRIVATE(WD,Wk,TS,TRX,PT,m,NRAND,gSet,iFlag)           &
+!$OMP REDUCTION(+:SUMM,SUMM_TH,SUMM2_TH)
         DO k = 1, NROW
             i24 = i24A(k)
             j24 = j24A(k)
@@ -329,21 +332,43 @@ Contains
                         GRZ(1, 1, 1) = 0.
                     ELSE
                         Wk = SQRT(WD)
-                        TS = TRUNF(Wk)*TS
+                        PT = TRUNF(Wk)
+                        TS = PT*TS
                         TRX = TS/WD
 
                         GRX(mapz(i), j, k) = TRX*map3(i)
                         GRY(i, mapz(j), k) = TRX*map3(j)
                         GRZ(i, j, mapz(k)) = TRX*map3(k)
                         SUMM = SUMM + TS**2
+                        ! Analytic (RNG-free) expectation E[SUMM]=Sum(PT**2) and its
+                        ! variance Var(SUMM)=2*Sum(PT**4), used below to normalize
+                        ! without pinning this realization's own draw to the target.
+                        SUMM_TH = SUMM_TH + PT**2
+                        SUMM2_TH = SUMM2_TH + PT**4
                     END IF        ! end kx=ky=kz=0 switch
                 END DO         ! i
             END DO            ! j
         END DO               ! k
 
         IF (SUMM .LE. 0.) Write (*, *) ' Error!!! Summ over spectrum = 0'
-        ALPHA = AMPLT/SQRT(SUMM)*sqrt(8.)
-        Write (*, '(10x,a20,3g13.6)') 'SPECTR ==>  SUMM=', SUMM, ALPHA
+        IF (SUMM_TH .LE. 0.) Write (*, *) ' Error!!! Summ_TH over spectrum = 0'
+
+        Select Case (iAmpMode)
+        Case (1)      ! legacy: pin this realization's own power to the target
+            ALPHA = AMPLT/SQRT(SUMM)*sqrt(8.)
+        Case (0)      ! free Gaussian field: normalize by the analytic expectation,
+                       ! so the per-mode scatter already drawn above survives
+            ALPHA = AMPLT/SQRT(SUMM_TH)*sqrt(8.)
+        Case (2)      ! per-mode fixed (FML ic_fix_amplitude=true equivalent): not implemented
+            Stop ' Amplitude_mode=2 (per-mode fixed) not implemented'
+        Case Default
+            Stop ' Invalid Amplitude_mode (must be 0, 1, or 2)'
+        End Select
+
+        Write (*, '(10x,a,i2,a,i2)') 'SPECTR ==>  Amplitude_mode=', iAmpMode, '  Reverse_phases=', iRevPhase
+        Write (*, '(10x,a20,4g13.6)') 'SPECTR ==>  SUMM=', SUMM, SUMM_TH, ALPHA
+        Write (*, '(10x,a,g13.6,a,g13.6)') 'SPECTR ==>  realized/target power ratio sqrt(SUMM/SUMM_TH)=', &
+            SQRT(SUMM/SUMM_TH), '  predicted 1-sigma of that ratio=', SQRT(SUMM2_TH/2.)/SUMM_TH
 
         Do i = 1, Nrow             ! adjust zero-k values of FI
             Do j = 1, NROW
@@ -778,11 +803,15 @@ PROGRAM PMstartMp
     CALL Timing(0, -1)
 
     CALL Timing(1, -1)
-    iFlip = 1   ! -1
     iPower = 1   ! make power spectrum of ICs
     iWrite = 1   ! write files on disk
     Call CheckInit     ! test setup, open input files
     Call ReadSetup
+    ! iFlip: was hardcoded here (+1, i.e. never flipped); now driven by
+    ! Setup.dat's Reverse_phases (read above), giving paired-sim support
+    ! (delta -> -delta) for free. See glam_amplitude_patch_plan.md.
+    iFlip = 1
+    if (iRevPhase == 1) iFlip = -1
     Call Initialize
     Call ReadPkTable
     Call SetRandomN
