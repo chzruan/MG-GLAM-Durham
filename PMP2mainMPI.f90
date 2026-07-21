@@ -91,6 +91,12 @@ subroutine Initialize(Path)
 
       Call ReadSetup
 
+      ! PMP2mainMPI's kick/drift (unlike serial PMP2MG) was never updated to
+      ! apply the CPL fDE(a) factor -- ReadSetup's gate only catches MG+CPL,
+      ! so guard the LCDM+CPL case here too.
+      If (w0 /= -1.0 .or. wa /= 0.0) &
+         Error Stop ' PMP2mainMPI does not support (w0,wa) dark energy; use serial PMP2MG'
+
    End If
       CALL MPI_BCAST(NROW,  1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
       CALL MPI_BCAST(NGRID, 1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
