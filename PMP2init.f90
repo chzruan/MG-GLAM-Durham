@@ -84,6 +84,12 @@ Module Param
     Real*8    :: csf_beta = -0.2D0
     Real*8    :: csf_lambda = 1.0D0
 
+    ! IC amplitude-realization + phase controls (trailing Init.dat fields,
+    ! parsed with a default so pre-existing Init.dat files without them still
+    ! work -- see symmetron/prepare/glam_amplitude_patch_plan.md)
+    Integer*4 :: iAmpMode = 1   ! 0 - free Gaussian field, 1 - pin box power to target (legacy), 2 - per-mode fixed (unimplemented)
+    Integer*4 :: iRevPhase = 0  ! 0 - normal, 1 - reverse phases (delta -> -delta), for paired sims
+
 Contains
 
     REAL*8 FUNCTION P(x)
@@ -350,6 +356,9 @@ Program Initialize
     write (10, 60) csf_potential, 'coupled scalar field model potential type: 1 - inverse power law, 2 - SUGRA'
     write (10, 50) csf_alpha, 'coupled scalar field model potential parameter'
     write (10, 50) csf_beta, 'coupled scalar field model coupling parameter'
+    write (10, *) '!------------ IC amplitude-realization + phase controls ---------------'
+    write (10, 60) iAmpMode, 'Amplitude mode: 0-free Gaussian,1-pin box power(legacy),2-per-mode fixed(unimplemented)'
+    write (10, 60) iRevPhase, 'Reverse phases: 0-no,1-flip delta -> -delta (paired sims)'
 50  format(es12.5, T20, a)
 60  format(i5, T20, a)
 70  format(L, T20, a)
@@ -468,6 +477,10 @@ Subroutine ReadInit
     csf_alpha = ParseLine(11)
     csf_beta = ParseLine(11)
 
+    iAmpMode = iParseLineDefault(11, 1)
+    iRevPhase = iParseLineDefault(11, 0)
+    write (*, '(a,i2,a,i2)') ' Amplitude_mode=', iAmpMode, '  Reverse_phases=', iRevPhase
+
     If (BiasPars(10) < 0.1) BiasPars(10) = 1.0
     !--- make new da
     ! fr = da*(1.+zinit)*100.     ! = da/a*100
@@ -549,6 +562,8 @@ Subroutine CheckInit
         write (11, '(a,i9)') 'csf_potential             = ', 1         ! csf model potential type
         write (11, '(a,f9.5)') 'csf_alpha                 = ', 0.1D0     ! csf model potential parameter alpha
         write (11, '(a,f9.5)') 'csf_beta                  = ', -0.2D0    ! csf model coupling parameter beta
+        write (11, '(a,i9,a)') 'Amplitude_mode            = ', 1, '  0-free Gaussian,1-pin box power(legacy),2-per-mode fixed(unimplemented)'
+        write (11, '(a,i9,a)') 'Reverse_phases            = ', 0, '  0-no,1-flip delta -> -delta (paired sims)'
         stop
     end if
 
@@ -652,6 +667,27 @@ Function iParseLine(iFile)
     iParseLine = idummy
 
 end Function iParseLine
+!--------------------------------------------------
+!        read line from  input file iFile
+!                          integer format, but return idefault
+!                          (instead of crashing) if the line is absent --
+!                          used for fields appended after this file format
+!                          was already in use elsewhere (e.g. old Init.dat)
+Function iParseLineDefault(iFile, idefault)
+    Character :: Line*120, Line2*120, Line3(120)
+    Integer*4 :: idefault
+
+    Read (iFile, '(a)', iostat=ierr) Line
+    If (ierr /= 0) Then
+        iParseLineDefault = idefault
+        Return
+    End If
+    Ieq = INDEX(Line, '=', BACK=.TRUE.)
+    backspace (iFile)
+    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,i10)'
+    Read (iFile, Line2) (Line3(i), i=1, Ieq), idummy
+    iParseLineDefault = idummy
+end Function iParseLineDefault
 !--------------------------------------------------
 !        read line from  input file iFile
 !                          logical format
