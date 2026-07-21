@@ -90,6 +90,11 @@ Module Param
     Integer*4 :: iAmpMode = 1   ! 0 - free Gaussian field, 1 - pin box power to target (legacy), 2 - per-mode fixed (unimplemented)
     Integer*4 :: iRevPhase = 0  ! 0 - normal, 1 - reverse phases (delta -> -delta), for paired sims
 
+    ! CPL (w0-wa) dark energy (trailing Init.dat fields; default = LCDM).
+    ! Only supported when MG_flag=0: all MG models hardcode a Lambda background.
+    Real*4 :: w0 = -1.0   ! w(a) = w0 + wa*(1-a)
+    Real*4 :: wa =  0.0
+
 Contains
 
     REAL*8 FUNCTION P(x)
@@ -132,11 +137,21 @@ Contains
         P2 = WK**2*P(WK)
     END FUNCTION P2
 
+    !--------------------------------------- CPL DE density ratio
+    REAL*8 FUNCTION fDE(x)
+        Real*8 :: x
+        If (w0 == -1.0 .and. wa == 0.0) Then
+            fDE = 1.d+0
+        Else
+            fDE = x**(-3.d0*(1.d0 + w0 + wa))*exp(-3.d0*wa*(1.d0 - x))
+        End If
+    End FUNCTION fDE
+
     !
     !---------------------------------------
     REAL*8 FUNCTION Hnorm(x)
         Real*8 :: x
-        Hnorm = Sqrt(1.d+0 + OmLOm0*x**3)
+        Hnorm = Sqrt(1.d+0 + OmLOm0*x**3*fDE(x))
     End FUNCTION Hnorm
 
     !
@@ -148,6 +163,8 @@ Contains
 
     !
     !---------------------------------------
+    ! Lambda closed form (D ~ H INTG da/(aH)^3); approximate under CPL --
+    ! feeds only the AGE printout, the Setup.dat amplitude uses GrFluctuations4.
     REAL*8 FUNCTION Hgrow(x)
         Real*8 :: x
         Hgrow = (sqrt(x)/Hnorm(x))**3
@@ -161,7 +178,7 @@ Contains
     SUBROUTINE GrFluctuations4(GrowthDen, a)
         !
         !---------------------------------------
-        real*8 ::GrowthDen, a, da, ainit, Omnu, x3, a0, Dp1, D0, Dm1, C, B
+        real*8 ::GrowthDen, a, da, ainit, Omnu, y, wde, a0, Dp1, D0, Dm1, C, B
 
         OmLOm0 = OmL/Om
         If (Omb < 0.005) Then      !--- massive neutrino
@@ -181,9 +198,10 @@ Contains
         a0 = ainit
 
         Do while (a0 < a)     !--- integrate
-            x3 = OmLOm0*a0**3
-            C = 0.5*(7.+10.*x3)/(1.+x3)
-            B = 1.5/(1.+x3)*(Omnu - 1.-2.*x3)
+            y   = OmLOm0*a0**3*fDE(a0)
+            wde = w0 + wa*(1.-a0)
+            C = 0.5*(7.+(7.-3.*wde)*y)/(1.+y)
+            B = 1.5/(1.+y)*(Omnu - 1.+(wde - 1.)*y)
 
             Dp1 = (D0*(2.+B*(da/a0)**2) - Dm1*(1.-C*da/a0/2.))/(1.+C*da/a0/2.)
             !write(*,'(es12.4,3x,3es12.4,5x,3es12.4,3x,3es12.4)') a0,Dm1,D0,Dp1,     C,B
@@ -359,6 +377,9 @@ Program Initialize
     write (10, *) '!------------ IC amplitude-realization + phase controls ---------------'
     write (10, 60) iAmpMode, 'Amplitude mode: 0-free Gaussian,1-pin box power(legacy),2-per-mode fixed(unimplemented)'
     write (10, 60) iRevPhase, 'Reverse phases: 0-no,1-flip delta -> -delta (paired sims)'
+    write (10, *) '!------------ CPL (w0-wa) dark energy background ---------------'
+    write (10, 50) w0, 'w0: w(a)=w0+wa(1-a); LCDM=-1 (needs MG_flag=0)'
+    write (10, 50) wa, 'wa: LCDM=0'
 50  format(es12.5, T20, a)
 60  format(i5, T20, a)
 70  format(L, T20, a)
@@ -481,6 +502,18 @@ Subroutine ReadInit
     iRevPhase = iParseLineDefault(11, 0)
     write (*, '(a,i2,a,i2)') ' Amplitude_mode=', iAmpMode, '  Reverse_phases=', iRevPhase
 
+    w0 = ParseLineDefault(11, -1.0)
+    wa = ParseLineDefault(11, 0.0)
+    write (*, '(a,f9.4,a,f9.4)') ' CPL dark energy: w0=', w0, '  wa=', wa
+
+    If (MG_flag == 1 .and. (w0 /= -1.0 .or. wa /= 0.0)) Then
+        write (*, '(a,f9.4,a,f9.4,a,i2)') ' ERROR: w0=', w0, ' wa=', wa, &
+             ' requested with MG_flag=1 (MG_model=', MG_model
+        write (*, *) ' All MG models (f(R)/DGP/symmetron/kmf/csf) hardcode a'
+        write (*, *) ' cosmological-constant background; kmf/csf solve their own.'
+        Error Stop ' CPL (w0,wa) dark energy requires MG_flag=0 (pure LCDM gravity)'
+    End If
+
     If (BiasPars(10) < 0.1) BiasPars(10) = 1.0
     !--- make new da
     ! fr = da*(1.+zinit)*100.     ! = da/a*100
@@ -564,6 +597,8 @@ Subroutine CheckInit
         write (11, '(a,f9.5)') 'csf_beta                  = ', -0.2D0    ! csf model coupling parameter beta
         write (11, '(a,i9,a)') 'Amplitude_mode            = ', 1, '  0-free Gaussian,1-pin box power(legacy),2-per-mode fixed(unimplemented)'
         write (11, '(a,i9,a)') 'Reverse_phases            = ', 0, '  0-no,1-flip delta -> -delta (paired sims)'
+        write (11, '(a,f9.3)') 'w0                        = ', -1.0D0    ! CPL: w(a)=w0+wa(1-a); LCDM=-1 (needs MG_flag=0)
+        write (11, '(a,f9.3)') 'wa                        = ', 0.0D0     ! CPL: wa; LCDM=0
         stop
     end if
 
@@ -688,6 +723,24 @@ Function iParseLineDefault(iFile, idefault)
     Read (iFile, Line2) (Line3(i), i=1, Ieq), idummy
     iParseLineDefault = idummy
 end Function iParseLineDefault
+!--------------------------------------------------
+!        read line from input file iFile -- real format, but return
+!        default (instead of crashing) if the line is absent (old Init.dat)
+Function ParseLineDefault(iFile, default)
+    Character :: Line*120, Line2*120, Line3(120)
+    Real*4 :: default
+
+    Read (iFile, '(a)', iostat=ierr) Line
+    If (ierr /= 0) Then
+        ParseLineDefault = default
+        Return
+    End If
+    Ieq = INDEX(Line, '=', BACK=.TRUE.)
+    backspace (iFile)
+    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,g12.5)'
+    Read (iFile, Line2) (Line3(i), i=1, Ieq), dummy
+    ParseLineDefault = dummy
+end Function ParseLineDefault
 !--------------------------------------------------
 !        read line from  input file iFile
 !                          logical format

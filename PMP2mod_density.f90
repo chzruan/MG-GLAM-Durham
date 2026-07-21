@@ -437,7 +437,7 @@ Call Timing(7,-1)      ! start reading time
       W     = FLOAT(NGRID)**3/float(Nparticles)
       ! factor = sqrt(AEXPN/(Om0+AEXPN**3*Oml0))/100. ! V(km/s)->space
       ! Vscale = (Box/Ngrid)100/Aexpn  ! km/s
-      factor = sqrt(AEXPN/(Om+AEXPN**3*OmL))/AEXPN
+      factor = sqrt(AEXPN/(Om+AEXPN**3*OmL*fDE(AEXPN)))/AEXPN
       sigFactor = sigv/100.*AEXPN*Ngrid/Box
       PARTW = W  
       write(*,'(a,f8.3,a,i5,a,8es12.4)') ' DENSITrsd:Particle weight = ',PARTW, &
@@ -1155,7 +1155,7 @@ Call Timing(5,-1)      ! start reading time
       W     = FLOAT(NGRID)**3/float(Ngalaxies)
 
       Xscale = NGRID/Box
-      Vscale = Xscale/100.*sqrt(AEXPN/(Om+AEXPN**3*OmL))
+      Vscale = Xscale/100.*sqrt(AEXPN/(Om+AEXPN**3*OmL*fDE(AEXPN)))
       PARTW = W  
       write(*,'(/a,es12.4,a,i5,a,8es12.4)') ' DensGal: Particle weight = ',PARTW, &
            ' Switch=',iSwitch, &
