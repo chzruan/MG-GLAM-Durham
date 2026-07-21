@@ -826,7 +826,7 @@ PROGRAM PMstartMp
 
     AEXP0 = AEXPN
     AEXPV = AEXPN - ASTEP/2.
-    Fact = sqrt(Om + OmL*AEXPV**3)
+    Fact = sqrt(Om + OmL*AEXPV**3*fDE(AEXPV))
     QFACT = FLOAT(NGRID)/FLOAT(NROW)
     Vscale = Box*100./NGRID
 

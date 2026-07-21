@@ -187,8 +187,10 @@ SUBROUTINE Initialize(Path)
       CALL MPI_BCAST(Box,      1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
       CALL MPI_BCAST(hubble,   1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
       CALL MPI_BCAST(Om,       1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
-      CALL MPI_BCAST(OmL,      1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
-      CALL MPI_BCAST(Omb,      1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
+      CALL MPI_BCAST(OmL,      1,MPI_REAL,0,MPI_COMM_WORLD,ierr)
+      CALL MPI_BCAST(w0,       1,MPI_REAL,0,MPI_COMM_WORLD,ierr)
+      CALL MPI_BCAST(wa,       1,MPI_REAL,0,MPI_COMM_WORLD,ierr)
+      CALL MPI_BCAST(Omb,      1,MPI_REAL,0,MPI_COMM_WORLD,ierr)
       CALL MPI_BCAST(Cell,     1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
       CALL MPI_BCAST(aMass,    1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
       CALL MPI_BCAST(zinit,    1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
@@ -934,7 +936,7 @@ PROGRAM  PMstartMp
       CALL FilesOpen(Trim(Path))                   ! this opens files on disk
          AEXP0 = AEXPN 
          AEXPV = AEXPN - ASTEP / 2.
-         Fact   = sqrt (Om + OmL * AEXPV**3) 
+         Fact   = sqrt (Om + OmL * AEXPV**3 * fDE(AEXPV))
          QFACT  = FLOAT (NGRID) / FLOAT (NROW) 
          Vscale = Box * 100. / NGRID 
 

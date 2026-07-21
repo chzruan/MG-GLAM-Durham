@@ -109,7 +109,23 @@ Module Tools
       Integer*4 :: iAmpMode  = 1   ! 0 - free Gaussian field, 1 - pin box power to target (legacy), 2 - per-mode fixed (unimplemented)
       Integer*4 :: iRevPhase = 0   ! 0 - normal, 1 - reverse phases (delta -> -delta), for paired sims
 
+! CPL (w0-wa) dark energy background (trailing Setup.dat/Init.dat fields;
+! iostat-guarded in ReadSetup so pre-existing files fall back to LCDM).
+! Only supported for MG_flag=0: all MG models hardcode a Lambda background.
+      Real*4 :: w0 = -1.0   ! w(a) = w0 + wa*(1-a)
+      Real*4 :: wa =  0.0
+
   Contains
+!-------------------------------------------- CPL DE density ratio
+!  rho_DE(a)/rho_DE(1) for w(a)=w0+wa(1-a); ==1.0 exactly for LCDM
+      Real*4 Function fDE(a)
+         Real*4 :: a
+         If (w0 == -1.0 .and. wa == 0.0) Then
+            fDE = 1.0
+         Else
+            fDE = a**(-3.0*(1.0 + w0 + wa))*exp(-3.0*wa*(1.0 - a))
+         End If
+      End Function fDE
 !--------------------------------------------
 subroutine ReadSetup
 !--------------------------------------------
@@ -224,6 +240,27 @@ subroutine ReadSetup
           iRevPhase = 0
       end if
       write (*,'(a,i2,a,i2)') ' Amplitude_mode=', iAmpMode, '  Reverse_phases=', iRevPhase
+
+      read(11,'(a)',iostat=ierr) Line
+      if (ierr == 0) then
+          write(*,*)TRIM(Line)
+          read(11,*,iostat=ierr) w0     !'w0: w(a)=w0+wa(1-a); LCDM=-1'
+          if (ierr /= 0) w0 = -1.0
+          read(11,*,iostat=ierr) wa     !'wa: LCDM=0'
+          if (ierr /= 0) wa = 0.0
+      else
+          w0 = -1.0   ! Setup.dat predates the CPL block -- LCDM default
+          wa =  0.0
+      end if
+      write (*,'(a,f9.4,a,f9.4)') ' CPL dark energy: w0=', w0, '  wa=', wa
+
+      If (MG_flag == 1 .and. (w0 /= -1.0 .or. wa /= 0.0)) Then
+         write (*,'(a,f9.4,a,f9.4,a,i2)') ' ERROR: w0=', w0, ' wa=', wa, &
+              ' requested with MG_flag=1 (MG_model=', MG_model
+         write (*,*) ' All MG models (f(R)/DGP/symmetron/kmf/csf) hardcode a'
+         write (*,*) ' cosmological-constant background in their field equations.'
+         Error Stop ' CPL (w0,wa) dark energy requires MG_flag=0 (pure LCDM gravity)'
+      End If
 
       write (*,*) ' Results were read from Setup.dat'
       CLOSE (11)
