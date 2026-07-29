@@ -36,10 +36,32 @@ end Program Read
 SUBROUTINE ReadHeader(moment)
   use Structures
   Integer*4 :: moment
+  logical   :: exst
 
-  write(Name,'(a,i4.4,a)')'PMcrd.',moment,'.DAT'         !--- construct filename
-  Open (4,file =TRIM(Name),form ='UNFORMATTED',status ='UNKNOWN')
-  
+                                                         !--- construct filename
+                                                         !    moment <0 : unnumbered
+                                                         !    files written by
+                                                         !    PMP2start/checkpoints
+                                                         !    (same convention as
+                                                         !    PMP2mod_tools.f90:287)
+  If (moment < 0) Then
+     write(Name,'(a)')'PMcrd.DAT'
+  Else
+     write(Name,'(a,i4.4,a)')'PMcrd.',moment,'.DAT'
+  End If
+                                        !--- STATUS='OLD', not 'UNKNOWN': an
+                                        !    UNKNOWN open CREATES a zero-byte
+                                        !    file when the snapshot is absent,
+                                        !    then dies on the READ with a bare
+                                        !    end-of-file. That is how stray
+                                        !    PMcrd.NNNN.DAT files appear.
+  INQUIRE(file=TRIM(Name),EXIST=exst)
+  If (.not.exst) Then
+     write(*,*) ' File ',TRIM(Name),' does not exist'
+     Stop ' Header file PMcrd... does not exist. Error'
+  End If
+  Open (4,file =TRIM(Name),form ='UNFORMATTED',status ='OLD')
+
       READ  (4) HEADER,                        &         !--- read header file
                        AEXPN,AEXP0,AMPLT,ASTEP,ISTEP,PARTW, &
                        TINTG,EKIN,EKIN1,EKIN2,AU0,AEU0,     &
@@ -112,7 +134,7 @@ SUBROUTINE ReadParticles(moment,iStore)
               if(INT(Zb(ip))==Ngrid+1)write(*,*)'Error in boundary: ',INT(Zb(ip)),Zb(ip)
               xmin = min(xmin,Xb(ip))
               ymin = min(ymin,Yb(ip))
-              zmin = min(ymin,Zb(ip))
+              zmin = min(zmin,Zb(ip))   ! was min(ymin,...) -- reported z-min was ymin
               xmax = max(xmax,Xb(ip))
               ymax = max(ymax,Yb(ip))
               zmax = max(zmax,Zb(ip))
@@ -134,7 +156,16 @@ SUBROUTINE ReadParticles(moment,iStore)
         end DO
         close (20)
         close(50)
-           write(*,'(3(5x,a,2f10.3))')'x   min/max= ',xmin,xmax,'y   min/max= ',ymin,ymax,'z   min/max= ',zmin,zmax
+                                        !--- min/max are accumulated on the raw
+                                        !    buffers, i.e. grid units [1,Ngrid+1].
+                                        !    Report in Mpc/h using the same
+                                        !    (X-1)*Xscale convention as the
+                                        !    rescaling above, so the numbers match
+                                        !    particles.dat and RescaleParticles.
+           write(*,'(a,f8.3)')          ' Box units: Mpc/h   (Xscale =',Xscale
+           write(*,'(3(5x,a,2f10.3))')'x   min/max= ',(xmin-1.)*Xscale,(xmax-1.)*Xscale, &
+                                      'y   min/max= ',(ymin-1.)*Xscale,(ymax-1.)*Xscale, &
+                                      'z   min/max= ',(zmin-1.)*Xscale,(zmax-1.)*Xscale
 
       DEALLOCATE (Xb,Yb,Zb,VXb,VYb,VZb)
            
@@ -148,7 +179,13 @@ SUBROUTINE OpenFile(ifile,moment)
   Character*80 :: Name
 
   if(ifile/=0)close(20)     !-- close previous file
-     If(ifile<10)Then
+     If(moment < 0)Then                    !--- unnumbered files (see ReadHeader)
+        If(ifile<10)Then
+           write(Name,'(a,i1.1,a)')'PMcrs',ifile,'.DAT'
+        Else
+           write(Name,'(a,i2.2,a)')'PMcrs',ifile,'.DAT'
+        EndIf
+     Else If(ifile<10)Then
         write(Name,'(a,i1.1,a,i4.4,a)')'PMcrs',ifile,'.',moment,'.DAT'
      Else
         write(Name,'(a,i2.2,a,i4.4,a)')'PMcrs',ifile,'.',moment,'.DAT'
