@@ -34,6 +34,10 @@ PMP2BDM: $(OBJ) PMP2bdm.o
 gadget2pm: PMP2mod_tools.o gadget2pm.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
 
+# 2LPTic (Gadget format-1) IC -> MG-GLAM PM (reuses Tools::ReadSetup + WriteDataPM).
+ic2pm: PMP2mod_tools.o ic2pm.o
+	$(FC) $(LDFLAGS) -o $@.exe $^
+
 # Build PMP2main with pre-Pass-4 FP-equivalent flags for the Task A race test.
 # Stashes an existing PMP2main.exe (if present), wipes all .o/.mod so the recursive
 # build uses bitmatch flags, links to PMP2main.exe, then renames. Restores the
