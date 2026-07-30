@@ -34,6 +34,10 @@ PMP2BDM: $(OBJ) PMP2bdm.o
 gadget2pm: PMP2mod_tools.o gadget2pm.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
 
+# 2LPTic (Gadget format-1) IC -> MG-GLAM PM (reuses Tools::ReadSetup + WriteDataPM).
+ic2pm: PMP2mod_tools.o ic2pm.o
+	$(FC) $(LDFLAGS) -o $@.exe $^
+
 # MG-GLAM PM -> Gadget-1 converter, wrapped by the ic2gadget / final2gadget
 # scripts. WriteGadgetFormat.o must be listed first: it produces
 # WriteGadgetFormat.mod, which glam2gadget.f90 USEs.
