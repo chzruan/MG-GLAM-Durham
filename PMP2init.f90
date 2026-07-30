@@ -682,7 +682,7 @@ Function ParseLine(iFile)
     Ieq = INDEX(Line, '=', BACK=.TRUE.)
     !write(*,*) '  Ieq =',Ieq
     backspace (iFile)                  !--- go to line start
-    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,g12.5)' ! make format
+    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,g20.10)' ! make format
     !write(*,'(a)') Line2
     Read (iFile, Line2) (Line3(i), i=1, Ieq), dummy    ! read
     ParseLine = dummy
@@ -697,7 +697,7 @@ Function iParseLine(iFile)
     Read (iFile, '(a)') Line
     Ieq = INDEX(Line, '=', BACK=.TRUE.)
     backspace (iFile)
-    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,i10)'
+    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,i15)'
     Read (iFile, Line2) (Line3(i), i=1, Ieq), idummy
     iParseLine = idummy
 
@@ -719,7 +719,7 @@ Function iParseLineDefault(iFile, idefault)
     End If
     Ieq = INDEX(Line, '=', BACK=.TRUE.)
     backspace (iFile)
-    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,i10)'
+    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,i15)'
     Read (iFile, Line2) (Line3(i), i=1, Ieq), idummy
     iParseLineDefault = idummy
 end Function iParseLineDefault
@@ -737,7 +737,7 @@ Function ParseLineDefault(iFile, default)
     End If
     Ieq = INDEX(Line, '=', BACK=.TRUE.)
     backspace (iFile)
-    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,g12.5)'
+    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,g20.10)'
     Read (iFile, Line2) (Line3(i), i=1, Ieq), dummy
     ParseLineDefault = dummy
 end Function ParseLineDefault

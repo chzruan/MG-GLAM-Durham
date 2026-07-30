@@ -252,7 +252,7 @@ Contains
         Ieq = INDEX(Line, '=', BACK=.TRUE.)
         !write(*,*) '  Ieq =',Ieq
         backspace (iFile)                  !--- go to line start
-        write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,g12.5)' ! make format
+        write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,g20.10)' ! make format
         !write(*,'(a)') Line2
         Read (iFile, Line2) (Line3(i), i=1, Ieq), dummy    ! read
         ParseLine = dummy
