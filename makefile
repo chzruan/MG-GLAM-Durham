@@ -34,6 +34,12 @@ PMP2BDM: $(OBJ) PMP2bdm.o
 gadget2pm: PMP2mod_tools.o gadget2pm.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
 
+# MG-GLAM PM -> Gadget-1 converter, wrapped by the ic2gadget / final2gadget
+# scripts. WriteGadgetFormat.o must be listed first: it produces
+# WriteGadgetFormat.mod, which glam2gadget.f90 USEs.
+glam2gadget: WriteGadgetFormat.o glam2gadget.o
+	$(FC) $(LDFLAGS) -o $@.exe $^
+
 # Build PMP2main with pre-Pass-4 FP-equivalent flags for the Task A race test.
 # Stashes an existing PMP2main.exe (if present), wipes all .o/.mod so the recursive
 # build uses bitmatch flags, links to PMP2main.exe, then renames. Restores the

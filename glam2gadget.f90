@@ -59,7 +59,7 @@ Program Read
         WRITE(*,*) '                     by every checkpoint -- check the reported step)'
         WRITE(*,*) '   <SnapNum> >= 0 : the numbered files PMcrd.NNNN.DAT / PMcrs0.NNNN.DAT'
         WRITE(*,*) '   GLAMFolderPath MUST end in a slash: it is concatenated directly.'
-        STOP 'Wrong number of command-line arguments'
+        Error Stop 'Wrong number of command-line arguments'
     ENDIF
 
     CALL Get_Command_Argument(1, GLAMFolderPath)
@@ -68,7 +68,7 @@ Program Read
 
     !--- guard the concatenation: 'dir' + 'PMcrd.DAT' = 'dirPMcrd.DAT'
     ii = LEN_TRIM(GLAMFolderPath)
-    IF(ii == 0) STOP 'GLAMFolderPath is empty'
+    IF(ii == 0) Error Stop 'GLAMFolderPath is empty'
     IF(GLAMFolderPath(ii:ii) /= '/') THEN
         GLAMFolderPath = TRIM(GLAMFolderPath)//'/'
     ENDIF
@@ -147,7 +147,7 @@ SUBROUTINE ReadHeader(SnapNum)
     INQUIRE(file=TRIM(Name), EXIST=exst_hdr)
     IF(.not.exst_hdr) THEN
         WRITE(*,*) ' File ', TRIM(Name), ' does not exist'
-        STOP 'Header file PMcrd... does not exist. Error'
+        Error Stop 'Header file PMcrd... does not exist. Error'
     ENDIF
     OPEN (FileID_PMcrd, file=TRIM(Name), form ='UNFORMATTED', status ='OLD')
 
@@ -233,7 +233,7 @@ SUBROUTINE ReadParticles(SnapNum)
         i_offset = (i_page - 1) * Nrecord
         Do i_par = 1, NinPage
             !--- check for errors
-            IF(i_par + i_offset > Nparticles) STOP 'Attempt to read too many particles '
+            IF(i_par + i_offset > Nparticles) Error Stop 'Attempt to read too many particles '
             IF(INT(Xb(i_par)) == Ngrid + 1) Xb(i_par) = Xb(i_par) - 1.e-3
             IF(INT(Yb(i_par)) == Ngrid + 1) Yb(i_par) = Yb(i_par) - 1.e-3
             IF(INT(Zb(i_par)) == Ngrid + 1) Zb(i_par) = Zb(i_par) - 1.e-3
@@ -309,7 +309,7 @@ SUBROUTINE OpenFile(ifile,SnapNum)
     INQUIRE(file=TRIM(PMcrsName), EXIST=exst)   ! open file PMcrs
     IF(.not.exst) THEN
         WRITE(*,*) ' File',TRIM(PMcrsName),' does not exist'
-        Stop ' File PMcrs... does not exist. Error'
+        Error Stop ' File PMcrs... does not exist. Error'
     End IF
 
     FileID_PMcrs = 20
