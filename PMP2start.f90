@@ -245,18 +245,22 @@ Contains
 !--------------------------------------------------
 !        read line from  input file iFile
 !                real format
+!        List-directed read of the text after the last '=', not a fixed-width
+!        field -- see PMP2init.f90's ParseLine for the full rationale (a fixed
+!        width either truncates wide values silently or runs into a trailing
+!        comment; it cannot do both). Kept identical to PMP2init's version so
+!        the two never disagree about how Init.dat/PkTable.dat parse.
     Function ParseLine(iFile)
-        Character :: Line*120, Line2*120, Line3(120)
+        Character :: Line*120
 
         Read (iFile, '(a)') Line
         Ieq = INDEX(Line, '=', BACK=.TRUE.)
-        !write(*,*) '  Ieq =',Ieq
-        backspace (iFile)                  !--- go to line start
-        write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,g20.10)' ! make format
-        !write(*,'(a)') Line2
-        Read (iFile, Line2) (Line3(i), i=1, Ieq), dummy    ! read
+        Read (Line(Ieq + 1:), *, iostat=ierr) dummy
+        If (ierr /= 0) Then
+            write (*, *) ' ParseLine: cannot read a real value from: ', trim(Line)
+            Stop 64   !--- nonzero exit status; see PMP2init.f90's ParseLine
+        End If
         ParseLine = dummy
-        !write(*,'(a,ES12.3)') ' Result =',ParseLine
     end Function ParseLine
 !------------------------------------------------
 !                             Make a realization of spectrum of perturbations

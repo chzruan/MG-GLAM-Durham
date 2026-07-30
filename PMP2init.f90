@@ -675,30 +675,45 @@ END FUNCTION RANDd
 !--------------------------------------------------
 !        read line from  input file iFile
 !                real format
+!
+!        Values are read list-directed from the text after the line's last
+!        '=', NOT as a fixed-width field. A fixed width cannot work here:
+!        it must simultaneously be wide enough for the value and narrow
+!        enough to stop before any trailing comment, and those conflict.
+!        The old 'g12.5'/'i10' widths silently truncated wide values (e.g.
+!        "    2.476719E-03" -> 2.476719, a 1000x error that still parses);
+!        widening them to 'g20.10'/'i15' instead reached into the trailing
+!        comments and made every commented line a severe(64) conversion
+!        error. List-directed input reads one value and stops at the first
+!        separator, so any width parses and comments are ignored.
 Function ParseLine(iFile)
-    Character :: Line*120, Line2*120, Line3(120)
+    Character :: Line*120
 
     Read (iFile, '(a)') Line
     Ieq = INDEX(Line, '=', BACK=.TRUE.)
-    !write(*,*) '  Ieq =',Ieq
-    backspace (iFile)                  !--- go to line start
-    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,g20.10)' ! make format
-    !write(*,'(a)') Line2
-    Read (iFile, Line2) (Line3(i), i=1, Ieq), dummy    ! read
+    Read (Line(Ieq + 1:), *, iostat=ierr) dummy
+    If (ierr /= 0) Then
+        write (*, *) ' ParseLine: cannot read a real value from: ', trim(Line)
+        Stop 64   !--- integer stop code: nonzero exit status, matching the
+                  !    old forrtl severe(64) conversion error this replaces
+                  !    ('Stop <string>' would exit 0 and fool submit.sh's || die)
+    End If
     ParseLine = dummy
-    !write(*,'(a,ES12.3)') ' Result =',ParseLine
 end Function ParseLine
 !--------------------------------------------------
 !        read line from  input file iFile
 !                          integer format
+!        See ParseLine above for why this is list-directed, not fixed-width.
 Function iParseLine(iFile)
-    Character :: Line*120, Line2*120, Line3(120)
+    Character :: Line*120
 
     Read (iFile, '(a)') Line
     Ieq = INDEX(Line, '=', BACK=.TRUE.)
-    backspace (iFile)
-    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,i15)'
-    Read (iFile, Line2) (Line3(i), i=1, Ieq), idummy
+    Read (Line(Ieq + 1:), *, iostat=ierr) idummy
+    If (ierr /= 0) Then
+        write (*, *) ' iParseLine: cannot read an integer value from: ', trim(Line)
+        Stop 64
+    End If
     iParseLine = idummy
 
 end Function iParseLine
@@ -708,8 +723,11 @@ end Function iParseLine
 !                          (instead of crashing) if the line is absent --
 !                          used for fields appended after this file format
 !                          was already in use elsewhere (e.g. old Init.dat)
+!        See ParseLine above for why this is list-directed, not fixed-width.
+!        Note the default applies only when the LINE IS ABSENT; a line that is
+!        present but unparseable is a hard error, never a silent default.
 Function iParseLineDefault(iFile, idefault)
-    Character :: Line*120, Line2*120, Line3(120)
+    Character :: Line*120
     Integer*4 :: idefault
 
     Read (iFile, '(a)', iostat=ierr) Line
@@ -718,16 +736,20 @@ Function iParseLineDefault(iFile, idefault)
         Return
     End If
     Ieq = INDEX(Line, '=', BACK=.TRUE.)
-    backspace (iFile)
-    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,i15)'
-    Read (iFile, Line2) (Line3(i), i=1, Ieq), idummy
+    Read (Line(Ieq + 1:), *, iostat=ierr) idummy
+    If (ierr /= 0) Then
+        write (*, *) ' iParseLineDefault: cannot read an integer value from: ', trim(Line)
+        Stop 64
+    End If
     iParseLineDefault = idummy
 end Function iParseLineDefault
 !--------------------------------------------------
 !        read line from input file iFile -- real format, but return
 !        default (instead of crashing) if the line is absent (old Init.dat)
+!        See ParseLine above for why this is list-directed, not fixed-width;
+!        see iParseLineDefault for the absent-vs-malformed distinction.
 Function ParseLineDefault(iFile, default)
-    Character :: Line*120, Line2*120, Line3(120)
+    Character :: Line*120
     Real*4 :: default
 
     Read (iFile, '(a)', iostat=ierr) Line
@@ -736,9 +758,11 @@ Function ParseLineDefault(iFile, default)
         Return
     End If
     Ieq = INDEX(Line, '=', BACK=.TRUE.)
-    backspace (iFile)
-    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,g20.10)'
-    Read (iFile, Line2) (Line3(i), i=1, Ieq), dummy
+    Read (Line(Ieq + 1:), *, iostat=ierr) dummy
+    If (ierr /= 0) Then
+        write (*, *) ' ParseLineDefault: cannot read a real value from: ', trim(Line)
+        Stop 64
+    End If
     ParseLineDefault = dummy
 end Function ParseLineDefault
 !--------------------------------------------------
