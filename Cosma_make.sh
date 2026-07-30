@@ -2,7 +2,11 @@
 # Build MG-GLAM on Cosma8 with the Intel oneAPI toolchain.
 # Usage: source Cosma_make.sh [make targets...]
 #   Must be *sourced* (not executed) so `module load` affects your shell.
-#   Defaults to: PMP2start PMP2MG
+#   Defaults to: PMP2init PMP2start PMP2MG
+#   Those three targets are the full simulation pipeline (see e.g.
+#   symmetron/prepare/sanity/*/submit.sh) and between them cover every object
+#   file in the makefile's $(OBJ) list plus the two extra entry points
+#   (PMP2init.o, PMP2start.o).
 #
 # Deliberately no `set -e`: this runs in your interactive shell via `source`,
 # so an `exit` on error would close your whole SSH session instead of just
@@ -27,7 +31,7 @@ make PMP2mod_MGbackground.o || return 1
 
 _cosma_make_targets=("$@")
 if [ ${#_cosma_make_targets[@]} -eq 0 ]; then
-    _cosma_make_targets=(PMP2start PMP2MG)
+    _cosma_make_targets=(PMP2init PMP2start PMP2MG)
 fi
 
 make "${_cosma_make_targets[@]}"
