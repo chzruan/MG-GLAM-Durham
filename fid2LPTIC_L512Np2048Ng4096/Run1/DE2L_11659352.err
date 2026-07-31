@@ -1,0 +1,12 @@
+-> Unloading module cfitsio because compiler has been unloaded
+-> Unloading module fftw because compiler has been unloaded
+-> Unloading module hdf5 because compiler has been unloaded
+-> Unloading module openmpi because compiler has been unloaded
+-> Unloading module parmetis because MPI has been unloaded
+
+OneAPI environment modules are now accessible.
+Use module available to see these modules.
+You probably want to:
+module load compiler-rt tbb compiler mpi
+to make the compiler and MPI available.
+

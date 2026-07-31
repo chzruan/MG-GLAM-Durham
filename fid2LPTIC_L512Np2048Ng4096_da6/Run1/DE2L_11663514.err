@@ -1,0 +1,5 @@
+-> Unloading module cfitsio because compiler has been unloaded
+-> Unloading module fftw because compiler has been unloaded
+-> Unloading module hdf5 because compiler has been unloaded
+-> Unloading module openmpi because compiler has been unloaded
+-> Unloading module parmetis because MPI has been unloaded
