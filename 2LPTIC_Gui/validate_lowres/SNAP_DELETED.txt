@@ -1,0 +1,2 @@
+snap/ (26 GB, our 1024^3 validation IC) deleted 2026-07-31 after validation.
+Regenerate in ~100 s: sbatch job.sh (seed 2026 -> identical realization).

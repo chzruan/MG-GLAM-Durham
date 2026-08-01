@@ -1,0 +1,75 @@
+FML LPT Lua IC Generator Setup Guide
+
+1.  Clone FML
+
+git clone https://github.com/HAWinther/FML.git cd FML/LPT/example
+
+2.  Copy the modified files into FML/LPT/example
+
+Place the following files in this directory:
+
+-   Main.cpp (the provided Main_2LPT_lua.cpp renamed to Main.cpp)
+-   Makefile
+-   input.lua
+-   setup_env.sh
+-   run.sh
+
+3.  Lua dependency
+
+The Makefile should point to the Lua installation:
+
+LUA_INCLUDE = /cosma/apps/dp203/dc-bran2/lua-5.4.0/install/include
+LUA_LIB = /cosma/apps/dp203/dc-bran2/lua-5.4.0/install/lib LUA_LINK =
+-llua -ldl
+
+Before compiling or running:
+
+export
+LD_LIBRARY_PATH=/cosma/apps/dp203/dc-bran2/lua-5.4.0/install/lib:$LD_LIBRARY_PATH
+
+If this installation is not accessible, install Lua locally and update
+the Makefile paths.
+
+4.  Compile once
+
+source setup_env.sh make clean make
+
+This creates the executable (e.g. ./test).
+
+5.  Edit input.lua
+
+For future runs, only modify input.lua. Typical parameters are:
+
+-   box_1d
+-   Nmesh
+-   Npart_1D
+-   random_seed
+-   lpt_order (1 = 1LPT, 2 = 2LPT)
+-   z_ini
+-   pofk_path_at_zini
+-   output_prefix
+-   fix_amplitude
+-   ic_reverse_phases
+-   pofk_output_path
+-   write_gadget
+
+6.  Create an output directory
+
+mkdir -p snap
+
+7.  Test interactively
+
+mpirun -np 4 ./test input.lua
+
+8.  Submit to SLURM
+
+Edit run.sh if needed, then submit:
+
+sbatch run.sh
+
+9.  Future runs
+
+After the first successful compilation, there is no need to run make
+again unless Main.cpp or the Makefile changes.
+
+For new simulations simply edit input.lua and submit another job.

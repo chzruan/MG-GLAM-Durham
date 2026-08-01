@@ -1,0 +1,11 @@
+
+OneAPI environment modules are now accessible.
+Use module available to see these modules.
+You probably want to:
+module load compiler-rt tbb compiler mpi
+to make the compiler and MPI available.
+
+
+real	8m2.718s
+user	0m0.024s
+sys	0m0.059s

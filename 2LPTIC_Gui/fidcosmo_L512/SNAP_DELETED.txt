@@ -1,0 +1,3 @@
+snap/ (208 GB, fid-cosmology 2048^3 IC, seed 2026) deleted 2026-07-31 after
+conversion into the three fid2LPTIC_* GLAM runs. Regenerate in ~8 min:
+sbatch job.sh (same seed -> identical realization, verified bitwise stable).

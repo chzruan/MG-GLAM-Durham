@@ -1,0 +1,3295 @@
+====
+Starting job 11663514 at Thu 30 Jul 07:31:23 BST 2026 for user dc-ruan1.
+Running on nodes: m8412
+====
+=== ic2pm conversion start Thu 30 Jul 07:31:25 BST 2026
+  --------------- Setup file for PMP2 simulations ------------------
+ N=2048x4096L=0512zi049da=6.00E-04f0.030
+  Ainit=  2.0000000E-02
+  !--------------- MG-flag and Multigrid solvers ------------------
+  !-------------- f(R) parameters ------------------
+  !--------------- DGP parameters ------------------
+  !------------ symmetron parameters ---------------
+  !------------ kmouflage parameters ---------------
+  !------------ csf model parameters ---------------
+  Results were read from Setup.dat
+ === ic2pm : 2LPTic -> MG-GLAM PM ===
+  IC basename = /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/2LPTIC_Gui/fidcosmo_L512/snap/IC_fid_Np2048_L512.
+  S_vel       =   1.0000E+00
+  Box [Mpc/h] =     512.0000
+  Om =  0.30890  OmL =  0.69110  h =  0.67740
+  a (=AEXPN)  =   0.020000
+  Nparticles  =     8589934592
+  NROW =   2048  NGRID =   4096
+  num_files   =     64
+  xs =  8.0000E+00   vfac =  2.2627E-04
+  read file     0   cumulative np =      134114242
+  read file    50   cumulative np =     6846380091
+  read file    63   cumulative np =     8589934592
+  coord min/max =      1.0000   4096.9995   (expect [1,    4097))
+  1D peculiar-velocity rms =     57.368 km/s   (expect ~50 km/s at z=49)
+  writing PMcrd.DAT + PMcrs*.DAT ...
+  Npages      =         8192
+  Write files =            0                     0
+          Write page=   10 Particles=    1048576    9437185   10485760
+          Write page=   20 Particles=    1048576   19922945   20971520
+          Write page=   30 Particles=    1048576   30408705   31457280
+          Write page=   40 Particles=    1048576   40894465   41943040
+          Write page=   50 Particles=    1048576   51380225   52428800
+          Write page=   60 Particles=    1048576   61865985   62914560
+          Write page=   70 Particles=    1048576   72351745   73400320
+          Write page=   80 Particles=    1048576   82837505   83886080
+          Write page=   90 Particles=    1048576   93323265   94371840
+          Write page=  100 Particles=    1048576  103809025  104857600
+          Write page=  110 Particles=    1048576  114294785  115343360
+          Write page=  120 Particles=    1048576  124780545  125829120
+          Write page=  130 Particles=    1048576  135266305  136314880
+          Write page=  140 Particles=    1048576  145752065  146800640
+          Write page=  150 Particles=    1048576  156237825  157286400
+          Write page=  160 Particles=    1048576  166723585  167772160
+          Write page=  170 Particles=    1048576  177209345  178257920
+          Write page=  180 Particles=    1048576  187695105  188743680
+          Write page=  190 Particles=    1048576  198180865  199229440
+          Write page=  200 Particles=    1048576  208666625  209715200
+          Write page=  210 Particles=    1048576  219152385  220200960
+          Write page=  220 Particles=    1048576  229638145  230686720
+          Write page=  230 Particles=    1048576  240123905  241172480
+          Write page=  240 Particles=    1048576  250609665  251658240
+          Write page=  250 Particles=    1048576  261095425  262144000
+          Write page=  260 Particles=    1048576  271581185  272629760
+          Write page=  270 Particles=    1048576  282066945  283115520
+          Write page=  280 Particles=    1048576  292552705  293601280
+          Write page=  290 Particles=    1048576  303038465  304087040
+          Write page=  300 Particles=    1048576  313524225  314572800
+          Write page=  310 Particles=    1048576  324009985  325058560
+          Write page=  320 Particles=    1048576  334495745  335544320
+          Write page=  330 Particles=    1048576  344981505  346030080
+          Write page=  340 Particles=    1048576  355467265  356515840
+          Write page=  350 Particles=    1048576  365953025  367001600
+          Write page=  360 Particles=    1048576  376438785  377487360
+          Write page=  370 Particles=    1048576  386924545  387973120
+          Write page=  380 Particles=    1048576  397410305  398458880
+          Write page=  390 Particles=    1048576  407896065  408944640
+          Write page=  400 Particles=    1048576  418381825  419430400
+          Write page=  410 Particles=    1048576  428867585  429916160
+          Write page=  420 Particles=    1048576  439353345  440401920
+          Write page=  430 Particles=    1048576  449839105  450887680
+          Write page=  440 Particles=    1048576  460324865  461373440
+          Write page=  450 Particles=    1048576  470810625  471859200
+          Write page=  460 Particles=    1048576  481296385  482344960
+          Write page=  470 Particles=    1048576  491782145  492830720
+          Write page=  480 Particles=    1048576  502267905  503316480
+          Write page=  490 Particles=    1048576  512753665  513802240
+          Write page=  500 Particles=    1048576  523239425  524288000
+          Write page=  510 Particles=    1048576  533725185  534773760
+    513      1 Open file = PMcrs1.DAT     1048576
+          Write page=  520 Particles=    1048576  544210945  545259520
+          Write page=  530 Particles=    1048576  554696705  555745280
+          Write page=  540 Particles=    1048576  565182465  566231040
+          Write page=  550 Particles=    1048576  575668225  576716800
+          Write page=  560 Particles=    1048576  586153985  587202560
+          Write page=  570 Particles=    1048576  596639745  597688320
+          Write page=  580 Particles=    1048576  607125505  608174080
+          Write page=  590 Particles=    1048576  617611265  618659840
+          Write page=  600 Particles=    1048576  628097025  629145600
+          Write page=  610 Particles=    1048576  638582785  639631360
+          Write page=  620 Particles=    1048576  649068545  650117120
+          Write page=  630 Particles=    1048576  659554305  660602880
+          Write page=  640 Particles=    1048576  670040065  671088640
+          Write page=  650 Particles=    1048576  680525825  681574400
+          Write page=  660 Particles=    1048576  691011585  692060160
+          Write page=  670 Particles=    1048576  701497345  702545920
+          Write page=  680 Particles=    1048576  711983105  713031680
+          Write page=  690 Particles=    1048576  722468865  723517440
+          Write page=  700 Particles=    1048576  732954625  734003200
+          Write page=  710 Particles=    1048576  743440385  744488960
+          Write page=  720 Particles=    1048576  753926145  754974720
+          Write page=  730 Particles=    1048576  764411905  765460480
+          Write page=  740 Particles=    1048576  774897665  775946240
+          Write page=  750 Particles=    1048576  785383425  786432000
+          Write page=  760 Particles=    1048576  795869185  796917760
+          Write page=  770 Particles=    1048576  806354945  807403520
+          Write page=  780 Particles=    1048576  816840705  817889280
+          Write page=  790 Particles=    1048576  827326465  828375040
+          Write page=  800 Particles=    1048576  837812225  838860800
+          Write page=  810 Particles=    1048576  848297985  849346560
+          Write page=  820 Particles=    1048576  858783745  859832320
+          Write page=  830 Particles=    1048576  869269505  870318080
+          Write page=  840 Particles=    1048576  879755265  880803840
+          Write page=  850 Particles=    1048576  890241025  891289600
+          Write page=  860 Particles=    1048576  900726785  901775360
+          Write page=  870 Particles=    1048576  911212545  912261120
+          Write page=  880 Particles=    1048576  921698305  922746880
+          Write page=  890 Particles=    1048576  932184065  933232640
+          Write page=  900 Particles=    1048576  942669825  943718400
+          Write page=  910 Particles=    1048576  953155585  954204160
+          Write page=  920 Particles=    1048576  963641345  964689920
+          Write page=  930 Particles=    1048576  974127105  975175680
+          Write page=  940 Particles=    1048576  984612865  985661440
+          Write page=  950 Particles=    1048576  995098625  996147200
+          Write page=  960 Particles=    1048576 1005584385 1006632960
+          Write page=  970 Particles=    1048576 1016070145 1017118720
+          Write page=  980 Particles=    1048576 1026555905 1027604480
+          Write page=  990 Particles=    1048576 1037041665 1038090240
+          Write page= 1000 Particles=    1048576 1047527425 1048576000
+          Write page= 1010 Particles=    1048576 1058013185 1059061760
+          Write page= 1020 Particles=    1048576 1068498945 1069547520
+   1025      2 Open file = PMcrs2.DAT     1048576
+          Write page= 1030 Particles=    1048576 1078984705 1080033280
+          Write page= 1040 Particles=    1048576 1089470465 1090519040
+          Write page= 1050 Particles=    1048576 1099956225 1101004800
+          Write page= 1060 Particles=    1048576 1110441985 1111490560
+          Write page= 1070 Particles=    1048576 1120927745 1121976320
+          Write page= 1080 Particles=    1048576 1131413505 1132462080
+          Write page= 1090 Particles=    1048576 1141899265 1142947840
+          Write page= 1100 Particles=    1048576 1152385025 1153433600
+          Write page= 1110 Particles=    1048576 1162870785 1163919360
+          Write page= 1120 Particles=    1048576 1173356545 1174405120
+          Write page= 1130 Particles=    1048576 1183842305 1184890880
+          Write page= 1140 Particles=    1048576 1194328065 1195376640
+          Write page= 1150 Particles=    1048576 1204813825 1205862400
+          Write page= 1160 Particles=    1048576 1215299585 1216348160
+          Write page= 1170 Particles=    1048576 1225785345 1226833920
+          Write page= 1180 Particles=    1048576 1236271105 1237319680
+          Write page= 1190 Particles=    1048576 1246756865 1247805440
+          Write page= 1200 Particles=    1048576 1257242625 1258291200
+          Write page= 1210 Particles=    1048576 1267728385 1268776960
+          Write page= 1220 Particles=    1048576 1278214145 1279262720
+          Write page= 1230 Particles=    1048576 1288699905 1289748480
+          Write page= 1240 Particles=    1048576 1299185665 1300234240
+          Write page= 1250 Particles=    1048576 1309671425 1310720000
+          Write page= 1260 Particles=    1048576 1320157185 1321205760
+          Write page= 1270 Particles=    1048576 1330642945 1331691520
+          Write page= 1280 Particles=    1048576 1341128705 1342177280
+          Write page= 1290 Particles=    1048576 1351614465 1352663040
+          Write page= 1300 Particles=    1048576 1362100225 1363148800
+          Write page= 1310 Particles=    1048576 1372585985 1373634560
+          Write page= 1320 Particles=    1048576 1383071745 1384120320
+          Write page= 1330 Particles=    1048576 1393557505 1394606080
+          Write page= 1340 Particles=    1048576 1404043265 1405091840
+          Write page= 1350 Particles=    1048576 1414529025 1415577600
+          Write page= 1360 Particles=    1048576 1425014785 1426063360
+          Write page= 1370 Particles=    1048576 1435500545 1436549120
+          Write page= 1380 Particles=    1048576 1445986305 1447034880
+          Write page= 1390 Particles=    1048576 1456472065 1457520640
+          Write page= 1400 Particles=    1048576 1466957825 1468006400
+          Write page= 1410 Particles=    1048576 1477443585 1478492160
+          Write page= 1420 Particles=    1048576 1487929345 1488977920
+          Write page= 1430 Particles=    1048576 1498415105 1499463680
+          Write page= 1440 Particles=    1048576 1508900865 1509949440
+          Write page= 1450 Particles=    1048576 1519386625 1520435200
+          Write page= 1460 Particles=    1048576 1529872385 1530920960
+          Write page= 1470 Particles=    1048576 1540358145 1541406720
+          Write page= 1480 Particles=    1048576 1550843905 1551892480
+          Write page= 1490 Particles=    1048576 1561329665 1562378240
+          Write page= 1500 Particles=    1048576 1571815425 1572864000
+          Write page= 1510 Particles=    1048576 1582301185 1583349760
+          Write page= 1520 Particles=    1048576 1592786945 1593835520
+          Write page= 1530 Particles=    1048576 1603272705 1604321280
+   1537      3 Open file = PMcrs3.DAT     1048576
+          Write page= 1540 Particles=    1048576 1613758465 1614807040
+          Write page= 1550 Particles=    1048576 1624244225 1625292800
+          Write page= 1560 Particles=    1048576 1634729985 1635778560
+          Write page= 1570 Particles=    1048576 1645215745 1646264320
+          Write page= 1580 Particles=    1048576 1655701505 1656750080
+          Write page= 1590 Particles=    1048576 1666187265 1667235840
+          Write page= 1600 Particles=    1048576 1676673025 1677721600
+          Write page= 1610 Particles=    1048576 1687158785 1688207360
+          Write page= 1620 Particles=    1048576 1697644545 1698693120
+          Write page= 1630 Particles=    1048576 1708130305 1709178880
+          Write page= 1640 Particles=    1048576 1718616065 1719664640
+          Write page= 1650 Particles=    1048576 1729101825 1730150400
+          Write page= 1660 Particles=    1048576 1739587585 1740636160
+          Write page= 1670 Particles=    1048576 1750073345 1751121920
+          Write page= 1680 Particles=    1048576 1760559105 1761607680
+          Write page= 1690 Particles=    1048576 1771044865 1772093440
+          Write page= 1700 Particles=    1048576 1781530625 1782579200
+          Write page= 1710 Particles=    1048576 1792016385 1793064960
+          Write page= 1720 Particles=    1048576 1802502145 1803550720
+          Write page= 1730 Particles=    1048576 1812987905 1814036480
+          Write page= 1740 Particles=    1048576 1823473665 1824522240
+          Write page= 1750 Particles=    1048576 1833959425 1835008000
+          Write page= 1760 Particles=    1048576 1844445185 1845493760
+          Write page= 1770 Particles=    1048576 1854930945 1855979520
+          Write page= 1780 Particles=    1048576 1865416705 1866465280
+          Write page= 1790 Particles=    1048576 1875902465 1876951040
+          Write page= 1800 Particles=    1048576 1886388225 1887436800
+          Write page= 1810 Particles=    1048576 1896873985 1897922560
+          Write page= 1820 Particles=    1048576 1907359745 1908408320
+          Write page= 1830 Particles=    1048576 1917845505 1918894080
+          Write page= 1840 Particles=    1048576 1928331265 1929379840
+          Write page= 1850 Particles=    1048576 1938817025 1939865600
+          Write page= 1860 Particles=    1048576 1949302785 1950351360
+          Write page= 1870 Particles=    1048576 1959788545 1960837120
+          Write page= 1880 Particles=    1048576 1970274305 1971322880
+          Write page= 1890 Particles=    1048576 1980760065 1981808640
+          Write page= 1900 Particles=    1048576 1991245825 1992294400
+          Write page= 1910 Particles=    1048576 2001731585 2002780160
+          Write page= 1920 Particles=    1048576 2012217345 2013265920
+          Write page= 1930 Particles=    1048576 2022703105 2023751680
+          Write page= 1940 Particles=    1048576 2033188865 2034237440
+          Write page= 1950 Particles=    1048576 2043674625 2044723200
+          Write page= 1960 Particles=    1048576 2054160385 2055208960
+          Write page= 1970 Particles=    1048576 2064646145 2065694720
+          Write page= 1980 Particles=    1048576 2075131905 2076180480
+          Write page= 1990 Particles=    1048576 2085617665 2086666240
+          Write page= 2000 Particles=    1048576 2096103425 2097152000
+          Write page= 2010 Particles=    1048576 2106589185 2107637760
+          Write page= 2020 Particles=    1048576 2117074945 2118123520
+          Write page= 2030 Particles=    1048576 2127560705 2128609280
+          Write page= 2040 Particles=    1048576 2138046465 2139095040
+   2049      4 Open file = PMcrs4.DAT     1048576
+          Write page= 2050 Particles=    1048576 2148532225 2149580800
+          Write page= 2060 Particles=    1048576 2159017985 2160066560
+          Write page= 2070 Particles=    1048576 2169503745 2170552320
+          Write page= 2080 Particles=    1048576 2179989505 2181038080
+          Write page= 2090 Particles=    1048576 2190475265 2191523840
+          Write page= 2100 Particles=    1048576 2200961025 2202009600
+          Write page= 2110 Particles=    1048576 2211446785 2212495360
+          Write page= 2120 Particles=    1048576 2221932545 2222981120
+          Write page= 2130 Particles=    1048576 2232418305 2233466880
+          Write page= 2140 Particles=    1048576 2242904065 2243952640
+          Write page= 2150 Particles=    1048576 2253389825 2254438400
+          Write page= 2160 Particles=    1048576 2263875585 2264924160
+          Write page= 2170 Particles=    1048576 2274361345 2275409920
+          Write page= 2180 Particles=    1048576 2284847105 2285895680
+          Write page= 2190 Particles=    1048576 2295332865 2296381440
+          Write page= 2200 Particles=    1048576 2305818625 2306867200
+          Write page= 2210 Particles=    1048576 2316304385 2317352960
+          Write page= 2220 Particles=    1048576 2326790145 2327838720
+          Write page= 2230 Particles=    1048576 2337275905 2338324480
+          Write page= 2240 Particles=    1048576 2347761665 2348810240
+          Write page= 2250 Particles=    1048576 2358247425 2359296000
+          Write page= 2260 Particles=    1048576 2368733185 2369781760
+          Write page= 2270 Particles=    1048576 2379218945 2380267520
+          Write page= 2280 Particles=    1048576 2389704705 2390753280
+          Write page= 2290 Particles=    1048576 2400190465 2401239040
+          Write page= 2300 Particles=    1048576 2410676225 2411724800
+          Write page= 2310 Particles=    1048576 2421161985 2422210560
+          Write page= 2320 Particles=    1048576 2431647745 2432696320
+          Write page= 2330 Particles=    1048576 2442133505 2443182080
+          Write page= 2340 Particles=    1048576 2452619265 2453667840
+          Write page= 2350 Particles=    1048576 2463105025 2464153600
+          Write page= 2360 Particles=    1048576 2473590785 2474639360
+          Write page= 2370 Particles=    1048576 2484076545 2485125120
+          Write page= 2380 Particles=    1048576 2494562305 2495610880
+          Write page= 2390 Particles=    1048576 2505048065 2506096640
+          Write page= 2400 Particles=    1048576 2515533825 2516582400
+          Write page= 2410 Particles=    1048576 2526019585 2527068160
+          Write page= 2420 Particles=    1048576 2536505345 2537553920
+          Write page= 2430 Particles=    1048576 2546991105 2548039680
+          Write page= 2440 Particles=    1048576 2557476865 2558525440
+          Write page= 2450 Particles=    1048576 2567962625 2569011200
+          Write page= 2460 Particles=    1048576 2578448385 2579496960
+          Write page= 2470 Particles=    1048576 2588934145 2589982720
+          Write page= 2480 Particles=    1048576 2599419905 2600468480
+          Write page= 2490 Particles=    1048576 2609905665 2610954240
+          Write page= 2500 Particles=    1048576 2620391425 2621440000
+          Write page= 2510 Particles=    1048576 2630877185 2631925760
+          Write page= 2520 Particles=    1048576 2641362945 2642411520
+          Write page= 2530 Particles=    1048576 2651848705 2652897280
+          Write page= 2540 Particles=    1048576 2662334465 2663383040
+          Write page= 2550 Particles=    1048576 2672820225 2673868800
+          Write page= 2560 Particles=    1048576 2683305985 2684354560
+   2561      5 Open file = PMcrs5.DAT     1048576
+          Write page= 2570 Particles=    1048576 2693791745 2694840320
+          Write page= 2580 Particles=    1048576 2704277505 2705326080
+          Write page= 2590 Particles=    1048576 2714763265 2715811840
+          Write page= 2600 Particles=    1048576 2725249025 2726297600
+          Write page= 2610 Particles=    1048576 2735734785 2736783360
+          Write page= 2620 Particles=    1048576 2746220545 2747269120
+          Write page= 2630 Particles=    1048576 2756706305 2757754880
+          Write page= 2640 Particles=    1048576 2767192065 2768240640
+          Write page= 2650 Particles=    1048576 2777677825 2778726400
+          Write page= 2660 Particles=    1048576 2788163585 2789212160
+          Write page= 2670 Particles=    1048576 2798649345 2799697920
+          Write page= 2680 Particles=    1048576 2809135105 2810183680
+          Write page= 2690 Particles=    1048576 2819620865 2820669440
+          Write page= 2700 Particles=    1048576 2830106625 2831155200
+          Write page= 2710 Particles=    1048576 2840592385 2841640960
+          Write page= 2720 Particles=    1048576 2851078145 2852126720
+          Write page= 2730 Particles=    1048576 2861563905 2862612480
+          Write page= 2740 Particles=    1048576 2872049665 2873098240
+          Write page= 2750 Particles=    1048576 2882535425 2883584000
+          Write page= 2760 Particles=    1048576 2893021185 2894069760
+          Write page= 2770 Particles=    1048576 2903506945 2904555520
+          Write page= 2780 Particles=    1048576 2913992705 2915041280
+          Write page= 2790 Particles=    1048576 2924478465 2925527040
+          Write page= 2800 Particles=    1048576 2934964225 2936012800
+          Write page= 2810 Particles=    1048576 2945449985 2946498560
+          Write page= 2820 Particles=    1048576 2955935745 2956984320
+          Write page= 2830 Particles=    1048576 2966421505 2967470080
+          Write page= 2840 Particles=    1048576 2976907265 2977955840
+          Write page= 2850 Particles=    1048576 2987393025 2988441600
+          Write page= 2860 Particles=    1048576 2997878785 2998927360
+          Write page= 2870 Particles=    1048576 3008364545 3009413120
+          Write page= 2880 Particles=    1048576 3018850305 3019898880
+          Write page= 2890 Particles=    1048576 3029336065 3030384640
+          Write page= 2900 Particles=    1048576 3039821825 3040870400
+          Write page= 2910 Particles=    1048576 3050307585 3051356160
+          Write page= 2920 Particles=    1048576 3060793345 3061841920
+          Write page= 2930 Particles=    1048576 3071279105 3072327680
+          Write page= 2940 Particles=    1048576 3081764865 3082813440
+          Write page= 2950 Particles=    1048576 3092250625 3093299200
+          Write page= 2960 Particles=    1048576 3102736385 3103784960
+          Write page= 2970 Particles=    1048576 3113222145 3114270720
+          Write page= 2980 Particles=    1048576 3123707905 3124756480
+          Write page= 2990 Particles=    1048576 3134193665 3135242240
+          Write page= 3000 Particles=    1048576 3144679425 3145728000
+          Write page= 3010 Particles=    1048576 3155165185 3156213760
+          Write page= 3020 Particles=    1048576 3165650945 3166699520
+          Write page= 3030 Particles=    1048576 3176136705 3177185280
+          Write page= 3040 Particles=    1048576 3186622465 3187671040
+          Write page= 3050 Particles=    1048576 3197108225 3198156800
+          Write page= 3060 Particles=    1048576 3207593985 3208642560
+          Write page= 3070 Particles=    1048576 3218079745 3219128320
+   3073      6 Open file = PMcrs6.DAT     1048576
+          Write page= 3080 Particles=    1048576 3228565505 3229614080
+          Write page= 3090 Particles=    1048576 3239051265 3240099840
+          Write page= 3100 Particles=    1048576 3249537025 3250585600
+          Write page= 3110 Particles=    1048576 3260022785 3261071360
+          Write page= 3120 Particles=    1048576 3270508545 3271557120
+          Write page= 3130 Particles=    1048576 3280994305 3282042880
+          Write page= 3140 Particles=    1048576 3291480065 3292528640
+          Write page= 3150 Particles=    1048576 3301965825 3303014400
+          Write page= 3160 Particles=    1048576 3312451585 3313500160
+          Write page= 3170 Particles=    1048576 3322937345 3323985920
+          Write page= 3180 Particles=    1048576 3333423105 3334471680
+          Write page= 3190 Particles=    1048576 3343908865 3344957440
+          Write page= 3200 Particles=    1048576 3354394625 3355443200
+          Write page= 3210 Particles=    1048576 3364880385 3365928960
+          Write page= 3220 Particles=    1048576 3375366145 3376414720
+          Write page= 3230 Particles=    1048576 3385851905 3386900480
+          Write page= 3240 Particles=    1048576 3396337665 3397386240
+          Write page= 3250 Particles=    1048576 3406823425 3407872000
+          Write page= 3260 Particles=    1048576 3417309185 3418357760
+          Write page= 3270 Particles=    1048576 3427794945 3428843520
+          Write page= 3280 Particles=    1048576 3438280705 3439329280
+          Write page= 3290 Particles=    1048576 3448766465 3449815040
+          Write page= 3300 Particles=    1048576 3459252225 3460300800
+          Write page= 3310 Particles=    1048576 3469737985 3470786560
+          Write page= 3320 Particles=    1048576 3480223745 3481272320
+          Write page= 3330 Particles=    1048576 3490709505 3491758080
+          Write page= 3340 Particles=    1048576 3501195265 3502243840
+          Write page= 3350 Particles=    1048576 3511681025 3512729600
+          Write page= 3360 Particles=    1048576 3522166785 3523215360
+          Write page= 3370 Particles=    1048576 3532652545 3533701120
+          Write page= 3380 Particles=    1048576 3543138305 3544186880
+          Write page= 3390 Particles=    1048576 3553624065 3554672640
+          Write page= 3400 Particles=    1048576 3564109825 3565158400
+          Write page= 3410 Particles=    1048576 3574595585 3575644160
+          Write page= 3420 Particles=    1048576 3585081345 3586129920
+          Write page= 3430 Particles=    1048576 3595567105 3596615680
+          Write page= 3440 Particles=    1048576 3606052865 3607101440
+          Write page= 3450 Particles=    1048576 3616538625 3617587200
+          Write page= 3460 Particles=    1048576 3627024385 3628072960
+          Write page= 3470 Particles=    1048576 3637510145 3638558720
+          Write page= 3480 Particles=    1048576 3647995905 3649044480
+          Write page= 3490 Particles=    1048576 3658481665 3659530240
+          Write page= 3500 Particles=    1048576 3668967425 3670016000
+          Write page= 3510 Particles=    1048576 3679453185 3680501760
+          Write page= 3520 Particles=    1048576 3689938945 3690987520
+          Write page= 3530 Particles=    1048576 3700424705 3701473280
+          Write page= 3540 Particles=    1048576 3710910465 3711959040
+          Write page= 3550 Particles=    1048576 3721396225 3722444800
+          Write page= 3560 Particles=    1048576 3731881985 3732930560
+          Write page= 3570 Particles=    1048576 3742367745 3743416320
+          Write page= 3580 Particles=    1048576 3752853505 3753902080
+   3585      7 Open file = PMcrs7.DAT     1048576
+          Write page= 3590 Particles=    1048576 3763339265 3764387840
+          Write page= 3600 Particles=    1048576 3773825025 3774873600
+          Write page= 3610 Particles=    1048576 3784310785 3785359360
+          Write page= 3620 Particles=    1048576 3794796545 3795845120
+          Write page= 3630 Particles=    1048576 3805282305 3806330880
+          Write page= 3640 Particles=    1048576 3815768065 3816816640
+          Write page= 3650 Particles=    1048576 3826253825 3827302400
+          Write page= 3660 Particles=    1048576 3836739585 3837788160
+          Write page= 3670 Particles=    1048576 3847225345 3848273920
+          Write page= 3680 Particles=    1048576 3857711105 3858759680
+          Write page= 3690 Particles=    1048576 3868196865 3869245440
+          Write page= 3700 Particles=    1048576 3878682625 3879731200
+          Write page= 3710 Particles=    1048576 3889168385 3890216960
+          Write page= 3720 Particles=    1048576 3899654145 3900702720
+          Write page= 3730 Particles=    1048576 3910139905 3911188480
+          Write page= 3740 Particles=    1048576 3920625665 3921674240
+          Write page= 3750 Particles=    1048576 3931111425 3932160000
+          Write page= 3760 Particles=    1048576 3941597185 3942645760
+          Write page= 3770 Particles=    1048576 3952082945 3953131520
+          Write page= 3780 Particles=    1048576 3962568705 3963617280
+          Write page= 3790 Particles=    1048576 3973054465 3974103040
+          Write page= 3800 Particles=    1048576 3983540225 3984588800
+          Write page= 3810 Particles=    1048576 3994025985 3995074560
+          Write page= 3820 Particles=    1048576 4004511745 4005560320
+          Write page= 3830 Particles=    1048576 4014997505 4016046080
+          Write page= 3840 Particles=    1048576 4025483265 4026531840
+          Write page= 3850 Particles=    1048576 4035969025 4037017600
+          Write page= 3860 Particles=    1048576 4046454785 4047503360
+          Write page= 3870 Particles=    1048576 4056940545 4057989120
+          Write page= 3880 Particles=    1048576 4067426305 4068474880
+          Write page= 3890 Particles=    1048576 4077912065 4078960640
+          Write page= 3900 Particles=    1048576 4088397825 4089446400
+          Write page= 3910 Particles=    1048576 4098883585 4099932160
+          Write page= 3920 Particles=    1048576 4109369345 4110417920
+          Write page= 3930 Particles=    1048576 4119855105 4120903680
+          Write page= 3940 Particles=    1048576 4130340865 4131389440
+          Write page= 3950 Particles=    1048576 4140826625 4141875200
+          Write page= 3960 Particles=    1048576 4151312385 4152360960
+          Write page= 3970 Particles=    1048576 4161798145 4162846720
+          Write page= 3980 Particles=    1048576 4172283905 4173332480
+          Write page= 3990 Particles=    1048576 4182769665 4183818240
+          Write page= 4000 Particles=    1048576 4193255425 4194304000
+          Write page= 4010 Particles=    1048576 4203741185 4204789760
+          Write page= 4020 Particles=    1048576 4214226945 4215275520
+          Write page= 4030 Particles=    1048576 4224712705 4225761280
+          Write page= 4040 Particles=    1048576 4235198465 4236247040
+          Write page= 4050 Particles=    1048576 4245684225 4246732800
+          Write page= 4060 Particles=    1048576 4256169985 4257218560
+          Write page= 4070 Particles=    1048576 4266655745 4267704320
+          Write page= 4080 Particles=    1048576 4277141505 4278190080
+          Write page= 4090 Particles=    1048576 4287627265 4288675840
+   4097      8 Open file = PMcrs8.DAT     1048576
+          Write page= 4100 Particles=    1048576 4298113025 4299161600
+          Write page= 4110 Particles=    1048576 4308598785 4309647360
+          Write page= 4120 Particles=    1048576 4319084545 4320133120
+          Write page= 4130 Particles=    1048576 4329570305 4330618880
+          Write page= 4140 Particles=    1048576 4340056065 4341104640
+          Write page= 4150 Particles=    1048576 4350541825 4351590400
+          Write page= 4160 Particles=    1048576 4361027585 4362076160
+          Write page= 4170 Particles=    1048576 4371513345 4372561920
+          Write page= 4180 Particles=    1048576 4381999105 4383047680
+          Write page= 4190 Particles=    1048576 4392484865 4393533440
+          Write page= 4200 Particles=    1048576 4402970625 4404019200
+          Write page= 4210 Particles=    1048576 4413456385 4414504960
+          Write page= 4220 Particles=    1048576 4423942145 4424990720
+          Write page= 4230 Particles=    1048576 4434427905 4435476480
+          Write page= 4240 Particles=    1048576 4444913665 4445962240
+          Write page= 4250 Particles=    1048576 4455399425 4456448000
+          Write page= 4260 Particles=    1048576 4465885185 4466933760
+          Write page= 4270 Particles=    1048576 4476370945 4477419520
+          Write page= 4280 Particles=    1048576 4486856705 4487905280
+          Write page= 4290 Particles=    1048576 4497342465 4498391040
+          Write page= 4300 Particles=    1048576 4507828225 4508876800
+          Write page= 4310 Particles=    1048576 4518313985 4519362560
+          Write page= 4320 Particles=    1048576 4528799745 4529848320
+          Write page= 4330 Particles=    1048576 4539285505 4540334080
+          Write page= 4340 Particles=    1048576 4549771265 4550819840
+          Write page= 4350 Particles=    1048576 4560257025 4561305600
+          Write page= 4360 Particles=    1048576 4570742785 4571791360
+          Write page= 4370 Particles=    1048576 4581228545 4582277120
+          Write page= 4380 Particles=    1048576 4591714305 4592762880
+          Write page= 4390 Particles=    1048576 4602200065 4603248640
+          Write page= 4400 Particles=    1048576 4612685825 4613734400
+          Write page= 4410 Particles=    1048576 4623171585 4624220160
+          Write page= 4420 Particles=    1048576 4633657345 4634705920
+          Write page= 4430 Particles=    1048576 4644143105 4645191680
+          Write page= 4440 Particles=    1048576 4654628865 4655677440
+          Write page= 4450 Particles=    1048576 4665114625 4666163200
+          Write page= 4460 Particles=    1048576 4675600385 4676648960
+          Write page= 4470 Particles=    1048576 4686086145 4687134720
+          Write page= 4480 Particles=    1048576 4696571905 4697620480
+          Write page= 4490 Particles=    1048576 4707057665 4708106240
+          Write page= 4500 Particles=    1048576 4717543425 4718592000
+          Write page= 4510 Particles=    1048576 4728029185 4729077760
+          Write page= 4520 Particles=    1048576 4738514945 4739563520
+          Write page= 4530 Particles=    1048576 4749000705 4750049280
+          Write page= 4540 Particles=    1048576 4759486465 4760535040
+          Write page= 4550 Particles=    1048576 4769972225 4771020800
+          Write page= 4560 Particles=    1048576 4780457985 4781506560
+          Write page= 4570 Particles=    1048576 4790943745 4791992320
+          Write page= 4580 Particles=    1048576 4801429505 4802478080
+          Write page= 4590 Particles=    1048576 4811915265 4812963840
+          Write page= 4600 Particles=    1048576 4822401025 4823449600
+   4609      9 Open file = PMcrs9.DAT     1048576
+          Write page= 4610 Particles=    1048576 4832886785 4833935360
+          Write page= 4620 Particles=    1048576 4843372545 4844421120
+          Write page= 4630 Particles=    1048576 4853858305 4854906880
+          Write page= 4640 Particles=    1048576 4864344065 4865392640
+          Write page= 4650 Particles=    1048576 4874829825 4875878400
+          Write page= 4660 Particles=    1048576 4885315585 4886364160
+          Write page= 4670 Particles=    1048576 4895801345 4896849920
+          Write page= 4680 Particles=    1048576 4906287105 4907335680
+          Write page= 4690 Particles=    1048576 4916772865 4917821440
+          Write page= 4700 Particles=    1048576 4927258625 4928307200
+          Write page= 4710 Particles=    1048576 4937744385 4938792960
+          Write page= 4720 Particles=    1048576 4948230145 4949278720
+          Write page= 4730 Particles=    1048576 4958715905 4959764480
+          Write page= 4740 Particles=    1048576 4969201665 4970250240
+          Write page= 4750 Particles=    1048576 4979687425 4980736000
+          Write page= 4760 Particles=    1048576 4990173185 4991221760
+          Write page= 4770 Particles=    1048576 5000658945 5001707520
+          Write page= 4780 Particles=    1048576 5011144705 5012193280
+          Write page= 4790 Particles=    1048576 5021630465 5022679040
+          Write page= 4800 Particles=    1048576 5032116225 5033164800
+          Write page= 4810 Particles=    1048576 5042601985 5043650560
+          Write page= 4820 Particles=    1048576 5053087745 5054136320
+          Write page= 4830 Particles=    1048576 5063573505 5064622080
+          Write page= 4840 Particles=    1048576 5074059265 5075107840
+          Write page= 4850 Particles=    1048576 5084545025 5085593600
+          Write page= 4860 Particles=    1048576 5095030785 5096079360
+          Write page= 4870 Particles=    1048576 5105516545 5106565120
+          Write page= 4880 Particles=    1048576 5116002305 5117050880
+          Write page= 4890 Particles=    1048576 5126488065 5127536640
+          Write page= 4900 Particles=    1048576 5136973825 5138022400
+          Write page= 4910 Particles=    1048576 5147459585 5148508160
+          Write page= 4920 Particles=    1048576 5157945345 5158993920
+          Write page= 4930 Particles=    1048576 5168431105 5169479680
+          Write page= 4940 Particles=    1048576 5178916865 5179965440
+          Write page= 4950 Particles=    1048576 5189402625 5190451200
+          Write page= 4960 Particles=    1048576 5199888385 5200936960
+          Write page= 4970 Particles=    1048576 5210374145 5211422720
+          Write page= 4980 Particles=    1048576 5220859905 5221908480
+          Write page= 4990 Particles=    1048576 5231345665 5232394240
+          Write page= 5000 Particles=    1048576 5241831425 5242880000
+          Write page= 5010 Particles=    1048576 5252317185 5253365760
+          Write page= 5020 Particles=    1048576 5262802945 5263851520
+          Write page= 5030 Particles=    1048576 5273288705 5274337280
+          Write page= 5040 Particles=    1048576 5283774465 5284823040
+          Write page= 5050 Particles=    1048576 5294260225 5295308800
+          Write page= 5060 Particles=    1048576 5304745985 5305794560
+          Write page= 5070 Particles=    1048576 5315231745 5316280320
+          Write page= 5080 Particles=    1048576 5325717505 5326766080
+          Write page= 5090 Particles=    1048576 5336203265 5337251840
+          Write page= 5100 Particles=    1048576 5346689025 5347737600
+          Write page= 5110 Particles=    1048576 5357174785 5358223360
+          Write page= 5120 Particles=    1048576 5367660545 5368709120
+   5121     10 Open file = PMcrs10.DAT     1048576
+          Write page= 5130 Particles=    1048576 5378146305 5379194880
+          Write page= 5140 Particles=    1048576 5388632065 5389680640
+          Write page= 5150 Particles=    1048576 5399117825 5400166400
+          Write page= 5160 Particles=    1048576 5409603585 5410652160
+          Write page= 5170 Particles=    1048576 5420089345 5421137920
+          Write page= 5180 Particles=    1048576 5430575105 5431623680
+          Write page= 5190 Particles=    1048576 5441060865 5442109440
+          Write page= 5200 Particles=    1048576 5451546625 5452595200
+          Write page= 5210 Particles=    1048576 5462032385 5463080960
+          Write page= 5220 Particles=    1048576 5472518145 5473566720
+          Write page= 5230 Particles=    1048576 5483003905 5484052480
+          Write page= 5240 Particles=    1048576 5493489665 5494538240
+          Write page= 5250 Particles=    1048576 5503975425 5505024000
+          Write page= 5260 Particles=    1048576 5514461185 5515509760
+          Write page= 5270 Particles=    1048576 5524946945 5525995520
+          Write page= 5280 Particles=    1048576 5535432705 5536481280
+          Write page= 5290 Particles=    1048576 5545918465 5546967040
+          Write page= 5300 Particles=    1048576 5556404225 5557452800
+          Write page= 5310 Particles=    1048576 5566889985 5567938560
+          Write page= 5320 Particles=    1048576 5577375745 5578424320
+          Write page= 5330 Particles=    1048576 5587861505 5588910080
+          Write page= 5340 Particles=    1048576 5598347265 5599395840
+          Write page= 5350 Particles=    1048576 5608833025 5609881600
+          Write page= 5360 Particles=    1048576 5619318785 5620367360
+          Write page= 5370 Particles=    1048576 5629804545 5630853120
+          Write page= 5380 Particles=    1048576 5640290305 5641338880
+          Write page= 5390 Particles=    1048576 5650776065 5651824640
+          Write page= 5400 Particles=    1048576 5661261825 5662310400
+          Write page= 5410 Particles=    1048576 5671747585 5672796160
+          Write page= 5420 Particles=    1048576 5682233345 5683281920
+          Write page= 5430 Particles=    1048576 5692719105 5693767680
+          Write page= 5440 Particles=    1048576 5703204865 5704253440
+          Write page= 5450 Particles=    1048576 5713690625 5714739200
+          Write page= 5460 Particles=    1048576 5724176385 5725224960
+          Write page= 5470 Particles=    1048576 5734662145 5735710720
+          Write page= 5480 Particles=    1048576 5745147905 5746196480
+          Write page= 5490 Particles=    1048576 5755633665 5756682240
+          Write page= 5500 Particles=    1048576 5766119425 5767168000
+          Write page= 5510 Particles=    1048576 5776605185 5777653760
+          Write page= 5520 Particles=    1048576 5787090945 5788139520
+          Write page= 5530 Particles=    1048576 5797576705 5798625280
+          Write page= 5540 Particles=    1048576 5808062465 5809111040
+          Write page= 5550 Particles=    1048576 5818548225 5819596800
+          Write page= 5560 Particles=    1048576 5829033985 5830082560
+          Write page= 5570 Particles=    1048576 5839519745 5840568320
+          Write page= 5580 Particles=    1048576 5850005505 5851054080
+          Write page= 5590 Particles=    1048576 5860491265 5861539840
+          Write page= 5600 Particles=    1048576 5870977025 5872025600
+          Write page= 5610 Particles=    1048576 5881462785 5882511360
+          Write page= 5620 Particles=    1048576 5891948545 5892997120
+          Write page= 5630 Particles=    1048576 5902434305 5903482880
+   5633     11 Open file = PMcrs11.DAT     1048576
+          Write page= 5640 Particles=    1048576 5912920065 5913968640
+          Write page= 5650 Particles=    1048576 5923405825 5924454400
+          Write page= 5660 Particles=    1048576 5933891585 5934940160
+          Write page= 5670 Particles=    1048576 5944377345 5945425920
+          Write page= 5680 Particles=    1048576 5954863105 5955911680
+          Write page= 5690 Particles=    1048576 5965348865 5966397440
+          Write page= 5700 Particles=    1048576 5975834625 5976883200
+          Write page= 5710 Particles=    1048576 5986320385 5987368960
+          Write page= 5720 Particles=    1048576 5996806145 5997854720
+          Write page= 5730 Particles=    1048576 6007291905 6008340480
+          Write page= 5740 Particles=    1048576 6017777665 6018826240
+          Write page= 5750 Particles=    1048576 6028263425 6029312000
+          Write page= 5760 Particles=    1048576 6038749185 6039797760
+          Write page= 5770 Particles=    1048576 6049234945 6050283520
+          Write page= 5780 Particles=    1048576 6059720705 6060769280
+          Write page= 5790 Particles=    1048576 6070206465 6071255040
+          Write page= 5800 Particles=    1048576 6080692225 6081740800
+          Write page= 5810 Particles=    1048576 6091177985 6092226560
+          Write page= 5820 Particles=    1048576 6101663745 6102712320
+          Write page= 5830 Particles=    1048576 6112149505 6113198080
+          Write page= 5840 Particles=    1048576 6122635265 6123683840
+          Write page= 5850 Particles=    1048576 6133121025 6134169600
+          Write page= 5860 Particles=    1048576 6143606785 6144655360
+          Write page= 5870 Particles=    1048576 6154092545 6155141120
+          Write page= 5880 Particles=    1048576 6164578305 6165626880
+          Write page= 5890 Particles=    1048576 6175064065 6176112640
+          Write page= 5900 Particles=    1048576 6185549825 6186598400
+          Write page= 5910 Particles=    1048576 6196035585 6197084160
+          Write page= 5920 Particles=    1048576 6206521345 6207569920
+          Write page= 5930 Particles=    1048576 6217007105 6218055680
+          Write page= 5940 Particles=    1048576 6227492865 6228541440
+          Write page= 5950 Particles=    1048576 6237978625 6239027200
+          Write page= 5960 Particles=    1048576 6248464385 6249512960
+          Write page= 5970 Particles=    1048576 6258950145 6259998720
+          Write page= 5980 Particles=    1048576 6269435905 6270484480
+          Write page= 5990 Particles=    1048576 6279921665 6280970240
+          Write page= 6000 Particles=    1048576 6290407425 6291456000
+          Write page= 6010 Particles=    1048576 6300893185 6301941760
+          Write page= 6020 Particles=    1048576 6311378945 6312427520
+          Write page= 6030 Particles=    1048576 6321864705 6322913280
+          Write page= 6040 Particles=    1048576 6332350465 6333399040
+          Write page= 6050 Particles=    1048576 6342836225 6343884800
+          Write page= 6060 Particles=    1048576 6353321985 6354370560
+          Write page= 6070 Particles=    1048576 6363807745 6364856320
+          Write page= 6080 Particles=    1048576 6374293505 6375342080
+          Write page= 6090 Particles=    1048576 6384779265 6385827840
+          Write page= 6100 Particles=    1048576 6395265025 6396313600
+          Write page= 6110 Particles=    1048576 6405750785 6406799360
+          Write page= 6120 Particles=    1048576 6416236545 6417285120
+          Write page= 6130 Particles=    1048576 6426722305 6427770880
+          Write page= 6140 Particles=    1048576 6437208065 6438256640
+   6145     12 Open file = PMcrs12.DAT     1048576
+          Write page= 6150 Particles=    1048576 6447693825 6448742400
+          Write page= 6160 Particles=    1048576 6458179585 6459228160
+          Write page= 6170 Particles=    1048576 6468665345 6469713920
+          Write page= 6180 Particles=    1048576 6479151105 6480199680
+          Write page= 6190 Particles=    1048576 6489636865 6490685440
+          Write page= 6200 Particles=    1048576 6500122625 6501171200
+          Write page= 6210 Particles=    1048576 6510608385 6511656960
+          Write page= 6220 Particles=    1048576 6521094145 6522142720
+          Write page= 6230 Particles=    1048576 6531579905 6532628480
+          Write page= 6240 Particles=    1048576 6542065665 6543114240
+          Write page= 6250 Particles=    1048576 6552551425 6553600000
+          Write page= 6260 Particles=    1048576 6563037185 6564085760
+          Write page= 6270 Particles=    1048576 6573522945 6574571520
+          Write page= 6280 Particles=    1048576 6584008705 6585057280
+          Write page= 6290 Particles=    1048576 6594494465 6595543040
+          Write page= 6300 Particles=    1048576 6604980225 6606028800
+          Write page= 6310 Particles=    1048576 6615465985 6616514560
+          Write page= 6320 Particles=    1048576 6625951745 6627000320
+          Write page= 6330 Particles=    1048576 6636437505 6637486080
+          Write page= 6340 Particles=    1048576 6646923265 6647971840
+          Write page= 6350 Particles=    1048576 6657409025 6658457600
+          Write page= 6360 Particles=    1048576 6667894785 6668943360
+          Write page= 6370 Particles=    1048576 6678380545 6679429120
+          Write page= 6380 Particles=    1048576 6688866305 6689914880
+          Write page= 6390 Particles=    1048576 6699352065 6700400640
+          Write page= 6400 Particles=    1048576 6709837825 6710886400
+          Write page= 6410 Particles=    1048576 6720323585 6721372160
+          Write page= 6420 Particles=    1048576 6730809345 6731857920
+          Write page= 6430 Particles=    1048576 6741295105 6742343680
+          Write page= 6440 Particles=    1048576 6751780865 6752829440
+          Write page= 6450 Particles=    1048576 6762266625 6763315200
+          Write page= 6460 Particles=    1048576 6772752385 6773800960
+          Write page= 6470 Particles=    1048576 6783238145 6784286720
+          Write page= 6480 Particles=    1048576 6793723905 6794772480
+          Write page= 6490 Particles=    1048576 6804209665 6805258240
+          Write page= 6500 Particles=    1048576 6814695425 6815744000
+          Write page= 6510 Particles=    1048576 6825181185 6826229760
+          Write page= 6520 Particles=    1048576 6835666945 6836715520
+          Write page= 6530 Particles=    1048576 6846152705 6847201280
+          Write page= 6540 Particles=    1048576 6856638465 6857687040
+          Write page= 6550 Particles=    1048576 6867124225 6868172800
+          Write page= 6560 Particles=    1048576 6877609985 6878658560
+          Write page= 6570 Particles=    1048576 6888095745 6889144320
+          Write page= 6580 Particles=    1048576 6898581505 6899630080
+          Write page= 6590 Particles=    1048576 6909067265 6910115840
+          Write page= 6600 Particles=    1048576 6919553025 6920601600
+          Write page= 6610 Particles=    1048576 6930038785 6931087360
+          Write page= 6620 Particles=    1048576 6940524545 6941573120
+          Write page= 6630 Particles=    1048576 6951010305 6952058880
+          Write page= 6640 Particles=    1048576 6961496065 6962544640
+          Write page= 6650 Particles=    1048576 6971981825 6973030400
+   6657     13 Open file = PMcrs13.DAT     1048576
+          Write page= 6660 Particles=    1048576 6982467585 6983516160
+          Write page= 6670 Particles=    1048576 6992953345 6994001920
+          Write page= 6680 Particles=    1048576 7003439105 7004487680
+          Write page= 6690 Particles=    1048576 7013924865 7014973440
+          Write page= 6700 Particles=    1048576 7024410625 7025459200
+          Write page= 6710 Particles=    1048576 7034896385 7035944960
+          Write page= 6720 Particles=    1048576 7045382145 7046430720
+          Write page= 6730 Particles=    1048576 7055867905 7056916480
+          Write page= 6740 Particles=    1048576 7066353665 7067402240
+          Write page= 6750 Particles=    1048576 7076839425 7077888000
+          Write page= 6760 Particles=    1048576 7087325185 7088373760
+          Write page= 6770 Particles=    1048576 7097810945 7098859520
+          Write page= 6780 Particles=    1048576 7108296705 7109345280
+          Write page= 6790 Particles=    1048576 7118782465 7119831040
+          Write page= 6800 Particles=    1048576 7129268225 7130316800
+          Write page= 6810 Particles=    1048576 7139753985 7140802560
+          Write page= 6820 Particles=    1048576 7150239745 7151288320
+          Write page= 6830 Particles=    1048576 7160725505 7161774080
+          Write page= 6840 Particles=    1048576 7171211265 7172259840
+          Write page= 6850 Particles=    1048576 7181697025 7182745600
+          Write page= 6860 Particles=    1048576 7192182785 7193231360
+          Write page= 6870 Particles=    1048576 7202668545 7203717120
+          Write page= 6880 Particles=    1048576 7213154305 7214202880
+          Write page= 6890 Particles=    1048576 7223640065 7224688640
+          Write page= 6900 Particles=    1048576 7234125825 7235174400
+          Write page= 6910 Particles=    1048576 7244611585 7245660160
+          Write page= 6920 Particles=    1048576 7255097345 7256145920
+          Write page= 6930 Particles=    1048576 7265583105 7266631680
+          Write page= 6940 Particles=    1048576 7276068865 7277117440
+          Write page= 6950 Particles=    1048576 7286554625 7287603200
+          Write page= 6960 Particles=    1048576 7297040385 7298088960
+          Write page= 6970 Particles=    1048576 7307526145 7308574720
+          Write page= 6980 Particles=    1048576 7318011905 7319060480
+          Write page= 6990 Particles=    1048576 7328497665 7329546240
+          Write page= 7000 Particles=    1048576 7338983425 7340032000
+          Write page= 7010 Particles=    1048576 7349469185 7350517760
+          Write page= 7020 Particles=    1048576 7359954945 7361003520
+          Write page= 7030 Particles=    1048576 7370440705 7371489280
+          Write page= 7040 Particles=    1048576 7380926465 7381975040
+          Write page= 7050 Particles=    1048576 7391412225 7392460800
+          Write page= 7060 Particles=    1048576 7401897985 7402946560
+          Write page= 7070 Particles=    1048576 7412383745 7413432320
+          Write page= 7080 Particles=    1048576 7422869505 7423918080
+          Write page= 7090 Particles=    1048576 7433355265 7434403840
+          Write page= 7100 Particles=    1048576 7443841025 7444889600
+          Write page= 7110 Particles=    1048576 7454326785 7455375360
+          Write page= 7120 Particles=    1048576 7464812545 7465861120
+          Write page= 7130 Particles=    1048576 7475298305 7476346880
+          Write page= 7140 Particles=    1048576 7485784065 7486832640
+          Write page= 7150 Particles=    1048576 7496269825 7497318400
+          Write page= 7160 Particles=    1048576 7506755585 7507804160
+   7169     14 Open file = PMcrs14.DAT     1048576
+          Write page= 7170 Particles=    1048576 7517241345 7518289920
+          Write page= 7180 Particles=    1048576 7527727105 7528775680
+          Write page= 7190 Particles=    1048576 7538212865 7539261440
+          Write page= 7200 Particles=    1048576 7548698625 7549747200
+          Write page= 7210 Particles=    1048576 7559184385 7560232960
+          Write page= 7220 Particles=    1048576 7569670145 7570718720
+          Write page= 7230 Particles=    1048576 7580155905 7581204480
+          Write page= 7240 Particles=    1048576 7590641665 7591690240
+          Write page= 7250 Particles=    1048576 7601127425 7602176000
+          Write page= 7260 Particles=    1048576 7611613185 7612661760
+          Write page= 7270 Particles=    1048576 7622098945 7623147520
+          Write page= 7280 Particles=    1048576 7632584705 7633633280
+          Write page= 7290 Particles=    1048576 7643070465 7644119040
+          Write page= 7300 Particles=    1048576 7653556225 7654604800
+          Write page= 7310 Particles=    1048576 7664041985 7665090560
+          Write page= 7320 Particles=    1048576 7674527745 7675576320
+          Write page= 7330 Particles=    1048576 7685013505 7686062080
+          Write page= 7340 Particles=    1048576 7695499265 7696547840
+          Write page= 7350 Particles=    1048576 7705985025 7707033600
+          Write page= 7360 Particles=    1048576 7716470785 7717519360
+          Write page= 7370 Particles=    1048576 7726956545 7728005120
+          Write page= 7380 Particles=    1048576 7737442305 7738490880
+          Write page= 7390 Particles=    1048576 7747928065 7748976640
+          Write page= 7400 Particles=    1048576 7758413825 7759462400
+          Write page= 7410 Particles=    1048576 7768899585 7769948160
+          Write page= 7420 Particles=    1048576 7779385345 7780433920
+          Write page= 7430 Particles=    1048576 7789871105 7790919680
+          Write page= 7440 Particles=    1048576 7800356865 7801405440
+          Write page= 7450 Particles=    1048576 7810842625 7811891200
+          Write page= 7460 Particles=    1048576 7821328385 7822376960
+          Write page= 7470 Particles=    1048576 7831814145 7832862720
+          Write page= 7480 Particles=    1048576 7842299905 7843348480
+          Write page= 7490 Particles=    1048576 7852785665 7853834240
+          Write page= 7500 Particles=    1048576 7863271425 7864320000
+          Write page= 7510 Particles=    1048576 7873757185 7874805760
+          Write page= 7520 Particles=    1048576 7884242945 7885291520
+          Write page= 7530 Particles=    1048576 7894728705 7895777280
+          Write page= 7540 Particles=    1048576 7905214465 7906263040
+          Write page= 7550 Particles=    1048576 7915700225 7916748800
+          Write page= 7560 Particles=    1048576 7926185985 7927234560
+          Write page= 7570 Particles=    1048576 7936671745 7937720320
+          Write page= 7580 Particles=    1048576 7947157505 7948206080
+          Write page= 7590 Particles=    1048576 7957643265 7958691840
+          Write page= 7600 Particles=    1048576 7968129025 7969177600
+          Write page= 7610 Particles=    1048576 7978614785 7979663360
+          Write page= 7620 Particles=    1048576 7989100545 7990149120
+          Write page= 7630 Particles=    1048576 7999586305 8000634880
+          Write page= 7640 Particles=    1048576 8010072065 8011120640
+          Write page= 7650 Particles=    1048576 8020557825 8021606400
+          Write page= 7660 Particles=    1048576 8031043585 8032092160
+          Write page= 7670 Particles=    1048576 8041529345 8042577920
+          Write page= 7680 Particles=    1048576 8052015105 8053063680
+   7681     15 Open file = PMcrs15.DAT     1048576
+          Write page= 7690 Particles=    1048576 8062500865 8063549440
+          Write page= 7700 Particles=    1048576 8072986625 8074035200
+          Write page= 7710 Particles=    1048576 8083472385 8084520960
+          Write page= 7720 Particles=    1048576 8093958145 8095006720
+          Write page= 7730 Particles=    1048576 8104443905 8105492480
+          Write page= 7740 Particles=    1048576 8114929665 8115978240
+          Write page= 7750 Particles=    1048576 8125415425 8126464000
+          Write page= 7760 Particles=    1048576 8135901185 8136949760
+          Write page= 7770 Particles=    1048576 8146386945 8147435520
+          Write page= 7780 Particles=    1048576 8156872705 8157921280
+          Write page= 7790 Particles=    1048576 8167358465 8168407040
+          Write page= 7800 Particles=    1048576 8177844225 8178892800
+          Write page= 7810 Particles=    1048576 8188329985 8189378560
+          Write page= 7820 Particles=    1048576 8198815745 8199864320
+          Write page= 7830 Particles=    1048576 8209301505 8210350080
+          Write page= 7840 Particles=    1048576 8219787265 8220835840
+          Write page= 7850 Particles=    1048576 8230273025 8231321600
+          Write page= 7860 Particles=    1048576 8240758785 8241807360
+          Write page= 7870 Particles=    1048576 8251244545 8252293120
+          Write page= 7880 Particles=    1048576 8261730305 8262778880
+          Write page= 7890 Particles=    1048576 8272216065 8273264640
+          Write page= 7900 Particles=    1048576 8282701825 8283750400
+          Write page= 7910 Particles=    1048576 8293187585 8294236160
+          Write page= 7920 Particles=    1048576 8303673345 8304721920
+          Write page= 7930 Particles=    1048576 8314159105 8315207680
+          Write page= 7940 Particles=    1048576 8324644865 8325693440
+          Write page= 7950 Particles=    1048576 8335130625 8336179200
+          Write page= 7960 Particles=    1048576 8345616385 8346664960
+          Write page= 7970 Particles=    1048576 8356102145 8357150720
+          Write page= 7980 Particles=    1048576 8366587905 8367636480
+          Write page= 7990 Particles=    1048576 8377073665 8378122240
+          Write page= 8000 Particles=    1048576 8387559425 8388608000
+          Write page= 8010 Particles=    1048576 8398045185 8399093760
+          Write page= 8020 Particles=    1048576 8408530945 8409579520
+          Write page= 8030 Particles=    1048576 8419016705 8420065280
+          Write page= 8040 Particles=    1048576 8429502465 8430551040
+          Write page= 8050 Particles=    1048576 8439988225 8441036800
+          Write page= 8060 Particles=    1048576 8450473985 8451522560
+          Write page= 8070 Particles=    1048576 8460959745 8462008320
+          Write page= 8080 Particles=    1048576 8471445505 8472494080
+          Write page= 8090 Particles=    1048576 8481931265 8482979840
+          Write page= 8100 Particles=    1048576 8492417025 8493465600
+          Write page= 8110 Particles=    1048576 8502902785 8503951360
+          Write page= 8120 Particles=    1048576 8513388545 8514437120
+          Write page= 8130 Particles=    1048576 8523874305 8524922880
+          Write page= 8140 Particles=    1048576 8534360065 8535408640
+          Write page= 8150 Particles=    1048576 8544845825 8545894400
+          Write page= 8160 Particles=    1048576 8555331585 8556380160
+          Write page= 8170 Particles=    1048576 8565817345 8566865920
+          Write page= 8180 Particles=    1048576 8576303105 8577351680
+          Write page= 8190 Particles=    1048576 8586788865 8587837440
+          Write page= 8192 Particles=    1048576 8588886017 8589934592
+  ic2pm done.
+=== ic2pm done, PMP2main start Thu 30 Jul 07:42:52 BST 2026
+ Enter number of steps for this run =>   --------------- Setup file for PMP2 simulations ------------------
+ N=2048x4096L=0512zi049da=6.00E-04f0.030
+  Ainit=  2.0000000E-02
+  !--------------- MG-flag and Multigrid solvers ------------------
+  !-------------- f(R) parameters ------------------
+  !--------------- DGP parameters ------------------
+  !------------ symmetron parameters ---------------
+  !------------ kmouflage parameters ---------------
+  !------------ csf model parameters ---------------
+  Results were read from Setup.dat
+ PMcrd.DAT
+ic2pm: 2LPTic ingest                         
+           a=  0.0200 step=       0 Nrow=    2048 Ngrid=   4096
+  6.0000003E-04  2.0000000E-02
+ Start running:    Nparticles  8589934592    Ngrid= 4096
+                   Step:                0    da=  6.0000E-04
+                   StepFactor  3.0000E-02
+ Step  a_expansion   redshift   Analyze    List moments for analysis 
+   93   2.8724E-01   2.4814E+00  1
+   97   3.2825E-01   2.0465E+00  1
+  101   3.6926E-01   1.7081E+00  1
+  104   4.0001E-01   1.4999E+00  1
+  106   4.2051E-01   1.3780E+00  1
+  111   4.7177E-01   1.1197E+00  1
+  119   5.5378E-01   8.0576E-01  1
+  122   5.8454E-01   7.1075E-01  1
+  130   6.6655E-01   5.0026E-01  1
+  135   7.1781E-01   3.9313E-01  1
+  140   7.6907E-01   3.0028E-01  1
+  146   8.3058E-01   2.0398E-01  1
+  154   9.1259E-01   9.5783E-02  1
+  163   1.0049E+00  -4.8305E-03  1
+  Ncheckpoint =          200
+  init finished:         4096   5.040989    
+  finishing density    70.08167    
+  time =   70.09779      Start POTENT
+  time =   89.32420      Start transposition
+  time =   104.0222      Start z-direction
+  time =   114.3374      end z-direction
+  time =   128.4913      start xy
+  time =   147.1400      Finished Potent
+**** STEP=  1 A=   0.02060 E KIN=  0.2301E+13
+  init finished:         4096   201.9500    
+  finishing density    265.6821    
+  time =   265.6824      Start POTENT
+  time =   287.9771      Start transposition
+  time =   302.4203      Start z-direction
+  time =   312.2714      end z-direction
+  time =   326.3190      start xy
+  time =   343.8886      Finished Potent
+Step =    2 A= 0.02120 Ekin=  0.2365E+13
+  init finished:         4096   394.5516    
+  finishing density    453.9535    
+  time =   453.9537      Start POTENT
+  time =   472.0883      Start transposition
+  time =   486.3168      Start z-direction
+  time =   495.8839      end z-direction
+  time =   510.4715      start xy
+  time =   529.4078      Finished Potent
+Step =    3 A= 0.02180 Ekin=  0.2429E+13
+  init finished:         4096   579.5337    
+  finishing density    640.1212    
+  time =   640.1214      Start POTENT
+  time =   661.9671      Start transposition
+  time =   676.2242      Start z-direction
+  time =   685.6351      end z-direction
+  time =   700.1132      start xy
+  time =   717.7333      Finished Potent
+Step =    4 A= 0.02240 Ekin=  0.2494E+13
+  init finished:         4096   766.9738    
+  finishing density    826.1110    
+  time =   826.1113      Start POTENT
+  time =   845.3851      Start transposition
+  time =   859.6925      Start z-direction
+  time =   869.0948      end z-direction
+  time =   883.5417      start xy
+  time =   901.2263      Finished Potent
+Step =    5 A= 0.02300 Ekin=  0.2558E+13
+  init finished:         4096   952.4814    
+  finishing density    1014.334    
+  time =   1014.334      Start POTENT
+  time =   1034.487      Start transposition
+  time =   1049.231      Start z-direction
+  time =   1058.782      end z-direction
+  time =   1073.158      start xy
+  time =   1090.719      Finished Potent
+Step =    6 A= 0.02360 Ekin=  0.2623E+13
+  init finished:         4096   1140.474    
+  finishing density    1199.815    
+  time =   1199.815      Start POTENT
+  time =   1218.014      Start transposition
+  time =   1232.438      Start z-direction
+  time =   1241.925      end z-direction
+  time =   1256.330      start xy
+  time =   1274.815      Finished Potent
+Step =    7 A= 0.02420 Ekin=  0.2687E+13
+  init finished:         4096   1325.622    
+  finishing density    1385.840    
+  time =   1385.840      Start POTENT
+  time =   1404.388      Start transposition
+  time =   1418.740      Start z-direction
+  time =   1428.780      end z-direction
+  time =   1443.083      start xy
+  time =   1460.931      Finished Potent
+Step =    8 A= 0.02480 Ekin=  0.2752E+13
+  init finished:         4096   1511.738    
+  finishing density    1569.348    
+  time =   1569.349      Start POTENT
+  time =   1589.637      Start transposition
+  time =   1603.436      Start z-direction
+  time =   1612.759      end z-direction
+  time =   1626.594      start xy
+  time =   1645.040      Finished Potent
+Step =    9 A= 0.02540 Ekin=  0.2817E+13
+  init finished:         4096   1693.220    
+  finishing density    1748.572    
+  time =   1748.573      Start POTENT
+  time =   1767.489      Start transposition
+  time =   1781.638      Start z-direction
+  time =   1790.094      end z-direction
+  time =   1804.234      start xy
+  time =   1823.050      Finished Potent
+Step =   10 A= 0.02630 Ekin=  0.2898E+13
+  init finished:         4096   1871.286    
+  finishing density    1925.970    
+  time =   1925.971      Start POTENT
+  time =   1944.699      Start transposition
+  time =   1959.003      Start z-direction
+  time =   1967.927      end z-direction
+  time =   1981.929      start xy
+  time =   2000.327      Finished Potent
+Step =   11 A= 0.02720 Ekin=  0.2995E+13
+  init finished:         4096   2046.782    
+  finishing density    2101.419    
+  time =   2101.420      Start POTENT
+  time =   2120.572      Start transposition
+  time =   2134.736      Start z-direction
+  time =   2143.267      end z-direction
+  time =   2157.413      start xy
+  time =   2175.154      Finished Potent
+Step =   12 A= 0.02810 Ekin=  0.3093E+13
+  init finished:         4096   2223.274    
+  finishing density    2277.935    
+  time =   2277.935      Start POTENT
+  time =   2297.057      Start transposition
+  time =   2311.007      Start z-direction
+  time =   2319.713      end z-direction
+  time =   2333.796      start xy
+  time =   2351.469      Finished Potent
+Step =   13 A= 0.02900 Ekin=  0.3191E+13
+  init finished:         4096   2399.269    
+  finishing density    2453.694    
+  time =   2453.694      Start POTENT
+  time =   2472.349      Start transposition
+  time =   2485.961      Start z-direction
+  time =   2494.832      end z-direction
+  time =   2508.857      start xy
+  time =   2526.525      Finished Potent
+Step =   14 A= 0.02990 Ekin=  0.3289E+13
+  init finished:         4096   2574.426    
+  finishing density    2629.375    
+  time =   2629.375      Start POTENT
+  time =   2647.887      Start transposition
+  time =   2661.682      Start z-direction
+  time =   2670.183      end z-direction
+  time =   2684.310      start xy
+  time =   2702.682      Finished Potent
+Step =   15 A= 0.03080 Ekin=  0.3388E+13
+  init finished:         4096   2750.407    
+  finishing density    2804.934    
+  time =   2804.934      Start POTENT
+  time =   2824.602      Start transposition
+  time =   2838.346      Start z-direction
+  time =   2846.742      end z-direction
+  time =   2860.782      start xy
+  time =   2878.613      Finished Potent
+Step =   16 A= 0.03170 Ekin=  0.3486E+13
+  init finished:         4096   2927.043    
+  finishing density    2981.177    
+  time =   2981.177      Start POTENT
+  time =   2999.627      Start transposition
+  time =   3013.481      Start z-direction
+  time =   3022.378      end z-direction
+  time =   3036.142      start xy
+  time =   3054.414      Finished Potent
+Step =   17 A= 0.03260 Ekin=  0.3585E+13
+  init finished:         4096   3101.930    
+  finishing density    3155.570    
+  time =   3155.572      Start POTENT
+  time =   3173.594      Start transposition
+  time =   3187.468      Start z-direction
+  time =   3196.012      end z-direction
+  time =   3210.056      start xy
+  time =   3227.761      Finished Potent
+Step =   18 A= 0.03350 Ekin=  0.3683E+13
+  init finished:         4096   3275.182    
+  finishing density    3327.090    
+  time =   3327.090      Start POTENT
+  time =   3346.135      Start transposition
+  time =   3359.973      Start z-direction
+  time =   3368.562      end z-direction
+  time =   3382.617      start xy
+  time =   3400.131      Finished Potent
+Step =   19 A= 0.03440 Ekin=  0.3782E+13
+  init finished:         4096   3447.648    
+  finishing density    3499.568    
+  time =   3499.568      Start POTENT
+  time =   3517.922      Start transposition
+  time =   3532.141      Start z-direction
+  time =   3540.661      end z-direction
+  time =   3554.774      start xy
+  time =   3572.426      Finished Potent
+Step =   20 A= 0.03530 Ekin=  0.3881E+13
+  init finished:         4096   3619.734    
+  finishing density    3671.504    
+  time =   3671.505      Start POTENT
+  time =   3690.118      Start transposition
+  time =   3704.297      Start z-direction
+  time =   3712.744      end z-direction
+  time =   3726.815      start xy
+  time =   3744.455      Finished Potent
+Step =   21 A= 0.03620 Ekin=  0.3980E+13
+  init finished:         4096   3792.381    
+  finishing density    3844.484    
+  time =   3844.484      Start POTENT
+  time =   3862.708      Start transposition
+  time =   3876.596      Start z-direction
+  time =   3885.896      end z-direction
+  time =   3899.864      start xy
+  time =   3917.483      Finished Potent
+Step =   22 A= 0.03710 Ekin=  0.4079E+13
+  init finished:         4096   3965.033    
+  finishing density    4016.667    
+  time =   4016.667      Start POTENT
+  time =   4036.600      Start transposition
+  time =   4050.517      Start z-direction
+  time =   4059.125      end z-direction
+  time =   4073.073      start xy
+  time =   4090.861      Finished Potent
+Step =   23 A= 0.03800 Ekin=  0.4178E+13
+  init finished:         4096   4138.525    
+  finishing density    4190.600    
+  time =   4190.601      Start POTENT
+  time =   4209.644      Start transposition
+  time =   4223.646      Start z-direction
+  time =   4233.154      end z-direction
+  time =   4247.180      start xy
+  time =   4265.764      Finished Potent
+Step =   24 A= 0.03935 Ekin=  0.4301E+13
+  init finished:         4096   4313.220    
+  finishing density    4364.948    
+  time =   4364.948      Start POTENT
+  time =   4384.071      Start transposition
+  time =   4398.444      Start z-direction
+  time =   4407.015      end z-direction
+  time =   4421.306      start xy
+  time =   4438.887      Finished Potent
+Step =   25 A= 0.04070 Ekin=  0.4450E+13
+  init finished:         4096   4486.891    
+  finishing density    4538.399    
+  time =   4538.399      Start POTENT
+  time =   4556.725      Start transposition
+  time =   4570.835      Start z-direction
+  time =   4579.457      end z-direction
+  time =   4593.657      start xy
+  time =   4611.213      Finished Potent
+Step =   26 A= 0.04205 Ekin=  0.4599E+13
+  init finished:         4096   4659.048    
+  finishing density    4710.499    
+  time =   4710.499      Start POTENT
+  time =   4728.562      Start transposition
+  time =   4742.641      Start z-direction
+  time =   4751.869      end z-direction
+  time =   4766.054      start xy
+  time =   4783.891      Finished Potent
+Step =   27 A= 0.04340 Ekin=  0.4748E+13
+  init finished:         4096   4832.020    
+  finishing density    4883.156    
+  time =   4883.156      Start POTENT
+  time =   4901.891      Start transposition
+  time =   4916.065      Start z-direction
+  time =   4925.155      end z-direction
+  time =   4939.163      start xy
+  time =   4957.125      Finished Potent
+Step =   28 A= 0.04475 Ekin=  0.4897E+13
+  init finished:         4096   5005.438    
+  finishing density    5056.746    
+  time =   5056.746      Start POTENT
+  time =   5075.548      Start transposition
+  time =   5089.295      Start z-direction
+  time =   5097.817      end z-direction
+  time =   5111.550      start xy
+  time =   5129.125      Finished Potent
+Step =   29 A= 0.04610 Ekin=  0.5047E+13
+  init finished:         4096   5176.910    
+  finishing density    5228.638    
+  time =   5228.638      Start POTENT
+  time =   5247.770      Start transposition
+  time =   5261.612      Start z-direction
+  time =   5270.139      end z-direction
+  time =   5283.992      start xy
+  time =   5301.548      Finished Potent
+Step =   30 A= 0.04745 Ekin=  0.5196E+13
+  init finished:         4096   5349.464    
+  finishing density    5400.773    
+  time =   5400.773      Start POTENT
+  time =   5419.169      Start transposition
+  time =   5433.001      Start z-direction
+  time =   5441.458      end z-direction
+  time =   5455.253      start xy
+  time =   5472.884      Finished Potent
+Step =   31 A= 0.04880 Ekin=  0.5346E+13
+  init finished:         4096   5520.791    
+  finishing density    5571.556    
+  time =   5571.556      Start POTENT
+  time =   5589.635      Start transposition
+  time =   5603.783      Start z-direction
+  time =   5613.064      end z-direction
+  time =   5627.089      start xy
+  time =   5645.535      Finished Potent
+Step =   32 A= 0.05015 Ekin=  0.5496E+13
+  init finished:         4096   5693.374    
+  finishing density    5745.304    
+  time =   5745.304      Start POTENT
+  time =   5764.256      Start transposition
+  time =   5778.195      Start z-direction
+  time =   5786.648      end z-direction
+  time =   5800.179      start xy
+  time =   5817.868      Finished Potent
+Step =   33 A= 0.05150 Ekin=  0.5645E+13
+  init finished:         4096   5866.211    
+  finishing density    5917.757    
+  time =   5917.757      Start POTENT
+  time =   5936.879      Start transposition
+  time =   5950.639      Start z-direction
+  time =   5959.628      end z-direction
+  time =   5973.301      start xy
+  time =   5990.949      Finished Potent
+Step =   34 A= 0.05285 Ekin=  0.5795E+13
+  init finished:         4096   6038.809    
+  finishing density    6090.162    
+  time =   6090.163      Start POTENT
+  time =   6109.320      Start transposition
+  time =   6123.007      Start z-direction
+  time =   6131.377      end z-direction
+  time =   6145.296      start xy
+  time =   6163.640      Finished Potent
+Step =   35 A= 0.05420 Ekin=  0.5945E+13
+  init finished:         4096   6211.811    
+  finishing density    6262.954    
+  time =   6262.955      Start POTENT
+  time =   6281.271      Start transposition
+  time =   6295.612      Start z-direction
+  time =   6303.989      end z-direction
+  time =   6317.881      start xy
+  time =   6336.293      Finished Potent
+Step =   36 A= 0.05555 Ekin=  0.6096E+13
+  init finished:         4096   6384.255    
+  finishing density    6435.710    
+  time =   6435.710      Start POTENT
+  time =   6455.896      Start transposition
+  time =   6469.736      Start z-direction
+  time =   6478.244      end z-direction
+  time =   6492.482      start xy
+  time =   6510.376      Finished Potent
+Step =   37 A= 0.05690 Ekin=  0.6246E+13
+  init finished:         4096   6558.515    
+  finishing density    6609.208    
+  time =   6609.208      Start POTENT
+  time =   6627.494      Start transposition
+  time =   6641.441      Start z-direction
+  time =   6649.754      end z-direction
+  time =   6663.793      start xy
+  time =   6682.165      Finished Potent
+Step =   38 A= 0.05893 Ekin=  0.6433E+13
+  init finished:         4096   6730.170    
+  finishing density    6780.810    
+  time =   6780.810      Start POTENT
+  time =   6799.073      Start transposition
+  time =   6812.726      Start z-direction
+  time =   6821.308      end z-direction
+  time =   6834.985      start xy
+  time =   6852.805      Finished Potent
+Step =   39 A= 0.06095 Ekin=  0.6659E+13
+  init finished:         4096   6900.657    
+  finishing density    6951.753    
+  time =   6951.753      Start POTENT
+  time =   6969.950      Start transposition
+  time =   6984.008      Start z-direction
+  time =   6993.388      end z-direction
+  time =   7007.096      start xy
+  time =   7024.800      Finished Potent
+Step =   40 A= 0.06298 Ekin=  0.6885E+13
+  init finished:         4096   7072.774    
+  finishing density    7123.675    
+  time =   7123.675      Start POTENT
+  time =   7141.910      Start transposition
+  time =   7155.338      Start z-direction
+  time =   7164.636      end z-direction
+  time =   7178.305      start xy
+  time =   7196.537      Finished Potent
+Step =   41 A= 0.06500 Ekin=  0.7111E+13
+  init finished:         4096   7245.023    
+  finishing density    7295.984    
+  time =   7295.985      Start POTENT
+  time =   7314.265      Start transposition
+  time =   7328.190      Start z-direction
+  time =   7336.556      end z-direction
+  time =   7350.152      start xy
+  time =   7367.900      Finished Potent
+Step =   42 A= 0.06703 Ekin=  0.7338E+13
+  init finished:         4096   7416.656    
+  finishing density    7467.583    
+  time =   7467.583      Start POTENT
+  time =   7485.833      Start transposition
+  time =   7499.095      Start z-direction
+  time =   7507.793      end z-direction
+  time =   7521.269      start xy
+  time =   7538.917      Finished Potent
+Step =   43 A= 0.06905 Ekin=  0.7564E+13
+  init finished:         4096   7587.598    
+  finishing density    7638.180    
+  time =   7638.180      Start POTENT
+  time =   7657.276      Start transposition
+  time =   7670.782      Start z-direction
+  time =   7679.200      end z-direction
+  time =   7692.796      start xy
+  time =   7710.467      Finished Potent
+Step =   44 A= 0.07108 Ekin=  0.7791E+13
+  init finished:         4096   7758.156    
+  finishing density    7808.800    
+  time =   7808.800      Start POTENT
+  time =   7827.081      Start transposition
+  time =   7840.789      Start z-direction
+  time =   7850.840      end z-direction
+  time =   7864.651      start xy
+  time =   7882.580      Finished Potent
+Step =   45 A= 0.07310 Ekin=  0.8019E+13
+  init finished:         4096   7930.972    
+  finishing density    7981.501    
+  time =   7981.501      Start POTENT
+  time =   8002.094      Start transposition
+  time =   8015.730      Start z-direction
+  time =   8024.123      end z-direction
+  time =   8037.928      start xy
+  time =   8056.185      Finished Potent
+Step =   46 A= 0.07513 Ekin=  0.8246E+13
+  init finished:         4096   8105.275    
+  finishing density    8156.088    
+  time =   8156.088      Start POTENT
+  time =   8175.211      Start transposition
+  time =   8188.694      Start z-direction
+  time =   8197.700      end z-direction
+  time =   8211.326      start xy
+  time =   8228.966      Finished Potent
+Step =   47 A= 0.07715 Ekin=  0.8474E+13
+  init finished:         4096   8277.677    
+  finishing density    8328.788    
+  time =   8328.788      Start POTENT
+  time =   8347.090      Start transposition
+  time =   8361.056      Start z-direction
+  time =   8369.616      end z-direction
+  time =   8383.705      start xy
+  time =   8403.503      Finished Potent
+Step =   48 A= 0.07918 Ekin=  0.8702E+13
+  init finished:         4096   8452.188    
+  finishing density    8502.678    
+  time =   8502.678      Start POTENT
+  time =   8520.963      Start transposition
+  time =   8534.521      Start z-direction
+  time =   8543.272      end z-direction
+  time =   8556.938      start xy
+  time =   8575.432      Finished Potent
+Step =   49 A= 0.08120 Ekin=  0.8930E+13
+  init finished:         4096   8624.310    
+  finishing density    8674.933    
+  time =   8674.933      Start POTENT
+  time =   8694.666      Start transposition
+  time =   8708.254      Start z-direction
+  time =   8717.082      end z-direction
+  time =   8730.592      start xy
+  time =   8748.230      Finished Potent
+Step =   50 A= 0.08323 Ekin=  0.9159E+13
+  init finished:         4096   8797.069    
+  finishing density    8846.627    
+  time =   8846.628      Start POTENT
+  time =   8865.260      Start transposition
+  time =   8878.839      Start z-direction
+  time =   8887.643      end z-direction
+  time =   8901.221      start xy
+  time =   8918.966      Finished Potent
+Step =   51 A= 0.08525 Ekin=  0.9388E+13
+  init finished:         4096   8967.871    
+  finishing density    9018.316    
+  time =   9018.316      Start POTENT
+  time =   9036.713      Start transposition
+  time =   9050.455      Start z-direction
+  time =   9059.636      end z-direction
+  time =   9073.273      start xy
+  time =   9091.167      Finished Potent
+Step =   52 A= 0.08829 Ekin=  0.9673E+13
+  init finished:         4096   9139.718    
+  finishing density    9189.309    
+  time =   9189.309      Start POTENT
+  time =   9207.812      Start transposition
+  time =   9221.436      Start z-direction
+  time =   9230.424      end z-direction
+  time =   9243.950      start xy
+  time =   9261.596      Finished Potent
+Step =   53 A= 0.09133 Ekin=  0.1002E+14
+  init finished:         4096   9310.465    
+  finishing density    9359.961    
+  time =   9359.961      Start POTENT
+  time =   9379.121      Start transposition
+  time =   9392.968      Start z-direction
+  time =   9401.342      end z-direction
+  time =   9414.961      start xy
+  time =   9433.428      Finished Potent
+Step =   54 A= 0.09436 Ekin=  0.1036E+14
+  init finished:         4096   9481.726    
+  finishing density    9531.021    
+  time =   9531.021      Start POTENT
+  time =   9549.409      Start transposition
+  time =   9563.050      Start z-direction
+  time =   9572.192      end z-direction
+  time =   9585.770      start xy
+  time =   9603.476      Finished Potent
+Step =   55 A= 0.09740 Ekin=  0.1071E+14
+  init finished:         4096   9651.914    
+  finishing density    9701.039    
+  time =   9701.039      Start POTENT
+  time =   9719.807      Start transposition
+  time =   9733.812      Start z-direction
+  time =   9742.242      end z-direction
+  time =   9755.969      start xy
+  time =   9774.435      Finished Potent
+Step =   56 A= 0.10044 Ekin=  0.1106E+14
+  init finished:         4096   9823.229    
+  finishing density    9871.727    
+  time =   9871.727      Start POTENT
+  time =   9889.866      Start transposition
+  time =   9903.487      Start z-direction
+  time =   9911.782      end z-direction
+  time =   9925.358      start xy
+  time =   9943.800      Finished Potent
+Step =   57 A= 0.10348 Ekin=  0.1140E+14
+  init finished:         4096   9992.081    
+  finishing density    10040.62    
+  time =   10040.62      Start POTENT
+  time =   10059.03      Start transposition
+  time =   10073.06      Start z-direction
+  time =   10081.51      end z-direction
+  time =   10095.39      start xy
+  time =   10113.14      Finished Potent
+Step =   58 A= 0.10651 Ekin=  0.1175E+14
+  init finished:         4096   10161.95    
+  finishing density    10210.33    
+  time =   10210.33      Start POTENT
+  time =   10228.66      Start transposition
+  time =   10242.57      Start z-direction
+  time =   10250.96      end z-direction
+  time =   10264.82      start xy
+  time =   10282.68      Finished Potent
+Step =   59 A= 0.10955 Ekin=  0.1210E+14
+  init finished:         4096   10331.01    
+  finishing density    10379.67    
+  time =   10379.67      Start POTENT
+  time =   10398.65      Start transposition
+  time =   10412.47      Start z-direction
+  time =   10421.67      end z-direction
+  time =   10435.27      start xy
+  time =   10453.76      Finished Potent
+Step =   60 A= 0.11259 Ekin=  0.1245E+14
+  init finished:         4096   10502.26    
+  finishing density    10551.17    
+  time =   10551.17      Start POTENT
+  time =   10570.08      Start transposition
+  time =   10583.79      Start z-direction
+  time =   10592.55      end z-direction
+  time =   10606.48      start xy
+  time =   10624.24      Finished Potent
+Step =   61 A= 0.11563 Ekin=  0.1281E+14
+  init finished:         4096   10672.86    
+  finishing density    10721.25    
+  time =   10721.25      Start POTENT
+  time =   10740.12      Start transposition
+  time =   10753.71      Start z-direction
+  time =   10762.71      end z-direction
+  time =   10776.52      start xy
+  time =   10794.17      Finished Potent
+Step =   62 A= 0.11866 Ekin=  0.1316E+14
+  init finished:         4096   10842.98    
+  finishing density    10891.47    
+  time =   10891.47      Start POTENT
+  time =   10909.66      Start transposition
+  time =   10923.39      Start z-direction
+  time =   10932.65      end z-direction
+  time =   10946.36      start xy
+  time =   10963.98      Finished Potent
+Step =   63 A= 0.12170 Ekin=  0.1351E+14
+  init finished:         4096   11012.43    
+  finishing density    11060.15    
+  time =   11060.15      Start POTENT
+  time =   11078.85      Start transposition
+  time =   11092.66      Start z-direction
+  time =   11101.39      end z-direction
+  time =   11115.38      start xy
+  time =   11133.70      Finished Potent
+Step =   64 A= 0.12474 Ekin=  0.1387E+14
+  init finished:         4096   11182.37    
+  finishing density    11230.35    
+  time =   11230.35      Start POTENT
+  time =   11248.79      Start transposition
+  time =   11262.40      Start z-direction
+  time =   11270.85      end z-direction
+  time =   11284.43      start xy
+  time =   11302.37      Finished Potent
+Step =   65 A= 0.12777 Ekin=  0.1422E+14
+  init finished:         4096   11350.71    
+  finishing density    11398.45    
+  time =   11398.45      Start POTENT
+  time =   11416.71      Start transposition
+  time =   11430.76      Start z-direction
+  time =   11439.87      end z-direction
+  time =   11453.48      start xy
+  time =   11471.23      Finished Potent
+Step =   66 A= 0.13233 Ekin=  0.1467E+14
+  init finished:         4096   11519.96    
+  finishing density    11567.45    
+  time =   11567.45      Start POTENT
+  time =   11585.58      Start transposition
+  time =   11599.43      Start z-direction
+  time =   11607.72      end z-direction
+  time =   11621.66      start xy
+  time =   11639.34      Finished Potent
+Step =   67 A= 0.13689 Ekin=  0.1521E+14
+  init finished:         4096   11688.12    
+  finishing density    11735.35    
+  time =   11735.35      Start POTENT
+  time =   11753.67      Start transposition
+  time =   11767.92      Start z-direction
+  time =   11776.26      end z-direction
+  time =   11790.21      start xy
+  time =   11808.66      Finished Potent
+Step =   68 A= 0.14144 Ekin=  0.1575E+14
+  init finished:         4096   11857.38    
+  finishing density    11904.96    
+  time =   11904.96      Start POTENT
+  time =   11923.00      Start transposition
+  time =   11936.87      Start z-direction
+  time =   11945.17      end z-direction
+  time =   11959.05      start xy
+  time =   11976.70      Finished Potent
+Step =   69 A= 0.14600 Ekin=  0.1629E+14
+  init finished:         4096   12025.46    
+  finishing density    12072.78    
+  time =   12072.78      Start POTENT
+  time =   12091.30      Start transposition
+  time =   12105.14      Start z-direction
+  time =   12113.50      end z-direction
+  time =   12127.27      start xy
+  time =   12144.98      Finished Potent
+Step =   70 A= 0.15056 Ekin=  0.1684E+14
+  init finished:         4096   12193.61    
+  finishing density    12240.88    
+  time =   12240.88      Start POTENT
+  time =   12259.41      Start transposition
+  time =   12273.17      Start z-direction
+  time =   12281.69      end z-direction
+  time =   12295.84      start xy
+  time =   12313.50      Finished Potent
+Step =   71 A= 0.15511 Ekin=  0.1739E+14
+  init finished:         4096   12362.36    
+  finishing density    12409.23    
+  time =   12409.23      Start POTENT
+  time =   12428.39      Start transposition
+  time =   12442.38      Start z-direction
+  time =   12450.67      end z-direction
+  time =   12464.43      start xy
+  time =   12483.03      Finished Potent
+Step =   72 A= 0.15967 Ekin=  0.1794E+14
+  init finished:         4096   12532.20    
+  finishing density    12579.11    
+  time =   12579.11      Start POTENT
+  time =   12597.58      Start transposition
+  time =   12611.35      Start z-direction
+  time =   12620.59      end z-direction
+  time =   12634.38      start xy
+  time =   12652.15      Finished Potent
+Step =   73 A= 0.16423 Ekin=  0.1850E+14
+  init finished:         4096   12701.00    
+  finishing density    12747.29    
+  time =   12747.29      Start POTENT
+  time =   12765.67      Start transposition
+  time =   12779.36      Start z-direction
+  time =   12787.70      end z-direction
+  time =   12801.42      start xy
+  time =   12819.79      Finished Potent
+Step =   74 A= 0.16878 Ekin=  0.1905E+14
+  init finished:         4096   12869.39    
+  finishing density    12916.10    
+  time =   12916.10      Start POTENT
+  time =   12934.33      Start transposition
+  time =   12948.24      Start z-direction
+  time =   12956.54      end z-direction
+  time =   12970.20      start xy
+  time =   12988.53      Finished Potent
+Step =   75 A= 0.17334 Ekin=  0.1962E+14
+  init finished:         4096   13038.20    
+  finishing density    13084.55    
+  time =   13084.55      Start POTENT
+  time =   13103.32      Start transposition
+  time =   13117.17      Start z-direction
+  time =   13125.91      end z-direction
+  time =   13139.83      start xy
+  time =   13157.39      Finished Potent
+Step =   76 A= 0.17789 Ekin=  0.2018E+14
+  init finished:         4096   13206.34    
+  finishing density    13252.46    
+  time =   13252.46      Start POTENT
+  time =   13270.88      Start transposition
+  time =   13284.95      Start z-direction
+  time =   13294.00      end z-direction
+  time =   13307.61      start xy
+  time =   13325.73      Finished Potent
+Step =   77 A= 0.18245 Ekin=  0.2075E+14
+  init finished:         4096   13374.71    
+  finishing density    13420.61    
+  time =   13420.61      Start POTENT
+  time =   13438.67      Start transposition
+  time =   13452.56      Start z-direction
+  time =   13460.94      end z-direction
+  time =   13474.94      start xy
+  time =   13492.68      Finished Potent
+Step =   78 A= 0.18701 Ekin=  0.2132E+14
+  init finished:         4096   13542.33    
+  finishing density    13588.16    
+  time =   13588.16      Start POTENT
+  time =   13606.85      Start transposition
+  time =   13620.52      Start z-direction
+  time =   13628.93      end z-direction
+  time =   13642.57      start xy
+  time =   13660.17      Finished Potent
+Step =   79 A= 0.19156 Ekin=  0.2189E+14
+  init finished:         4096   13709.56    
+  finishing density    13755.03    
+  time =   13755.03      Start POTENT
+  time =   13773.98      Start transposition
+  time =   13787.58      Start z-direction
+  time =   13795.78      end z-direction
+  time =   13809.61      start xy
+  time =   13827.18      Finished Potent
+Step =   80 A= 0.19840 Ekin=  0.2261E+14
+  init finished:         4096   13876.08    
+  finishing density    13921.38    
+  time =   13921.38      Start POTENT
+  time =   13940.03      Start transposition
+  time =   13953.67      Start z-direction
+  time =   13962.21      end z-direction
+  time =   13975.86      start xy
+  time =   13993.60      Finished Potent
+Step =   81 A= 0.20523 Ekin=  0.2348E+14
+  init finished:         4096   14042.85    
+  finishing density    14087.88    
+  time =   14087.89      Start POTENT
+  time =   14106.54      Start transposition
+  time =   14120.04      Start z-direction
+  time =   14128.99      end z-direction
+  time =   14142.59      start xy
+  time =   14160.25      Finished Potent
+Step =   82 A= 0.21207 Ekin=  0.2436E+14
+  init finished:         4096   14209.80    
+  finishing density    14254.61    
+  time =   14254.61      Start POTENT
+  time =   14272.75      Start transposition
+  time =   14286.45      Start z-direction
+  time =   14295.25      end z-direction
+  time =   14308.96      start xy
+  time =   14326.61      Finished Potent
+Step =   83 A= 0.21890 Ekin=  0.2524E+14
+  init finished:         4096   14375.72    
+  finishing density    14419.96    
+  time =   14419.96      Start POTENT
+  time =   14438.09      Start transposition
+  time =   14451.92      Start z-direction
+  time =   14460.76      end z-direction
+  time =   14474.66      start xy
+  time =   14493.21      Finished Potent
+Step =   84 A= 0.22573 Ekin=  0.2613E+14
+  init finished:         4096   14542.74    
+  finishing density    14586.95    
+  time =   14586.95      Start POTENT
+  time =   14605.59      Start transposition
+  time =   14619.83      Start z-direction
+  time =   14628.05      end z-direction
+  time =   14641.87      start xy
+  time =   14659.65      Finished Potent
+Step =   85 A= 0.23257 Ekin=  0.2702E+14
+  init finished:         4096   14708.47    
+  finishing density    14752.15    
+  time =   14752.15      Start POTENT
+  time =   14771.26      Start transposition
+  time =   14785.66      Start z-direction
+  time =   14794.22      end z-direction
+  time =   14808.27      start xy
+  time =   14825.84      Finished Potent
+Step =   86 A= 0.23940 Ekin=  0.2792E+14
+  init finished:         4096   14875.31    
+  finishing density    14918.73    
+  time =   14918.73      Start POTENT
+  time =   14937.46      Start transposition
+  time =   14951.45      Start z-direction
+  time =   14960.02      end z-direction
+  time =   14974.38      start xy
+  time =   14992.15      Finished Potent
+Step =   87 A= 0.24624 Ekin=  0.2883E+14
+  init finished:         4096   15041.40    
+  finishing density    15084.67    
+  time =   15084.67      Start POTENT
+  time =   15102.74      Start transposition
+  time =   15117.11      Start z-direction
+  time =   15125.75      end z-direction
+  time =   15139.75      start xy
+  time =   15157.40      Finished Potent
+Step =   88 A= 0.25307 Ekin=  0.2974E+14
+  init finished:         4096   15206.28    
+  finishing density    15249.27    
+  time =   15249.27      Start POTENT
+  time =   15267.65      Start transposition
+  time =   15281.71      Start z-direction
+  time =   15290.44      end z-direction
+  time =   15304.41      start xy
+  time =   15322.00      Finished Potent
+Step =   89 A= 0.25991 Ekin=  0.3065E+14
+  init finished:         4096   15370.96    
+  finishing density    15413.83    
+  time =   15413.83      Start POTENT
+  time =   15432.49      Start transposition
+  time =   15446.49      Start z-direction
+  time =   15454.79      end z-direction
+  time =   15468.65      start xy
+  time =   15487.04      Finished Potent
+Step =   90 A= 0.26674 Ekin=  0.3157E+14
+  init finished:         4096   15535.74    
+  finishing density    15577.62    
+  time =   15577.62      Start POTENT
+  time =   15595.93      Start transposition
+  time =   15609.94      Start z-direction
+  time =   15618.30      end z-direction
+  time =   15632.12      start xy
+  time =   15650.07      Finished Potent
+Step =   91 A= 0.27358 Ekin=  0.3249E+14
+  init finished:         4096   15698.95    
+  finishing density    15741.09    
+  time =   15741.09      Start POTENT
+  time =   15759.49      Start transposition
+  time =   15773.70      Start z-direction
+  time =   15783.69      end z-direction
+  time =   15797.86      start xy
+  time =   15815.64      Finished Potent
+Step =   92 A= 0.28041 Ekin=  0.3342E+14
+  init finished:         4096   15864.30    
+  finishing density    15906.24    
+  time =   15906.24      Start POTENT
+  time =   15924.38      Start transposition
+  time =   15938.13      Start z-direction
+  time =   15947.45      end z-direction
+  time =   15961.15      start xy
+  time =   15978.77      Finished Potent
+Step =   93 A= 0.28724 Ekin=  0.3435E+14
+  init finished:         4096   16027.43    
+  finishing density    16069.09    
+  time =   267.8188      go to first fft
+  time =   267.8986      go to second fft
+  time =   268.1442      go to transposition
+  time =   268.3713      go to third fft
+  time =   268.4655       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            =  5.625
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   16126.87    
+  finishing density    16169.06    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 210.6049   0.3089
+  Maximum density =   7501.261    
+  time for Dmax  =   1.898438    
+  time for Find Max    =   6.136719    
+  FindMaxima: 1 finished: Nmaxima=      8477593
+  Elements on all buffers =     8477593     8477593
+  time for List Max    =   1.854492    
+ Number of maxima: 8477593
+ Above Overdensity =  1540013 Above: 300 =  769353 400 =  417588 500 =  250488 600 =  159722 700 =  106626
+           time for FindMaxima(secs) =                 9.89      8.00
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       43.51703    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       43.51703    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    64.59     16.35
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9103570722
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.34     97.69
+  time to make list  =   57.02344    
+           time for List  =                           57.02     57.02
+  Go to FindDistinctCandidates:             9103570722
+ Go to ParametersDistinct :  9103570722
+           time for ParametersDistinct =               3.22     70.93
+           time for ParametersDistinct  =              3.23     70.93
+  goto RemoveCloseMaxima
+  time to make list Max  =  7.8125000E-02
+           time for RemoveDuplicates =                 0.33      0.41
+  Go to Write Catshort:             9103570722
+           time for WriteFiles  =                     15.14     15.54
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       43.51703    
+  Rescale             8589934592
+  init finished:         4096   16366.27    
+  finishing density    16390.19    
+  time =   16390.19      Start POTENT
+  time =   16409.04      Start transposition
+  time =   16419.90      Start z-direction
+  time =   16427.70      end z-direction
+  time =   16438.69      start xy
+  time =   16457.59      Finished Potent
+Step =   94 A= 0.29750 Ekin=  0.3555E+14
+  init finished:         4096   16483.28    
+  finishing density    16507.51    
+  time =   16507.51      Start POTENT
+  time =   16526.28      Start transposition
+  time =   16537.29      Start z-direction
+  time =   16545.52      end z-direction
+  time =   16556.51      start xy
+  time =   16575.57      Finished Potent
+Step =   95 A= 0.30775 Ekin=  0.3692E+14
+  init finished:         4096   16601.20    
+  finishing density    16624.91    
+  time =   16624.91      Start POTENT
+  time =   16643.61      Start transposition
+  time =   16654.69      Start z-direction
+  time =   16662.78      end z-direction
+  time =   16673.65      start xy
+  time =   16691.98      Finished Potent
+Step =   96 A= 0.31800 Ekin=  0.3831E+14
+  init finished:         4096   16717.92    
+  finishing density    16741.03    
+  time =   16741.03      Start POTENT
+  time =   16759.67      Start transposition
+  time =   16770.63      Start z-direction
+  time =   16779.09      end z-direction
+  time =   16790.03      start xy
+  time =   16808.20      Finished Potent
+Step =   97 A= 0.32825 Ekin=  0.3970E+14
+  init finished:         4096   16834.09    
+  finishing density    16857.09    
+  time =   280.9530      go to first fft
+  time =   281.0245      go to second fft
+  time =   281.2754      go to transposition
+  time =   281.4564      go to third fft
+  time =   281.5360       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            =  6.578
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   16908.08    
+  finishing density    16931.05    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 185.3701   0.3089
+  Maximum density =   5498.109    
+  time for Dmax  =   1.322266    
+  time for Find Max    =   4.957031    
+  FindMaxima: 1 finished: Nmaxima=     10790513
+  Elements on all buffers =    10790513    10790513
+  time for List Max    =   1.281250    
+ Number of maxima:10790513
+ Above Overdensity =  2330518 Above: 300 =  992126 400 =  565050 500 =  353248 600 =  234245 700 =  161710
+           time for FindMaxima(secs) =                 7.56      6.24
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       38.08073    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       38.08073    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    35.35      8.86
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9103984494
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.55     90.40
+  time to make list  =   60.35352    
+           time for List  =                           60.35     60.35
+  Go to FindDistinctCandidates:             9103984494
+ Go to ParametersDistinct :  9103984494
+           time for ParametersDistinct =               5.46     79.64
+           time for ParametersDistinct  =              5.46     79.64
+  goto RemoveCloseMaxima
+  time to make list Max  =  0.1093750    
+           time for RemoveDuplicates =                 0.43      0.54
+  Go to Write Catshort:             9103984494
+           time for WriteFiles  =                     17.49     18.03
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       38.08073    
+  Rescale             8589934592
+  init finished:         4096   17131.59    
+  finishing density    17154.49    
+  time =   17154.49      Start POTENT
+  time =   17173.07      Start transposition
+  time =   17184.10      Start z-direction
+  time =   17192.49      end z-direction
+  time =   17203.81      start xy
+  time =   17223.27      Finished Potent
+Step =   98 A= 0.33850 Ekin=  0.4110E+14
+  init finished:         4096   17249.12    
+  finishing density    17272.41    
+  time =   17272.41      Start POTENT
+  time =   17291.70      Start transposition
+  time =   17303.36      Start z-direction
+  time =   17311.58      end z-direction
+  time =   17323.02      start xy
+  time =   17341.03      Finished Potent
+Step =   99 A= 0.34875 Ekin=  0.4250E+14
+  init finished:         4096   17367.07    
+  finishing density    17390.36    
+  time =   17390.36      Start POTENT
+  time =   17408.97      Start transposition
+  time =   17420.38      Start z-direction
+  time =   17428.49      end z-direction
+  time =   17439.76      start xy
+  time =   17458.04      Finished Potent
+Step =  100 A= 0.35900 Ekin=  0.4391E+14
+  init finished:         4096   17484.79    
+  finishing density    17508.12    
+  time =   17508.12      Start POTENT
+  time =   17526.87      Start transposition
+  time =   17538.47      Start z-direction
+  time =   17546.18      end z-direction
+  time =   17557.80      start xy
+  time =   17576.14      Finished Potent
+Step =  101 A= 0.36926 Ekin=  0.4531E+14
+  init finished:         4096   17602.30    
+  finishing density    17624.75    
+  time =   293.7465      go to first fft
+  time =   293.8339      go to second fft
+  time =   294.0855      go to transposition
+  time =   294.2722      go to third fft
+  time =   294.3658       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            =  7.608
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   17676.64    
+  finishing density    17698.79    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 188.3690   0.3089
+  Maximum density =   6715.520    
+  time for Dmax  =   1.308594    
+  time for Find Max    =   4.894531    
+  FindMaxima: 1 finished: Nmaxima=     11039433
+  Elements on all buffers =    11039433    11039433
+  time for List Max    =   1.355469    
+ Number of maxima:11039433
+ Above Overdensity =  2556068 Above: 300 = 1182608 400 =  704902 500 =  459812 600 =  317277 700 =  228043
+           time for FindMaxima(secs) =                 7.56      6.26
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       33.85183    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       33.85183    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    34.45      8.80
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9104466669
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.15     89.95
+  time to make list  =   56.90234    
+           time for List  =                           56.90     56.90
+  Go to FindDistinctCandidates:             9104466669
+ Go to ParametersDistinct :  9104466669
+           time for ParametersDistinct =               6.72     79.61
+           time for ParametersDistinct  =              6.72     79.61
+  goto RemoveCloseMaxima
+  time to make list Max  =  0.1015625    
+           time for RemoveDuplicates =                 0.54      0.64
+  Go to Write Catshort:             9104466669
+           time for WriteFiles  =                     19.23     19.87
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       33.85183    
+  Rescale             8589934592
+  init finished:         4096   17900.71    
+  finishing density    17923.12    
+  time =   17923.12      Start POTENT
+  time =   17941.83      Start transposition
+  time =   17952.74      Start z-direction
+  time =   17960.78      end z-direction
+  time =   17971.74      start xy
+  time =   17990.30      Finished Potent
+Step =  102 A= 0.37951 Ekin=  0.4671E+14
+  init finished:         4096   18015.04    
+  finishing density    18037.39    
+  time =   18037.39      Start POTENT
+  time =   18056.09      Start transposition
+  time =   18066.84      Start z-direction
+  time =   18074.55      end z-direction
+  time =   18085.50      start xy
+  time =   18104.31      Finished Potent
+Step =  103 A= 0.38976 Ekin=  0.4809E+14
+  init finished:         4096   18130.13    
+  finishing density    18152.27    
+  time =   18152.27      Start POTENT
+  time =   18170.96      Start transposition
+  time =   18181.69      Start z-direction
+  time =   18189.62      end z-direction
+  time =   18200.44      start xy
+  time =   18219.04      Finished Potent
+Step =  104 A= 0.40001 Ekin=  0.4947E+14
+  init finished:         4096   18244.90    
+  finishing density    18266.70    
+  time =   304.4455      go to first fft
+  time =   304.5352      go to second fft
+  time =   304.7867      go to transposition
+  time =   304.9630      go to third fft
+  time =   305.0364       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            =  8.365
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   18317.76    
+  finishing density    18339.64    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 191.0475   0.3089
+  Maximum density =   8231.952    
+  time for Dmax  =   1.304688    
+  time for Find Max    =   5.013672    
+  FindMaxima: 1 finished: Nmaxima=     11053303
+  Elements on all buffers =    11053303    11053303
+  time for List Max    =   1.375000    
+ Number of maxima:11053303
+ Above Overdensity =  2665507 Above: 300 = 1305330 400 =  797784 500 =  532319 600 =  375968 700 =  275893
+           time for FindMaxima(secs) =                 7.70      6.39
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       31.24915    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       31.24915    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    34.56      8.97
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9104861642
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.06     90.03
+  time to make list  =   56.68359    
+           time for List  =                           56.69     56.68
+  Go to FindDistinctCandidates:             9104861642
+ Go to ParametersDistinct :  9104861642
+           time for ParametersDistinct =               8.52     82.90
+           time for ParametersDistinct  =              8.52     82.90
+  goto RemoveCloseMaxima
+  time to make list Max  =  0.1015625    
+           time for RemoveDuplicates =                 0.52      0.62
+  Go to Write Catshort:             9104861642
+           time for WriteFiles  =                     19.74     20.36
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       31.24915    
+  Rescale             8589934592
+  init finished:         4096   18545.42    
+  finishing density    18567.09    
+  time =   18567.09      Start POTENT
+  time =   18585.86      Start transposition
+  time =   18596.73      Start z-direction
+  time =   18604.46      end z-direction
+  time =   18615.56      start xy
+  time =   18634.83      Finished Potent
+Step =  105 A= 0.41026 Ekin=  0.5084E+14
+  init finished:         4096   18660.81    
+  finishing density    18682.92    
+  time =   18682.92      Start POTENT
+  time =   18702.04      Start transposition
+  time =   18712.86      Start z-direction
+  time =   18720.55      end z-direction
+  time =   18731.38      start xy
+  time =   18749.60      Finished Potent
+Step =  106 A= 0.42051 Ekin=  0.5219E+14
+  init finished:         4096   18776.11    
+  finishing density    18797.78    
+  time =   313.2979      go to first fft
+  time =   313.3737      go to second fft
+  time =   313.6268      go to transposition
+  time =   313.8059      go to third fft
+  time =   313.8791       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            =  8.864
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   18847.71    
+  finishing density    18869.21    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 193.0457   0.3089
+  Maximum density =   8574.527    
+  time for Dmax  =   1.318359    
+  time for Find Max    =   4.917969    
+  FindMaxima: 1 finished: Nmaxima=     11011958
+  Elements on all buffers =    11011958    11011958
+  time for List Max    =   1.388672    
+ Number of maxima:11011958
+ Above Overdensity =  2715997 Above: 300 = 1375587 400 =  852851 500 =  576768 600 =  411672 700 =  305124
+           time for FindMaxima(secs) =                 7.63      6.31
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       29.72552    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       29.72552    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    33.98      8.78
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9105091717
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.27     90.05
+  time to make list  =   52.58008    
+           time for List  =                           52.59     52.58
+  Go to FindDistinctCandidates:             9105091717
+ Go to ParametersDistinct :  9105091717
+           time for ParametersDistinct =              10.82     82.46
+           time for ParametersDistinct  =             10.82     82.46
+  goto RemoveCloseMaxima
+  time to make list Max  =  0.1054688    
+           time for RemoveDuplicates =                 0.49      0.59
+  Go to Write Catshort:             9105091717
+           time for WriteFiles  =                     20.00     20.59
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       29.72552    
+  Rescale             8589934592
+  init finished:         4096   19074.96    
+  finishing density    19096.68    
+  time =   19096.68      Start POTENT
+  time =   19115.56      Start transposition
+  time =   19126.62      Start z-direction
+  time =   19134.61      end z-direction
+  time =   19145.69      start xy
+  time =   19164.12      Finished Potent
+Step =  107 A= 0.43077 Ekin=  0.5353E+14
+  init finished:         4096   19190.15    
+  finishing density    19212.47    
+  time =   19212.47      Start POTENT
+  time =   19231.29      Start transposition
+  time =   19242.48      Start z-direction
+  time =   19250.92      end z-direction
+  time =   19261.88      start xy
+  time =   19280.32      Finished Potent
+Step =  108 A= 0.44102 Ekin=  0.5486E+14
+  init finished:         4096   19305.88    
+  finishing density    19327.12    
+  time =   19327.12      Start POTENT
+  time =   19345.97      Start transposition
+  time =   19356.88      Start z-direction
+  time =   19365.27      end z-direction
+  time =   19376.16      start xy
+  time =   19395.60      Finished Potent
+Step =  109 A= 0.45127 Ekin=  0.5616E+14
+  init finished:         4096   19421.85    
+  finishing density    19443.05    
+  time =   19443.05      Start POTENT
+  time =   19462.33      Start transposition
+  time =   19473.16      Start z-direction
+  time =   19481.99      end z-direction
+  time =   19493.07      start xy
+  time =   19511.73      Finished Potent
+Step =  110 A= 0.46152 Ekin=  0.5745E+14
+  init finished:         4096   19538.15    
+  finishing density    19559.41    
+  time =   19559.41      Start POTENT
+  time =   19578.09      Start transposition
+  time =   19589.08      Start z-direction
+  time =   19596.82      end z-direction
+  time =   19608.04      start xy
+  time =   19626.50      Finished Potent
+Step =  111 A= 0.47177 Ekin=  0.5872E+14
+  init finished:         4096   19652.69    
+  finishing density    19673.63    
+  time =   327.8952      go to first fft
+  time =   327.9670      go to second fft
+  time =   328.2191      go to transposition
+  time =   328.4113      go to third fft
+  time =   328.4839       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            = 10.088
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   19724.43    
+  finishing density    19745.44    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 198.8094   0.3089
+  Maximum density =   11306.13    
+  time for Dmax  =   1.277344    
+  time for Find Max    =   4.712891    
+  FindMaxima: 1 finished: Nmaxima=     10761192
+  Elements on all buffers =    10761192    10761192
+  time for List Max    =   1.339844    
+ Number of maxima:10761192
+ Above Overdensity =  2775162 Above: 300 = 1521269 400 =  971224 500 =  672545 600 =  492049 700 =  373022
+           time for FindMaxima(secs) =                 7.33      6.06
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       26.49586    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       26.49586    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    33.16      8.56
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9105774779
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.44     90.01
+  time to make list  =   54.37109    
+           time for List  =                           54.37     54.37
+  Go to FindDistinctCandidates:             9105774779
+ Go to ParametersDistinct :  9105774779
+           time for ParametersDistinct =              14.78     89.35
+           time for ParametersDistinct  =             14.78     89.35
+  goto RemoveCloseMaxima
+  time to make list Max  =  9.9609375E-02
+           time for RemoveDuplicates =                 0.56      0.66
+  Go to Write Catshort:             9105774779
+           time for WriteFiles  =                     20.55     21.21
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       26.49586    
+  Rescale             8589934592
+  init finished:         4096   19958.76    
+  finishing density    19979.68    
+  time =   19979.68      Start POTENT
+  time =   19998.30      Start transposition
+  time =   20010.45      Start z-direction
+  time =   20019.79      end z-direction
+  time =   20032.35      start xy
+  time =   20050.69      Finished Potent
+Step =  112 A= 0.48202 Ekin=  0.5998E+14
+  init finished:         4096   20077.17    
+  finishing density    20098.07    
+  time =   20098.07      Start POTENT
+  time =   20117.08      Start transposition
+  time =   20129.13      Start z-direction
+  time =   20137.60      end z-direction
+  time =   20150.29      start xy
+  time =   20168.86      Finished Potent
+Step =  113 A= 0.49227 Ekin=  0.6122E+14
+  init finished:         4096   20194.79    
+  finishing density    20215.47    
+  time =   20215.47      Start POTENT
+  time =   20234.13      Start transposition
+  time =   20245.91      Start z-direction
+  time =   20254.14      end z-direction
+  time =   20266.75      start xy
+  time =   20285.06      Finished Potent
+Step =  114 A= 0.50253 Ekin=  0.6244E+14
+  init finished:         4096   20310.76    
+  finishing density    20331.56    
+  time =   20331.56      Start POTENT
+  time =   20351.06      Start transposition
+  time =   20363.60      Start z-direction
+  time =   20371.38      end z-direction
+  time =   20384.85      start xy
+  time =   20403.70      Finished Potent
+Step =  115 A= 0.51278 Ekin=  0.6364E+14
+  init finished:         4096   20428.96    
+  finishing density    20449.62    
+  time =   20449.62      Start POTENT
+  time =   20468.39      Start transposition
+  time =   20480.04      Start z-direction
+  time =   20488.27      end z-direction
+  time =   20500.40      start xy
+  time =   20518.65      Finished Potent
+Step =  116 A= 0.52303 Ekin=  0.6482E+14
+  init finished:         4096   20543.55    
+  finishing density    20563.84    
+  time =   20563.84      Start POTENT
+  time =   20582.36      Start transposition
+  time =   20593.61      Start z-direction
+  time =   20601.81      end z-direction
+  time =   20613.36      start xy
+  time =   20631.81      Finished Potent
+Step =  117 A= 0.53328 Ekin=  0.6597E+14
+  init finished:         4096   20657.13    
+  finishing density    20677.31    
+  time =   20677.31      Start POTENT
+  time =   20696.13      Start transposition
+  time =   20707.59      Start z-direction
+  time =   20715.60      end z-direction
+  time =   20727.35      start xy
+  time =   20745.70      Finished Potent
+Step =  118 A= 0.54353 Ekin=  0.6709E+14
+  init finished:         4096   20771.19    
+  finishing density    20791.33    
+  time =   20791.33      Start POTENT
+  time =   20810.02      Start transposition
+  time =   20822.83      Start z-direction
+  time =   20831.28      end z-direction
+  time =   20844.00      start xy
+  time =   20862.21      Finished Potent
+Step =  119 A= 0.55378 Ekin=  0.6818E+14
+  init finished:         4096   20887.86    
+  finishing density    20907.81    
+  time =   348.4654      go to first fft
+  time =   348.5392      go to second fft
+  time =   348.7894      go to transposition
+  time =   348.9978      go to third fft
+  time =   349.0865       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            = 11.975
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   20961.98    
+  finishing density    20981.89    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 210.3965   0.3089
+  Maximum density =   15619.17    
+  time for Dmax  =   1.248047    
+  time for Find Max    =   5.388672    
+  FindMaxima: 1 finished: Nmaxima=     10114541
+  Elements on all buffers =    10114541    10114541
+  time for List Max    =   1.343750    
+ Number of maxima:10114541
+ Above Overdensity =  2737690 Above: 300 = 1681225 400 = 1106734 500 =  789242 600 =  591928 700 =  460473
+           time for FindMaxima(secs) =                 7.98      6.73
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       22.57196    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       22.57196    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    32.84      9.28
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9106425364
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.13     90.41
+  time to make list  =   55.27734    
+           time for List  =                           55.28     55.28
+  Go to FindDistinctCandidates:             9106425364
+ Go to ParametersDistinct :  9106425364
+           time for ParametersDistinct =              24.74    102.98
+           time for ParametersDistinct  =             24.74    102.98
+  goto RemoveCloseMaxima
+  time to make list Max  =  0.1152344    
+           time for RemoveDuplicates =                 0.57      0.69
+  Go to Write Catshort:             9106425364
+           time for WriteFiles  =                     20.69     21.37
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       22.57196    
+  Rescale             8589934592
+  init finished:         4096   21209.55    
+  finishing density    21229.77    
+  time =   21229.77      Start POTENT
+  time =   21248.54      Start transposition
+  time =   21259.12      Start z-direction
+  time =   21268.21      end z-direction
+  time =   21279.19      start xy
+  time =   21299.06      Finished Potent
+Step =  120 A= 0.56404 Ekin=  0.6926E+14
+  init finished:         4096   21324.64    
+  finishing density    21344.76    
+  time =   21344.76      Start POTENT
+  time =   21364.09      Start transposition
+  time =   21375.04      Start z-direction
+  time =   21383.31      end z-direction
+  time =   21394.20      start xy
+  time =   21412.33      Finished Potent
+Step =  121 A= 0.57429 Ekin=  0.7030E+14
+  init finished:         4096   21437.90    
+  finishing density    21457.92    
+  time =   21457.92      Start POTENT
+  time =   21476.75      Start transposition
+  time =   21488.02      Start z-direction
+  time =   21496.86      end z-direction
+  time =   21507.83      start xy
+  time =   21526.41      Finished Potent
+Step =  122 A= 0.58454 Ekin=  0.7132E+14
+  init finished:         4096   21551.84    
+  finishing density    21571.84    
+  time =   359.5321      go to first fft
+  time =   359.6201      go to second fft
+  time =   359.8683      go to transposition
+  time =   360.0557      go to third fft
+  time =   360.1297       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            = 12.675
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   21622.58    
+  finishing density    21642.23    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 215.5155   0.3089
+  Maximum density =   15045.16    
+  time for Dmax  =   1.177734    
+  time for Find Max    =   5.089844    
+  FindMaxima: 1 finished: Nmaxima=      9826473
+  Elements on all buffers =     9826473     9826473
+  time for List Max    =   1.230469    
+ Number of maxima: 9826473
+ Above Overdensity =  2694455 Above: 300 = 1724254 400 = 1145120 500 =  823436 600 =  622588 700 =  487694
+           time for FindMaxima(secs) =                 7.50      6.32
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       21.38437    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       21.38437    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    31.96      8.90
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9106892636
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      80.98     89.89
+  time to make list  =   57.48438    
+           time for List  =                           57.48     57.48
+  Go to FindDistinctCandidates:             9106892636
+ Go to ParametersDistinct :  9106892636
+           time for ParametersDistinct =              33.83    114.73
+           time for ParametersDistinct  =             33.83    114.73
+  goto RemoveCloseMaxima
+  time to make list Max  =  0.1191406    
+           time for RemoveDuplicates =                 0.39      0.51
+  Go to Write Catshort:             9106892636
+           time for WriteFiles  =                     20.49     21.00
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       21.38437    
+  Rescale             8589934592
+  init finished:         4096   21880.29    
+  finishing density    21900.03    
+  time =   21900.03      Start POTENT
+  time =   21918.79      Start transposition
+  time =   21929.97      Start z-direction
+  time =   21939.91      end z-direction
+  time =   21952.10      start xy
+  time =   21971.08      Finished Potent
+Step =  123 A= 0.59479 Ekin=  0.7231E+14
+  init finished:         4096   21995.33    
+  finishing density    22015.26    
+  time =   22015.26      Start POTENT
+  time =   22033.97      Start transposition
+  time =   22045.76      Start z-direction
+  time =   22054.18      end z-direction
+  time =   22066.44      start xy
+  time =   22084.65      Finished Potent
+Step =  124 A= 0.60504 Ekin=  0.7328E+14
+  init finished:         4096   22108.77    
+  finishing density    22128.85    
+  time =   22128.85      Start POTENT
+  time =   22147.41      Start transposition
+  time =   22159.35      Start z-direction
+  time =   22167.16      end z-direction
+  time =   22179.20      start xy
+  time =   22197.85      Finished Potent
+Step =  125 A= 0.61529 Ekin=  0.7424E+14
+  init finished:         4096   22222.54    
+  finishing density    22242.23    
+  time =   22242.23      Start POTENT
+  time =   22260.88      Start transposition
+  time =   22272.77      Start z-direction
+  time =   22280.62      end z-direction
+  time =   22292.62      start xy
+  time =   22311.93      Finished Potent
+Step =  126 A= 0.62555 Ekin=  0.7516E+14
+  init finished:         4096   22336.55    
+  finishing density    22356.18    
+  time =   22356.18      Start POTENT
+  time =   22375.12      Start transposition
+  time =   22387.14      Start z-direction
+  time =   22395.22      end z-direction
+  time =   22407.14      start xy
+  time =   22425.11      Finished Potent
+Step =  127 A= 0.63580 Ekin=  0.7606E+14
+  init finished:         4096   22450.21    
+  finishing density    22470.07    
+  time =   22470.07      Start POTENT
+  time =   22488.80      Start transposition
+  time =   22500.74      Start z-direction
+  time =   22508.60      end z-direction
+  time =   22520.62      start xy
+  time =   22538.80      Finished Potent
+Step =  128 A= 0.64605 Ekin=  0.7693E+14
+  init finished:         4096   22564.31    
+  finishing density    22583.75    
+  time =   22583.75      Start POTENT
+  time =   22602.51      Start transposition
+  time =   22614.23      Start z-direction
+  time =   22622.72      end z-direction
+  time =   22634.59      start xy
+  time =   22653.22      Finished Potent
+Step =  129 A= 0.65630 Ekin=  0.7778E+14
+  init finished:         4096   22678.51    
+  finishing density    22698.35    
+  time =   22698.35      Start POTENT
+  time =   22717.12      Start transposition
+  time =   22729.21      Start z-direction
+  time =   22737.16      end z-direction
+  time =   22749.27      start xy
+  time =   22767.56      Finished Potent
+Step =  130 A= 0.66655 Ekin=  0.7860E+14
+  init finished:         4096   22793.71    
+  finishing density    22812.99    
+  time =   380.2171      go to first fft
+  time =   380.2939      go to second fft
+  time =   380.5440      go to transposition
+  time =   380.7426      go to third fft
+  time =   380.8171       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            = 14.506
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   22864.43    
+  finishing density    22883.60    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 231.3080   0.3089
+  Maximum density =   19195.29    
+  time for Dmax  =   1.400391    
+  time for Find Max    =   5.449219    
+  FindMaxima: 1 finished: Nmaxima=      9011505
+  Elements on all buffers =     9011505     9011505
+  time for List Max    =   1.421875    
+ Number of maxima: 9011505
+ Above Overdensity =  2536628 Above: 300 = 1809389 400 = 1227323 500 =  897085 600 =  689063 700 =  547403
+           time for FindMaxima(secs) =                 8.27      6.87
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       18.75323    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       18.75323    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    32.47      9.38
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9108366834
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.26     90.63
+  time to make list  =   55.65430    
+           time for List  =                           55.65     55.65
+  Go to FindDistinctCandidates:             9108366834
+ Go to ParametersDistinct :  9108366834
+           time for ParametersDistinct =              51.27    132.86
+           time for ParametersDistinct  =             51.27    132.86
+  goto RemoveCloseMaxima
+  time to make list Max  =  0.1035156    
+           time for RemoveDuplicates =                 0.44      0.55
+  Go to Write Catshort:             9108366834
+           time for WriteFiles  =                     20.18     20.73
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       18.75323    
+  Rescale             8589934592
+  init finished:         4096   23141.22    
+  finishing density    23160.53    
+  time =   23160.53      Start POTENT
+  time =   23179.25      Start transposition
+  time =   23189.77      Start z-direction
+  time =   23198.25      end z-direction
+  time =   23209.53      start xy
+  time =   23227.78      Finished Potent
+Step =  131 A= 0.67680 Ekin=  0.7939E+14
+  init finished:         4096   23251.49    
+  finishing density    23271.04    
+  time =   23271.04      Start POTENT
+  time =   23289.46      Start transposition
+  time =   23300.50      Start z-direction
+  time =   23308.66      end z-direction
+  time =   23319.91      start xy
+  time =   23338.82      Finished Potent
+Step =  132 A= 0.68705 Ekin=  0.8016E+14
+  init finished:         4096   23363.21    
+  finishing density    23382.40    
+  time =   23382.40      Start POTENT
+  time =   23401.50      Start transposition
+  time =   23412.29      Start z-direction
+  time =   23420.87      end z-direction
+  time =   23431.70      start xy
+  time =   23450.04      Finished Potent
+Step =  133 A= 0.69731 Ekin=  0.8090E+14
+  init finished:         4096   23474.27    
+  finishing density    23494.26    
+  time =   23494.26      Start POTENT
+  time =   23512.99      Start transposition
+  time =   23523.66      Start z-direction
+  time =   23531.52      end z-direction
+  time =   23542.55      start xy
+  time =   23560.86      Finished Potent
+Step =  134 A= 0.70756 Ekin=  0.8161E+14
+  init finished:         4096   23585.38    
+  finishing density    23605.04    
+  time =   23605.04      Start POTENT
+  time =   23623.64      Start transposition
+  time =   23634.68      Start z-direction
+  time =   23642.34      end z-direction
+  time =   23653.35      start xy
+  time =   23671.89      Finished Potent
+Step =  135 A= 0.71781 Ekin=  0.8229E+14
+  init finished:         4096   23696.32    
+  finishing density    23715.29    
+  time =   395.2566      go to first fft
+  time =   395.3373      go to second fft
+  time =   395.5883      go to transposition
+  time =   395.7765      go to third fft
+  time =   395.8481       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            = 15.608
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   23766.34    
+  finishing density    23785.37    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 242.8246   0.3089
+  Maximum density =   22362.88    
+  time for Dmax  =   1.330078    
+  time for Find Max    =   5.408203    
+  FindMaxima: 1 finished: Nmaxima=      8494931
+  Elements on all buffers =     8494931     8494931
+  time for List Max    =   1.300781    
+ Number of maxima: 8494931
+ Above Overdensity =  2419464 Above: 300 = 1848206 400 = 1265304 500 =  932188 600 =  722152 700 =  578073
+           time for FindMaxima(secs) =                 8.04      6.71
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       17.41409    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       17.41409    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    32.50      9.85
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9109037017
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.25     91.11
+  time to make list  =   58.65430    
+           time for List  =                           58.66     58.65
+  Go to FindDistinctCandidates:             9109037017
+ Go to ParametersDistinct :  9109037017
+           time for ParametersDistinct =              70.01    155.67
+           time for ParametersDistinct  =             70.01    155.67
+  goto RemoveCloseMaxima
+  time to make list Max  =  0.1093750    
+           time for RemoveDuplicates =                 0.34      0.45
+  Go to Write Catshort:             9109037017
+           time for WriteFiles  =                     19.55     20.00
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       17.41409    
+  Rescale             8589934592
+  init finished:         4096   24064.91    
+  finishing density    24083.97    
+  time =   24083.97      Start POTENT
+  time =   24102.80      Start transposition
+  time =   24113.61      Start z-direction
+  time =   24122.27      end z-direction
+  time =   24133.03      start xy
+  time =   24151.19      Finished Potent
+Step =  136 A= 0.72806 Ekin=  0.8294E+14
+  init finished:         4096   24174.79    
+  finishing density    24193.70    
+  time =   24193.70      Start POTENT
+  time =   24212.46      Start transposition
+  time =   24223.08      Start z-direction
+  time =   24232.05      end z-direction
+  time =   24242.63      start xy
+  time =   24260.76      Finished Potent
+Step =  137 A= 0.73831 Ekin=  0.8356E+14
+  init finished:         4096   24284.54    
+  finishing density    24303.43    
+  time =   24303.43      Start POTENT
+  time =   24322.09      Start transposition
+  time =   24333.13      Start z-direction
+  time =   24341.38      end z-direction
+  time =   24352.23      start xy
+  time =   24371.24      Finished Potent
+Step =  138 A= 0.74856 Ekin=  0.8417E+14
+  init finished:         4096   24396.24    
+  finishing density    24415.20    
+  time =   24415.20      Start POTENT
+  time =   24433.95      Start transposition
+  time =   24445.03      Start z-direction
+  time =   24454.06      end z-direction
+  time =   24465.42      start xy
+  time =   24484.16      Finished Potent
+Step =  139 A= 0.75882 Ekin=  0.8475E+14
+  init finished:         4096   24508.31    
+  finishing density    24527.26    
+  time =   24527.26      Start POTENT
+  time =   24546.02      Start transposition
+  time =   24557.02      Start z-direction
+  time =   24564.96      end z-direction
+  time =   24575.83      start xy
+  time =   24594.18      Finished Potent
+Step =  140 A= 0.76907 Ekin=  0.8531E+14
+  init finished:         4096   24619.38    
+  finishing density    24638.11    
+  time =   410.6358      go to first fft
+  time =   410.7197      go to second fft
+  time =   410.9703      go to transposition
+  time =   411.1561      go to third fft
+  time =   411.2258       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            = 16.694
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   24689.16    
+  finishing density    24708.06    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 255.6794   0.3089
+  Maximum density =   27202.59    
+  time for Dmax  =   1.208984    
+  time for Find Max    =   5.457031    
+  FindMaxima: 1 finished: Nmaxima=      7980769
+  Elements on all buffers =     7980769     7980769
+  time for List Max    =   1.279297    
+ Number of maxima: 7980769
+ Above Overdensity =  2295285 Above: 300 = 1878717 400 = 1296329 500 =  963260 600 =  749854 700 =  604638
+           time for FindMaxima(secs) =                 7.95      6.74
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       16.25345    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       16.25345    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    31.96      9.38
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9109768323
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.37     90.75
+  time to make list  =   57.76953    
+           time for List  =                           57.78     57.77
+  Go to FindDistinctCandidates:             9109768323
+ Go to ParametersDistinct :  9109768323
+           time for ParametersDistinct =             120.30    205.47
+           time for ParametersDistinct  =            120.30    205.47
+  goto RemoveCloseMaxima
+  time to make list Max  =  8.3984375E-02
+           time for RemoveDuplicates =                 0.29      0.38
+  Go to Write Catshort:             9109768323
+           time for WriteFiles  =                     19.09     19.46
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       16.25345    
+  Rescale             8589934592
+  init finished:         4096   25036.27    
+  finishing density    25055.71    
+  time =   25055.71      Start POTENT
+  time =   25074.37      Start transposition
+  time =   25085.31      Start z-direction
+  time =   25093.80      end z-direction
+  time =   25105.06      start xy
+  time =   25124.04      Finished Potent
+Step =  141 A= 0.77932 Ekin=  0.8584E+14
+  init finished:         4096   25148.00    
+  finishing density    25167.04    
+  time =   25167.04      Start POTENT
+  time =   25186.39      Start transposition
+  time =   25198.25      Start z-direction
+  time =   25206.22      end z-direction
+  time =   25217.64      start xy
+  time =   25235.96      Finished Potent
+Step =  142 A= 0.78957 Ekin=  0.8636E+14
+  init finished:         4096   25259.84    
+  finishing density    25278.67    
+  time =   25278.67      Start POTENT
+  time =   25297.46      Start transposition
+  time =   25309.02      Start z-direction
+  time =   25316.85      end z-direction
+  time =   25328.43      start xy
+  time =   25346.89      Finished Potent
+Step =  143 A= 0.79982 Ekin=  0.8686E+14
+  init finished:         4096   25370.67    
+  finishing density    25389.49    
+  time =   25389.49      Start POTENT
+  time =   25408.26      Start transposition
+  time =   25419.60      Start z-direction
+  time =   25427.57      end z-direction
+  time =   25439.19      start xy
+  time =   25457.83      Finished Potent
+Step =  144 A= 0.81007 Ekin=  0.8733E+14
+  init finished:         4096   25482.05    
+  finishing density    25500.81    
+  time =   25500.81      Start POTENT
+  time =   25520.11      Start transposition
+  time =   25531.90      Start z-direction
+  time =   25539.89      end z-direction
+  time =   25551.67      start xy
+  time =   25569.90      Finished Potent
+Step =  145 A= 0.82033 Ekin=  0.8779E+14
+  init finished:         4096   25593.96    
+  finishing density    25612.90    
+  time =   25612.90      Start POTENT
+  time =   25631.80      Start transposition
+  time =   25643.52      Start z-direction
+  time =   25651.84      end z-direction
+  time =   25663.38      start xy
+  time =   25682.62      Finished Potent
+Step =  146 A= 0.83058 Ekin=  0.8822E+14
+  init finished:         4096   25706.54    
+  finishing density    25725.24    
+  time =   428.7556      go to first fft
+  time =   428.8319      go to second fft
+  time =   429.0865      go to transposition
+  time =   429.2816      go to third fft
+  time =   429.3566       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            = 18.013
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   25776.82    
+  finishing density    25795.32    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 272.9789   0.3089
+  Maximum density =   29708.99    
+  time for Dmax  =   1.156250    
+  time for Find Max    =   5.511719    
+  FindMaxima: 1 finished: Nmaxima=      7387545
+  Elements on all buffers =     7387545     7387545
+  time for List Max    =   1.220703    
+ Number of maxima: 7387545
+ Above Overdensity =  2144427 Above: 300 = 1909092 400 = 1328166 500 =  993158 600 =  778070 700 =  630413
+           time for FindMaxima(secs) =                 7.89      6.73
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       15.04978    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       15.04978    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    31.11      9.23
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9110635645
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.54     90.77
+  time to make list  =   55.82031    
+           time for List  =                           55.82     55.82
+  Go to FindDistinctCandidates:             9110635645
+ Go to ParametersDistinct :  9110635645
+           time for ParametersDistinct =             224.51    308.90
+           time for ParametersDistinct  =            224.51    308.90
+  goto RemoveCloseMaxima
+  time to make list Max  =  0.1386719    
+           time for RemoveDuplicates =                 0.24      0.38
+  Go to Write Catshort:             9110635645
+           time for WriteFiles  =                     18.50     18.88
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       15.04978    
+  Rescale             8589934592
+  init finished:         4096   26226.53    
+  finishing density    26246.04    
+  time =   26246.04      Start POTENT
+  time =   26264.68      Start transposition
+  time =   26277.16      Start z-direction
+  time =   26285.39      end z-direction
+  time =   26297.71      start xy
+  time =   26316.01      Finished Potent
+Step =  147 A= 0.84083 Ekin=  0.8863E+14
+  init finished:         4096   26339.14    
+  finishing density    26357.61    
+  time =   26357.61      Start POTENT
+  time =   26376.38      Start transposition
+  time =   26388.39      Start z-direction
+  time =   26397.04      end z-direction
+  time =   26408.77      start xy
+  time =   26426.95      Finished Potent
+Step =  148 A= 0.85108 Ekin=  0.8902E+14
+  init finished:         4096   26450.24    
+  finishing density    26468.75    
+  time =   26468.75      Start POTENT
+  time =   26487.37      Start transposition
+  time =   26499.41      Start z-direction
+  time =   26507.62      end z-direction
+  time =   26519.45      start xy
+  time =   26537.64      Finished Potent
+Step =  149 A= 0.86133 Ekin=  0.8939E+14
+  init finished:         4096   26561.52    
+  finishing density    26579.90    
+  time =   26579.90      Start POTENT
+  time =   26598.65      Start transposition
+  time =   26610.60      Start z-direction
+  time =   26619.18      end z-direction
+  time =   26631.58      start xy
+  time =   26650.00      Finished Potent
+Step =  150 A= 0.87158 Ekin=  0.8972E+14
+  init finished:         4096   26674.46    
+  finishing density    26693.26    
+  time =   26693.26      Start POTENT
+  time =   26711.96      Start transposition
+  time =   26724.60      Start z-direction
+  time =   26732.83      end z-direction
+  time =   26745.08      start xy
+  time =   26763.97      Finished Potent
+Step =  151 A= 0.88183 Ekin=  0.9002E+14
+  init finished:         4096   26788.65    
+  finishing density    26807.06    
+  time =   26807.06      Start POTENT
+  time =   26826.25      Start transposition
+  time =   26838.82      Start z-direction
+  time =   26846.56      end z-direction
+  time =   26858.55      start xy
+  time =   26876.72      Finished Potent
+Step =  152 A= 0.89209 Ekin=  0.9030E+14
+  init finished:         4096   26902.47    
+  finishing density    26920.91    
+  time =   26920.91      Start POTENT
+  time =   26939.32      Start transposition
+  time =   26951.43      Start z-direction
+  time =   26959.25      end z-direction
+  time =   26971.19      start xy
+  time =   26990.23      Finished Potent
+Step =  153 A= 0.90234 Ekin=  0.9055E+14
+  init finished:         4096   27016.17    
+  finishing density    27034.62    
+  time =   27034.62      Start POTENT
+  time =   27053.20      Start transposition
+  time =   27064.97      Start z-direction
+  time =   27073.38      end z-direction
+  time =   27085.50      start xy
+  time =   27103.79      Finished Potent
+Step =  154 A= 0.91259 Ekin=  0.9078E+14
+  init finished:         4096   27130.20    
+  finishing density    27148.68    
+  time =   452.4795      go to first fft
+  time =   452.5518      go to second fft
+  time =   452.8039      go to transposition
+  time =   453.0178      go to third fft
+  time =   453.0945       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            = 19.708
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   27202.27    
+  finishing density    27220.83    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 299.4802   0.3089
+  Maximum density =   38323.95    
+  time for Dmax  =   1.359375    
+  time for Find Max    =   5.259766    
+  FindMaxima: 1 finished: Nmaxima=      6640514
+  Elements on all buffers =     6640514     6640514
+  time for List Max    =   1.378906    
+ Number of maxima: 6640514
+ Above Overdensity =  1945044 Above: 300 = 1940895 400 = 1363004 500 = 1027218 600 =  810875 700 =  660936
+           time for FindMaxima(secs) =                 8.00      6.64
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       13.69728    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       13.69728    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    31.78      9.22
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9111402195
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.17     90.40
+  time to make list  =   57.55664    
+           time for List  =                           57.56     57.56
+  Go to FindDistinctCandidates:             9111402195
+ Go to ParametersDistinct :  9111402195
+           time for ParametersDistinct =             297.42    384.49
+           time for ParametersDistinct  =            297.42    384.49
+  goto RemoveCloseMaxima
+  time to make list Max  =  7.6171875E-02
+           time for RemoveDuplicates =                 0.21      0.28
+  Go to Write Catshort:             9111402195
+           time for WriteFiles  =                     17.50     17.79
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       13.69728    
+  Rescale             8589934592
+  init finished:         4096   27726.77    
+  finishing density    27745.21    
+  time =   27745.21      Start POTENT
+  time =   27763.93      Start transposition
+  time =   27774.88      Start z-direction
+  time =   27783.38      end z-direction
+  time =   27794.07      start xy
+  time =   27812.25      Finished Potent
+Step =  155 A= 0.92284 Ekin=  0.9098E+14
+  init finished:         4096   27835.76    
+  finishing density    27854.09    
+  time =   27854.09      Start POTENT
+  time =   27873.37      Start transposition
+  time =   27883.93      Start z-direction
+  time =   27892.07      end z-direction
+  time =   27902.54      start xy
+  time =   27920.69      Finished Potent
+Step =  156 A= 0.93309 Ekin=  0.9116E+14
+  init finished:         4096   27944.03    
+  finishing density    27962.47    
+  time =   27962.47      Start POTENT
+  time =   27981.17      Start transposition
+  time =   27991.66      Start z-direction
+  time =   27999.96      end z-direction
+  time =   28010.33      start xy
+  time =   28028.69      Finished Potent
+Step =  157 A= 0.94334 Ekin=  0.9133E+14
+  init finished:         4096   28052.03    
+  finishing density    28070.33    
+  time =   28070.33      Start POTENT
+  time =   28089.24      Start transposition
+  time =   28099.62      Start z-direction
+  time =   28108.56      end z-direction
+  time =   28118.98      start xy
+  time =   28137.15      Finished Potent
+Step =  158 A= 0.95360 Ekin=  0.9147E+14
+  init finished:         4096   28161.81    
+  finishing density    28179.94    
+  time =   28179.94      Start POTENT
+  time =   28198.54      Start transposition
+  time =   28209.13      Start z-direction
+  time =   28216.88      end z-direction
+  time =   28227.42      start xy
+  time =   28246.71      Finished Potent
+Step =  159 A= 0.96385 Ekin=  0.9161E+14
+  init finished:         4096   28270.72    
+  finishing density    28288.84    
+  time =   28288.84      Start POTENT
+  time =   28307.72      Start transposition
+  time =   28318.19      Start z-direction
+  time =   28326.41      end z-direction
+  time =   28337.21      start xy
+  time =   28355.54      Finished Potent
+Step =  160 A= 0.97410 Ekin=  0.9173E+14
+  init finished:         4096   28380.84    
+  finishing density    28398.96    
+  time =   28398.96      Start POTENT
+  time =   28417.80      Start transposition
+  time =   28428.36      Start z-direction
+  time =   28436.79      end z-direction
+  time =   28447.58      start xy
+  time =   28465.78      Finished Potent
+Step =  161 A= 0.98435 Ekin=  0.9183E+14
+  init finished:         4096   28490.89    
+  finishing density    28508.95    
+  time =   28508.95      Start POTENT
+  time =   28527.62      Start transposition
+  time =   28539.38      Start z-direction
+  time =   28548.11      end z-direction
+  time =   28560.00      start xy
+  time =   28578.84      Finished Potent
+Step =  162 A= 0.99460 Ekin=  0.9191E+14
+  init finished:         4096   28604.63    
+  finishing density    28622.86    
+  time =   28622.86      Start POTENT
+  time =   28641.60      Start transposition
+  time =   28654.00      Start z-direction
+  time =   28663.18      end z-direction
+  time =   28676.32      start xy
+  time =   28694.48      Finished Potent
+Step =  163 A= 1.00485 Ekin=  0.9197E+14
+  init finished:         4096   28721.00    
+  finishing density    28739.34    
+  time =   478.9903      go to first fft
+  time =   479.0648      go to second fft
+  time =   479.3167      go to transposition
+  time =   479.5324      go to third fft
+  time =   479.6075       Normalize 
+     Power .... threads =         256
+        RMS DRho/Rho            = 21.562
+        k_Nyquist for Particles = 12.56
+        k_Nyquist for Grid      = 25.13
+    n  k(h/Mpc) Harmonics Power Spectrum(h^3)  Pk_corrected
+ Number of threads      = 256
+ mDENSIT                =   1
+  init finished:         4096   28794.22    
+  finishing density    28812.41    
+  Number of threads =         256
+ Inside FindMaxima. Nparticles=         8589934592 334.4653   0.3089
+  Maximum density =   53887.72    
+  time for Dmax  =   1.615234    
+  time for Find Max    =   5.816406    
+  FindMaxima: 1 finished: Nmaxima=      5869826
+  Elements on all buffers =     5869826     5869826
+  time for List Max    =   1.675781    
+ Number of maxima: 5869826
+ Above Overdensity =  1729423 Above: 300 = 1968084 400 = 1393134 500 = 1057680 600 =  840496 700 =  689352
+           time for FindMaxima(secs) =                 9.11      7.49
+ Go to RescaleCoords    :  8589934592
+
+  ------ current set of parameters:
+!                   These are main parameters:
+          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity
+          NradP     =    100           ! Number of shells for halo profiles
+          Rext      =  0.600           ! extr radius shift at m=1e15
+          SlopeR    =   1.67           ! slope for extr radius shift
+          MassMin   =  1.000E+11       ! Minimum halo mass
+          dLogR     =  2.000E-02       ! size of log binning for potential
+          dLogP     =  1.000E-02       ! size of log binning for profiles
+  Scales=  0.1250000       12.43962    
+  Np     =             8589934592            8589934592
+  Inside rescale coords:  0.1250000       12.43962    
+ Go to AddBuffer        :  8589934592
+           time for Dens+Maxima  =                    33.07     10.30
+  Allocate buffers for particles. N=            9636401152
+     Replicate coordinates
+     Replicate velocities
+     add buffer
+  New number of particles =             9111701817
+ X range=  -5.00000E+00  5.17000E+02
+ Y range=  -5.00000E+00  5.17000E+02
+ Z range=  -5.00000E+00  5.17000E+02
+           time for AddBuffer  =                      81.37     91.67
+  time to make list  =   57.50195    
+           time for List  =                           57.50     57.50
+  Go to FindDistinctCandidates:             9111701817
+ Go to ParametersDistinct :  9111701817
+           time for ParametersDistinct =             225.88    314.17
+           time for ParametersDistinct  =            225.88    314.17
+  goto RemoveCloseMaxima
+  time to make list Max  =  9.1796875E-02
+           time for RemoveDuplicates =                 0.15      0.24
+  Go to Write Catshort:             9111701817
+           time for WriteFiles  =                     16.72     16.97
+  Copy to new buffer             8589934592  0.1250000    
+  Copy to  old arrays   0.1250000       12.43962    
+  Rescale             8589934592
+=== done Thu 30 Jul 15:53:32 BST 2026

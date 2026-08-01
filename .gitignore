@@ -79,3 +79,12 @@ DEGRACE_*/
 fid_*/
 LCDM_*/
 *Np[0-9]*Ng[0-9]*/
+
+# 2LPTIC (FML) IC generator: the FML clone is its own git repo (103 MB);
+# everything we authored/modified is tracked in 2LPTIC_Gui/fml_intel_port/.
+2LPTIC_Gui/FML/
+# Generated Gadget IC snapshots (up to 275 GB each)
+2LPTIC_Gui/*/snap/
+# Email correspondence (personal) and packaging artefacts
+2LPTIC_Gui/Gmail*
+2LPTIC_Gui/summary_*

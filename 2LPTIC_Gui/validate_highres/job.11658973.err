@@ -1,0 +1,55 @@
+
+OneAPI environment modules are now accessible.
+Use module available to see these modules.
+You probably want to:
+module load compiler-rt tbb compiler mpi
+to make the compiler and MPI available.
+
+Abort(1) on node 29 (rank 29 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 29
+Abort(1) on node 36 (rank 36 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 36
+Abort(1) on node 1 (rank 1 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 1
+Abort(1) on node 2 (rank 2 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 2
+Abort(1) on node 3 (rank 3 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 3
+Abort(1) on node 5 (rank 5 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 5
+Abort(1) on node 7 (rank 7 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 7
+Abort(1) on node 8 (rank 8 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 8
+Abort(1) on node 9 (rank 9 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 9
+Abort(1) on node 10 (rank 10 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 10
+Abort(1) on node 11 (rank 11 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 11
+Abort(1) on node 12 (rank 12 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 12
+Abort(1) on node 14 (rank 14 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 14
+Abort(1) on node 15 (rank 15 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 15
+Abort(1) on node 16 (rank 16 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 16
+Abort(1) on node 17 (rank 17 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 17
+Abort(1) on node 18 (rank 18 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 18
+Abort(1) on node 20 (rank 20 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 20
+Abort(1) on node 21 (rank 21 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 21
+Abort(1) on node 22 (rank 22 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 22
+Abort(1) on node 23 (rank 23 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 23
+Abort(1) on node 24 (rank 24 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 24
+Abort(1) on node 25 (rank 25 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 25
+Abort(1) on node 28 (rank 28 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 28
+Abort(1) on node 30 (rank 30 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 30
+Abort(1) on node 31 (rank 31 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 31
+Abort(1) on node 33 (rank 33 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 33
+Abort(1) on node 34 (rank 34 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 34
+Abort(1) on node 35 (rank 35 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 35
+Abort(1) on node 37 (rank 37 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 37
+Abort(1) on node 38 (rank 38 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 38
+Abort(1) on node 40 (rank 40 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 40
+Abort(1) on node 41 (rank 41 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 41
+Abort(1) on node 42 (rank 42 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 42
+Abort(1) on node 43 (rank 43 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 43
+Abort(1) on node 44 (rank 44 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 44
+Abort(1) on node 46 (rank 46 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 46
+Abort(1) on node 47 (rank 47 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 47
+Abort(1) on node 6 (rank 6 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 6
+Abort(1) on node 13 (rank 13 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 13
+Abort(1) on node 19 (rank 19 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 19
+Abort(1) on node 32 (rank 32 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 32
+Abort(1) on node 39 (rank 39 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 39
+Abort(1) on node 45 (rank 45 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 45
+
+real	0m1.662s
+user	0m0.022s
+sys	0m0.065s
