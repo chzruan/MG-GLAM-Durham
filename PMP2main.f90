@@ -14,6 +14,7 @@ Module LocalData
     Integer*4  :: Nlist(NstepM)   ! List of steps for analysis
     Real*4     :: dAlist(NstepM)  ! step da used for each step (exact-z mode)
     Integer*4  :: MarkX(NstepM)   ! =1: step lands exactly on a requested output redshift
+    Integer*4  :: NlastX          ! last step to execute (exact-z mode)
 end Module LocalData
 !
 !-------------------------------------------------
@@ -85,7 +86,11 @@ Program PMP
         Call TimingMain(0, 1)
         Call TimingMain(0, 0)
 
-        IF (AEXPN .GE. 1.-ASTEP/2.) exit  ! Do again if a < 1
+        If (Nexact > 0) Then      ! exact-z mode: stop index is precomputed so
+            IF (ISTEP .GE. NlastX) exit   ! no marked output is ever skipped
+        Else
+            IF (AEXPN .GE. 1.-ASTEP/2.) exit  ! Do again if a < 1
+        End If
         !
     END DO
 
@@ -181,6 +186,7 @@ subroutine Initialize(Path)
         If (a .ge. 1.) exit
     end Do
     Ntotal = i
+    NlastX = Ntotal      ! recomputed in SetExactSteps when exact-z outputs exist
     Do i = 1, Nout           !-- check every zout moment
         a = 1./(1.+zout(i))
         Do j = 2, Ntotal      !-- find closest moment in all steps
@@ -309,6 +315,23 @@ Subroutine SetExactSteps
             dAlist(j+1) = Alist(j+1) - atgt(i)
             Nlist(j) = 1
             MarkX(j) = 1
+        End If
+    End Do
+
+    !---- last step to execute: the legacy stop rule (within half a step of
+    !     a=1) evaluated on the final table, extended so that a marked output
+    !     inserted in the tail is never skipped
+    NlastX = Ntotal
+    Do i = 1, Ntotal
+        If (Alist(i) .GE. 1.-dAlist(i)/2.) Then
+            NlastX = i
+            exit
+        End If
+    End Do
+    Do i = Ntotal, NlastX + 1, -1
+        If (Nlist(i) == 1) Then
+            NlastX = i
+            exit
         End If
     End Do
     write (*, '(a,i4,a)') '  Exact-z outputs: ', Nexact, ' moments scheduled (see list below)'
