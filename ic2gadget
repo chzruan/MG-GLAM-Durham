@@ -1,0 +1,41 @@
+#!/bin/bash -l
+#
+# ic2gadget <RunDir> [output.gadget] [--units=Mpc/h|kpc/h]
+#
+# Convert a (MG-)GLAM run's INITIAL CONDITIONS to Gadget format-1.
+#
+# The ICs live in the UNNUMBERED files PMcrd.DAT / PMcrs0.DAT, written by
+# PMP2start.exe. Those same filenames are also the checkpoint target
+# (PMP2main.f90 calls WriteDataPM(0,Path) every Ncheckpoint steps), so if
+# Ncheckpoint is smaller than the run's step count they hold a mid-run state
+# instead. glam2gadget.exe prints the header and shouts if step /= 0 -- read
+# what it says rather than trusting the filename.
+#
+# Default output: <RunDir>/particles.ic.gadget
+set -euo pipefail
+
+EXE="$(dirname "$(readlink -f "$0")")/glam2gadget.exe"
+
+# Split off --units= so it can be given in any position and still reach
+# glam2gadget.exe; everything else stays positional.
+OPTS=()
+POS=()
+for arg in "$@"; do
+    case "$arg" in
+        --units=*) OPTS+=("$arg") ;;
+        *)         POS+=("$arg")  ;;
+    esac
+done
+
+if [ ${#POS[@]} -lt 1 ] || [ ${#POS[@]} -gt 2 ]; then
+    echo "Usage: $(basename "$0") <RunDir> [output.gadget] [--units=Mpc/h|kpc/h]" >&2
+    exit 1
+fi
+
+RUNDIR="${POS[0]%/}/"
+[ -s "${RUNDIR}PMcrd.DAT" ]  || { echo "ERROR: ${RUNDIR}PMcrd.DAT missing or empty" >&2; exit 1; }
+[ -s "${RUNDIR}PMcrs0.DAT" ] || { echo "ERROR: ${RUNDIR}PMcrs0.DAT missing or empty" >&2; exit 1; }
+
+# -1 = the unnumbered-files sentinel (0 is a legitimate step number, so it
+# cannot double as the sentinel).
+exec "$EXE" "$RUNDIR" -1 ${POS[1]+"${POS[1]}"} ${OPTS[@]+"${OPTS[@]}"}
