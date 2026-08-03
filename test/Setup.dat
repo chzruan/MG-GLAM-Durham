@@ -1,0 +1,76 @@
+ --------------- Setup file for PMP2 simulations ------------------
+N=0128x0256L=0750zi100da=4.00E-04f0.040
+ 9.90099E-03       Expansion Parameter
+ 4.00000E-04       Step in dAEXPN    da/a =   4.0400E-02
+ 1.73102E-02       DRho/rho in box    
+ 7.50000E+02       Box in  Mpc/h   
+ 8.15900E-01       sigma8    
+ 6.77397E-01       Hubble    
+ 3.08900E-01       Omega Matter
+ 6.91100E-01       Omega Lambda
+ 2.22990E-02       Omega Baryons or Neutrinos
+  128              NROW  Number Particles   
+  256              NGRID Number grid points 
+    0              Random seed
+ 2.92969E+00       Cell Size   
+ 1.72417E+13       Particle Mass
+ 1.00000E+02       Initial redshift       
+ 0.00000E+00       Final redshift       
+ 3.00000E+01       Density Threshold for V correction 
+ 0.00000E+00       rms V correction factor
+    1              Number of redshifts for analysis
+   0.000
+   10              Number of bias parameters
+ 0.00000E+00       Bias
+ 0.00000E+00       Bias
+ 0.00000E+00       Bias
+ 0.00000E+00       Bias
+ 0.00000E+00       Bias
+ 0.00000E+00       Bias
+ 0.00000E+00       Bias
+ 0.00000E+00       Bias
+ 0.00000E+00       Bias
+ 1.00500E+00       Pk tune
+  100              Steps between checkpoints
+    0              Save snapshots           
+    1              DM power spectrum        
+    0              Redshift distortions     
+    0              DM PDF                   
+    0              Biasing model            
+    0              Write Mocks              
+    0              Dump random fraction     
+    0              Find BDM halos           
+ !--------------- MG-flag and Multigrid solvers ------------------
+    1              MG flag
+    0              MG test flag
+    3              MG_model
+    1              V-cycle
+    0              F-cycle
+    0              W-cycle
+    2              Maximum number of cycles
+ 1.00000E-08       Relaxation convergence criterion
+ !-------------- f(R) parameters ------------------
+    1              Hu-Sawicki power: n
+-1.00000E-05       Present value of scalaron field: fR_0
+ !--------------- DGP parameters ------------------
+    0              nDGP model
+    0              sDGP model
+ 1.00000E+00       DGP parameter: H0rc
+ !------------ symmetron parameters ---------------
+ 5.00000E-01       symmetron parameter: a_star
+ 1.00000E-03       symmetron parameter: xi
+ 1.00000E-01       symmetron parameter: beta_star
+ !------------ kmouflage parameters ---------------
+    0              power-law type kmouflage model
+    0              Born-Infeld type kmouflage model
+    3              power-law kmouflage parameter: n
+ 1.00000E+00       power-law kmouflage parameter: K0
+ 1.00000E-01       kmouflage parameter: beta
+ !------------ csf model parameters ---------------
+    1              coupled scalar field model coupling type: 1 - exponential, 2 - quadratic
+    1              coupled scalar field model potential type: 1 - inverse power law, 2 - SUGRA
+ 1.00000E-01       coupled scalar field model potential parameter
+-2.00000E-01       coupled scalar field model coupling parameter
+ !------------ IC amplitude-realization + phase controls ---------------
+    1              Amplitude mode: 0-free Gaussian,1-pin box power(legacy),2-per-mode fixed(unimplemented)
+    0              Reverse phases: 0-no,1-flip delta -> -delta (paired sims)

@@ -1,0 +1,61 @@
+#!/bin/bash -l
+#
+# final2gadget <RunDir> [output.gadget] [--units=Mpc/h|kpc/h]
+#
+# Convert a (MG-)GLAM run's FINAL snapshot to Gadget format-1.
+#
+# The step number is discovered from the PMcrd.NNNN.DAT files actually present
+# rather than assumed to be 157: the step count is a function of the background
+# expansion history (Om, z_init, da, z_final) and PMP2init.exe recomputes it per
+# cosmology.
+#
+# If this reports no snapshot, the likely cause is Init.dat's
+#   Save snapshots = 2   (0-no, 1-yes, 2-only last)
+# which writes NOTHING when the final step is also a listed output moment:
+# PMP2main.f90:71 needs iSave==1 for the in-loop write, and the post-loop write
+# at :83 needs Nlist(ISTEP)/=1. With #outputs=1 at a=1 both fail. Use
+# Save snapshots = 1 to actually get a final snapshot.
+#
+# Default output: <RunDir>/particles.NNNN.gadget
+set -euo pipefail
+
+EXE="$(dirname "$(readlink -f "$0")")/glam2gadget.exe"
+
+# Split off --units= so it can be given in any position and still reach
+# glam2gadget.exe; everything else stays positional.
+OPTS=()
+POS=()
+for arg in "$@"; do
+    case "$arg" in
+        --units=*) OPTS+=("$arg") ;;
+        *)         POS+=("$arg")  ;;
+    esac
+done
+
+if [ ${#POS[@]} -lt 1 ] || [ ${#POS[@]} -gt 2 ]; then
+    echo "Usage: $(basename "$0") <RunDir> [output.gadget] [--units=Mpc/h|kpc/h]" >&2
+    exit 1
+fi
+
+RUNDIR="${POS[0]%/}/"
+
+# Highest-numbered non-empty header file. Non-empty matters: a zero-byte
+# PMcrd.NNNN.DAT is the classic litter from an older reader that opened a
+# missing snapshot with STATUS='UNKNOWN'.
+SNAP=""
+for f in "${RUNDIR}"PMcrd.[0-9][0-9][0-9][0-9].DAT; do
+    [ -s "$f" ] || continue
+    n="${f##*/PMcrd.}"; n="${n%.DAT}"
+    SNAP="$n"
+done
+
+if [ -z "$SNAP" ]; then
+    echo "ERROR: no non-empty PMcrd.NNNN.DAT in ${RUNDIR}" >&2
+    echo "       This run wrote no final snapshot -- see the note at the top" >&2
+    echo "       of this script about 'Save snapshots = 2' in Init.dat." >&2
+    ls -la "${RUNDIR}"PMcrd* 2>/dev/null >&2 || true
+    exit 1
+fi
+
+echo "Using snapshot $SNAP from ${RUNDIR}"
+exec "$EXE" "$RUNDIR" "$((10#$SNAP))" ${POS[1]+"${POS[1]}"} ${OPTS[@]+"${OPTS[@]}"}
