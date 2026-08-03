@@ -1,10 +1,26 @@
-# Tests: exact-redshift snapshot outputs (`Nexact`/`zexact`)
+# Tests: exact-redshift snapshot outputs (`#outputs < 0`)
 
 Automated test suite for the precise-redshift snapshot feature. A tiny LCDM
 box (36³ particles, 72³ mesh, 150 Mpc/h, z_init = 49) is evolved for 100
 steps under several output configurations, and every produced
 `PMcrd.NNNN.DAT` header is checked against an independent Real*4 replication
 of the schedule arithmetic (`asserts.py`, pure-stdlib Python).
+
+## Config convention under test
+
+The existing `#outputs` line + redshift list in `Init.dat`/`Setup.dat` —
+no new config lines:
+
+```
+#outputs =         3        (<0: hit these redshifts exactly)
+ 1.0 0.5 0.0
+```
+
+- `#outputs = 3` — legacy: analyze at the scheduled step *closest* to each z.
+- `#outputs = -3` — exact: the same three redshifts are hit *exactly*; each
+  becomes a new timestep, or a scheduled step within 0.5% (in 1+z) is moved
+  onto it. `PMP2init` then writes the list to `Setup.dat` in full Real*4
+  precision (`es16.8`) instead of the legacy `f8.3`.
 
 ## Run
 
@@ -22,14 +38,14 @@ delete). The executables are built automatically if missing.
 
 | case | configuration | expectation |
 |------|---------------|-------------|
-| `case1_merge` | `zexact` equal to an existing output moment (z = 0.49337, the legacy `zout=0.5` nearest-step moment) | merged: **one** snapshot, no duplicate, no index shift; header bit-exact at 1/(1+z) |
-| `case2_insert` | `zexact = 0.512`, between two scheduled steps | a **new** timestep is inserted; snapshot lands bit-exactly on 1/(1+z); legacy moments preserved |
-| `case3_multi` | `zexact = 2.5 0.512 1.1` (deliberately unsorted) | all three produced, snapshot numbers ascending as z decreases; z = 2.5 exercises the merge path, the others insert |
-| `case4a/4b` | z = 60 (≥ z_init) / z = −0.5 in `Init.dat` | `PMP2init` stops with a clear message; no `Setup.dat` written |
-| `case4c/4d` | pair closer than 0.5% / z = 60, hand-edited into `Setup.dat` | `PMP2main` stops with a clear message; no snapshots written |
-| `case5a_legacy` | no `Nexact` anywhere | legacy nearest-step schedule, output moments match the ladder oracle |
-| `case5b_stripped` | `Setup.dat` with the trailing block **removed** (pre-feature format) | accepted; expansion-factor sequence identical to `case5a` step by step |
-| `case6_tailinsert` | `zexact = 0`, `da = 6.9e-4`: the z=0 step must be **inserted after** the step where the legacy half-step exit rule (`a >= 1 - da/2`) already fires | the run keeps stepping to the inserted moment (`NlastX` stop index) and writes the snapshot at AEXPN exactly 1.0, ending there without a duplicate final dump |
+| `case1_merge` | `-2` / `2.00 0.49337` (0.49337 is within 0.5% of a scheduled step) | merged: the step is *moved* onto the target — one snapshot, no duplicate step; header bit-exact at 1/(1+z) |
+| `case2_insert` | `-2` / `2.00 0.512` (both between scheduled steps) | two new timesteps inserted; snapshots land bit-exactly on 1/(1+z) |
+| `case3_multi` | `-3` / `2.5 0.512 1.1` (deliberately unsorted) | all three produced, snapshot numbers ascending as z decreases; z=2.5 exercises the merge path, the others insert |
+| `case4a/4b` | `-1` / z = 60 (≥ z_init) resp. z = −0.5 | `PMP2init` stops with a clear message; no `Setup.dat` written |
+| `case4c/4d` | pair closer than 0.5% resp. z = 60, hand-edited into `Setup.dat` | `PMP2main` stops with a clear message; no snapshots written |
+| `case5a_legacy` | `+2` / `2.00 0.50` | legacy nearest-step schedule, output moments match the ladder oracle |
+| `case5b_trailing` | `case5a` `Setup.dat` with stale trailing lines appended | accepted and ignored; expansion-factor sequence identical to `case5a` step by step |
+| `case6_tailinsert` | `-1` / `0.00` with `da = 6.9e-4`: the z=0 step must be **inserted after** the step where the legacy half-step exit rule (`a >= 1 - da/2`) already fires | the run keeps stepping to the inserted moment (`NlastX` stop index) and writes the snapshot at AEXPN exactly 1.0 |
 
 Checks common to every simulation case: the *set* of numbered snapshots
 equals the oracle's prediction exactly (marked moments + the end-of-run
@@ -41,9 +57,11 @@ other epochs match the ladder to ≤ 2 ulp.
 - The oracle in `asserts.py` mirrors `Initialize`/`SetExactSteps` in
   `PMP2main.f90` including the float32 rounding of every operation; if the
   scheduling code changes, the oracle must change with it (a mismatch shows
-  up as a hard FAIL, not a silent pass).
-- `ZOUT_LEGACY`, `NSTEPS`, `z_init`, `da` are mirrored between
-  `Init.base.dat`, `run_tests.sh`, and `asserts.py` — keep them in sync.
+  up as a hard FAIL, not a silent pass). The bitwise assertions have real
+  discriminating power: they caught the legacy `f8.3` truncation of the
+  `Setup.dat` redshift list, which silently degraded exact targets.
+- `ZINIT`, `DA0`, `NSTEPS`, and the per-case redshift lists are mirrored
+  between `run_tests.sh` and `asserts.py` — keep them in sync.
 - Halo catalogs share the same trigger path as particle snapshots (the
   `Nlist` block in the main loop); BDM is disabled here (`Find BDM halos = 0`)
   because the box is too small to host halos at the test redshifts. The halo
