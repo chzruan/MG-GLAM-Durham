@@ -32,8 +32,9 @@ Module Tools
       Real*4    :: zinit,da,zfinal
       Real*4    :: densThr,sigV
       Real*4    :: zout(1000),BiasPars(1000)
+      Integer*4 :: iExactZ = 0       ! =1: zout requested as exact redshifts (#outputs < 0)
       Integer*4 :: Nexact = 0        ! number of exact output redshifts (0 = legacy schedule)
-      Real*4    :: zexact(1000)      ! requested exact output redshifts
+      Real*4    :: zexact(1000)      ! exact output redshifts (copy of zout when iExactZ=1)
 
       Real*4    :: AEXPN0,ASTEP0,AMPLT,EKIN,EKIN1,EKIN2,AEU0,  &
                    TINTG,                 &
@@ -134,8 +135,18 @@ subroutine ReadSetup
       read(11,*) zfinal    ! 'Final redshift       '
       read(11,*) DensThr   ! 'Density Threshold for V correction '
       read(11,*) sigV      ! 'rms V correction factor'
-      read(11,*) Nout      ! 'Number of redshifts for analysis'
+      read(11,*) Nout      ! 'Number of redshifts for analysis'  (<0: exact redshifts)
+      iExactZ = 0
+      Nexact  = 0
+      If(Nout < 0)Then     !--- negative count: hit these redshifts exactly
+         iExactZ = 1
+         Nout    = -Nout
+      End If
       read(11,*)(zout(i),i=1,Nout)
+      If(iExactZ == 1)Then
+         Nexact = Nout
+         zexact(1:Nout) = zout(1:Nout)
+      End If
       read(11,*) Nbiaspars !  'Number of bias parameters'
       Do i=1,Nbiaspars
          read(11,*) BiasPars(i)   ! 'Bias parameter'
@@ -208,24 +219,10 @@ subroutine ReadSetup
       read(11,*) csf_alpha       !'potential parameter alpha        '
       read(11,*) csf_beta        !'coupling function parameter beta '
 
-      !-- optional trailing block: exact output redshifts.
-      !   Absent in older Setup.dat files -> Nexact = 0 (legacy schedule).
-      Nexact = 0
-      read(11,'(a)',iostat=ierr) Line          ! block header line
-      if(ierr == 0)Then
-         read(11,*,iostat=ierr) Nexact         !'Number of exact output redshifts'
-         if(ierr /= 0) Nexact = 0
-         if(Nexact < 0 .or. Nexact > 1000)Then
-            write (*,*) ' Error in Setup.dat: Number of exact output redshifts =',Nexact
-            Stop ' Number of exact output redshifts must be between 0 and 1000'
-         end if
-         if(Nexact > 0)Then
-            read(11,*,iostat=ierr) (zexact(i),i=1,Nexact)
-            if(ierr /= 0) Stop ' Error in Setup.dat: cannot read list of exact output redshifts'
-            write (*,'(a,i4,a)') '  Requested ',Nexact,' exact output redshifts:'
-            write (*,'(10f10.5)') (zexact(i),i=1,Nexact)
-         end if
-      end if
+      If(Nexact > 0)Then
+         write (*,'(a,i4,a)') '  Requested ',Nexact,' exact output redshifts (#outputs < 0):'
+         write (*,'(10f10.5)') (zexact(i),i=1,Nexact)
+      End If
 
       write (*,*) ' Results were read from Setup.dat'
       CLOSE (11)

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Assertions for the exact-redshift snapshot tests (see run_tests.sh).
 
+Config convention under test: '#outputs = N' is the legacy nearest-step
+schedule; '#outputs = -N' requests the same N redshifts EXACTLY.
+
 Independently replicates, in Real*4 (float32) arithmetic, the timestep-ladder
 construction of PMP2main.f90:Initialize, the legacy zout nearest-step marking,
 the SetExactSteps insert-or-merge processing, and the run stop rule (legacy
@@ -23,19 +26,18 @@ import sys
 # ---- configuration mirrored from run_tests.sh / Init.base.dat -------------
 ZINIT = 49.0
 DA0 = 8.0e-4
-ZOUT_LEGACY = [2.00, 0.50]
 NSTEPS = 100        # steps piped into PMP2main (default)
 ZTOL = 0.005        # merge tolerance in SetExactSteps
 
-SIM_CASES = {       # case dir -> configuration
-    "case5a_legacy": dict(zex=[]),
-    "case5b_stripped": dict(zex=[]),
-    "case1_merge": dict(zex=[0.49337]),
-    "case2_insert": dict(zex=[0.512]),
-    "case3_multi": dict(zex=[2.5, 0.512, 1.1]),
+SIM_CASES = {       # case dir -> configuration (zout list + sign of #outputs)
+    "case5a_legacy": dict(zout=[2.00, 0.50], exact=False),
+    "case5b_trailing": dict(zout=[2.00, 0.50], exact=False),
+    "case1_merge": dict(zout=[2.00, 0.49337], exact=True),
+    "case2_insert": dict(zout=[2.00, 0.512], exact=True),
+    "case3_multi": dict(zout=[2.5, 0.512, 1.1], exact=True),
     # z=0 must be INSERTED after the step where the legacy half-step exit
     # rule already fires (regression test for the NlastX stop-index fix)
-    "case6_tailinsert": dict(zex=[0.0], da0=6.9e-4, nsteps=300),
+    "case6_tailinsert": dict(zout=[0.0], exact=True, da0=6.9e-4, nsteps=300),
 }
 ERR_CASES = {       # case dir -> (log file, required message, forbidden product)
     "case4a_zbig": ("init.log", "outside the simulation range", "Setup.dat"),
@@ -87,13 +89,13 @@ def legacy_marks(A, zouts):
     return marked
 
 
-def apply_exact(aexpn0, A, dA, marked, zex):
+def apply_exact(aexpn0, A, dA, zex):
     """Replicate SetExactSteps: insert-or-merge each target, ascending in a.
 
     Returns (A, dA, marks, xmarks) where xmarks maps step -> f32 target epoch.
     """
     A, dA = list(A), list(dA)
-    marks = set(marked)
+    marks = set()
     xmarks = {}
     for at in sorted(f32(1.0 / f32(1.0 + f32(z))) for z in zex):
         n = len(A) - 1
@@ -186,24 +188,27 @@ class Report:
 
 
 def oracle(cfg):
+    """Returns (expected {step: aexpn}, xmarks, stop index, #inserted steps)."""
     a0, A, dA = build_ladder(cfg.get("da0", DA0))
-    marks0 = legacy_marks(A, ZOUT_LEGACY)
-    A, dA, marks, xmarks = apply_exact(a0, A, dA, marks0, cfg["zex"])
-    stop = stop_index(A, dA, marks, exact=bool(cfg["zex"]))
+    n0 = len(A)
+    if cfg["exact"]:
+        A, dA, marks, xmarks = apply_exact(a0, A, dA, cfg["zout"])
+    else:
+        marks, xmarks = legacy_marks(A, cfg["zout"]), {}
+    stop = stop_index(A, dA, marks, exact=cfg["exact"])
     exp = expected_outputs(A, marks, cfg.get("nsteps", NSTEPS), stop)
-    return exp, xmarks, stop
+    return exp, xmarks, stop, len(A) - n0
 
 
 def main(work):
     rep = Report()
-    baseline, _, _ = oracle(SIM_CASES["case5a_legacy"])
 
     results = {}
     for case, cfg in SIM_CASES.items():
         rundir = os.path.join(work, case, "Run1")
         act = actual_outputs(rundir)
         results[case] = act
-        exp, xmarks, _ = oracle(cfg)
+        exp, xmarks, _, _ = oracle(cfg)
 
         rep.check(set(act) == set(exp), case,
                   f"snapshot set {sorted(act)} == expected {sorted(exp)}")
@@ -215,26 +220,29 @@ def main(work):
                 ok = abs(act[step] - exp[step]) <= 4e-7 * exp[step]
                 rep.check(ok, case, f"step {step}: AEXPN={act[step]:.9g} matches schedule {exp[step]:.9g}")
 
-    # case 1: merged target -> single snapshot near the moment, no index shift
+    # case 1: the near-coincident target is merged (only z=2 inserts a step),
+    # and exactly one snapshot exists at the merged moment
+    _, _, _, nins1 = oracle(SIM_CASES["case1_merge"])
+    rep.check(nins1 == 1, "case1_merge",
+              f"z=0.49337 merged onto the existing step (only 1 step inserted, got {nins1})")
     act = results["case1_merge"]
     near = [s for s, a in act.items() if abs(a - f32(1.0 / f32(1.0 + f32(0.49337)))) < 0.005]
     rep.check(len(near) == 1, "case1_merge", f"exactly one snapshot at the merged moment (got {len(near)})")
-    rep.check(set(act) == set(baseline), "case1_merge",
-              "no new step inserted: snapshot numbers identical to legacy baseline")
 
-    # case 2: inserted target -> exactly one extra snapshot vs baseline
-    rep.check(len(results["case2_insert"]) == len(baseline) + 1, "case2_insert",
-              "one additional snapshot vs legacy baseline")
+    # case 2: both targets are genuine insertions
+    _, _, _, nins2 = oracle(SIM_CASES["case2_insert"])
+    rep.check(nins2 == 2, "case2_insert",
+              f"z=2.0 and z=0.512 both inserted as new steps (got {nins2})")
 
     # case 3: all targets present, ordered (ascending step = descending z)
-    _, xm3, _ = oracle(SIM_CASES["case3_multi"])
+    _, xm3, _, _ = oracle(SIM_CASES["case3_multi"])
     steps3 = sorted(xm3)
     rep.check(len(steps3) == 3, "case3_multi", f"all 3 requested moments scheduled: steps {steps3}")
     rep.check([xm3[s] for s in steps3] == sorted(xm3.values()), "case3_multi",
               "requested snapshots ordered: step number increases as z decreases")
 
     # case 6: z=0 inserted AFTER the legacy stop step must still be executed
-    exp6, xm6, stop6 = oracle(SIM_CASES["case6_tailinsert"])
+    _, xm6, stop6, _ = oracle(SIM_CASES["case6_tailinsert"])
     z0step = max(xm6)
     rep.check(stop6 == z0step, "case6_tailinsert",
               f"stop index extends to the inserted z=0 step ({z0step})")
@@ -243,15 +251,15 @@ def main(work):
               f"z=0 snapshot produced at step {z0step} with AEXPN exactly 1.0")
 
     # case 5: backward compatibility
-    rep.check(set(results["case5a_legacy"]) == set(baseline), "case5a_legacy",
-              "legacy config reproduces the legacy output moments")
-    stripped = open(os.path.join(work, "case5b_stripped", "Setup.dat")).read()
-    rep.check("exact output redshifts" not in stripped, "case5b_stripped",
-              "Setup.dat really has no exact-z block (pre-feature format)")
+    trailing = open(os.path.join(work, "case5b_trailing", "Setup.dat")).read()
+    rep.check("exact output redshifts" in trailing.splitlines()[-2], "case5b_trailing",
+              "Setup.dat really carries stale trailing lines")
+    rep.check(set(results["case5b_trailing"]) == set(results["case5a_legacy"]),
+              "case5b_trailing", "output moments identical despite trailing lines")
     seq_a = a_sequence(os.path.join(work, "case5a_legacy", "Run1", "main.log"))
-    seq_b = a_sequence(os.path.join(work, "case5b_stripped", "Run1", "main.log"))
-    rep.check(len(seq_a) == NSTEPS and seq_a == seq_b, "case5b_stripped",
-              "expansion-factor sequence identical with and without the block")
+    seq_b = a_sequence(os.path.join(work, "case5b_trailing", "Run1", "main.log"))
+    rep.check(len(seq_a) == NSTEPS and seq_a == seq_b, "case5b_trailing",
+              "expansion-factor sequence identical with and without trailing lines")
 
     # case 4: invalid requests -> clear message, no products
     for case, (log, msg, product) in ERR_CASES.items():

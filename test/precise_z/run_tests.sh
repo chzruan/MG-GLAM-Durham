@@ -1,24 +1,29 @@
 #!/bin/bash
-# Automated tests for the exact-redshift snapshot feature (Nexact/zexact).
+# Automated tests for the exact-redshift snapshot feature (#outputs < 0).
 #
 # Runs a tiny LCDM box (36^3 particles, 72^3 mesh, 150 Mpc/h) through
 # PMP2init -> PMP2start -> PMP2main for several configurations, then checks
 # every produced PMcrd.NNNN.DAT header against an independent Real*4
 # replication of the schedule arithmetic (asserts.py).
 #
+# Config convention under test: the existing '#outputs' line + redshift list.
+#   #outputs =  N   -> legacy: analyze at the step CLOSEST to each redshift
+#   #outputs = -N   -> exact:  hit each listed redshift exactly (new steps are
+#                      inserted, or a step within 0.5% in 1+z is moved onto it)
+#
 # Cases (see asserts.py for the exact expectations):
-#   case5a_legacy    - no Nexact anywhere: legacy schedule (baseline)
-#   case5b_stripped  - Setup.dat with the trailing block removed entirely
-#                      (simulates a pre-feature Setup.dat); must behave
-#                      identically to case5a
-#   case1_merge      - zexact matching an existing output moment: merged,
-#                      single snapshot, no duplicate, no index shift
-#   case2_insert     - zexact between two scheduled steps: new step inserted,
+#   case5a_legacy    - positive #outputs: legacy schedule (baseline)
+#   case5b_trailing  - Setup.dat with stale trailing lines appended (e.g. the
+#                      interim Nexact block): must behave identically to 5a
+#   case1_merge      - exact z equal to an existing output moment: merged,
+#                      single snapshot, no duplicate step
+#   case2_insert     - exact z between two scheduled steps: new step inserted,
 #                      snapshot lands bit-exactly on 1/(1+z)
-#   case3_multi      - three zexact given unsorted: all produced, in order
+#   case3_multi      - three exact z given unsorted: all produced, in order
 #   case4a/4b        - invalid z (>= z_init / negative) rejected by PMP2init
 #   case4c/4d        - close pair / out-of-range z in a hand-edited Setup.dat
 #                      rejected by PMP2main
+#   case6_tailinsert - z=0 inserted after the legacy stop step (NlastX fix)
 #
 # Usage:   bash run_tests.sh          (interactive; ~1-2 min on a login node)
 #          SKIP_MODULES=1 bash run_tests.sh   (if the Intel env is already loaded)
@@ -62,8 +67,38 @@ if [ ! -f "$WORK/TableSeeds.dat" ]; then
     } > "$WORK/TableSeeds.dat"
 fi
 
+# ------------------------------------------------------------------ helpers
+prep_case () {   # $1 = case dir
+    local d="$WORK/$1"
+    mkdir -p "$d/Run1"
+    cp "$HERE/Init.base.dat" "$d/Init.dat"
+    cp "$WORK/PkTable.dat" "$WORK/TableSeeds.dat" "$d/"
+}
+set_outputs () { # $1 = case dir; $2 = signed count; $3 = redshift list
+    awk -v n="$2" -v list="$3" '
+        /^#outputs/ { printf "#outputs = %9d\n%s\n", n, list; getline; next }
+        { print }' "$WORK/$1/Init.dat" > "$WORK/$1/Init.tmp" \
+        && mv "$WORK/$1/Init.tmp" "$WORK/$1/Init.dat"
+}
+set_setup_outputs () { # $1 = Setup.dat path; $2 = signed count; $3 = list
+    awk -v n="$2" -v list="$3" '
+        /Number of redshifts for analysis/ {
+            printf "%5d               Number of redshifts for analysis (<0: exact)\n%s\n", n, list
+            getline; next }
+        { print }' "$1" > "$1.tmp" && mv "$1.tmp" "$1"
+}
+copy_ics () {    # $1 = case dir
+    cp "$WORK/ic/Run1/PMcrd.DAT" "$WORK/ic/Run1/PMcrs0.DAT" "$WORK/ic/Run1/pt.dat" "$WORK/$1/Run1/"
+}
+run_init () {    # $1 = case dir
+    ( cd "$WORK/$1" && "$ROOT/PMP2init.exe" > init.log 2>&1 )
+}
+run_main () {    # $1 = case dir;  $2 = steps (default NSTEPS)
+    ( cd "$WORK/$1/Run1" && echo "${2:-$NSTEPS}" | "$ROOT/PMP2main.exe" > main.log 2>&1 )
+}
+
 # --------------------------------------------------------------- shared ICs
-# All simulation cases share one IC realization (identical PMcrd/PMcrs/pt).
+# Simulation cases with the default da share one IC realization.
 echo "== generating shared initial conditions"
 mkdir -p "$WORK/ic/Run1"
 cp "$HERE/Init.base.dat" "$WORK/ic/Init.dat"
@@ -72,94 +107,64 @@ cp "$WORK/PkTable.dat" "$WORK/TableSeeds.dat" "$WORK/ic/"
 ( cd "$WORK/ic/Run1" && echo 1 | "$ROOT/PMP2start.exe" > start.log 2>&1 ) \
     || { echo "FATAL: PMP2start failed"; tail -5 "$WORK/ic/Run1/start.log"; exit 2; }
 
-# ------------------------------------------------------------------ helpers
-prep_case () {   # $1 = case dir;  stdin = extra lines appended to Init.dat
-    local d="$WORK/$1"
-    mkdir -p "$d/Run1"
-    cp "$HERE/Init.base.dat" "$d/Init.dat"
-    cat >> "$d/Init.dat"
-    cp "$WORK/PkTable.dat" "$WORK/TableSeeds.dat" "$d/"
-}
-copy_ics () {    # $1 = case dir
-    cp "$WORK/ic/Run1/PMcrd.DAT" "$WORK/ic/Run1/PMcrs0.DAT" "$WORK/ic/Run1/pt.dat" "$WORK/$1/Run1/"
-}
-run_main () {    # $1 = case dir;  $2 = steps (default NSTEPS)
-    ( cd "$WORK/$1/Run1" && echo "${2:-$NSTEPS}" | "$ROOT/PMP2main.exe" > main.log 2>&1 )
-}
-
 # ------------------------------------------------------------------ sim cases
-echo "== case5a_legacy: no Nexact block at all"
-prep_case case5a_legacy < /dev/null
-( cd "$WORK/case5a_legacy" && "$ROOT/PMP2init.exe" > init.log 2>&1 ) || echo "  (init failed)"
+echo "== case5a_legacy: positive #outputs (legacy nearest-step schedule)"
+prep_case case5a_legacy
+run_init case5a_legacy || echo "  (init failed)"
 copy_ics case5a_legacy && run_main case5a_legacy
 
-echo "== case5b_stripped: Setup.dat without the trailing exact-z block"
-prep_case case5b_stripped < /dev/null
-head -n -2 "$WORK/case5a_legacy/Setup.dat" > "$WORK/case5b_stripped/Setup.dat"
-copy_ics case5b_stripped && run_main case5b_stripped
+echo "== case5b_trailing: Setup.dat with stale trailing lines"
+prep_case case5b_trailing
+{ cat "$WORK/case5a_legacy/Setup.dat"
+  echo ' !------------ exact output redshifts ---------------'
+  echo '    0              Number of exact output redshifts'
+} > "$WORK/case5b_trailing/Setup.dat"
+copy_ics case5b_trailing && run_main case5b_trailing
 
-echo "== case1_merge: zexact on an existing output moment"
-prep_case case1_merge <<'EOF'
-Nexact                    =         1  Number of exact output redshifts
- 0.49337
-EOF
-( cd "$WORK/case1_merge" && "$ROOT/PMP2init.exe" > init.log 2>&1 ) || echo "  (init failed)"
+echo "== case1_merge: exact z on an existing output moment (#outputs = -2)"
+prep_case case1_merge
+set_outputs case1_merge -2 " 2.00 0.49337"
+run_init case1_merge || echo "  (init failed)"
 copy_ics case1_merge && run_main case1_merge
 
-echo "== case2_insert: zexact between two scheduled steps"
-prep_case case2_insert <<'EOF'
-Nexact                    =         1  Number of exact output redshifts
- 0.512
-EOF
-( cd "$WORK/case2_insert" && "$ROOT/PMP2init.exe" > init.log 2>&1 ) || echo "  (init failed)"
+echo "== case2_insert: exact z between two scheduled steps (#outputs = -2)"
+prep_case case2_insert
+set_outputs case2_insert -2 " 2.00 0.512"
+run_init case2_insert || echo "  (init failed)"
 copy_ics case2_insert && run_main case2_insert
 
-echo "== case3_multi: three targets, given unsorted"
-prep_case case3_multi <<'EOF'
-Nexact                    =         3  Number of exact output redshifts
- 2.5 0.512 1.1
-EOF
-( cd "$WORK/case3_multi" && "$ROOT/PMP2init.exe" > init.log 2>&1 ) || echo "  (init failed)"
+echo "== case3_multi: three exact z, given unsorted (#outputs = -3)"
+prep_case case3_multi
+set_outputs case3_multi -3 " 2.5 0.512 1.1"
+run_init case3_multi || echo "  (init failed)"
 copy_ics case3_multi && run_main case3_multi
 
-echo "== case6_tailinsert: z=0 inserted after the legacy stop step (needs da=6.9e-4)"
+echo "== case6_tailinsert: z=0 inserted after the legacy stop step (da=6.9e-4)"
 # With da0=6.9e-4 the last sub-1 ladder point (a=0.99448) satisfies the legacy
 # half-step exit rule, while the z=0 target must be INSERTED after it; the run
 # must still execute the inserted step (regression test for the NlastX fix).
-prep_case case6_tailinsert <<'EOF'
-Nexact                    =         1  Number of exact output redshifts
- 0.00
-EOF
+prep_case case6_tailinsert
 sed -i 's/8.0000E-04/6.9000E-04/' "$WORK/case6_tailinsert/Init.dat"
-( cd "$WORK/case6_tailinsert" && "$ROOT/PMP2init.exe" > init.log 2>&1 ) || echo "  (init failed)"
+set_outputs case6_tailinsert -1 " 0.00"
+run_init case6_tailinsert || echo "  (init failed)"
 ( cd "$WORK/case6_tailinsert/Run1" && echo 1 | "$ROOT/PMP2start.exe" > start.log 2>&1 )  # own ICs: da differs
 run_main case6_tailinsert 300
 
 # ---------------------------------------------------------------- error cases
 echo "== case4a_zbig / case4b_zneg: rejected by PMP2init"
-prep_case case4a_zbig <<'EOF'
-Nexact                    =         1  Number of exact output redshifts
- 60.0
-EOF
-( cd "$WORK/case4a_zbig" && "$ROOT/PMP2init.exe" > init.log 2>&1 )
-prep_case case4b_zneg <<'EOF'
-Nexact                    =         1  Number of exact output redshifts
- -0.5
-EOF
-( cd "$WORK/case4b_zneg" && "$ROOT/PMP2init.exe" > init.log 2>&1 )
+prep_case case4a_zbig
+set_outputs case4a_zbig -1 " 60.0"
+run_init case4a_zbig
+prep_case case4b_zneg
+set_outputs case4b_zneg -1 " -0.5"
+run_init case4b_zneg
 
 echo "== case4c_pair / case4d_range: rejected by PMP2main (hand-edited Setup.dat)"
 mkdir -p "$WORK/case4c_pair/Run1" "$WORK/case4d_range/Run1"
-{ head -n -2 "$WORK/case5a_legacy/Setup.dat"
-  echo ' !------------ exact output redshifts ---------------'
-  echo '    2              Number of exact output redshifts'
-  echo '   0.51200   0.51000'
-} > "$WORK/case4c_pair/Setup.dat"
-{ head -n -2 "$WORK/case5a_legacy/Setup.dat"
-  echo ' !------------ exact output redshifts ---------------'
-  echo '    1              Number of exact output redshifts'
-  echo '  60.00000'
-} > "$WORK/case4d_range/Setup.dat"
+cp "$WORK/case5a_legacy/Setup.dat" "$WORK/case4c_pair/Setup.dat"
+set_setup_outputs "$WORK/case4c_pair/Setup.dat" -2 "   0.51200   0.51000"
+cp "$WORK/case5a_legacy/Setup.dat" "$WORK/case4d_range/Setup.dat"
+set_setup_outputs "$WORK/case4d_range/Setup.dat" -1 "  60.00000"
 copy_ics case4c_pair;  run_main case4c_pair
 copy_ics case4d_range; run_main case4d_range
 

@@ -187,19 +187,21 @@ subroutine Initialize(Path)
     end Do
     Ntotal = i
     NlastX = Ntotal      ! recomputed in SetExactSteps when exact-z outputs exist
-    Do i = 1, Nout           !-- check every zout moment
-        a = 1./(1.+zout(i))
-        Do j = 2, Ntotal      !-- find closest moment in all steps
-            if (a .lt. Alist(j)) exit
+    If (Nexact == 0) Then    !-- legacy: mark the step closest to each zout moment
+        Do i = 1, Nout           !-- check every zout moment
+            a = 1./(1.+zout(i))
+            Do j = 2, Ntotal      !-- find closest moment in all steps
+                if (a .lt. Alist(j)) exit
+            end Do
+            da1 = Alist(j) - a
+            da0 = a - Alist(j - 1)
+            If (da1 < da0) Then    !-- mark closest time step for analysis
+                Nlist(j) = 1
+            else
+                Nlist(j - 1) = 1
+            end If
         end Do
-        da1 = Alist(j) - a
-        da0 = a - Alist(j - 1)
-        If (da1 < da0) Then    !-- mark closest time step for analysis
-            Nlist(j) = 1
-        else
-            Nlist(j - 1) = 1
-        end If
-    end Do
+    End If                   !-- #outputs < 0: zout handled exactly in SetExactSteps
 
     Call SetExactSteps       !-- insert requested exact-z output moments into the schedule
 
