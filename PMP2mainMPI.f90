@@ -91,6 +91,13 @@ subroutine Initialize(Path)
 
       Call ReadSetup
 
+      If (Nexact > 0) Then
+         write (*,*) ' Error: exact output redshifts (Nexact>0 in Setup.dat)'
+         write (*,*) '        are not supported by the MPI variant.'
+         write (*,*) '        Use PMP2main.exe / PMP2MG.exe, or set Nexact=0.'
+         Stop 'Exact output redshifts not supported in PMP2mainMPI'
+      End If
+
    End If
       CALL MPI_BCAST(NROW,  1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
       CALL MPI_BCAST(NGRID, 1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)

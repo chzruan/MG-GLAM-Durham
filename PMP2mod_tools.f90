@@ -32,6 +32,8 @@ Module Tools
       Real*4    :: zinit,da,zfinal
       Real*4    :: densThr,sigV
       Real*4    :: zout(1000),BiasPars(1000)
+      Integer*4 :: Nexact = 0        ! number of exact output redshifts (0 = legacy schedule)
+      Real*4    :: zexact(1000)      ! requested exact output redshifts
 
       Real*4    :: AEXPN0,ASTEP0,AMPLT,EKIN,EKIN1,EKIN2,AEU0,  &
                    TINTG,                 &
@@ -205,6 +207,25 @@ subroutine ReadSetup
       read(11,*) csf_potential   !'type of potential: 1 - inverse power law; 2 - SUGRA '
       read(11,*) csf_alpha       !'potential parameter alpha        '
       read(11,*) csf_beta        !'coupling function parameter beta '
+
+      !-- optional trailing block: exact output redshifts.
+      !   Absent in older Setup.dat files -> Nexact = 0 (legacy schedule).
+      Nexact = 0
+      read(11,'(a)',iostat=ierr) Line          ! block header line
+      if(ierr == 0)Then
+         read(11,*,iostat=ierr) Nexact         !'Number of exact output redshifts'
+         if(ierr /= 0) Nexact = 0
+         if(Nexact < 0 .or. Nexact > 1000)Then
+            write (*,*) ' Error in Setup.dat: Number of exact output redshifts =',Nexact
+            Stop ' Number of exact output redshifts must be between 0 and 1000'
+         end if
+         if(Nexact > 0)Then
+            read(11,*,iostat=ierr) (zexact(i),i=1,Nexact)
+            if(ierr /= 0) Stop ' Error in Setup.dat: cannot read list of exact output redshifts'
+            write (*,'(a,i4,a)') '  Requested ',Nexact,' exact output redshifts:'
+            write (*,'(10f10.5)') (zexact(i),i=1,Nexact)
+         end if
+      end if
 
       write (*,*) ' Results were read from Setup.dat'
       CLOSE (11)
