@@ -7,10 +7,13 @@
 !-------------------------------------------------
 
 Module LocalData
+    Integer*4, parameter :: NstepM = 2000   ! max # steps in the schedule
     Integer*4  :: Nsteps, &   ! # steps for this run
                   Ntotal        ! # steps for the whole simulation
-    Real*4     :: Alist(2000)   ! List of expansion parameter steps
-    Integer*4  :: Nlist(2000)   ! List of steps for analysis
+    Real*4     :: Alist(NstepM)   ! List of expansion parameter steps
+    Integer*4  :: Nlist(NstepM)   ! List of steps for analysis
+    Real*4     :: dAlist(NstepM)  ! step da used for each step (exact-z mode)
+    Integer*4  :: MarkX(NstepM)   ! =1: step lands exactly on a requested output redshift
 end Module LocalData
 !
 !-------------------------------------------------
@@ -46,7 +49,13 @@ Program PMP
         CALL POTENTfft5            ! Define potential
 
         FactV = 1.                ! normal step
-        If (ASTEP < StepFactor/1.25*AEXPN .AND. AEXPN < 0.300) Then
+        If (Nexact > 0) Then      ! exact-z mode: schedule is table-driven
+            danew = dAlist(min(ISTEP + 1, Ntotal))
+            If (danew /= ASTEP) Then
+                FactV = 2.*danew/(ASTEP + danew)   ! leapfrog kick spans (da_old+da_new)/2
+                ASTEP = danew
+            End If
+        Else If (ASTEP < StepFactor/1.25*AEXPN .AND. AEXPN < 0.300) Then
             ASTEP = 1.5*ASTEP       ! increase step
             FactV = 1.2
         END If
@@ -154,6 +163,8 @@ subroutine Initialize(Path)
     !---- make table for steps
     Alist(:) = 0.
     Nlist(:) = 0
+    dAlist(:) = 0.
+    MarkX(:) = 0
     da = ASTEP0
     a = AEXPN0
     Alist(1) = a
@@ -164,8 +175,9 @@ subroutine Initialize(Path)
         End If
         a = a + da
         i = i + 1
-        If (i .gt. 2000) Stop 'Too many timesteps.Increase length of Alist'
+        If (i .gt. NstepM) Stop 'Too many timesteps.Increase length of Alist'
         Alist(i) = a
+        dAlist(i) = da
         If (a .ge. 1.) exit
     end Do
     Ntotal = i
@@ -182,13 +194,143 @@ subroutine Initialize(Path)
             Nlist(j - 1) = 1
         end If
     end Do
+
+    Call SetExactSteps       !-- insert requested exact-z output moments into the schedule
+
     write (*, *) 'Step  a_expansion   redshift   Analyze    List moments for analysis '
     do i = 1, Ntotal
-        if (Nlist(i) == 1) &
-            write (*, '(i5,2es13.4,i3)') i, Alist(i), 1./Alist(i) - 1., Nlist(i)
+        if (Nlist(i) == 1) Then
+            if (MarkX(i) == 1) Then
+                write (*, '(i5,2es13.4,i3,a)') i, Alist(i), 1./Alist(i) - 1., Nlist(i), '  exact'
+            else
+                write (*, '(i5,2es13.4,i3)') i, Alist(i), 1./Alist(i) - 1., Nlist(i)
+            end if
+        end if
     end Do
 
 end subroutine Initialize
+!------------------------------
+!
+!   Insert user-requested exact output redshifts into the timestep schedule.
+!
+!   Each target a_t = 1/(1+z_t) either becomes a NEW timestep, or - when a
+!   scheduled step is already closer than ZTOL (relative in a, equivalently
+!   in 1+z) - that scheduled step is MOVED onto the target instead, so no
+!   near-degenerate step is created. Marked steps (Nlist=1) trigger the
+!   standard snapshot/analysis outputs; MarkX=1 makes ADDTIME land on the
+!   tabulated epoch exactly. The legacy zout moments are kept unchanged.
+!
+!------------------------------
+Subroutine SetExactSteps
+    use Tools
+    use LocalData
+    Real*4, parameter :: ZTOL = 0.005    ! merge threshold: 0.5% in a (= in 1+z)
+    Real*4    :: atgt(1000), aprev, atol
+    Integer*4 :: i, j, k, jnear
+
+    If (Nexact <= 0) Return
+
+    !---- validate targets and convert to expansion parameters
+    Do i = 1, Nexact
+        If (zexact(i) < 0.) Then
+            write (*, '(a,f10.5,a)') ' Error: exact output redshift z=', zexact(i), &
+                ' is negative (simulation ends at z=0)'
+            Stop 'Exact output redshift outside simulation range'
+        End If
+        atgt(i) = 1./(1.+zexact(i))
+        If (atgt(i) <= AEXPN0*(1.+1.e-5)) Then
+            write (*, '(2(a,f10.5))') ' Error: exact output redshift z=', zexact(i), &
+                ' is at or before the initial redshift z_init=', 1./AEXPN0 - 1.
+            Stop 'Exact output redshift outside simulation range'
+        End If
+    End Do
+
+    !---- sort ascending in a (descending in z)
+    Do i = 2, Nexact
+        aprev = atgt(i)
+        j = i - 1
+        Do While (j >= 1)
+            If (atgt(j) <= aprev) exit
+            atgt(j+1) = atgt(j)
+            j = j - 1
+        End Do
+        atgt(j+1) = aprev
+    End Do
+
+    !---- reject targets closer to each other than the merge tolerance
+    Do i = 2, Nexact
+        If (atgt(i) - atgt(i-1) < ZTOL*atgt(i)) Then
+            write (*, '(2(a,f10.5),a)') ' Error: exact output redshifts z=', 1./atgt(i-1) - 1., &
+                ' and z=', 1./atgt(i) - 1., ' are closer than the 0.5% merge tolerance'
+            Stop 'Exact output redshifts too close to each other'
+        End If
+    End Do
+
+    !---- insert each target into the schedule (or move a near-coincident step)
+    Do i = 1, Nexact
+        atol = ZTOL*atgt(i)
+        j = 1                             !-- first scheduled step at/beyond target
+        Do While (Alist(j) < atgt(i) .and. j < Ntotal)
+            j = j + 1
+        End Do
+        jnear = j                         !-- nearest scheduled step
+        If (j > 1) Then
+            If (atgt(i) - Alist(j-1) < Alist(j) - atgt(i)) jnear = j - 1
+        End If
+
+        If (abs(Alist(jnear) - atgt(i)) < atol) Then
+            !-- close enough: move the scheduled step onto the target
+            Alist(jnear) = atgt(i)
+            If (jnear == 1) Then
+                dAlist(1) = atgt(i) - AEXPN0
+            Else
+                dAlist(jnear) = atgt(i) - Alist(jnear-1)
+            End If
+            If (jnear < Ntotal) dAlist(jnear+1) = Alist(jnear+1) - atgt(i)
+            Nlist(jnear) = 1
+            MarkX(jnear) = 1
+        Else
+            !-- add the target as a new timestep before step j
+            If (Ntotal + 1 > NstepM) Stop 'Too many timesteps.Increase length of Alist'
+            Do k = Ntotal, j, -1
+                Alist(k+1) = Alist(k)
+                dAlist(k+1) = dAlist(k)
+                Nlist(k+1) = Nlist(k)
+                MarkX(k+1) = MarkX(k)
+            End Do
+            Ntotal = Ntotal + 1
+            If (j == 1) Then
+                aprev = AEXPN0
+            Else
+                aprev = Alist(j-1)
+            End If
+            Alist(j) = atgt(i)
+            dAlist(j) = atgt(i) - aprev
+            dAlist(j+1) = Alist(j+1) - atgt(i)
+            Nlist(j) = 1
+            MarkX(j) = 1
+        End If
+    End Do
+    write (*, '(a,i4,a)') '  Exact-z outputs: ', Nexact, ' moments scheduled (see list below)'
+
+    !---- restart consistency: the rebuilt schedule must reproduce the checkpoint.
+    !     Exact redshifts that the run has already passed cannot be added on restart.
+    If (ISTEP > 0) Then
+        If (ISTEP > Ntotal) Then
+            write (*, *) ' Error: checkpoint step ', ISTEP, ' beyond schedule end ', Ntotal
+            Stop 'Exact-z schedule inconsistent with checkpoint'
+        End If
+        If (abs(AEXPN - Alist(ISTEP)) > max(0.25*ASTEP0, 1.e-5)) Then
+            write (*, '(2(a,f10.6))') ' Error: checkpoint AEXPN=', AEXPN, &
+                ' does not match scheduled Alist(ISTEP)=', Alist(ISTEP)
+            write (*, *) ' Exact output redshifts already passed must not be added/changed on restart.'
+            Stop 'Exact-z schedule inconsistent with checkpoint'
+        End If
+        AEXPN = Alist(ISTEP)      ! snap restart epoch onto the schedule
+        ASTEP = dAlist(ISTEP)     ! last executed step, for the leapfrog FactV correction
+    End If
+
+end Subroutine SetExactSteps
 !------------------------------
 !
 !             Generate a table with random seeds
@@ -256,9 +398,14 @@ end SUBROUTINE SetTest
 SUBROUTINE ADDTIME
 !--------------------------------------------------
     use Tools
+    use LocalData
 
     ISTEP = ISTEP + 1
-    AEXPN = AEXPN + ASTEP
+    If (Nexact > 0) Then
+        AEXPN = Alist(min(ISTEP, Ntotal))  ! exact-z mode: land exactly on the scheduled epoch
+    Else
+        AEXPN = AEXPN + ASTEP
+    End If
     !    Energy conservation
     IF (ISTEP .EQ. 1) THEN
         EKIN1 = EKIN

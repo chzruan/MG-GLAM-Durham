@@ -30,6 +30,8 @@ Module Param
     Real*4   :: Box, zinit, da, zfinal
     Real*4   :: densThr, sigV
     Real*4   :: zout(1000), BiasPars(1000)
+    Integer*4:: Nexact = 0          ! number of exact output redshifts
+    Real*4   :: zexact(1000)        ! exact output redshifts
     Real*8   :: rf, OmLOm0
     Real*4   :: xkt(0:NtabM), Pkt(0:NtabM)  ! Power spectrum
     Real*4   :: StepK, alog0
@@ -232,6 +234,15 @@ Program Initialize
     Call CheckInit !---- check whether  all input files exist
     Call ReadInit  !---- read all input information
 
+    !---- validate requested exact output redshifts: must satisfy 0 <= z < z_init
+    Do i = 1, Nexact
+        If (zexact(i) < 0. .or. zexact(i) >= zinit) Then
+            write (*, '(2(a,f10.4))') ' Error: exact output redshift z=', zexact(i), &
+                ' is outside the simulation range 0 <= z < z_init=', zinit
+            Stop 'Invalid exact output redshift in Init.dat'
+        End If
+    End Do
+
     OPEN (10, file='Setup.dat')
     OPEN (1, file='lcdm.dat')
 
@@ -350,6 +361,9 @@ Program Initialize
     write (10, 60) csf_potential, 'coupled scalar field model potential type: 1 - inverse power law, 2 - SUGRA'
     write (10, 50) csf_alpha, 'coupled scalar field model potential parameter'
     write (10, 50) csf_beta, 'coupled scalar field model coupling parameter'
+    write (10, *) '!------------ exact output redshifts ---------------'
+    write (10, 60) Nexact, 'Number of exact output redshifts'
+    if (Nexact > 0) write (10, '(100f10.5)') (zexact(i), i=1, Nexact)
 50  format(es12.5, T20, a)
 60  format(i5, T20, a)
 70  format(L, T20, a)
@@ -366,6 +380,7 @@ end Program Initialize
 !
 Subroutine ReadInit
     use Param
+    Character*120 :: Line
     !-- Read PkTable. Assign Omegas and hubble
     Omb = ParseLine(10) ! note it is omega_b0 = Omega_b0 h^2 actually...
     Omc = ParseLine(10) ! note it is omega_c0 = Omega_c0 h^2 actually...
@@ -468,6 +483,26 @@ Subroutine ReadInit
     csf_alpha = ParseLine(11)
     csf_beta = ParseLine(11)
 
+    !-- optional trailing block: exact output redshifts.
+    !   Absent in older Init.dat files -> Nexact = 0 (legacy schedule).
+    Nexact = 0
+    read (11, '(a)', iostat=ierr) Line
+    if (ierr == 0) then
+        ieq = INDEX(Line, '=', BACK=.TRUE.)
+        if (ieq > 0) then
+            read (Line(ieq+1:), *, iostat=ierr) Nexact
+            if (ierr /= 0) Nexact = 0
+        end if
+        if (Nexact < 0 .or. Nexact > 1000) then
+            write (*, *) ' Error in Init.dat: number of exact output redshifts =', Nexact
+            Stop ' Number of exact output redshifts must be between 0 and 1000'
+        end if
+        if (Nexact > 0) then
+            read (11, *, iostat=ierr) (zexact(i), i=1, Nexact)
+            if (ierr /= 0) Stop ' Error in Init.dat: cannot read list of exact output redshifts'
+        end if
+    end if
+
     If (BiasPars(10) < 0.1) BiasPars(10) = 1.0
     !--- make new da
     ! fr = da*(1.+zinit)*100.     ! = da/a*100
@@ -480,6 +515,8 @@ Subroutine ReadInit
     write (*, *) 'Ngrid =', Ngrid
     write (*, *) 'Nout  =', Nout
     write (*, *) 'Nbias =', Nbiaspars
+    write (*, *) 'Nexact=', Nexact
+    if (Nexact > 0) write (*, '(a,10f10.5)') ' Exact output redshifts: ', (zexact(i), i=1, Nexact)
 end Subroutine ReadInit
 !
 !---------------------------------------------------
@@ -549,6 +586,7 @@ Subroutine CheckInit
         write (11, '(a,i9)') 'csf_potential             = ', 1         ! csf model potential type
         write (11, '(a,f9.5)') 'csf_alpha                 = ', 0.1D0     ! csf model potential parameter alpha
         write (11, '(a,f9.5)') 'csf_beta                  = ', -0.2D0    ! csf model coupling parameter beta
+        write (11, '(a,i9,a)') 'Nexact                    = ', 0, '  Number of exact output redshifts (list them on the next line)'
         stop
     end if
 
