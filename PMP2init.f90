@@ -90,6 +90,11 @@ Module Param
     Integer*4 :: iAmpMode = 1   ! 0 - free Gaussian field, 1 - pin box power to target (legacy), 2 - per-mode fixed (unimplemented)
     Integer*4 :: iRevPhase = 0  ! 0 - normal, 1 - reverse phases (delta -> -delta), for paired sims
 
+    ! CPL (w0-wa) dark energy (trailing Init.dat fields; default = LCDM).
+    ! Only supported when MG_flag=0: all MG models hardcode a Lambda background.
+    Real*4 :: w0 = -1.0   ! w(a) = w0 + wa*(1-a)
+    Real*4 :: wa =  0.0
+
 Contains
 
     REAL*8 FUNCTION P(x)
@@ -132,11 +137,21 @@ Contains
         P2 = WK**2*P(WK)
     END FUNCTION P2
 
+    !--------------------------------------- CPL DE density ratio
+    REAL*8 FUNCTION fDE(x)
+        Real*8 :: x
+        If (w0 == -1.0 .and. wa == 0.0) Then
+            fDE = 1.d+0
+        Else
+            fDE = x**(-3.d0*(1.d0 + w0 + wa))*exp(-3.d0*wa*(1.d0 - x))
+        End If
+    End FUNCTION fDE
+
     !
     !---------------------------------------
     REAL*8 FUNCTION Hnorm(x)
         Real*8 :: x
-        Hnorm = Sqrt(1.d+0 + OmLOm0*x**3)
+        Hnorm = Sqrt(1.d+0 + OmLOm0*x**3*fDE(x))
     End FUNCTION Hnorm
 
     !
@@ -148,6 +163,8 @@ Contains
 
     !
     !---------------------------------------
+    ! Lambda closed form (D ~ H INTG da/(aH)^3); approximate under CPL --
+    ! feeds only the AGE printout, the Setup.dat amplitude uses GrFluctuations4.
     REAL*8 FUNCTION Hgrow(x)
         Real*8 :: x
         Hgrow = (sqrt(x)/Hnorm(x))**3
@@ -158,10 +175,12 @@ Contains
     !
     !
     !
-    SUBROUTINE GrFluctuations4(GrowthDen, a)
+    SUBROUTINE GrFluctuations4(GrowthDen, a, fgrow)
         !
         !---------------------------------------
-        real*8 ::GrowthDen, a, da, ainit, Omnu, x3, a0, Dp1, D0, Dm1, C, B
+        real*8 ::GrowthDen, a, da, ainit, Omnu, y, wde, a0, Dp1, D0, Dm1, C, B
+        real*8, optional, intent(out) :: fgrow   ! growth rate f = dlnD/dlna at a
+        real*8 :: sgrow, disc, dgda, gA
 
         OmLOm0 = OmL/Om
         If (Omb < 0.005) Then      !--- massive neutrino
@@ -171,19 +190,45 @@ Contains
         end If
 
         !write(*,*) ' Omnu =',Omnu
-        da = 1.e-6
-        ainit = 3.e-3
+        !--- Start deep enough in the matter era that the power-law start
+        !    below is accurate. The legacy ainit=3.e-3 is fine for LCDM (the
+        !    DE fraction there is ~2e-6) but NOT for CPL with w0+wa near 0:
+        !    at w0+wa=-0.05 dark energy is still ~14% of matter at 3.e-3, the
+        !    growing mode is not yet a clean power law, and the leftover
+        !    transient biases D and f by ~5e-4 (measured against an
+        !    independent integration -- see glam_growthrate_patch_test/).
+        !    Moving to 3.e-4 cuts that to ~2e-6; da shrinks with it to keep
+        !    da/ainit (and hence the O((da/a)^2) discretization error) small.
+        !    Costs ~1e7 iterations, i.e. under a second, once per PMP2init.
+        da = 1.e-7
+        ainit = 3.e-4
         if (ainit > a) Stop ' error in initial a_exp in linear growth'
 
-        !--- initial conditions
+        !--- initial conditions: the GROWING MODE of g = D/a at ainit.
+        !    The scheme below integrates  g'' + (C/a)g' - (B/a^2)g = 0, whose
+        !    local power-law solutions g ~ a^s obey  s^2 + (C-1)s - B = 0; the
+        !    growing branch is the larger root. In EdS (C=3.5, B=0) that is
+        !    s=0, i.e. exactly the legacy g=const start, so LCDM is unchanged.
+        !    Under CPL with w0+wa near 0 the DE fraction at ainit is NOT
+        !    negligible (s ~ -0.08 at w0+wa=-0.05) and the legacy g'=0 start
+        !    would seed a spurious decaying-mode transient.
+        y = OmLOm0*ainit**3*fDE(ainit)
+        wde = w0 + wa*(1.-ainit)
+        C = 0.5*(7.+(7.-3.*wde)*y)/(1.+y)
+        B = 1.5/(1.+y)*(Omnu - 1.+(wde - 1.)*y)
+        disc = (C - 1.)**2 + 4.*B
+        if (disc < 0.) Stop ' no real growing mode at ainit in linear growth'
+        sgrow = 0.5*(-(C - 1.) + sqrt(disc))
+
         D0 = 1.
-        Dm1 = 1.
+        Dm1 = (1.-da/ainit)**sgrow
         a0 = ainit
 
         Do while (a0 < a)     !--- integrate
-            x3 = OmLOm0*a0**3
-            C = 0.5*(7.+10.*x3)/(1.+x3)
-            B = 1.5/(1.+x3)*(Omnu - 1.-2.*x3)
+            y   = OmLOm0*a0**3*fDE(a0)
+            wde = w0 + wa*(1.-a0)
+            C = 0.5*(7.+(7.-3.*wde)*y)/(1.+y)
+            B = 1.5/(1.+y)*(Omnu - 1.+(wde - 1.)*y)
 
             Dp1 = (D0*(2.+B*(da/a0)**2) - Dm1*(1.-C*da/a0/2.))/(1.+C*da/a0/2.)
             !write(*,'(es12.4,3x,3es12.4,5x,3es12.4,3x,3es12.4)') a0,Dm1,D0,Dp1,     C,B
@@ -191,7 +236,19 @@ Contains
             Dm1 = D0
             D0 = Dp1
         end Do
-        GrowthDen = D0*a0
+        !--- On exit the loop invariant is D0 = g(a0), Dm1 = g(a0-da), but the
+        !    loop stops at the FIRST a0 >= a, so it overshoots the requested
+        !    epoch by up to da. Interpolate g back to exactly a: left uncorrected
+        !    that is an O(da/a) error on D -- ~1e-5 at a_i against ~1e-7 at a=1,
+        !    so it does NOT cancel in the D(a_i)/D(0) ratio that sets the IC
+        !    amplitude, and it jitters from cosmology to cosmology because the
+        !    overshoot depends on (a-ainit)/da mod 1. Linear interpolation is
+        !    O(da^2), matching the integrator's own order.
+        dgda = (D0 - Dm1)/da        ! g' from the last step (backward difference)
+        gA = D0 + dgda*(a - a0)     ! g at exactly a;  (a - a0) lies in (-da, 0]
+        GrowthDen = gA*a
+        !--- f = dlnD/dlna = 1 + (a/g)dg/da
+        if (present(fgrow)) fgrow = 1.+(a/gA)*dgda
         !write(*,*) ' Growth =',D0,a0,a
     End SUBROUTINE GrFluctuations4
 
@@ -231,6 +288,7 @@ Program Initialize
     use Param
     CHARACTER :: Name*120, Header*45
     REAL*8 :: INTG, wk, Uklow, Ukup, Sig8, sigma, a, t0, Growthden, Growthden_0
+    REAL*8 :: a_v, f_i, f_v, GrowthDen_v, Fcorr
     Real*8, parameter :: PI = 3.1415926535d0
     logical :: exst
     EXTERNAL INTG
@@ -267,9 +325,24 @@ Program Initialize
     AEXPN = 1./(1.+zinit)            ! expansion parameter
     a = AEXPN
     !CALL AGE(t0,GrowthDen,a)
-    Call GrFluctuations4(GrowthDen, a)
+    Call GrFluctuations4(GrowthDen, a, f_i)
     sigma = (GrowthDen/GrowthDen_0)* &     !-- use 10th biaspars to tune Pk amplitude
             sqrt(Sn*INTG(P2, Uklow/sqrt(2.), Ukup))*BiasPars(10)
+
+    !--- IC velocity growth-rate correction.
+    !    The Zel'dovich velocity is v = a^2 H f D Psi, but PMP2start builds
+    !    VCONS with f=1 and with D(a_v)/D(a_i) approximated by a_v/a_i -- both
+    !    exact only in EdS, and both wrong at the percent level under CPL with
+    !    w0+wa near 0, where the early dark energy fraction stays finite.
+    !    a_v = AEXPN - da/2 is the half-step-staggered velocity epoch used
+    !    there. NB: this `da` is Init.dat's integration step; GrFluctuations4
+    !    has an unrelated local of the same name (its 1.e-6 ODE step).
+    a_v = AEXPN - da/2.
+    Call GrFluctuations4(GrowthDen_v, a_v, f_v)
+    Fcorr = f_v*(GrowthDen_v/GrowthDen)/(a_v/AEXPN)
+    write (*, '(2(a,f10.6))') ' Growth rate: f(a_i)= ', f_i, '   f(a_v)= ', f_v
+    write (*, '(2(a,es14.6))') ' D(a_v)/D(a_i)= ', GrowthDen_v/GrowthDen, &
+        '   IC velocity correction Fcorr= ', Fcorr
     WRITE (*, 40) zinit, sigma, NROW, Box
     WRITE (1, 40) zinit, sigma, NROW, Box
 40  format('  z=', f8.3, ' delta\rho/rho in box=', f9.5, / &
@@ -359,6 +432,11 @@ Program Initialize
     write (10, *) '!------------ IC amplitude-realization + phase controls ---------------'
     write (10, 60) iAmpMode, 'Amplitude mode: 0-free Gaussian,1-pin box power(legacy),2-per-mode fixed(unimplemented)'
     write (10, 60) iRevPhase, 'Reverse phases: 0-no,1-flip delta -> -delta (paired sims)'
+    write (10, *) '!------------ CPL (w0-wa) dark energy background ---------------'
+    write (10, 50) w0, 'w0: w(a)=w0+wa(1-a); LCDM=-1 (needs MG_flag=0)'
+    write (10, 50) wa, 'wa: LCDM=0'
+    write (10, *) '!------------ IC velocity growth-rate correction ---------------'
+    write (10, 50) Fcorr, 'Fcorr: f(a_v)D(a_v)/D(a_i)/(a_v/a_i); 1.0 = legacy f=1'
 50  format(es12.5, T20, a)
 60  format(i5, T20, a)
 70  format(L, T20, a)
@@ -481,6 +559,30 @@ Subroutine ReadInit
     iRevPhase = iParseLineDefault(11, 0)
     write (*, '(a,i2,a,i2)') ' Amplitude_mode=', iAmpMode, '  Reverse_phases=', iRevPhase
 
+    w0 = ParseLineDefault(11, -1.0)
+    wa = ParseLineDefault(11, 0.0)
+    write (*, '(a,f9.4,a,f9.4)') ' CPL dark energy: w0=', w0, '  wa=', wa
+
+    If (MG_flag == 1 .and. (w0 /= -1.0 .or. wa /= 0.0)) Then
+        write (*, '(a,f9.4,a,f9.4,a,i2)') ' ERROR: w0=', w0, ' wa=', wa, &
+             ' requested with MG_flag=1 (MG_model=', MG_model
+        write (*, *) ' All MG models (f(R)/DGP/symmetron/kmf/csf) hardcode a'
+        write (*, *) ' cosmological-constant background; kmf/csf solve their own.'
+        Error Stop ' CPL (w0,wa) dark energy requires MG_flag=0 (pure LCDM gravity)'
+    End If
+
+    If (w0 + wa >= 0.0) Then
+        write (*, '(a,f9.4,a,f9.4,a,f9.4)') ' ERROR: w0=', w0, ' wa=', wa, &
+            ' gives w0+wa=', w0 + wa
+        write (*, *) ' At early times w -> w0+wa and rho_DE/rho_m ~ a^(-3(w0+wa)),'
+        write (*, *) ' so w0+wa >= 0 means dark energy does not become subdominant'
+        write (*, *) ' as a -> 0. The matter-era Zeldovich IC construction (and the'
+        write (*, *) ' growing-mode start of the linear growth integrator) then has'
+        write (*, *) ' no valid regime to start from -- a different IC scheme, not'
+        write (*, *) ' just a growth-rate correction, would be required.'
+        Error Stop ' CPL (w0,wa) dark energy requires w0+wa < 0'
+    End If
+
     If (BiasPars(10) < 0.1) BiasPars(10) = 1.0
     !--- make new da
     ! fr = da*(1.+zinit)*100.     ! = da/a*100
@@ -564,6 +666,8 @@ Subroutine CheckInit
         write (11, '(a,f9.5)') 'csf_beta                  = ', -0.2D0    ! csf model coupling parameter beta
         write (11, '(a,i9,a)') 'Amplitude_mode            = ', 1, '  0-free Gaussian,1-pin box power(legacy),2-per-mode fixed(unimplemented)'
         write (11, '(a,i9,a)') 'Reverse_phases            = ', 0, '  0-no,1-flip delta -> -delta (paired sims)'
+        write (11, '(a,f9.3)') 'w0                        = ', -1.0D0    ! CPL: w(a)=w0+wa(1-a); LCDM=-1 (needs MG_flag=0)
+        write (11, '(a,f9.3)') 'wa                        = ', 0.0D0     ! CPL: wa; LCDM=0
         stop
     end if
 
@@ -640,12 +744,17 @@ END FUNCTION RANDd
 !--------------------------------------------------
 !        read line from  input file iFile
 !                real format
-!        List-directed read of the text after the last '=', not a fixed-width
-!        field: a fixed width must be wide enough for the value and narrow
-!        enough to stop before the trailing comment, and for real Init.dat
-!        lines those two requirements conflict. A list-directed read takes one
-!        value and stops at the first separator, so width no longer matters
-!        and trailing comments are ignored.
+!
+!        Values are read list-directed from the text after the line's last
+!        '=', NOT as a fixed-width field. A fixed width cannot work here:
+!        it must simultaneously be wide enough for the value and narrow
+!        enough to stop before any trailing comment, and those conflict.
+!        The old 'g12.5'/'i10' widths silently truncated wide values (e.g.
+!        "    2.476719E-03" -> 2.476719, a 1000x error that still parses);
+!        widening them to 'g20.10'/'i15' instead reached into the trailing
+!        comments and made every commented line a severe(64) conversion
+!        error. List-directed input reads one value and stops at the first
+!        separator, so any width parses and comments are ignored.
 Function ParseLine(iFile)
     Character :: Line*120
 
@@ -703,6 +812,28 @@ Function iParseLineDefault(iFile, idefault)
     End If
     iParseLineDefault = idummy
 end Function iParseLineDefault
+!--------------------------------------------------
+!        read line from input file iFile -- real format, but return
+!        default (instead of crashing) if the line is absent (old Init.dat)
+!        See ParseLine above for why this is list-directed, not fixed-width;
+!        see iParseLineDefault for the absent-vs-malformed distinction.
+Function ParseLineDefault(iFile, default)
+    Character :: Line*120
+    Real*4 :: default
+
+    Read (iFile, '(a)', iostat=ierr) Line
+    If (ierr /= 0) Then
+        ParseLineDefault = default
+        Return
+    End If
+    Ieq = INDEX(Line, '=', BACK=.TRUE.)
+    Read (Line(Ieq + 1:), *, iostat=ierr) dummy
+    If (ierr /= 0) Then
+        write (*, *) ' ParseLineDefault: cannot read a real value from: ', trim(Line)
+        Stop 64
+    End If
+    ParseLineDefault = dummy
+end Function ParseLineDefault
 !--------------------------------------------------
 !        read line from  input file iFile
 !                          logical format

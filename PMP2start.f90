@@ -830,14 +830,17 @@ PROGRAM PMstartMp
 
     AEXP0 = AEXPN
     AEXPV = AEXPN - ASTEP/2.
-    Fact = sqrt(Om + OmL*AEXPV**3)
+    Fact = sqrt(Om + OmL*AEXPV**3*fDE(AEXPV))
     QFACT = FLOAT(NGRID)/FLOAT(NROW)
     Vscale = Box*100./NGRID
 
     write (*, *) ' Go to Spectrum '
     CALL SPECTR
     !   get the displacement vector by FFT
-    VCONS = -iFlip*ALPHA/(2.*PI/NGRID)*(AEXPV/AEXP0)*SQRT(AEXPV)*Fact
+    ! Fgrowth = f(a_v)*D(a_v)/D(a_i)/(a_v/a_i) from Setup.dat corrects the two
+    ! EdS assumptions baked into the legacy expression: f=1 and D ~ a. It is
+    ! 1.0 for Setup.dat files predating the field (bit-identical legacy path).
+    VCONS = -iFlip*ALPHA/(2.*PI/NGRID)*(AEXPV/AEXP0)*SQRT(AEXPV)*Fact*Fgrowth
     XCONS = iFlip*ALPHA/(2.*PI/NGRID)*(AEXPN/AEXP0)
     Write (*, '(3x,a12,g12.4,a,g12.4)') 'Scaling factors:(x)=', XCONS, ' (v)=', VCONS
 
