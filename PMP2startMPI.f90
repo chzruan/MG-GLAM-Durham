@@ -187,8 +187,11 @@ SUBROUTINE Initialize(Path)
       CALL MPI_BCAST(Box,      1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
       CALL MPI_BCAST(hubble,   1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
       CALL MPI_BCAST(Om,       1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
-      CALL MPI_BCAST(OmL,      1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
-      CALL MPI_BCAST(Omb,      1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
+      CALL MPI_BCAST(OmL,      1,MPI_REAL,0,MPI_COMM_WORLD,ierr)
+      CALL MPI_BCAST(w0,       1,MPI_REAL,0,MPI_COMM_WORLD,ierr)
+      CALL MPI_BCAST(wa,       1,MPI_REAL,0,MPI_COMM_WORLD,ierr)
+      CALL MPI_BCAST(Fgrowth,  1,MPI_REAL,0,MPI_COMM_WORLD,ierr)
+      CALL MPI_BCAST(Omb,      1,MPI_REAL,0,MPI_COMM_WORLD,ierr)
       CALL MPI_BCAST(Cell,     1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
       CALL MPI_BCAST(aMass,    1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
       CALL MPI_BCAST(zinit,    1,MPI_REAL,0,MPI_COMM_WORLD,ierr)      
@@ -935,14 +938,16 @@ PROGRAM  PMstartMp
       CALL FilesOpen(Trim(Path))                   ! this opens files on disk
          AEXP0 = AEXPN 
          AEXPV = AEXPN - ASTEP / 2.
-         Fact   = sqrt (Om + OmL * AEXPV**3) 
+         Fact   = sqrt (Om + OmL * AEXPV**3 * fDE(AEXPV))
          QFACT  = FLOAT (NGRID) / FLOAT (NROW) 
          Vscale = Box * 100. / NGRID 
 
               write(*,*) ' Go to Spectrum '
       CALL SPECTR
 			       !   get the displacement vector by FFT 
-          VCONS = - iFlip*ALPHA/(2.*PI/NGRID)*(AEXPV/AEXP0)*SQRT(AEXPV)*Fact
+          ! Fgrowth = f(a_v)*D(a_v)/D(a_i)/(a_v/a_i) from Setup.dat; corrects
+          ! the legacy f=1 and D ~ a assumptions. 1.0 for pre-Fcorr Setup.dat.
+          VCONS = - iFlip*ALPHA/(2.*PI/NGRID)*(AEXPV/AEXP0)*SQRT(AEXPV)*Fact*Fgrowth
           XCONS =   iFlip*ALPHA/(2.*PI/NGRID)*(AEXPN/AEXP0) 
             Write(*,'(3x,a12,g12.4,a,g12.4)' ) 'Scaling:(x)=', XCONS, ' (v)=', VCONS 
 

@@ -333,13 +333,13 @@ SUBROUTINE MOVE(FactV)
     Real*8  :: beta, Orc
 
     Call TimingMain(2, -1)
-    PCONST = -SQRT(AEXPN/(Om + OmL*AEXPN**3))*ASTEP*0.5/FactV
+    PCONST = -SQRT(AEXPN/(Om + OmL*AEXPN**3*fDE(AEXPN)))*ASTEP*0.5/FactV
     Ahalf = AEXPN + ASTEP/2.
-    XCONST = ASTEP/SQRT(Ahalf*(Om + OmL*Ahalf**3))/Ahalf
+    XCONST = ASTEP/SQRT(Ahalf*(Om + OmL*Ahalf**3*fDE(Ahalf)))/Ahalf
     !
     IF (MG_model .EQ. 4) THEN
-        PCONST = -SQRT(AEXPN/(Om + 9.116748693E-5/AEXPN + (OmL - 9.116748693E-5)*AEXPN**3))*ASTEP*0.5/FactV ! Baojiu-03-07-2021
-        XCONST = ASTEP/SQRT(Ahalf*(Om + 9.116748693E-5/Ahalf + (OmL - 9.116748693E-5)*Ahalf**3))/Ahalf       ! Baojiu-03-07-2021
+        PCONST = -SQRT(AEXPN/(Om + 9.116748693E-5/AEXPN + (OmL - 9.116748693E-5)*AEXPN**3*fDE(AEXPN)))*ASTEP*0.5/FactV ! Baojiu-03-07-2021
+        XCONST = ASTEP/SQRT(Ahalf*(Om + 9.116748693E-5/Ahalf + (OmL - 9.116748693E-5)*Ahalf**3*fDE(Ahalf)))/Ahalf       ! Baojiu-03-07-2021
     END IF
     !
     ! background expansion history modified in MG models
