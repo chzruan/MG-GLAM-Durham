@@ -50,7 +50,7 @@ def main():
     routines = routines.replace(old,
         'if(ee <= 0.) member(jp,ip)=.true.\n                           ' + old)
     stub = '''module Tools
-      real :: Box=32., AEXPN=0.8, tstart=0., tfinish=0.
+      real :: Box=32., AEXPN=0.8
       integer :: NGRID=128
       real :: Xpar(128),Ypar(128),Zpar(128),VX(128),VY(128),VZ(128)
       contains

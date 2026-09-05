@@ -16,7 +16,7 @@ parts=[]
 for name in ['BdmDuplicateRules','Structures']:
     parts.append(re.search(rf'^module\s+{name}\b.*?^end module\s+{name}',source,re.I|re.M|re.S).group())
 parts.append('''module Tools
-real :: Box=32.,tstart=0.,tfinish=0.
+real :: Box=32.
 contains
 real function seconds()
 call cpu_time(seconds)

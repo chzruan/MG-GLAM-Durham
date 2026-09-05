@@ -668,7 +668,7 @@ integer*8 :: ic,ip
         integer*8 :: ip,jp
         integer :: i1,i2,j1,j2,k1,k2,i3,j3,k3,sx,sy,sz
         integer :: sxlo,sxhi,sylo,syhi,szlo,szhi
-        real*4 :: x,y,z,xx,yy,zz,dx,dy,dz,dd,radius
+        real*4 :: x,y,z,xx,yy,zz,dx,dy,dz,dd,radius,tstart,tfinish
         logical, allocatable :: removeHost(:)
         tstart = seconds()
         if(Nmaxima == 0) return
