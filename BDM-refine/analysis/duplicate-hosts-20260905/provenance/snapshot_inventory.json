@@ -1,0 +1,656 @@
+{
+  "roots": [
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/DESI_MGx100",
+      "exists": true,
+      "files": 30329
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/degrace_pilot/snapshots",
+      "exists": true,
+      "files": 4
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model1_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 261
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model2_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model3_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model4_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model5_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model6_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model7_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model8_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model9_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model10_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model11_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model12_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model13_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model14_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model15_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model16_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model17_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model18_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 250
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model19_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 252
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model20_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model21_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model22_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model23_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model24_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model25_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model26_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model27_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model28_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model29_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 254
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model30_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model31_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model32_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model33_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model34_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model35_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model36_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model37_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model38_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model39_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model40_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model41_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model42_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model43_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model44_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model45_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model46_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model47_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model48_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model49_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model50_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model51_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model52_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model53_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model54_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model55_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model56_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model57_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model58_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model59_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model60_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model61_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model62_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model63_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_LCDM_wide_sample_first_64_model64_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 246
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model1_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 255
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model2_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 247
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model3_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 247
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model4_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model5_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model6_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model7_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model8_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model9_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model10_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 247
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model11_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 255
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model12_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model13_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 249
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model14_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 249
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model15_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 249
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model16_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model17_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 249
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model18_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model19_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 249
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model20_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 253
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model21_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model22_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model23_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 249
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model24_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 255
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model25_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 251
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model26_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model27_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model28_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 251
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model29_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 251
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model30_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model31_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model32_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model33_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 247
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model34_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model35_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model36_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model37_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model38_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 249
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model39_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model40_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model41_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model42_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 255
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model43_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model44_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model45_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model46_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model47_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model48_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model49_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model50_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model51_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 265
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model52_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 255
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model53_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model54_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model55_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 251
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model56_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model57_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model58_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 251
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model59_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model60_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 251
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model61_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 249
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model62_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model63_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    },
+    {
+      "root": "/cosma8/data/dp203/dc-ruan1/mg_glam/DurMun_hmfemu_fRn1_wide_sample_first_64_model64_L1024Np2048Ng4096",
+      "exists": true,
+      "files": 245
+    }
+  ],
+  "particle_snapshot_candidates": [],
+  "membership_candidates": []
+}

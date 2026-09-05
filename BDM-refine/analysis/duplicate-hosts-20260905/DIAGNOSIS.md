@@ -30,7 +30,7 @@ have equal mass in this equal-particle-mass simulation.
 only a read-only tap at the bound-particle predicate. On a synthetic system of
 128 particles, candidates 1 and 2 converge onto the same 64 particle IDs;
 candidate 3 contains the other disjoint 64 IDs. All three survive the original
-routine with 1, 2 and 4 OpenMP threads. See `tests/baseline/result.json`.
+routine with 1, 2 and 4 OpenMP threads. See `provenance/regression_results.json`.
 This proves the failure mechanism for the synthetic set, not membership of
 individual production pairs.
 
@@ -99,8 +99,8 @@ No `PMcr*`, particle snapshot or particle-membership products were found in the
 entire DESI_MGx100 tree. The `degrace_pilot/snapshots` directory contains summary
 correlation HDF5 files, not particle snapshots. Checked training runs also lack
 the particle dumps, and their submission scripts explicitly run `rm -f PMcr*`
-on completion. The full scanned-root inventory is saved in provenance when
-the metadata scan completes. Absence is limited to these searched roots, not
+on completion. The completed inventory of all 130 searched roots is saved in
+`provenance/snapshot_inventory.json`. Absence is limited to these searched roots, not
 a claim about every archive on COSMA.
 
 A historical-snapshot finder replay and production particle-membership test

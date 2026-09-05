@@ -1,0 +1,11 @@
+{
+  "source": "/cosma8/data/dp203/dc-ruan1/DESI_MGx100/data/GR/Run1/CATALOGS/CatshortV.0137.0001.DAT",
+  "source_sha256": "8ba7290efaf853636825f406fd76042fe71df0362aada50a3aa88d621f123fa4",
+  "finder_sha256": "05c8d604977175568ca9e3b85d90e323c69a313781d4b2696e1d75bfc232fb5c",
+  "compiled_policy_edges": 6200,
+  "source_rows": 3385000,
+  "removed_rows": 6191,
+  "compiled_finder_mask_equals_python_mask": true,
+  "all_surviving_reference_fields_byte_identical": true,
+  "scope": "catalogue-stage replay at stored precision; no particle rerun"
+}

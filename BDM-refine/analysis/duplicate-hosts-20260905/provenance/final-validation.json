@@ -1,0 +1,18 @@
+{
+  "checked_at_utc": "2026-09-05T21:42:16.144281+00:00",
+  "catalogues": 740,
+  "sidecars": 740,
+  "mass_bin_records": 8140,
+  "missing_or_invalid_products": 0,
+  "unexpected_or_partial_product_files": 0,
+  "remaining_strict_pairs": 0,
+  "retained_rows": 2497842518,
+  "surviving_rows_byte_identical": "Validated by each cleaner, required by final summary",
+  "all_11_slurm_allocations_completed_exit_0": true,
+  "source_and_output_hashes": "Recorded per catalogue; verified against source/copy during each cleaning run",
+  "tool_and_script_hashes": "campaign.sha256 verified against final source; finder-binary.sha256 verified after moving binary",
+  "historical_logs_removed": 974,
+  "archive_sha256_verified": true,
+  "regression_source_hashes_verified": true,
+  "report_links_verified": true
+}

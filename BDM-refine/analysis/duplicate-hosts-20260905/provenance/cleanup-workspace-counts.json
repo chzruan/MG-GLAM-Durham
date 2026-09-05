@@ -1,0 +1,14 @@
+{
+  "scope": "Workspace excluding .git; directory symlinks not traversed",
+  "before_cleanup": {
+    "files": 10085,
+    "directories": 2084
+  },
+  "after_cleanup_and_final_reports": {
+    "files": 8977,
+    "directories": 2079
+  },
+  "net_file_reduction_since_before_cleanup": 1108,
+  "net_directory_reduction_since_before_cleanup": 5,
+  "note": "Both counts already include all 740 new required catalogues and sidecars; final report/receipt files are included in the after count."
+}

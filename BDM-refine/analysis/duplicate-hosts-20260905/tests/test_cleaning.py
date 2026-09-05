@@ -13,6 +13,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'tools'))
 from catalogue_core import COLUMNS, FIELDS, audit, components, edge_flags
 from clean_catalogue import clean, load_receipt
+from load_cleaning import load_cleaning
 
 
 def fixture():
@@ -83,11 +84,17 @@ class CleaningTests(unittest.TestCase):
                 self.assertTrue(r['bitwise_validation']['all_surviving_columns_byte_identical'])
                 self.assertEqual(r['removed_rows'],3)
                 self.assertEqual(load_receipt(sidecar)['source_rows'],9)
+                verified_drop,_=load_cleaning(sidecar)
                 with h5py.File(sidecar,'r') as f:
                     mask=f['drop_mask'][...]
                     groups=json.loads(f['groups_json'][...].tobytes())
                     self.assertEqual(groups[0]['member_Nhalo'],[1001,1002])
                     self.assertEqual(groups[1]['kept_Nhalo'],1003)
+                np.testing.assert_array_equal(verified_drop,mask)
+                bad_source=root/'unrelated.txt'
+                bad_source.write_text('not the original catalogue')
+                with self.assertRaises(ValueError):
+                    load_cleaning(sidecar,source=bad_source)
                 results.append(mask)
                 if source == text:
                     # Fixed skiprows=8 still works: the extra provenance is a comment.

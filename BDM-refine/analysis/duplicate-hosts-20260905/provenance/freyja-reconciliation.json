@@ -1,0 +1,63 @@
+{
+  "freyja_summary": "/cosma8/data/dp203/dc-ruan1/freyja/analysis/hod_upper_mass_cut/lcdm_z0.25_m0_b1-5_max14.5-no-min/streaming-model/components/duplicate_cleaning/summary.json",
+  "freyja_summary_sha256": "3ec61943b64ebee194604ff8ba792514dbc65f72f6ff9fa451ac419220381ce0",
+  "criterion_difference": "none; same strict edges and lowest original row tie-break",
+  "selection_difference": "Freyja HOD diagnostic excludes log10Mtot>=14.5; delivered masks cover every source row",
+  "boxes": [
+    {
+      "ibox": 1,
+      "freyja_no_min_max14p5_rows": 3383222,
+      "freyja_strict_removed": 6191,
+      "freyja_exact_removed": 509,
+      "our_full_rows": 3385000,
+      "our_strict_removed": 6191,
+      "our_exact_removed": 509,
+      "our_removed_at_or_above_logmass_14p5": 0,
+      "our_full_mask_removed_in_freyja_hod_range": 6191
+    },
+    {
+      "ibox": 2,
+      "freyja_no_min_max14p5_rows": 3308613,
+      "freyja_strict_removed": 5961,
+      "freyja_exact_removed": 489,
+      "our_full_rows": 3310403,
+      "our_strict_removed": 5961,
+      "our_exact_removed": 489,
+      "our_removed_at_or_above_logmass_14p5": 0,
+      "our_full_mask_removed_in_freyja_hod_range": 5961
+    },
+    {
+      "ibox": 3,
+      "freyja_no_min_max14p5_rows": 3339163,
+      "freyja_strict_removed": 5975,
+      "freyja_exact_removed": 449,
+      "our_full_rows": 3340942,
+      "our_strict_removed": 5977,
+      "our_exact_removed": 449,
+      "our_removed_at_or_above_logmass_14p5": 2,
+      "our_full_mask_removed_in_freyja_hod_range": 5975
+    },
+    {
+      "ibox": 4,
+      "freyja_no_min_max14p5_rows": 3333732,
+      "freyja_strict_removed": 5972,
+      "freyja_exact_removed": 450,
+      "our_full_rows": 3335510,
+      "our_strict_removed": 5975,
+      "our_exact_removed": 450,
+      "our_removed_at_or_above_logmass_14p5": 3,
+      "our_full_mask_removed_in_freyja_hod_range": 5972
+    },
+    {
+      "ibox": 5,
+      "freyja_no_min_max14p5_rows": 3331624,
+      "freyja_strict_removed": 6038,
+      "freyja_exact_removed": 493,
+      "our_full_rows": 3333458,
+      "our_strict_removed": 6041,
+      "our_exact_removed": 493,
+      "our_removed_at_or_above_logmass_14p5": 3,
+      "our_full_mask_removed_in_freyja_hod_range": 6038
+    }
+  ]
+}

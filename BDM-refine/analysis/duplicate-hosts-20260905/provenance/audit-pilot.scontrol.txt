@@ -1,0 +1,28 @@
+JobId=11942773 JobName=bdm-dup-audit
+   UserId=dc-ruan1(21209) GroupId=durham(64528) MCS_label=N/A
+   Priority=21143 Nice=0 Account=dp004 QOS=normal
+   JobState=COMPLETED Reason=None Dependency=(null)
+   Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:14 TimeLimit=00:15:00 TimeMin=N/A
+   SubmitTime=2026-09-05T21:17:43 EligibleTime=2026-09-05T21:17:43
+   AccrueTime=2026-09-05T21:17:43
+   StartTime=2026-09-05T21:18:02 EndTime=2026-09-05T21:18:16 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-05T21:18:02 Scheduler=Backfill
+   Partition=cosma8-serial AllocNode:Sid=login8b.pri.cosma.local:3335820
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=m8047
+   BatchHost=m8047
+   NumNodes=1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   ReqTRES=cpu=1,mem=4G,node=1,billing=1
+   AllocTRES=cpu=1,mem=4G,energy=8190,node=1,billing=1
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=4G MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)
+   Command=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/analysis/duplicate-hosts-20260905/provenance/audit-pilot.sbatch
+   SubmitLine=sbatch --parsable BDM-refine/analysis/duplicate-hosts-20260905/provenance/audit-pilot.sbatch
+   WorkDir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM
+   StdErr=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/analysis/duplicate-hosts-20260905/logs/audit-11942773.err
+   StdIn=/dev/null
+   StdOut=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/analysis/duplicate-hosts-20260905/logs/audit-11942773.out
+   TresPerTask=cpu=1

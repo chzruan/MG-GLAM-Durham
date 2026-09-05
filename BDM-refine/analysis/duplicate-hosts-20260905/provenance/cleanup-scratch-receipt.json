@@ -1,0 +1,713 @@
+{
+  "removed_disposable_files_or_symlinks": 139,
+  "removed_directories": 6,
+  "entries": [
+    {
+      "path": "build/PMP2mod_fft5.o",
+      "bytes": 158432,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_fR.opt.yaml",
+      "bytes": 1360923,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2start.f90",
+      "bytes": 29003,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_sym.opt.yaml",
+      "bytes": 405304,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_power.optrpt",
+      "bytes": 42093,
+      "kind": "file"
+    },
+    {
+      "path": "build/structures.mod",
+      "bytes": 11247,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2bdm.o",
+      "bytes": 8816,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_analyze.optrpt",
+      "bytes": 7667,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MG_subroutines.o",
+      "bytes": 25144,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_tools.o",
+      "bytes": 111064,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_random.o",
+      "bytes": 38816,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_MGbackground.f90",
+      "bytes": 31651,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_fR.f90",
+      "bytes": 51752,
+      "kind": "file"
+    },
+    {
+      "path": "build/extradofbackgrounddata.mod",
+      "bytes": 5887,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_density.o",
+      "bytes": 195552,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2formatFiles.f90",
+      "bytes": 1298,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_fft5.f90",
+      "bytes": 56680,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_kmf.o",
+      "bytes": 90232,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2startMPI.f90",
+      "bytes": 34138,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_random.f90",
+      "bytes": 13195,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2analyze.f90",
+      "bytes": 1357,
+      "kind": "file"
+    },
+    {
+      "path": "build/ic2pm.f90",
+      "bytes": 9344,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_density.opt.yaml",
+      "bytes": 4545201,
+      "kind": "file"
+    },
+    {
+      "path": "build/Massfunction.f90",
+      "bytes": 80653,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_random.optrpt",
+      "bytes": 17201,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_sym.f90",
+      "bytes": 19673,
+      "kind": "file"
+    },
+    {
+      "path": "build/luxury.mod",
+      "bytes": 1605,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_power.opt.yaml",
+      "bytes": 2756794,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2catalogCorrect.f90",
+      "bytes": 20572,
+      "kind": "file"
+    },
+    {
+      "path": "build/bdmduplicaterules.mod",
+      "bytes": 2243,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2extradof.optrpt",
+      "bytes": 73523,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2bdm.f90",
+      "bytes": 1282,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_DGP.optrpt",
+      "bytes": 34275,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MG_subroutines.f90",
+      "bytes": 41597,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2readFiles.f90",
+      "bytes": 7846,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_tools.optrpt",
+      "bytes": 17619,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_csf.o",
+      "bytes": 61744,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MG_subroutines.opt.yaml",
+      "bytes": 343787,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_analyze.o",
+      "bytes": 64208,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mainMPI.f90",
+      "bytes": 22264,
+      "kind": "file"
+    },
+    {
+      "path": "build/density.mod",
+      "bytes": 8417,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2linker.o",
+      "bytes": 384632,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2extradof.f90",
+      "bytes": 60394,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_DGP.f90",
+      "bytes": 58001,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_fft5.opt.yaml",
+      "bytes": 962032,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2extradof.o",
+      "bytes": 152432,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_fR.o",
+      "bytes": 155328,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_power.o",
+      "bytes": 109104,
+      "kind": "file"
+    },
+    {
+      "path": "build/analyze.mod",
+      "bytes": 895,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2correlation.f90",
+      "bytes": 43468,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2main.f90",
+      "bytes": 42035,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_DGP.o",
+      "bytes": 59624,
+      "kind": "file"
+    },
+    {
+      "path": "build/testtOmp.f90",
+      "bytes": 3406,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2spectrum.f90",
+      "bytes": 1513,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_DGP.opt.yaml",
+      "bytes": 395641,
+      "kind": "file"
+    },
+    {
+      "path": "build/gadget2pm.f90",
+      "bytes": 6604,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2power.f90",
+      "bytes": 25548,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_MGbackground.o",
+      "bytes": 55272,
+      "kind": "file"
+    },
+    {
+      "path": "build/fft5.mod",
+      "bytes": 31680,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2extradof.opt.yaml",
+      "bytes": 2123440,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_kmf.opt.yaml",
+      "bytes": 573554,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2init.f90",
+      "bytes": 36346,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMPcovariance.f90",
+      "bytes": 6285,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_csf.opt.yaml",
+      "bytes": 619239,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_csf.f90",
+      "bytes": 25833,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2linker.f90",
+      "bytes": 82003,
+      "kind": "file"
+    },
+    {
+      "path": "build/random.mod",
+      "bytes": 12418,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_sym.optrpt",
+      "bytes": 37303,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_MGbackground.opt.yaml",
+      "bytes": 409722,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_density.optrpt",
+      "bytes": 47909,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2linker.opt.yaml",
+      "bytes": 7385751,
+      "kind": "file"
+    },
+    {
+      "path": "build/testMemory.f90",
+      "bytes": 1066,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2tunestepping.f90",
+      "bytes": 5337,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_fR.optrpt",
+      "bytes": 52275,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_analyze.f90",
+      "bytes": 14247,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2density.f90",
+      "bytes": 3052,
+      "kind": "file"
+    },
+    {
+      "path": "build/linkerlist.mod",
+      "bytes": 22397,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_fft5.optrpt",
+      "bytes": 51835,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_tools.opt.yaml",
+      "bytes": 1934265,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2linker.optrpt",
+      "bytes": 131417,
+      "kind": "file"
+    },
+    {
+      "path": "build/tools.mod",
+      "bytes": 13644,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_analyze.opt.yaml",
+      "bytes": 1215819,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2catalReform.f90",
+      "bytes": 3504,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_random.opt.yaml",
+      "bytes": 157595,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_csf.optrpt",
+      "bytes": 94752,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_sym.o",
+      "bytes": 51296,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_kmf.f90",
+      "bytes": 70478,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_MGbackground.optrpt",
+      "bytes": 13646,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2powerSSC.f90",
+      "bytes": 16212,
+      "kind": "file"
+    },
+    {
+      "path": "build/AverageBispectrum.f90",
+      "bytes": 2414,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MGsolver_kmf.optrpt",
+      "bytes": 64469,
+      "kind": "file"
+    },
+    {
+      "path": "build/luxuryp.h",
+      "bytes": 1108,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_power.f90",
+      "bytes": 17617,
+      "kind": "file"
+    },
+    {
+      "path": "build/makefile",
+      "bytes": 5407,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_tools.f90",
+      "bytes": 23316,
+      "kind": "file"
+    },
+    {
+      "path": "build/power.mod",
+      "bytes": 6209,
+      "kind": "file"
+    },
+    {
+      "path": "build/AveragePk.f90",
+      "bytes": 1509,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2haloStat.f90",
+      "bytes": 62109,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2bdm.optrpt",
+      "bytes": 698,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2MG_subroutines.optrpt",
+      "bytes": 19719,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2mod_density.f90",
+      "bytes": 43662,
+      "kind": "file"
+    },
+    {
+      "path": "build/PMP2bdm.opt.yaml",
+      "bytes": 31391,
+      "kind": "file"
+    },
+    {
+      "path": "tests/baseline/structures.mod",
+      "bytes": 1620,
+      "kind": "file"
+    },
+    {
+      "path": "tests/baseline/reproduce",
+      "bytes": 118384,
+      "kind": "file"
+    },
+    {
+      "path": "tests/baseline/result.json",
+      "bytes": 1330,
+      "kind": "file"
+    },
+    {
+      "path": "tests/baseline/fort.13",
+      "bytes": 70,
+      "kind": "file"
+    },
+    {
+      "path": "tests/baseline/linkerlist.mod",
+      "bytes": 2301,
+      "kind": "file"
+    },
+    {
+      "path": "tests/baseline/tools.mod",
+      "bytes": 480,
+      "kind": "file"
+    },
+    {
+      "path": "tests/baseline/reproduction.f90",
+      "bytes": 27500,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixed/structures.mod",
+      "bytes": 1620,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixed/reproduce",
+      "bytes": 136080,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixed/result.json",
+      "bytes": 1264,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixed/fort.13",
+      "bytes": 70,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixed/bdmduplicaterules.mod",
+      "bytes": 652,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixed/linkerlist.mod",
+      "bytes": 2737,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixed/tools.mod",
+      "bytes": 447,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixed/reproduction.f90",
+      "bytes": 31990,
+      "kind": "file"
+    },
+    {
+      "path": "tests/cases/finder_cases_result.json",
+      "bytes": 1071,
+      "kind": "file"
+    },
+    {
+      "path": "tests/cases/structures.mod",
+      "bytes": 1551,
+      "kind": "file"
+    },
+    {
+      "path": "tests/cases/finder_cases.f90",
+      "bytes": 12197,
+      "kind": "file"
+    },
+    {
+      "path": "tests/cases/finder_cases",
+      "bytes": 65928,
+      "kind": "file"
+    },
+    {
+      "path": "tests/cases/bdmduplicaterules.mod",
+      "bytes": 656,
+      "kind": "file"
+    },
+    {
+      "path": "tests/cases/policy_replay.so",
+      "bytes": 26384,
+      "kind": "file"
+    },
+    {
+      "path": "tests/cases/replay.mod",
+      "bytes": 3142,
+      "kind": "file"
+    },
+    {
+      "path": "tests/cases/linkerlist.mod",
+      "bytes": 2339,
+      "kind": "file"
+    },
+    {
+      "path": "tests/cases/tools.mod",
+      "bytes": 289,
+      "kind": "file"
+    },
+    {
+      "path": "tests/cases/policy_replay.f90",
+      "bytes": 1835,
+      "kind": "file"
+    },
+    {
+      "path": "tools/__pycache__/run_campaign.cpython-314.pyc",
+      "bytes": 4119,
+      "kind": "file"
+    },
+    {
+      "path": "tools/__pycache__/load_cleaning.cpython-314.pyc",
+      "bytes": 2045,
+      "kind": "file"
+    },
+    {
+      "path": "tools/__pycache__/clean_catalogue.cpython-314.pyc",
+      "bytes": 19859,
+      "kind": "file"
+    },
+    {
+      "path": "tools/__pycache__/catalogue_core.cpython-314.pyc",
+      "bytes": 14633,
+      "kind": "file"
+    },
+    {
+      "path": "tests/__pycache__/source_reproduction.cpython-314.pyc",
+      "bytes": 8706,
+      "kind": "file"
+    },
+    {
+      "path": "logs/campaign-11942910_1.err",
+      "bytes": 0,
+      "kind": "empty error log"
+    },
+    {
+      "path": "logs/campaign-11942910_0.err",
+      "bytes": 0,
+      "kind": "empty error log"
+    },
+    {
+      "path": "logs/campaign-11942910_3.err",
+      "bytes": 0,
+      "kind": "empty error log"
+    },
+    {
+      "path": "logs/policy-replay-11942925.err",
+      "bytes": 0,
+      "kind": "empty error log"
+    },
+    {
+      "path": "logs/audit-11942773.err",
+      "bytes": 0,
+      "kind": "empty error log"
+    },
+    {
+      "path": "logs/campaign-11942910_4.err",
+      "bytes": 0,
+      "kind": "empty error log"
+    },
+    {
+      "path": "logs/clean-pilot-11942890.err",
+      "bytes": 0,
+      "kind": "empty error log"
+    }
+  ],
+  "directories": [
+    "build",
+    "tests/baseline",
+    "tests/fixed",
+    "tests/cases",
+    "tools/__pycache__",
+    "tests/__pycache__"
+  ],
+  "preserved_binary": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/analysis/duplicate-hosts-20260905/bin/PMP2BDM.fixed.exe",
+  "binary_sha256": "4408db1a5bae9a9349d5787732b2bbe21e08ebb024c51f752e8638d0bddfc80d",
+  "regression_evidence": "provenance/regression_results.json",
+  "scope": "Only this task's generated build/test/cache files and empty completed-job error logs"
+}

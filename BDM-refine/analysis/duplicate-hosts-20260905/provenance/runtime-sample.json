@@ -1,0 +1,357 @@
+{
+  "workers": [
+    {
+      "worker": "campaign-11942910_0",
+      "completed": 49,
+      "max_process_rss_kib": 862640,
+      "longest_catalogue_seconds": 550.3354422010016,
+      "last_catalogues": [
+        {
+          "identity": {
+            "gravity": "LCDM",
+            "imodel": 56,
+            "ibox": 2,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 14.514324721007142,
+          "source_bytes": 578821664
+        },
+        {
+          "identity": {
+            "gravity": "LCDM",
+            "imodel": 57,
+            "ibox": 5,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 376.0770700239809,
+          "source_bytes": 496984290
+        },
+        {
+          "identity": {
+            "gravity": "LCDM",
+            "imodel": 59,
+            "ibox": 3,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 37.815634731028695,
+          "source_bytes": 1214763133
+        }
+      ]
+    },
+    {
+      "worker": "campaign-11942910_1",
+      "completed": 49,
+      "max_process_rss_kib": 844796,
+      "longest_catalogue_seconds": 81.77643522899598,
+      "last_catalogues": [
+        {
+          "identity": {
+            "gravity": "LCDM",
+            "imodel": 54,
+            "ibox": 5,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 46.17786551103927,
+          "source_bytes": 1517100523
+        },
+        {
+          "identity": {
+            "gravity": "LCDM",
+            "imodel": 56,
+            "ibox": 3,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 12.753135504026432,
+          "source_bytes": 584978612
+        },
+        {
+          "identity": {
+            "gravity": "LCDM",
+            "imodel": 58,
+            "ibox": 1,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 68.13067269598832,
+          "source_bytes": 1190501260
+        }
+      ]
+    },
+    {
+      "worker": "campaign-11942910_2",
+      "completed": 74,
+      "max_process_rss_kib": 857136,
+      "longest_catalogue_seconds": 113.47325761197135,
+      "last_catalogues": [
+        {
+          "identity": {
+            "gravity": "fRn1",
+            "imodel": 31,
+            "ibox": 1,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 30.879598164989147,
+          "source_bytes": 992409184
+        },
+        {
+          "identity": {
+            "gravity": "fRn1",
+            "imodel": 32,
+            "ibox": 4,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 10.915952139010187,
+          "source_bytes": 399294954
+        },
+        {
+          "identity": {
+            "gravity": "fRn1",
+            "imodel": 34,
+            "ibox": 2,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 31.957506323989946,
+          "source_bytes": 1042323026
+        }
+      ]
+    },
+    {
+      "worker": "campaign-11942910_3",
+      "completed": 65,
+      "max_process_rss_kib": 744892,
+      "longest_catalogue_seconds": 454.34022260596976,
+      "last_catalogues": [
+        {
+          "identity": {
+            "gravity": "fRn1",
+            "imodel": 16,
+            "ibox": 5,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 12.699093192990404,
+          "source_bytes": 509185835
+        },
+        {
+          "identity": {
+            "gravity": "fRn1",
+            "imodel": 18,
+            "ibox": 3,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 46.52707945200382,
+          "source_bytes": 1177051402
+        },
+        {
+          "identity": {
+            "gravity": "fRn1",
+            "imodel": 20,
+            "ibox": 1,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 26.45185864699306,
+          "source_bytes": 872308512
+        }
+      ]
+    },
+    {
+      "worker": "campaign-11942910_4",
+      "completed": 71,
+      "max_process_rss_kib": 742608,
+      "longest_catalogue_seconds": 174.81612063001376,
+      "last_catalogues": [
+        {
+          "identity": {
+            "gravity": "fRn1",
+            "imodel": 26,
+            "ibox": 4,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 35.71258635196136,
+          "source_bytes": 1306523902
+        },
+        {
+          "identity": {
+            "gravity": "fRn1",
+            "imodel": 28,
+            "ibox": 2,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 139.32599181099795,
+          "source_bytes": 900861797
+        },
+        {
+          "identity": {
+            "gravity": "fRn1",
+            "imodel": 29,
+            "ibox": 5,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 20.96190746501088,
+          "source_bytes": 660227746
+        }
+      ]
+    },
+    {
+      "worker": "campaign-11942910_5",
+      "completed": 50,
+      "max_process_rss_kib": 839948,
+      "longest_catalogue_seconds": 308.9692690880038,
+      "last_catalogues": [
+        {
+          "identity": {
+            "gravity": "LCDM",
+            "imodel": 57,
+            "ibox": 2,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 11.054786177002825,
+          "source_bytes": 493855725
+        },
+        {
+          "identity": {
+            "gravity": "LCDM",
+            "imodel": 58,
+            "ibox": 5,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 33.16405426803976,
+          "source_bytes": 1180038467
+        },
+        {
+          "identity": {
+            "gravity": "LCDM",
+            "imodel": 60,
+            "ibox": 3,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 21.29036439198535,
+          "source_bytes": 858216810
+        }
+      ]
+    },
+    {
+      "worker": "campaign-11942910_6",
+      "completed": 45,
+      "max_process_rss_kib": 812256,
+      "longest_catalogue_seconds": 754.141535489005,
+      "last_catalogues": [
+        {
+          "identity": {
+            "gravity": "LCDM",
+            "imodel": 49,
+            "ibox": 3,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 11.345936671015806,
+          "source_bytes": 425702250
+        },
+        {
+          "identity": {
+            "gravity": "LCDM",
+            "imodel": 51,
+            "ibox": 1,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 43.135532451968174,
+          "source_bytes": 1294709218
+        },
+        {
+          "identity": {
+            "gravity": "LCDM",
+            "imodel": 52,
+            "ibox": 4,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 198.7072484200471,
+          "source_bytes": 772638176
+        }
+      ]
+    },
+    {
+      "worker": "campaign-11942910_7",
+      "completed": 67,
+      "max_process_rss_kib": 887228,
+      "longest_catalogue_seconds": 228.16237774601905,
+      "last_catalogues": [
+        {
+          "identity": {
+            "gravity": "fRn1",
+            "imodel": 20,
+            "ibox": 5,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 21.287424253998324,
+          "source_bytes": 857764293
+        },
+        {
+          "identity": {
+            "gravity": "fRn1",
+            "imodel": 22,
+            "ibox": 3,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 59.39975099702133,
+          "source_bytes": 1620558248
+        },
+        {
+          "identity": {
+            "gravity": "fRn1",
+            "imodel": 24,
+            "ibox": 1,
+            "redshift": 0.25,
+            "snapnum": 137,
+            "source_scale_factor": 0.79755
+          },
+          "seconds": 20.434898810985032,
+          "source_bytes": 735433298
+        }
+      ]
+    }
+  ],
+  "interpretation": "Intermittent I/O stalls inferred from long outliers followed by normal timings; process high-water RSS remains below 0.9 GiB. No OOM or validation failure."
+}

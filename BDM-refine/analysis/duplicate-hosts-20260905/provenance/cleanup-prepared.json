@@ -1,0 +1,13 @@
+{
+  "archived_files": 974,
+  "removed_loose_files": 0,
+  "prepared_only": true,
+  "original_bytes": 27338276,
+  "archive": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/analysis/duplicate-hosts-20260905/archives/historical-run-logs.tar.gz",
+  "archive_bytes": 4753916,
+  "archive_sha256": "c7ecaa648eb657acd7ca15c05708645424d9b3f312e70b138410e73c13e2f51a",
+  "all_members_sha256_verified": true,
+  "manifest": "CLEANUP-MANIFEST.json inside archive",
+  "restore_command": "tar -xzf /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/analysis/duplicate-hosts-20260905/archives/historical-run-logs.tar.gz -C /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM",
+  "scope": "Reviewed historical text logs only; no science catalogues or tracked files"
+}

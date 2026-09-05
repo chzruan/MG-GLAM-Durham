@@ -1,0 +1,4 @@
+JobID|State|Elapsed|ElapsedRaw|TotalCPU|AllocCPUS|ReqTRES|AllocTRES|MaxRSS|ExitCode
+11942890|COMPLETED|00:00:22|22|00:20.796|1|billing=1,cpu=1,mem=2048M,node=1|billing=1,cpu=1,energy=10892,mem=2048M,node=1||0:0
+11942890.batch|COMPLETED|00:00:22|22|00:20.796|1||cpu=1,mem=2048M,node=1|1334.73M|0:0
+11942890.extern|COMPLETED|00:00:22|22|00:00:00|1||billing=1,cpu=1,mem=2048M,node=1||0:0

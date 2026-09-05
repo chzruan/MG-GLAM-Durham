@@ -1,0 +1,1047 @@
+{
+  "expected_catalogues": 740,
+  "complete_catalogues": 740,
+  "totals": {
+    "source_rows": 2502348653,
+    "removed_rows": 4506135,
+    "selected_rows": 1386244667,
+    "selected_removed_rows": 4339109,
+    "remaining_same_bound_pairs_below_0p2": 755417
+  },
+  "per_model": [
+    {
+      "gravity": "LCDM",
+      "imodel": 0,
+      "catalogues": 100,
+      "selected_rows": 187304173,
+      "selected_removed_rows": 579287,
+      "selected_fraction": 0.0030927607790137168
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 1,
+      "catalogues": 5,
+      "selected_rows": 2473576,
+      "selected_removed_rows": 6191,
+      "selected_fraction": 0.002502854167407834
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 2,
+      "catalogues": 5,
+      "selected_rows": 9052190,
+      "selected_removed_rows": 28669,
+      "selected_fraction": 0.0031670789057675545
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 3,
+      "catalogues": 5,
+      "selected_rows": 11120794,
+      "selected_removed_rows": 27195,
+      "selected_fraction": 0.002445418915232132
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 4,
+      "catalogues": 5,
+      "selected_rows": 6448499,
+      "selected_removed_rows": 23026,
+      "selected_fraction": 0.00357075344200255
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 5,
+      "catalogues": 5,
+      "selected_rows": 7587675,
+      "selected_removed_rows": 25055,
+      "selected_fraction": 0.0033020655207293406
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 6,
+      "catalogues": 5,
+      "selected_rows": 14245100,
+      "selected_removed_rows": 38276,
+      "selected_fraction": 0.0026869590245066723
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 7,
+      "catalogues": 5,
+      "selected_rows": 10370429,
+      "selected_removed_rows": 30541,
+      "selected_fraction": 0.0029450083501849347
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 8,
+      "catalogues": 5,
+      "selected_rows": 4462251,
+      "selected_removed_rows": 14945,
+      "selected_fraction": 0.0033492064879362456
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 9,
+      "catalogues": 5,
+      "selected_rows": 5224490,
+      "selected_removed_rows": 17195,
+      "selected_fraction": 0.003291230340186315
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 10,
+      "catalogues": 5,
+      "selected_rows": 12247317,
+      "selected_removed_rows": 40362,
+      "selected_fraction": 0.0032955789419021326
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 11,
+      "catalogues": 5,
+      "selected_rows": 13026224,
+      "selected_removed_rows": 27826,
+      "selected_fraction": 0.0021361524260599236
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 12,
+      "catalogues": 5,
+      "selected_rows": 8343509,
+      "selected_removed_rows": 27313,
+      "selected_fraction": 0.0032735627180362605
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 13,
+      "catalogues": 5,
+      "selected_rows": 6345778,
+      "selected_removed_rows": 19397,
+      "selected_fraction": 0.0030566779991358034
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 14,
+      "catalogues": 5,
+      "selected_rows": 12626841,
+      "selected_removed_rows": 31054,
+      "selected_fraction": 0.00245936414341481
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 15,
+      "catalogues": 5,
+      "selected_rows": 9775792,
+      "selected_removed_rows": 30582,
+      "selected_fraction": 0.0031283398828452977
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 16,
+      "catalogues": 5,
+      "selected_rows": 4226523,
+      "selected_removed_rows": 15068,
+      "selected_fraction": 0.003565105406974007
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 17,
+      "catalogues": 5,
+      "selected_rows": 4283485,
+      "selected_removed_rows": 13920,
+      "selected_fraction": 0.003249690380612982
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 18,
+      "catalogues": 5,
+      "selected_rows": 10646005,
+      "selected_removed_rows": 32660,
+      "selected_fraction": 0.0030678174582859956
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 19,
+      "catalogues": 5,
+      "selected_rows": 13289066,
+      "selected_removed_rows": 37340,
+      "selected_fraction": 0.002809828772014527
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 20,
+      "catalogues": 5,
+      "selected_rows": 7365902,
+      "selected_removed_rows": 25115,
+      "selected_fraction": 0.0034096299407730376
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 21,
+      "catalogues": 5,
+      "selected_rows": 7912715,
+      "selected_removed_rows": 22977,
+      "selected_fraction": 0.002903807353101938
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 22,
+      "catalogues": 5,
+      "selected_rows": 15736800,
+      "selected_removed_rows": 44662,
+      "selected_fraction": 0.0028380611051802146
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 23,
+      "catalogues": 5,
+      "selected_rows": 10466192,
+      "selected_removed_rows": 24850,
+      "selected_fraction": 0.00237431149743861
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 24,
+      "catalogues": 5,
+      "selected_rows": 5879304,
+      "selected_removed_rows": 20221,
+      "selected_fraction": 0.0034393526852838363
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 25,
+      "catalogues": 5,
+      "selected_rows": 4704790,
+      "selected_removed_rows": 14364,
+      "selected_fraction": 0.0030530586912487063
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 26,
+      "catalogues": 5,
+      "selected_rows": 10853686,
+      "selected_removed_rows": 30759,
+      "selected_fraction": 0.002833968110004288
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 27,
+      "catalogues": 5,
+      "selected_rows": 14581784,
+      "selected_removed_rows": 40093,
+      "selected_fraction": 0.002749526395398533
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 28,
+      "catalogues": 5,
+      "selected_rows": 7728560,
+      "selected_removed_rows": 24054,
+      "selected_fraction": 0.003112352106990177
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 29,
+      "catalogues": 5,
+      "selected_rows": 5747615,
+      "selected_removed_rows": 17646,
+      "selected_fraction": 0.003070143007142963
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 30,
+      "catalogues": 5,
+      "selected_rows": 13574340,
+      "selected_removed_rows": 42547,
+      "selected_fraction": 0.0031343697004789918
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 31,
+      "catalogues": 5,
+      "selected_rows": 8595417,
+      "selected_removed_rows": 24151,
+      "selected_fraction": 0.002809753151010591
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 32,
+      "catalogues": 5,
+      "selected_rows": 3710272,
+      "selected_removed_rows": 11711,
+      "selected_fraction": 0.0031563723629965674
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 33,
+      "catalogues": 5,
+      "selected_rows": 3608201,
+      "selected_removed_rows": 10764,
+      "selected_fraction": 0.002983204095337261
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 34,
+      "catalogues": 5,
+      "selected_rows": 9074056,
+      "selected_removed_rows": 25203,
+      "selected_fraction": 0.0027774790016724606
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 35,
+      "catalogues": 5,
+      "selected_rows": 12581430,
+      "selected_removed_rows": 35141,
+      "selected_fraction": 0.002793084728842429
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 36,
+      "catalogues": 5,
+      "selected_rows": 6381919,
+      "selected_removed_rows": 20718,
+      "selected_fraction": 0.003246358971337618
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 37,
+      "catalogues": 5,
+      "selected_rows": 7329697,
+      "selected_removed_rows": 21155,
+      "selected_fraction": 0.002886203890829321
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 38,
+      "catalogues": 5,
+      "selected_rows": 15445017,
+      "selected_removed_rows": 47001,
+      "selected_fraction": 0.003043117401554171
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 39,
+      "catalogues": 5,
+      "selected_rows": 10305609,
+      "selected_removed_rows": 26714,
+      "selected_fraction": 0.0025921806270740528
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 40,
+      "catalogues": 5,
+      "selected_rows": 5621847,
+      "selected_removed_rows": 20441,
+      "selected_fraction": 0.0036359936511968396
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 41,
+      "catalogues": 5,
+      "selected_rows": 5434314,
+      "selected_removed_rows": 16472,
+      "selected_fraction": 0.0030311093543729717
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 42,
+      "catalogues": 5,
+      "selected_rows": 12403984,
+      "selected_removed_rows": 36215,
+      "selected_fraction": 0.002919626468399185
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 43,
+      "catalogues": 5,
+      "selected_rows": 15117038,
+      "selected_removed_rows": 39470,
+      "selected_fraction": 0.002610961221371541
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 44,
+      "catalogues": 5,
+      "selected_rows": 8940711,
+      "selected_removed_rows": 28271,
+      "selected_fraction": 0.0031620527718656827
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 45,
+      "catalogues": 5,
+      "selected_rows": 6939154,
+      "selected_removed_rows": 21469,
+      "selected_fraction": 0.0030938930019423117
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 46,
+      "catalogues": 5,
+      "selected_rows": 14726242,
+      "selected_removed_rows": 44371,
+      "selected_fraction": 0.0030130565557730206
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 47,
+      "catalogues": 5,
+      "selected_rows": 9827655,
+      "selected_removed_rows": 26916,
+      "selected_fraction": 0.0027388018810184118
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 48,
+      "catalogues": 5,
+      "selected_rows": 4579495,
+      "selected_removed_rows": 15291,
+      "selected_fraction": 0.003339014454650567
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 49,
+      "catalogues": 5,
+      "selected_rows": 3766102,
+      "selected_removed_rows": 11898,
+      "selected_fraction": 0.003159234667568749
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 50,
+      "catalogues": 5,
+      "selected_rows": 10449053,
+      "selected_removed_rows": 33464,
+      "selected_fraction": 0.0032025868755761887
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 51,
+      "catalogues": 5,
+      "selected_rows": 13184123,
+      "selected_removed_rows": 34922,
+      "selected_fraction": 0.002648792035693235
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 52,
+      "catalogues": 5,
+      "selected_rows": 7409125,
+      "selected_removed_rows": 26626,
+      "selected_fraction": 0.0035936767162114283
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 53,
+      "catalogues": 5,
+      "selected_rows": 8410198,
+      "selected_removed_rows": 26906,
+      "selected_fraction": 0.0031992112433024762
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 54,
+      "catalogues": 5,
+      "selected_rows": 15534300,
+      "selected_removed_rows": 40781,
+      "selected_fraction": 0.002625222893854245
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 55,
+      "catalogues": 5,
+      "selected_rows": 10794613,
+      "selected_removed_rows": 28595,
+      "selected_fraction": 0.0026490064998161583
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 56,
+      "catalogues": 5,
+      "selected_rows": 5191381,
+      "selected_removed_rows": 17318,
+      "selected_fraction": 0.003335913892661702
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 57,
+      "catalogues": 5,
+      "selected_rows": 4571130,
+      "selected_removed_rows": 14595,
+      "selected_fraction": 0.003192864783981204
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 58,
+      "catalogues": 5,
+      "selected_rows": 11870865,
+      "selected_removed_rows": 40511,
+      "selected_fraction": 0.0034126409490799533
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 59,
+      "catalogues": 5,
+      "selected_rows": 12137752,
+      "selected_removed_rows": 25401,
+      "selected_fraction": 0.002092726890448907
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 60,
+      "catalogues": 5,
+      "selected_rows": 8126716,
+      "selected_removed_rows": 28181,
+      "selected_fraction": 0.00346769839133052
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 61,
+      "catalogues": 5,
+      "selected_rows": 5808367,
+      "selected_removed_rows": 17824,
+      "selected_fraction": 0.0030686766177137224
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 62,
+      "catalogues": 5,
+      "selected_rows": 11747997,
+      "selected_removed_rows": 29618,
+      "selected_fraction": 0.002521110619963556
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 63,
+      "catalogues": 5,
+      "selected_rows": 9393288,
+      "selected_removed_rows": 30247,
+      "selected_fraction": 0.003220065221038682
+    },
+    {
+      "gravity": "LCDM",
+      "imodel": 64,
+      "catalogues": 5,
+      "selected_rows": 3627422,
+      "selected_removed_rows": 12186,
+      "selected_fraction": 0.003359410622750813
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 1,
+      "catalogues": 5,
+      "selected_rows": 2533611,
+      "selected_removed_rows": 6480,
+      "selected_fraction": 0.002557614408841768
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 2,
+      "catalogues": 5,
+      "selected_rows": 10064830,
+      "selected_removed_rows": 42182,
+      "selected_fraction": 0.0041910295553923916
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 3,
+      "catalogues": 5,
+      "selected_rows": 12263426,
+      "selected_removed_rows": 35726,
+      "selected_fraction": 0.002913215279319172
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 4,
+      "catalogues": 5,
+      "selected_rows": 7298482,
+      "selected_removed_rows": 28249,
+      "selected_fraction": 0.0038705308857376096
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 5,
+      "catalogues": 5,
+      "selected_rows": 8637382,
+      "selected_removed_rows": 34645,
+      "selected_fraction": 0.004011053349267174
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 6,
+      "catalogues": 5,
+      "selected_rows": 15203569,
+      "selected_removed_rows": 46534,
+      "selected_fraction": 0.003060728701267446
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 7,
+      "catalogues": 5,
+      "selected_rows": 11276547,
+      "selected_removed_rows": 42372,
+      "selected_fraction": 0.003757533223601161
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 8,
+      "catalogues": 5,
+      "selected_rows": 4766990,
+      "selected_removed_rows": 16456,
+      "selected_fraction": 0.0034520735306765903
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 9,
+      "catalogues": 5,
+      "selected_rows": 5780001,
+      "selected_removed_rows": 22675,
+      "selected_fraction": 0.003923009701901435
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 10,
+      "catalogues": 5,
+      "selected_rows": 12616889,
+      "selected_removed_rows": 41794,
+      "selected_fraction": 0.0033125440035178242
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 11,
+      "catalogues": 5,
+      "selected_rows": 14871222,
+      "selected_removed_rows": 32978,
+      "selected_fraction": 0.0022175716292850713
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 12,
+      "catalogues": 5,
+      "selected_rows": 8839876,
+      "selected_removed_rows": 30030,
+      "selected_fraction": 0.0033971064752492002
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 13,
+      "catalogues": 5,
+      "selected_rows": 6792243,
+      "selected_removed_rows": 20392,
+      "selected_fraction": 0.00300224830000929
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 14,
+      "catalogues": 5,
+      "selected_rows": 14588146,
+      "selected_removed_rows": 42433,
+      "selected_fraction": 0.002908731513929186
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 15,
+      "catalogues": 5,
+      "selected_rows": 10551680,
+      "selected_removed_rows": 33562,
+      "selected_fraction": 0.0031807257232971432
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 16,
+      "catalogues": 5,
+      "selected_rows": 4594891,
+      "selected_removed_rows": 16809,
+      "selected_fraction": 0.0036581934152518526
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 17,
+      "catalogues": 5,
+      "selected_rows": 4930755,
+      "selected_removed_rows": 17925,
+      "selected_fraction": 0.003635345905444501
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 18,
+      "catalogues": 5,
+      "selected_rows": 11530824,
+      "selected_removed_rows": 39431,
+      "selected_fraction": 0.0034196168461161146
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 19,
+      "catalogues": 5,
+      "selected_rows": 14702884,
+      "selected_removed_rows": 55397,
+      "selected_fraction": 0.0037677642019075985
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 20,
+      "catalogues": 5,
+      "selected_rows": 7575621,
+      "selected_removed_rows": 26010,
+      "selected_fraction": 0.0034333818970088393
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 21,
+      "catalogues": 5,
+      "selected_rows": 8444614,
+      "selected_removed_rows": 24524,
+      "selected_fraction": 0.002904099583474153
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 22,
+      "catalogues": 5,
+      "selected_rows": 16915485,
+      "selected_removed_rows": 65229,
+      "selected_fraction": 0.0038561708399138424
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 23,
+      "catalogues": 5,
+      "selected_rows": 11757472,
+      "selected_removed_rows": 30858,
+      "selected_fraction": 0.0026245437794791262
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 24,
+      "catalogues": 5,
+      "selected_rows": 6665093,
+      "selected_removed_rows": 29845,
+      "selected_fraction": 0.004477806986339125
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 25,
+      "catalogues": 5,
+      "selected_rows": 4987625,
+      "selected_removed_rows": 14987,
+      "selected_fraction": 0.0030048369715044735
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 26,
+      "catalogues": 5,
+      "selected_rows": 12539537,
+      "selected_removed_rows": 37829,
+      "selected_fraction": 0.003016778051693615
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 27,
+      "catalogues": 5,
+      "selected_rows": 15071883,
+      "selected_removed_rows": 41929,
+      "selected_fraction": 0.002781935077388804
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 28,
+      "catalogues": 5,
+      "selected_rows": 8574582,
+      "selected_removed_rows": 33184,
+      "selected_fraction": 0.0038700428778918904
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 29,
+      "catalogues": 5,
+      "selected_rows": 6372141,
+      "selected_removed_rows": 20605,
+      "selected_fraction": 0.0032336070403966265
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 30,
+      "catalogues": 5,
+      "selected_rows": 14796997,
+      "selected_removed_rows": 47084,
+      "selected_fraction": 0.003181996995741771
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 31,
+      "catalogues": 5,
+      "selected_rows": 9734527,
+      "selected_removed_rows": 35645,
+      "selected_fraction": 0.003661708473354689
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 32,
+      "catalogues": 5,
+      "selected_rows": 3830884,
+      "selected_removed_rows": 10905,
+      "selected_fraction": 0.0028466014632653977
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 33,
+      "catalogues": 5,
+      "selected_rows": 3882945,
+      "selected_removed_rows": 11886,
+      "selected_fraction": 0.0030610786400528463
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 34,
+      "catalogues": 5,
+      "selected_rows": 10094191,
+      "selected_removed_rows": 34627,
+      "selected_fraction": 0.003430388824622003
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 35,
+      "catalogues": 5,
+      "selected_rows": 13255229,
+      "selected_removed_rows": 40091,
+      "selected_fraction": 0.003024542239142002
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 36,
+      "catalogues": 5,
+      "selected_rows": 7338627,
+      "selected_removed_rows": 29882,
+      "selected_fraction": 0.004071878840551509
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 37,
+      "catalogues": 5,
+      "selected_rows": 8330511,
+      "selected_removed_rows": 24960,
+      "selected_fraction": 0.0029962147580142443
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 38,
+      "catalogues": 5,
+      "selected_rows": 16183146,
+      "selected_removed_rows": 59647,
+      "selected_fraction": 0.003685748123387134
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 39,
+      "catalogues": 5,
+      "selected_rows": 11661070,
+      "selected_removed_rows": 40378,
+      "selected_fraction": 0.003462632502849224
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 40,
+      "catalogues": 5,
+      "selected_rows": 5781209,
+      "selected_removed_rows": 21354,
+      "selected_fraction": 0.003693691060122545
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 41,
+      "catalogues": 5,
+      "selected_rows": 5831877,
+      "selected_removed_rows": 19010,
+      "selected_fraction": 0.0032596709429914246
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 42,
+      "catalogues": 5,
+      "selected_rows": 13444440,
+      "selected_removed_rows": 40138,
+      "selected_fraction": 0.002985472061313078
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 43,
+      "catalogues": 5,
+      "selected_rows": 17228410,
+      "selected_removed_rows": 52551,
+      "selected_fraction": 0.003050252460906143
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 44,
+      "catalogues": 5,
+      "selected_rows": 9653145,
+      "selected_removed_rows": 30487,
+      "selected_fraction": 0.00315824531797668
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 45,
+      "catalogues": 5,
+      "selected_rows": 7666806,
+      "selected_removed_rows": 24163,
+      "selected_fraction": 0.003151638374572149
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 46,
+      "catalogues": 5,
+      "selected_rows": 16805328,
+      "selected_removed_rows": 52658,
+      "selected_fraction": 0.003133411022980331
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 47,
+      "catalogues": 5,
+      "selected_rows": 10157338,
+      "selected_removed_rows": 28192,
+      "selected_fraction": 0.002775530360415298
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 48,
+      "catalogues": 5,
+      "selected_rows": 4984920,
+      "selected_removed_rows": 19646,
+      "selected_fraction": 0.0039410863163300515
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 49,
+      "catalogues": 5,
+      "selected_rows": 4337320,
+      "selected_removed_rows": 17200,
+      "selected_fraction": 0.003965582433392048
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 50,
+      "catalogues": 5,
+      "selected_rows": 10956550,
+      "selected_removed_rows": 35522,
+      "selected_fraction": 0.0032420789390821014
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 51,
+      "catalogues": 5,
+      "selected_rows": 14351683,
+      "selected_removed_rows": 49882,
+      "selected_fraction": 0.003475689924310619
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 52,
+      "catalogues": 5,
+      "selected_rows": 8015596,
+      "selected_removed_rows": 29708,
+      "selected_fraction": 0.0037062746176329247
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 53,
+      "catalogues": 5,
+      "selected_rows": 8657008,
+      "selected_removed_rows": 27841,
+      "selected_fraction": 0.003216007193247367
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 54,
+      "catalogues": 5,
+      "selected_rows": 17326875,
+      "selected_removed_rows": 62572,
+      "selected_fraction": 0.0036112686217220358
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 55,
+      "catalogues": 5,
+      "selected_rows": 11675110,
+      "selected_removed_rows": 34365,
+      "selected_fraction": 0.00294344121811272
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 56,
+      "catalogues": 5,
+      "selected_rows": 6083578,
+      "selected_removed_rows": 22126,
+      "selected_fraction": 0.0036370044076035517
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 57,
+      "catalogues": 5,
+      "selected_rows": 4956442,
+      "selected_removed_rows": 14912,
+      "selected_fraction": 0.003008609805178796
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 58,
+      "catalogues": 5,
+      "selected_rows": 13086052,
+      "selected_removed_rows": 59999,
+      "selected_fraction": 0.0045849580912562474
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 59,
+      "catalogues": 5,
+      "selected_rows": 13267996,
+      "selected_removed_rows": 28650,
+      "selected_fraction": 0.0021593313715198587
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 60,
+      "catalogues": 5,
+      "selected_rows": 8660915,
+      "selected_removed_rows": 32228,
+      "selected_fraction": 0.00372108489691909
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 61,
+      "catalogues": 5,
+      "selected_rows": 6360024,
+      "selected_removed_rows": 22939,
+      "selected_fraction": 0.0036067473959217763
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 62,
+      "catalogues": 5,
+      "selected_rows": 12215114,
+      "selected_removed_rows": 31008,
+      "selected_fraction": 0.00253849452407894
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 63,
+      "catalogues": 5,
+      "selected_rows": 10714450,
+      "selected_removed_rows": 39976,
+      "selected_fraction": 0.0037310361241127635
+    },
+    {
+      "gravity": "fRn1",
+      "imodel": 64,
+      "catalogues": 5,
+      "selected_rows": 3874158,
+      "selected_removed_rows": 12070,
+      "selected_fraction": 0.0031155156810847673
+    }
+  ],
+  "missing": [],
+  "invalid": []
+}

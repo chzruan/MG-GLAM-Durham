@@ -1,0 +1,62 @@
+[
+  {
+    "gravity": "LCDM",
+    "imodel": 1,
+    "ibox": 1,
+    "redshift": 0.25,
+    "selected_rows": 509261,
+    "strict_removed": 1323,
+    "match": true,
+    "source_sha256": "e58dbbfddf97c4fe7e82a37d162665cafd77eb99445675ef8135f0becb80d37f"
+  },
+  {
+    "gravity": "LCDM",
+    "imodel": 32,
+    "ibox": 1,
+    "redshift": 0.25,
+    "selected_rows": 755080,
+    "strict_removed": 2538,
+    "match": true,
+    "source_sha256": "e1fd3e1e26a97e5f5dc5226f0872669291524cdd24063d116fa68b5a6d223dfe"
+  },
+  {
+    "gravity": "LCDM",
+    "imodel": 64,
+    "ibox": 1,
+    "redshift": 0.25,
+    "selected_rows": 733319,
+    "strict_removed": 2552,
+    "match": true,
+    "source_sha256": "ceb7856cea0e6c0d86439ebf6f1fe8dc72fea3230079a591f3aa80ea99025c0c"
+  },
+  {
+    "gravity": "fRn1",
+    "imodel": 1,
+    "ibox": 1,
+    "redshift": 0.25,
+    "selected_rows": 521931,
+    "strict_removed": 1453,
+    "match": true,
+    "source_sha256": "ba5461747ee1ea0e1839554376348c7b9d81add9eb4da5120fd698bd419efaa4"
+  },
+  {
+    "gravity": "fRn1",
+    "imodel": 32,
+    "ibox": 1,
+    "redshift": 0.25,
+    "selected_rows": 778670,
+    "strict_removed": 2407,
+    "match": true,
+    "source_sha256": "682820c1086fdc5f47427dca1817c9917910ed2f2c520650dbdc5d4b67ed1077"
+  },
+  {
+    "gravity": "fRn1",
+    "imodel": 64,
+    "ibox": 1,
+    "redshift": 0.25,
+    "selected_rows": 782460,
+    "strict_removed": 2488,
+    "match": true,
+    "source_sha256": "0cdd5ddc9cb1b07d561e9ef4c5c2353ee1ab1fd699870a5f52ae2b5d3345dab6"
+  }
+]

@@ -1,0 +1,4872 @@
+[
+  {
+    "path": "Run.log",
+    "bytes": 0,
+    "mtime_ns": 1776289275000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782487137000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/m67_11495882.err",
+    "bytes": 305,
+    "mtime_ns": 1782486871000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782486984000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782535821000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/m67_11495882.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782573926000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782573927000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782573927000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782467242000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782467101000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/m67_11495879.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782554431000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782516664000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/m67_11495879.err",
+    "bytes": 305,
+    "mtime_ns": 1782466990000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782554432000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782554432000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782478678000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782478604000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782512191000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782538310000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/m67_11495881.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782538309000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782538310000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/m67_11495881.err",
+    "bytes": 305,
+    "mtime_ns": 1782478574000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782465198000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782465117000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/m67_11495878.err",
+    "bytes": 305,
+    "mtime_ns": 1782465085000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782498353000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/m67_11495878.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782524502000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782524503000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782524503000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782478681000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782478603000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/m67_11495880.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782538292000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782512376000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782538294000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/m67_11495880.err",
+    "bytes": 305,
+    "mtime_ns": 1782478574000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782538294000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/m67_11513209.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782650626000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782628733000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782628657000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782639723000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782650628000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782650628000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run5/m67_11513209.err",
+    "bytes": 305,
+    "mtime_ns": 1782628627000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782628732000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782628656000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782638983000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782649286000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/m67_11513206.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782649285000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782649286000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run2/m67_11513206.err",
+    "bytes": 305,
+    "mtime_ns": 1782628627000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782628729000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782628655000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782638792000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782649110000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/m67_11513208.err",
+    "bytes": 305,
+    "mtime_ns": 1782628627000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/m67_11513208.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782649109000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782649110000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782617772000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/m67_11513205.err",
+    "bytes": 305,
+    "mtime_ns": 1782617498000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782617621000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782640437000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782661015000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782661015000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run1/m67_11513205.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782661014000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782628730000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782628656000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782638650000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782649028000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/m67_11513207.err",
+    "bytes": 305,
+    "mtime_ns": 1782628627000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/m67_11513207.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782649026000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model67_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782649028000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run10/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1781901781000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run10/DE_11415631.err",
+    "bytes": 500,
+    "mtime_ns": 1781901195000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run10/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1781901394000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run10/DE_11448828.err",
+    "bytes": 500,
+    "mtime_ns": 1782425370000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run10/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782436047000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run10/DE_11448828.dump",
+    "bytes": 61129,
+    "mtime_ns": 1782535817000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run10/DE_11415631.dump",
+    "bytes": 326741,
+    "mtime_ns": 1782082994000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run10/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782535824000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run10/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1782535824000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1777820842000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run5/DE_10969636.err",
+    "bytes": 500,
+    "mtime_ns": 1777820260000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1777820461000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run5/DE_10969636.dump",
+    "bytes": 327133,
+    "mtime_ns": 1778003320000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1778101367000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run5/DE_10977759.dump",
+    "bytes": 82535,
+    "mtime_ns": 1778202355000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1778202362000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run5/DE_10977759.err",
+    "bytes": 500,
+    "mtime_ns": 1778090596000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run5/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1778202362000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run2/DE_10532669.err",
+    "bytes": 500,
+    "mtime_ns": 1776664044000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1776664624000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1776664243000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run2/DE_10626166.dump",
+    "bytes": 61595,
+    "mtime_ns": 1776958245000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1776859409000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1776958252000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run2/DE_10532669.dump",
+    "bytes": 327207,
+    "mtime_ns": 1776847907000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run2/DE_10626166.err",
+    "bytes": 500,
+    "mtime_ns": 1776849027000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run2/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1776958252000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1777219905000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run4/DE_10927646.dump",
+    "bytes": 61679,
+    "mtime_ns": 1777680012000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1777219523000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1777558617000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1777680019000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run4/DE_10705134.dump",
+    "bytes": 327608,
+    "mtime_ns": 1777402019000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run4/DE_10927646.err",
+    "bytes": 500,
+    "mtime_ns": 1777545298000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run4/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1777680019000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run4/DE_10705134.err",
+    "bytes": 500,
+    "mtime_ns": 1777219325000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run6/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1780485465000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run6/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1780485051000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run6/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1781040746000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run6/DE_11309862.err",
+    "bytes": 500,
+    "mtime_ns": 1781030088000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run6/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1781141925000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run6/DE_11309862.dump",
+    "bytes": 76301,
+    "mtime_ns": 1781141918000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run6/DE_11278205.dump",
+    "bytes": 327133,
+    "mtime_ns": 1780715279000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run6/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1781141925000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run6/DE_11278205.err",
+    "bytes": 500,
+    "mtime_ns": 1780484871000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run7/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1780687582000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run7/DE_11288833.dump",
+    "bytes": 327366,
+    "mtime_ns": 1780901653000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run7/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1780687204000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run7/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1781152304000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run7/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1781252916000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run7/DE_11319740.err",
+    "bytes": 500,
+    "mtime_ns": 1781141966000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run7/DE_11288833.err",
+    "bytes": 500,
+    "mtime_ns": 1780686999000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run7/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1781252916000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run7/DE_11319740.dump",
+    "bytes": 61681,
+    "mtime_ns": 1781252909000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run12/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1786699065000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run12/DE_11773605.err",
+    "bytes": 1411,
+    "mtime_ns": 1787203334000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run12/DE_11743484.err",
+    "bytes": 500,
+    "mtime_ns": 1786698452000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run12/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1786698643000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run12/DE_11773605.dump",
+    "bytes": 58023,
+    "mtime_ns": 1787203334000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run12/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1787083139000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run12/timing.log",
+    "bytes": 19368,
+    "mtime_ns": 1787200995000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run12/DE_11743484.dump",
+    "bytes": 326741,
+    "mtime_ns": 1786927605000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run12/Run.log",
+    "bytes": 29180,
+    "mtime_ns": 1787203334000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1776390293000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1776389868000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1776655004000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run1/DE_10532627.dump",
+    "bytes": 62203,
+    "mtime_ns": 1776776093000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run1/timing.log",
+    "bytes": 20598,
+    "mtime_ns": 1776776100000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run1/DE_10450353.err",
+    "bytes": 426,
+    "mtime_ns": 1776638886000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run1/DE_10532627.err",
+    "bytes": 305,
+    "mtime_ns": 1776639691000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run1/DE_10450353.dump",
+    "bytes": 335709,
+    "mtime_ns": 1776638815000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run1/Run.log",
+    "bytes": 31709,
+    "mtime_ns": 1776776100000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run11/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1786637659000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run11/DE_11758990.err",
+    "bytes": 500,
+    "mtime_ns": 1786958313000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run11/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1786637281000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run11/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1786968870000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run11/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1787070155000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run11/DE_11706713.dump",
+    "bytes": 326741,
+    "mtime_ns": 1786819195000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run11/DE_11758990.dump",
+    "bytes": 61129,
+    "mtime_ns": 1787070148000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run11/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1787070155000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run11/DE_11706713.err",
+    "bytes": 500,
+    "mtime_ns": 1786637055000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run9/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1781377901000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run9/DE_11373690.dump",
+    "bytes": 329340,
+    "mtime_ns": 1781605766000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run9/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1781377466000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run9/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1781694300000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run9/DE_11400945.dump",
+    "bytes": 66801,
+    "mtime_ns": 1781814713000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run9/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1781814720000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run9/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1781814720000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run9/DE_11400945.err",
+    "bytes": 500,
+    "mtime_ns": 1781680564000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run9/DE_11373690.err",
+    "bytes": 500,
+    "mtime_ns": 1781377302000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1776837963000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run3/DE_10813075.err",
+    "bytes": 500,
+    "mtime_ns": 1777411218000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run3/DE_10813075.dump",
+    "bytes": 61600,
+    "mtime_ns": 1777545256000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1776837555000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1777424018000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1777545263000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run3/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1777545263000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run3/DE_10625204.dump",
+    "bytes": 327207,
+    "mtime_ns": 1777065320000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run3/DE_10625204.err",
+    "bytes": 305,
+    "mtime_ns": 1776837352000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run8/DE_11404833.err",
+    "bytes": 500,
+    "mtime_ns": 1781716098000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run8/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1781716678000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run8/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1781716297000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run8/DE_11431188.dump",
+    "bytes": 61129,
+    "mtime_ns": 1782425332000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run8/DE_11431188.err",
+    "bytes": 500,
+    "mtime_ns": 1782314606000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run8/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782325437000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run8/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782425339000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run8/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1782425339000000000
+  },
+  {
+    "path": "DEGRACE_F5n1_L1800Np3200Ng6400/Run8/DE_11404833.dump",
+    "bytes": 331519,
+    "mtime_ns": 1781901166000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844625000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/m72_11579801.err",
+    "bytes": 305,
+    "mtime_ns": 1783844528000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844554000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783854810000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783865317000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783865317000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/m72_11579801.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783865316000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/m72_11579798.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783865365000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844632000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844557000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783854905000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783865366000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/m72_11579798.err",
+    "bytes": 305,
+    "mtime_ns": 1783844527000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783865366000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844646000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844559000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783855031000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/m72_11579800.err",
+    "bytes": 305,
+    "mtime_ns": 1783844527000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783865426000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/m72_11579800.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783865425000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783865426000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844642000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844559000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783855271000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/m72_11579797.err",
+    "bytes": 305,
+    "mtime_ns": 1783844527000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/m72_11579797.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783865679000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783865680000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783865680000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844641000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/m72_11579799.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783864912000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844558000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783854396000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783864913000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/m72_11579799.err",
+    "bytes": 305,
+    "mtime_ns": 1783844527000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783864913000000000
+  },
+  {
+    "path": "fid2LPTIC_L512Np2048Ng4096/Run1/fort.17",
+    "bytes": 58,
+    "mtime_ns": 1785288108000000000
+  },
+  {
+    "path": "fid2LPTIC_L512Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1785309215000000000
+  },
+  {
+    "path": "fid2LPTIC_L512Np2048Ng4096/Run1/timing.log",
+    "bytes": 15186,
+    "mtime_ns": 1785329385000000000
+  },
+  {
+    "path": "fid2LPTIC_L512Np2048Ng4096/Run1/Run.log",
+    "bytes": 21487,
+    "mtime_ns": 1785329385000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/m65_11448716.err",
+    "bytes": 305,
+    "mtime_ns": 1782130122000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782130230000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/m65_11448716.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782191261000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782130153000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782164305000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782191262000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782191262000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782129639000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782129558000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782164064000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/m65_11448713.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782191487000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/m65_11448713.err",
+    "bytes": 305,
+    "mtime_ns": 1782129523000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782191489000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782191489000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782130101000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782130026000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782163263000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/m65_11448715.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782190727000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/m65_11448715.err",
+    "bytes": 305,
+    "mtime_ns": 1782129996000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782190728000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782190728000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/m65_11448712.err",
+    "bytes": 305,
+    "mtime_ns": 1782129491000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782129594000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782129520000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782162870000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782189824000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/m65_11448712.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782189822000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782189824000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782129725000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782129650000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782164609000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782192577000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/m65_11448714.err",
+    "bytes": 305,
+    "mtime_ns": 1782129618000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782192577000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/m65_11448714.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782192575000000000
+  },
+  {
+    "path": "fid2LPTIC_L512Np2048Ng4096_da6/Run1/fort.17",
+    "bytes": 58,
+    "mtime_ns": 1785393771000000000
+  },
+  {
+    "path": "fid2LPTIC_L512Np2048Ng4096_da6/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1785410144000000000
+  },
+  {
+    "path": "fid2LPTIC_L512Np2048Ng4096_da6/Run1/timing.log",
+    "bytes": 20229,
+    "mtime_ns": 1785423211000000000
+  },
+  {
+    "path": "fid2LPTIC_L512Np2048Ng4096_da6/Run1/Run.log",
+    "bytes": 23168,
+    "mtime_ns": 1785423211000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783486602000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783486527000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783519756000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783545741000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/m69_11568015.err",
+    "bytes": 305,
+    "mtime_ns": 1783486499000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/m69_11568015.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783545739000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783545741000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783486570000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/m69_11568012.err",
+    "bytes": 305,
+    "mtime_ns": 1783486408000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783486486000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783520750000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783546675000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/m69_11568012.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783546674000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783546675000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783486544000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/m69_11568014.err",
+    "bytes": 305,
+    "mtime_ns": 1783486438000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783486467000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783520382000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783547109000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/m69_11568014.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783547108000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783547109000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783486391000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783486316000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/m69_11568011.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783545566000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783519566000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/m69_11568011.err",
+    "bytes": 305,
+    "mtime_ns": 1783486286000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783545568000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783545568000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783486535000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/m69_11568013.err",
+    "bytes": 305,
+    "mtime_ns": 1783486438000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783486465000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783520158000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/m69_11568013.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783546143000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783546144000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783546144000000000
+  },
+  {
+    "path": "conv_da4/Run1/restart_11555632.err",
+    "bytes": 195,
+    "mtime_ns": 1782979701000000000
+  },
+  {
+    "path": "conv_da4/Run1/fort.17",
+    "bytes": 58,
+    "mtime_ns": 1782968789000000000
+  },
+  {
+    "path": "conv_da4/Run1/conv_11555311.err",
+    "bytes": 309,
+    "mtime_ns": 1782979551000000000
+  },
+  {
+    "path": "conv_da4/Run1/timing.log",
+    "bytes": 30930,
+    "mtime_ns": 1782980425000000000
+  },
+  {
+    "path": "conv_da4/Run1/Run.log",
+    "bytes": 22051,
+    "mtime_ns": 1782980425000000000
+  },
+  {
+    "path": "conv_da4/Run1/conv_11555311.out",
+    "bytes": 118948,
+    "mtime_ns": 1782979550000000000
+  },
+  {
+    "path": "conv_da4/Run1/restart_11555632.out",
+    "bytes": 21022,
+    "mtime_ns": 1782980433000000000
+  },
+  {
+    "path": "ic2pm_val_L1024/Run1/ic2pmval_11555162.out",
+    "bytes": 9048,
+    "mtime_ns": 1782949499000000000
+  },
+  {
+    "path": "ic2pm_val_L1024/Run1/fort.17",
+    "bytes": 58,
+    "mtime_ns": 1782949499000000000
+  },
+  {
+    "path": "ic2pm_val_L1024/Run1/ic2pmval_11555162.err",
+    "bytes": 195,
+    "mtime_ns": 1782949419000000000
+  },
+  {
+    "path": "fid_F5/Run11/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1776379810000000000
+  },
+  {
+    "path": "fid_F5/Run11/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1776379809000000000
+  },
+  {
+    "path": "fid_F5/Run11/timing.log",
+    "bytes": 2820,
+    "mtime_ns": 1776379833000000000
+  },
+  {
+    "path": "fid_F5/Run11/Run.log",
+    "bytes": 2966,
+    "mtime_ns": 1776379833000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844815000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844667000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783894221000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783932780000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/m71_11579808.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783932778000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783932780000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/m71_11579808.err",
+    "bytes": 305,
+    "mtime_ns": 1783844558000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844812000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844671000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783894174000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/m71_11579805.err",
+    "bytes": 305,
+    "mtime_ns": 1783844558000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783932000000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/m71_11579805.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783931999000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783932000000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844831000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/m71_11579807.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783932571000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844686000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783894115000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783932573000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783932573000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/m71_11579807.err",
+    "bytes": 305,
+    "mtime_ns": 1783844558000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844679000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844588000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783879576000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783905815000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/m71_11579804.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783905814000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783905815000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/m71_11579804.err",
+    "bytes": 305,
+    "mtime_ns": 1783844557000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/m71_11579806.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783931122000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844816000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844675000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783893136000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/m71_11579806.err",
+    "bytes": 305,
+    "mtime_ns": 1783844558000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783931123000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783931123000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782105685000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/m65_11448721.err",
+    "bytes": 305,
+    "mtime_ns": 1782105575000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782105605000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782116569000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/m65_11448721.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782128386000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782128388000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782128388000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/m65_11448718.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782128285000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782105352000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782105268000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782116653000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782128286000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/m65_11448718.err",
+    "bytes": 305,
+    "mtime_ns": 1782105240000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782128286000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782105674000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782105602000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/m65_11448720.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782128101000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782116531000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782128102000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/m65_11448720.err",
+    "bytes": 305,
+    "mtime_ns": 1782105575000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782128102000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782104637000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782104565000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782115412000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/m65_11448717.err",
+    "bytes": 305,
+    "mtime_ns": 1782104537000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782127288000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782127288000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run1/m65_11448717.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782127286000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782105432000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782105359000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782117175000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/m65_11448719.err",
+    "bytes": 305,
+    "mtime_ns": 1782105331000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/m65_11448719.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782129462000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782129464000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model65_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782129464000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782368566000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/m66_11487825.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782425914000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782368414000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782405995000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782425916000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/m66_11487825.err",
+    "bytes": 305,
+    "mtime_ns": 1782368301000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782425916000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782368170000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782368021000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782390432000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782410329000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782410329000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/m66_11487822.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782410327000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/m66_11487822.err",
+    "bytes": 305,
+    "mtime_ns": 1782367904000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782368457000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782368320000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782391521000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782411075000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/m66_11487824.err",
+    "bytes": 305,
+    "mtime_ns": 1782368209000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/m66_11487824.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782411073000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782411075000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782368124000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782367980000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/m66_11487821.err",
+    "bytes": 305,
+    "mtime_ns": 1782367874000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782390842000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782410824000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/m66_11487821.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782410822000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782410824000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/m66_11487823.dump",
+    "bytes": 96362,
+    "mtime_ns": 1782415371000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782368362000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782368229000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782394991000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/m66_11487823.err",
+    "bytes": 305,
+    "mtime_ns": 1782368118000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782415373000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1782415373000000000
+  },
+  {
+    "path": "fid2LPTIC_L512Np2048Ng4096_da4/Run1/fort.17",
+    "bytes": 58,
+    "mtime_ns": 1785341075000000000
+  },
+  {
+    "path": "fid2LPTIC_L512Np2048Ng4096_da4/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1785359712000000000
+  },
+  {
+    "path": "fid2LPTIC_L512Np2048Ng4096_da4/Run1/timing.log",
+    "bytes": 30069,
+    "mtime_ns": 1785377303000000000
+  },
+  {
+    "path": "fid2LPTIC_L512Np2048Ng4096_da4/Run1/Run.log",
+    "bytes": 26506,
+    "mtime_ns": 1785377303000000000
+  },
+  {
+    "path": "2LPTIC_Gui/fidcosmo_L512/job.11659350.out",
+    "bytes": 12781,
+    "mtime_ns": 1785256892000000000
+  },
+  {
+    "path": "2LPTIC_Gui/validate_highres/icval_pk_11659092.out",
+    "bytes": 489,
+    "mtime_ns": 1785246554000000000
+  },
+  {
+    "path": "2LPTIC_Gui/validate_highres/job.11658973.out",
+    "bytes": 20256,
+    "mtime_ns": 1785245300000000000
+  },
+  {
+    "path": "2LPTIC_Gui/validate_highres/job.11658977.out",
+    "bytes": 12776,
+    "mtime_ns": 1785245944000000000
+  },
+  {
+    "path": "2LPTIC_Gui/validate_lowres/job.11658937.out",
+    "bytes": 10454,
+    "mtime_ns": 1785245072000000000
+  },
+  {
+    "path": "2LPTIC_Gui/validate_lowres/icval_pk_11658967.out",
+    "bytes": 487,
+    "mtime_ns": 1785245292000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run10/DE_11643430.dump",
+    "bytes": 61129,
+    "mtime_ns": 1785090427000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run10/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1784668870000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run10/DE_11643430.err",
+    "bytes": 500,
+    "mtime_ns": 1784978037000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run10/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1784668460000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run10/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1784988688000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run10/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1785090434000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run10/DE_11618209.dump",
+    "bytes": 326741,
+    "mtime_ns": 1784894106000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run10/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1785090434000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run10/DE_11618209.err",
+    "bytes": 500,
+    "mtime_ns": 1784668271000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844874000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run5/DE_11579789.dump",
+    "bytes": 326741,
+    "mtime_ns": 1784028109000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844487000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run5/DE_11591785.dump",
+    "bytes": 61129,
+    "mtime_ns": 1784212163000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1784108782000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run5/DE_11579789.err",
+    "bytes": 500,
+    "mtime_ns": 1783844289000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1784212170000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run5/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1784212170000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run5/DE_11591785.err",
+    "bytes": 500,
+    "mtime_ns": 1784097727000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783131552000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run2/DE_11556002.dump",
+    "bytes": 326741,
+    "mtime_ns": 1783357308000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783131133000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783510149000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run2/DE_11568321.err",
+    "bytes": 500,
+    "mtime_ns": 1783499093000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run2/DE_11568321.dump",
+    "bytes": 61129,
+    "mtime_ns": 1783611891000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783611898000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run2/DE_11556002.err",
+    "bytes": 500,
+    "mtime_ns": 1783130952000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run2/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1783611898000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run4/DE_11579788.err",
+    "bytes": 500,
+    "mtime_ns": 1783844269000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run4/DE_11567225.dump",
+    "bytes": 326741,
+    "mtime_ns": 1783608295000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783377700000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run4/DE_11567225.err",
+    "bytes": 500,
+    "mtime_ns": 1783377094000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783377280000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783858473000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783982251000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run4/DE_11579788.dump",
+    "bytes": 61129,
+    "mtime_ns": 1783982244000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run4/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1783982251000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run6/DE_11579790.dump",
+    "bytes": 326741,
+    "mtime_ns": 1784212630000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run6/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783982865000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run6/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783982456000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run6/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1784243780000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run6/DE_11579790.err",
+    "bytes": 500,
+    "mtime_ns": 1783982274000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run6/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1784343014000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run6/DE_11607270.dump",
+    "bytes": 61129,
+    "mtime_ns": 1784343006000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run6/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1784343014000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run6/DE_11607270.err",
+    "bytes": 500,
+    "mtime_ns": 1784233510000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run7/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1784293054000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run7/DE_11617878.err",
+    "bytes": 500,
+    "mtime_ns": 1784530118000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run7/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1784292620000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run7/DE_11607272.dump",
+    "bytes": 326741,
+    "mtime_ns": 1784522549000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run7/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1784544115000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run7/DE_11617878.dump",
+    "bytes": 61129,
+    "mtime_ns": 1784666658000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run7/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1784666665000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run7/DE_11607272.err",
+    "bytes": 500,
+    "mtime_ns": 1784292427000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run7/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1784666665000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783012477000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783012099000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run1/DE_11555996.dump",
+    "bytes": 326741,
+    "mtime_ns": 1783192800000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783211099000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783313572000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run1/DE_11555996.err",
+    "bytes": 500,
+    "mtime_ns": 1783011899000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run1/DE_11563793.dump",
+    "bytes": 61129,
+    "mtime_ns": 1783313565000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run1/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1783313572000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run1/DE_11563793.err",
+    "bytes": 500,
+    "mtime_ns": 1783200902000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run9/DE_11618208.err",
+    "bytes": 500,
+    "mtime_ns": 1784645127000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run9/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1784645708000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run9/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1784645328000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run9/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1784877464000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run9/DE_11642248.err",
+    "bytes": 500,
+    "mtime_ns": 1784866707000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run9/DE_11618208.dump",
+    "bytes": 326741,
+    "mtime_ns": 1784826932000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run9/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1784977854000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run9/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1784977854000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run9/DE_11642248.dump",
+    "bytes": 61129,
+    "mtime_ns": 1784977847000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783316678000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783316299000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783622763000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run3/DE_11567224.err",
+    "bytes": 500,
+    "mtime_ns": 1783316102000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run3/DE_11573346.err",
+    "bytes": 500,
+    "mtime_ns": 1783611928000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run3/DE_11573346.dump",
+    "bytes": 61129,
+    "mtime_ns": 1783723979000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783723986000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run3/DE_11567224.dump",
+    "bytes": 326741,
+    "mtime_ns": 1783499071000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run3/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1783723986000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run8/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1784343600000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run8/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1784343219000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run8/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1784540586000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run8/DE_11617880.dump",
+    "bytes": 61129,
+    "mtime_ns": 1784641132000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run8/DE_11607273.dump",
+    "bytes": 326741,
+    "mtime_ns": 1784526202000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run8/DE_11607273.err",
+    "bytes": 500,
+    "mtime_ns": 1784343020000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run8/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1784641139000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run8/DE_11617880.err",
+    "bytes": 500,
+    "mtime_ns": 1784530144000000000
+  },
+  {
+    "path": "DEGRACE_F4n1_L1800Np3200Ng6400/Run8/Run.log",
+    "bytes": 30231,
+    "mtime_ns": 1784641139000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/m71_11579796.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783866568000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844641000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844556000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783855943000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783866569000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/m71_11579796.err",
+    "bytes": 305,
+    "mtime_ns": 1783844527000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783866569000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844638000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/m71_11579793.err",
+    "bytes": 305,
+    "mtime_ns": 1783844527000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844559000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783854924000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/m71_11579793.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783865686000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783865687000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783865687000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844632000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844557000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783854788000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/m71_11579795.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783865608000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783865609000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/m71_11579795.err",
+    "bytes": 305,
+    "mtime_ns": 1783844527000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783865609000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844631000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/m71_11579792.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783865839000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844556000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783854992000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783865840000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783865840000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run1/m71_11579792.err",
+    "bytes": 305,
+    "mtime_ns": 1783844527000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/m71_11579794.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783865990000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844643000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844560000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783854961000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/m71_11579794.err",
+    "bytes": 305,
+    "mtime_ns": 1783844527000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783865992000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model71_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783865992000000000
+  },
+  {
+    "path": "conv_da16/Run1/fort.17",
+    "bytes": 58,
+    "mtime_ns": 1782968896000000000
+  },
+  {
+    "path": "conv_da16/Run1/conv_11555313.out",
+    "bytes": 48699,
+    "mtime_ns": 1782972676000000000
+  },
+  {
+    "path": "conv_da16/Run1/timing.log",
+    "bytes": 7806,
+    "mtime_ns": 1782972676000000000
+  },
+  {
+    "path": "conv_da16/Run1/Run.log",
+    "bytes": 10777,
+    "mtime_ns": 1782972676000000000
+  },
+  {
+    "path": "conv_da16/Run1/conv_11555313.err",
+    "bytes": 195,
+    "mtime_ns": 1782968833000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783490439000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783490365000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/m68_11568020.err",
+    "bytes": 305,
+    "mtime_ns": 1783490336000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783500875000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783511533000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783511533000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/m68_11568020.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783511532000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783490359000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783490203000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/m68_11568017.err",
+    "bytes": 305,
+    "mtime_ns": 1783490093000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783513720000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783535220000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/m68_11568017.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783535218000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783535220000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783490508000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783490359000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783513874000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783534337000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/m68_11568019.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783534335000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783534337000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/m68_11568019.err",
+    "bytes": 305,
+    "mtime_ns": 1783490245000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783486608000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783486528000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783496984000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783507707000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/m68_11568016.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783507705000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783507707000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/m68_11568016.err",
+    "bytes": 305,
+    "mtime_ns": 1783486499000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783490267000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783490185000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783500240000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/m68_11568018.err",
+    "bytes": 305,
+    "mtime_ns": 1783490153000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783511000000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/m68_11568018.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783510998000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783511000000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/m69_11568025.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783511912000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783490903000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783490820000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783501310000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783511913000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783511913000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run5/m69_11568025.err",
+    "bytes": 305,
+    "mtime_ns": 1783490792000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/m69_11568022.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783534716000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783490695000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783490543000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783514041000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/m69_11568022.err",
+    "bytes": 305,
+    "mtime_ns": 1783490427000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783534717000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783534717000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783490763000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783490629000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783513154000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/m69_11568024.err",
+    "bytes": 305,
+    "mtime_ns": 1783490518000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783533303000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/m69_11568024.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783533301000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783533303000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783490640000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/m69_11568021.err",
+    "bytes": 305,
+    "mtime_ns": 1783490397000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783490504000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783514425000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783534912000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/m69_11568021.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783534910000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783534912000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783490713000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783490577000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/m69_11568023.err",
+    "bytes": 305,
+    "mtime_ns": 1783490457000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783513847000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783534142000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/m69_11568023.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783534141000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model69_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783534142000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1779153871000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1779153766000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1779166594000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run2/timing.log",
+    "bytes": 17277,
+    "mtime_ns": 1779183225000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run2/Run.log",
+    "bytes": 22085,
+    "mtime_ns": 1779183794000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run2/DE2L_11129498.dump",
+    "bytes": 117130,
+    "mtime_ns": 1779183938000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run2/DE2L_11129498.err",
+    "bytes": 344,
+    "mtime_ns": 1779183960000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1779154444000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1779154345000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1779167292000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run1/DE2L_11129502.dump",
+    "bytes": 129204,
+    "mtime_ns": 1779189468000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1779189471000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run1/Run.log",
+    "bytes": 25319,
+    "mtime_ns": 1779189471000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2560Ng5120/Run1/DE2L_11129502.err",
+    "bytes": 305,
+    "mtime_ns": 1779154312000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run10/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782282216000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run10/DE2L_11415660.dump",
+    "bytes": 122779,
+    "mtime_ns": 1782415048000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run10/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782281768000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run10/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782353810000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run10/DE2L_11415660.err",
+    "bytes": 500,
+    "mtime_ns": 1782281599000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run10/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782415055000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run10/Run.log",
+    "bytes": 25249,
+    "mtime_ns": 1782415055000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1776214507000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1776214133000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1776277500000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run5/DE2L_10267494.dump",
+    "bytes": 123171,
+    "mtime_ns": 1776338869000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run5/DE2L_10267494.err",
+    "bytes": 500,
+    "mtime_ns": 1776213908000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run5/timing.log",
+    "bytes": 17443,
+    "mtime_ns": 1776338877000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run5/Run.log",
+    "bytes": 25249,
+    "mtime_ns": 1776338877000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1775774424000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1775774010000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run2/_DE2testL_10148601.err",
+    "bytes": 1343,
+    "mtime_ns": 1775413170000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1775843543000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run2/DE2L_10189590.dump",
+    "bytes": 122938,
+    "mtime_ns": 1775910978000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run2/timing.log",
+    "bytes": 17443,
+    "mtime_ns": 1775910985000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run2/Run.log",
+    "bytes": 32291,
+    "mtime_ns": 1775910985000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run2/_DE2testL_10148601.dump",
+    "bytes": 7769,
+    "mtime_ns": 1775413170000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run2/DE2L_10189590.err",
+    "bytes": 500,
+    "mtime_ns": 1775773786000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run4/DE2L_10267493.err",
+    "bytes": 500,
+    "mtime_ns": 1776090147000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1776090760000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run4/DE2L_10267493.dump",
+    "bytes": 123488,
+    "mtime_ns": 1776213877000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1776090377000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1776152929000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run4/timing.log",
+    "bytes": 17443,
+    "mtime_ns": 1776213885000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run4/Run.log",
+    "bytes": 25249,
+    "mtime_ns": 1776213885000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run6/DE2L_10364699.dump",
+    "bytes": 123329,
+    "mtime_ns": 1776462497000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run6/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1776341116000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run6/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1776340739000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run6/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1776401958000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run6/DE2L_10364699.err",
+    "bytes": 500,
+    "mtime_ns": 1776340506000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run6/timing.log",
+    "bytes": 17443,
+    "mtime_ns": 1776462505000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run6/Run.log",
+    "bytes": 25249,
+    "mtime_ns": 1776462505000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run7/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1776543300000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run7/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1776542913000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run7/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1776605073000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run7/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1776664040000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run7/Run.log",
+    "bytes": 25249,
+    "mtime_ns": 1776664040000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run7/DE2L_10450919.dump",
+    "bytes": 123405,
+    "mtime_ns": 1776664033000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run7/DE2L_10450919.err",
+    "bytes": 500,
+    "mtime_ns": 1776542713000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1770816658000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1770816243000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run1/_DE2testL_9497518.dump",
+    "bytes": 347994,
+    "mtime_ns": 1770949962000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1770882833000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run1/timing.log",
+    "bytes": 17443,
+    "mtime_ns": 1770949969000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run1/_DE2testL_9497494.dump",
+    "bytes": 7461,
+    "mtime_ns": 1770814840000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run1/Run.log",
+    "bytes": 25307,
+    "mtime_ns": 1770949969000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run1/_DE2testL_9497494.err",
+    "bytes": 425,
+    "mtime_ns": 1770814842000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run1/_DE2testL_9497518.err",
+    "bytes": 305,
+    "mtime_ns": 1770816013000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run11/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1787099259000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run11/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1787098878000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run11/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1787160366000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run11/DE2L_11798404.err",
+    "bytes": 1411,
+    "mtime_ns": 1787203339000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run11/timing.log",
+    "bytes": 17277,
+    "mtime_ns": 1787202522000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run11/DE2L_11798404.dump",
+    "bytes": 107111,
+    "mtime_ns": 1787203339000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run11/Run.log",
+    "bytes": 21428,
+    "mtime_ns": 1787203339000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run9/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782193157000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run9/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782192778000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run9/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782255219000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run9/DE2L_11415659.dump",
+    "bytes": 122779,
+    "mtime_ns": 1782314583000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run9/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782314591000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run9/Run.log",
+    "bytes": 25249,
+    "mtime_ns": 1782314591000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run9/DE2L_11415659.err",
+    "bytes": 500,
+    "mtime_ns": 1782192579000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run3/DE2L_10195076.dump",
+    "bytes": 122938,
+    "mtime_ns": 1776067083000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1775930450000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run3/DE2L_10195076.err",
+    "bytes": 500,
+    "mtime_ns": 1775929830000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1775930044000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1776001380000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run3/timing.log",
+    "bytes": 17443,
+    "mtime_ns": 1776067090000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run3/Run.log",
+    "bytes": 25249,
+    "mtime_ns": 1776067090000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run8/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782083920000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run8/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782083544000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run8/DE2L_11415658.err",
+    "bytes": 500,
+    "mtime_ns": 1782083344000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run8/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782132653000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run8/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782192575000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run8/DE2L_11415658.dump",
+    "bytes": 122779,
+    "mtime_ns": 1782192568000000000
+  },
+  {
+    "path": "DEGRACE_LCDM_L1800Np3200Ng6400/Run8/Run.log",
+    "bytes": 25249,
+    "mtime_ns": 1782192575000000000
+  },
+  {
+    "path": "conv_da8/Run1/fort.17",
+    "bytes": 58,
+    "mtime_ns": 1782968895000000000
+  },
+  {
+    "path": "conv_da8/Run1/conv_11555312.err",
+    "bytes": 195,
+    "mtime_ns": 1782968833000000000
+  },
+  {
+    "path": "conv_da8/Run1/timing.log",
+    "bytes": 15186,
+    "mtime_ns": 1782975649000000000
+  },
+  {
+    "path": "conv_da8/Run1/conv_11555312.out",
+    "bytes": 79604,
+    "mtime_ns": 1782975657000000000
+  },
+  {
+    "path": "conv_da8/Run1/Run.log",
+    "bytes": 14012,
+    "mtime_ns": 1782975649000000000
+  },
+  {
+    "path": "DEGRACE-highres/ic_check/icpk_11552624.out",
+    "bytes": 532,
+    "mtime_ns": 1782881650000000000
+  },
+  {
+    "path": "DEGRACE-highres/ic_check/icpk_11552624.err",
+    "bytes": 52260,
+    "mtime_ns": 1782881649000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783486387000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783486314000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783520468000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783546834000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/m68_11568010.err",
+    "bytes": 305,
+    "mtime_ns": 1783486286000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/m68_11568010.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783546833000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783546834000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783486391000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783486316000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783521406000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/m68_11568007.err",
+    "bytes": 305,
+    "mtime_ns": 1783486286000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/m68_11568007.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783548984000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783548986000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783548986000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783486391000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/m68_11568009.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783545719000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783486317000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783519409000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783545721000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/m68_11568009.err",
+    "bytes": 305,
+    "mtime_ns": 1783486286000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783545721000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783486386000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783486315000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/m68_11568006.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783545856000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783519609000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/m68_11568006.err",
+    "bytes": 305,
+    "mtime_ns": 1783486286000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783545858000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783545858000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783486407000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783486320000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783520935000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/m68_11568008.err",
+    "bytes": 305,
+    "mtime_ns": 1783486286000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/m68_11568008.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783547818000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783547820000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model68_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783547820000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782279751000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782279679000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/m66_11474774.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782341030000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782314436000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782341032000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782341032000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run5/m66_11474774.err",
+    "bytes": 305,
+    "mtime_ns": 1782279654000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782279276000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782279198000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782312779000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/m66_11474771.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782338689000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782338691000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/m66_11474771.err",
+    "bytes": 305,
+    "mtime_ns": 1782279165000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782338691000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782279767000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/m66_11474773.err",
+    "bytes": 305,
+    "mtime_ns": 1782279654000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782279685000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782313347000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/m66_11474773.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782339277000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782339278000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782339278000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782279252000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782279163000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782312261000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/m66_11474769.err",
+    "bytes": 305,
+    "mtime_ns": 1782279134000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782338332000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/m66_11474769.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782338331000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782338332000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1782279752000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1782279679000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1782314347000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1782340564000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/m66_11474772.err",
+    "bytes": 305,
+    "mtime_ns": 1782279654000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1782340564000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model66_L1024Np2048Ng4096/Run3/m66_11474772.dump",
+    "bytes": 134811,
+    "mtime_ns": 1782340563000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run5/DE2L_11107380.dump",
+    "bytes": 187658,
+    "mtime_ns": 1779027545000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1778971506000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1778971447000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1778999842000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1779027546000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run5/Run.log",
+    "bytes": 24608,
+    "mtime_ns": 1779027546000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run5/DE2L_11107380.err",
+    "bytes": 305,
+    "mtime_ns": 1778971427000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run2/DE2L_11107377.err",
+    "bytes": 305,
+    "mtime_ns": 1778970785000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1778970940000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1778970832000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run2/DE2L_11107377.dump",
+    "bytes": 187673,
+    "mtime_ns": 1779057653000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1779014298000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1779057655000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run2/Run.log",
+    "bytes": 24608,
+    "mtime_ns": 1779057655000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1778971491000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1778971382000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1779017310000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1779060212000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run4/DE2L_11107379.dump",
+    "bytes": 187746,
+    "mtime_ns": 1779060211000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run4/Run.log",
+    "bytes": 24608,
+    "mtime_ns": 1779060212000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run4/DE2L_11107379.err",
+    "bytes": 305,
+    "mtime_ns": 1778971336000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1778970439000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1778970314000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1779014561000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1779058220000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run1/DE2L_11107376.err",
+    "bytes": 305,
+    "mtime_ns": 1778970264000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run1/Run.log",
+    "bytes": 24608,
+    "mtime_ns": 1779058220000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run1/DE2L_11107376.dump",
+    "bytes": 187678,
+    "mtime_ns": 1779058218000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1778971261000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1778971204000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1779000539000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1779028952000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run3/DE2L_11107378.err",
+    "bytes": 305,
+    "mtime_ns": 1778971183000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run3/Run.log",
+    "bytes": 24608,
+    "mtime_ns": 1779028952000000000
+  },
+  {
+    "path": "fid_F5n1_L512Np2048Ng4096/Run3/DE2L_11107378.dump",
+    "bytes": 187668,
+    "mtime_ns": 1779028950000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783582942000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783582871000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/m70_11575852.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783603791000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783593228000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783603792000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/m70_11575852.err",
+    "bytes": 305,
+    "mtime_ns": 1783582843000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783603792000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783582950000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/m70_11575849.err",
+    "bytes": 305,
+    "mtime_ns": 1783582843000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783582873000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783594306000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783605353000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/m70_11575849.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783605352000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783605353000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783582948000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/m70_11575851.err",
+    "bytes": 305,
+    "mtime_ns": 1783582843000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783582872000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783593177000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783603553000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783603553000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/m70_11575851.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783603552000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783582942000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783582870000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783593252000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783603845000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/m70_11575848.err",
+    "bytes": 305,
+    "mtime_ns": 1783582843000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783603845000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/m70_11575848.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783603844000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783582941000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783582870000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783594571000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783605834000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 18483,
+    "mtime_ns": 1783605834000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/m70_11575850.err",
+    "bytes": 305,
+    "mtime_ns": 1783582843000000000
+  },
+  {
+    "path": "DurMun_hmfemu_LCDM_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/m70_11575850.dump",
+    "bytes": 96362,
+    "mtime_ns": 1783605832000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783642470000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783642342000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783691355000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/m70_11575857.err",
+    "bytes": 305,
+    "mtime_ns": 1783642233000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783729762000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783729762000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run5/m70_11575857.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783729760000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783626011000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783625869000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783674820000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/m70_11575854.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783713034000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/m70_11575854.err",
+    "bytes": 305,
+    "mtime_ns": 1783625758000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783713036000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783713036000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783642497000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/m70_11575856.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783729250000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783642345000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783690591000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783729252000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/m70_11575856.err",
+    "bytes": 305,
+    "mtime_ns": 1783642233000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783729252000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783621068000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783620928000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783669917000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/m70_11575853.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783707915000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783707916000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783707916000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run1/m70_11575853.err",
+    "bytes": 305,
+    "mtime_ns": 1783620810000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783642284000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783642136000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/m70_11575855.err",
+    "bytes": 305,
+    "mtime_ns": 1783642021000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783692936000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/m70_11575855.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783731484000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783731486000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model70_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783731486000000000
+  },
+  {
+    "path": "fid_LCDM_L1024Np4096Ng8192/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1779116560000000000
+  },
+  {
+    "path": "fid_LCDM_L1024Np4096Ng8192/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1779115078000000000
+  },
+  {
+    "path": "fid_LCDM_L1024Np4096Ng8192/Run1/DE2L_11121579.dump",
+    "bytes": 68410,
+    "mtime_ns": 1779151039000000000
+  },
+  {
+    "path": "fid_LCDM_L1024Np4096Ng8192/Run1/timing.log",
+    "bytes": 1287,
+    "mtime_ns": 1779150853000000000
+  },
+  {
+    "path": "fid_LCDM_L1024Np4096Ng8192/Run1/DE2L_11121579.err",
+    "bytes": 426,
+    "mtime_ns": 1779151598000000000
+  },
+  {
+    "path": "fid_LCDM_L1024Np4096Ng8192/Run1/Run.log",
+    "bytes": 14536,
+    "mtime_ns": 1779150853000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1778969967000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1778969856000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1778996213000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run5/DE2L_11107374.dump",
+    "bytes": 149234,
+    "mtime_ns": 1779019726000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1779019727000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run5/Run.log",
+    "bytes": 23738,
+    "mtime_ns": 1779019727000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run5/DE2L_11107374.err",
+    "bytes": 305,
+    "mtime_ns": 1778969803000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1778969657000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1778969550000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run2/DE2L_11107371.err",
+    "bytes": 305,
+    "mtime_ns": 1778969498000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1778994235000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1779017547000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run2/DE2L_11107371.dump",
+    "bytes": 148854,
+    "mtime_ns": 1779017545000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run2/Run.log",
+    "bytes": 23738,
+    "mtime_ns": 1779017547000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1778969777000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1778969668000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1778993720000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run4/DE2L_11107373.err",
+    "bytes": 305,
+    "mtime_ns": 1778969620000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1779016454000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run4/DE2L_11107373.dump",
+    "bytes": 148844,
+    "mtime_ns": 1779016453000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run4/Run.log",
+    "bytes": 23738,
+    "mtime_ns": 1779016454000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1778969656000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run1/DE2L_11107370.err",
+    "bytes": 305,
+    "mtime_ns": 1778969497000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run1/DE2L_11107370.dump",
+    "bytes": 148854,
+    "mtime_ns": 1779016267000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1778969549000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1778991084000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1779016268000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run1/Run.log",
+    "bytes": 23738,
+    "mtime_ns": 1779016268000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1778969686000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run3/DE2L_11107372.err",
+    "bytes": 305,
+    "mtime_ns": 1778969528000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1778969576000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1778993952000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run3/DE2L_11107372.dump",
+    "bytes": 148849,
+    "mtime_ns": 1779017510000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1779017511000000000
+  },
+  {
+    "path": "fid_LCDM_L512Np2048Ng4096/Run3/Run.log",
+    "bytes": 23738,
+    "mtime_ns": 1779017511000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/m72_11579813.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783932422000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844824000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/m72_11579813.err",
+    "bytes": 305,
+    "mtime_ns": 1783844558000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844673000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783894292000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783932423000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run5/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783932423000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844830000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844674000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/m72_11579810.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783934781000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783896773000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783934782000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783934782000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run2/m72_11579810.err",
+    "bytes": 305,
+    "mtime_ns": 1783844558000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844815000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844673000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783893722000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783931561000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783931561000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/m72_11579812.err",
+    "bytes": 305,
+    "mtime_ns": 1783844558000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run4/m72_11579812.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783931560000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844818000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844675000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783897879000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/m72_11579809.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783935904000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783935905000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/m72_11579809.err",
+    "bytes": 305,
+    "mtime_ns": 1783844558000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run1/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783935905000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/fort.17",
+    "bytes": 268,
+    "mtime_ns": 1783844821000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/Results.log",
+    "bytes": 100,
+    "mtime_ns": 1783844673000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/fort.13",
+    "bytes": 70,
+    "mtime_ns": 1783894209000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/timing.log",
+    "bytes": 19491,
+    "mtime_ns": 1783933040000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/m72_11579811.dump",
+    "bytes": 134811,
+    "mtime_ns": 1783933039000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/Run.log",
+    "bytes": 19063,
+    "mtime_ns": 1783933040000000000
+  },
+  {
+    "path": "DurMun_hmfemu_fRn1_wide_sample_supplement_16_model72_L1024Np2048Ng4096/Run3/m72_11579811.err",
+    "bytes": 305,
+    "mtime_ns": 1783844558000000000
+  }
+]
