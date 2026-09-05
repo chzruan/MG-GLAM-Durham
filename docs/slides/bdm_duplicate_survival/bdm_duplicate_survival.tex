@@ -1,0 +1,254 @@
+% !TeX program = xelatex
+% Build with create-latex-beamer-slides/scripts/build_deck.sh.
+% Evidence: ../../../BDM-refine/analysis/duplicate-hosts-20260905/
+%   DIAGNOSIS.md, RESULTS.md, catalogue_validation.csv, mass_bin_validation.csv
+%   provenance/regression_results.json, policy-replay.json, box1-audit.json
+% Analysis branch: fix/bdm-duplicate-hosts-20260905; report commit dba94f3.
+% Five slides, approximately four minutes. Notes remain in the editable source.
+\documentclass[UTF8]{beamer}
+% Keep fontspec from replacing Palatino's legacy math-font encoding.
+\PassOptionsToPackage{no-math}{fontspec}
+\usepackage{xeCJK}
+\usepackage{amsmath,booktabs,graphicx,xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+
+% Preserve the author's presentation typography.
+\usepackage[T1]{fontenc}
+\usepackage{palatino}
+\setCJKmainfont{Noto Serif CJK SC}
+\setCJKsansfont{Noto Serif CJK SC}
+\setCJKmonofont{Noto Serif CJK SC}
+\setmonofont{Inconsolata}
+\def\mathfamilydefault{\rmdefault}
+\usepackage[orientation=landscape,size=custom,width=16,height=9,scale=0.5]{beamerposter}
+\makeatletter
+\let\@@magyar@captionfix\relax
+\makeatother
+\usetheme{Stanford}
+\beamertemplatenavigationsymbolsempty
+\setbeamerfont{frametitle}{size=\fontsize{16}{19}\selectfont,series=\bfseries}
+\setbeamerfont{title}{size=\fontsize{24}{28}\selectfont,series=\bfseries}
+\setbeamerfont{subtitle}{size=\normalsize}
+\setbeamercolor{itemize item}{fg=darkcyan}
+\setbeamersize{text margin left=0.65cm,text margin right=0.65cm}
+\definecolor{bdmblue}{RGB}{29,78,121}
+\definecolor{bdmteal}{RGB}{0,124,146}
+\definecolor{bdmrose}{RGB}{174,63,79}
+\definecolor{bdmgold}{RGB}{168,101,12}
+\newtcolorbox{panel}[2][]{enhanced,colback=#2!5,colframe=#2,
+  boxrule=0.8pt,arc=1.2mm,left=2mm,right=2mm,top=1.3mm,bottom=1.3mm,
+  before skip=1.5mm,after skip=1.5mm,
+  before upper={\raggedright},#1}
+\newcommand{\bodyfont}{\fontsize{11}{13.1}\selectfont
+  \setlength{\abovedisplayskip}{1.5mm}\setlength{\belowdisplayskip}{1.5mm}
+  \setlength{\abovedisplayshortskip}{1mm}\setlength{\belowdisplayshortskip}{1mm}}
+\newcommand{\evidence}[1]{\par\vfill{\fontsize{7.3}{9}\selectfont\color{coolgray}#1\par}}
+\newcommand{\Mb}{M_{\mathrm b}}
+\newcommand{\Mt}{M_{\mathrm{tot}}}
+\newcommand{\Nb}{N_{\mathrm b}}
+
+\title[BDM duplicate survival]{\texorpdfstring{Duplicate BDM haloes\\[0.2ex]Why they survived, and the fix}{Duplicate BDM haloes: why they survived, and the fix}}
+\subtitle{\texorpdfstring{DESI\_MGx100 / DEGRACE \quad nominal $z=0.25$}{DESI\_MGx100 / DEGRACE; nominal z=0.25}}
+\author[C.-Z. Ruan]{Cheng-Zong Ruan}
+\institute[Durham University]{\includegraphics[height=1.25cm]{durham_logo.png}\\[0.5ex]
+  \small Institute for Computational Cosmology, Durham University}
+\date{5 September 2026}
+
+\begin{document}
+\begin{frame}[plain]
+  \titlepage
+  \note{Separate peak candidates can describe one object. The old removal rule
+    has no equal-bound-mass tie-break. A deterministic, conservative merge fixes
+    the reproduced failure; the same observable criteria cleaned 740 historical
+    catalogues. Production memberships cannot be checked: snapshots were not found.}
+\end{frame}
+
+\begin{frame}{Equal-mass candidates survived the overlap test}
+  \bodyfont
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.46\textwidth}
+      {\color{bdmblue}\bfseries Two candidates can converge on one object}\par
+      \vspace{2mm}
+      \centering
+      \begin{tikzpicture}[x=1cm,y=1cm,>=Latex]
+        \node[draw=bdmblue,fill=bdmblue!5,rounded corners,inner sep=2mm]
+          (a) at (0,0.65) {candidate $i$};
+        \node[draw=bdmrose,fill=bdmrose!5,rounded corners,inner sep=2mm]
+          (b) at (0,-0.65) {candidate $j$};
+        \draw[draw=bdmteal,fill=bdmteal!6,line width=0.8pt] (3,0) ellipse (1.0 and 0.87);
+        \foreach \x/\y in {2.45/0.15,2.6/0.52,2.95/0.6,3.35/0.47,
+          3.62/0.12,3.42/-0.45,3.02/-0.60,2.63/-0.43,2.82/0.18,3.23/-0.07}
+          \fill[bdmteal!70] (\x,\y) circle (0.037);
+        \draw[->,bdmblue,line width=1.0pt] (a.east) -- (2.88,0.08);
+        \draw[->,bdmrose,line width=1.0pt] (b.east) -- (3.10,-0.08);
+        \fill[bdmblue] (2.88,0.08) circle (0.06);
+        \fill[bdmrose] (3.10,-0.08) circle (0.06);
+        \node[align=center,font=\small,text=bdmteal] at (3,-1.55)
+          {same bound particle set\\$\Rightarrow$ same $\Mb$};
+      \end{tikzpicture}
+      \par\vspace{1mm}
+      {\small Recentring does not ensure a unique candidate.}
+    \end{column}
+    \begin{column}{0.50\textwidth}
+      \begin{panel}{bdmrose}
+        {\color{bdmrose}\bfseries Original removal rule}\par
+        \vspace{1mm}
+        Remove $i$ only if
+        \[
+          d_{ij}<R_{\mathrm{vir},j}
+          \quad\text{and}\quad
+          M_{\mathrm b,i}<M_{\mathrm b,j} .
+        \]
+        For $M_{\mathrm b,i}=M_{\mathrm b,j}$, the mass test is false in both directions.
+      \end{panel}
+      \vspace{1mm}
+      {\color{bdmrose}\bfseries Both survive with separate halo IDs.}
+    \end{column}
+  \end{columns}
+  \vspace{3mm}
+  \begin{panel}{bdmgold}
+    Duplicate rows inflate halo counts and add spurious close pairs.
+  \end{panel}
+  \evidence{Evidence: original BDM overlap rule and the same-particle-set synthetic reproduction. Diagram is schematic.}
+  \note{Original RemoveDuplicates: lines 634--673 of archived
+    PMP2linker.original.f90. WriteFiles assigns the final IDs. FindMaxima allows
+    equal-density peaks; FindDistinctCandidates performs four centroid iterations.
+    GetHalo classifies bound particles once. Mbound and Nparticles encode the
+    same particle count, not independent membership evidence. Box 1 IDs 2177927
+    and 2177929 agree in all defining fields at stored precision. The diagram's
+    same-set statement is proved for the synthetic test, not every production pair.}
+\end{frame}
+
+\begin{frame}{Merge each strict duplicate group deterministically}
+  \bodyfont
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \begin{panel}{bdmteal}
+        {\color{bdmteal}\bfseries Require all four conditions}\par
+        \[
+          \begin{gathered}
+            r_{ij}<0.2\,h^{-1}\mathrm{Mpc} \\[0.4ex]
+            M_{\mathrm b,i}=M_{\mathrm b,j}\,,\qquad N_{\mathrm b,i}=N_{\mathrm b,j} \\[0.4ex]
+            |\boldsymbol{v}_i-\boldsymbol{v}_j|<5\,\mathrm{km\,s^{-1}} \\[0.4ex]
+            |\log_{10}M_{\mathrm{tot},i}-\log_{10}M_{\mathrm{tot},j}|<0.005
+          \end{gathered}
+        \]
+        {\small Periodic separations; same strict criteria as Freyja.}
+      \end{panel}
+    \end{column}
+    \begin{column}{0.47\textwidth}
+      {\color{bdmblue}\bfseries One stable decision per group}\par
+      \vspace{2mm}
+      \begin{enumerate}\setlength\itemsep{1.5mm}
+        \item Read unchanged measurements.
+        \item Connect all strict pairs.
+        \item Keep the \textbf{lowest original index} in each group.
+        \item Then apply the removal mask.
+      \end{enumerate}
+    \end{column}
+  \end{columns}
+  \vspace{2mm}
+  \begin{panel}{bdmblue}
+    Same rule in the finder and cleaner; survivor properties are preserved.
+  \end{panel}
+  \evidence{Implementation: separate immutable host decision, followed by strict connected-component merging.}
+  \note{The unequal-mass host test is a separate read-only pass with periodic
+    geometry; its mask is applied before numerical-duplicate merging. The old
+    parallel pass read and zeroed shared masses concurrently. Connected components
+    handle transitive chains independently of linked-list traversal order.
+    No unvalidated fractional-Rvir cut is added. Equal counts do not establish
+    identical memberships. In-memory and rounded ASCII decisions can differ near
+    thresholds. The upstream FI peak-generation race remains outside the patch;
+    full historical host-set equivalence has not been established.}
+\end{frame}
+
+\begin{frame}{The failure is reproduced; retained values are preserved}
+  \bodyfont
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \begin{panel}[height=4.6cm]{bdmblue}
+        {\color{bdmblue}\bfseries Particle-level synthetic test}\par\smallskip
+        128 particles; candidates $A,B,C$.\\[0.3ex]
+        $A,B$: identical sets of 64 IDs.\\[0.3ex]
+        $C$: the other 64 particle IDs.
+        \[
+          \underbrace{3}_{\text{original survivors}}
+          \ \longrightarrow\
+          \underbrace{2}_{\text{fixed survivors}}
+        \]
+        Passes with 1, 2 and 4 threads.\\[0.3ex]
+        Retained properties are unchanged.
+      \end{panel}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{panel}[height=4.6cm]{bdmteal}
+        {\color{bdmteal}\bfseries Reference catalogue: box 1}\par\smallskip
+        3,385,000 original rows\\[0.3ex]
+        \textbf{6,191 rows removed}\\[0.3ex]
+        3,378,809 rows retained\\[2mm]
+        \textbf{Same 6,191-row mask} from the compiled Fortran rule and cleaner.\\[2mm]
+        All 24 retained columns are \textbf{byte-identical}.
+      \end{panel}
+    \end{column}
+  \end{columns}
+  \vspace{2mm}
+  {\color{bdmgold}\bfseries Production limit:} no particle snapshots or membership
+  files were found, so the reference replay is at catalogue level.
+  \evidence{Evidence: source-based regressions, full finder build, and compiled box 1 policy replay.}
+  \note{The synthetic reproduction extracts actual source routines and adds a
+    read-only membership tap. Periodic-boundary, transitive-chain, merger-control
+    and immutable-host-mask tests also pass. The full finder builds with ifx
+    2024.2.0 and the repository's default flags. The box 1 replay uses the compiled
+    strict predicate and component policy at stored precision, not a full
+    historical finder rerun. No snapshots/memberships were found in 130 searched
+    roots. Selecting at log10 Mtot >= 12.4 before grouping removes 5967 rows,
+    matching Freyja. The full mask removes 5969 above that cut, because two groups
+    cross the selection boundary.}
+\end{frame}
+
+\begin{frame}{All 740 catalogues are free of strict duplicate pairs}
+  \bodyfont
+  {\small Nominal $z=0.25$; fractions below use
+    $\log_{10}[\Mt/(h^{-1}M_\odot)]\geq12.4$.}\par
+  \vspace{1mm}
+  {\centering
+    \renewcommand{\arraystretch}{1.05}
+    \begin{tabular}{@{}lrr@{}}
+      \toprule
+      Sample & Catalogues & Removed fraction \\
+      \midrule
+      Fiducial $\Lambda$CDM & 100 & 0.309\% \\
+      $\Lambda$CDM training & 320 & 0.294\% \\
+      fRn1 training & 320 & 0.332\% \\
+      \bottomrule
+    \end{tabular}
+    \par}
+  \vspace{1.5mm}
+  {\small Fiducials: removal rises to \textbf{0.924\%} in the 13.4--13.6 mass bin.}\par
+  \vspace{2mm}
+  \begin{panel}{bdmteal}
+    \textbf{All masses: 4.51 million rows removed from 2.50 billion.}\par
+    740 cleaned copies and masks in the original row order are available.
+  \end{panel}
+  \vspace{1mm}
+  {\small Box 1 retains \textbf{1,041 ambiguous same-mass/count pairs};
+    their physical membership is unresolved.}\par
+  \vspace{2mm}
+  {\color{bdmblue}\bfseries Next: remeasure halo statistics, then retrain the emulators.}
+  \evidence{Evidence: completed 740-catalogue validation and mass-bin tables; RESULTS.md, 5 September 2026.}
+  \note{Training samples: models 1--64, boxes 1--5; fiducials: boxes 1--100.
+    Percentages apply the full-source mask before the >=12.4 selection.
+    Full-catalogue removals: 4506135 of 2502348653 rows. The broader close
+    same-Mbound/Nparticles class retains 755417 pairs across the grid.
+    Removing these without memberships could erase genuine neighbours or mergers.
+    Box 1 radial peculiar-velocity dispersion at 0.5--2 inverse-h Mpc rises from
+    186.950110 to 187.013296 km/s (standard deviation around the mean, not RMS).
+    Production catalogues remain immutable. New files have provenance and masks
+    in the original row frame. All Slurm jobs succeeded: 7.90 billed core-hours
+    on the shared queue. Follow-up: remeasure HMF, correlations and velocities,
+    then validate/retrain affected emulators.}
+\end{frame}
+\end{document}
