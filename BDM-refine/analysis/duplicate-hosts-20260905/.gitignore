@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.o
+*.mod
+*.exe
+logs/
+products/
+tests/baseline/
+tests/fixed/
+tests/cases/
+build/
