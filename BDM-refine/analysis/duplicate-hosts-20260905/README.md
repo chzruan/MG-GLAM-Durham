@@ -127,6 +127,10 @@ mirror can use the same mask only after its original-row alignment with that
 ASCII file has been established; matching counts alone are insufficient.
 The cleaner also accepts a flat HDF5 input directly and preserves dataset
 dtypes, values and attributes, using a mask tied to that HDF5 source hash.
+Diagnostic arithmetic (positions, velocities, logarithmic masses, selections
+and mass bins) uses float64 even when HDF5 storage is float32. Exact-field
+equality uses the original values. This does not restore precision already lost
+when a mirror was written; format equivalence requires identical numeric inputs.
 
 No Freyja configuration, HOD realisation, raw mirror or trained emulator has
 been changed. The consistent downstream calculation still requires remeasuring
@@ -137,7 +141,8 @@ production particle-set validation remain open scientific questions.
 ## Reproduce and resume
 
 ```bash
-micromamba run -n cosemu python3 BDM-refine/analysis/duplicate-hosts-20260905/tests/test_cleaning.py
+micromamba run -n cosemu python3 -B -m unittest discover \
+  -s BDM-refine/analysis/duplicate-hosts-20260905/tests -p 'test_*.py' -v
 micromamba run -n cosemu python3 BDM-refine/analysis/duplicate-hosts-20260905/tests/source_reproduction.py \
   PMP2linker.f90 BDM-refine/analysis/duplicate-hosts-20260905/tests/fixed --fixed
 micromamba run -n cosemu python3 BDM-refine/analysis/duplicate-hosts-20260905/tests/finder_cases.py
@@ -153,7 +158,23 @@ The source-based tests use gfortran bounds checking and 1, 2, 4 OpenMP threads.
 The campaign script assigns a fixed subset to each of eight shared-queue
 workers. A restart verifies the source and output hashes for each existing
 receipt and preserves completed files. It never overwrites an existing
-catalogue or sidecar. After successful completion, regenerate summary tables:
+catalogue or sidecar. If a catalogue exists without its sidecar, the cleaner
+recomputes the expected result from the source and verifies the existing file:
+complete bytes for ASCII; all dataset values, dtypes, shapes and attributes for
+HDF5, including non-row metadata. Only a match permits creating the missing
+receipt, with the original catalogue inode and bytes preserved. Mismatches stop
+without modifying that output. Recovery receipts identify the current validating
+tool revision and leave the original producer commit unknown.
+
+For new outputs, the complete sidecar is staged before either file is published;
+the sidecar is linked into place last. Unique temporary names permit retries in
+one worker, and handled failures remove their staging files. See
+[REVIEW_FIXES.md](REVIEW_FIXES.md) for the fault-injection and precision checks.
+The historical 740 ASCII products and their original receipts remain valid and
+unchanged. Float32 HDF5 products made with the older arithmetic need a fresh run
+to a new destination; completed receipts are not silently replaced.
+
+After successful completion, regenerate summary tables:
 
 ```bash
 micromamba run -n cosemu python3 BDM-refine/analysis/duplicate-hosts-20260905/tools/summarize_campaign.py \

@@ -47,7 +47,8 @@ def read_ascii(path):
 
 
 def pairs_within(data, radius, box=1024.0, rows=None):
-    xyz = np.column_stack([data[k] for k in ['x', 'y', 'z']])
+    # Promote before wrapping/subtraction; HDF5 storage may be float32 or integer.
+    xyz = np.column_stack([np.asarray(data[k], dtype=np.float64) for k in ['x', 'y', 'z']])
     if rows is not None:
         xyz = xyz[rows]
     xyz %= box
@@ -65,8 +66,12 @@ def edge_flags(data, pairs, distance):
     i, j = pairs.T
     same = ((data['Mbound'][i] == data['Mbound'][j]) &
             (data['Nparticles'][i] == data['Nparticles'][j]))
-    speed = np.sqrt(sum((data[k][i] - data[k][j])**2 for k in ['vx', 'vy', 'vz']))
-    dm = np.abs(np.log10(data['Mtot'][i]) - np.log10(data['Mtot'][j]))
+    # Equality uses the original values; only diagnostic arithmetic is promoted.
+    speed = np.sqrt(sum((np.asarray(data[k][i], dtype=np.float64) -
+                         np.asarray(data[k][j], dtype=np.float64))**2
+                        for k in ['vx', 'vy', 'vz']))
+    dm = np.abs(np.log10(np.asarray(data['Mtot'][i], dtype=np.float64)) -
+                np.log10(np.asarray(data['Mtot'][j], dtype=np.float64)))
     strict = same & (distance < 0.2) & (speed < 5) & (dm < 0.005)
     exact = same.copy()
     for k in ['x', 'y', 'z', 'vx', 'vy', 'vz', 'Mtot', 'Rvir']:
@@ -98,7 +103,7 @@ def components(nrows, edges):
 def mass_table(data, drop):
     # 12.4--14.4 in 0.2 dex steps, then the requested partial bin to 14.5.
     edges = np.r_[np.round(np.arange(12.4, 14.41, 0.2), 8), 14.5]
-    mass = np.log10(data['Mtot'])
+    mass = np.log10(np.asarray(data['Mtot'], dtype=np.float64))
     total = np.histogram(mass, edges)[0]
     removed = np.histogram(mass[drop], edges)[0]
     return [dict(logmass_lo=float(a), logmass_hi=float(b), rows=int(n),
@@ -108,11 +113,12 @@ def mass_table(data, drop):
 
 def velocity_statistics(data, drop, box=1024.0):
     """Unweighted distinct halo pairs, peculiar radial relative velocities."""
-    rows = np.flatnonzero(np.log10(data['Mtot']) >= 12.4)
+    rows = np.flatnonzero(np.log10(np.asarray(data['Mtot'], dtype=np.float64)) >= 12.4)
     pairs, distance, dr = pairs_within(data, 2.0, box, rows)
     use = distance >= 0.5
     pairs, distance, dr = pairs[use], distance[use], dr[use]
-    dv = np.column_stack([data[k][pairs[:, 1]] - data[k][pairs[:, 0]]
+    dv = np.column_stack([np.asarray(data[k][pairs[:, 1]], dtype=np.float64) -
+                          np.asarray(data[k][pairs[:, 0]], dtype=np.float64)
                           for k in ['vx', 'vy', 'vz']])
     vr = np.einsum('ij,ij->i', dv, dr) / distance
     kept = ~drop[pairs].any(axis=1)
@@ -134,7 +140,7 @@ def audit(data, box=1024.0, velocities=False):
     flags = edge_flags(data, pairs, distance)
     parent, drop = components(n, pairs[flags['strict']])
     _, exact_drop = components(n, pairs[flags['exact']])
-    selected = np.log10(data['Mtot']) >= 12.4
+    selected = np.log10(np.asarray(data['Mtot'], dtype=np.float64)) >= 12.4
     pair_selected = selected[pairs].all(axis=1)
     _, selected_drop = components(n, pairs[flags['strict'] & pair_selected])
     _, selected_exact = components(n, pairs[flags['exact'] & pair_selected])

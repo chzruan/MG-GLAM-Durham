@@ -57,9 +57,7 @@ class CleaningTests(unittest.TestCase):
         self.assertFalse(edge_flags(data, edges, np.array([.1]))['strict'][0])
 
     def test_ascii_and_hdf5_preserve_original_frame(self):
-        base = Path(__file__).resolve().parent/'cases'
-        base.mkdir(exist_ok=True)
-        with tempfile.TemporaryDirectory(dir=base) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             a = fixture()
             header = ['synthetic', ' A = 0.8 Step = 1', 'grid', 'cosmology',

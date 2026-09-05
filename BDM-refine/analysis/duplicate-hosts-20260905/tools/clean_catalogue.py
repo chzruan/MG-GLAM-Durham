@@ -12,6 +12,7 @@ from pathlib import Path
 import resource
 import subprocess
 import time
+import uuid
 
 import h5py
 import numpy as np
@@ -126,6 +127,57 @@ def write_hdf5(source, output, drop, receipt):
                 checked_datasets=checked, output_rows=int((~drop).sum()))
 
 
+def _same_values(left, right):
+    left, right = np.asarray(left), np.asarray(right)
+    if left.shape != right.shape or left.dtype != right.dtype:
+        return False
+    if left.dtype.hasobject:  # HDF5 variable-length string attributes/datasets.
+        return np.array_equal(left, right)
+    return left.tobytes() == right.tobytes()
+
+
+def _check_attributes(expected, existing, location):
+    if (set(expected) != set(existing) or
+        any(not _same_values(expected[k], existing[k]) for k in expected)):
+        raise ValueError(f'Existing catalogue attributes differ at {location}')
+
+
+def verify_existing_catalogue(expected, existing, expected_hash, is_hdf):
+    """Verify an orphan against a freshly recomputed output without replacing it.
+
+    HDF5 containers need not serialize identically: compare every dataset and
+    attribute, including non-row metadata, while preserving exact numeric bytes.
+    """
+    existing_hash = sha256(existing)
+    if not is_hdf:
+        if existing_hash != expected_hash:
+            raise ValueError('Existing catalogue bytes do not match the recomputed output')
+    else:
+        try:
+            with h5py.File(expected, 'r') as src, h5py.File(existing, 'r') as dst:
+                if set(src) != set(dst):
+                    raise ValueError('Existing catalogue datasets do not match')
+                _check_attributes(src.attrs, dst.attrs, '/')
+                for key in src:
+                    a, b = src[key], dst[key]
+                    if (not isinstance(b, h5py.Dataset) or
+                        a.shape != b.shape or a.dtype != b.dtype):
+                        raise ValueError(f'Existing catalogue shape/dtype differs in {key}')
+                    _check_attributes(a.attrs, b.attrs, key)
+                    if a.ndim == 0:
+                        identical = _same_values(a[()], b[()])
+                    else:
+                        identical = all(_same_values(a[start:start+131072], b[start:start+131072])
+                                        for start in range(0, a.shape[0], 131072))
+                    if not identical:
+                        raise ValueError(f'Existing catalogue values differ in {key}')
+        except OSError as error:
+            raise ValueError('Existing catalogue is not a readable matching HDF5 file') from error
+        if sha256(existing) != existing_hash:
+            raise ValueError('Existing catalogue changed during recovery verification')
+    return existing_hash
+
+
 def clean(source, output, sidecar, identity, box=1024.0, velocities=False):
     t = time.monotonic()
     source, output, sidecar = [Path(p).resolve() for p in [source, output, sidecar]]
@@ -137,8 +189,8 @@ def clean(source, output, sidecar, identity, box=1024.0, velocities=False):
             raise ValueError(f'Output path would modify a production tree: {p}')
     if output == sidecar:
         raise ValueError('Catalogue and sidecar must have distinct paths')
-    if output.exists() or sidecar.exists():
-        raise FileExistsError('Cleaning outputs must be new; use verified receipts to resume')
+    if sidecar.exists():
+        raise FileExistsError('Completed outputs must not be overwritten; use verified receipts to resume')
     original_stat = source.stat()
     source_hash = sha256(source)
     is_hdf = source.suffix.lower() in ['.hdf5', '.h5']
@@ -156,17 +208,6 @@ def clean(source, output, sidecar, identity, box=1024.0, velocities=False):
     tool_hashes = {p.name:sha256(p) for p in [Path(__file__), Path(__file__).with_name('catalogue_core.py')]}
     sidecar.parent.mkdir(parents=True, exist_ok=True)
     output.parent.mkdir(parents=True, exist_ok=True)
-    receipt_path = sidecar
-    temp = output.with_name(output.name + f'.partial-{os.getpid()}')
-    if is_hdf:
-        bitwise = write_hdf5(source, temp, drop, receipt_path)
-        if sha256(source) != source_hash:
-            raise ValueError('Source changed during HDF5 copy')
-    else:
-        bitwise = write_ascii(source, temp, drop, receipt_path, source_hash)
-    final_stat = source.stat()
-    if (original_stat.st_size, original_stat.st_mtime_ns) != (final_stat.st_size, final_stat.st_mtime_ns):
-        raise ValueError('Source metadata changed during cleaning')
     n = len(drop)
     grouped_rows = np.unique(edges)
     groups = {}
@@ -176,45 +217,74 @@ def clean(source, output, sidecar, identity, box=1024.0, velocities=False):
                           member_row_indices=rows,
                           member_Nhalo=[int(data['Nhalo'][i]) for i in rows])
                      for root, rows in sorted(groups.items())]
-    # Publish the validated data without clobbering a concurrently created path.
-    os.link(temp, output)
-    temp.unlink()
-    receipt = dict(schema_version=1, identity=identity, rule=RULE, box_size_mpc_h=box,
-        source=str(source), source_sha256=source_hash, source_rows=n,
-        source_bytes=original_stat.st_size, source_mtime_ns=original_stat.st_mtime_ns,
-        output=str(output), output_sha256=sha256(output),
-        sidecar=str(sidecar), row_drop_mask_dataset='drop_mask',
-        groups_dataset='groups_json', validation_dataset='validation_json',
-        tool_git_commit=git_hash, tool_sha256=tool_hashes,
-        original_row_frame='zero-based data rows; header excluded; no mass selection',
-        removed_rows=int(drop.sum()), removed_fraction=float(drop.mean()),
-        selected_rows=validation['selected_rows'],
-        selected_removed_rows=validation['selected_removed_global_mask'],
-        selected_only_strict_removed=validation['selected_strict_removed'],
-        exact_removed_rows=int(exact_drop.sum()), groups_count=len(groups),
-        remaining_same_bound_pairs_below_0p2=validation['remaining_same_bound_pairs_below_0p2'],
-        particle_membership_validated_fraction=None,
-        bitwise_validation=bitwise, elapsed_seconds=time.monotonic()-t,
-        maxrss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
-        job_id=os.environ.get('SLURM_JOB_ID'), array_job_id=os.environ.get('SLURM_ARRAY_JOB_ID'),
-        array_task_id=os.environ.get('SLURM_ARRAY_TASK_ID'))
-    # One sidecar per catalogue: masks, groups, validation and receipt share a
-    # container to avoid consuming thousands of extra filesystem inodes.
-    side_temp = sidecar.with_name(sidecar.name + f'.partial-{os.getpid()}')
-    with h5py.File(side_temp, 'x') as f:
-        for key, values in dict(drop_mask=drop, exact_drop_mask=exact_drop,
-                drop_row_indices=np.flatnonzero(drop),
-                dropped_Nhalo=data['Nhalo'][drop].astype(np.int64),
-                dropped_representative_row_index=parent[drop]).items():
-            f.create_dataset(key, data=values, compression='gzip', shuffle=True)
-        f.attrs.update(source=str(source), source_nrows=n, source_sha256=source_hash,
-                       tool_git_commit=git_hash, rule_json=json.dumps(RULE),
-                       row_index_base=0)
-        json_dataset(f, 'groups_json', group_records)
-        json_dataset(f, 'validation_json', validation)
-        json_dataset(f, 'receipt_json', receipt)
-    os.link(side_temp, sidecar)  # Published last; presence marks a validated product.
-    side_temp.unlink()
+
+    # Unique staging names also allow a retry in the same worker process.
+    attempt = f'.partial-{os.getpid()}-{uuid.uuid4().hex}'
+    temp = output.with_name(output.name + attempt)
+    side_temp = sidecar.with_name(sidecar.name + attempt)
+    try:
+        if is_hdf:
+            bitwise = write_hdf5(source, temp, drop, sidecar)
+            if sha256(source) != source_hash:
+                raise ValueError('Source changed during HDF5 copy')
+        else:
+            bitwise = write_ascii(source, temp, drop, sidecar, source_hash)
+        final_stat = source.stat()
+        if (original_stat.st_size, original_stat.st_mtime_ns) != (final_stat.st_size, final_stat.st_mtime_ns):
+            raise ValueError('Source metadata changed during cleaning')
+        expected_hash = sha256(temp)
+        recovered = output.exists()
+        output_hash = (verify_existing_catalogue(temp, output, expected_hash, is_hdf)
+                       if recovered else expected_hash)
+        receipt = dict(schema_version=1, identity=identity, rule=RULE, box_size_mpc_h=box,
+            source=str(source), source_sha256=source_hash, source_rows=n,
+            source_bytes=original_stat.st_size, source_mtime_ns=original_stat.st_mtime_ns,
+            output=str(output), output_sha256=output_hash,
+            sidecar=str(sidecar), row_drop_mask_dataset='drop_mask',
+            groups_dataset='groups_json', validation_dataset='validation_json',
+            tool_git_commit=git_hash, tool_sha256=tool_hashes,
+            diagnostic_arithmetic='float64; equality and stored dtypes preserved',
+            publication=dict(recovered_without_receipt=recovered,
+                existing_output_verification=('all HDF5 values, dtypes, shapes and attributes'
+                                              if is_hdf else 'complete ASCII file SHA256') if recovered else None,
+                original_producer_commit=None if recovered else git_hash),
+            original_row_frame='zero-based data rows; header excluded; no mass selection',
+            removed_rows=int(drop.sum()), removed_fraction=float(drop.mean()),
+            selected_rows=validation['selected_rows'],
+            selected_removed_rows=validation['selected_removed_global_mask'],
+            selected_only_strict_removed=validation['selected_strict_removed'],
+            exact_removed_rows=int(exact_drop.sum()), groups_count=len(groups),
+            remaining_same_bound_pairs_below_0p2=validation['remaining_same_bound_pairs_below_0p2'],
+            particle_membership_validated_fraction=None,
+            bitwise_validation=bitwise, elapsed_seconds=time.monotonic()-t,
+            maxrss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+            job_id=os.environ.get('SLURM_JOB_ID'), array_job_id=os.environ.get('SLURM_ARRAY_JOB_ID'),
+            array_task_id=os.environ.get('SLURM_ARRAY_TASK_ID'))
+
+        # Finish the entire sidecar before publishing either new file. A crash
+        # between the two links is still recoverable by the verification above.
+        with h5py.File(side_temp, 'x') as f:
+            for key, values in dict(drop_mask=drop, exact_drop_mask=exact_drop,
+                    drop_row_indices=np.flatnonzero(drop),
+                    dropped_Nhalo=data['Nhalo'][drop].astype(np.int64),
+                    dropped_representative_row_index=parent[drop]).items():
+                f.create_dataset(key, data=values, compression='gzip', shuffle=True)
+            f.attrs.update(source=str(source), source_nrows=n, source_sha256=source_hash,
+                           tool_git_commit=git_hash, rule_json=json.dumps(RULE),
+                           row_index_base=0)
+            json_dataset(f, 'groups_json', group_records)
+            json_dataset(f, 'validation_json', validation)
+            json_dataset(f, 'receipt_json', receipt)
+        if recovered:
+            if sha256(output) != output_hash:
+                raise ValueError('Existing catalogue changed before receipt publication')
+        else:
+            os.link(temp, output)  # No clobber if another writer publishes first.
+        os.link(side_temp, sidecar)  # Published last: validated completion marker.
+    finally:
+        # Only this attempt's staging files; never unlink a published catalogue.
+        temp.unlink(missing_ok=True)
+        side_temp.unlink(missing_ok=True)
     print(json.dumps(receipt), flush=True)
     return receipt
 
