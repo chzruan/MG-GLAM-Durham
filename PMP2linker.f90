@@ -4,6 +4,34 @@
 !
 ! Contains:     
 
+! Numerical duplicate policy shared by the finder and the catalogue replay.
+! Equal particle counts alone do not establish equal particle membership.
+module BdmDuplicateRules
+  implicit none
+  real*8, parameter :: DuplicateRadius=0.2d0, DuplicateSpeed=5.d0
+  real*8, parameter :: DuplicateLogMass=0.005d0
+contains
+  pure logical function StrictDuplicate(distance2, mass1, mass2, count1, count2, &
+                                         total1, total2, speed2)
+    real*8, intent(in) :: distance2,mass1,mass2,count1,count2,total1,total2,speed2
+    StrictDuplicate = .false.
+    if (mass1 <= 0.d0.or.total1 <= 0.d0.or.total2 <= 0.d0) return
+    if (mass1 /= mass2.or.count1 /= count2) return
+    if (distance2 >= DuplicateRadius**2.or.speed2 >= DuplicateSpeed**2) return
+    StrictDuplicate = abs(log10(total1)-log10(total2)) < DuplicateLogMass
+  end function StrictDuplicate
+
+  integer function DuplicateRoot(parent, candidate) result(root)
+    integer, intent(inout) :: parent(:)
+    integer, intent(in) :: candidate
+    root=candidate
+    do while(parent(root) /= root)
+      parent(root)=parent(parent(root))
+      root=parent(root)
+    end do
+  end function DuplicateRoot
+end module BdmDuplicateRules
+
 Module  Structures 
 
 Integer*4,  PARAMETER  ::                         & 
@@ -62,6 +90,7 @@ end Module Structures
 Module  LinkerList
   use Structures
   use Tools
+  use BdmDuplicateRules
 
 Contains
 !----------------------------------------------------------
@@ -633,28 +662,49 @@ integer*8 :: ic,ip
 !
       SUBROUTINE RemoveDuplicates
 !---------------------------------------------------------------------------
-        integer*8 :: ic,ip,i
-        real*4 :: m
+! The unequal-mass host test is separate from equal-mass numerical duplicates.
+! Read immutable measurements in parallel, then apply the mask after the barrier.
+        implicit none
+        integer*8 :: ip,jp
+        integer :: i1,i2,j1,j2,k1,k2,i3,j3,k3,sx,sy,sz
+        integer :: sxlo,sxhi,sylo,syhi,szlo,szhi
+        real*4 :: x,y,z,xx,yy,zz,dx,dy,dz,dd,radius
+        logical, allocatable :: removeHost(:)
         tstart = seconds()
-        Radius = 3.5     ! maximum radius of a halo  in Mpch
-!  --------------------------- 
+        if(Nmaxima == 0) return
+        Radius = max(3.5,maxval(Rvir))
+        allocate(removeHost(Nmaxima))
+        removeHost=.false.
 !$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (ip,x,y,z,m,jp,dd,k1,k2,k3,j1,j2,j3,i1,i2,i3) 
+!$OMP PRIVATE(ip,jp,x,y,z,xx,yy,zz,dx,dy,dz,dd,i1,i2,j1,j2,k1,k2,i3,j3,k3) &
+!$OMP PRIVATE(sx,sy,sz,sxlo,sxhi,sylo,syhi,szlo,szhi)
       Do ip=1,Nmaxima
          If(Mvir(ip)>MassOne)Then
             x   = xMaxx(ip);   y = yMaxx(ip);    z = zMaxx(ip)
-            m   = Mvir(ip)
-            Call Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
-            if(mod(ip,1)==1000)write(*,'(a,12i7)') '  ip=',ip,i1,i2,j1,j2,k1,k2
+            sxlo=0;sxhi=0;sylo=0;syhi=0;szlo=0;szhi=0
+            if(x-Radius<0.)sxhi=1
+            if(x+Radius>=Box)sxlo=-1
+            if(y-Radius<0.)syhi=1
+            if(y+Radius>=Box)sylo=-1
+            if(z-Radius<0.)szhi=1
+            if(z+Radius>=Box)szlo=-1
+            do sz=szlo,szhi
+            do sy=sylo,syhi
+            do sx=sxlo,sxhi
+            xx=x+sx*Box; yy=y+sy*Box; zz=z+sz*Box
+            Call Limits(xx,yy,zz,Radius,i1,i2,j1,j2,k1,k2)
             Do k3 =k1, k2
             Do j3 =j1, j2
             Do i3 =i1, i2
               jp =Label(i3,j3,k3)
               Do while (jp.ne.0)
-                If(jp/=ip)Then
-                  dd =(x-Xmaxx(jp))**2+(y-Ymaxx(jp))**2+(z-Zmaxx(jp))**2
-                  If(dd.lt.Rvir(jp)**2.and.m.lt.Mvir(jp))Then
-                     Mvir(ip) = 0.
+                If(Mvir(ip)<Mvir(jp))Then
+                  dx=x-Xmaxx(jp); dx=dx-Box*anint(dx/Box)
+                  dy=y-Ymaxx(jp); dy=dy-Box*anint(dy/Box)
+                  dz=z-Zmaxx(jp); dz=dz-Box*anint(dz/Box)
+                  dd=dx*dx+dy*dy+dz*dz
+                  If(dd.lt.Rvir(jp)**2)Then
+                     removeHost(ip) = .true.
                   End If
                end If
                jp =Lst(jp)
@@ -662,12 +712,86 @@ integer*8 :: ic,ip
            end do
            end do
            end Do
+           end do
+           end do
+           end do
          end If
        End Do         ! ip
+       where(removeHost) Mvir=0.
+       deallocate(removeHost)
+       call MergeNumericalDuplicates
        tfinish = seconds()
       write(*,'(10x,a,T50,2f10.2)') ' time for RemoveDuplicates =',tfinish-tstart,tfinish-t0
 
     end SUBROUTINE RemoveDuplicates
+
+!---------------------------------------------------------------------------
+! Merge connected components of the conservative strict duplicate graph.
+! Measurements stay read-only until all edges have been inspected. The lowest
+! original candidate index among host-test survivors wins, independent of list
+! order. This catalogue-level policy is not a particle-membership assertion.
+      SUBROUTINE MergeNumericalDuplicates
+        implicit none
+        integer :: ip,jp,i1,i2,j1,j2,k1,k2,i3,j3,k3,sx,sy,sz
+        integer :: sxlo,sxhi,sylo,syhi,szlo,szhi,ri,rj
+        integer, allocatable :: parent(:)
+        real*4 :: x,y,z,xx,yy,zz,radius
+        real*8 :: dx,dy,dz,dd,dv2
+        allocate(parent(Nmaxima))
+        do ip=1,Nmaxima
+          parent(ip)=ip
+        end do
+        radius=real(DuplicateRadius)
+        do ip=1,Nmaxima
+          if(Mvir(ip)<=MassOne)cycle
+          x=xMaxx(ip); y=yMaxx(ip); z=zMaxx(ip)
+          sxlo=0;sxhi=0;sylo=0;syhi=0;szlo=0;szhi=0
+          if(x-radius<0.)sxhi=1
+          if(x+radius>=Box)sxlo=-1
+          if(y-radius<0.)syhi=1
+          if(y+radius>=Box)sylo=-1
+          if(z-radius<0.)szhi=1
+          if(z+radius>=Box)szlo=-1
+          do sz=szlo,szhi
+          do sy=sylo,syhi
+          do sx=sxlo,sxhi
+            xx=x+sx*Box; yy=y+sy*Box; zz=z+sz*Box
+            call Limits(xx,yy,zz,radius,i1,i2,j1,j2,k1,k2)
+            do k3=k1,k2
+            do j3=j1,j2
+            do i3=i1,i2
+              jp=int(Label(i3,j3,k3))
+              do while(jp/=0)
+                if(jp>ip.and.Mvir(jp)>MassOne)then
+                  dx=dble(x)-dble(xMaxx(jp));dx=dx-Box*anint(dx/Box)
+                  dy=dble(y)-dble(yMaxx(jp));dy=dy-Box*anint(dy/Box)
+                  dz=dble(z)-dble(zMaxx(jp));dz=dz-Box*anint(dz/Box)
+                  dd=dx*dx+dy*dy+dz*dz
+                  dv2=(dble(VxMaxx(ip))-dble(VxMaxx(jp)))**2 &
+                     +(dble(VyMaxx(ip))-dble(VyMaxx(jp)))**2 &
+                     +(dble(VzMaxx(ip))-dble(VzMaxx(jp)))**2
+                  if(StrictDuplicate(dd,dble(Mvir(ip)),dble(Mvir(jp)), &
+                         dble(Mvir(ip)/MassOne),dble(Mvir(jp)/MassOne), &
+                         dble(Mtotal(ip)),dble(Mtotal(jp)),dv2))then
+                    ri=DuplicateRoot(parent,ip);rj=DuplicateRoot(parent,jp)
+                    parent(max(ri,rj))=min(ri,rj)
+                  end if
+                end if
+                jp=int(Lst(jp))
+              end do
+            end do
+            end do
+            end do
+          end do
+          end do
+          end do
+        end do
+        do ip=1,Nmaxima
+          ri=DuplicateRoot(parent,ip)
+          if(ri/=ip)Mvir(ip)=0.
+        end do
+        deallocate(parent)
+      end SUBROUTINE MergeNumericalDuplicates
 !---------------------------------------------------------------------------
 !                   
 !
