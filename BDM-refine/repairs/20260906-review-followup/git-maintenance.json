@@ -1,0 +1,50 @@
+{
+  "completed": true,
+  "checked_at_utc": "2026-09-06T18:08:14.237626+00:00",
+  "head": "507d6367a921a56a2fbf84b20778a4c186e4a1a5",
+  "before": {
+    "command": [
+      "git",
+      "count-objects",
+      "-v"
+    ],
+    "returncode": 0,
+    "stdout": "count: 307\nsize: 60767\nin-pack: 3147\npacks: 1\nsize-pack: 168621\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n",
+    "stderr": ""
+  },
+  "repack": {
+    "command": [
+      "git",
+      "-c",
+      "pack.threads=1",
+      "repack",
+      "-d"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "after": {
+    "command": [
+      "git",
+      "count-objects",
+      "-v"
+    ],
+    "returncode": 0,
+    "stdout": "count: 19\nsize: 842\nin-pack: 3435\npacks: 2\nsize-pack: 232733\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n",
+    "stderr": ""
+  },
+  "fsck": {
+    "command": [
+      "git",
+      "fsck",
+      "--connectivity-only"
+    ],
+    "returncode": 0,
+    "stdout": "dangling blob 7f4142a2b358c4992f38eba1c09e157ff0407a10\ndangling blob 37e49d34bda07b0b67091f7a1daa7115941638d3\ndangling blob 35a5bf2536d25af8c054edf3286b8063459e7d36\ndangling blob b945004f9498a3a207aeda22b326b30eecf95d7d\ndangling blob cac703f77c8e5cb26e953fe001c27c53d841139c\ndangling blob de0d160a0add61e07dfa1b6bc3959d2a7beada3e\ndangling commit 53ef95284e6e0c1cff482e24bb223441574f0c8f\ndangling blob 1b9143db57097d874c6ae13d2c84093e1720f511\ndangling blob 2232106721ef14ce6d0f3965755178409a75c023\ndangling blob 8a32fb64f165a1d5cb5b397fd7a587f8e43ac277\ndangling blob 5ef466318abb860f76e6b61e24dec865aaf32fba\ndangling blob b5f60ca71028b8bf31a73ceba657a1727f64b10a\ndangling blob a3f897dc78442cc514eeb7eb43cecfb92348a9e9\ndangling blob 3a9922607732b351d4bc13b58a3074fd7fe8da90\ndangling blob d4f90f784210e95962a6114839f1026058ad87b8\ndangling blob ddda3ac61440f06b7b28322b1a2315fe40a3f3d4\n",
+    "stderr": ""
+  },
+  "elapsed_seconds": 6.559949760092422,
+  "refs_and_worktree_status_unchanged": true,
+  "scope": "One-thread incremental Git repack consolidates reachable loose objects and removes only redundant packed copies. No aggressive repack, history rewrite, immediate prune or unrelated working-file deletion."
+}

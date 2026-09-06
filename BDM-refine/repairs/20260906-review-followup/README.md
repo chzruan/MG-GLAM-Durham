@@ -248,6 +248,10 @@ snapshots are preserved. This follow-up adds no presentation source or slide
 deck to Git. The [final verification](final-verification.json) rechecks all
 43 frozen production inputs, the comparison tables, all four current/historical
 archives, retained science-file metadata and supplied review files.
+An incremental, one-thread [Git repack](git-maintenance.json) also consolidated
+288 loose objects (307 to 19 at that check), preserving refs and the working
+tree; the repository connectivity check passed. Unreachable loose objects were
+retained, and no history rewrite or immediate pruning was used.
 
 ## Remaining limits
 
