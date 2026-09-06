@@ -78,7 +78,7 @@ def main():
                 assert sha(ROOT / record['catalogue']['path']) == record['catalogue']['sha256']
             arrays[f'old_z{z}'] = archive[f'old_z{z}']
             assert np.array_equal(arrays[f'old_z{z}'], np.loadtxt(
-                ROOT / old['catalogue']['path'], skiprows=8, ndmin=2))
+                ROOT / old['catalogue']['path'], skiprows=8, ndmin=2), equal_nan=True)
             arrays[f'new_z{z}'] = np.loadtxt(ROOT / members['catalogue']['path'], skiprows=8, ndmin=2)
             assert len(arrays[f'new_z{z}']) == membership['selected']
             membership_provenance[f'z{z}'] = dict(catalogue=members['catalogue'],
@@ -100,8 +100,9 @@ def main():
                     sample_label='Same-snapshot finder comparison',
                     reference_logmass=12.5,
                     reference_source='https://arxiv.org/pdf/2110.00328, Appendix A',
-                    reference_scope='Published abundance-resolution guidance only; '
-                        'not a convergence measurement for this revised finder',
+                    reference_scope='Published z=0 abundance-resolution guidance only; '
+                        'the line is a common visual reference at all three epochs, '
+                        'not new convergence evidence for this finder or z1/z2',
                     old_baseline_scope='Independent standalone processes retain the '
                         'historical first-call configuration-order defect',
                     old_finder_binary_sha256=preparation['binaries_sha256']['PMP2BDM.old.exe'],

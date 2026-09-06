@@ -81,5 +81,38 @@
     "stderr": "",
     "submitted_at_utc": "2026-09-06T13:15:38.197091+00:00",
     "job_id": "11948467"
+  },
+  {
+    "stage": "main-plots",
+    "purpose": "Seven property PDFs from membership-verified refined and original standalone catalogues on identical saved snapshots",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "--dependency=afterok:11948467",
+      "--export=ALL,BDM_VALIDATION_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-plots/plots.sbatch",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-plots/plot_main_results.py"
+    ],
+    "dependencies": [
+      "afterok:11948467"
+    ],
+    "script_sha256": {
+      "compare_properties.py": "00fdd0cf9cc7de9df0e93e39bb30ff22a89cc03103c44da02ba070e43361be82",
+      "house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+      "plot_main_results.py": "318bdc34029689d582c785059bbf23ed7c68de024f8807778df413e1d05457a2",
+      "plots.sbatch": "a57a1a0926f7463db5e75167fc53360f2f67a508acff0a8fba347da4ef04c39e",
+      "chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992"
+    },
+    "submitter_sha256": "58fa5b4fad02c95887a1c4d51f7b582a7dcff8e731e32b4c544769e3527d793b",
+    "resource_plan_sha256": "210ee401fe57007662ff7b9245aeaad199aff80a9258fb985d3a4e0c4a0074f2",
+    "commit": "b518035f4ac733c4437992be01f3e5d34b308f20",
+    "submitted_at_utc": "2026-09-06T13:24:04.203597+00:00",
+    "submission_returncode": 0,
+    "stdout": "11948484\n",
+    "stderr": "",
+    "job_id": "11948484",
+    "superseded": true,
+    "cancelled_at_utc": "2026-09-06T13:25:00.105476+00:00",
+    "cancellation_reason": "Independent review found historical reversed transverse-axis labels could bypass the direction-degeneracy proxy. Cancelled pending plot job before any run, to freeze a corrected plotting script; old submitted files retained."
   }
 ]

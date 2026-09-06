@@ -69,6 +69,7 @@ Initial / saved redshifts & $100$ / $2,1,0$\\\bottomrule
 \begin{column}{0.45\textwidth}
 \begin{itemize}
 \item Same snapshot, requested virial convention and aperture correction.
+\item Refined comparison catalogues have direct particle-membership checks.
 \item Published cut: $M_\mathrm{bound}\geq2.5\times10^{12}\,\msunh$.
 \item Population changes use all published objects.
 \item Property shifts use conservative periodic positional matches.
@@ -77,7 +78,7 @@ Initial / saved redshifts & $100$ / $2,1,0$\\\bottomrule
 \end{columns}
 \medskip
 \resultbox{Resolution scope}{This tests the finder at production scale. The published
-$10^{12.5}\,\msunh$ abundance-resolution reference is guidance; new force/mass
+$z=0$, $10^{12.5}\,\msunh$ abundance-resolution reference is guidance; new force/mass
 convergence and inner-profile accuracy still require a resolution series.}
 {\tiny\href{https://arxiv.org/pdf/2110.00328}{Ruan et al., MG-GLAM, arXiv:2110.00328, Appendix A.}}
 \end{frame}
@@ -85,7 +86,7 @@ convergence and inner-profile accuracy still require a resolution series.}
 \begin{frame}{\ValidationHeadline}
 \centering
 \begin{tabular}{@{}rrrrr@{}}\toprule
-$z$ & Pre-audit haloes & Refined haloes & Identical member sets & Host violations\\\midrule
+$z$ & Pre-audit haloes & Refined replay haloes & Identical member sets & Host violations\\\midrule
 \ValidationRows
 \bottomrule\end{tabular}
 \medskip
@@ -141,10 +142,10 @@ inside the higher-priority host radius. All three extra entries disappear.}
 \begin{itemize}
 \item The $512^3$ pilot's ordinary 16/32-thread replays differ in $2/71{,}587$ rows,
 with identical bound masses, counts and bulk velocities.
-\item Reusing exactly the same density field makes all finder-thread comparisons
+\item With a fixed density field, the tested 16/32-thread finder calls are
 byte-identical; changing only the field reproduces both rows.
-\item Float32 density accumulation changes each affected centring aperture by one
-rounding step. Local particle inclusion can amplify that change.
+\item The initial centring radii of those two rows differ by one float32 step.
+This small input change can affect later centring and internal properties.
 \item \MainNumericalAppendix
 \end{itemize}\medskip
 \resultbox{Shape ordering}{Different empirical corrections could give $c/a>b/a$.

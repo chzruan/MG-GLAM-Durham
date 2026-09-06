@@ -7,7 +7,8 @@ import run_validation as v
 
 def main():
     jobs = json.loads((v.ROOT / 'jobs.json').read_text())
-    assert not any(j.get('stage') == 'main-plots' for j in jobs), 'Already submitted'
+    previous = [j for j in jobs if j.get('stage') == 'main-plots']
+    assert not any(not j.get('superseded', False) for j in previous), 'Already submitted'
     parent = next(j for j in jobs if j.get('stage') == 'main-validation')
     pilot = v.ROOT / 'plotter-resource-pilot.json'
     plan = dict(partition='cosma8-serial', account='dp004', cpus=1, mem='2G',
@@ -25,7 +26,7 @@ def main():
                 full_node_exclusivity_required=False,
                 dependencies=[f'afterok:{parent["job_id"]}'])
     v.write_json(v.ROOT / 'main-plots-resource-plan.json', plan)
-    frozen = v.WORK / 'launch-main-plots'
+    frozen = v.WORK / ('launch-main-plots' if not previous else f'launch-main-plots-{len(previous)+1:02d}')
     frozen.mkdir(exist_ok=False)
     for name in ['plot_main_results.py', 'compare_properties.py', 'house_style.py',
                  'chz-paper.mplstyle', 'plots.sbatch']:
