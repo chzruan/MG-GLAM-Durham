@@ -962,6 +962,7 @@ integer*8 :: ic,ip
 !---------------------------------------------------------------------------
 integer*8 :: ic,ip,i    
       tstart = seconds()
+      call BdmHaloMembershipInit
 
 !  --------------------------- 
 !$OMP PARALLEL DO DEFAULT(SHARED) &
@@ -979,281 +980,363 @@ integer*8 :: ic,ip,i
 !                   Get parameters of distinct halos
       SUBROUTINE GetHalo(x,y,z,xv,yv,zv,ip)
 !---------------------------------------------------------------------------
-integer*8 :: ic,ip,jp    
-      Real*4, PARAMETER ::      fiScale  =  4.333e-9
-      Real*4      :: MassP(-Nrad:0) ,Fi(-Nrad:0), Axis(3),Direction(3) 
-      Real*8      :: wx,wy,wz,wL,v2, &
-                           xcm,ycm,zcm,     &
-                           ax,ay,az,              &
-                           x2,y2,z2,xy,xz,yz,r2,Rbound,Mbound,Mtot
-      
-      Integer*4 :: Ncount
-      Real*8 :: Tensor(3,3)
-      
-      Radius = Cell
-      factorZ    = 100.*sqrt(Om0/AEXPN**3+(1.-Om0)) *AEXPN
-      fact                = 1.150e12*Om0
-      dRvmax  = 0.1*(Box/NGRID)    ! correct Vmax_radius for resolution
-      R0      = Box/NGRID          ! one grid size
-!      write(*,'(a,7g12.4,i8)') '--- halo=',x,y,z,xv,yv,zv,Mvir(ip),ip
+! SO uses the outermost crossing of the discrete enclosed-particle profile.
+! The legacy Rext correction still defines the reported aperture and Mtotal.
+! Mvir, drift, kinetic energy, shape, spin, and Vmax use only the converged bound
+! population inside the unextended SO sphere. Binding uses the isolated,
+! spherical Newtonian potential, with each particle's self term excluded.
+        use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+        implicit none
+        real*4, intent(in) :: x,y,z,xv,yv,zv
+        integer*8, intent(in) :: ip
+        real*8, parameter :: gravity=4.333d-9
+        integer*8, allocatable :: rows(:)
+        real*8, allocatable :: radii(:),potential(:)
+        real*8 :: search,search_cap,aperture_cap,rso,aperture,grid_size
+        real*8 :: mass,threshold,hubble_a,bulk(3),offset(3),velocity(3)
+        real*8 :: kinetic,rms2,centre(3),angular(3),tensor(3,3),energy
+        real*8 :: shell_energy,circular2,maximum2,maximum_radius,correction
+        real*8 :: axis_ratio(3),concentration_proxy,slope_b,slope_c
+        real*4 :: axis(3),direction(3)
+        integer :: n,nkeep,naperture,q,j,iteration
+        logical :: singular
 
-10    MassP = 0.
-      aMa   = fact*Ovdens*Radius**3    !  virial mass for outer radial bin
-      d0    = Radius**2           ! get final statistics of bound particles
-      
-      Ncount  = 0
-      Mbound = 0.
-      Rbound = 0.
-      Mtot   = 0.
-      aM     = 0.
-      aR     =0.
-      xcm = 0. ; ycm = 0. ; zcm = 0.
-      ax    = 0. ; ay    = 0. ; az    = 0.
-      x2    = 0. ; y2    = 0. ; z2    = 0.
-      xy    = 0. ; xz    = 0. ; yz    = 0. 
-      r2     = 0. ;  v2 =0.
-      wx = xv ; wy = yv ; wz = zv 
-      Call Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
-                                             ! Get mass profile
-      Ncount  =0
-         Do k3 =k1, k2
-         Do j3 =j1, j2
-         Do i3 =i1, i2
-            jp =Label(i3,j3,k3)
-           Do while (jp.ne.0)
-                  dd =(x-Xpar(jp))**2+(y-Ypar(jp))**2+(z-Zpar(jp))**2
-                  If(dd< d0) Then
-                     r = sqrt(dd)
-                     ii    = max(min(INT(log10(r/Radius)/dLogR),0),-Nrad)
-                     MassP(ii)  = MassP(ii) + MassOne
-                   Ncount = Ncount +1
-                   Mtot   = Mtot   + MassOne
-                  EndIf                        ! dd<d0                                 
-               jp =Lst(jp)
-           End Do                          !  jp/= 0
-         EndDo   ! i3
-         EndDo   ! j3
-         EndDo   ! k3
+        ! ParametersDistinct allocates before entering its parallel loop. The
+        ! guarded path also supports direct, sequential calls used by tests.
+        if(.not.allocated(BoundParticleIds)) call BdmHaloMembershipInit
+        if(size(BoundParticleIds)/=Nmaxima) error stop 'BDM membership size mismatch'
+        if(allocated(BoundParticleIds(ip)%ids)) deallocate(BoundParticleIds(ip)%ids)
+        HaloStatus(ip)=0
+        Mvir(ip)=0.; Mtotal(ip)=0.; Rvir(ip)=0.
+        VmaxM(ip)=0.; RmaxM(ip)=0.; EkinM(ip)=0.; EpotM(ip)=0.
+        VxMaxx(ip)=0.; VyMaxx(ip)=0.; VzMaxx(ip)=0.
+        Xoff(ip)=0.; LambdaM(ip)=0.; RadRms(ip)=0.
+        Axba(ip)=0.; Axca(ip)=0.; Xax(ip)=0.; Yax(ip)=0.; Zax(ip)=0.
+        if(.not.all(ieee_is_finite([x,y,z,Cell,Box,MassOne,Om0,Ovdens,AEXPN]))) &
+             error stop 'Non-finite input to BDM GetHalo'
+        if(min(Cell,Box,MassOne,Om0,Ovdens,AEXPN)<=0..or.NGRID<=0) &
+             error stop 'Non-positive scale in BDM GetHalo'
+        mass=dble(MassOne)
+        threshold=1.150d12*dble(Om0)*dble(Ovdens)
+        grid_size=dble(Box)/NGRID
+        hubble_a=100.d0*sqrt(dble(Om0)/dble(AEXPN)**3+1.d0-dble(Om0))*dble(AEXPN)
+        search_cap=min(15.d0*dble(Cell),dble(nearest(.5*Box,-1.)))
+        aperture_cap=min(search_cap+.75d0*grid_size,dble(nearest(.5*Box,-1.)))
+        if(HaloSearchRadius>0.) search_cap=min(search_cap,dble(HaloSearchRadius))
+        if(ParticleSearchRadius>0.) aperture_cap=min(aperture_cap,dble(ParticleSearchRadius))
+        search=min(dble(Cell),search_cap)
 
-         Do ii =-Nrad+1,0
-                  MassP(ii) = MassP(ii) + MassP(ii-1)
-         EndDo
-         If(Mtot.gt.aMa)Then            !--- if outer radius too small, increase it and re-do analysis
-!            write(*,'(a,4es12.4,i7,/(16es12.4))') &
-!                 '       not enough particles:', Mtot,aMa,Radius,Cell,Ncount,(MassP(i),i=-Nrad,0)
-            Radius = Radius +Cell
-            If(Radius>15.*Cell)Stop '---- Too large outer radius in GetHalo'
-            goto 10
-         End If
-         Do i = 0,-Nrad+1,-1            !---- find virial Radius and Mass
-            Rout       = Radius*10.**((i+1)*dLogR)    ! outer radius of this bin
-            Rin        = Radius*10.**(i*dLogR)        ! inner radius of this bin
-            dRadius    = Rout-Rin
-            If(MassP(i-1).lt.10.*MassOne)exit
-            DeltaIn    =  MassP(i-1)/(fact*Rin**3)
-            DeltaOut   =  MassP(i)/(fact*Rout**3)
-            If(DeltaIn > Ovdens)Then                    
-               aR = Rout -dRadius*(Ovdens-DeltaOut)/(DeltaIn-DeltaOut)
-               aR = min(max(aR,Rin),Rout)
-               aM = fact*Ovdens*(aR)**3
-               exit
-            EndIf                    
-         EndDo
-!         if(aM<1.e-3)write(*,'(a,6g13.4)') ' Error virial mass: ', &
-!              MassP(0)/(fact*Radius*10.**(dLogR)**3), Ovdens
-         Mvir(ip) = aM
-         Rvir(ip) = aR
-
-         If(aM<10.*MassOne)Then
-            Mvir(ip) =0.
-            Rvir(ip) =0.
+        do
+          call BdmHaloGather(x,y,z,search,rows,radii)
+          n=size(rows)
+          if(dble(n)*mass<=threshold*search**3) exit
+          if(search>=search_cap)then
+            HaloStatus(ip)=HaloSearchTruncated
             return
-         End If
-         
-        ! Radius = aR  + Rext*(Box/NGRID)/(aM/1.e15)**SlopeR !!! extend radius to account for resolution
-         Radius = aR  + R0*min(Rext/(aR/R0)**SlopeR,0.75) !!! extend radius to account for resolution
-                                                         !--- re-do binning using virial radius
-      MassP  = 0.
-      aMa    = fact*Ovdens*Radius**3    !  virial mass for outer radial bin
-      d0     = Radius**2           ! get final statistics of bound particles
-      Ncount = 0
-      Mbound = 0.
-      Rbound = 0.
-      Mtot   = 0.
-      wx = 0. ; wy = 0. ; wz = 0. 
-!      write(*,'(a,12g12.4)') '     Redo the halo with new Rvir=',Radius,Mvir(ip),dLogR
-      Call Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
-                                             ! Get mass profile
-      Ncount  =0
-               Do k3 =k1, k2
-               Do j3 =j1, j2
-               Do i3 =i1, i2
-                  jp =Label(i3,j3,k3)
-                 Do while (jp.ne.0)
-                        dd =(x-Xpar(jp))**2+(y-Ypar(jp))**2+(z-Zpar(jp))**2
-                        If(dd< d0) Then
-                           r = sqrt(dd)
-                           ii    = max(min(INT(log10(r/Radius)/dLogR),0),-Nrad)
-                           MassP(ii)  = MassP(ii) + MassOne
-                           Ncount = Ncount +1
-                           Mtot   = Mtot   + MassOne
-                           wx = VX(jp) + wx 
-                           wy = VY(jp) + wy 
-                           wz = VZ(jp) + wz 
-                        EndIf                        ! dd<d0                                 
-                     jp =Lst(jp)
-                 End Do                          !  jp/= 0
-               EndDo   ! i3
-               EndDo   ! j3
-               EndDo   ! k3
+          endif
+          search=min(search+dble(Cell),search_cap)
+        enddo
+        call BdmHaloSortRadii(rows,radii)
+        rso=0.d0
+        do q=n,10,-1
+          ! Between adjacent particles the enclosed mass is constant. Choose
+          ! the outermost exact SO root within such an interval, including a
+          ! jump onto an exactly equal-density outer particle.
+          energy=(dble(q)*mass/threshold)**(1.d0/3.d0)
+          if(energy<radii(q)) cycle
+          if(q<n)then
+            if(energy>=radii(q+1)) cycle
+          endif
+          if(energy>search) cycle
+          rso=energy
+          exit
+        enddo
+        if(rso<=0.d0)then
+          HaloStatus(ip)=HaloTooFewParticles
+          return
+        endif
+        aperture=rso+grid_size*min(dble(Rext)/(rso/grid_size)**dble(SlopeR),.75d0)
+        if(aperture>aperture_cap)then
+          ! A larger aperture would require an image outside the verified
+          ! search domain. Reject explicitly rather than count a clipped sphere.
+          HaloStatus(ip)=HaloSearchTruncated
+          return
+        endif
+        call BdmHaloGather(x,y,z,aperture,rows,radii)
+        call BdmHaloSortRadii(rows,radii)
+        naperture=size(rows)
+        Mtotal(ip)=real(dble(naperture)*mass)
+        Rvir(ip)=real(aperture)
+        n=count(radii<=rso)
+        if(n==0)then
+          HaloStatus(ip)=HaloNoBoundParticles
+          return
+        endif
+        allocate(potential(n))
 
-               Do ii =-Nrad+1,0
-                        MassP(ii) = MassP(ii) + MassP(ii-1)
-               EndDo
-               wx = wx/max(Ncount,1)            !--- new drift velocity
-               wy = wy/max(Ncount,1)
-               wz = wz/max(Ncount,1)
-               VxMaxx(ip) =wx; VyMaxx(ip) =wy; VzMaxx(ip) =wz
+        ! Membership only shrinks. Every non-final pass removes at least one
+        ! particle; therefore convergence needs at most the initial n+1 passes.
+        ! No removed particle contributes to the next potential or drift.
+        do iteration=1,n+1
+          if(n==0) exit
+          bulk=0.d0
+          do q=1,n
+            bulk=bulk+[dble(VX(rows(q))),dble(VY(rows(q))),dble(VZ(rows(q)))]
+          enddo
+          bulk=bulk/dble(n)
+          call BdmHaloSphericalPotential(radii(:n),mass,gravity/dble(AEXPN), &
+                                         potential(:n),shell_energy,singular)
+          if(singular)then
+            ! Multiple particles exactly at the centre have an undefined
+            ! unsoftened shell potential. Do not invent a softening length.
+            HaloStatus(ip)=ior(HaloStatus(ip),HaloSingularCentre)
+            Mvir(ip)=0.
+            return
+          endif
+          nkeep=0
+          do q=1,n
+            offset=[dble(Xpar(rows(q)))-dble(x),dble(Ypar(rows(q)))-dble(y), &
+                    dble(Zpar(rows(q)))-dble(z)]
+            velocity=[dble(VX(rows(q))),dble(VY(rows(q))),dble(VZ(rows(q)))] &
+                      -bulk+hubble_a*offset
+            energy=.5d0*sum(velocity**2)-potential(q)
+            if(energy<=0.d0)then
+              nkeep=nkeep+1
+              rows(nkeep)=rows(q); radii(nkeep)=radii(q)
+            endif
+          enddo
+          if(nkeep==n) exit
+          n=nkeep
+        enddo
+        if(n==0)then
+          HaloStatus(ip)=ior(HaloStatus(ip),HaloNoBoundParticles)
+          return
+        endif
 
-               Fi       = 0.                    !--- get potential
-               iR       = 0
-!              write(*,'(/3g13.4,i10,8g12.4)') aR,aM,dLogR,Ncount,MassP(0),Mtot
-              Fi(iR)               = fiScale*MassP(0)/Radius
-              Do i =iR-1,-Nrad,-1
-                 Rin    = Radius*10.**(i*dLogR)
-                 Rout = Radius*10.**((i+1)*dLogR)
-                 Fi(i)   = Fi(i+1) + fiScale*(MassP(i)+MassP(i+1))*0.5 &
-                                                         *(Rout-Rin)/(Rout*Rin)
-              EndDo
-              Fi = Fi/AEXPN
-!              write(*,'(3g12.4)') (Fi(i),MassP(i),Radius*10.**(i*dLogR),i=-10,0)
-              MassP = 0.
-           Ncount  =0
-           Icount  =0
-           d0       = Rvir(ip)**2                !--- get final statistics 
-           iBuffer  = 0
-               Do k3 =k1, k2
-               Do j3 =j1, j2
-               Do i3 =i1, i2
-                  jp =Label(i3,j3,k3)
-                 Do while (jp.ne.0)
-                        dd =(x-Xpar(jp))**2+(y-Ypar(jp))**2+(z-Zpar(jp))**2
-                        If(dd< d0) Then
-                           r = sqrt(dd)
-                           dx   = Xpar(jp) -x 
-                           dy   = Ypar(jp) -y 
-                           dz   = Zpar(jp) -z
-                           dvx = VX(jp) - wx +factorZ*dx    ! true velocity
-                           dvy = VY(jp) - wy +factorZ*dy
-                           dvz = VZ(jp) - wz +factorZ*dz
-                           ii    = max(min(INT(log10(r/Radius)/dLogR),0),-Nrad)
-                           vv =  dvx**2 + dvy**2 + dvz**2   ! kinetic energy
-                            !!ee = -1.e10 ! -Fi(ii) + 0.5*vv Unbound particles
-                            ee =  -Fi(ii) + 0.5*vv ! Unbind particles
-                           if(ee <= 0.)Ncount = Ncount +1             ! count bound particles
-                           MassP(ii)  = MassP(ii) + MassOne           ! count all particles
-                           Icount  = Icount + 1                       ! count all particles
-                           v2 = v2 + vv
-                           xcm = xcm + dx                             ! center of mass
-                           ycm = ycm + dy
-                           zcm = zcm + dz
-                           r2 = r2 + dd                               ! modified tensor of inertia
-                           x2 = x2 + dx**2/(dd+1.d-10)
-                           y2 = y2 + dy**2/(dd+1.d-10)
-                           z2 = z2 + dz**2/(dd+1.d-10)
-                           xy = xy + dx*dy/(dd+1.d-10)
-                           xz = xz + dx*dz/(dd+1.d-10)
-                           yz = yz + dy*dz/(dd+1.d-10)
-                           ax    = ax + dy*dvz - dz*dvy
-                           ay    = ay + dz*dvx - dx*dvz
-                           az    = az + dx*dvy - dy*dvx 
-                           
-                        !end if
-                        EndIf                        ! dd<d0                                 
-                     jp =Lst(jp)
-                 End Do                          !  jp/= 0
-               EndDo   ! i3
-               EndDo   ! j3
-               EndDo   ! k3
-
-               Do ii =-Nrad+1,0
-                        MassP(ii) = MassP(ii) + MassP(ii-1)
-               EndDo
-               Mbound   = Ncount*MassOne      
-               Mvir(ip) = Icount*MassOne
-               If(Ncount<10)Then
-                  EpotM(ip) = 1.
-                  EkinM(ip)  = 0.
-                  Mvir(ip)   = Ncount*MassOne
-                  Mtotal(ip) = Icount*MassOne
-                  Rvir(ip)   = Radius !!Rbound
-                  
-                  return
-                EndIf
-                Enrg =0.                  !--- potential energy of all particles R<Rvir
-                Do ii =-Nrad+1,0
-                   Rin    = Radius*10.**(ii*dLogR)
-                   Enrg = Enrg + fiScale*MassP(ii)*(MassP(ii)-MassP(ii-1))/Rin
-               EndDo
-                
-               EpotM(ip) = Enrg/AEXPN
-               EkinM(ip) = 0.5*v2*MassOne
-               Nn        = max(Icount,1)
-               Vrms         = sqrt(v2/Nn+1.e-10)
-               xcm = xcm/Nn ; ycm = ycm/Nn ; zcm = zcm/Nn
-               ax    = ax/Nn ;       ay = ay/Nn ;       az = az/Nn
-               RadRms(ip) = sqrt(r2/Nn)
-                     Tensor(1,1) = x2 ;Tensor(2,2) = y2 ; Tensor(3,3) = z2
-                     Tensor(1,2) = xy ;Tensor(1,3) = xz ; Tensor(2,3) = yz
-                     Tensor(2,1) = xy ;Tensor(3,1) = xz ; Tensor(3,2) = yz
-                     Tensor = Tensor/Nn
-                  Call EigenValues(Tensor,Direction,Axis)
-                  dd = Axis(1)
-                  Axis = sqrt(Axis/dd)
-                  if(Axis(2).gt.1.0 .or.Axis(3)>1.0)write(13,*) ' Error Axis ratio=',Axis
-                  Conc = RadRms(ip)/Radius
-                  Slopeb = 1+2.*max((Conc-0.4),0.)+(5.7*max((Conc-0.4),0.))**3
-                  Slopec = 1+2.*max((Conc-0.4),0.)+(5.5*max((Conc-0.4),0.))**3                  
-                  Axis(2) = Axis(2)**Slopeb
-                  Axis(3) = Axis(3)**Slopec
-               Xoff(ip) = sqrt((xcm)**2 + (ycm)**2 +(zcm)**2+1.e-10)/Rvir(ip)
-               aJ      = sqrt(ax**2 +ay**2 +az**2 +1.e-10)*AEXPN
-               LambdaM(ip) = aJ*Vrms/aM*1.632e8
-                ! Vv = 0.
-                ! Rm = 0.
-                ! Do ii = -Nrad+1,0     ! find Vmax and its radius using all particles
-                !    R = Radius*10.**(ii*dLogR)
-                !    if(R >aR)exit
-                !    V = sqrt(MassP(ii)/R)
-                !    If(V>Vv.and.MassP(ii)>5.*MassOne)Then
-                !       Vv = v ; Rm = R
-                !    EndIf
-                ! EndDo
-                 Vv2 =0.
-                 Rm2 =0.
-                 Do ii = 0,-Nrad+1,-1     ! find Vmax and its radius using all particles
-                    R = Radius*10.**(ii*dLogR)
-                    !if(R >aR)exit
-                    V = sqrt(MassP(ii)/R)
-                    If(V>Vv2)Then
-                       Vv2 = v ; Rm2 = R
-                    Else
-                       exit
-                    EndIf
-                 EndDo
-                    VmaxM(ip)       = 6.582e-5*Vv2/sqrt(AEXPN)/sqrt(1.-dRvmax/R) 
-                    RmaxM(ip)       = Rm2
-                    Xax(ip)              = Direction(1)
-                    Yax(ip)              = Direction(2)
-                    Zax(ip)              = Direction(3)
-                    Axba(ip)           = Axis(2)
-                    Axca(ip)           = Axis(3)
-                    !MassProf(:,ip) = MassP
-                    Mvir(ip)             = Mbound
-                    Mtotal(ip)           = Mtot 
-                    Rvir(ip)              = Radius !!Rbound
-                 !   write(13,'(10x,5g12.4,i5)') Mvir(ip),Mtotal(ip),Rvir(ip),VmaxM(ip),Vv,Ncount
+        ! The successful final pass evaluated every survivor against this same
+        ! survivor set and bulk velocity. All published bound statistics below
+        ! use precisely these rows and double-precision local offsets.
+        kinetic=0.d0; rms2=0.d0; centre=0.d0; angular=0.d0; tensor=0.d0
+        maximum2=0.d0; maximum_radius=0.d0
+        do q=1,n
+          offset=[dble(Xpar(rows(q)))-dble(x),dble(Ypar(rows(q)))-dble(y), &
+                  dble(Zpar(rows(q)))-dble(z)]
+          velocity=[dble(VX(rows(q))),dble(VY(rows(q))),dble(VZ(rows(q)))] &
+                    -bulk+hubble_a*offset
+          kinetic=kinetic+sum(velocity**2)
+          rms2=rms2+sum(offset**2)
+          centre=centre+offset
+          angular=angular+[offset(2)*velocity(3)-offset(3)*velocity(2), &
+                           offset(3)*velocity(1)-offset(1)*velocity(3), &
+                           offset(1)*velocity(2)-offset(2)*velocity(1)]
+          if(radii(q)>0.d0)then
+            do j=1,3
+              tensor(:,j)=tensor(:,j)+offset*offset(j)/radii(q)**2
+            enddo
+            circular2=dble(q)*mass/radii(q)
+            if(circular2>maximum2)then
+              maximum2=circular2; maximum_radius=radii(q)
+            endif
+          endif
+        enddo
+        Mvir(ip)=real(dble(n)*mass)
+        EkinM(ip)=real(.5d0*kinetic*mass)
+        EpotM(ip)=real(shell_energy)
+        VxMaxx(ip)=real(bulk(1)); VyMaxx(ip)=real(bulk(2)); VzMaxx(ip)=real(bulk(3))
+        RadRms(ip)=real(sqrt(rms2/dble(n)))
+        centre=centre/dble(n); angular=angular/dble(n)
+        Xoff(ip)=real(sqrt(sum(centre**2))/aperture)
+        ! Retain the legacy spin proxy and empirical axis corrections, but use
+        ! one population for its angular momentum, RMS speed, and mass.
+        LambdaM(ip)=real(sqrt(sum(angular**2))*dble(AEXPN)*sqrt(kinetic/dble(n)) &
+                        /(dble(n)*mass)*1.632d8)
+        tensor=tensor/dble(n)
+        if(maxval(abs(tensor))>0.d0)then
+          call EigenValues(tensor,direction,axis)
+          if(all(ieee_is_finite(axis)).and.all(ieee_is_finite(direction)))then
+            if(axis(1)>0.)then
+              axis_ratio=sqrt(max(0.d0,min(1.d0,dble(axis)/dble(axis(1)))))
+              concentration_proxy=dble(RadRms(ip))/aperture
+              slope_b=1.d0+2.d0*max(concentration_proxy-.4d0,0.d0) &
+                      +(5.7d0*max(concentration_proxy-.4d0,0.d0))**3
+              slope_c=1.d0+2.d0*max(concentration_proxy-.4d0,0.d0) &
+                      +(5.5d0*max(concentration_proxy-.4d0,0.d0))**3
+              Axba(ip)=real(axis_ratio(2)**slope_b); Axca(ip)=real(axis_ratio(3)**slope_c)
+              Xax(ip)=direction(1); Yax(ip)=direction(2); Zax(ip)=direction(3)
+            endif
+          endif
+        endif
+        correction=.1d0*grid_size
+        if(maximum_radius>correction.and.maximum2>0.d0)then
+          VmaxM(ip)=real(sqrt(gravity*maximum2/dble(AEXPN)) &
+                         /sqrt(1.d0-correction/maximum_radius))
+          RmaxM(ip)=real(maximum_radius)
+        else
+          HaloStatus(ip)=ior(HaloStatus(ip),HaloUnresolvedVmax)
+          ! Zero is the documented finite unresolved sentinel; Concentration
+          ! and catalogue writing must preserve it without a 0/0 fallback.
+          VmaxM(ip)=0.; RmaxM(ip)=0.
+        endif
+        allocate(BoundParticleIds(ip)%ids(n))
+        if(allocated(OriginalParticleId))then
+          BoundParticleIds(ip)%ids=OriginalParticleId(rows(:n))
+        else
+          ! Direct fixtures without periodic buffering use original row IDs.
+          BoundParticleIds(ip)%ids=rows(:n)
+        endif
+        call BdmHaloSortIds(BoundParticleIds(ip)%ids)
+        if(n>1)then
+          if(any(BoundParticleIds(ip)%ids(2:)==BoundParticleIds(ip)%ids(:n-1))) &
+               error stop 'Repeated original particle in BDM bound sphere'
+        endif
       end SUBROUTINE GetHalo
+
+! Candidate-local workspace: two exact-count list scans, no Np-sized temporary.
+      SUBROUTINE BdmHaloGather(x,y,z,radius,rows,radii)
+        implicit none
+        real*4, intent(in) :: x,y,z
+        real*8, intent(in) :: radius
+        integer*8, allocatable, intent(out) :: rows(:)
+        real*8, allocatable, intent(out) :: radii(:)
+        integer :: i1,i2,j1,j2,k1,k2,i,j,k,n,pass
+        integer*8 :: jp
+        real*8 :: distance2
+        call Limits(x,y,z,nearest(real(radius),1.),i1,i2,j1,j2,k1,k2)
+        do pass=1,2
+          n=0
+          do k=k1,k2
+          do j=j1,j2
+          do i=i1,i2
+            jp=Label(i,j,k)
+            do while(jp/=0)
+              distance2=(dble(Xpar(jp))-dble(x))**2+(dble(Ypar(jp))-dble(y))**2 &
+                        +(dble(Zpar(jp))-dble(z))**2
+              if(distance2<=radius**2)then
+                n=n+1
+                if(pass==2)then
+                  rows(n)=jp; radii(n)=sqrt(distance2)
+                endif
+              endif
+              jp=Lst(jp)
+            enddo
+          enddo
+          enddo
+          enddo
+          if(pass==1) allocate(rows(n),radii(n))
+        enddo
+      end SUBROUTINE BdmHaloGather
+
+! In-place heapsort: deterministic radius order and row-ID tie breaking.
+      SUBROUTINE BdmHaloSortRadii(rows,radii)
+        implicit none
+        integer*8, intent(inout) :: rows(:)
+        real*8, intent(inout) :: radii(:)
+        integer :: first,last,parent,child,n
+        integer*8 :: saved_row
+        real*8 :: saved_radius
+        n=size(rows)
+        if(n<2) return
+        first=n/2+1; last=n
+        do
+          if(first>1)then
+            first=first-1
+            saved_row=rows(first); saved_radius=radii(first)
+          else
+            saved_row=rows(last); saved_radius=radii(last)
+            rows(last)=rows(1); radii(last)=radii(1)
+            last=last-1
+            if(last==1)then
+              rows(1)=saved_row; radii(1)=saved_radius
+              exit
+            endif
+          endif
+          parent=first; child=2*first
+          do while(child<=last)
+            if(child<last)then
+              if(radii(child)<radii(child+1))then
+                child=child+1
+              else if(radii(child)==radii(child+1))then
+                if(rows(child)<rows(child+1)) child=child+1
+              endif
+            endif
+            if(saved_radius>radii(child)) exit
+            if(saved_radius==radii(child))then
+              if(saved_row>=rows(child)) exit
+            endif
+            rows(parent)=rows(child); radii(parent)=radii(child)
+            parent=child; child=2*child
+          enddo
+          rows(parent)=saved_row; radii(parent)=saved_radius
+        enddo
+      end SUBROUTINE BdmHaloSortRadii
+
+      SUBROUTINE BdmHaloSortIds(ids)
+        implicit none
+        integer*8, intent(inout) :: ids(:)
+        integer*8 :: saved
+        integer :: first,last,parent,child,n
+        n=size(ids)
+        if(n<2) return
+        first=n/2+1; last=n
+        do
+          if(first>1)then
+            first=first-1; saved=ids(first)
+          else
+            saved=ids(last); ids(last)=ids(1); last=last-1
+            if(last==1)then
+              ids(1)=saved
+              exit
+            endif
+          endif
+          parent=first; child=2*first
+          do while(child<=last)
+            if(child<last)then
+              if(ids(child)<ids(child+1)) child=child+1
+            endif
+            if(saved>=ids(child)) exit
+            ids(parent)=ids(child); parent=child; child=2*child
+          enddo
+          ids(parent)=saved
+        enddo
+      end SUBROUTINE BdmHaloSortIds
+
+! Exact discrete spherical-shell potential and distinct-pair energy. A pair at
+! radii ri,rj contributes G*m^2/max(ri,rj); no shell includes its own particle.
+! This is a monopole approximation, not the exact aspherical N-body potential.
+      SUBROUTINE BdmHaloSphericalPotential(radii,mass,g_over_a,potential,energy,singular)
+        implicit none
+        real*8, intent(in) :: radii(:),mass,g_over_a
+        real*8, intent(out) :: potential(:),energy
+        logical, intent(out) :: singular
+        real*8 :: exterior,interior
+        integer :: q,n
+        n=size(radii); exterior=0.d0; energy=0.d0; potential=0.d0
+        singular=.false.
+        if(n>1)then
+          if(radii(2)==0.d0)then
+            singular=.true.
+            return
+          endif
+        endif
+        do q=n,1,-1
+          interior=0.d0
+          if(q>1) interior=dble(q-1)/radii(q)
+          potential(q)=g_over_a*mass*(interior+exterior)
+          energy=energy+g_over_a*mass**2*interior
+          if(radii(q)>0.d0) exterior=exterior+1.d0/radii(q)
+        enddo
+      end SUBROUTINE BdmHaloSphericalPotential
+
+      SUBROUTINE BdmHaloMembershipInit
+        implicit none
+        ! Called before the production parallel loop, or from a direct fixture.
+!$OMP CRITICAL (bdm_halo_membership_init)
+        if(allocated(BoundParticleIds)) deallocate(BoundParticleIds)
+        if(allocated(HaloStatus)) deallocate(HaloStatus)
+        allocate(BoundParticleIds(Nmaxima),HaloStatus(Nmaxima))
+        HaloStatus=0
+!$OMP END CRITICAL (bdm_halo_membership_init)
+      end SUBROUTINE BdmHaloMembershipInit
 
 
 !---------------------------------------------------------------------------
