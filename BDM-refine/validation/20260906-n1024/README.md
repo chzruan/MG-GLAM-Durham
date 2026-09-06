@@ -6,11 +6,11 @@ particles, a 2048³ PM mesh and a 512 h⁻¹ Mpc periodic box**, and compares th
 pre-audit (`a8c7715`) and refined finders on the **same saved particle snapshots**.
 The experiment is developed on `validation/bdm-n1024-ng2048-20260906`.
 
-The completed presentation is [bdm_refinement_validation.pdf](slides/bdm_refinement_validation.pdf),
-with [editable Beamer source](slides/bdm_refinement_validation.tex), local theme
-assets and generated [result macros](slides/validation_results.tex). It has nine
-main slides and seven appendix slides. All reported numbers are derived from
-[completed validation receipts](validation-summary.json).
+The scientific comparison figures and [completed validation receipts](validation-summary.json)
+are tracked here. The presentation PDF, LaTeX source, theme assets and generated
+result macros are local, ignored files in `slides/`; they are excluded from the
+current Git tree. Their original build evidence remains in
+[presentation-validation.json](presentation-validation.json).
 
 ## Completed results
 
@@ -212,18 +212,21 @@ older direction masks from acquiring the revised interpretation on replot.
 The z=0 literature mass marker is displayed as a common visual reference at
 all epochs; it provides no separate z=1 or z=2 convergence evidence.
 
-The editable Beamer deck and vector figures are kept in `slides/`. Python is
-always executed with `micromamba run -n cosemu python3 -B`; native executables
-use the Intel 2024.2 runtime saved before entering the Python environment.
+The tracked vector figures are kept in `slides/figs/`. Python is always executed
+with `micromamba run -n cosemu python3 -B`; native executables use the Intel
+2024.2 runtime saved before entering the Python environment.
 
-## Reproduce the presentation and recover archived evidence
+## Reproduce results and recover archived evidence
 
-From this experiment directory, regenerate the slide numbers with:
+From this experiment directory, regenerate the numerical summary with:
 
 ```sh
 micromamba run -n cosemu python3 -B summarize_validation.py
-/cosma/home/durham/dc-ruan1/.codex/skills/create-latex-beamer-slides/scripts/build_deck.sh "$PWD/slides/bdm_refinement_validation.tex"
 ```
+
+This also writes the ignored `slides/validation_results.tex` macros. Rebuilding
+the optional presentation requires its local LaTeX source and theme assets;
+those files are not included in a fresh checkout of the current Git tree.
 
 `compare_properties.py --help` documents the comparison/replot commands.
 The consolidated `comparison-plot-ready.npz`, comparison summaries, figure
