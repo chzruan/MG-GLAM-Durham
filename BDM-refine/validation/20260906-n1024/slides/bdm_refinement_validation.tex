@@ -1,0 +1,169 @@
+% !TeX program = xelatex
+\documentclass[UTF8]{beamer}
+\usepackage{xeCJK}
+\usepackage{amsmath,physics,booktabs,tabularx,graphicx,xcolor,tcolorbox}
+\usepackage[T1]{fontenc}
+\usepackage{palatino}
+\setCJKmainfont{Noto Serif CJK SC}
+\setmonofont{Inconsolata}
+\def\mathfamilydefault{\rmdefault}
+\usepackage[orientation=landscape,size=custom,width=16,height=9,scale=0.5]{beamerposter}
+\makeatletter
+\let\@@magyar@captionfix\relax
+\makeatother
+\usetheme{Stanford}
+\beamertemplatenavigationsymbolsempty
+\graphicspath{{figs/}}
+\newcommand{\mpch}{h^{-1}\,\mathrm{Mpc}}
+\newcommand{\msunh}{h^{-1}M_\odot}
+\newcommand{\highlight}[1]{{\color{cardinalred}\bfseries #1}}
+\newcommand{\resultbox}[2]{\begin{tcolorbox}[colframe=darkcardinal,colback=boxgray,title=#1]#2\end{tcolorbox}}
+\newcommand{\plotpage}[2]{\begin{frame}{#1}\centering
+  \includegraphics[width=0.99\textwidth,height=6.65cm,keepaspectratio]{#2}\end{frame}}
+\title[BDM refinement]{\textbf{BDM refinement:\\validation and halo properties}}
+\subtitle{Duplicate survival, consistent bound populations, and a billion-particle test}
+\author[Cheng-Zong Ruan]{Cheng-Zong Ruan}
+\institute[Durham]{\includegraphics[height=0.75in]{durham_logo.png}\\[0.5ex]Durham University}
+\date{6 September 2026}
+% Generated from completed validation receipts and comparison statistics.
+\input{validation_results.tex}
+\begin{document}
+\begin{frame}[plain]\titlepage\end{frame}
+
+\begin{frame}{One host per entry; one bound population per measurement}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\highlight{Duplicate survival}
+\begin{itemize}
+\item Nearly coincident candidates can have equal mass but different bound particles.
+\item Exact membership removes identical objects.
+\item Distinct-host exclusion suppresses a lower-priority centre inside its host.
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\highlight{Consistent properties}
+\begin{itemize}
+\item Find the outermost supported SO crossing.
+\item Recompute potential and bulk velocity until the bound set stops changing.
+\item Derive mass, velocity, energy, spin and shape from that same set.
+\end{itemize}
+\end{column}
+\end{columns}
+\medskip
+\resultbox{Additional corrections}{Apply the requested overdensity before finding peaks;
+preserve the simulation particle state; order corrected shapes as $0\leq c/a\leq b/a\leq1$.}
+\end{frame}
+
+\begin{frame}{Compare both finders on identical saved particles}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.51\textwidth}
+\begin{tabular}{@{}ll@{}}\toprule
+Gravity & GR, flat $\Lambda$CDM\\
+Box & $512\,\mpch$\\
+Particles / mesh & $1024^3$ / $2048^3$\\
+Particle mass & $1.07\times10^{10}\,\msunh$\\
+PM cell & $0.25\,\mpch$\\
+Initial / saved redshifts & $100$ / $2,1,0$\\\bottomrule
+\end{tabular}
+\end{column}
+\begin{column}{0.45\textwidth}
+\begin{itemize}
+\item Same snapshot, requested virial convention and aperture correction.
+\item Published cut: $M_\mathrm{bound}\geq2.5\times10^{12}\,\msunh$.
+\item Population changes use all published objects.
+\item Property shifts use conservative periodic positional matches.
+\end{itemize}
+\end{column}
+\end{columns}
+\medskip
+\resultbox{Resolution scope}{This tests the finder at production scale. The published
+$10^{12.5}\,\msunh$ abundance-resolution reference is guidance; new force/mass
+convergence and inner-profile accuracy still require a resolution series.}
+{\tiny\href{https://arxiv.org/pdf/2110.00328}{Ruan et al., MG-GLAM, arXiv:2110.00328, Appendix A.}}
+\end{frame}
+
+\begin{frame}{\ValidationHeadline}
+\centering
+\begin{tabular}{@{}rrrrr@{}}\toprule
+$z$ & Pre-audit haloes & Refined haloes & Identical member sets & Host violations\\\midrule
+\ValidationRows
+\bottomrule\end{tabular}
+\medskip
+\begin{itemize}
+\item \StateResult
+\item \ThreadResult
+\item \NormalDensityResult
+\end{itemize}
+\resultbox{Meaning of a passing check}{Membership identity and host geometry are tested
+directly. Finite catalogue values alone do not establish physical or resolution accuracy.}
+\end{frame}
+
+\plotpage{Halo abundance changes include added and unmatched objects}{hmf.pdf}
+\plotpage{Mass, radius and velocity shifts for matched haloes}{matched_primary.pdf}
+\plotpage{Bound-population changes also affect internal structure}{matched_structure.pdf}
+\plotpage{Energy and direction changes require their own definitions}{matched_energy_direction.pdf}
+
+\begin{frame}{\ConclusionsHeadline}
+\begin{itemize}
+\item \CountConclusion
+\item \PropertyConclusion
+\item \NumericalConclusion
+\end{itemize}
+\medskip
+\resultbox{Using the refined catalogues}{Keep the finder definition with the data.
+Bound mass and internal properties share a converged population; reported radius
+and total mass retain the empirical aperture extension. Calibrate precision
+applications over the relevant mass and force-resolution range.}
+\end{frame}
+
+\appendix
+\plotpage{Appendix: matching coverage and exclusions}{matching.pdf}
+\plotpage{Appendix: invalid values and unresolved sentinels}{quality.pdf}
+\plotpage{Appendix: the extended-aperture total mass}{matched_total_mass.pdf}
+
+\begin{frame}{Appendix: a concrete duplicate-survival case}
+In the earlier $128^3$ integration test, three close candidate pairs survived
+exact-membership removal because their particle sets differed slightly.
+\medskip\centering
+\begin{tabular}{@{}lrrr@{}}\toprule
+Pair & Shared / smaller set & Separation $[\mpch]$ & Host radius $[\mpch]$\\\midrule
+1 & $2109/2110$ & $0.0035$ & $1.216$\\
+2 & $326/329$ & $0.0245$ & $0.699$\\
+3 & $1441/1445$ & $0.0155$ & $1.082$\\\bottomrule
+\end{tabular}\medskip
+\resultbox{Equal-mass host priority}{Rank hosts by stored bound mass; resolve an exact mass
+tie with a stable candidate order. Suppress the lower-priority centre strictly
+inside the higher-priority host radius. All three extra entries disappear.}
+{\small This small-box result explains the repair; it is separate from the new $1024^3$ validation.}
+\end{frame}
+
+\begin{frame}{Appendix: numerical sensitivity is isolated from finder threading}
+\begin{itemize}
+\item The $512^3$ pilot's ordinary 16/32-thread replays differ in $2/71{,}587$ rows,
+with identical bound masses, counts and bulk velocities.
+\item Reusing exactly the same density field makes all finder-thread comparisons
+byte-identical; changing only the field reproduces both rows.
+\item Float32 density accumulation changes each affected centring aperture by one
+rounding step. Local particle inclusion can amplify that change.
+\item \MainNumericalAppendix
+\end{itemize}\medskip
+\resultbox{Shape ordering}{Different empirical corrections could give $c/a>b/a$.
+Sorting the two corrected lengths restores their labels while preserving both
+values, the major direction, every other property and membership.}
+\end{frame}
+
+\begin{frame}{Appendix: resources, definitions and reproducibility}
+\begin{itemize}
+\item \ResourceResult
+\item \TimingResult
+\item Pre-audit finder: \texttt{a8c7715}; refined finder: \texttt{\RefinedCommit}.
+\item \JobResult
+\item The old standalone baseline retains its first-call configuration defect;
+historical multi-output inline runs need their own interpretation.
+\item Rmax is absent from the historical catalogue. Concentration is a mass/radius/Vmax
+diagnostic; major directions are compared modulo sign.
+\end{itemize}\medskip
+{\small Input, source, binary, snapshot and figure hashes, full status counts,
+matching exclusions and scripts accompany this deck.}
+\end{frame}
+\end{document}

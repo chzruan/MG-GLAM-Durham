@@ -45,5 +45,41 @@
     "dependencies": [],
     "pilot": "11948326",
     "preparation_sha256": "4affb6ff7fb104be2a18df12963881e191b76e95d4bf970883fbfef59f66badb"
+  },
+  {
+    "stage": "main-validation",
+    "purpose": "Membership identity and host geometry at z2,1,0; old/new catalogues on identical snapshots; ordinary 64/32-thread comparison and two-call bitwise particle-state restoration at z0. Normal density differences are recorded and interpreted alongside the separate fixed-field control.",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "--job-name=bdm-n1024-validate",
+      "--cpus-per-task=64",
+      "--mem=192G",
+      "--time=00:45:00",
+      "--dependency=afterok:11948372",
+      "--export=ALL,BDM_VALIDATION_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024,BDM_VALIDATION_PREPARATION=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-preparation.json,BDM_VALIDATION_BIN=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/final-native-build",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-validation/validation.sbatch",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-validation/run_validation.py",
+      "validate",
+      "--case",
+      "main"
+    ],
+    "prepared_at_utc": "2026-09-06T13:15:37.280444+00:00",
+    "commit": "cd06f484bd29a8d7f26442c386e34e49fe740ad5",
+    "script_sha256": {
+      "validation.sbatch": "dd4d746b9e55d6f969f2af2b7b3c8d52ceefe36dd766ab5136d9a5fa145fd510",
+      "run_validation.py": "7a84c1dc7444b9bfdf0a99763ecfe6fc005657ec17baae840fa9fb7d53b6e81c"
+    },
+    "submitter_sha256": "030d65bb4738b4a866270235d17ceb093611eaf950bc56cf128cd791698a144f",
+    "dependencies": [
+      "afterok:11948372"
+    ],
+    "preparation_sha256": "4affb6ff7fb104be2a18df12963881e191b76e95d4bf970883fbfef59f66badb",
+    "resource_plan_sha256": "deb5cd2086db81aecf94dc012ab703c97ecb3b1644f5b13c9b219d558fefa599",
+    "submission_returncode": 0,
+    "stdout": "11948467\n",
+    "stderr": "",
+    "submitted_at_utc": "2026-09-06T13:15:38.197091+00:00",
+    "job_id": "11948467"
   }
 ]
