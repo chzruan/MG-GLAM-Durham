@@ -1,0 +1,493 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-09-06T13:35:00.405087+00:00",
+  "scope": "Owned small plotting mechanics and N512 resource-pilot evidence only; no main figures or simulation outputs",
+  "archive_target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/plotter-evidence.tar.gz",
+  "roots": [
+    {
+      "archive_prefix": "n512-resource-pilot",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat"
+    },
+    {
+      "archive_prefix": "direction-axis-check",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_"
+    },
+    {
+      "archive_prefix": "n128-initial",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h"
+    },
+    {
+      "archive_prefix": "n128-energy-direction",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs"
+    }
+  ],
+  "regular_files": [
+    {
+      "archive_member": "n512-resource-pilot/figures/comparison-figure-receipt.json",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/figures/comparison-figure-receipt.json",
+      "mode": 420,
+      "mtime_ns": 1788700799000000000,
+      "size_bytes": 1515,
+      "sha256": "9aea0138abb51a863b07f54828d450ed99e996cfc5abc6279ff476efc5844aa3"
+    },
+    {
+      "archive_member": "n512-resource-pilot/figures/comparison-plot-ready.npz",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/figures/comparison-plot-ready.npz",
+      "mode": 420,
+      "mtime_ns": 1788700694000000000,
+      "size_bytes": 10190265,
+      "sha256": "37624cf22e41d630940efbd7833ccc902a86541aad3676f2db6b0abfe615c97e"
+    },
+    {
+      "archive_member": "n512-resource-pilot/figures/comparison-summary.json",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/figures/comparison-summary.json",
+      "mode": 420,
+      "mtime_ns": 1788700694000000000,
+      "size_bytes": 27660,
+      "sha256": "4289e2d2d417110d193a917429816eff2df828ab36bb0e941666aa3c848cbb33"
+    },
+    {
+      "archive_member": "n512-resource-pilot/figures/hmf.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/figures/hmf.pdf",
+      "mode": 420,
+      "mtime_ns": 1788700731000000000,
+      "size_bytes": 358799,
+      "sha256": "521c5cbb3afb3e73bb1180264f374d979847280540f34dea5be4d18851abe084"
+    },
+    {
+      "archive_member": "n512-resource-pilot/figures/matched_energy_direction.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/figures/matched_energy_direction.pdf",
+      "mode": 420,
+      "mtime_ns": 1788700775000000000,
+      "size_bytes": 364115,
+      "sha256": "ab1bf50e9a4a5281fbd06c625cfbb768c1e30781fb2547afb8158a02bde9096f"
+    },
+    {
+      "archive_member": "n512-resource-pilot/figures/matched_primary.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/figures/matched_primary.pdf",
+      "mode": 420,
+      "mtime_ns": 1788700750000000000,
+      "size_bytes": 369222,
+      "sha256": "06992acf282b99ea7dfd660f052340e01dc862317928d1cc1bb9fbe6ec520727"
+    },
+    {
+      "archive_member": "n512-resource-pilot/figures/matched_structure.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/figures/matched_structure.pdf",
+      "mode": 420,
+      "mtime_ns": 1788700762000000000,
+      "size_bytes": 333247,
+      "sha256": "2fb89ff454b5e7d4e38254ec597030537a537952166ad5b4173a37df47d76751"
+    },
+    {
+      "archive_member": "n512-resource-pilot/figures/matched_total_mass.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/figures/matched_total_mass.pdf",
+      "mode": 420,
+      "mtime_ns": 1788700766000000000,
+      "size_bytes": 297842,
+      "sha256": "c1144afe5658ca1073abcbac96dc81aa0b1b1c70a5ce92dbd26264403423200c"
+    },
+    {
+      "archive_member": "n512-resource-pilot/figures/matching.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/figures/matching.pdf",
+      "mode": 420,
+      "mtime_ns": 1788700789000000000,
+      "size_bytes": 422697,
+      "sha256": "fd7f777b35b5717c05049c49c304328488a3383725b9b82d0346485270960cbf"
+    },
+    {
+      "archive_member": "n512-resource-pilot/figures/quality.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/figures/quality.pdf",
+      "mode": 420,
+      "mtime_ns": 1788700799000000000,
+      "size_bytes": 303638,
+      "sha256": "53d971d58137f4cafec55769ab74f08a366b7fb1edc2e4bb07a6f602491f4e43"
+    },
+    {
+      "archive_member": "n512-resource-pilot/preflight.json",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/preflight.json",
+      "mode": 420,
+      "mtime_ns": 1788700661000000000,
+      "size_bytes": 927,
+      "sha256": "d78a337960bbb7b23f5b9f663511b1da90d933ad70321cf914a82bc7e4b1c5bf"
+    },
+    {
+      "archive_member": "n512-resource-pilot/resource-time.txt",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/resource-time.txt",
+      "mode": 420,
+      "mtime_ns": 1788700800000000000,
+      "size_bytes": 1142,
+      "sha256": "956fa1ed3e7cc98140b88fd219e1f456fd69c976428c8777f55b214ee3b0cd43"
+    },
+    {
+      "archive_member": "n512-resource-pilot/run-stderr.log",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/run-stderr.log",
+      "mode": 420,
+      "mtime_ns": 1788700681000000000,
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "archive_member": "n512-resource-pilot/run-stdout.log",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/run-stdout.log",
+      "mode": 420,
+      "mtime_ns": 1788700799000000000,
+      "size_bytes": 439,
+      "sha256": "89d1b73104d237f0ed80973fa7f6d757b5f87fa1cbee88a1a95d5da82778a3ac"
+    },
+    {
+      "archive_member": "direction-axis-check/figures/comparison-plot-ready.npz",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_/figures/comparison-plot-ready.npz",
+      "mode": 420,
+      "mtime_ns": 1788701339000000000,
+      "size_bytes": 238959,
+      "sha256": "d826df8556f69205d44c8d62efa17661efadaa4ea91fbe7b800954125e4eed98"
+    },
+    {
+      "archive_member": "direction-axis-check/figures/comparison-summary.json",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_/figures/comparison-summary.json",
+      "mode": 420,
+      "mtime_ns": 1788701339000000000,
+      "size_bytes": 26665,
+      "sha256": "08d473e059b66e4ae5b985bec78e39b801948a86c8f559259d5a3dff37aed50b"
+    },
+    {
+      "archive_member": "direction-axis-check/figures/hmf.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_/figures/hmf.pdf",
+      "mode": 420,
+      "mtime_ns": 1788701347000000000,
+      "size_bytes": 358647,
+      "sha256": "d3b746ee8efc1c61ac2ee41a5017ee8cf7d509ad735bc38510e5cf75a2992716"
+    },
+    {
+      "archive_member": "direction-axis-check/figures/matched_energy_direction.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_/figures/matched_energy_direction.pdf",
+      "mode": 420,
+      "mtime_ns": 1788701378000000000,
+      "size_bytes": 364573,
+      "sha256": "61121f5fc574bcf7f35d4a4cae8495f52347951121281ed9941591d9e081f025"
+    },
+    {
+      "archive_member": "direction-axis-check/figures/matched_primary.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_/figures/matched_primary.pdf",
+      "mode": 420,
+      "mtime_ns": 1788701360000000000,
+      "size_bytes": 369453,
+      "sha256": "e0aad8485d3c2af1b7e01990c579654d56257480a5efcba4014691a9cc81832f"
+    },
+    {
+      "archive_member": "direction-axis-check/figures/matched_structure.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_/figures/matched_structure.pdf",
+      "mode": 420,
+      "mtime_ns": 1788701366000000000,
+      "size_bytes": 332493,
+      "sha256": "ae6e0344b23d37a4ac5004b3b9b42b22271ebe71b2846ac316cc8f282f42feb9"
+    },
+    {
+      "archive_member": "direction-axis-check/figures/matched_total_mass.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_/figures/matched_total_mass.pdf",
+      "mode": 420,
+      "mtime_ns": 1788701370000000000,
+      "size_bytes": 298245,
+      "sha256": "1c139b89b9565233a3282956d7117df241576c641169a49933f4379fa24a99bb"
+    },
+    {
+      "archive_member": "direction-axis-check/figures/matching.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_/figures/matching.pdf",
+      "mode": 420,
+      "mtime_ns": 1788701387000000000,
+      "size_bytes": 423589,
+      "sha256": "fb869bce28b9837ae78e7974a212d45127a5f17819de763457ee65b7d2e1773e"
+    },
+    {
+      "archive_member": "direction-axis-check/figures/quality.pdf",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_/figures/quality.pdf",
+      "mode": 420,
+      "mtime_ns": 1788701393000000000,
+      "size_bytes": 303696,
+      "sha256": "506f20e121f06e45d8b67f3b7d1b1f3d7c6b55425419f360918bb5a68a4aa7b7"
+    },
+    {
+      "archive_member": "n128-initial/figures/comparison-figure-receipt.json",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/figures/comparison-figure-receipt.json",
+      "mode": 420,
+      "mtime_ns": 1788697393820505138,
+      "size_bytes": 1263,
+      "sha256": "9bcaf0965dea952600f3ac17f1253bd5c5977f94199aed6710f95463033904f6"
+    },
+    {
+      "archive_member": "n128-initial/figures/comparison-plot-ready.npz",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/figures/comparison-plot-ready.npz",
+      "mode": 420,
+      "mtime_ns": 1788697390136474452,
+      "size_bytes": 190475,
+      "sha256": "18b3a313d5093862aa4e5a8626e15b96e03c7cc5fad5fd557aaf1bf3bcedb5e6"
+    },
+    {
+      "archive_member": "n128-initial/figures/comparison-summary.json",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/figures/comparison-summary.json",
+      "mode": 420,
+      "mtime_ns": 1788697390137474461,
+      "size_bytes": 22596,
+      "sha256": "6ef2782785323e900c50c1f3ce19ce69611e4b6add326b1817fc39e8ae5c30ed"
+    },
+    {
+      "archive_member": "n128-initial/figures/hmf.pdf",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/figures/hmf.pdf",
+      "mode": 420,
+      "mtime_ns": 1788697391198483298,
+      "size_bytes": 358300,
+      "sha256": "aec3f33290778d443ae9ead40e3e8a77fcba3db3700a136b59c44358bffa6c09"
+    },
+    {
+      "archive_member": "n128-initial/figures/matched_primary.pdf",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/figures/matched_primary.pdf",
+      "mode": 420,
+      "mtime_ns": 1788697391894489096,
+      "size_bytes": 368842,
+      "sha256": "2a106df68dc2052b65f3e1ee710af6e3416ea694b6ff8c803e13655ecb56003f"
+    },
+    {
+      "archive_member": "n128-initial/figures/matched_structure.pdf",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/figures/matched_structure.pdf",
+      "mode": 420,
+      "mtime_ns": 1788697392502494160,
+      "size_bytes": 332206,
+      "sha256": "dc7976f82d1f5f3abe11d3f4727fb1cb01f69756163b720bf033ab1303b449cb"
+    },
+    {
+      "archive_member": "n128-initial/figures/matched_total_mass.pdf",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/figures/matched_total_mass.pdf",
+      "mode": 420,
+      "mtime_ns": 1788697392770496392,
+      "size_bytes": 297907,
+      "sha256": "4530641455ecfbd4f5cb84c06a2b0d934dbb5d07856895f2c46a92c4c3834ca0"
+    },
+    {
+      "archive_member": "n128-initial/figures/matching.pdf",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/figures/matching.pdf",
+      "mode": 420,
+      "mtime_ns": 1788697393260500474,
+      "size_bytes": 423262,
+      "sha256": "61ea8e2658571b8a47e55ea6eaa9cacc079c6b42a896e798841a16074984171d"
+    },
+    {
+      "archive_member": "n128-initial/figures/quality.pdf",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/figures/quality.pdf",
+      "mode": 420,
+      "mtime_ns": 1788697393816505105,
+      "size_bytes": 272832,
+      "sha256": "afbbad6ba6be4d79bbff97b3cfbd5007edf9c075df21ce2dbef22b1ac551affc"
+    },
+    {
+      "archive_member": "n128-initial/small-integration-input.npz",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/small-integration-input.npz",
+      "mode": 420,
+      "mtime_ns": 1788696584537807238,
+      "size_bytes": 196081,
+      "sha256": "3ae488d89e3ab0d647780710a7a78cb279c1b9ab4e87660565e3b896d014b128"
+    },
+    {
+      "archive_member": "n128-initial/small-integration-metadata.json",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/small-integration-metadata.json",
+      "mode": 420,
+      "mtime_ns": 1788696584539807254,
+      "size_bytes": 1004,
+      "sha256": "f6072a50a9c35d5d54386cf60341fa7404091b78192c9a83a4847f826785034e"
+    },
+    {
+      "archive_member": "n128-initial/test-receipt.json",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/test-receipt.json",
+      "mode": 420,
+      "mtime_ns": 1788697441512902083,
+      "size_bytes": 1963,
+      "sha256": "8edb7e7fe983be66d5f599713b1356b01464a953c5917e1980622904afac326d"
+    },
+    {
+      "archive_member": "n128-energy-direction/figures/comparison-figure-receipt.json",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/comparison-figure-receipt.json",
+      "mode": 420,
+      "mtime_ns": 1788698958769097961,
+      "size_bytes": 1361,
+      "sha256": "c6d370ca1ea1582a35903992a6e6010c4d1e5cbb3c6b4a2b45448fc560d343cd"
+    },
+    {
+      "archive_member": "n128-energy-direction/figures/comparison-plot-ready.npz",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/comparison-plot-ready.npz",
+      "mode": 420,
+      "mtime_ns": 1788698907559702329,
+      "size_bytes": 238959,
+      "sha256": "d826df8556f69205d44c8d62efa17661efadaa4ea91fbe7b800954125e4eed98"
+    },
+    {
+      "archive_member": "n128-energy-direction/figures/comparison-summary.json",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/comparison-summary.json",
+      "mode": 420,
+      "mtime_ns": 1788698907560702337,
+      "size_bytes": 26368,
+      "sha256": "87f5e1b825cf341cb14f10cf34d425e7527e484c759a53fe179fd07ade4f12b6"
+    },
+    {
+      "archive_member": "n128-energy-direction/figures/hmf.pdf",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/hmf.pdf",
+      "mode": 420,
+      "mtime_ns": 1788698915146760945,
+      "size_bytes": 358627,
+      "sha256": "71f5a0bcbd7ea12860cce12f3c008ac7de66780084d5a84ce143fd42b2fdf77c"
+    },
+    {
+      "archive_member": "n128-energy-direction/figures/matched_energy_direction.pdf",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/matched_energy_direction.pdf",
+      "mode": 420,
+      "mtime_ns": 1788698943926983294,
+      "size_bytes": 364496,
+      "sha256": "d7b4fe27c589c59829c0246ac8575278525556687cd2d896f9a410cda79a7a80"
+    },
+    {
+      "archive_member": "n128-energy-direction/figures/matched_primary.pdf",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/matched_primary.pdf",
+      "mode": 420,
+      "mtime_ns": 1788698926962852234,
+      "size_bytes": 369431,
+      "sha256": "e330c83fb6939bf9a40996af2b7c6f8972f702fd74ff041e7a3c758dc5438f83"
+    },
+    {
+      "archive_member": "n128-energy-direction/figures/matched_structure.pdf",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/matched_structure.pdf",
+      "mode": 420,
+      "mtime_ns": 1788698932326893675,
+      "size_bytes": 332469,
+      "sha256": "9ec89e63db7eb51558f7f877b6d9367edd73566dd39e87e26126bc01272b4053"
+    },
+    {
+      "archive_member": "n128-energy-direction/figures/matched_total_mass.pdf",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/matched_total_mass.pdf",
+      "mode": 420,
+      "mtime_ns": 1788698936508925984,
+      "size_bytes": 298222,
+      "sha256": "fc95f11d78adcc025448b6857c66937669bf576916b79de09f0d35973cb45c96"
+    },
+    {
+      "archive_member": "n128-energy-direction/figures/matching.pdf",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/matching.pdf",
+      "mode": 420,
+      "mtime_ns": 1788698952500049528,
+      "size_bytes": 423567,
+      "sha256": "f805ee658542843b7985705669d69b888dd33541dac0161155b2f3538433c492"
+    },
+    {
+      "archive_member": "n128-energy-direction/figures/quality.pdf",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/quality.pdf",
+      "mode": 420,
+      "mtime_ns": 1788698958764097922,
+      "size_bytes": 303696,
+      "sha256": "04a68dc1fb09c2cbab4dc6afabfab86681508f40fdf28d70a327bcc8f8acae5b"
+    },
+    {
+      "archive_member": "n128-energy-direction/small-integration-input.npz",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/small-integration-input.npz",
+      "mode": 420,
+      "mtime_ns": 1788698893330589724,
+      "size_bytes": 196081,
+      "sha256": "3ae488d89e3ab0d647780710a7a78cb279c1b9ab4e87660565e3b896d014b128"
+    },
+    {
+      "archive_member": "n128-energy-direction/small-integration-metadata.json",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/small-integration-metadata.json",
+      "mode": 420,
+      "mtime_ns": 1788698893330589724,
+      "size_bytes": 1173,
+      "sha256": "bae205aaa295bca9dce28b1a45a7281da1fc2607a9f70cb9b541a2f26eb35e04"
+    },
+    {
+      "archive_member": "n128-energy-direction/test-receipt.json",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/test-receipt.json",
+      "mode": 420,
+      "mtime_ns": 1788699326241940018,
+      "size_bytes": 1758,
+      "sha256": "008d7033c6f3967b9816c011a6e6c1db621c0ee8497353995e8a7dd946ef334f"
+    }
+  ],
+  "links": [],
+  "directories": [
+    {
+      "archive_member": "n512-resource-pilot",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat",
+      "mode": 1472,
+      "mtime_ns": 1788700912000000000
+    },
+    {
+      "archive_member": "n512-resource-pilot/figures",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/figures",
+      "mode": 1517,
+      "mtime_ns": 1788700799000000000
+    },
+    {
+      "archive_member": "direction-axis-check",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_",
+      "mode": 1472,
+      "mtime_ns": 1788701339000000000
+    },
+    {
+      "archive_member": "direction-axis-check/figures",
+      "original_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_/figures",
+      "mode": 1517,
+      "mtime_ns": 1788701453000000000
+    },
+    {
+      "archive_member": "n128-initial",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h",
+      "mode": 448,
+      "mtime_ns": 1788697401746571158
+    },
+    {
+      "archive_member": "n128-initial/figures",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/figures",
+      "mode": 493,
+      "mtime_ns": 1788697441479901809
+    },
+    {
+      "archive_member": "n128-energy-direction",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs",
+      "mode": 448,
+      "mtime_ns": 1788699286719638100
+    },
+    {
+      "archive_member": "n128-energy-direction/figures",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures",
+      "mode": 493,
+      "mtime_ns": 1788699326198939690
+    }
+  ],
+  "missing_original_roots": [],
+  "missing_note": "Any absent older temporary evidence is represented by previously committed plotter-test-receipts.json, not claimed as archived.",
+  "excluded_paths": [],
+  "exclusion_note": "Obsolete owned rendering caches and preview PNGs were removed in the earlier recorded cleanup; every currently present regular file is included.",
+  "archive_sha256": "772aff0adae701eee2e1c5a1d291de005999bc41df80cedd7707357a87d7ba44",
+  "archive_size_bytes": 20287818,
+  "embedded_manifest_member": "manifest.json",
+  "embedded_manifest_sha256": "25c9bfcda46b34cb903aa102580109b68c0f81568a2b33e60214bab7a3302d96",
+  "verification": {
+    "readback_regular_files": 48,
+    "readback_regular_file_bytes": 20770767,
+    "readback_symlinks": 0,
+    "complete_member_set_verified": true,
+    "original_bytes_and_tree_membership_rechecked_before_removal": true,
+    "archive_sha256_rechecked_after_publication": true,
+    "file_and_directory_modes_and_mtimes_verified": true
+  },
+  "cleanup": {
+    "completed": true,
+    "removed_owned_roots": [
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_",
+      "/tmp/bdm-property-comparison-check-4opt2b9h",
+      "/tmp/bdm-energy-direction-check-gqc_urzs"
+    ],
+    "removed_regular_files": 48,
+    "removed_symlinks": 0,
+    "removed_directories": 9,
+    "empty_worktree_cache_parent_removed": true,
+    "historical_receipt_contents_preserved_in_archive_and_prior_committed_consolidation": true
+  },
+  "elapsed_seconds": 1.0641109880525619
+}
