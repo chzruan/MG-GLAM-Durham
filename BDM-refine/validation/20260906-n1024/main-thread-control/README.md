@@ -110,4 +110,14 @@ Measured batch MaxRSS was **198,231,384 KiB (189.05 GiB)**, leaving 34.36% of th
 32 GiB density tapes. `accounting.json` preserves final `sacct` output and cost
 calculation. `successful-probe.log.gz` is the complete native log compressed
 without changing its contents. All raw output, inputs and frozen build files
-remain at their receipt paths for verified consolidation.
+are preserved through the relocation map below.
+
+## Consolidation
+
+`relocation.json` maps the original worktree paths for both
+`numerical-threading/work` and `main-thread-control/work` to the matching
+directories under the main MG-GLAM repository. Each directory was moved by
+same-filesystem `os.rename`, with every entry's device, inode, size and mtime
+verified unchanged and every input symlink still resolving. Existing validated
+SHA manifests are linked in the relocation receipt. Historical execution
+receipts retain their original paths; use this map to locate their artifacts.
