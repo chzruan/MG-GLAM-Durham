@@ -52,6 +52,10 @@ Real*4 ::            TotalMemory=0.2, t0                           ! current mem
 Real*4 ::            Xleft,Xright,Yleft,Yright,Zleft,Zright,dBuffer    ! boundaries of domain
 Character*120 ::     CatshortName,CatalogName,    &                ! names of halo catalogs 
                      outputName                                    ! dump file
+! Publish a complete catalogue atomically; an interrupted finder may only leave
+! a hidden staged file, never a partially replaced final catalogue.
+character(256) :: CatalogueFinalPath='',CatalogueStagedPath=''
+logical :: CataloguePublicationPending=.false.
 
 Real*4     ::        Om0,Ovdens      ! cosmology
 Real*4     ::        MassOne                                 !  current simulation
@@ -337,10 +341,84 @@ Contains
          CatLabel='A.'
       end select
       write(outputName,'(2a,2(i4.4,a))') 'CATALOGS/Catshort',trim(CatLabel),jStep,'.',Nrealization,'.DAT'
-      close(12)
-      open(12,file=trim(outputName),status='replace',iostat=io)
-      if (io /= 0) call ConfigurationError(0,'cannot open catalogue '//trim(outputName))
+      call BeginCataloguePublication(trim(outputName))
       end SUBROUTINE ReadParameters
+
+      SUBROUTINE BeginCataloguePublication(final_path)
+      use, intrinsic :: iso_c_binding, only: c_int
+      implicit none
+      character(*), intent(in) :: final_path
+      character(96) :: suffix
+      character(256) :: staged_base
+      integer*8 :: stamp
+      integer :: attempt,io,slash
+      integer(c_int) :: process_id
+      logical :: exists
+      interface
+         function c_getpid() bind(C,name='getpid') result(pid)
+            import c_int
+            integer(c_int) :: pid
+         end function c_getpid
+      end interface
+      if (CataloguePublicationPending) error stop 'BDM catalogue publication is already pending'
+      if (len_trim(final_path) == 0.or.len_trim(final_path) > len(CatalogueFinalPath)) &
+         error stop 'BDM catalogue path is empty or too long'
+      slash=index(trim(final_path),'/',back=.true.)
+      if (slash == len_trim(final_path)) error stop 'BDM catalogue path names a directory'
+      if (slash > 0) then
+         staged_base=final_path(:slash)//'.'//trim(final_path(slash+1:))
+      else
+         staged_base='.'//trim(final_path)
+      end if
+      process_id=c_getpid()
+      call system_clock(count=stamp)
+      close(12,iostat=io)
+      if (io /= 0) error stop 'BDM cannot close the previous catalogue unit'
+      do attempt=0,999
+         write(suffix,'(a,i0,a,i0,a,i0)') '.tmp.',process_id,'.',stamp,'.',attempt
+         if (len_trim(staged_base)+len_trim(suffix) > len(CatalogueStagedPath)) &
+            error stop 'BDM staged catalogue path is too long'
+         CatalogueStagedPath=trim(staged_base)//trim(suffix)
+         ! STATUS=NEW exclusively creates the path and keeps normal umask
+         ! permissions. A collision must never truncate another staged file.
+         open(12,file=trim(CatalogueStagedPath),status='new',action='write',iostat=io)
+         if (io == 0) then
+            CatalogueFinalPath=trim(final_path)
+            CataloguePublicationPending=.true.
+            return
+         end if
+         inquire(file=trim(CatalogueStagedPath),exist=exists)
+         if (.not.exists) error stop 'BDM cannot create staged catalogue'
+      end do
+      error stop 'BDM cannot reserve a unique staged catalogue'
+      end SUBROUTINE BeginCataloguePublication
+
+      SUBROUTINE PublishCatalogue
+      use, intrinsic :: iso_c_binding, only: c_int,c_char,c_null_char
+      implicit none
+      integer :: io,unit
+      integer(c_int) :: rename_status
+      logical :: opened
+      interface
+         function c_rename(old_path,new_path) bind(C,name='rename') result(status)
+            import c_int,c_char
+            character(kind=c_char), intent(in) :: old_path(*),new_path(*)
+            integer(c_int) :: status
+         end function c_rename
+      end interface
+      if (.not.CataloguePublicationPending) error stop 'BDM catalogue publication was not started'
+      unit=-1;opened=.false.
+      inquire(file=trim(CatalogueStagedPath),opened=opened,number=unit,iostat=io)
+      if (io /= 0.or..not.opened.or.unit /= 12) error stop 'BDM staged catalogue is not open on unit 12'
+      close(12,iostat=io)
+      if (io /= 0) error stop 'BDM staged catalogue could not be completely written'
+      ! C rename is atomic within this directory on the supported POSIX
+      ! filesystems. Only a fully written, successfully closed file is exposed.
+      rename_status=c_rename(trim(CatalogueStagedPath)//c_null_char,trim(CatalogueFinalPath)//c_null_char)
+      if (rename_status /= 0_c_int) error stop 'BDM cannot publish staged catalogue'
+      CataloguePublicationPending=.false.
+      CatalogueFinalPath='';CatalogueStagedPath=''
+      end SUBROUTINE PublishCatalogue
 
       SUBROUTINE ConfigurationError(line_number,message)
       use, intrinsic :: iso_fortran_env, only: error_unit
@@ -476,6 +554,7 @@ SUBROUTINE WriteFiles
    integer :: ip,iHalo
    real*4 :: x,y,z,Vrms,rr,aM,Cvir,aNpart,VirRat
    real*8 :: value
+   if (.not.CataloguePublicationPending) error stop 'BDM writer requires staged catalogue publication'
    iHalo=0
    if(.not.ieee_is_finite(MassOne))error stop 'BDM particle mass is nonfinite'
    if(MassOne<=0.)error stop 'BDM particle mass must be positive'
@@ -529,7 +608,7 @@ SUBROUTINE WriteFiles
        1.e3*RadRms(ip),Axba(ip),Axca(ip),Xax(ip),Yax(ip),Zax(ip)
    enddo
    Nhalo=iHalo
-   close(12)
+   call PublishCatalogue
 end SUBROUTINE WriteFiles
 
 !---------------------------------------------------------------------------
