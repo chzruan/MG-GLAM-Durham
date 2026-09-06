@@ -1007,7 +1007,7 @@ integer*8 :: ic,ip,i
         real*8, parameter :: gravity=4.333d-9
         integer*8, allocatable :: rows(:)
         real*8, allocatable :: radii(:),potential(:)
-        real*8 :: search,search_cap,aperture_cap,rso,aperture,grid_size
+        real*8 :: search_cap,aperture_cap,rso,aperture,grid_size
         real*8 :: mass,threshold,hubble_a,bulk(3),offset(3),velocity(3)
         real*8 :: kinetic,rms2,centre(3),angular(3),tensor(3,3),energy
         real*8 :: shell_energy,circular2,maximum2,maximum_radius,correction
@@ -1039,36 +1039,59 @@ integer*8 :: ic,ip,i
         aperture_cap=min(search_cap+.75d0*grid_size,dble(nearest(.5*Box,-1.)))
         if(HaloSearchRadius>0.) search_cap=min(search_cap,dble(HaloSearchRadius))
         if(ParticleSearchRadius>0.) aperture_cap=min(aperture_cap,dble(ParticleSearchRadius))
-        search=min(dble(Cell),search_cap)
-
-        do
-          call BdmHaloGather(x,y,z,search,rows,radii)
-          n=size(rows)
-          if(dble(n)*mass<=threshold*search**3) exit
-          if(search>=search_cap)then
-            HaloStatus(ip)=HaloSearchTruncated
-            return
-          endif
-          search=min(search+dble(Cell),search_cap)
-        enddo
-        call BdmHaloSortRadii(rows,radii)
-        rso=0.d0
-        do q=n,10,-1
-          ! Between adjacent particles the enclosed mass is constant. Choose
-          ! the outermost exact SO root within such an interval, including a
-          ! jump onto an exactly equal-density outer particle.
-          energy=(dble(q)*mass/threshold)**(1.d0/3.d0)
-          if(energy<radii(q)) cycle
-          if(q<n)then
-            if(energy>=radii(q+1)) cycle
-          endif
-          if(energy>search) cycle
-          rso=energy
-          exit
-        enddo
-        if(rso<=0.d0)then
+        ! The physical cap, not the first sampled underdense Cell, defines
+        ! the SO domain. Nonmonotonic profiles can cross the threshold again
+        ! outside an earlier underdense shell.
+        call BdmHaloGather(x,y,z,search_cap,rows,radii)
+        n=size(rows)
+        if(dble(n)*mass>threshold*search_cap**3)then
+          HaloStatus(ip)=HaloSearchTruncated
+          return
+        endif
+        if(n<10)then
           HaloStatus(ip)=HaloTooFewParticles
           return
+        endif
+        ! With n available particles, no SO root can exceed (n*m/rho)^(1/3).
+        ! Discarding rows outside that bound preserves every possible root.
+        ! Repeating gives the greatest self-consistent enclosed population;
+        ! most diffuse cap-neighbourhood particles need never be sorted.
+        rso=min((dble(n)*mass/threshold)**(1.d0/3.d0),search_cap)
+        do iteration=1,16
+          nkeep=0
+          do q=1,n
+            if(radii(q)<=rso)then
+              nkeep=nkeep+1
+              rows(nkeep)=rows(q); radii(nkeep)=radii(q)
+            endif
+          enddo
+          if(nkeep==n) exit
+          n=nkeep
+          if(n<10)then
+            HaloStatus(ip)=HaloTooFewParticles
+            return
+          endif
+          rso=min((dble(n)*mass/threshold)**(1.d0/3.d0),search_cap)
+        enddo
+        if(iteration>16)then
+          ! Bound contraction can remove one row per pass in an adversarial
+          ! profile. Bound that cost and finish with an O(n log n) exact scan.
+          call BdmHaloSortRadii(rows(:n),radii(:n))
+          rso=0.d0
+          do q=n,10,-1
+            energy=(dble(q)*mass/threshold)**(1.d0/3.d0)
+            if(energy<radii(q)) cycle
+            if(q<n)then
+              if(energy>=radii(q+1)) cycle
+            endif
+            if(energy>search_cap) cycle
+            rso=energy
+            exit
+          enddo
+          if(rso<=0.d0)then
+            HaloStatus(ip)=HaloTooFewParticles
+            return
+          endif
         endif
         aperture=rso+grid_size*min(dble(Rext)/(rso/grid_size)**dble(SlopeR),.75d0)
         if(aperture>aperture_cap)then
@@ -1246,10 +1269,10 @@ integer*8 :: ic,ip,i
         implicit none
         integer*8, intent(inout) :: rows(:)
         real*8, intent(inout) :: radii(:)
-        integer :: first,last,parent,child,n
+        integer*8 :: first,last,parent,child,n
         integer*8 :: saved_row
         real*8 :: saved_radius
-        n=size(rows)
+        n=size(rows,kind=8)
         if(n<2) return
         first=n/2+1; last=n
         do
@@ -1289,8 +1312,8 @@ integer*8 :: ic,ip,i
         implicit none
         integer*8, intent(inout) :: ids(:)
         integer*8 :: saved
-        integer :: first,last,parent,child,n
-        n=size(ids)
+        integer*8 :: first,last,parent,child,n
+        n=size(ids,kind=8)
         if(n<2) return
         first=n/2+1; last=n
         do

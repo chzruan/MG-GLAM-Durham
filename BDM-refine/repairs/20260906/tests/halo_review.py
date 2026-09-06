@@ -21,11 +21,11 @@ SOURCE = (REPO/'PMP2linker.f90').read_text()
 
 
 def extract(name):
-    return re.search(rf'^\s*subroutine\s+{name}\b.*?^\s*end\s+subroutine\s+{name}\b[^\n]*',
+    return re.search(rf'^\s*(?:pure\s+)?(?:real\s*\*\s*8\s+)?(?:subroutine|function)\s+{name}\b.*?^\s*end\s+(?:subroutine|function)\s+{name}\b[^\n]*',
                      SOURCE, re.I|re.M|re.S).group()
 
 
-def build(work):
+def build(work, transform_program=None):
     structures = re.search(r'^module\s+Structures\b.*?^end module\s+Structures',
                            SOURCE, re.I|re.M|re.S).group()
     stub = '''module Tools
@@ -49,8 +49,14 @@ contains
 '''
     names = ['GetHalo','BdmHaloGather','BdmHaloSortRadii','BdmHaloSortIds',
              'BdmHaloSphericalPotential','BdmHaloMembershipInit','List','Limits','EigenValues']
+    for name in ['BdmParticlePosition', 'BdmParticleCoordinate']:
+        if re.search(rf'\b(?:subroutine|function)\s+{name}\b', SOURCE, re.I):
+            names.append(name)
     text = structures+'\n'+stub+'\n'.join(extract(n) for n in names)+'\nend module\n'
-    text += (HERE/'halo_review_cases.f90').read_text()
+    program=(HERE/'halo_review_cases.f90').read_text()
+    if transform_program is not None:
+        program=transform_program(program)
+    text += program
     (work/'source.f90').write_text(text)
     records = {}
     for mode, flags in [('checked',['-O0','-fcheck=all','-ffpe-trap=invalid,zero,overflow']),
@@ -69,14 +75,15 @@ def sphere(n, radius):
     return radius*np.c_[np.sqrt(1-z*z)*np.cos(phi),np.sqrt(1-z*z)*np.sin(phi),z]
 
 
-def run_halo(work, name, phase, mode, cell=1., mass=1.e12):
+def run_halo(work, name, phase, mode, cell=1., mass=1.e12, identity=False):
     data=np.asarray(phase,dtype=np.float32)
     with tempfile.TemporaryDirectory(prefix='bdm-halo-review-case-') as scratch:
         wd=Path(scratch)
         with (wd/'input.dat').open('w') as out:
             out.write(f'{len(data)} {cell} {mass:.17g} .3 200 .8 0 .2\n5 5 5\n')
             for j,row in enumerate(data):
-                out.write(' '.join(f'{v:.17g}' for v in row)+f' {9000000000+len(data)-j}\n')
+                particle_id=j+1 if identity else 9000000000+len(data)-j
+                out.write(' '.join(f'{v:.17g}' for v in row)+f' {particle_id}\n')
         result=subprocess.run([str(work/mode),'halo'],cwd=wd,capture_output=True,text=True,
                               env={**os.environ,'OMP_NUM_THREADS':'1'},timeout=15)
         assert result.returncode==0,(name,mode,result.stdout,result.stderr)
@@ -86,7 +93,8 @@ def run_halo(work, name, phase, mode, cell=1., mass=1.e12):
         ids=[int(v) for v in id_line.split()[1:]]
         assert np.isfinite(values).all(),(name,values)
         assert 'EMPTY_RECALL_PASS' in result.stdout
-        assert ids==sorted(set(ids)) and all(i>2**31 for i in ids)
+        assert ids==sorted(set(ids))
+        assert all(1<=i<=len(data) for i in ids) if identity else all(i>2**31 for i in ids)
         if ids:
             assert np.isclose(values[1],len(ids)*float(np.float32(mass)),rtol=6.e-8)
         return dict(case=name,mode=mode,cell=cell,particle_count=len(data),values=values,ids=ids,

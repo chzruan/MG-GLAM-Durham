@@ -36,9 +36,12 @@ separately. Root checkout was read only throughout this review.
 Twenty-eight bounded probes use checked/FP-trapping and optimized GNU builds.
 They exercise zero/one/nine/ten initial particles, a single exactly central
 survivor after hot contaminants leave, zero/one/coincident-centre spherical
-potential cases, repeated shell radii and distinct-pair energy, membership
-IDs larger than 2^31, and a second empty call that must clear previous output
-and membership. All these edge checks passed. Initial populations below ten
+potential cases, repeated shell radii and distinct-pair energy, and a second
+empty call that must clear previous output and membership. Artificial IDs
+larger than 2^31 also exercised storage width at this reviewed revision; these
+were not valid production original-row mappings. The follow-up regression
+uses actual row identities and tests large integer values directly in the
+sort helper. All these edge checks passed. Initial populations below ten
 return insufficient-population status; a singleton central survivor is finite
 and has the unresolved-Vmax status.
 
