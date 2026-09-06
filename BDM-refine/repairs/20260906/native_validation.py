@@ -78,16 +78,24 @@ def memberships(path,nrow,output):
     properties=np.asarray(properties).reshape(-1,21)
     np.savez_compressed(output,ids=np.concatenate(ids) if ids else np.empty(0,dtype=np.int64),
         offsets=np.asarray(offsets,dtype=np.int64),candidates=np.asarray(indices),properties=properties)
-    overlaps=[]
+    overlaps=[];host_violations=[]
     if len(ids)>1:
         tree=cKDTree(properties[:,:3]%nrow,boxsize=nrow)
         for a,b in tree.query_pairs(max(.2,2*float(properties[:,8].max())),output_type='ndarray'):
+            delta=properties[a,:3]-properties[b,:3]
+            delta-=nrow*np.rint(delta/nrow)
+            priority=lambda i:(properties[i,6],-indices[i])
+            host=a if priority(a)>priority(b) else b
+            if np.linalg.norm(delta)<properties[host,8]:
+                host_violations.append(dict(candidates=[indices[a],indices[b]],
+                    separation=float(np.linalg.norm(delta)),host_radius=float(properties[host,8])))
             shared=len(np.intersect1d(ids[a],ids[b],assume_unique=True))
             if shared:overlaps.append(dict(candidates=[indices[a],indices[b]],shared=shared,
                 fraction_of_smaller=shared/min(len(ids[a]),len(ids[b]))))
+    assert not host_violations,host_violations
     return dict(candidates=int(candidates),selected=int(selected),mass_one=mass_one,
         exact_duplicate_member_sets=0,repeated_original_ids=0,mass_count_mismatches=0,
-        nearby_overlaps=overlaps,raw_sha256=hashlib.sha256(raw).hexdigest(),
+        host_exclusion_violations=0,nearby_overlaps=overlaps,raw_sha256=hashlib.sha256(raw).hexdigest(),
         retained_membership_archive=output.name)
 
 
