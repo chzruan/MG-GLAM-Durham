@@ -11,6 +11,7 @@ import json
 import os
 from pathlib import Path
 import tarfile
+import tempfile
 
 ROOT=Path(os.environ.get('BDM_REVIEW_ROOT',Path(__file__).resolve().parent)).resolve()
 REPO=ROOT.parents[2]
@@ -97,5 +98,57 @@ def main():
     print('Verified archive; removed',len(files),'finished scratch files and',len(report['removed_directories']),'directories')
 
 
+def self_test():
+    """Tiny temporary-directory control; the injected job ID is not Slurm evidence."""
+    global ROOT
+    original_root=ROOT
+    original_job=os.environ.get('SLURM_JOB_ID')
+    try:
+        with tempfile.TemporaryDirectory(prefix='bdm-archive-control-') as tmp:
+            outer=Path(tmp)
+            outside=outer/'original-snapshot.DAT';outside.write_bytes(b'preserve the original input')
+            ROOT=outer/'case'
+            (ROOT/'native').mkdir(parents=True)
+            (ROOT/'native/comparison.json').write_text('{"completed":true}')
+            (ROOT/'native/accounting.json').write_text('{"all_completed":true}')
+            (ROOT/'work/native-build/preflight/snapshot').mkdir(parents=True)
+            small_header=ROOT/'work/native-build/preflight/snapshot/PMcrd.0001.DAT'
+            small_header.write_bytes(b'disposable tiny preflight header')
+            (ROOT/'work/input-link').symlink_to(outside)
+            (ROOT/'work/empty').mkdir()
+            (ROOT/'work/replays-t64/z0').mkdir(parents=True)
+            retained=ROOT/'work/replays-t64/z0/repair-members.bin'
+            retained.write_bytes(b'retained science tape')
+            live=ROOT/'work/archive-unit-control.log';live.write_bytes(b'active log')
+            os.environ['SLURM_JOB_ID']='unit-control'
+            main()
+            result=json.loads((ROOT/'work-archive.json').read_text())
+            assert result['completed'] and result['archive_verified_before_removal']
+            assert outside.read_bytes()==b'preserve the original input'
+            assert retained.read_bytes()==b'retained science tape' and live.read_bytes()==b'active log'
+            assert not small_header.exists() and not (ROOT/'work/input-link').is_symlink()
+            assert not (ROOT/'work/empty').exists()
+            with tarfile.open(ROOT/'work-artifacts.tar.gz','r:gz') as tar:
+                assert tar.getmember('work/input-link').issym()
+                assert tar.extractfile(str(small_header.relative_to(ROOT))).read()==b'disposable tiny preflight header'
+            record=dict(completed=True,scope='Temporary-directory one-core unit control, not a Slurm allocation',
+                        checks=['verified archive contains original small bytes and symlink target',
+                                'external snapshot and retained tape/log unchanged',
+                                'small preflight header and empty directories consolidated'],
+                        archived_file_count=result['archived_file_count'],removed_directory_count=result['removed_directory_count'])
+            import hashlib
+            record['archiver_sha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+            (original_root/'archive-preflight.json').write_text(json.dumps(record,indent=2)+'\n')
+    finally:
+        ROOT=original_root
+        if original_job is None:os.environ.pop('SLURM_JOB_ID',None)
+        else:os.environ['SLURM_JOB_ID']=original_job
+
+
 if __name__=='__main__':
-    main()
+    import argparse
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--self-test',action='store_true')
+    args=parser.parse_args()
+    if args.self_test:self_test()
+    else:main()

@@ -17,11 +17,12 @@ import numpy as np
 import run_replays as r
 
 
-def routine(source, name):
-    match=re.search(r'^\s*subroutine\s+'+name+r'\b.*?^\s*end\s+subroutine\s+'+name+r'\b',
+def routine(source, name, kind='subroutine'):
+    qualifiers=r'(?:pure\s+logical\s+)?' if kind=='function' else ''
+    match=re.search(r'^\s*'+qualifiers+kind+r'\s+'+name+r'\b.*?^\s*end\s+'+kind+r'\s+'+name+r'\b',
                     source,re.I|re.M|re.S)
     assert match,name
-    return match.group()
+    return match.group().strip()
 
 
 def statistics(values):
@@ -31,7 +32,7 @@ def statistics(values):
                 percentiles={str(p):float(np.percentile(values,p)) for p in [0,16,50,84,100]})
 
 
-def compare(first,second,output):
+def compare(first,second,output,box):
     a=Path(first['membership']['retained_raw'])
     b=Path(second['membership']['retained_raw'])
     if not a.is_absolute():a=r.REPO/a
@@ -39,6 +40,7 @@ def compare(first,second,output):
     assert r.sha(a)==first['membership']['raw_sha256']
     assert r.sha(b)==second['membership']['raw_sha256']
     assert first['density']['sha256']==second['density']['sha256']
+    assert first['config_sha256']==second['config_sha256']
     assert first['membership']['candidates']==second['membership']['candidates']
     with np.load(a.with_suffix('.index.npz')) as saved:
         x={key:saved[key] for key in saved.files}
@@ -60,7 +62,7 @@ def compare(first,second,output):
         changes[name]=statistics(100*(yp[valid,column]/xp[valid,column]-1))
     drift=np.linalg.norm(yp[:,3:6]-xp[:,3:6],axis=1)
     position=yp[:,:3]-xp[:,:3]
-    position-=512.*np.rint(position/512.)
+    position-=box*np.rint(position/box)
     identical=0
     overlapping=[]
     with a.open('rb') as fa,b.open('rb') as fb:
@@ -129,13 +131,19 @@ def main():
     # Source proof of candidate alignment: FindMaxima is unchanged and each
     # physical pair uses identical config, density and candidate count.
     source_paths={key:Path(value['source_path']) for key,value in build['variants'].items()}
-    peaks={key:routine(path.read_text(),'FindMaxima') for key,path in source_paths.items()}
-    assert len(set(peaks.values()))==1
+    for key,path in source_paths.items():
+        assert r.sha(path)==build['variants'][key]['source_sha256']
+    for name,kind in [('FindMaxima','subroutine'),('SetOverdensity','subroutine'),('IsDensityMaximum','function')]:
+        definitions={key:routine(path.read_text(),name,kind) for key,path in source_paths.items()}
+        assert len(set(definitions.values()))==1,name
     result=dict(completed=False,started_at_utc=r.now(),job_id=os.environ['SLURM_JOB_ID'],
                 plan_sha256=r.sha(r.HERE/'plan.json'),build_sha256=r.sha(r.HERE/'build.json'),
                 driver_sha256=r.sha(__file__),fixed_density_32_64_thread_control=thread_control,
                 interpretation='V2 and V3 matched by the identical initial density-peak candidate ID. '
+                  'Unmatched rows are unmatched published candidate IDs, not a claim of new or lost physical objects. '
                   'Both matched masses must exceed 10^12.5 Msun/h for property percentage summaries. '
+                  'Each property additionally requires both values >0 to exclude unresolved sentinels. '
+                  'Membership overlap is |A intersection B| / max(|A|,|B|), not Jaccard. '
                   'The reported radius retains Rext and is not the unextended SO radius.',
                 performance={},epochs={},unbinding={})
     arrays={}
@@ -151,7 +159,7 @@ def main():
     for z in [2,1,0]:
         first,second=stages[64][f'z{z}-reference'],stages[64][f'z{z}-v3']
         epoch={}
-        left,right=compare(first,second,epoch)
+        left,right=compare(first,second,epoch,plan['spec']['box_mpc_h'])
         result['epochs'][str(z)]=epoch
         result['unbinding'][str(z)]={key:s['unbinding'] for key,s in [('v2',first),('v3',second)]}
         for label,stage,index in [('v2',first,left),('v3',second,right)]:

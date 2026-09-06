@@ -1,0 +1,12 @@
+{
+  "completed": true,
+  "scope": "Temporary-directory one-core unit control, not a Slurm allocation",
+  "checks": [
+    "verified archive contains original small bytes and symlink target",
+    "external snapshot and retained tape/log unchanged",
+    "small preflight header and empty directories consolidated"
+  ],
+  "archived_file_count": 2,
+  "removed_directory_count": 4,
+  "archiver_sha256": "5c6a8541cfbee7c9810ceda8ef88b9e62ce766be997740d5e94094ea8e6ee57d"
+}

@@ -1,7 +1,7 @@
 {
   "completed": true,
-  "driver_sha256": "4a1aab2496c9e9f7e80855baa4fd6f1a86a29f2a9e7b781d517a4d099c114327",
-  "elapsed_seconds": 0.005406219977885485,
-  "maxrss_kib": 41980,
+  "driver_sha256": "26c820d43e687e61fe6c42325a3ed915ce66585af9f57f81d71f2c90a7dad561",
+  "elapsed_seconds": 0.006473272107541561,
+  "maxrss_kib": 37888,
   "scope": "Small reductions and verbatim routine extraction. Full streaming/checker memory pilot is host-control job11949318."
 }
