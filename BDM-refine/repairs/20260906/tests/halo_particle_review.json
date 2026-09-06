@@ -1,0 +1,8 @@
+{
+  "particle_source_sha256": "9abe4bae688211e6571338e217a4e36ca3488f8cc7cfe272e8fb2beef5eded73",
+  "halo_source_sha256": "e8cb2c70f4dc36c1987099a2452ed895c18a69fe6f4c3c8406ba5e208465dcd0",
+  "build_returncode": 0,
+  "run_returncode": 0,
+  "stdout": "  Allocate exact periodic particle buffer:                     1                    2\n  time to make list =   0.00000000    \n OBSERVED_GATHER_COUNT           1\n EXACT_ORIGINAL_MINIMUM_IMAGE_DISTANCE  0.20000038295984268     \n GHOST_ROW_ID_DISTANCE                    2                    1  0.19999885559082031     \n",
+  "finding": "Additional positive ghost translation rounds float32 coordinates and changes an exact-radius membership decision; originals are unchanged float32 values."
+}

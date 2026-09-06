@@ -69,7 +69,7 @@ The tests extract the actual production routines and run checked/FP-trapping
 and optimized GNU builds. Independent oracles cover SO spacing and Rext,
 iterative spherical membership, direct geometric pair energies for cold/mixed
 controls, bound-only kinetic/bulk/RMS/spin/offset statistics, centre particles,
-unresolved Vmax, singular and clipped-domain rejection, reversed original-ID
-mapping and 1/2/4-thread candidate equality. Temporary build/run artifacts are
+unresolved Vmax, singular and clipped-domain rejection, sorted original-ID
+membership and 1/2/4-thread candidate equality. Temporary build/run artifacts are
 removed automatically. `halo_results.json` records source/test hashes and all
 checks. Full native finder replays are coordinated on the integration branch.

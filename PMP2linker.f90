@@ -1192,8 +1192,8 @@ integer*8 :: ic,ip,i
           endif
           nkeep=0
           do q=1,n
-            offset=[dble(Xpar(rows(q)))-dble(x),dble(Ypar(rows(q)))-dble(y), &
-                    dble(Zpar(rows(q)))-dble(z)]
+            call BdmParticlePosition(rows(q),offset)
+            offset=offset-[dble(x),dble(y),dble(z)]
             velocity=[dble(VX(rows(q))),dble(VY(rows(q))),dble(VZ(rows(q)))] &
                       -bulk+hubble_a*offset
             energy=.5d0*sum(velocity**2)-potential(q)
@@ -1216,8 +1216,8 @@ integer*8 :: ic,ip,i
         kinetic=0.d0; rms2=0.d0; centre=0.d0; angular=0.d0; tensor=0.d0
         maximum2=0.d0; maximum_radius=0.d0
         do q=1,n
-          offset=[dble(Xpar(rows(q)))-dble(x),dble(Ypar(rows(q)))-dble(y), &
-                  dble(Zpar(rows(q)))-dble(z)]
+          call BdmParticlePosition(rows(q),offset)
+          offset=offset-[dble(x),dble(y),dble(z)]
           velocity=[dble(VX(rows(q))),dble(VY(rows(q))),dble(VZ(rows(q)))] &
                     -bulk+hubble_a*offset
           kinetic=kinetic+sum(velocity**2)
@@ -1288,6 +1288,45 @@ integer*8 :: ic,ip,i
         endif
       end SUBROUTINE GetHalo
 
+! Recover the exact double-precision location of this explicit periodic image.
+! Float32 storage of x+Box loses low bits on the positive face; the original
+! row remains exact. Infer only the integer image shift from the stored ghost.
+! Keeping that shift (rather than minimum-imaging each row independently) also
+! ensures two explicit images cannot both enter one sub-half-box sphere.
+      pure real*8 function BdmParticleCoordinate(row,component) result(coordinate)
+        implicit none
+        integer*8, intent(in) :: row
+        integer, intent(in) :: component
+        integer*8 :: original
+        real*8 :: stored,base
+        original=row
+        if(allocated(OriginalParticleId)) original=OriginalParticleId(row)
+        select case(component)
+        case(1)
+          stored=dble(Xpar(row)); base=dble(Xpar(original))
+        case(2)
+          stored=dble(Ypar(row)); base=dble(Ypar(original))
+        case(3)
+          stored=dble(Zpar(row)); base=dble(Zpar(original))
+        case default
+          coordinate=0.d0
+          return
+        end select
+        coordinate=stored
+        if(allocated(OriginalParticleId)) &
+          coordinate=base+dble(nint((stored-base)/dble(Box)))*dble(Box)
+      end function BdmParticleCoordinate
+
+      SUBROUTINE BdmParticlePosition(row,position)
+        implicit none
+        integer*8, intent(in) :: row
+        real*8, intent(out) :: position(3)
+        integer :: component
+        do component=1,3
+          position(component)=BdmParticleCoordinate(row,component)
+        enddo
+      end SUBROUTINE BdmParticlePosition
+
 ! Candidate-local workspace: two exact-count list scans, no Np-sized temporary.
       SUBROUTINE BdmHaloGather(x,y,z,radius,rows,radii)
         implicit none
@@ -1297,7 +1336,7 @@ integer*8 :: ic,ip,i
         real*8, allocatable, intent(out) :: radii(:)
         integer :: i1,i2,j1,j2,k1,k2,i,j,k,n,pass
         integer*8 :: jp
-        real*8 :: distance2
+        real*8 :: distance2,offset(3)
         call Limits(x,y,z,nearest(real(radius),1.),i1,i2,j1,j2,k1,k2)
         do pass=1,2
           n=0
@@ -1306,8 +1345,9 @@ integer*8 :: ic,ip,i
           do i=i1,i2
             jp=Label(i,j,k)
             do while(jp/=0)
-              distance2=(dble(Xpar(jp))-dble(x))**2+(dble(Ypar(jp))-dble(y))**2 &
-                        +(dble(Zpar(jp))-dble(z))**2
+              call BdmParticlePosition(jp,offset)
+              offset=offset-[dble(x),dble(y),dble(z)]
+              distance2=sum(offset**2)
               if(distance2<=radius**2)then
                 n=n+1
                 if(pass==2)then
@@ -1446,13 +1486,13 @@ SUBROUTINE FindDistinctCandidates
   integer*8 :: jp,nn
   integer :: im,iter,i1,i2,j1,j2,k1,k2,i3,j3,k3
   real :: x,y,z,Radius,timeStart,timeFinish
-  real*8 :: xc,yc,zc,xv,yv,zv,dx,dy,dz,d0
+  real*8 :: xc,yc,zc,xv,yv,zv,dx,dy,dz,d0,position(3)
 
   timeStart=seconds()
   Mvir=0.; Rvir=0.; VxMaxx=0.; VyMaxx=0.; VzMaxx=0.
   do iter=1,4
 !$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE(im,x,y,z,xc,yc,zc,xv,yv,zv,nn,i3,j3,k3,i1,i2,j1,j2,k1,k2,jp,dx,dy,dz,Radius,d0)
+!$OMP PRIVATE(im,x,y,z,xc,yc,zc,xv,yv,zv,nn,i3,j3,k3,i1,i2,j1,j2,k1,k2,jp,dx,dy,dz,Radius,d0,position)
     do im=1,Nmaxima
       x=xMaxx(im); y=yMaxx(im); z=zMaxx(im)
       xc=0.d0; yc=0.d0; zc=0.d0
@@ -1465,9 +1505,10 @@ SUBROUTINE FindDistinctCandidates
       do i3=i1,i2
         jp=Label(i3,j3,k3)
         do while(jp/=0_8)
-          dx=dble(Xpar(jp))-dble(x)
-          dy=dble(Ypar(jp))-dble(y)
-          dz=dble(Zpar(jp))-dble(z)
+          call BdmParticlePosition(jp,position)
+          dx=position(1)-dble(x)
+          dy=position(2)-dble(y)
+          dz=position(3)-dble(z)
           if(dx*dx+dy*dy+dz*dz<d0)then
             ! Sum local displacements: the centre must remain in its cloud,
             ! independently of the absolute box location or particle count.
@@ -1691,9 +1732,9 @@ SUBROUTINE List
   if(omp_get_max_threads()==1.or.Np<10000_8)then
     Label=0_8
     do jp=1,Np
-      i=min(max(Nmx,ceiling(Xpar(jp)/Cell)-1),Nbx)
-      j=min(max(Nmy,ceiling(Ypar(jp)/Cell)-1),Nby)
-      k=min(max(Nmz,ceiling(Zpar(jp)/Cell)-1),Nbz)
+      i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)
+      j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)
+      k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)
       Lst(jp)=Label(i,j,k)
       Label(i,j,k)=jp
     enddo
@@ -1718,12 +1759,12 @@ SUBROUTINE List
 !$OMP END DO
     if(lo<=hi)then
       do jp=1,Np
-        k=min(max(Nmz,ceiling(Zpar(jp)/Cell)-1),Nbz)
+        k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)
         if(k<lo.or.k>hi)cycle
         ! The complete z scan remains O(T*Np). Compute the other two indices
         ! only for this slab, avoiding repeated x/y reads and cell arithmetic.
-        i=min(max(Nmx,ceiling(Xpar(jp)/Cell)-1),Nbx)
-        j=min(max(Nmy,ceiling(Ypar(jp)/Cell)-1),Nby)
+        i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)
+        j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)
         Lst(jp)=Label(i,j,k)
         Label(i,j,k)=jp
       enddo
@@ -1755,9 +1796,9 @@ end SUBROUTINE List
              EndDo
           EndDo       
       Do jp=1,Nmaxima
-         i=Ceiling(Xmaxx(jp)/Cell)-1
-         j=Ceiling(Ymaxx(jp)/Cell)-1
-         k=Ceiling(Zmaxx(jp)/Cell)-1
+         i=Ceiling(dble(Xmaxx(jp))/dble(Cell))-1
+         j=Ceiling(dble(Ymaxx(jp))/dble(Cell))-1
+         k=Ceiling(dble(Zmaxx(jp))/dble(Cell))-1
          i=MIN(MAX(Nmx,i),Nbx)
          j=MIN(MAX(Nmy,j),Nby)
          k=MIN(MAX(Nmz,k),Nbz)
@@ -1886,12 +1927,12 @@ end SUBROUTINE List
 !              find limits for the linker-list search
       SUBROUTINE Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
 !----------------------------------------------------------------------------
-           i2=Ceiling((x+Radius)/Cell)-1  
-           j2=Ceiling((y+Radius)/Cell)-1  
-           k2=Ceiling((z+Radius)/Cell)-1 
-           i1=Ceiling((x-Radius)/Cell)-1  
-           j1=Ceiling((y-Radius)/Cell)-1  
-           k1=Ceiling((z-Radius)/Cell)-1 
+           i2=Ceiling((dble(x)+dble(Radius))/dble(Cell))-1
+           j2=Ceiling((dble(y)+dble(Radius))/dble(Cell))-1
+           k2=Ceiling((dble(z)+dble(Radius))/dble(Cell))-1
+           i1=Ceiling((dble(x)-dble(Radius))/dble(Cell))-1
+           j1=Ceiling((dble(y)-dble(Radius))/dble(Cell))-1
+           k1=Ceiling((dble(z)-dble(Radius))/dble(Cell))-1
  
             i1=MIN(MAX(Nmx,i1),Nbx) 
             j1=MIN(MAX(Nmy,j1),Nby)

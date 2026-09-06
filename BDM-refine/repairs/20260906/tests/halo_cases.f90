@@ -64,7 +64,7 @@ program halo_cases
   endif
   VX=0.;VY=0.;VZ=0.
   do q=1,n
-    OriginalParticleId(q)=n-q+1
+    OriginalParticleId(q)=q
     if(trim(which)=='hot_shell')then
       VX(q)=(-1.)**q*2000.
       if(q<=100)VX(q)=(-1.)**q*500.
