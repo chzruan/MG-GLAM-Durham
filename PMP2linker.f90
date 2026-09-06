@@ -78,6 +78,10 @@ integer, parameter :: HaloTooFewParticles=1, HaloSearchTruncated=2, &
                       HaloUnresolvedVmax=4, HaloNoBoundParticles=8, &
                       HaloSingularCentre=16
 integer, allocatable :: HaloStatus(:)
+! Per-candidate work diagnostics do not alter the converged bound population.
+! A pass counts one evaluation of the current potential, drift and energies.
+integer, allocatable :: HaloUnbindingPasses(:)
+integer*8, allocatable :: HaloUnbindingWork(:)
 Real*4    ::                     RadMax
 Real*4,        ALLOCATABLE,   DIMENSION(:) ::                        &    ! maxima of density
                                  Mvir,Rvir,Mtotal,VmaxM,RmaxM,       &
@@ -226,6 +230,14 @@ Contains
       DEALLOCATE(Xax,Yax,Zax,Axba,Axca)
       if(allocated(BoundParticleIds))deallocate(BoundParticleIds)
       if(allocated(HaloStatus))deallocate(HaloStatus)
+      if(allocated(HaloUnbindingPasses))then
+        released=Memory(-1_8*size(HaloUnbindingPasses,kind=8))
+        deallocate(HaloUnbindingPasses)
+      endif
+      if(allocated(HaloUnbindingWork))then
+        released=Memory(-2_8*size(HaloUnbindingWork,kind=8))
+        deallocate(HaloUnbindingWork)
+      endif
       released=Memory(-22_8*Nmaxima)
       end SUBROUTINE ReleaseMaxima
 
@@ -563,6 +575,18 @@ SUBROUTINE WriteFiles
      write(*,'(a,5i10)') ' BDM status [few, SO cap, Vmax, no bound, singular centre]:', &
        count(btest(HaloStatus,0)),count(btest(HaloStatus,1)), &
        count(btest(HaloStatus,2)),count(btest(HaloStatus,3)),count(btest(HaloStatus,4))
+   endif
+   if(allocated(HaloUnbindingPasses).and.allocated(HaloUnbindingWork))then
+     if(size(HaloUnbindingPasses)>0)then
+       write(*,'(a,3i18)') ' BDM unbinding [candidates, max passes, active particle rows]:', &
+         count(HaloUnbindingPasses>0),maxval(HaloUnbindingPasses),sum(HaloUnbindingWork)
+       write(*,'(a,7i12)') ' BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:', &
+         count(HaloUnbindingPasses==1),count(HaloUnbindingPasses==2), &
+         count(HaloUnbindingPasses>=3.and.HaloUnbindingPasses<=4), &
+         count(HaloUnbindingPasses>=5.and.HaloUnbindingPasses<=8), &
+         count(HaloUnbindingPasses>=9.and.HaloUnbindingPasses<=16), &
+         count(HaloUnbindingPasses>=17.and.HaloUnbindingPasses<=32),count(HaloUnbindingPasses>32)
+     endif
    endif
    do ip=1,Nmaxima
      if(.not.all(ieee_is_finite([xMaxx(ip),yMaxx(ip),zMaxx(ip), &
@@ -1109,10 +1133,13 @@ integer*8 :: ic,ip,i
 
         ! ParametersDistinct allocates before entering its parallel loop. The
         ! guarded path also supports direct, sequential calls used by tests.
-        if(.not.allocated(BoundParticleIds)) call BdmHaloMembershipInit
+        if(.not.allocated(BoundParticleIds).or..not.allocated(HaloUnbindingPasses).or. &
+           .not.allocated(HaloUnbindingWork)) call BdmHaloMembershipInit
         if(size(BoundParticleIds)/=Nmaxima) error stop 'BDM membership size mismatch'
         if(allocated(BoundParticleIds(ip)%ids)) deallocate(BoundParticleIds(ip)%ids)
         HaloStatus(ip)=0
+        HaloUnbindingPasses(ip)=0
+        HaloUnbindingWork(ip)=0_8
         Mvir(ip)=0.; Mtotal(ip)=0.; Rvir(ip)=0.
         VmaxM(ip)=0.; RmaxM(ip)=0.; EkinM(ip)=0.; EpotM(ip)=0.
         VxMaxx(ip)=0.; VyMaxx(ip)=0.; VzMaxx(ip)=0.
@@ -1208,6 +1235,8 @@ integer*8 :: ic,ip,i
         ! No removed particle contributes to the next potential or drift.
         do iteration=1,n+1
           if(n==0) exit
+          HaloUnbindingPasses(ip)=iteration
+          HaloUnbindingWork(ip)=HaloUnbindingWork(ip)+int(n,kind=8)
           bulk=0.d0
           do q=1,n
             bulk=bulk+[dble(VX(rows(q))),dble(VY(rows(q))),dble(VZ(rows(q)))]
@@ -1514,12 +1543,25 @@ integer*8 :: ic,ip,i
 
       SUBROUTINE BdmHaloMembershipInit
         implicit none
+        real :: memoryUsed
         ! Called before the production parallel loop, or from a direct fixture.
 !$OMP CRITICAL (bdm_halo_membership_init)
         if(allocated(BoundParticleIds)) deallocate(BoundParticleIds)
         if(allocated(HaloStatus)) deallocate(HaloStatus)
+        if(allocated(HaloUnbindingPasses))then
+          memoryUsed=Memory(-1_8*size(HaloUnbindingPasses,kind=8))
+          deallocate(HaloUnbindingPasses)
+        endif
+        if(allocated(HaloUnbindingWork))then
+          memoryUsed=Memory(-2_8*size(HaloUnbindingWork,kind=8))
+          deallocate(HaloUnbindingWork)
+        endif
         allocate(BoundParticleIds(Nmaxima),HaloStatus(Nmaxima))
+        allocate(HaloUnbindingPasses(Nmaxima),HaloUnbindingWork(Nmaxima))
+        memoryUsed=Memory(3_8*Nmaxima)
         HaloStatus=0
+        HaloUnbindingPasses=0
+        HaloUnbindingWork=0_8
 !$OMP END CRITICAL (bdm_halo_membership_init)
       end SUBROUTINE BdmHaloMembershipInit
 
