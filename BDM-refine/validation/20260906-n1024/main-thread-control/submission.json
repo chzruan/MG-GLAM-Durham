@@ -1,0 +1,60 @@
+{
+  "prepared_at_utc": "2026-09-06T13:29:54.066493+00:00",
+  "command": [
+    "sbatch",
+    "--parsable",
+    "--dependency=afterok:11948372",
+    "--chdir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control",
+    "--output=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/slurm-%j.log",
+    "--error=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/slurm-%j.log",
+    "--export=ALL,BDM_MAIN_THREAD_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/launch/control.sbatch",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/launch/run_control.py",
+    "--plan-sha256",
+    "6458cbef0baee79f70414da50b5d9983665eb136c83464a3c1585038d6d90645"
+  ],
+  "dependencies": [
+    "afterok:11948372"
+  ],
+  "resources": {
+    "partition": "cosma8-serial",
+    "account": "dp004",
+    "cpus": 64,
+    "mem": "288G",
+    "time_limit_seconds": 2700,
+    "expected_seconds_range": [
+      600,
+      1200
+    ],
+    "expected_core_hours_range": [
+      10.666666666666666,
+      21.333333333333332
+    ],
+    "time_limit_core_hours": 48,
+    "exclusive": false,
+    "pilot_job": "11948371",
+    "pilot_batch_maxrss_kib": 31325680,
+    "pilot_native_maxrss_kib": 20359012,
+    "volume_multiplier": 8,
+    "headroom_factor": 1.2,
+    "projected_batch_gib": 238.9959716796875,
+    "projected_with_headroom_gib": 286.795166015625,
+    "memory_accounting": "N1024 adds one immutable 32 GiB FI copy and 24 GiB saved particle bits. The active 32 GiB FI is separate and BDM frees/reallocates it. Two 32 GiB output tapes are written sequentially to disk, not held as two saved FI arrays. Measured N512 batch RSS includes transient allocations and page cache; volume scaling plus 20 percent headroom gives 286.80 GiB, rounded to 288 GiB.",
+    "packing": "Six sequential native BDM calls use at most 64 threads. The shared request leaves 64 cores schedulable, allowing the independent 64-core 192 GiB normal validation concurrently."
+  },
+  "plan_sha256": "6458cbef0baee79f70414da50b5d9983665eb136c83464a3c1585038d6d90645",
+  "build_sha256": "9989b0fefdc1f8623ae457edc333be688dd15cf264af1a7e72be205065121032",
+  "script_sha256": {
+    "run_control.py": "52cc1e40cf0f5bebc7e73257d0ff8beb9115014c143dc4ee552648b2e83a28c7",
+    "control.sbatch": "a25258c6f99044c86a807976dd76516ee13176c1ee212f47d2dd6399469035b3"
+  },
+  "driver_controls_sha256": "f52853e9cfe9ce57483af29637972f9142f764c8f61d1b73a6823e40ccd3c848",
+  "submitter_sha256": "cb8c50552f2a35d08b3fa0b5e7cfd59fefbd84d3a91421cad145ff391dffdc55",
+  "commit": "bec39a3f6594d10407c4c0fb96c6c22e10603798",
+  "submitted_at_utc": "2026-09-06T13:29:54.245200+00:00",
+  "submission_returncode": 0,
+  "stdout": "11948491\n",
+  "stderr": "",
+  "job_id": "11948491",
+  "scontrol": "JobId=11948491 JobName=bdm-n1024-fixed-fi\n   UserId=dc-ruan1(21209) GroupId=durham(64528) MCS_label=N/A\n   Priority=18444 Nice=0 Account=dp004 QOS=normal\n   JobState=PENDING Reason=Dependency Dependency=afterok:11948372(unfulfilled)\n   Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0\n   RunTime=00:00:00 TimeLimit=00:45:00 TimeMin=N/A\n   SubmitTime=2026-09-06T14:29:54 EligibleTime=Unknown\n   AccrueTime=Unknown\n   StartTime=Unknown EndTime=Unknown Deadline=N/A\n   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-06T14:29:54 Scheduler=Main\n   Partition=cosma8-serial AllocNode:Sid=login8b.pri.cosma.local:1029439\n   ReqNodeList=(null) ExcNodeList=(null)\n   NodeList=\n   NumNodes=1-1 NumCPUs=64 NumTasks=1 CPUs/Task=64 ReqB:S:C:T=0:0:*:*\n   ReqTRES=cpu=64,mem=288G,node=1,billing=64\n   AllocTRES=(null)\n   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*\n   MinCPUsNode=64 MinMemoryNode=288G MinTmpDiskNode=0\n   Features=(null) DelayBoot=00:00:00\n   OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)\n   Command=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/launch/control.sbatch\n   SubmitLine=sbatch --parsable --dependency=afterok:11948372 --chdir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control --output=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/slurm-%j.log --error=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/slurm-%j.log --export=ALL,BDM_MAIN_THREAD_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control /cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/launch/control.sbatch /cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/launch/run_control.py --plan-sha256 6458cbef0baee79f70414da50b5d9983665eb136c83464a3c1585038d6d90645\n   WorkDir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control\n   StdErr=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/slurm-11948491.log\n   StdIn=/dev/null\n   StdOut=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/slurm-11948491.log\n   TresPerTask=cpu=64\n\n"
+}
