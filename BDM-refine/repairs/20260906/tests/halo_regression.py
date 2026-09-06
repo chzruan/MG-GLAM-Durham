@@ -27,7 +27,7 @@ SOURCE=REPO/'PMP2linker.f90'
 
 
 def extract(source,name,kind='subroutine'):
-    pattern=rf'^\s*(?:real\s+)?{kind}\s+{name}\b.*?^\s*end\s+{kind}\s+{name}\b[^\n]*'
+    pattern=rf'^\s*(?:pure\s+)?(?:real(?:\*8)?\s+)?{kind}\s+{name}\b.*?^\s*end\s+{kind}\s+{name}\b[^\n]*'
     found=re.search(pattern,source,re.I|re.M|re.S)
     if not found: raise ValueError(name)
     return found.group()
@@ -71,8 +71,9 @@ contains
 '''
     names=['GetHalo','BdmHaloGather','BdmHaloSortRadii','BdmHaloSortIds',
            'BdmHaloSphericalPotential','BdmHaloMembershipInit','ParametersDistinct',
-           'List','Limits','EigenValues']
-    generated='\n'.join(modules)+'\n'+stub+'\n'.join(extract(source,n) for n in names)+'\nend module\n'
+           'List','Limits','EigenValues','BdmParticlePosition']
+    generated='\n'.join(modules)+'\n'+stub+'\n'.join(extract(source,n) for n in names)
+    generated+='\n'+extract(source,'BdmParticleCoordinate','function')+'\nend module\n'
     (work/'source.f90').write_text(generated+(HERE/'halo_cases.f90').read_text())
     builds={}
     for mode,flags in [('checked',['-O0','-g','-fcheck=all','-ffpe-trap=invalid,zero,overflow']),
@@ -142,9 +143,10 @@ def run(work,name,mode='checked',threads=1,argument=None):
         assert np.all(np.isfinite(measured)),(name,measured)
         phase=np.fromfile(Path(run_dir)/'phase.bin',dtype=np.float32).reshape(6,-1).T.astype(np.float64)
         ids=np.fromfile(Path(run_dir)/'members.bin',dtype=np.int64)
-        # Fixture assigns reversed original IDs to test actual mapping/sort.
+        # Original rows map to themselves; the production radial and linked
+        # list orders differ from the ascending final identity order.
         selected=np.zeros(len(phase),dtype=bool)
-        selected[len(phase)-ids]=True
+        selected[ids-1]=True
         assert np.all(ids[:-1]<ids[1:]),ids
         assert len(np.unique(ids))==len(ids)
         row=measured[0]

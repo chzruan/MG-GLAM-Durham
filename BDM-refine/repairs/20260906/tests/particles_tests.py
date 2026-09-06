@@ -17,8 +17,8 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[3]
 
 
-def extract(source, name):
-    pattern = rf'^\s*subroutine\s+{name}\b.*?^\s*end\s+subroutine\s+{name}\b[^\n]*'
+def extract(source, name, kind='subroutine'):
+    pattern = rf'^\s*(?:pure\s+)?(?:real\*8\s+)?{kind}\s+{name}\b.*?^\s*end\s+{kind}\s+{name}\b[^\n]*'
     match = re.search(pattern, source, re.I | re.M | re.S)
     if not match:
         raise ValueError(name)
@@ -50,8 +50,9 @@ use Tools
 contains
 '''
     names = ['FindDistinctCandidates', 'List', 'Limits', 'RescaleCoords',
-             'AddBuffer', 'RemoveBuffer', 'PrepareParticleSearch', 'SizeList']
+             'AddBuffer', 'RemoveBuffer', 'PrepareParticleSearch', 'SizeList', 'BdmParticlePosition']
     generated = structures + '\n' + stub + '\n'.join(extract(source, name) for name in names)
+    generated += '\n' + extract(source, 'BdmParticleCoordinate', 'function')
     generated += '\nend module\n' + (HERE/'particles_cases.f90').read_text()
     (destination/'particle_cases.f90').write_text(generated)
     flags = ['-O0', '-g', '-fcheck=all', '-ffpe-trap=invalid,zero,overflow'] if mode == 'checked' else ['-O3']
