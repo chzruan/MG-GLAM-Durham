@@ -66,3 +66,48 @@ in `submission.json`. The plan hash is passed explicitly to the frozen runner.
 Retain `work/run` logs, catalogues, peak tapes, both exact density tapes and
 all receipts until archive/relocation has been verified. This directory's
 evidence is independent of the earlier pilot evidence.
+
+## Completed result: job 11948491
+
+The job completed on 2026-09-06 with both fixed-field groups passing strict
+catalogue byte equality. Every catalogue contains **147,042 rows**. All six
+restored fields matched exactly, all six calls restored the original particle
+arrays bit-for-bit, and the snapshot/config hashes still matched after the
+experiment. Actual final snapshot step was **158**, selected from the completed
+main simulation receipt rather than assumed from the pilot.
+
+The two density fields differ in **46,743,773 cells**, with maximum absolute
+`FI` difference **0.06640625**. Their **794,570 peak indices and positions are
+identical**; 204,646 peak density values and 67,074 empirical seed radii differ.
+Changing only the saved field changes seven published rows: 23225, 26108,
+62218, 65341, 66851, 94799 and 99155. The largest coordinate-component change is
+0.0007 Mpc/h. Six rows keep the same bound mass, count and bulk velocity. Row
+99155 changes bound count from 2564 to 2566 and printed bound mass from
+2.7463e13 to 2.7485e13 Msun/h (about 0.080%). These differences remain recorded
+as numerical density sensitivity; no acceptance thresholds were relaxed.
+
+The controlled `d64` catalogue exactly matches the main inline 64-thread
+catalogue. The controlled `d32` catalogue exactly matches the normal 32-thread
+baseline. Separate normal 64-thread baseline and membership runs differ from
+`d64`/inline in one additional row, 7383, in total mass, offset and virial ratio
+columns. This illustrates variation between separate normal density
+realizations even at the same configured thread count. The state replay was
+still pending when optional comparisons were collected, as explicitly recorded
+in the immutable result. Changing finder threads with a frozen field changes
+no catalogue bytes in this experiment; this is a bounded control rather than a
+claim that every possible finder input is free of races.
+
+The six finder times were 174.35, 110.76, 179.66, 107.18, 178.20 and 104.17 s.
+Native elapsed time was 1007.35 s and process MaxRSS was 159,517,752 KiB
+(152.13 GiB). The complete allocation lasted **1151 s**, billed **20.4622
+core-hours**, and consumed **29,429 CPU seconds** (39.95% CPU utilization).
+Measured batch MaxRSS was **198,231,384 KiB (189.05 GiB)**, leaving 34.36% of the
+288 GiB memory request unused. Requested and allocated TRES both record
+64 CPUs, 288 GiB, one shared node and billing=64. The run stayed inside its
+10–20 minute estimate and 48 core-hour time limit.
+
+`results.json` contains full row differences and the hashes of both exact
+32 GiB density tapes. `accounting.json` preserves final `sacct` output and cost
+calculation. `successful-probe.log.gz` is the complete native log compressed
+without changing its contents. All raw output, inputs and frozen build files
+remain at their receipt paths for verified consolidation.
