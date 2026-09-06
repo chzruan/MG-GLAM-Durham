@@ -120,7 +120,7 @@ case('write_valid','write_nonfinite','write_zero_potential','write_wrong_mass')
   if(trim(which)=='write_nonfinite')Mvir=ieee_value(1.,ieee_quiet_nan)
   if(trim(which)=='write_zero_potential')EpotM=0.
   if(trim(which)=='write_wrong_mass')Mvir=2.*Mvir
-  open(12,file='catalogue.dat',status='replace')
+  call BeginCataloguePublication('catalogue.dat')
   call WriteFiles
   if(Nhalo/=1)error stop 'writer lost valid row'
 case default
@@ -151,7 +151,8 @@ use Tools
 use BdmDuplicateRules
 contains
 '''
-    names = ['MergeNumericalDuplicates', 'RemoveDuplicates', 'ListMaxima', 'Limits', 'EigenValues', 'WriteFiles']
+    names = ['MergeNumericalDuplicates', 'RemoveDuplicates', 'ListMaxima', 'Limits', 'EigenValues', 'WriteFiles',
+             'BeginCataloguePublication', 'PublishCatalogue']
     generated = '\n'.join(modules)+'\n'+stub+'\n'.join(routine(source, name) for name in names)
     generated += routine(source, 'Concentration', 'function')+'\nend module\n'+DRIVER
     rng = np.random.default_rng(62813)

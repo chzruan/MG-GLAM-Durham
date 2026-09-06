@@ -27,7 +27,7 @@ program peaks_cases
   case('configuration')
     call ReadParameters(1)
     call SetParameters
-    close(12)
+    call PublishCatalogue
     allocate(FI(NGRID,NGRID,NGRID)); FI=0.
     FI(4,4,4)=1000.; FI(12,12,12)=100.
     call FindMaxima
