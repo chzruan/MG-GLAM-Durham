@@ -28,6 +28,15 @@ def number(value):
     return f'{int(value):,}'.replace(',', '{,}')
 
 
+def atomic_text(path, text):
+    staged = path.with_name(path.name+'.tmp')
+    with staged.open('w') as stream:
+        stream.write(text)
+        stream.flush()
+        os.fsync(stream.fileno())
+    staged.replace(path)
+
+
 def main():
     inputs = {name: ROOT/path for name, path in dict(
         simulation='main-simulation.json', validation='main-validation.json',
@@ -45,8 +54,13 @@ def main():
     assert control['source_sha256'] == simulation['spec']['sources_sha256']
     assert control['fixed_density_controls_passed']
     assert all(pair['byte_identical'] for pair in control['fixed_density_comparisons'])
+    assert control['restoration']['fixed_density_verified'] == 6
+    assert control['restoration']['particle_restoration_verified'] == 6
+    assert control['restoration']['exact_original_particle_bits']
     assert comparison['input_npz_sha256'] == sha(ROOT/'main-verified-comparison-catalogues.npz')
     assert comparison['metadata_sha256'] == sha(inputs['metadata'])
+    assert reports['metadata']['validation_receipt_sha256'] == sha(inputs['validation'])
+    assert reports['metadata']['simulation_receipt_sha256'] == sha(inputs['simulation'])
     assert reports['plots']['figure_receipt_sha256'] == sha(inputs['figure_receipt'])
     assert reports['figure_receipt']['summary_sha256'] == sha(inputs['comparison'])
     for name, expected in reports['figure_receipt']['figures_sha256'].items():
@@ -71,6 +85,9 @@ def main():
                     'mass_count_mismatches', 'host_exclusion_violations']:
             assert membership[key] == 0
         epoch = comparison['epochs'][f'z{z}']
+        provenance = reports['metadata']['plotted_refined_catalogues'][f'z{z}']
+        assert provenance['catalogue'] == record['catalogue']
+        assert provenance['membership'] == membership
         assert epoch['catalogues']['new']['rows'] == membership['selected']
         assert epoch['quality']['new']['axis_order']['invalid_count'] == 0
         assert epoch['catalogues']['new']['nonfinite_any_rows'] == 0
@@ -105,7 +122,16 @@ def main():
                   new_over_old=baseline['elapsed_seconds']/old_baseline['elapsed_seconds'], threads=64,
                   scope='Single standard standalone run of each finder on the same z0 snapshot; '
                         'includes read/density/finder/output, excludes Python input hashing and diagnostic dumps')
-    summary = dict(completed=True, created_at_utc=datetime.now(timezone.utc).isoformat(),
+    controlled_times = {threads: [r['seconds'] for r in control['native_finder_timings']
+        if r['tag'].startswith(f'd64-t{threads}-')] for threads in [32, 64]}
+    assert all(len(values) == 2 and all(value > 0 for value in values) for values in controlled_times.values())
+    controlled_medians = {threads: float(np.median(values)) for threads, values in controlled_times.items()}
+    speedup = controlled_medians[32]/controlled_medians[64]
+    parallel = dict(seconds=controlled_times, median_seconds=controlled_medians,
+                    speedup_32_to_64=speedup, efficiency_relative_to_doubling=speedup/2,
+                    scope='Two repeats per thread count on the same first immutable density field '
+                        'within the diagnostic allocation; includes BDM(0) only, with probe memory overhead')
+    summary = dict(completed=False, created_at_utc=datetime.now(timezone.utc).isoformat(),
         generator_sha256=sha(__file__), input_sha256={k: sha(p) for k, p in inputs.items()},
         physics=physics, normal_density_comparisons=normal,
         fixed_density_control=dict(job_id=control['job_id'], passed=True,
@@ -115,9 +141,9 @@ def main():
             statement='Conservative positional matches, with both old and new catalogued masses '
                       'above the z0 literature guidance line; property-specific validity/shape filters apply.'),
         headline_properties=headline_properties, standard_finder_timing=timing,
+        controlled_thread_timing=parallel,
         active_jobs=active_jobs, total_billed_core_hours=accounting['total_billed_core_hours'],
         limitations=comparison['limitations'])
-    (ROOT/'validation-summary.json').write_text(json.dumps(summary, indent=2, allow_nan=False)+'\n')
 
     rows = '\n'.join(f'{z} & {number(physics[f"z{z}"]["old_rows"])} & '
         f'{number(physics[f"z{z}"]["refined_rows"])} & 0 & 0 \\\\' for z in [2, 1, 0])
@@ -126,15 +152,19 @@ def main():
         normal_statement = 'Ordinary replays also match the inline outputs in this realization.'
     elif all(r.get('same_shape') for r in normal):
         normal_statement = (f'Ordinary density recomputation changes up to {number(max(changed))} '
-            'printed rows per replay. Fixed-field checks isolate finder threading.')
+            'printed rows per replay; see the numerical appendix.')
     else:
         normal_statement = 'Ordinary density recomputation also changes selection or order; '
         normal_statement += 'the separate replay differences are retained explicitly.'
     between = control['between_density_comparison']
     if between.get('first_rows') == between.get('second_rows') and 'changed_rows' in between:
-        numerical_appendix = (f'At $1024^3$, changing the density field changes '
-            f'{number(between["changed_rows"])} printed rows; each fixed-field 32/64-thread '
-            'group remains identical. Rowwise differences do not establish particle identity.')
+        assert len(between['rows']) == between['changed_rows']
+        count_changes = sum(row['first'][13] != row['second'][13] for row in between['rows'])
+        count_statement = ('one bound-particle count' if count_changes == 1 else
+                           f'{number(count_changes)} bound-particle counts')
+        numerical_appendix = (f'$1024^3$: changing the density field changes '
+            f'{number(between["changed_rows"])} of {number(between["first_rows"])} rows, '
+            f'including {count_statement}. Each fixed-field 32/64-thread group is identical.')
     else:
         numerical_appendix = ('At $1024^3$, each fixed-field 32/64-thread group is identical; '
                               'different density fields produce different selections or ordering.')
@@ -144,31 +174,34 @@ def main():
         return values[1]
     main_job = accounting['jobs'][str(simulation['job_id'])]
     macros = dict(
-        ValidationHeadline='Direct membership and host checks pass at all three epochs',
+        ValidationHeadline='Membership and host checks pass',
         ValidationRows=rows,
-        StateResult='At $z=0$, two ordinary and six controlled calls restore all six particle arrays, sizes and counts exactly.',
-        ThreadResult='For each fixed density field, the tested 32/64-thread finder catalogues are byte-identical at $z=0$.',
+        StateResult='Eight $z=0$ calls preserve all six particle arrays bit for bit, including sizes and counts.',
+        ThreadResult='At $z=0$, each tested fixed density field gives identical catalogues at 32 and 64 threads.',
         NormalDensityResult=normal_statement,
-        ConclusionsHeadline='The full refinement changes both abundance and internal properties',
-        CountConclusion=f'At $z=0$, published haloes change from {number(z0["old_rows"])} to '
-            f'{number(z0["refined_rows"])} ({z0["count_change_percent"]:+.1f}\\%). '
-            'This combines the configuration, membership, property and duplicate repairs.',
+        ConclusionsHeadline='Abundance and halo properties change',
+        CountConclusion=f'At $z=0$: {number(z0["old_rows"])} to '
+            f'{number(z0["refined_rows"])} haloes ({z0["count_change_percent"]:+.1f}\\%). '
+            'Several physics and configuration repairs contribute.',
         PropertyConclusion=f'For matched $z=0$ haloes with both masses above $10^{{12.5}}\\,\\msunh$, '
             f'median changes are {median("mass"):+.1f}\\% in mass, {median("radius"):+.1f}\\% '
-            f'in radius and {median("vmax"):+.1f}\\% in $V_\\mathrm{{max}}$.',
-        NumericalConclusion='No identical bound sets or host-priority violations survive in the checked '
-            'catalogues. Density rounding sensitivity and resolution limits remain documented.',
+            f'in radius and {median("vmax"):+.2f}\\% in $V_\\mathrm{{max}}$.',
+        NumericalConclusion='No identical bound sets or host-exclusion violations survive in the checked refined catalogues.',
         MainNumericalAppendix=numerical_appendix,
-        ResourceResult=f'Shared COSMA8 allocations. Evolution: {main_job["elapsed_seconds"]/60:.1f} min on 64 cores; '
+        ResourceResult=f'Shared COSMA8 allocations. Simulation job: {main_job["elapsed_seconds"]/60:.1f} min on 64 cores; '
             f'batch peak {main_job["maxrss_gib"]:.1f} GiB, allocated 192 GiB.',
         TimingResult=f'Standard $z=0$ replay at 64 threads: pre-audit {timing["old_seconds"]:.1f} s, '
             f'refined {timing["new_seconds"]:.1f} s ({timing["new_over_old"]:.2f}$\\times$). '
             'The refined finder performs additional SO and iterative-unbinding work.',
+        ParallelResult=f'Controlled $32\\rightarrow64$ threads: {speedup:.2f}$\\times$ speedup '
+            f'({100*speedup/2:.0f}\\% of ideal doubling); two repeats per thread count on one fixed field.',
         RefinedCommit=simulation['spec']['new_finder_commit'][:12],
         JobResult='Simulation, replay, fixed-field and plot jobs: '+', '.join(active_jobs)+'.')
     text = '% Generated only from completed, verified evidence by summarize_validation.py\n'
     text += '\n'.join('\\newcommand{\\'+key+'}{'+value+'}' for key, value in macros.items())+'\n'
-    (ROOT/'slides/validation_results.tex').write_text(text)
+    atomic_text(ROOT/'slides/validation_results.tex', text)
+    summary.update(completed=True, results_tex_sha256=sha(ROOT/'slides/validation_results.tex'))
+    atomic_text(ROOT/'validation-summary.json', json.dumps(summary, indent=2, allow_nan=False)+'\n')
     print(json.dumps(dict(physics={k: {n: r[n] for n in ['old_rows', 'refined_rows', 'matched_pairs',
           'count_change_percent']} for k, r in physics.items()}, headline_properties=headline_properties,
           timing=timing), indent=2))

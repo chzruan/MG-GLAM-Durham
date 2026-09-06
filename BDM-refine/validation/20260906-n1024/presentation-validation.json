@@ -1,0 +1,90 @@
+{
+  "completed": true,
+  "verified_at_utc": "2026-09-06T14:23:19.263436+00:00",
+  "pdf": "slides/bdm_refinement_validation.pdf",
+  "pdf_sha256": "6ffd61aefa794411d9e9309ef8c09f631aee861f3f89693015c033989c4a5a51",
+  "validation_summary_sha256": "92665b4e0f379470a4ccb645369ccea84f0f0e39d4ee2d4e837c4d476ee16d4b",
+  "assets_sha256": {
+    "slides/bdm_refinement_validation.tex": "d0fa95cfe1656d8e0db08d1a5a4c4307435bd9a411b10e9d03557c8d14be67a7",
+    "slides/validation_results.tex": "81133ea87bb62b8390113ad542f87185849747fa832ad0152953db55488b6e67",
+    "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+    "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+    "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+    "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc",
+    "slides/figs/hmf.pdf": "56d869a4d4634a8fbaf100251c46348e10d32b9bb3069e7192bee4453c1d1162",
+    "slides/figs/matched_energy_direction.pdf": "9eec07f2a2a5765b405899a911b1dc2f61dbc36a894cad47e4c5593ea322678f",
+    "slides/figs/matched_primary.pdf": "036f9c0f1da9d6877a79eab96488939b42f0c6dd3067f944882f9dae106edde0",
+    "slides/figs/matched_structure.pdf": "9dfa23cfffa81660f133f0ea6d089987c122763b69ec98e7ef93dc56e3cde5ba",
+    "slides/figs/matched_total_mass.pdf": "67ecc17532bfb967f375fe06681fe3b6fec9804ec7825643efbec1169c9e9b26",
+    "slides/figs/matching.pdf": "6c39cca38e6d398b8323aa7769eee0c0c374b82f200cb65b66439335e0b2e05c",
+    "slides/figs/quality.pdf": "62c9e5c61f59205d8be077a9ac0bd73827c233d0466a748cdae161f70ad4fb98"
+  },
+  "build_script": "/cosma/home/durham/dc-ruan1/.codex/skills/create-latex-beamer-slides/scripts/build_deck.sh",
+  "build_script_sha256": "817bf32e3a0c1093678253d1eb504af301d6b4afd62011e06ae1115c32035a97",
+  "build_log": {
+    "path": "work/slides-build.log",
+    "sha256": "26dfb71b24f51156a3848e0baa2919a90456afed3738f297f92e1f9806054d1b"
+  },
+  "build_time": {
+    "path": "work/slides-build.time",
+    "sha256": "b3bbbb39bba02a9c71b13669515d60a710f9f5d24b61551dea252f94bb23ff36",
+    "values": "5.12 4.28 0.44 202216",
+    "units": "elapsed_seconds user_seconds system_seconds maxrss_kib"
+  },
+  "pages": 16,
+  "main_slides": 9,
+  "appendix_slides": 7,
+  "page_size_points": [
+    453.54,
+    255.12
+  ],
+  "visual_inspection": {
+    "pages_checked": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "final_revision_rechecked": [
+      1,
+      3,
+      4,
+      5,
+      9,
+      14,
+      15,
+      16
+    ],
+    "note": "Every page inspected after layout simplification. The final revision changed pages 4 and 9; both and representative unchanged pages were rerendered/rechecked at 120 dpi.",
+    "clipping": false,
+    "crowding": false,
+    "visually_missing_glyphs": false
+  },
+  "no_overfull_or_underfull_boxes": true,
+  "no_missing_assets_or_undefined_references": true,
+  "all_fonts_embedded": true,
+  "remaining_warnings": [
+    "Undefined CJK sans/monospace defaults: English-only deck; required Noto Serif CJK declaration retained.",
+    "TU/ppl/m/n substitutes LMRoman for unavailable text shape; required Palatino declarations retained and displayed content inspected.",
+    "Hyperref removes an appendix translation token from a PDF bookmark; slide text is intact.",
+    "xdvipdfmx strips null bytes from the embedded Inconsolata font name; all fonts embedded and visible."
+  ],
+  "independent_scientific_review": {
+    "agent": "repair_halo",
+    "result": "All numbers, cohort medians, input/figure hashes and completed checks agree. Refined-only duplicate/host scope and z=0 fixed-field scope clarified in final text."
+  },
+  "pdfinfo": "Title:          BDM refinement: validation and halo properties - Duplicate survival, consistent bound populations, and a billion-particle test\nAuthor:         Cheng-Zong Ruan\nCreator:        LaTeX with Beamer class\nProducer:       XeTeX 0.99999\nCreationDate:   Sun Sep  6 15:18:53 2026 BST\nTagged:         no\nUserProperties: no\nSuspects:       no\nForm:           none\nJavaScript:     no\nPages:          16\nEncrypted:      no\nPage size:      453.54 x 255.12 pts\nPage rot:       0\nFile size:      2883646 bytes\nOptimized:      no\nPDF version:    1.5\n",
+  "pdffonts": "name                                 type              encoding         emb sub uni object ID\n------------------------------------ ----------------- ---------------- --- --- --- ---------\nBDRETJ+NimbusSanL-Bold               Type 1C           Custom           yes yes no       5  0\nGEAGHS+NimbusSanL-Regu               Type 1C           Custom           yes yes no       6  0\nCSUSPW+MSAM10                        Type 1C           Builtin          yes yes yes     15  0\nJKWUUD+CMR10                         Type 1C           Builtin          yes yes no      16  0\nDMQAOY+CMSY10                        Type 1C           Builtin          yes yes no      17  0\nNPDGVY+URWPalladioL-Ital             Type 1C           Custom           yes yes no      18  0\nRBERJO+CMR12                         Type 1C           Builtin          yes yes no      23  0\nJNGFGV+CMSY8                         Type 1C           Builtin          yes yes yes     24  0\nBPFXJC+CMR8                          Type 1C           Builtin          yes yes no      25  0\nKPABQU+LMRoman12-Regular-Identity-H  CID Type 0C       Identity-H       yes yes yes     27  0\nCOOUOC+CMMI12                        Type 1C           Builtin          yes yes no      28  0\nICOXAQ+LMRoman9-Regular-Identity-H   CID Type 0C       Identity-H       yes yes yes     30  0\nUDTZJP+CMR7                          Type 1C           Builtin          yes yes no      31  0\nYCSETE+CMMI7                         Type 1C           Builtin          yes yes no      32  0\nSERYLX+CMSY7                         Type 1C           Builtin          yes yes yes     33  0\nCMMI10                               Type 1            Builtin          yes no  no      47  0\nCMMI12                               Type 1            Builtin          yes no  no      51  0\nCMR10                                Type 1            Builtin          yes no  no      55  0\nCMR12                                Type 1            Builtin          yes no  no      59  0\nCMR7                                 Type 1            Builtin          yes no  no      63  0\nCMR8                                 Type 1            Builtin          yes no  no      67  0\nCMR9                                 Type 1            Builtin          yes no  no      71  0\nCMSY10                               Type 1            Builtin          yes no  no      75  0\nCMSY7                                Type 1            Builtin          yes no  no      79  0\nCMSY8                                Type 1            Builtin          yes no  no      83  0\nCMSY9                                Type 1            Builtin          yes no  no      87  0\nCMMI10                               Type 1            Builtin          yes no  no     111  0\nCMMI12                               Type 1            Builtin          yes no  no     115  0\nCMMI8                                Type 1            Builtin          yes no  no     119  0\nCMMIB10                              Type 1            Builtin          yes no  no     123  0\nCMR10                                Type 1            Builtin          yes no  no     127  0\nCMR12                                Type 1            Builtin          yes no  no     131  0\nCMR7                                 Type 1            Builtin          yes no  no     135  0\nCMR8                                 Type 1            Builtin          yes no  no     139  0\nCMSY10                               Type 1            Builtin          yes no  no     143  0\nCMSY7                                Type 1            Builtin          yes no  no     147  0\nCMSY8                                Type 1            Builtin          yes no  no     151  0\nCMMI10                               Type 1            Builtin          yes no  no     184  0\nCMMI12                               Type 1            Builtin          yes no  no     188  0\nCMMI8                                Type 1            Builtin          yes no  no     192  0\nCMR10                                Type 1            Builtin          yes no  no     196  0\nCMR12                                Type 1            Builtin          yes no  no     200  0\nCMR7                                 Type 1            Builtin          yes no  no     204  0\nCMR8                                 Type 1            Builtin          yes no  no     208  0\nCMSY10                               Type 1            Builtin          yes no  no     212  0\nCMSY7                                Type 1            Builtin          yes no  no     216  0\nCMSY8                                Type 1            Builtin          yes no  no     220  0\nCMMI10                               Type 1            Builtin          yes no  no     250  0\nCMMI12                               Type 1            Builtin          yes no  no     254  0\nCMMI8                                Type 1            Builtin          yes no  no     258  0\nCMMIB10                              Type 1            Builtin          yes no  no     262  0\nCMR10                                Type 1            Builtin          yes no  no     266  0\nCMR12                                Type 1            Builtin          yes no  no     270  0\nCMR7                                 Type 1            Builtin          yes no  no     274  0\nCMR8                                 Type 1            Builtin          yes no  no     278  0\nCMSY10                               Type 1            Builtin          yes no  no     282  0\nCMSY7                                Type 1            Builtin          yes no  no     286  0\nCMSY8                                Type 1            Builtin          yes no  no     290  0\nVMMBMY+CMMI8                         Type 1C           Builtin          yes yes no     307  0\nCMMI10                               Type 1            Builtin          yes no  no     316  0\nCMMI12                               Type 1            Builtin          yes no  no     320  0\nCMMI9                                Type 1            Builtin          yes no  no     324  0\nCMR10                                Type 1            Builtin          yes no  no     328  0\nCMR12                                Type 1            Builtin          yes no  no     332  0\nCMR6                                 Type 1            Builtin          yes no  no     336  0\nCMR7                                 Type 1            Builtin          yes no  no     340  0\nCMR8                                 Type 1            Builtin          yes no  no     344  0\nCMR9                                 Type 1            Builtin          yes no  no     348  0\nCMSY6                                Type 1            Builtin          yes no  no     352  0\nCMSY7                                Type 1            Builtin          yes no  no     356  0\nCMSY8                                Type 1            Builtin          yes no  no     361  0\nCMSY9                                Type 1            Builtin          yes no  no     365  0\nCMMI10                               Type 1            Builtin          yes no  no     380  0\nCMMI12                               Type 1            Builtin          yes no  no     384  0\nCMMIB10                              Type 1            Builtin          yes no  no     388  0\nCMR10                                Type 1            Builtin          yes no  no     392  0\nCMR12                                Type 1            Builtin          yes no  no     396  0\nCMR7                                 Type 1            Builtin          yes no  no     400  0\nCMR9                                 Type 1            Builtin          yes no  no     404  0\nCMSY10                               Type 1            Builtin          yes no  no     408  0\nCMSY7                                Type 1            Builtin          yes no  no     412  0\nCMMI10                               Type 1            Builtin          yes no  no     431  0\nCMMI12                               Type 1            Builtin          yes no  no     435  0\nCMMI9                                Type 1            Builtin          yes no  no     439  0\nCMR10                                Type 1            Builtin          yes no  no     443  0\nCMR12                                Type 1            Builtin          yes no  no     447  0\nCMR7                                 Type 1            Builtin          yes no  no     451  0\nCMR9                                 Type 1            Builtin          yes no  no     455  0\nCMSY7                                Type 1            Builtin          yes no  no     459  0\nCMSY9                                Type 1            Builtin          yes no  no     463  0\nVAJKGI+LMRoman10-Regular-Identity-H  CID Type 0C       Identity-H       yes yes yes    478  0\nSLVZIN+Inconsolata-Regular           CID TrueType      Identity-H       yes yes yes    492  0\n"
+}

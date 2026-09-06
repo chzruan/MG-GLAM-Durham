@@ -1,0 +1,21 @@
+{
+  "summary": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/slides/figs/comparison-summary.json",
+  "summary_sha256": "cf1694a0db24170f539044bec25ad6cd6f2d79240eb3ee3f45348f5dcdd4890a",
+  "plot_ready": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/slides/figs/comparison-plot-ready.npz",
+  "plot_ready_sha256": "16c6cb53cc7cb32a4ac30053e78d1732d8bdaf204cf3eb4f2ad6ac640e745afa",
+  "script_sha256": "45081bde5966aec49d9762a1d7b2e49dd6c834df1707a557a60d8447876e59bc",
+  "tex_enabled": true,
+  "style_sha256": {
+    "house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+    "chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992"
+  },
+  "figures_sha256": {
+    "hmf.pdf": "56d869a4d4634a8fbaf100251c46348e10d32b9bb3069e7192bee4453c1d1162",
+    "matched_primary.pdf": "036f9c0f1da9d6877a79eab96488939b42f0c6dd3067f944882f9dae106edde0",
+    "matched_structure.pdf": "9dfa23cfffa81660f133f0ea6d089987c122763b69ec98e7ef93dc56e3cde5ba",
+    "matched_total_mass.pdf": "67ecc17532bfb967f375fe06681fe3b6fec9804ec7825643efbec1169c9e9b26",
+    "matched_energy_direction.pdf": "9eec07f2a2a5765b405899a911b1dc2f61dbc36a894cad47e4c5593ea322678f",
+    "matching.pdf": "6c39cca38e6d398b8323aa7769eee0c0c374b82f200cb65b66439335e0b2e05c",
+    "quality.pdf": "62c9e5c61f59205d8be077a9ac0bd73827c233d0466a748cdae161f70ad4fb98"
+  }
+}

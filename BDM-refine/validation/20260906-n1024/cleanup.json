@@ -1,0 +1,29 @@
+{
+  "removed_worktrees": [
+    {
+      "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4",
+      "counts_before": {
+        "files": 360,
+        "directories": 29
+      },
+      "verified_clean_including_ignored": true
+    },
+    {
+      "path": "/tmp/bdm-axis-order-20260906-K4WGZFTU",
+      "verified_clean_including_ignored": true,
+      "source_commit": "1d871a40084ee2458a61f6c78774162f96f30eaa",
+      "tracked_file_count": 354
+    },
+    {
+      "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906",
+      "counts_before": {
+        "files": 410,
+        "directories": 32
+      },
+      "verified_clean_including_ignored": true,
+      "relocation_receipt": "main-thread-control/relocation.json"
+    }
+  ],
+  "plotter_archive": "plotter-evidence-archive.json",
+  "main_work_pending": true
+}

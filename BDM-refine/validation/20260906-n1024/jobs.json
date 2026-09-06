@@ -114,5 +114,35 @@
     "superseded": true,
     "cancelled_at_utc": "2026-09-06T13:25:00.105476+00:00",
     "cancellation_reason": "Independent review found historical reversed transverse-axis labels could bypass the direction-degeneracy proxy. Cancelled pending plot job before any run, to freeze a corrected plotting script; old submitted files retained."
+  },
+  {
+    "stage": "main-plots",
+    "purpose": "Seven property PDFs from membership-verified refined and original standalone catalogues on identical saved snapshots",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "--dependency=afterok:11948467",
+      "--export=ALL,BDM_VALIDATION_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-plots-02/plots.sbatch",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-plots-02/plot_main_results.py"
+    ],
+    "dependencies": [
+      "afterok:11948467"
+    ],
+    "script_sha256": {
+      "compare_properties.py": "45081bde5966aec49d9762a1d7b2e49dd6c834df1707a557a60d8447876e59bc",
+      "house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+      "plot_main_results.py": "214cf075a527f8df4b58f603998a2c0ed71e82670f067cadca68c594cd36fb22",
+      "plots.sbatch": "a57a1a0926f7463db5e75167fc53360f2f67a508acff0a8fba347da4ef04c39e",
+      "chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992"
+    },
+    "submitter_sha256": "0c60a2b0c57b188b37df0b4491a1e99b4d1d0e5074a1a462b257478f25e71e0d",
+    "resource_plan_sha256": "210ee401fe57007662ff7b9245aeaad199aff80a9258fb985d3a4e0c4a0074f2",
+    "commit": "848316cfccebfcf8599e9a4cc2606c1a7ceeb3bc",
+    "submitted_at_utc": "2026-09-06T13:31:46.395552+00:00",
+    "submission_returncode": 0,
+    "stdout": "11948494\n",
+    "stderr": "",
+    "job_id": "11948494"
   }
 ]

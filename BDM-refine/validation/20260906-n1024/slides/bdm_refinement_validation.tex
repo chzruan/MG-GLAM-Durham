@@ -30,79 +30,68 @@
 \begin{document}
 \begin{frame}[plain]\titlepage\end{frame}
 
-\begin{frame}{One host per entry; one bound population per measurement}
+\begin{frame}{Fix halo identity and the bound population}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.48\textwidth}
 \highlight{Duplicate survival}
 \begin{itemize}
-\item Nearly coincident candidates can have equal mass but different bound particles.
-\item Exact membership removes identical objects.
-\item Distinct-host exclusion suppresses a lower-priority centre inside its host.
+\item Equal-mass candidates can have slightly different particle sets.
+\item Remove exact member-set copies.
+\item Break mass ties by stable host priority; exclude inner centres.
 \end{itemize}
 \end{column}
 \begin{column}{0.48\textwidth}
 \highlight{Consistent properties}
 \begin{itemize}
-\item Find the outermost supported SO crossing.
-\item Recompute potential and bulk velocity until the bound set stops changing.
-\item Derive mass, velocity, energy, spin and shape from that same set.
+\item Use the outermost supported SO crossing.
+\item Iterate unbinding until membership converges.
+\item Measure properties from the final bound set.
 \end{itemize}
 \end{column}
 \end{columns}
 \medskip
-\resultbox{Additional corrections}{Apply the requested overdensity before finding peaks;
-preserve the simulation particle state; order corrected shapes as $0\leq c/a\leq b/a\leq1$.}
+{\small Also: configure before peak finding; restore particles exactly; order
+corrected shapes as $0\leq c/a\leq b/a\leq1$.}
 \end{frame}
 
-\begin{frame}{Compare both finders on identical saved particles}
-\begin{columns}[T,onlytextwidth]
-\begin{column}{0.51\textwidth}
+\begin{frame}{A billion-particle test on identical snapshots}
+\centering
 \begin{tabular}{@{}ll@{}}\toprule
-Gravity & GR, flat $\Lambda$CDM\\
-Box & $512\,\mpch$\\
+Box / gravity & $512\,\mpch$; GR, flat $\Lambda$CDM\\
 Particles / mesh & $1024^3$ / $2048^3$\\
 Particle mass & $1.07\times10^{10}\,\msunh$\\
 PM cell & $0.25\,\mpch$\\
 Initial / saved redshifts & $100$ / $2,1,0$\\\bottomrule
 \end{tabular}
-\end{column}
-\begin{column}{0.45\textwidth}
-\begin{itemize}
-\item Same snapshot, requested virial convention and aperture correction.
-\item Refined comparison catalogues have direct particle-membership checks.
-\item Published cut: $M_\mathrm{bound}\geq2.5\times10^{12}\,\msunh$.
-\item Population changes use all published objects.
-\item Property shifts use conservative periodic positional matches.
-\end{itemize}
-\end{column}
-\end{columns}
 \medskip
-\resultbox{Resolution scope}{This tests the finder at production scale. The published
-$z=0$, $10^{12.5}\,\msunh$ abundance-resolution reference is guidance; new force/mass
-convergence and inner-profile accuracy still require a resolution series.}
-{\tiny\href{https://arxiv.org/pdf/2110.00328}{Ruan et al., MG-GLAM, arXiv:2110.00328, Appendix A.}}
+\begin{itemize}
+\item Both finders use the same saved particles and requested virial convention.
+\item Published cut: $M_\mathrm{bound}\geq2.5\times10^{12}\,\msunh$; $R_\mathrm{ext}=0.15$.
+\end{itemize}
+{\small The published $z=0$ abundance guide is $10^{12.5}\,\msunh$.
+New convergence evidence requires a resolution series.}\par
+{\scriptsize\href{https://arxiv.org/pdf/2110.00328}{Ruan et al., MG-GLAM, arXiv:2110.00328, Appendix A.}}
 \end{frame}
 
 \begin{frame}{\ValidationHeadline}
 \centering
 \begin{tabular}{@{}rrrrr@{}}\toprule
-$z$ & Pre-audit haloes & Refined replay haloes & Identical member sets & Host violations\\\midrule
+$z$ & Pre-audit & Refined & Duplicate sets & Host violations\\\midrule
 \ValidationRows
-\bottomrule\end{tabular}
-\medskip
+\bottomrule\end{tabular}\par
+\smallskip
+{\small Duplicate and host checks refer to the refined catalogues.}
 \begin{itemize}
 \item \StateResult
 \item \ThreadResult
 \item \NormalDensityResult
 \end{itemize}
-\resultbox{Meaning of a passing check}{Membership identity and host geometry are tested
-directly. Finite catalogue values alone do not establish physical or resolution accuracy.}
 \end{frame}
 
-\plotpage{Halo abundance changes include added and unmatched objects}{hmf.pdf}
-\plotpage{Mass, radius and velocity shifts for matched haloes}{matched_primary.pdf}
-\plotpage{Bound-population changes also affect internal structure}{matched_structure.pdf}
-\plotpage{Energy and direction changes require their own definitions}{matched_energy_direction.pdf}
+\plotpage{More haloes pass the mass cut}{hmf.pdf}
+\plotpage{Median mass and radius increase}{matched_primary.pdf}
+\plotpage{Internal structure responds to the refinement}{matched_structure.pdf}
+\plotpage{Energy and major-axis directions change}{matched_energy_direction.pdf}
 
 \begin{frame}{\ConclusionsHeadline}
 \begin{itemize}
@@ -111,58 +100,59 @@ directly. Finite catalogue values alone do not establish physical or resolution 
 \item \NumericalConclusion
 \end{itemize}
 \medskip
-\resultbox{Using the refined catalogues}{Keep the finder definition with the data.
-Bound mass and internal properties share a converged population; reported radius
-and total mass retain the empirical aperture extension. Calibrate precision
-applications over the relevant mass and force-resolution range.}
+{\small Bound mass and internal properties share one converged population.
+Reported radius and total mass retain the empirical aperture extension.
+Precision applications need mass and force-resolution calibration.}
 \end{frame}
 
 \appendix
-\plotpage{Appendix: matching coverage and exclusions}{matching.pdf}
-\plotpage{Appendix: invalid values and unresolved sentinels}{quality.pdf}
-\plotpage{Appendix: the extended-aperture total mass}{matched_total_mass.pdf}
+\plotpage{Appendix: matching coverage}{matching.pdf}
+\plotpage{Appendix: valid and unresolved values}{quality.pdf}
+\plotpage{Appendix: total aperture mass}{matched_total_mass.pdf}
 
 \begin{frame}{Appendix: a concrete duplicate-survival case}
-In the earlier $128^3$ integration test, three close candidate pairs survived
-exact-membership removal because their particle sets differed slightly.
+Earlier $128^3$ integration test: three close candidate pairs survived
+because their particle sets differed slightly.
 \medskip\centering
 \begin{tabular}{@{}lrrr@{}}\toprule
-Pair & Shared / smaller set & Separation $[\mpch]$ & Host radius $[\mpch]$\\\midrule
+Pair & Shared / smaller set & $d$ & $R_\mathrm{host}$\\\midrule
 1 & $2109/2110$ & $0.0035$ & $1.216$\\
 2 & $326/329$ & $0.0245$ & $0.699$\\
 3 & $1441/1445$ & $0.0155$ & $1.082$\\\bottomrule
-\end{tabular}\medskip
-\resultbox{Equal-mass host priority}{Rank hosts by stored bound mass; resolve an exact mass
-tie with a stable candidate order. Suppress the lower-priority centre strictly
-inside the higher-priority host radius. All three extra entries disappear.}
-{\small This small-box result explains the repair; it is separate from the new $1024^3$ validation.}
+\end{tabular}\par\smallskip
+{\small Distances and radii are in $\mpch$.}\par\medskip
+Mass ties now use stable candidate order. A lower-priority centre inside its
+host is suppressed: all three extra entries disappear.\par\medskip
+{\small This example is separate from the new $1024^3$ validation.}
 \end{frame}
 
-\begin{frame}{Appendix: numerical sensitivity is isolated from finder threading}
+\begin{frame}{Appendix: density rounding sensitivity}
 \begin{itemize}
-\item The $512^3$ pilot's ordinary 16/32-thread replays differ in $2/71{,}587$ rows,
-with identical bound masses, counts and bulk velocities.
-\item With a fixed density field, the tested 16/32-thread finder calls are
-byte-identical; changing only the field reproduces both rows.
-\item The initial centring radii of those two rows differ by one float32 step.
-This small input change can affect later centring and internal properties.
+\item $512^3$ pilot: $2/71{,}587$ rows vary between ordinary 16/32-thread replays.
+\item Fixing the density field gives identical finder outputs. Changing only
+the field reproduces those two rows.
 \item \MainNumericalAppendix
-\end{itemize}\medskip
-\resultbox{Shape ordering}{Different empirical corrections could give $c/a>b/a$.
-Sorting the two corrected lengths restores their labels while preserving both
-values, the major direction, every other property and membership.}
+\end{itemize}\smallskip
+{\small Shape follow-up: sort the two empirically corrected transverse lengths.
+The other properties and memberships are unchanged by that fix.}
 \end{frame}
 
-\begin{frame}{Appendix: resources, definitions and reproducibility}
+\begin{frame}{Appendix: computational cost}
 \begin{itemize}
 \item \ResourceResult
 \item \TimingResult
-\item Pre-audit finder: \texttt{a8c7715}; refined finder: \texttt{\RefinedCommit}.
+\item \ParallelResult
 \item \JobResult
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Appendix: definitions and reproducibility}
+\begin{itemize}
+\item Pre-audit finder: \texttt{a8c7715}; refined finder: \texttt{\RefinedCommit}.
 \item The old standalone baseline retains its first-call configuration defect;
 historical multi-output inline runs need their own interpretation.
-\item Rmax is absent from the historical catalogue. Concentration is a mass/radius/Vmax
-diagnostic; major directions are compared modulo sign.
+\item Rmax is absent from the historical catalogue. Concentration is a
+mass/radius/Vmax diagnostic; major directions are compared modulo sign.
 \end{itemize}\medskip
 {\small Input, source, binary, snapshot and figure hashes, full status counts,
 matching exclusions and scripts accompany this deck.}
