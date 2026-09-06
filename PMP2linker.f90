@@ -4,7 +4,8 @@
 !
 ! Contains:     
 
-! Numerical duplicate policy shared by the finder and the catalogue replay.
+! Legacy numerical-field diagnostic retained for historical catalogue replay.
+! Production duplicate removal compares exact original bound-particle IDs.
 ! Equal particle counts alone do not establish equal particle membership.
 module BdmDuplicateRules
   implicit none
@@ -57,6 +58,16 @@ Real*4     ::        MassOne                                 !  current simulati
 Integer*8 ::         Np                                          ! Number of particles in domain
                      ! -------------------------  Maxima ----------------------
 Integer*4 ::                     Nmaxima
+! Exact final bound membership is retained until the duplicate pass. IDs refer
+! to original particles, so a periodic image cannot create a different identity.
+type BdmHaloMembership
+  integer*8, allocatable :: ids(:)
+end type BdmHaloMembership
+type(BdmHaloMembership), allocatable :: BoundParticleIds(:)
+integer, parameter :: HaloTooFewParticles=1, HaloSearchTruncated=2, &
+                      HaloUnresolvedVmax=4, HaloNoBoundParticles=8, &
+                      HaloSingularCentre=16
+integer, allocatable :: HaloStatus(:)
 Real*4    ::                     RadMax
 Real*4,        ALLOCATABLE,   DIMENSION(:) ::                        &    ! maxima of density
                                  Mvir,Rvir,Mtotal,VmaxM,RmaxM,       &
@@ -376,41 +387,68 @@ end If
 !---------------------------------------------------------------------------
 !                  
 !                  
+
 SUBROUTINE WriteFiles
-   integer*8 :: ic    
-   iHalo = 0
-   MassMin = max(MassMin,20.*MassOne)
-      Do ip=1,Nmaxima
-         x    = xMaxx(ip);       y =   yMaxx(ip);    z = zMaxx(ip)
-         If(x>=Xleft.and.x<Xright.and. &
-            y>=Yleft.and.y<Yright.and. &
-            z>=Zleft.and.z<Zright)Then
-            if(Mvir(ip)<MassMin)cycle
-            Vrms = sqrt(EkinM(ip)/Mvir(ip)*2.)
-            rr   = 1.e3*Rvir(ip)
-            aM   = Mvir(ip)
-            vvx  = VxMaxx(ip) ;vvy  = VyMaxx(ip) ; vvz  = VzMaxx(ip)
-            vvmax = VmaxM(ip)
-            aNpart = Mvir(ip)/MassOne
-            if(aNpart<10)cycle          !-- do not take too small halos
-               iHalo = iHalo + 1
-            Cvir = Concentration(aM,rr,vvmax)
-            If(Cvir < 0.)Cvir = Rvir(ip)/RmaxM(ip)*2.15     ! simple estimate
-            Rin   = 1.e3*RadRms(ip)
-            VirRat = 2.*EkinM(ip)/EpotM(ip)-1.
-
-           write(12,'(3f11.4,3x,3f10.2,1p,2g12.4,g12.5,26g12.4)') &
-                    x,y,z,VxMaxx(ip),VyMaxx(ip),VzMaxx(ip), &
-                    Mvir(ip),Mtotal(ip),1.e3*Rvir(ip),Vrms, VmaxM(ip),   & 
-                    iHalo,Cvir,Mvir(ip)/MassOne,0,Xoff(ip), &
-                    2.*EkinM(ip)/EpotM(ip)-1.,LambdaM(ip),1.e3*RadRms(ip),   &
-                    Axba(ip),Axca(ip),Xax(ip),Yax(ip),Zax(ip)
-       end If
-      EndDo         ! i
-
-      close (12)
-
-      end SUBROUTINE WriteFiles
+   use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+   implicit none
+   integer :: ip,iHalo
+   real*4 :: x,y,z,Vrms,rr,aM,Cvir,aNpart,VirRat
+   real*8 :: value
+   iHalo=0
+   if(.not.ieee_is_finite(MassOne))error stop 'BDM particle mass is nonfinite'
+   if(MassOne<=0.)error stop 'BDM particle mass must be positive'
+   MassMin=max(MassMin,20.*MassOne)
+   if(allocated(HaloStatus))then
+     write(*,'(a,5i10)') ' BDM status [few, SO cap, Vmax, no bound, singular centre]:', &
+       count(btest(HaloStatus,0)),count(btest(HaloStatus,1)), &
+       count(btest(HaloStatus,2)),count(btest(HaloStatus,3)),count(btest(HaloStatus,4))
+   endif
+   do ip=1,Nmaxima
+     if(.not.all(ieee_is_finite([xMaxx(ip),yMaxx(ip),zMaxx(ip), &
+         VxMaxx(ip),VyMaxx(ip),VzMaxx(ip),Mvir(ip),Mtotal(ip),Rvir(ip), &
+         EkinM(ip),EpotM(ip),VmaxM(ip),RmaxM(ip),Xoff(ip),LambdaM(ip), &
+         RadRms(ip),Axba(ip),Axca(ip),Xax(ip),Yax(ip),Zax(ip)]))) &
+       error stop 'BDM refuses a catalogue with nonfinite halo properties'
+     x=xMaxx(ip);y=yMaxx(ip);z=zMaxx(ip)
+     if(x<Xleft.or.x>=Xright.or.y<Yleft.or.y>=Yright.or.z<Zleft.or.z>=Zright)cycle
+     if(Mvir(ip)<MassMin.or.Mvir(ip)<=0.)cycle
+     if(EkinM(ip)<0..or.EpotM(ip)<0..or.Rvir(ip)<=0.) &
+       error stop 'BDM halo has invalid mass, radius or energy'
+     value=sqrt(2.d0*dble(EkinM(ip))/dble(Mvir(ip)))
+     if(value>dble(huge(Vrms)))error stop 'BDM velocity dispersion is not representable'
+     Vrms=real(value,4);rr=1.e3*Rvir(ip);aM=Mvir(ip)
+     aNpart=Mvir(ip)/MassOne
+     if(allocated(BoundParticleIds))then
+       if(allocated(BoundParticleIds(ip)%ids))then
+         aNpart=real(size(BoundParticleIds(ip)%ids,kind=8),4)
+         value=dble(size(BoundParticleIds(ip)%ids,kind=8))*dble(MassOne)
+         if(abs(value-dble(Mvir(ip)))>2.d0*dble(spacing(Mvir(ip)))) &
+           error stop 'BDM bound mass disagrees with particle membership'
+       endif
+     endif
+     if(aNpart<20.)cycle
+     Cvir=Concentration(aM,rr,VmaxM(ip))
+     if(Cvir<0.)then
+       Cvir=0.
+       if(RmaxM(ip)>0.)Cvir=2.1625816*Rvir(ip)/RmaxM(ip)
+     endif
+     VirRat=0.
+     if(EpotM(ip)>0.)then
+       value=2.d0*dble(EkinM(ip))/dble(EpotM(ip))-1.d0
+       if(abs(value)>dble(huge(VirRat)))error stop 'BDM virial ratio is not representable'
+       VirRat=real(value,4)
+     endif
+     if(.not.all(ieee_is_finite([Vrms,rr,Cvir,aNpart,VirRat]))) &
+       error stop 'BDM derived catalogue property is nonfinite'
+     iHalo=iHalo+1
+     write(12,'(3f11.4,3x,3f10.2,1p,2g12.4,g12.5,26g12.4)') &
+       x,y,z,VxMaxx(ip),VyMaxx(ip),VzMaxx(ip),Mvir(ip),Mtotal(ip), &
+       rr,Vrms,VmaxM(ip),iHalo,Cvir,aNpart,0,Xoff(ip),VirRat,LambdaM(ip), &
+       1.e3*RadRms(ip),Axba(ip),Axca(ip),Xax(ip),Yax(ip),Zax(ip)
+   enddo
+   Nhalo=iHalo
+   close(12)
+end SUBROUTINE WriteFiles
 
 !---------------------------------------------------------------------------
 !                  
@@ -726,71 +764,103 @@ integer*8 :: ic,ip
     end SUBROUTINE RemoveDuplicates
 
 !---------------------------------------------------------------------------
-! Merge connected components of the conservative strict duplicate graph.
-! Measurements stay read-only until all edges have been inspected. The lowest
-! original candidate index among host-test survivors wins, independent of list
-! order. This catalogue-level policy is not a particle-membership assertion.
+! Merge identical bound-particle sets among host-test survivors.
+! The lowest original candidate index is the deterministic representative.
+
       SUBROUTINE MergeNumericalDuplicates
+        use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
         implicit none
-        integer :: ip,jp,i1,i2,j1,j2,k1,k2,i3,j3,k3,sx,sy,sz
-        integer :: sxlo,sxhi,sylo,syhi,szlo,szhi,ri,rj
-        integer, allocatable :: parent(:)
-        real*4 :: x,y,z,xx,yy,zz,radius
-        real*8 :: dx,dy,dz,dd,dv2
-        allocate(parent(Nmaxima))
-        do ip=1,Nmaxima
-          parent(ip)=ip
-        end do
-        radius=real(DuplicateRadius)
+        integer :: ip,jp,n,i,left,middle,right,a,b,k,width,representative
+        integer*8 :: member_index
+        integer, allocatable :: order(:),scratch(:)
+        ! Exact survivor identity is the numerical duplicate definition. Sorting
+        ! avoids an all-pairs scan and makes the lowest candidate index win.
+        if(.not.all(ieee_is_finite(Mvir)))error stop 'BDM duplicate input mass is nonfinite'
+        n=count(Mvir>MassOne)
+        if(n==0)return
+        if(.not.allocated(BoundParticleIds)) &
+          error stop 'BDM duplicate removal requires bound particle identities'
+        if(size(BoundParticleIds)/=Nmaxima)error stop 'BDM membership size mismatch'
+        allocate(order(n),scratch(n))
+        i=0
         do ip=1,Nmaxima
           if(Mvir(ip)<=MassOne)cycle
-          x=xMaxx(ip); y=yMaxx(ip); z=zMaxx(ip)
-          sxlo=0;sxhi=0;sylo=0;syhi=0;szlo=0;szhi=0
-          if(x-radius<0.)sxhi=1
-          if(x+radius>=Box)sxlo=-1
-          if(y-radius<0.)syhi=1
-          if(y+radius>=Box)sylo=-1
-          if(z-radius<0.)szhi=1
-          if(z+radius>=Box)szlo=-1
-          do sz=szlo,szhi
-          do sy=sylo,syhi
-          do sx=sxlo,sxhi
-            xx=x+sx*Box; yy=y+sy*Box; zz=z+sz*Box
-            call Limits(xx,yy,zz,radius,i1,i2,j1,j2,k1,k2)
-            do k3=k1,k2
-            do j3=j1,j2
-            do i3=i1,i2
-              jp=int(Label(i3,j3,k3))
-              do while(jp/=0)
-                if(jp>ip.and.Mvir(jp)>MassOne)then
-                  dx=dble(x)-dble(xMaxx(jp));dx=dx-Box*anint(dx/Box)
-                  dy=dble(y)-dble(yMaxx(jp));dy=dy-Box*anint(dy/Box)
-                  dz=dble(z)-dble(zMaxx(jp));dz=dz-Box*anint(dz/Box)
-                  dd=dx*dx+dy*dy+dz*dz
-                  dv2=(dble(VxMaxx(ip))-dble(VxMaxx(jp)))**2 &
-                     +(dble(VyMaxx(ip))-dble(VyMaxx(jp)))**2 &
-                     +(dble(VzMaxx(ip))-dble(VzMaxx(jp)))**2
-                  if(StrictDuplicate(dd,dble(Mvir(ip)),dble(Mvir(jp)), &
-                         dble(Mvir(ip)/MassOne),dble(Mvir(jp)/MassOne), &
-                         dble(Mtotal(ip)),dble(Mtotal(jp)),dv2))then
-                    ri=DuplicateRoot(parent,ip);rj=DuplicateRoot(parent,jp)
-                    parent(max(ri,rj))=min(ri,rj)
-                  end if
-                end if
-                jp=int(Lst(jp))
-              end do
-            end do
-            end do
-            end do
-          end do
-          end do
-          end do
-        end do
-        do ip=1,Nmaxima
-          ri=DuplicateRoot(parent,ip)
-          if(ri/=ip)Mvir(ip)=0.
-        end do
-        deallocate(parent)
+          if(.not.allocated(BoundParticleIds(ip)%ids)) &
+            error stop 'BDM candidate has no bound particle identities'
+          if(size(BoundParticleIds(ip)%ids)==0) &
+            error stop 'BDM positive bound mass has an empty particle set'
+          do member_index=1,size(BoundParticleIds(ip)%ids,kind=8)
+            if(BoundParticleIds(ip)%ids(member_index)<=0_8)error stop 'BDM original particle ID must be positive'
+            if(member_index==1)cycle
+            if(BoundParticleIds(ip)%ids(member_index)<=BoundParticleIds(ip)%ids(member_index-1)) &
+              error stop 'BDM bound identities must be sorted and unique'
+          enddo
+          i=i+1;order(i)=ip
+        enddo
+        width=1
+        do while(width<n)
+          left=1
+          do while(left<=n)
+            middle=left+min(width,n-left+1)-1
+            right=middle+min(width,n-middle)
+            a=left;b=middle+1
+            do k=left,right
+              if(a>middle)then
+                scratch(k)=order(b);b=b+1
+              elseif(b>right)then
+                scratch(k)=order(a);a=a+1
+              elseif(compare_sets(order(a),order(b))<=0)then
+                scratch(k)=order(a);a=a+1
+              else
+                scratch(k)=order(b);b=b+1
+              endif
+            enddo
+            left=right+1
+          enddo
+          order=scratch
+          if(width>n/2)exit
+          width=2*width
+        enddo
+        representative=order(1)
+        do i=2,n
+          jp=order(i)
+          if(same_set(representative,jp))then
+            Mvir(jp)=0.
+          else
+            representative=jp
+          endif
+        enddo
+        deallocate(order,scratch)
+      contains
+        integer function compare_sets(first,second) result(comparison)
+          integer,intent(in)::first,second
+          integer*8 :: count_first,count_second,j
+          comparison=0
+          count_first=size(BoundParticleIds(first)%ids,kind=8)
+          count_second=size(BoundParticleIds(second)%ids,kind=8)
+          if(count_first<count_second)then
+            comparison=-1;return
+          elseif(count_first>count_second)then
+            comparison=1;return
+          endif
+          do j=1,count_first
+            if(BoundParticleIds(first)%ids(j)<BoundParticleIds(second)%ids(j))then
+              comparison=-1;return
+            elseif(BoundParticleIds(first)%ids(j)>BoundParticleIds(second)%ids(j))then
+              comparison=1;return
+            endif
+          enddo
+          ! Resolve identical sets by stable original candidate index.
+          if(first<second)comparison=-1
+          if(first>second)comparison=1
+        end function compare_sets
+        logical function same_set(first,second)
+          integer,intent(in)::first,second
+          same_set=.false.
+          if(size(BoundParticleIds(first)%ids,kind=8)/= &
+             size(BoundParticleIds(second)%ids,kind=8))return
+          same_set=all(BoundParticleIds(first)%ids==BoundParticleIds(second)%ids)
+        end function same_set
       end SUBROUTINE MergeNumericalDuplicates
 !---------------------------------------------------------------------------
 !                   
@@ -1544,78 +1614,69 @@ DO M3=1,NGRID
 !                        then use Trace(A) = sum(eigenvalues) and
 !                                          product of eigenvalues = det(A)
 !                        to get other two eigenvalues
+
   SUBROUTINE EigenValues(A,x,EigVal)
-    Integer*4, Parameter :: Nmax =200
-    Real*8, Parameter :: error =2.d-7
-    Real*4  :: EigVal(3),x(3)
-    Real*8 :: A(3,3),xx(3),y(3),Eig,EigNew,a1,b1,Trace,detA,x1,x2
-    Integer*4 :: ind(3)
-    xx       = 1.     ! initial guess
-    Eig    = 0.
-    Do kstep=1,Nmax
-       y            = MATMUL(A,xx)
-       EigNew = max(y(1),y(2),y(3))
-       xx     = y/EigNew
-       !write(13,'(10x,i4,1p,2g13.5,3x,4g13.5)')kstep,EigNew,Eig,xx
-       If(abs(EigNew-Eig)< error*abs(EigNew))exit
-       Eig = EigNew
-    End Do
-    Eig = EigNew
-    Trace  = A(1,1) +A(2,2) +A(3,3)
-    detA    = A(1,1)*(A(2,2)*A(3,3)-A(2,3)*A(3,2))        &
-                   -A(1,2)*(A(2,1)*A(3,3)-A(2,3)*A(3,1))        &
-                   +A(1,3)*(A(2,1)*A(3,2)-A(2,2)*A(3,1))
-                                        ! solve quadratic equation for other eigenvalues
-    a1 = (Trace-Eig)/2.
-    b1 =  detA/Eig
-    d = sqrt(max(a1**2-b1,1.d-20))
-    x1 = a1 + d
-    x2 = a1 - d
-    !EigVal(1) = max(Eig,x1,x2)
-    !EigVal(3) = min(Eig,x1,x2)
-    EigVal = -1.e30
-    ind = 0
-    If(Eig.ge.x1.and.Eig.ge.x2)Then ! Eig is the max
-       EigVal(1) = Eig
-       If(x1.ge.x2)Then
-          EigVal(2) = x1
-          EigVal(3) = x2
-       Else
-          EigVal(2) = x2
-          EigVal(3) = x1
-       EndIf
-    Else  If(x1.ge.x2)Then          ! x1 is max
-       EigVal(1) = x1
-       If(Eig.ge.x2)Then
-          EigVal(2) = Eig
-          EigVal(3) = x2
-       Else
-          EigVal(2) = x2
-          EigVal(3) = Eig
-       EndIf
-    Else                           ! x2 is max
-       EigVal(1) = x2
-       If(Eig.ge.x1)Then
-          EigVal(2) = Eig
-          EigVal(3) = x1
-       Else
-          EigVal(2) = x1
-          EigVal(3) = Eig
-       EndIf
-    End If
-
-
-!    If(EigVal(2)>EigVal(1).or.EigVal(3)>EigVal(2))Then
-!          write(13,'(/5x,1p,10g13.5)')Trace,detA,a1,b1,x1,x2,EigVal
-!          write(13,'(1p,3g12.4)') A
-!          write(13,'(a,1p,g13.5)') '   Sum  =',EigVal(1)+EigVal(2)+EigVal(3)
-!          write(13,'(a,1p,g13.5)') '   Prod =',EigVal(1)*EigVal(2)*EigVal(3)
-!          write(13,'(a,1p,2g13.5)') '   Iter =',EigNew-Eig,Eig
-!          write(13,'(10x,3i3)') ind
-!    EndIf
-    x               = xx
-    d               = sqrt(SUM(x**2))
-    x      =  x/d
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+    implicit none
+    real*8,intent(in) :: A(3,3)
+    real*4,intent(out) :: EigVal(3),x(3)
+    real*8 :: matrix(3,3),vectors(3,3),column(3),scale,off,angle,c,s,app,aqq,apq,u,v,value
+    integer :: iteration,p,q,i,j,major,sign_component
+    integer :: permutation(3),temporary
+    if(.not.all(ieee_is_finite(A)))error stop 'BDM shape tensor is nonfinite'
+    scale=maxval(abs(A))
+    EigVal=0.;x=[1.,0.,0.]
+    if(scale==0.d0)return
+    matrix=0.5d0*(A/scale+transpose(A)/scale)
+    vectors=0.d0
+    do i=1,3
+      vectors(i,i)=1.d0
+    enddo
+    ! Max-pivot Jacobi rotations preserve the eigenvector/eigenvalue pairing.
+    ! Scaling and atan2 avoid both a fixed-seed failure and large tau overflow.
+    do iteration=1,64
+      p=1;q=2;off=abs(matrix(1,2))
+      if(abs(matrix(1,3))>off)then
+        p=1;q=3;off=abs(matrix(1,3))
+      endif
+      if(abs(matrix(2,3))>off)then
+        p=2;q=3;off=abs(matrix(2,3))
+      endif
+      if(off<=16.d0*epsilon(1.d0))exit
+      app=matrix(p,p);aqq=matrix(q,q);apq=matrix(p,q)
+      angle=0.5d0*atan2(2.d0*apq,aqq-app)
+      c=cos(angle);s=sin(angle)
+      do i=1,3
+        if(i==p.or.i==q)cycle
+        u=matrix(i,p);v=matrix(i,q)
+        matrix(i,p)=c*u-s*v;matrix(p,i)=matrix(i,p)
+        matrix(i,q)=s*u+c*v;matrix(q,i)=matrix(i,q)
+      enddo
+      matrix(p,p)=c*c*app-2.d0*c*s*apq+s*s*aqq
+      matrix(q,q)=s*s*app+2.d0*c*s*apq+c*c*aqq
+      matrix(p,q)=0.d0;matrix(q,p)=0.d0
+      column=vectors(:,p)
+      vectors(:,p)=c*column-s*vectors(:,q)
+      vectors(:,q)=s*column+c*vectors(:,q)
+    enddo
+    if(iteration>64)error stop 'BDM shape eigensolver failed to converge'
+    permutation=[1,2,3]
+    do i=1,2
+      do j=i+1,3
+        if(matrix(permutation(j),permutation(j))>matrix(permutation(i),permutation(i)))then
+          temporary=permutation(i);permutation(i)=permutation(j);permutation(j)=temporary
+        endif
+      enddo
+    enddo
+    do i=1,3
+      value=matrix(permutation(i),permutation(i))*scale
+      if(abs(value)>dble(huge(EigVal)))error stop 'BDM shape eigenvalue is not representable'
+      EigVal(i)=real(value,4)
+    enddo
+    major=permutation(1)
+    sign_component=maxloc(abs(vectors(:,major)),dim=1)
+    if(vectors(sign_component,major)<0.d0)vectors(:,major)=-vectors(:,major)
+    x=real(vectors(:,major),4)
   end SUBROUTINE EigenValues
 
 !--------------------------------------------------------------
@@ -1623,38 +1684,41 @@ DO M3=1,NGRID
 !           Find halo concentration using M,R, and Vmax
 !                 M - in Msunh, R - comoving kpch
 !                 Vmax = in km/s
-      real function Concentration(aM,aR,Vmax)
-!     ------------------------
-!
-        Real*8, parameter :: d0 =1.d0, dCmin =3.d-5, C0= 2.162d0
-        Real*8 :: M,V,R,A,C,Fc,Vvir,Vratio,dC 
 
-        If(aM<1.e-6.or.aR<1.e-6.or.Vmax <1.e-6)Then
-           Concentration = 0. ; return
-        End If
-        Vvir = 2.076d-3*sqrt(aM/(aR*AEXPN))
-        Vratio = Vmax/Vvir
-        If(Vratio<1.)Then
-           Concentration = -1.
-        Else
-           dC = 2.
-           C= 2.*C0
-           A  = Vratio**2
-           !N = 0
-           Do while (abs(dC)>dCmin)
-              Fc = 0.2162166_8/(log(1.d0+C)/C -1.d0/(1.d0+C))
-              If(Fc.gt.A.and.C.ge.C0)Then
-                 dC = dC/2.d0
-                 C = C - dC
-              Else
-                 C = C + dC
-              EndIf
-              !N = N +1
-              !write(*,'(i6,1p,4G13.6)')N,C,dC,Fc,A
-           End Do
-           Concentration = C
-        End If
-      End function Concentration
+      real function Concentration(aM,aR,Vmax)
+        use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+        implicit none
+        real*4,intent(in) :: aM,aR,Vmax
+        real*8,parameter :: C0=2.162581587d0,Gkpc=4.333d-6
+        real*8 :: normalization,target,virial2,lo,hi,mid,c,predicted
+        integer :: iteration
+        Concentration=0.
+        if(.not.all(ieee_is_finite([aM,aR,Vmax,AEXPN])))return
+        if(aM<=0..or.aR<=0..or.Vmax<=0..or.AEXPN<=0.)return
+        virial2=Gkpc*dble(aM)/(dble(aR)*dble(AEXPN))
+        target=dble(Vmax)**2/virial2
+        if(target<1.d0)then
+          Concentration=-1.;return
+        endif
+        normalization=(log(1.d0+C0)-C0/(1.d0+C0))/C0
+        lo=log(C0);hi=log(dble(huge(Concentration)))
+        c=exp(hi)
+        predicted=normalization*c/(log(1.d0+c)-c/(1.d0+c))
+        if(target>predicted)return
+        ! Invert only the monotonic c >= 2.16258 NFW branch, with a finite
+        ! logarithmic bracket and bounded iterations even for invalid inputs.
+        do iteration=1,80
+          mid=0.5d0*(lo+hi);c=exp(mid)
+          predicted=normalization*c/(log(1.d0+c)-c/(1.d0+c))
+          if(predicted>target)then
+            hi=mid
+          else
+            lo=mid
+          endif
+          if(hi-lo<=1.d-12)exit
+        enddo
+        Concentration=real(exp(0.5d0*(lo+hi)),4)
+      end function Concentration
 
 !---------------------------------------------------------------------------
 !              find limits for the linker-list search

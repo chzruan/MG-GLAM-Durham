@@ -1,0 +1,92 @@
+{
+  "validated_at_utc": "2026-09-06T09:23:26.057721+00:00",
+  "source_sha256": "2d1f7d51712a9d9f34268067fe6df2eab8beeae4db751f604db9f90c1c538563",
+  "driver_sha256": "c9d299990fde14fac5b2f88361cb7bb329fb18f1b842b2a151cd4d61dd02bdfb",
+  "results": [
+    {
+      "mode": "checked",
+      "compiler_command": [
+        "gfortran",
+        "-O0",
+        "-g",
+        "-fcheck=all",
+        "-ffpe-trap=invalid,zero,overflow",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "cases.f90",
+        "-o",
+        "checked"
+      ],
+      "shape_matrices": 129,
+      "maximum_relative_eigenpair_residual": 5.833159769074793e-08,
+      "concentration_expected": [
+        3.0,
+        5.0,
+        10.0,
+        30.0,
+        100.0,
+        1000.0
+      ],
+      "concentration_measured": [
+        3.0,
+        4.999999046325684,
+        10.000000953674316,
+        30.000003814697266,
+        100.00000762939453,
+        1000.0001220703125
+      ],
+      "invalid_input_result": "INVALID INPUTS TERMINATE WITH DEFINED UNRESOLVED VALUE",
+      "duplicate_controls_threads": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "duplicate_sort_candidates": 257,
+      "duplicate_sort_survivors": 68,
+      "writer_valid_and_invalid_controls": 4,
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "compiler_command": [
+        "gfortran",
+        "-O3",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "cases.f90",
+        "-o",
+        "optimized"
+      ],
+      "shape_matrices": 129,
+      "maximum_relative_eigenpair_residual": 5.833159769074793e-08,
+      "concentration_expected": [
+        3.0,
+        5.0,
+        10.0,
+        30.0,
+        100.0,
+        1000.0
+      ],
+      "concentration_measured": [
+        3.0,
+        4.999999046325684,
+        10.000000953674316,
+        30.000003814697266,
+        100.00000762939453,
+        1000.0001220703125
+      ],
+      "invalid_input_result": "INVALID INPUTS TERMINATE WITH DEFINED UNRESOLVED VALUE",
+      "duplicate_controls_threads": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "duplicate_sort_candidates": 257,
+      "duplicate_sort_survivors": 68,
+      "writer_valid_and_invalid_controls": 4,
+      "passed": true
+    }
+  ]
+}

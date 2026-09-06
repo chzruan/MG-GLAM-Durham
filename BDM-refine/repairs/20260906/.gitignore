@@ -1,0 +1,4 @@
+work/
+__pycache__/
+tests/__pycache__/
+work-artifacts.tar.gz
