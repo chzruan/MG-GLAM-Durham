@@ -1,0 +1,1133 @@
+{
+  "completed": true,
+  "started_at_utc": "2026-09-06T17:12:21.308020+00:00",
+  "builder_sha256": "dfc55f3866e0cd161e3dc55cb2b965c7bdca9d6267811c0120924f2354f50ce1",
+  "source_commit": "c68c22dfa7e312334d504da6d8efcb8cad7ba7a7",
+  "source_worktree_status": "",
+  "source_repository": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM",
+  "frozen_build_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build",
+  "frozen_source_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/production",
+  "reference_commit": "800eaac76ef7fe78e6a392c85c3a88822b1c9135",
+  "commands": [
+    {
+      "command": [
+        "ifx",
+        "--version"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "ifx (IFX) 2024.2.0 20240602\nCopyright (C) 1985-2024 Intel Corporation. All rights reserved.\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "make",
+        "-f",
+        "makefile",
+        "-j1",
+        "PMP2mod_tools.o",
+        "PMP2mod_MGbackground.o"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "ifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_tools.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_MGbackground.f90\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "make",
+        "-f",
+        "makefile",
+        "-j1",
+        "PMP2BDM"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "ifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_fft5.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_random.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_density.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_power.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -fp-model precise -w -c PMP2linker.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_analyze.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MG_subroutines.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_fR.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2extradof.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_DGP.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_sym.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_kmf.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_csf.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2bdm.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian -o PMP2BDM.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o PMP2extradof.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o PMP2bdm.o\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-c",
+        "finder.f90",
+        "-o",
+        "finder.o"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/reference",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-c",
+        "replay_probe.f90",
+        "replay_entry.f90"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/reference",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/replay.exe",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_tools.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_fft5.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_random.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_density.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_power.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_analyze.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MG_subroutines.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_MGbackground.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_fR.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2extradof.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_DGP.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_sym.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_kmf.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_csf.o",
+        "finder.o",
+        "replay_probe.o",
+        "replay_entry.o"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/reference",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-o",
+        "publication-preflight.exe",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_tools.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_fft5.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_random.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_density.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_power.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_analyze.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MG_subroutines.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_MGbackground.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_fR.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2extradof.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_DGP.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_sym.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_kmf.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_csf.o",
+        "finder.o",
+        "replay_probe.o",
+        "publication_preflight.f90"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/reference",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-c",
+        "finder.f90",
+        "-o",
+        "finder.o"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-c",
+        "replay_probe.f90",
+        "replay_entry.f90"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2/replay.exe",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_tools.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_fft5.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_random.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_density.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_power.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_analyze.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MG_subroutines.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_MGbackground.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_fR.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2extradof.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_DGP.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_sym.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_kmf.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_csf.o",
+        "finder.o",
+        "replay_probe.o",
+        "replay_entry.o"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-o",
+        "publication-preflight.exe",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_tools.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_fft5.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_random.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_density.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_power.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_analyze.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MG_subroutines.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_MGbackground.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_fR.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2extradof.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_DGP.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_sym.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_kmf.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_csf.o",
+        "finder.o",
+        "replay_probe.o",
+        "publication_preflight.f90"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-c",
+        "finder.f90",
+        "-o",
+        "finder.o"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-c",
+        "replay_probe.f90",
+        "replay_entry.f90"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/replay.exe",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_tools.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_fft5.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_random.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_density.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_power.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_analyze.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MG_subroutines.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_MGbackground.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_fR.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2extradof.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_DGP.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_sym.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_kmf.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_csf.o",
+        "finder.o",
+        "replay_probe.o",
+        "replay_entry.o"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-o",
+        "publication-preflight.exe",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_tools.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_fft5.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_random.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_density.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_power.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_analyze.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MG_subroutines.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2mod_MGbackground.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_fR.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2extradof.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_DGP.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_sym.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_kmf.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2MGsolver_csf.o",
+        "finder.o",
+        "replay_probe.o",
+        "publication_preflight.f90"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/replay.exe",
+        "1",
+        "1",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/density-path-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/fixed.bin",
+        "write"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/reference-bound",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "Native follow-up preflight                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\n  init finished:           16  2.4000001E-05\n  finishing density   6.4000000E-05\nREPLAY DENSITY write threads=1 seconds=        0.000076\nREPLAY FIXED FI pass=1\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   3622.88    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.000     0.000\n Go to RescaleCoords    :          64\n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.06      0.06\n  Allocate exact periodic particle buffer:                     64\n                   512\n           time for AddBuffer  =                       0.00      0.06\n  time to make list =  4.5001507E-05\n           time for List  =                            0.00      0.06\n  Go to FindDistinctCandidates:                    512\n Go to ParametersDistinct :         512\n           time for ParametersDistinct =               0.00      0.06\n           time for ParametersDistinct  =              0.00      0.06\n  goto RemoveCloseMaxima\n  time to make list Max  =  2.8997660E-05\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                    512\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         1         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 1                64\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           1           0           0           0           0           0           0\n           time for WriteFiles  =                      0.00      0.00\nREPLAY FINDER pass=1 seconds=        0.059115\nREPLAY RESTORED pass=1\nREPLAY FIXED FI pass=2\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   3622.88    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.000     0.000\n Go to RescaleCoords    :          64\n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.08      0.08\n  Allocate exact periodic particle buffer:                     64\n                   512\n           time for AddBuffer  =                       0.00      0.08\n  time to make list =  1.7002225E-05\n           time for List  =                            0.00      0.08\n  Go to FindDistinctCandidates:                    512\n Go to ParametersDistinct :         512\n           time for ParametersDistinct =               0.00      0.08\n           time for ParametersDistinct  =              0.00      0.08\n  goto RemoveCloseMaxima\n  time to make list Max  =  4.9918890E-06\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                    512\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         1         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 1                64\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           1           0           0           0           0           0           0\nREPLAY DIAGNOSTICS candidates=1 selected=1\n           time for WriteFiles  =                      0.09      0.09\nREPLAY FINDER pass=2 seconds=        0.165576\nREPLAY RESTORED pass=2\nREPLAY COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/replay.exe",
+        "1",
+        "1",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/density-path-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/empty.bin",
+        "read"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/reference-empty",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "Native follow-up preflight                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\nREPLAY DENSITY read threads=1\nREPLAY FIXED FI pass=1\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   0.00000    , number of maxima=0\n Maxima above overdensity=0, maxima above 300=0\n          time for FindMaxima: count/list =     0.000     0.000\nREPLAY FINDER pass=1 seconds=        0.251843\nREPLAY RESTORED pass=1\nREPLAY FIXED FI pass=2\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   0.00000    , number of maxima=0\n Maxima above overdensity=0, maxima above 300=0\n          time for FindMaxima: count/list =     0.000     0.000\nREPLAY DIAGNOSTICS candidates=0 selected=0\nREPLAY FINDER pass=2 seconds=        0.213012\nREPLAY RESTORED pass=2\nREPLAY COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/publication-preflight.exe",
+        "valid"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/reference-publication-valid",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   1000.00    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.007     0.025\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 7              1234\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           0           0           0           1           0           0           0\nNATIVE PUBLICATION PREFLIGHT COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/publication-preflight.exe",
+        "empty"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/reference-publication-empty",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   0.00000    , number of maxima=0\n Maxima above overdensity=0, maxima above 300=0\n          time for FindMaxima: count/list =     0.005     0.088\nNATIVE PUBLICATION PREFLIGHT COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/publication-preflight.exe",
+        "valid"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/reference-publication-invalid",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   1000.00    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.008     0.058\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 7              1234\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           0           0           0           1           0           0           0\nNATIVE PUBLICATION PREFLIGHT COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/publication-preflight.exe",
+        "invalid"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/reference-publication-invalid",
+      "stdin": null,
+      "returncode": 128,
+      "stdout": "\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   1000.00    , number of maxima=2\n Maxima above overdensity=2, maxima above 300=2\n          time for FindMaxima: count/list =     0.009     0.002\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 2                 7              2468\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           0           0           0           2           0           0           0\n",
+      "stderr": "BDM refuses a catalogue with nonfinite halo properties\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2/replay.exe",
+        "1",
+        "1",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/density-path-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/fixed.bin",
+        "read"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/optimized-v2-bound",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "Native follow-up preflight                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\nREPLAY DENSITY read threads=1\nREPLAY FIXED FI pass=1\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   3622.88    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.000     0.000\n Go to RescaleCoords    :          64\n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.06      0.06\n  Allocate exact periodic particle buffer:                     64\n                   512\n           time for AddBuffer  =                       0.00      0.06\n  time to make list =  4.5001507E-05\n           time for List  =                            0.00      0.06\n  Go to FindDistinctCandidates:                    512\n Go to ParametersDistinct :         512\n           time for ParametersDistinct =               0.00      0.06\n           time for ParametersDistinct  =              0.00      0.06\n  goto RemoveCloseMaxima\n  time to make list Max  =  3.2000244E-05\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                    512\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         1         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 1                64\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           1           0           0           0           0           0           0\n           time for WriteFiles  =                      0.00      0.00\nREPLAY FINDER pass=1 seconds=        0.067910\nREPLAY RESTORED pass=1\nREPLAY FIXED FI pass=2\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   3622.88    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.000     0.000\n Go to RescaleCoords    :          64\n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.06      0.06\n  Allocate exact periodic particle buffer:                     64\n                   512\n           time for AddBuffer  =                       0.00      0.06\n  time to make list =  1.7002225E-05\n           time for List  =                            0.00      0.06\n  Go to FindDistinctCandidates:                    512\n Go to ParametersDistinct :         512\n           time for ParametersDistinct =               0.00      0.06\n           time for ParametersDistinct  =              0.00      0.06\n  goto RemoveCloseMaxima\n  time to make list Max  =  4.9918890E-06\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                    512\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         1         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 1                64\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           1           0           0           0           0           0           0\nREPLAY DIAGNOSTICS candidates=1 selected=1\n           time for WriteFiles  =                      0.04      0.04\nREPLAY FINDER pass=2 seconds=        0.103541\nREPLAY RESTORED pass=2\nREPLAY COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2/replay.exe",
+        "1",
+        "1",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/density-path-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/empty.bin",
+        "read"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/optimized-v2-empty",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "Native follow-up preflight                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\nREPLAY DENSITY read threads=1\nREPLAY FIXED FI pass=1\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   0.00000    , number of maxima=0\n Maxima above overdensity=0, maxima above 300=0\n          time for FindMaxima: count/list =     0.000     0.000\nREPLAY FINDER pass=1 seconds=        0.128316\nREPLAY RESTORED pass=1\nREPLAY FIXED FI pass=2\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   0.00000    , number of maxima=0\n Maxima above overdensity=0, maxima above 300=0\n          time for FindMaxima: count/list =     0.000     0.000\nREPLAY DIAGNOSTICS candidates=0 selected=0\nREPLAY FINDER pass=2 seconds=        0.133165\nREPLAY RESTORED pass=2\nREPLAY COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2/publication-preflight.exe",
+        "valid"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/optimized-v2-publication-valid",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   1000.00    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.008     0.023\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 7              1234\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           0           0           0           1           0           0           0\nNATIVE PUBLICATION PREFLIGHT COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2/publication-preflight.exe",
+        "empty"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/optimized-v2-publication-empty",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   0.00000    , number of maxima=0\n Maxima above overdensity=0, maxima above 300=0\n          time for FindMaxima: count/list =     0.010     0.097\nNATIVE PUBLICATION PREFLIGHT COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2/publication-preflight.exe",
+        "valid"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/optimized-v2-publication-invalid",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   1000.00    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.013     0.002\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 7              1234\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           0           0           0           1           0           0           0\nNATIVE PUBLICATION PREFLIGHT COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2/publication-preflight.exe",
+        "invalid"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/optimized-v2-publication-invalid",
+      "stdin": null,
+      "returncode": 128,
+      "stdout": "\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   1000.00    , number of maxima=2\n Maxima above overdensity=2, maxima above 300=2\n          time for FindMaxima: count/list =     0.008     0.001\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 2                 7              2468\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           0           0           0           2           0           0           0\n",
+      "stderr": "BDM refuses a catalogue with nonfinite halo properties\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/replay.exe",
+        "1",
+        "1",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/density-path-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/fixed.bin",
+        "read"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/v3-bound",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "Native follow-up preflight                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\nREPLAY DENSITY read threads=1\nREPLAY FIXED FI pass=1\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   3622.88    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.000     0.000\n Go to RescaleCoords    :          64\n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.09      0.09\n  Allocate exact periodic particle buffer:                     64\n                   512\n           time for AddBuffer  =                       0.00      0.09\n  time to make list =  4.8995018E-05\n           time for List  =                            0.00      0.09\n  Go to FindDistinctCandidates:                    512\n Go to ParametersDistinct :         512\n           time for ParametersDistinct =               0.00      0.09\n           time for ParametersDistinct  =              0.00      0.09\n  goto RemoveCloseMaxima\n  time to make list Max  =  3.1001866E-05\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                    512\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         1         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 1                64\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           1           0           0           0           0           0           0\n           time for WriteFiles  =                      0.00      0.00\nREPLAY FINDER pass=1 seconds=        0.097030\nREPLAY RESTORED pass=1\nREPLAY FIXED FI pass=2\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   3622.88    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.000     0.000\n Go to RescaleCoords    :          64\n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.05      0.05\n  Allocate exact periodic particle buffer:                     64\n                   512\n           time for AddBuffer  =                       0.00      0.05\n  time to make list =  1.8998981E-05\n           time for List  =                            0.00      0.05\n  Go to FindDistinctCandidates:                    512\n Go to ParametersDistinct :         512\n           time for ParametersDistinct =               0.00      0.05\n           time for ParametersDistinct  =              0.00      0.05\n  goto RemoveCloseMaxima\n  time to make list Max  =  6.0051680E-06\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                    512\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         1         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 1                64\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           1           0           0           0           0           0           0\nREPLAY DIAGNOSTICS candidates=1 selected=1\n           time for WriteFiles  =                      0.51      0.51\nREPLAY FINDER pass=2 seconds=        0.561797\nREPLAY RESTORED pass=2\nREPLAY COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/replay.exe",
+        "1",
+        "1",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/density-path-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/empty.bin",
+        "read"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/v3-empty",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "Native follow-up preflight                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\nREPLAY DENSITY read threads=1\nREPLAY FIXED FI pass=1\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   0.00000    , number of maxima=0\n Maxima above overdensity=0, maxima above 300=0\n          time for FindMaxima: count/list =     0.000     0.000\nREPLAY FINDER pass=1 seconds=        0.096131\nREPLAY RESTORED pass=1\nREPLAY FIXED FI pass=2\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   0.00000    , number of maxima=0\n Maxima above overdensity=0, maxima above 300=0\n          time for FindMaxima: count/list =     0.000     0.000\nREPLAY DIAGNOSTICS candidates=0 selected=0\nREPLAY FINDER pass=2 seconds=        0.080228\nREPLAY RESTORED pass=2\nREPLAY COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/publication-preflight.exe",
+        "valid"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/v3-publication-valid",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   1000.00    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.010     0.018\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 7              1234\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           0           0           0           1           0           0           0\nNATIVE PUBLICATION PREFLIGHT COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/publication-preflight.exe",
+        "empty"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/v3-publication-empty",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   0.00000    , number of maxima=0\n Maxima above overdensity=0, maxima above 300=0\n          time for FindMaxima: count/list =     0.011     0.043\nNATIVE PUBLICATION PREFLIGHT COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/publication-preflight.exe",
+        "valid"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/v3-publication-invalid",
+      "stdin": null,
+      "returncode": 0,
+      "stdout": "\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   1000.00    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.008     0.003\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 7              1234\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           0           0           0           1           0           0           0\nNATIVE PUBLICATION PREFLIGHT COMPLETE\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/publication-preflight.exe",
+        "invalid"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/v3-publication-invalid",
+      "stdin": null,
+      "returncode": 128,
+      "stdout": "\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   1000.00    , number of maxima=2\n Maxima above overdensity=2, maxima above 300=2\n          time for FindMaxima: count/list =     0.010     0.002\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 2                 7              2468\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           0           0           0           2           0           0           0\n",
+      "stderr": "BDM refuses a catalogue with nonfinite halo properties\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/publication-preflight.exe",
+        "leak-passes"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/leak-passes",
+      "stdin": null,
+      "returncode": 128,
+      "stdout": "",
+      "stderr": "Replay found retained membership or telemetry workspace\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/publication-preflight.exe",
+        "leak-work"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/leak-work",
+      "stdin": null,
+      "returncode": 128,
+      "stdout": "",
+      "stderr": "Replay found retained membership or telemetry workspace\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/replay.exe",
+        "1",
+        "1",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/density-truncated/invalid-density.bin",
+        "read"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/density-truncated",
+      "stdin": null,
+      "returncode": 128,
+      "stdout": "Native follow-up preflight                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\n",
+      "stderr": "Replay density tape byte length mismatch\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/replay.exe",
+        "1",
+        "1",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/density-metadata/invalid-density.bin",
+        "read"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/density-metadata",
+      "stdin": null,
+      "returncode": 128,
+      "stdout": "Native follow-up preflight                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\n",
+      "stderr": "Replay density metadata mismatch\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/replay.exe",
+        "1",
+        "1",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/particle-limit/invalid-density.bin",
+        "read"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/particle-limit",
+      "stdin": null,
+      "returncode": 128,
+      "stdout": "",
+      "stderr": "Replay requires NROW**3 < 1200**3\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/replay.exe",
+        "1",
+        "1",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/header-step/invalid-density.bin",
+        "read"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/header-step",
+      "stdin": null,
+      "returncode": 128,
+      "stdout": "",
+      "stderr": "Replay snapshot/header step mismatch\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2BDM.exe"
+      ],
+      "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/production",
+      "stdin": "1\n",
+      "returncode": 0,
+      "stdout": " Number of threads      =   1\n  Enter snapshot number =   Go to ReadDataPM      =   1\nNative follow-up preflight                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\n           time for Reading  =                         0.10      0.11\n Number of threads      =   1\n mDENSIT                =   1\n\n ------ current set of parameters:\n          iVirial   =      2           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   0.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n  init finished:           16  0.2288380    \n  finishing density   0.2288600    \n FindMaxima: particles=64, overdensity=    200.0000\n Maximum density=   3622.88    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.000     0.000\n Go to RescaleCoords    :          64\n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.10      0.10\n  Allocate exact periodic particle buffer:                     64\n                   512\n           time for AddBuffer  =                       0.00      0.10\n  time to make list =  5.8993697E-05\n           time for List  =                            0.00      0.10\n  Go to FindDistinctCandidates:                    512\n Go to ParametersDistinct :         512\n           time for ParametersDistinct =               0.00      0.10\n           time for ParametersDistinct  =              0.00      0.10\n  goto RemoveCloseMaxima\n  time to make list Max  =  3.2007694E-05\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                    512\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         1         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 1                64\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           1           0           0           0           0           0           0\n           time for WriteFiles  =                      0.00      0.00\n",
+      "stderr": ""
+    }
+  ],
+  "variants": {
+    "reference": {
+      "binary_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/replay.exe",
+      "binary_sha256": "1a74d8519126268165b7c5d196ff537d4483594811a07928fa5e7c229af377af",
+      "source_sha256": "ab2098c6bacbbc572c1352ea2efe4f82ca43c1af352fa54eb2b134fdda3df4fb",
+      "finder_source_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/finder.f90",
+      "uninstrumented_source_sha256": "ef8a0bdf0c3406c83404ee35f569bd89705bcbb5670b220ffa63af156c4f7598",
+      "uninstrumented_source_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/finder-original.f90",
+      "flags": [
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise"
+      ],
+      "publication_binary_sha256": "78b10fdbc5a884e2f461a90552b0345515e709139e44e59fdee02db0d9845455",
+      "diagnostic_calls_after_successful_writefiles": 2,
+      "diagnostics_only_on_final_pass": true,
+      "source_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/finder.f90"
+    },
+    "optimized-v2": {
+      "binary_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2/replay.exe",
+      "binary_sha256": "73711010b4cfc5358a94c03d6c5bbd428830e41b974301220eafdd4cced37615",
+      "source_sha256": "c7473858265f74b5a3e10fc86a77a4c9eb047bcc59f58e668e5058c367ffe576",
+      "finder_source_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2/finder.f90",
+      "uninstrumented_source_sha256": "15a7c3c0fe2992fa0eb993608cf6459ea7b12e43cd0ac76db1f0e30f7b5cdf93",
+      "uninstrumented_source_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2/finder-original.f90",
+      "flags": [
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise"
+      ],
+      "publication_binary_sha256": "c61c2c912bab15665f942827c824a5b0e6ee501237212da55e6f56675efb5c35",
+      "diagnostic_calls_after_successful_writefiles": 2,
+      "diagnostics_only_on_final_pass": true,
+      "source_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2/finder.f90"
+    },
+    "v3": {
+      "binary_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/replay.exe",
+      "binary_sha256": "e751d52d9f081f9488bb83a5f536cc91f616f08029d70685e630e94316906432",
+      "source_sha256": "038285b1189a95824f6944dc211859dea46982c65898ed1eac87a997bd776656",
+      "finder_source_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/finder.f90",
+      "uninstrumented_source_sha256": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d",
+      "uninstrumented_source_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/finder-original.f90",
+      "flags": [
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise"
+      ],
+      "publication_binary_sha256": "6bfa401b0384721290ad488afb903552fe02233e9c38b54c6ae272a9bac1934c",
+      "diagnostic_calls_after_successful_writefiles": 2,
+      "diagnostics_only_on_final_pass": true,
+      "source_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/finder.f90"
+    }
+  },
+  "preflight": [
+    {
+      "variant": "reference",
+      "case": "bound",
+      "completed": true,
+      "repeated_catalogue_bytes_equal": true,
+      "restoration_markers": 2,
+      "selected": 1,
+      "candidates": 1,
+      "membership_bytes": 632,
+      "unbinding_bytes": 36,
+      "exact_original_ids": true
+    },
+    {
+      "variant": "reference",
+      "case": "empty",
+      "completed": true,
+      "repeated_catalogue_bytes_equal": true,
+      "restoration_markers": 2,
+      "selected": 0,
+      "candidates": 0,
+      "membership_bytes": 20,
+      "unbinding_bytes": 8,
+      "exact_original_ids": true
+    },
+    {
+      "variant": "reference",
+      "case": "publication-valid",
+      "prior_preserved_on_failure": false,
+      "completed": true
+    },
+    {
+      "variant": "reference",
+      "case": "publication-empty",
+      "prior_preserved_on_failure": false,
+      "completed": true
+    },
+    {
+      "variant": "reference",
+      "case": "publication-invalid",
+      "prior_preserved_on_failure": true,
+      "completed": true
+    },
+    {
+      "variant": "optimized-v2",
+      "case": "bound",
+      "completed": true,
+      "repeated_catalogue_bytes_equal": true,
+      "restoration_markers": 2,
+      "selected": 1,
+      "candidates": 1,
+      "membership_bytes": 632,
+      "unbinding_bytes": 36,
+      "exact_original_ids": true
+    },
+    {
+      "variant": "optimized-v2",
+      "case": "empty",
+      "completed": true,
+      "repeated_catalogue_bytes_equal": true,
+      "restoration_markers": 2,
+      "selected": 0,
+      "candidates": 0,
+      "membership_bytes": 20,
+      "unbinding_bytes": 8,
+      "exact_original_ids": true
+    },
+    {
+      "variant": "optimized-v2",
+      "case": "publication-valid",
+      "prior_preserved_on_failure": false,
+      "completed": true
+    },
+    {
+      "variant": "optimized-v2",
+      "case": "publication-empty",
+      "prior_preserved_on_failure": false,
+      "completed": true
+    },
+    {
+      "variant": "optimized-v2",
+      "case": "publication-invalid",
+      "prior_preserved_on_failure": true,
+      "completed": true
+    },
+    {
+      "variant": "v3",
+      "case": "bound",
+      "completed": true,
+      "repeated_catalogue_bytes_equal": true,
+      "restoration_markers": 2,
+      "selected": 1,
+      "candidates": 1,
+      "membership_bytes": 632,
+      "unbinding_bytes": 36,
+      "exact_original_ids": true
+    },
+    {
+      "variant": "v3",
+      "case": "empty",
+      "completed": true,
+      "repeated_catalogue_bytes_equal": true,
+      "restoration_markers": 2,
+      "selected": 0,
+      "candidates": 0,
+      "membership_bytes": 20,
+      "unbinding_bytes": 8,
+      "exact_original_ids": true
+    },
+    {
+      "variant": "v3",
+      "case": "publication-valid",
+      "prior_preserved_on_failure": false,
+      "completed": true
+    },
+    {
+      "variant": "v3",
+      "case": "publication-empty",
+      "prior_preserved_on_failure": false,
+      "completed": true
+    },
+    {
+      "variant": "v3",
+      "case": "publication-invalid",
+      "prior_preserved_on_failure": true,
+      "completed": true
+    },
+    {
+      "variant": "v3",
+      "case": "leak-passes",
+      "injected_workspace_leak_rejected": true
+    },
+    {
+      "variant": "v3",
+      "case": "leak-work",
+      "injected_workspace_leak_rejected": true
+    },
+    {
+      "variant": "v3",
+      "case": "density-truncated",
+      "invalid_input_rejected": true
+    },
+    {
+      "variant": "v3",
+      "case": "density-metadata",
+      "invalid_input_rejected": true
+    },
+    {
+      "variant": "v3",
+      "case": "particle-limit",
+      "invalid_input_rejected": true
+    },
+    {
+      "variant": "v3",
+      "case": "header-step",
+      "invalid_input_rejected": true
+    }
+  ],
+  "source_sha256": {
+    "AverageBispectrum.f90": "119c00b67d1ab507e21533508ec946841886635f11d4a3f2b6df140b0318d2fc",
+    "AveragePk.f90": "f92fb983583fc79c5d9eada9f448784a58004a7641f07d8bbca7d31b6f7334b4",
+    "Massfunction.f90": "8b1c30f459e6da82f3bb274b9045b7ff4a567d41e243d45a415063b021abe77d",
+    "PMP2MG_subroutines.f90": "128e0f3f17885a90baf42f90fb8e79a152354c5b476fd56ee7f1637bf15a1dbc",
+    "PMP2MGsolver_DGP.f90": "985ad50a2a754bbf23358244c1880c707ae45a8ca38ac9aac27a16d7ade9734d",
+    "PMP2MGsolver_csf.f90": "31e7c8f561ea135944abd07c4d578967a86405e7dba719e44b9a26466cca6a88",
+    "PMP2MGsolver_fR.f90": "e64c83a8a8ea404d106a7be02b2f62d334a5bd15ca34a55edf7d5d516c6cca20",
+    "PMP2MGsolver_kmf.f90": "f46433a9ee2bc2689381beb32931c8015f0243f147c0e3cfd86de322a6b60967",
+    "PMP2MGsolver_sym.f90": "84bcec5eaaf1054b72db7147b842b3b83952bdf72e9cb80523431e08cbedaf6c",
+    "PMP2analyze.f90": "ee116ae532dfdadb41e07b8017bcb4c655e52ce22a8c86d0d3c5039e43911cce",
+    "PMP2bdm.f90": "99fe4f521881aaf462ca650e0990a44fcd82ce113b8204931eff684baffcd766",
+    "PMP2catalReform.f90": "ebb857911929711fc1cfc3a42f4a65f4ed73933891d03b2d14b38a6080a89e29",
+    "PMP2catalogCorrect.f90": "1df9edb128f0561efce0d10139f5674b933246bc28d8db4f3df28a14e79248b4",
+    "PMP2correlation.f90": "774249be21ed3a2bc11479d64d92e4dfb45e0d130bd193cea2085fe023e337ae",
+    "PMP2density.f90": "c3cb79f5d4f1d5315ecb4edc94120674f9df1eda563e8bdc48bf79b47594682f",
+    "PMP2extradof.f90": "d741567059e23c36fcc37762ed3b323145bd5e770b379adfa1368639b15af87d",
+    "PMP2formatFiles.f90": "e7f26617ead8f8db4d323458b3a0a7ebb6f6507b954a96c87612b4cc17389f44",
+    "PMP2haloStat.f90": "6fcc2c14aababa6a8288a5c8a9f3da8aaaffe127414eb28af016fafdd5957b7a",
+    "PMP2init.f90": "5978546b1ba8efdaae512c22c31d764fb852dc0117d78e42950917870fa0a111",
+    "PMP2linker.f90": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d",
+    "PMP2main.f90": "487f9835ae1a73a41c84e31c138e356c2700aeb3a798304f53e7610594b2f0bb",
+    "PMP2mainMPI.f90": "edc0c750b4c9f02c07881b87455f111b638f0b47ef7d62c1ff7b3bebc0bb689d",
+    "PMP2mod_MGbackground.f90": "cd4b9fc2f9dca17c06c1be53ca9739437a4c9731eebeec34c6b429cacd763860",
+    "PMP2mod_analyze.f90": "444918cac15c7486718dcf6a7cf65e3fe21ad06b9bd9d0653dea0d83d6ae42fb",
+    "PMP2mod_density.f90": "199ad91667f32c068bab5882c08046c24970ca3caa0321d277cfc7d704e88ed3",
+    "PMP2mod_fft5.f90": "1cf32f6d5271c55ef282ce9299a9235d2de673b32b0d83bfd9ca409ea13c08c9",
+    "PMP2mod_power.f90": "3bb942f8a7ed217e79057e9d523728ac5a56328c89c01c01075a82ed89d4f7e0",
+    "PMP2mod_random.f90": "3b8eca39991da447d868c9c7ca1407e53d9ab6f0075789270d0e244c6a6258e8",
+    "PMP2mod_tools.f90": "c40db0bcdf20413878e2fc91262293f47dc322d9ab846ea146fe2b7d12e1e0fb",
+    "PMP2power.f90": "cf6c0c99d5e6819648626cae23381a4be7858985e0adf77048cfe280c527a3b7",
+    "PMP2powerSSC.f90": "e5a555dd9e602ff93460b4b3f90bce9e3f7a4186626bc53f9d576075159eefe3",
+    "PMP2readFiles.f90": "18ec7c4e5acd8f3cb00f422572f033dafeb7b33662b4210dd84c36352668c27b",
+    "PMP2spectrum.f90": "318594381c772eaf76fce54c4b872219ef9e432a5d65de794ab682943104059f",
+    "PMP2start.f90": "cf60bcf92c5620b3fd8428cbeaae2a56dc0177afb872f997df32c0280a8ecc4a",
+    "PMP2startMPI.f90": "63a16fb3b7964fb6a2adc40abd21e9aab9db9adfe960baac28e5cb26bce2bb20",
+    "PMP2tunestepping.f90": "99d9b9162bcab93e9494923d24bc2b681ae22b1c8274cc9dfc5b0ba90d5105e3",
+    "PMPcovariance.f90": "878aaf616bd579eb5097e0bb4761c4d52e67062ffb958b9a2f4adeadf566dc52",
+    "gadget2pm.f90": "7b6156f94ebe88e3623572c1d82eed466164b5c9d002fbc622f15889700116ee",
+    "ic2pm.f90": "b7c19a0393b38d85db09bd878e082a27c7513a5f62a3e0c69b0d14bcdfd5c96e",
+    "testMemory.f90": "4ec069a4b41fa5ea19f9ca82bcafe05eb7b5693e4c66b6ebc0763d905f9a23c3",
+    "testtOmp.f90": "a35dbb2e8b7ccc866377c40d60b795b0d0c29d91aa83ab8321cdae838e98d4c1",
+    "luxuryp.h": "ca26e590488d836593d330385e4f2e872932dd29966f78c83c1bc96b3b107836",
+    "makefile": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74"
+  },
+  "diagnostic_sha256": {
+    "replay_probe.f90": "6330c69b25904123c0816302c03ee6a1c2f6088d2357ccd6d2c396520fdadef2",
+    "replay_entry.f90": "25683c9a0cce109fc223f87728ea56256baba0ad5bb001df9acdc7d078cbf916",
+    "publication_preflight.f90": "711bd48a5733ef06e6ab296b4f1fcaaa4652c53479d05eef2fb1fa6284e218b0",
+    "diagnostics.f90": "33f06021eb69a67e81036d5843fc026d337f4fff963f31338a19e666363b24e7"
+  },
+  "production_binary": {
+    "binary_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/production/PMP2BDM.exe",
+    "binary_sha256": "e4e72db0e623db10095260a6d033aedc68359db21b255148e395eeba28506a59"
+  },
+  "common_objects_sha256": {
+    "PMP2mod_tools.o": "5547e07fb77a77be3f573efea5d0e9a705f6f821fb042e813d61258fadc34901",
+    "PMP2mod_fft5.o": "c8efb2eaf80df4e709368fe0af5c4f956b938508caeacaf72c2fe525515c6dec",
+    "PMP2mod_random.o": "4c9ad0911d5fc922a7bf884e25138a779a6cb1702e13b8238acd57f665123079",
+    "PMP2mod_density.o": "3d599cabce76e879150c8e4057f6b87565979f0539fa81f063da85801d19aaf1",
+    "PMP2mod_power.o": "1c1499cab682b54a4915d86d3be490ec9b3f68b396d37cf4f02f739926ebb9fc",
+    "PMP2mod_analyze.o": "a9433ec35492e53733da78fd68919c151950cfe4a07422b54cc13764f1c74bdf",
+    "PMP2MG_subroutines.o": "04cd24b96529dd21e4acfd2d3d927a8beeb5df9c386b338f087a403f1794e1c3",
+    "PMP2mod_MGbackground.o": "fa05fed992d977e057e4f66d14f2c5c0854d423894d957a7d07a1a49acde1190",
+    "PMP2MGsolver_fR.o": "fb1b92d4248749a2b88e0dfe6053cfa9212b32403e3b33d88b09d5c611307ecb",
+    "PMP2extradof.o": "e7a4759fdde4cbdaa8643237e121433dc44663ea1653a363a74c5bd0dff5f0af",
+    "PMP2MGsolver_DGP.o": "bf6482e2556bbaf5a05698cee83e51ce93d9e161807d6273b47157cab38afa94",
+    "PMP2MGsolver_sym.o": "7f8fa1d61e189973d7c2d902203f6bbdcfe1e87774dde95438e21e7424f418b9",
+    "PMP2MGsolver_kmf.o": "654490c7bfb983e92aa32275c33c72d7b613d6dc5ad331445759956765a65382",
+    "PMP2MGsolver_csf.o": "20ecefd813488721a03516ef5d8916633529cac250abdb6f3012cb93fe727970"
+  },
+  "common_modules_sha256": {
+    "analyze.mod": "0b8a3a17e45beddc01d1109acbb13685997e25f96ab6b44c0034320b6069a046",
+    "bdmduplicaterules.mod": "5775ef031a2db2775522403d4f185c2316928e376ace621a627d14b9317a58d0",
+    "density.mod": "af857218a8d2dc03dcd794e1b3460d5ea4d6d318cc6ec2eb38531244fcb86532",
+    "extradofbackgrounddata.mod": "09ff56039bfe1e0f8b96fdb4ed1a03ccb800adb4eed9f850e1f9a7915192750f",
+    "fft5.mod": "8c7e1f631ad523ffbf2ce58da4920cc558143f073d89e477dfd8f48fa97ea28d",
+    "linkerlist.mod": "4b2c39f90f61d32bf4fbc264fded52969f535ffbdf501ffcccaa244edc9f571f",
+    "luxury.mod": "60ebaac9a0485b7c160883c1f537f0dbbb5034d7159df7ca8713748514e2efa9",
+    "power.mod": "4dc78d8220d453a1583f54c8371401ab89212d8fa30df67df37e3ef70d84ba4d",
+    "random.mod": "6a9ddf9306b2f9996de294020527ad804d8dc58114ced7c68c29ecb653896ab4",
+    "structures.mod": "e59fc84121387e1a8e82af308cb7dadbebed7a84b6b64217bb2331253e2b6d49",
+    "tools.mod": "cbfc18aa5425e49f37d1ca8d44b375fe9ac6f1818c22b3073d82455005c2ae18"
+  },
+  "optimized_v2_preflight_catalogue_membership_telemetry_equal_reference": true,
+  "production_make_binary_preflight_matches_instrumented_v3": true,
+  "finished_at_utc": "2026-09-06T17:13:06.619557+00:00",
+  "snapshot_preflight_sha256": {
+    "PMcrs0.0001.DAT": "712078bb5c75f05f040fbd2ea51f9c7998f324cb831f83780cc1195b61135953",
+    "PMcrd.0001.DAT": "4705a99f0b53e779f75c9ebc307cffed42429a8e16bb95ab4cac397437ac9e42"
+  },
+  "preflight_density_sha256": "26cf67c131b6a9315f8b4655ab3833404b31e4516ef9aca60d0a705631b6e029",
+  "preflight_long_density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/preflight/density-path-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/fixed.bin",
+  "relocation": {
+    "receipt_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/native/relocation.json",
+    "receipt_sha256": "6bee6e10c263ac910c8221e5c0176d837f74033199a41b1aa4c394da3ce048f6",
+    "original_frozen_build_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906/BDM-refine/repairs/20260906-review-followup/work/native-build",
+    "original_build_receipt_sha256": "82fa732f1a1010b0226b6c36ae7578f6c9ca68b896dab7a4ab365286deae30cd"
+  }
+}
