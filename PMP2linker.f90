@@ -1290,7 +1290,13 @@ integer*8 :: ic,ip,i
                       +(5.7d0*max(concentration_proxy-.4d0,0.d0))**3
               slope_c=1.d0+2.d0*max(concentration_proxy-.4d0,0.d0) &
                       +(5.5d0*max(concentration_proxy-.4d0,0.d0))**3
-              Axba(ip)=real(axis_ratio(2)**slope_b); Axca(ip)=real(axis_ratio(3)**slope_c)
+              ! Different empirical powers can reverse the two transverse
+              ! lengths. Report intermediate/minor order after correction;
+              ! the principal-axis direction and both corrected lengths stay.
+              axis_ratio(2)=axis_ratio(2)**slope_b
+              axis_ratio(3)=axis_ratio(3)**slope_c
+              Axba(ip)=real(max(axis_ratio(2),axis_ratio(3)))
+              Axca(ip)=real(min(axis_ratio(2),axis_ratio(3)))
               Xax(ip)=direction(1); Yax(ip)=direction(2); Zax(ip)=direction(3)
             endif
           endif

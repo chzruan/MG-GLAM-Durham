@@ -1,0 +1,434 @@
+{
+  "checked_at_utc": "2026-09-06T12:25:10.997793+00:00",
+  "compiler": "ifx",
+  "baseline_commit": "b6e96669b6f7a8cba2f3dcaa9853278aac7edf11",
+  "source_sha256": "1353532b32f6f3f80457208f5d023f8f359097a35a24edfc41856453a21b154c",
+  "baseline_source_sha256": "868bb0d6c89e5daf1ca0f631419d86577dcfe31dde7969375398cb0408140fc0",
+  "compilation": {
+    "before-checked": {
+      "command": [
+        "ifx",
+        "-O0",
+        "-check",
+        "bounds",
+        "-fpe0",
+        "-fp-model",
+        "precise",
+        "-qopenmp",
+        "-extend-source",
+        "before.f90",
+        "-o",
+        "before-checked"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "before-optimized": {
+      "command": [
+        "ifx",
+        "-O3",
+        "-fp-model",
+        "precise",
+        "-qopenmp",
+        "-extend-source",
+        "before.f90",
+        "-o",
+        "before-optimized"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "repaired-checked": {
+      "command": [
+        "ifx",
+        "-O0",
+        "-check",
+        "bounds",
+        "-fpe0",
+        "-fp-model",
+        "precise",
+        "-qopenmp",
+        "-extend-source",
+        "repaired.f90",
+        "-o",
+        "repaired-checked"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "repaired-optimized": {
+      "command": [
+        "ifx",
+        "-O3",
+        "-fp-model",
+        "precise",
+        "-qopenmp",
+        "-extend-source",
+        "repaired.f90",
+        "-o",
+        "repaired-optimized"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "test_sha256": "4b115e73359a3874a51975ef020d05067daaca76f38e4b0b0af3a2ad409a6968",
+  "property_cases": [
+    {
+      "mode": "checked",
+      "cases": 281,
+      "before_inversions": 71,
+      "explicit_before": [
+        0.2825297713279724,
+        0.3057909309864044,
+        0.26726123690605164,
+        0.5345224738121033,
+        -0.8017837405204773
+      ],
+      "explicit_after": [
+        0.3057909309864044,
+        0.2825297713279724,
+        0.26726123690605164,
+        0.5345224738121033,
+        -0.8017837405204773
+      ],
+      "checks": [
+        "corrected lengths preserved bitwise as an unordered pair",
+        "0 <= c/a <= b/a <= 1",
+        "major-axis direction preserved bitwise"
+      ]
+    },
+    {
+      "mode": "optimized",
+      "cases": 281,
+      "before_inversions": 71,
+      "explicit_before": [
+        0.2825297713279724,
+        0.3057909309864044,
+        0.26726123690605164,
+        0.5345224738121033,
+        -0.8017837405204773
+      ],
+      "explicit_after": [
+        0.3057909309864044,
+        0.2825297713279724,
+        0.26726123690605164,
+        0.5345224738121033,
+        -0.8017837405204773
+      ],
+      "checks": [
+        "corrected lengths preserved bitwise as an unordered pair",
+        "0 <= c/a <= b/a <= 1",
+        "major-axis direction preserved bitwise"
+      ]
+    }
+  ],
+  "halo_cases": [
+    {
+      "mode": "checked",
+      "case": "near_degenerate_transverse",
+      "particles": 512,
+      "bound_count": 512,
+      "before_ratios": [
+        0.09647879749536514,
+        0.11737510561943054
+      ],
+      "after_ratios": [
+        0.11737510561943054,
+        0.09647879749536514
+      ],
+      "major_direction": [
+        1.0,
+        -5.835112096974626e-05,
+        -6.277281499933451e-05
+      ],
+      "member_sha256": "f3919dcd643cef119e87100f06f424fdd847542d230be0caf210e3b08fd5d8e3",
+      "checks": [
+        "only the two corrected semiaxis labels can change",
+        "identical masses, dynamics, positions and memberships",
+        "unit major direction remains a principal tensor eigenvector"
+      ]
+    },
+    {
+      "mode": "checked",
+      "case": "near_degenerate_transverse_rotated",
+      "particles": 512,
+      "bound_count": 512,
+      "before_ratios": [
+        0.09647879749536514,
+        0.11737510561943054
+      ],
+      "after_ratios": [
+        0.11737510561943054,
+        0.09647879749536514
+      ],
+      "major_direction": [
+        0.891594648361206,
+        0.4528343975543976,
+        -6.279033550526947e-05
+      ],
+      "member_sha256": "f3919dcd643cef119e87100f06f424fdd847542d230be0caf210e3b08fd5d8e3",
+      "checks": [
+        "only the two corrected semiaxis labels can change",
+        "identical masses, dynamics, positions and memberships",
+        "unit major direction remains a principal tensor eigenvector"
+      ]
+    },
+    {
+      "mode": "checked",
+      "case": "nearly_spherical",
+      "particles": 512,
+      "bound_count": 512,
+      "before_ratios": [
+        0.9805196523666382,
+        0.9646022319793701
+      ],
+      "after_ratios": [
+        0.9805196523666382,
+        0.9646022319793701
+      ],
+      "major_direction": [
+        0.9998762607574463,
+        -0.013312752358615398,
+        -0.008378664031624794
+      ],
+      "member_sha256": "f3919dcd643cef119e87100f06f424fdd847542d230be0caf210e3b08fd5d8e3",
+      "checks": [
+        "only the two corrected semiaxis labels can change",
+        "identical masses, dynamics, positions and memberships",
+        "unit major direction remains a principal tensor eigenvector"
+      ]
+    },
+    {
+      "mode": "checked",
+      "case": "separated_transverse_axes",
+      "particles": 512,
+      "bound_count": 512,
+      "before_ratios": [
+        0.33965232968330383,
+        0.007883291691541672
+      ],
+      "after_ratios": [
+        0.33965232968330383,
+        0.007883291691541672
+      ],
+      "major_direction": [
+        0.8917153477668762,
+        0.4525966942310333,
+        -2.128471578544122e-06
+      ],
+      "member_sha256": "f3919dcd643cef119e87100f06f424fdd847542d230be0caf210e3b08fd5d8e3",
+      "checks": [
+        "only the two corrected semiaxis labels can change",
+        "identical masses, dynamics, positions and memberships",
+        "unit major direction remains a principal tensor eigenvector"
+      ]
+    },
+    {
+      "mode": "checked",
+      "case": "below_empirical_threshold",
+      "particles": 512,
+      "bound_count": 512,
+      "before_ratios": [
+        0.8437918424606323,
+        0.8430894017219543
+      ],
+      "after_ratios": [
+        0.8437918424606323,
+        0.8430894017219543
+      ],
+      "major_direction": [
+        1.0,
+        -5.835112096974626e-05,
+        -6.277281499933451e-05
+      ],
+      "member_sha256": "f3919dcd643cef119e87100f06f424fdd847542d230be0caf210e3b08fd5d8e3",
+      "checks": [
+        "only the two corrected semiaxis labels can change",
+        "identical masses, dynamics, positions and memberships",
+        "unit major direction remains a principal tensor eigenvector"
+      ]
+    },
+    {
+      "mode": "checked",
+      "case": "rank_one",
+      "particles": 512,
+      "bound_count": 512,
+      "before_ratios": [
+        3.316365237981955e-11,
+        0.0
+      ],
+      "after_ratios": [
+        3.316365237981955e-11,
+        0.0
+      ],
+      "major_direction": [
+        0.8915684223175049,
+        0.45288607478141785,
+        0.0
+      ],
+      "member_sha256": "f3919dcd643cef119e87100f06f424fdd847542d230be0caf210e3b08fd5d8e3",
+      "checks": [
+        "only the two corrected semiaxis labels can change",
+        "identical masses, dynamics, positions and memberships",
+        "unit major direction remains a principal tensor eigenvector"
+      ]
+    },
+    {
+      "mode": "optimized",
+      "case": "near_degenerate_transverse",
+      "particles": 512,
+      "bound_count": 512,
+      "before_ratios": [
+        0.09647879749536514,
+        0.11737510561943054
+      ],
+      "after_ratios": [
+        0.11737510561943054,
+        0.09647879749536514
+      ],
+      "major_direction": [
+        1.0,
+        -5.835112096974626e-05,
+        -6.277281499933451e-05
+      ],
+      "member_sha256": "f3919dcd643cef119e87100f06f424fdd847542d230be0caf210e3b08fd5d8e3",
+      "checks": [
+        "only the two corrected semiaxis labels can change",
+        "identical masses, dynamics, positions and memberships",
+        "unit major direction remains a principal tensor eigenvector"
+      ]
+    },
+    {
+      "mode": "optimized",
+      "case": "near_degenerate_transverse_rotated",
+      "particles": 512,
+      "bound_count": 512,
+      "before_ratios": [
+        0.09647879749536514,
+        0.11737510561943054
+      ],
+      "after_ratios": [
+        0.11737510561943054,
+        0.09647879749536514
+      ],
+      "major_direction": [
+        0.891594648361206,
+        0.4528343975543976,
+        -6.279033550526947e-05
+      ],
+      "member_sha256": "f3919dcd643cef119e87100f06f424fdd847542d230be0caf210e3b08fd5d8e3",
+      "checks": [
+        "only the two corrected semiaxis labels can change",
+        "identical masses, dynamics, positions and memberships",
+        "unit major direction remains a principal tensor eigenvector"
+      ]
+    },
+    {
+      "mode": "optimized",
+      "case": "nearly_spherical",
+      "particles": 512,
+      "bound_count": 512,
+      "before_ratios": [
+        0.9805196523666382,
+        0.9646022319793701
+      ],
+      "after_ratios": [
+        0.9805196523666382,
+        0.9646022319793701
+      ],
+      "major_direction": [
+        0.9998762607574463,
+        -0.013312752358615398,
+        -0.008378664031624794
+      ],
+      "member_sha256": "f3919dcd643cef119e87100f06f424fdd847542d230be0caf210e3b08fd5d8e3",
+      "checks": [
+        "only the two corrected semiaxis labels can change",
+        "identical masses, dynamics, positions and memberships",
+        "unit major direction remains a principal tensor eigenvector"
+      ]
+    },
+    {
+      "mode": "optimized",
+      "case": "separated_transverse_axes",
+      "particles": 512,
+      "bound_count": 512,
+      "before_ratios": [
+        0.33965232968330383,
+        0.007883291691541672
+      ],
+      "after_ratios": [
+        0.33965232968330383,
+        0.007883291691541672
+      ],
+      "major_direction": [
+        0.8917153477668762,
+        0.4525966942310333,
+        -2.128471578544122e-06
+      ],
+      "member_sha256": "f3919dcd643cef119e87100f06f424fdd847542d230be0caf210e3b08fd5d8e3",
+      "checks": [
+        "only the two corrected semiaxis labels can change",
+        "identical masses, dynamics, positions and memberships",
+        "unit major direction remains a principal tensor eigenvector"
+      ]
+    },
+    {
+      "mode": "optimized",
+      "case": "below_empirical_threshold",
+      "particles": 512,
+      "bound_count": 512,
+      "before_ratios": [
+        0.8437918424606323,
+        0.8430894017219543
+      ],
+      "after_ratios": [
+        0.8437918424606323,
+        0.8430894017219543
+      ],
+      "major_direction": [
+        1.0,
+        -5.835112096974626e-05,
+        -6.277281499933451e-05
+      ],
+      "member_sha256": "f3919dcd643cef119e87100f06f424fdd847542d230be0caf210e3b08fd5d8e3",
+      "checks": [
+        "only the two corrected semiaxis labels can change",
+        "identical masses, dynamics, positions and memberships",
+        "unit major direction remains a principal tensor eigenvector"
+      ]
+    },
+    {
+      "mode": "optimized",
+      "case": "rank_one",
+      "particles": 512,
+      "bound_count": 512,
+      "before_ratios": [
+        3.316365237981955e-11,
+        0.0
+      ],
+      "after_ratios": [
+        3.316365237981955e-11,
+        0.0
+      ],
+      "major_direction": [
+        0.8915684223175049,
+        0.45288607478141785,
+        0.0
+      ],
+      "member_sha256": "f3919dcd643cef119e87100f06f424fdd847542d230be0caf210e3b08fd5d8e3",
+      "checks": [
+        "only the two corrected semiaxis labels can change",
+        "identical masses, dynamics, positions and memberships",
+        "unit major direction remains a principal tensor eigenvector"
+      ]
+    }
+  ],
+  "passed": 574,
+  "interpretation": "Both empirical corrected lengths and all non-shape results are preserved; only intermediate/minor labels are ordered"
+}
