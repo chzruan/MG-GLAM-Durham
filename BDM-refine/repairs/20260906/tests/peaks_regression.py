@@ -70,7 +70,7 @@ use BdmDuplicateRules
 contains
 '''
     names = ['BDM','ReleaseMaxima','ReadParameters','ConfigurationError','ValidateParameters',
-             'SetOverdensity','SetParameters','FindMaxima','IsDensityMaximum','WriteFiles']
+             'SetOverdensity','SetParameters','FindMaxima','IsDensityMaximum','WriteFiles','PrepareParticleSearch']
     generated = modules + '\n' + stub + '\n'.join(extract(source, name) for name in names)
     for name in ['AddBuffer','SizeList','List','FindDistinctCandidates','ParametersDistinct',
                  'SizeListMaxima','ListMaxima','RemoveDuplicates']:

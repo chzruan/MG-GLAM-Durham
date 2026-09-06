@@ -133,6 +133,7 @@ Contains
       Path =''
       tstart = seconds()
       Call ReadParameters(ISTEP)
+      Call PrepareParticleSearch
       Call SetParameters
       If(mDENSIT==1)Call DENSIT                 ! density on original Ng mesh
       Call FindMaxima
@@ -162,7 +163,7 @@ Contains
       
       Call  SizeList
             ALLOCATE (Lst(Np),Label(Nmx:Nbx,Nmy:Nby,Nmz:Nbz))
-            myMemory= Memory(1_8*(Np+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
+            myMemory= Memory(2_8*(Np+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
       tstart = seconds()
       Call List
       tfinish = seconds()
@@ -184,11 +185,11 @@ Contains
               write(*,*) ' goto RemoveCloseMaxima'
               tfinish = seconds()
             DEALLOCATE (Lst,Label)
-            myMemory= Memory(-1_8*(Np+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
+            myMemory= Memory(-2_8*(Np+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
               
       Call  SizeListMaxima
             ALLOCATE (Lst(Nmaxima),Label(Nmx:Nbx,Nmy:Nby,Nmz:Nbz))
-            myMemory= Memory(1_8*(Nmaxima+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
+            myMemory= Memory(2_8*(Nmaxima+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
       Call ListMaxima     
 !      Call RemoveDuplicatesSimple
       Call RemoveDuplicates
@@ -203,7 +204,7 @@ Contains
       close(12)
        !-------- deallocate temporary arrays
             DEALLOCATE (Lst,Label)
-            myMemory= Memory(-1_8*(Nmaxima+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
+            myMemory= Memory(-2_8*(Nmaxima+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
       
        Call ReleaseMaxima
       !-------- restore PM structure
@@ -219,6 +220,8 @@ Contains
       DEALLOCATE(Mvir,Rvir,Xoff,xMaxx,yMaxx,zMaxx,VxMaxx,VyMaxx,VzMaxx)
       DEALLOCATE(LstMax,EpotM,EkinM,LambdaM,VmaxM,RmaxM,Mtotal,RadRms)
       DEALLOCATE(Xax,Yax,Zax,Axba,Axca)
+      if(allocated(BoundParticleIds))deallocate(BoundParticleIds)
+      if(allocated(HaloStatus))deallocate(HaloStatus)
       released=Memory(-22_8*Nmaxima)
       end SUBROUTINE ReleaseMaxima
 
