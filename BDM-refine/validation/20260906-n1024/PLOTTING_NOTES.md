@@ -60,17 +60,20 @@ precision or resolution convergence.
 
 Optional metadata `reference_logmass: 12.5` adds a dotted mass marker and light
 grey shading below it on every mass-axis figure, including HMF and match coverage.
-This is a **literature-only resolution reference** supplied by the producer;
+This is a **z=0 literature reference** supplied by the producer;
 the script neither derives nor validates it. Preserve the associated citation
 in metadata (for example `reference_source`) for the deck. The marker applies
 no additional selection and does not establish convergence of the revised
-finder. A mass range outside the measured bins can be shown solely to make the
+finder. Its line at all redshifts is a common visual reference, not evidence of
+z=1 or z=2 convergence. A mass range outside the measured bins can be shown solely to make the
 reference visible; no data are extrapolated into that range.
 
-Plot-ready schema 2 includes energy and direction fields. Schema-1 statistics
-from the earlier plotting commit lack these catalogue fields, so regenerate
-them from the source catalogue NPZ into a fresh output directory before using
-the extended replot mode; historical receipts stay unchanged.
+Plot-ready schema 3 includes energy and direction fields with a direction cut
+that is independent of transverse-axis label ordering. Schema-1 statistics lack
+the energy/direction fields; schema 2 used b/a alone and can retain near-degenerate
+historical objects with reversed labels. Regenerate earlier statistics from the
+source catalogue NPZ into a fresh output directory before using replot mode;
+historical receipts stay unchanged.
 
 ## Units and definitions
 
@@ -148,10 +151,14 @@ then the plotted angle is `acos(abs(dot(old_hat,new_hat)))` in degrees (0–90).
 Taking the absolute dot product removes the arbitrary eigenvector sign; neither
 non-unit input norms nor sign flips imply a directional change. Zero or nonfinite
 vectors are invalid. To avoid directions that may be unstable near axis degeneracy,
-the plotted trend additionally requires both reported `b/a < 0.9` by default
-(`--direction-ba-max` changes this threshold). Large b/a is a conservative proxy
-that also excludes oblate cases; raw eigenvalue gaps are unavailable and this is
-not a calibrated orientation-reliability cut. The summary and plot-ready NPZ
+the plotted trend additionally requires `max(b/a,c/a) < 0.9` in **both** catalogues
+by default (`--direction-ba-max` retains its CLI name and changes this threshold).
+Both reported ratios must be finite and pass the same axis-ratio domain as the
+property diagnostics, [0,1] with the 5e-4 upper ASCII allowance. Taking the larger
+ratio makes the cut independent of historical transverse-axis label reversals;
+it never rewrites either reported ratio. This conservative proxy also excludes
+oblate cases; raw eigenvalue gaps are unavailable and this is not a calibrated
+orientation-reliability cut. The summary and plot-ready NPZ
 retain invalid-vector counts, shape-conditioning exclusions, the condition mask,
 and unconditioned angles, separately from the retained direction sample.
 
@@ -183,8 +190,10 @@ zero-sentinel handling, empty full analysis, direct auxiliary Rmax and its
 required units, and the independent repaired-axis-order assertion. Additional
 controls cover signed virial-ratio subtraction through zero, normalized sign-flip
 and orthogonal directions, zero/nonfinite vectors, extreme finite vector norms,
-both-side direction conditioning, and reference-marker selection independence. These
-artificial values are tests, not plot inputs.
+both-side direction conditioning, and reference-marker selection independence.
+Further controls reject reversed near-degenerate ratios on either catalogue side
+and nonfinite/negative/out-of-range transverse ratios, while checking that raw
+ratios remain unchanged. These artificial values are tests, not plot inputs.
 
 The real-data mechanics fixture uses the archived N128, L128 z=0 catalogues:
 `analysis/full-audit-20260906/catalogues-n128.npz:baseline` (757 old rows) and

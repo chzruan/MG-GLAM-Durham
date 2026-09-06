@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-09-06T13:29:53.988326+00:00",
+  "scope": "Focused transverse-axis direction selection repair; archived N128 mechanics only, no repeated N512 resource pilot or main-run claims",
+  "script_sha256": "45081bde5966aec49d9762a1d7b2e49dd6c834df1707a557a60d8447876e59bc",
+  "self_check": {
+    "passed": true,
+    "checks": [
+      "dense periodic nearest-neighbour oracle",
+      "periodic face",
+      "duplicate-centre ambiguity",
+      "empty counterpart",
+      "invalid position",
+      "minimum-radius cutoff and units",
+      "rightmost mass-bin inclusion",
+      "zero sentinel distinct from invalid",
+      "empty full analysis",
+      "required auxiliary Rmax units",
+      "direct Rmax residual",
+      "published zero-sentinel fraction",
+      "independent repaired axis-order assertion",
+      "finite signed virial-ratio domain and subtraction across zero",
+      "normalized sign-flip and orthogonal major axes",
+      "zero/nonfinite direction rejection",
+      "extreme finite direction normalization",
+      "both-side b/a degeneracy-proxy exclusion",
+      "literature reference metadata does not select rows",
+      "label-invariant transverse-axis direction proxy",
+      "invalid reported transverse-ratio rejection",
+      "both-catalogue reversed-axis conditioning and raw-ratio preservation"
+    ]
+  },
+  "previous_schema": 2,
+  "new_schema": 3,
+  "previous_summary_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/comparison-summary.json",
+  "previous_summary_sha256": "87f5e1b825cf341cb14f10cf34d425e7527e484c759a53fe179fd07ade4f12b6",
+  "input_npz_sha256": "3ae488d89e3ab0d647780710a7a78cb279c1b9ab4e87660565e3b896d014b128",
+  "metadata_sha256": "bae205aaa295bca9dce28b1a45a7281da1fc2607a9f70cb9b541a2f26eb35e04",
+  "checks": {
+    "matching_hmf_catalogue_counts_unchanged": true,
+    "all_other_property_statistics_and_quality_unchanged": true,
+    "reported_raw_ratios_and_unconditioned_angles_unchanged": true,
+    "independent_both_catalogue_max_ratio_oracle": true,
+    "prior_schema2_replot_rejected": true,
+    "historical_receipts_unchanged": true
+  },
+  "saved_array_count": 105,
+  "changed_saved_arrays": [],
+  "direction_pairs_before": 692,
+  "direction_pairs_after": 692,
+  "matched_pairs": 754,
+  "native_latex_pdf_count": 7,
+  "scratch": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-direction-axis-check-x0fcof0_",
+  "outputs_sha256": {
+    "comparison-plot-ready.npz": "d826df8556f69205d44c8d62efa17661efadaa4ea91fbe7b800954125e4eed98",
+    "comparison-summary.json": "08d473e059b66e4ae5b985bec78e39b801948a86c8f559259d5a3dff37aed50b",
+    "hmf.pdf": "d3b746ee8efc1c61ac2ee41a5017ee8cf7d509ad735bc38510e5cf75a2992716",
+    "matched_energy_direction.pdf": "61121f5fc574bcf7f35d4a4cae8495f52347951121281ed9941591d9e081f025",
+    "matched_primary.pdf": "e0aad8485d3c2af1b7e01990c579654d56257480a5efcba4014691a9cc81832f",
+    "matched_structure.pdf": "ae6e0344b23d37a4ac5004b3b9b42b22271ebe71b2846ac316cc8f282f42feb9",
+    "matched_total_mass.pdf": "1c139b89b9565233a3282956d7117df241576c641169a49933f4379fa24a99bb",
+    "matching.pdf": "fb869bce28b9837ae78e7974a212d45127a5f17819de763457ee65b7d2e1773e",
+    "quality.pdf": "506f20e121f06e45d8b67f3b7d1b1f3d7c6b55425419f360918bb5a68a4aa7b7"
+  },
+  "elapsed_seconds": 55.264945742907,
+  "visual_inspection": "Energy/direction and HMF PDFs inspected at slide scale: max(b/a,c/a) conditioning and z=0 reference captions legible without clipping",
+  "cleanup": {
+    "removed_render_cache_files": 391,
+    "removed_preview_pngs": 2,
+    "preserved_figures_arrays_summary": true
+  }
+}

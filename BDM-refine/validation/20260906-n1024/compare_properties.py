@@ -60,8 +60,8 @@ LIMITATIONS = [
     "Concentration is a mass/radius/Vmax diagnostic with a radius-based fallback, not an independently fitted profile concentration.",
     "Separate empirical corrections can make the reported c/a exceed b/a. Axis-order anomalies are counted separately; in-range calibrated axis ratios remain in matched-property statistics.",
     "Virial-ratio changes compare the signed catalogue quantity 2K/Ep-1 by absolute subtraction; old/new energy definitions differ, so this is not a common-definition equilibrium test.",
-    "Major-axis angles normalize both vectors and remove the arbitrary sign with acos(abs(dot)). Direction trends require both reported b/a below the configured threshold; this conservative degeneracy proxy cannot replace unavailable raw eigenvalue-gap conditioning.",
-    "An optional reference_logmass marker/shading is supplied by metadata as a literature-only resolution reference. It neither selects rows nor establishes convergence of the revised finder.",
+    "Major-axis angles normalize both vectors and remove the arbitrary sign with acos(abs(dot)). Direction trends require valid reported transverse ratios and max(b/a,c/a) below the configured threshold in both catalogues, independent of their label ordering; this conservative degeneracy proxy cannot replace unavailable raw eigenvalue-gap conditioning.",
+    "An optional reference_logmass marker/shading is supplied by metadata as a z=0 literature reference. At other redshifts it is only a common visual reference, not z=1/z=2 convergence evidence; it neither selects rows nor establishes convergence of the revised finder.",
     "Catshort contains no Rmax. Direct row-aligned auxiliary values may be supplied, but Rmax is never inferred from concentration.",
     "Quality fractions describe published catalogue rows only. Candidate rejection/status fractions require finder logs; missing candidates are not counted as valid or invalid published rows.",
     "HMF error bars are marginal sqrt(N) counting scales, not errors on the correlated old/new difference. Trend bands are 16th–84th percentiles of halo differences, not confidence intervals.",
@@ -184,9 +184,9 @@ def major_axis_angles(old: np.ndarray, new: np.ndarray) -> np.ndarray:
 
 
 def direction_shape_mask(table: np.ndarray, maximum_ba: float) -> np.ndarray:
-    """Reported b/a is a proxy, not an eigenvalue-gap measurement."""
-    ba = table[:, 19]
-    return np.isfinite(ba) & (ba >= 0.) & (ba < maximum_ba)
+    """Label-independent transverse-ratio proxy; raw eigenvalue gaps are absent."""
+    ratios = table[:, 19:21]
+    return np.all(valid_values(ratios, "axis_ratio"), axis=1) & (np.max(ratios, axis=1) < maximum_ba)
 
 
 def binned_quantiles(mass: np.ndarray, change: np.ndarray, edges: np.ndarray) -> tuple:
@@ -221,7 +221,7 @@ def analyse(catalogue_path: Path, metadata_path: Path, args: argparse.Namespace)
         if not np.isfinite(reference_logmass):
             raise ValueError("reference_logmass must be finite when supplied")
     prepared = {}
-    report = {"schema_version": 2, "created_utc": datetime.now(timezone.utc).isoformat(),
+    report = {"schema_version": 3, "created_utc": datetime.now(timezone.utc).isoformat(),
               "input_npz": str(catalogue_path.resolve()), "input_npz_sha256": sha256(catalogue_path),
               "metadata_sha256": sha256(metadata_path), "metadata": metadata,
               "script_sha256": sha256(Path(__file__)), "columns": COLUMNS,
@@ -327,7 +327,7 @@ def analyse(catalogue_path: Path, metadata_path: Path, args: argparse.Namespace)
                         epoch["quality"][side][name].update(
                             shape_conditioning_excluded_count=int(shape_rejected.sum()),
                             shape_conditioning_excluded_fraction=float(shape_rejected.mean()) if len(table) else None,
-                            conditioning="Finite nonzero direction and reported b/a below direction_ba_max; raw eigenvalue gaps unavailable")
+                            conditioning="Finite nonzero direction, both reported transverse ratios in the valid axis-ratio domain, and max(b/a,c/a) below direction_ba_max; raw eigenvalue gaps unavailable")
                 a, b = values[0][oi], values[1][ni]
                 valid = valid_values(a, domain) & valid_values(b, domain)
                 conditioning = {}
@@ -398,7 +398,7 @@ def plot_figures(data: dict, report: dict, output: Path, usetex: bool = True) ->
         source_text = f"Finder revisions: {str(revisions['old'])[:12]} to {str(revisions['new'])[:12]}"
         fig.text(.5, .93, tex_escape(source_text) if usetex else source_text, ha="center", va="top", fontsize=10)
         if any(getattr(ax, "_bdm_mass_reference", False) for ax in fig.axes):
-            note += "\n" + (rf"Grey below $\log_{{10}}M={cfg['reference_logmass']:g}$: literature-only reference; "
+            note += "\n" + (rf"Grey below $\log_{{10}}M={cfg['reference_logmass']:g}$: $z=0$ literature reference; "
                            "no convergence claim for the revised finder.")
         bottom = .065 + .03 * note.count("\n")
         fig.text(.5, .012, note, ha="center", va="bottom", fontsize=10)
@@ -537,8 +537,8 @@ def plot_figures(data: dict, report: dict, output: Path, usetex: bool = True) ->
         ax.grid(True, ls=":", alpha=.2)
         mass_reference(ax)
     finish(fig, "matched_energy_direction.pdf",
-           rf"Directions: both reported $b/a<{cfg['direction_ba_max']:g}$; raw eigenvalue gaps unavailable. "
-           rf"Medians and 16--84 percentiles; $N_\mathrm{{bin}}\geq {minimum}$; bands are not errors on the median.")
+           rf"Directions: valid ratios and $\max(b/a,c/a)<{cfg['direction_ba_max']:g}$ in both catalogues; raw eigenvalue gaps unavailable."
+           "\n" + rf"Medians and 16--84 percentiles; $N_\mathrm{{bin}}\geq {minimum}$; bands are not errors on the median.")
 
     fig = plt.figure(figsize=(11.8, 6.5))
     grid = fig.add_gridspec(2, 2, height_ratios=[2.1, 1.25])
@@ -643,6 +643,12 @@ def self_check() -> dict:
                                np.array([[-6., -8., 0.], [0., 5., 0.], [1., 0., 0.], [1., 0., 0.], [-1.e-300, 0., 0.]]))
     assert np.allclose(angles[[0, 1, 4]], [0., 90., 0.], atol=1.e-6)
     assert np.all(np.isnan(angles[[2, 3]]))
+    shape_controls = table(np.zeros((10, 3)))
+    shape_controls[:, 19:21] = [[.8987653, .9014118], [.9014118, .8987653],
+                                [.8, .89], [.89, .8], [.8, np.nan], [.8, np.inf],
+                                [.8, -.001], [.8, 1.001], [-.001, .8], [np.nan, .8]]
+    assert np.array_equal(direction_shape_mask(shape_controls, .9),
+                          [False, False, True, True, False, False, False, False, False, False])
     with tempfile.TemporaryDirectory(prefix="bdm-comparison-self-check-") as temporary:
         directory = Path(temporary)
         meta = directory / "metadata.json"
@@ -692,6 +698,17 @@ def self_check() -> dict:
         assert np.array_equal(arrays["z0__major_axis_angle_deg__valid"], [True, False, False, False])
         assert direction_report["configuration"]["reference_logmass"] == 12.5
         assert arrays["z0__old_hmf_counts"].sum() == 4 and direction_report["epochs"]["z0"]["matching"]["pairs"] == 4
+        # Historical empirical corrections can reverse the transverse labels.
+        before[:, 19:21] = [[.8987653, .9014118], [.8, .7], [.8, -.001], [.8, .7]]
+        after[:, 19:21] = [[.8, .7], [.8987653, .9014118], [.8, .7], [.8, .7]]
+        before[:, 21:24] = [1., 0., 0.]; after[:, 21:24] = [-1., 0., 0.]
+        np.savez(fixture, old_z0=before, new_z0=after)
+        arrays, reversed_report = analyse(fixture, meta, options)
+        assert np.array_equal(arrays["z0__major_axis_angle_deg__valid"], [False, False, False, True])
+        assert np.allclose(arrays["z0__major_axis_angle_deg__unconditioned_change"], 0.)
+        assert np.array_equal(arrays["z0__b_over_a__old"], before[:, 19])
+        assert np.array_equal(arrays["z0__c_over_a__old"], before[:, 20])
+        assert reversed_report["epochs"]["z0"]["matching"]["pairs"] == 4
     return {"passed": True, "checks": ["dense periodic nearest-neighbour oracle", "periodic face",
             "duplicate-centre ambiguity", "empty counterpart", "invalid position", "minimum-radius cutoff and units",
             "rightmost mass-bin inclusion", "zero sentinel distinct from invalid", "empty full analysis",
@@ -699,7 +716,8 @@ def self_check() -> dict:
             "independent repaired axis-order assertion", "finite signed virial-ratio domain and subtraction across zero",
             "normalized sign-flip and orthogonal major axes", "zero/nonfinite direction rejection",
             "extreme finite direction normalization", "both-side b/a degeneracy-proxy exclusion",
-            "literature reference metadata does not select rows"]}
+            "literature reference metadata does not select rows", "label-invariant transverse-axis direction proxy",
+            "invalid reported transverse-ratio rejection", "both-catalogue reversed-axis conditioning and raw-ratio preservation"]}
 
 
 def main() -> None:
@@ -716,7 +734,7 @@ def main() -> None:
     parser.add_argument("--ambiguity-ratio", type=float, default=.5)
     parser.add_argument("--tie-atol", type=float, default=1.e-4, help="Mpc/h; native ASCII position rounding scale")
     parser.add_argument("--expect-ordered-new", action="store_true", help="Fail if a repaired catalogue still reports c/a>b/a beyond ASCII tolerance")
-    parser.add_argument("--direction-ba-max", type=float, default=.9, help="Direction comparison requires both reported b/a below this degeneracy-proxy threshold")
+    parser.add_argument("--direction-ba-max", type=float, default=.9, help="Direction comparison requires valid ratios and max(b/a,c/a) below this proxy threshold in both catalogues")
     parser.add_argument("--skip-plots", action="store_true")
     parser.add_argument("--no-tex", action="store_true", help="Explicit mathtext fallback if a LaTeX installation is unavailable")
     parser.add_argument("--self-check", action="store_true")
@@ -743,8 +761,8 @@ def main() -> None:
         if args.summary is None:
             parser.error("--plot-ready requires --summary")
         report = json.loads(args.summary.read_text())
-        if report.get("schema_version") != 2:
-            raise ValueError("These saved statistics predate energy/direction comparisons; rerun --catalogues/--metadata into a fresh output directory")
+        if report.get("schema_version") != 3:
+            raise ValueError("These saved statistics predate corrected transverse-axis direction conditioning; rerun --catalogues/--metadata into a fresh output directory")
         if sha256(args.plot_ready) != report["plot_ready_sha256"]:
             raise ValueError("Saved plot-ready data hash disagrees with summary")
         with np.load(args.plot_ready, allow_pickle=False) as archive:
