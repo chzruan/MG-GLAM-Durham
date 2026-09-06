@@ -9,7 +9,7 @@ LDFLAGS =  -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-mo
 # Append the finder safety flags after overrides, including recursive bitmatch
 # builds. Intel resolves repeated FP-model options in favour of the last one.
 BDM_FFLAGS = $(FFLAGS)
-BDM_PRECISE_FLAGS = $(if $(filter gfortran%,$(notdir $(lastword $(FC)))),-fno-fast-math -ffp-contract=off,-fp-model precise)
+BDM_PRECISE_FLAGS = $(if $(filter gfortran%,$(notdir $(FC))),-fno-fast-math -ffp-contract=off,-fp-model precise)
 FMPI = mpiifort
 MPIFLAGS =  -O3 -lmpi -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian
 

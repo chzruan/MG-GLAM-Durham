@@ -18,4 +18,5 @@ they do not establish completeness against every possible catalogue defect.
 `resource-plan.json` and `accounting.json` retain launch and resource evidence.
 The job used one shared COSMA8 core for 80 s (0.02223 allocated core-hours),
 63.297 CPU s. The process reported 445 MiB peak RSS; Slurm charged 4084 MiB,
-including file cache, close to its 4 GiB memory request. Use 6 GiB for a repeat.
+close to its 4 GiB memory request. The reason for the difference was not
+measured. Use 6 GiB for a repeat.

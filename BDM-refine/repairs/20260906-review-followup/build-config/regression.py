@@ -258,7 +258,9 @@ def fp_tests(scratch):
             ('bitmatch_fma_sensitive',current,'PMP2main-bitmatch',
              ['FFLAGS_BITMATCH=-O2 -g -qopenmp -march=core-avx2 -mfma'],'00000000'),
             ('gnu_override',current,'PMP2main',
-             ['FC=gfortran','FFLAGS=-O3 -march=core-avx2 -mfma -ffast-math','LDFLAGS=-fopenmp'],'00000000')]:
+             ['FC=gfortran','FFLAGS=-O3 -march=core-avx2 -mfma -ffast-math','LDFLAGS=-fopenmp'],'00000000'),
+            ('gnu_compiler_option',current,'PMP2main',
+             ['FC=gfortran -m64','FFLAGS=-O3 -march=core-avx2 -mfma -ffast-math','LDFLAGS=-fopenmp'],'00000000')]:
         path=scratch/('make-'+label);path.mkdir();make_fixture(path,makefile)
         compilation=run(['make','-j1',*overrides,target],path)
         result=run([str(path/(target+'.exe'))],path,INPUT)
@@ -266,7 +268,7 @@ def fp_tests(scratch):
         finder_lines=[line for line in compilation['stdout'].splitlines() if line.endswith('-c PMP2linker.f90')]
         assert len(finder_lines)==1,compilation
         if label!='old_override_reproducer':
-            suffix='-fno-fast-math -ffp-contract=off -w -c PMP2linker.f90' if label=='gnu_override' else '-fp-model precise -w -c PMP2linker.f90'
+            suffix='-fno-fast-math -ffp-contract=off -w -c PMP2linker.f90' if label.startswith('gnu_') else '-fp-model precise -w -c PMP2linker.f90'
             assert finder_lines[0].endswith(suffix),finder_lines
         builds.append(dict(label=label,makefile_sha256=sha(makefile),compilation=compilation,runtime=result,
                            binary_sha256=sha(path/(target+'.exe')),finder_command=finder_lines[0]))
@@ -306,7 +308,7 @@ def main():
     report.update(completed=True,finished_at_utc=datetime.now(timezone.utc).isoformat())
     args.output.write_text(json.dumps(report,indent=2)+'\n')
     print('Passed',report['configuration_and_entrypoints']['passed'],'configuration/entrypoint cases, '
-          '6 compiler precedence controls and 8 actual make/runtime builds.')
+          '6 compiler precedence controls and 9 actual make/runtime builds.')
 
 
 if __name__=='__main__':main()

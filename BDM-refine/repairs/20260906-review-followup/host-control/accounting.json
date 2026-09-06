@@ -46,5 +46,5 @@
   "charged_core_hours": 0.022222222222222223,
   "time_limit_core_hours": 0.16666666666666666,
   "cpu_efficiency": 0.7912125,
-  "memory_note": "Slurm batch MaxRSS 4181824 KiB includes charged file cache; process self-report 455556 KiB. The 4 GiB request sufficed but near-limit accounting argues for 6 GiB if repeated."
+  "memory_note": "Slurm batch MaxRSS 4181824 KiB, process self-report 455556 KiB. Their difference was not measured. The 4 GiB request sufficed but near-limit Slurm accounting argues for 6 GiB if repeated."
 }

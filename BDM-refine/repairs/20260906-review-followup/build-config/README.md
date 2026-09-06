@@ -98,3 +98,14 @@ micromamba run -n cosemu python3 -B \
 Use a new output path to preserve the committed receipt. Scratch modules,
 objects, executables and run files are removed automatically. Existing audit,
 review and regression receipts are unchanged.
+
+## Integration follow-up
+
+Cross-review found that inspecting only the last word of `FC` misclassified
+`FC="gfortran -m64"`. The family check now recognizes a `gfortran` command
+anywhere in the command words, including paths and ordinary command wrappers.
+Opaque wrapper names require an explicit `BDM_PRECISE_FLAGS` appropriate to
+the underlying compiler. `integration-results.json` adds a real GNU build
+with an option in `FC`: all 104 configuration/entry checks, six Intel
+precedence controls, and nine actual make/runtime builds passed. The original
+`results.json` remains evidence for the earlier recorded source.
