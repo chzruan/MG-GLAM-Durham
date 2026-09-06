@@ -1,11 +1,17 @@
 # Halo property repairs: F05–F08 and GetHalo portions of F13
 
-The halo-property path now determines spherical-overdensity (SO) radii from the
-sorted particle radii. It chooses the outermost constant-enclosed-mass interval
-containing the exact SO root, with at least ten enclosed particles. This removes
-the shifted logarithmic-bin interpolation and makes the answer independent of
-`dLogR`. The normalization remains `1.150e12 * Om0 * Ovdens`, now evaluated in
-double precision.
+The halo-property path determines the outermost spherical-overdensity (SO)
+root over the verified physical search domain, with at least ten enclosed
+particles. It gathers the complete search cap first; a still-overdense cap is
+explicitly rejected. Given n available particles, no root can exceed
+`(n*MassOne/threshold)^(1/3)`. Discarding particles outside that bound and
+recomputing it preserves every possible SO root and converges to the greatest
+self-consistent enclosed population. After 16 contractions, an exact sorted
+interval scan finishes profiles that would otherwise discard one row per pass.
+The Rext aperture is then gathered and sorted for binding. This removes both
+the shifted logarithmic-bin interpolation and the initial-Cell bracket bias;
+`dLogR` does not set the answer. The normalization remains
+`1.150e12 * Om0 * Ovdens`, evaluated in double precision.
 
 Unbinding starts with particles inside the unextended SO radius. Each pass
 recomputes the peculiar bulk velocity and the isolated spherical Newtonian
@@ -73,3 +79,8 @@ unresolved Vmax, singular and clipped-domain rejection, sorted original-ID
 membership and 1/2/4-thread candidate equality. Temporary build/run artifacts are
 removed automatically. `halo_results.json` records source/test hashes and all
 checks. Full native finder replays are coordinated on the integration branch.
+
+Independent review found and repaired the SO bracket dependence and possible
+large-index overflow in both heapsorts. They now use int64 sizes and indices.
+See [halo_review.md](halo_review.md) for the original findings and
+[halo_followup.md](halo_followup.md) for repair assertions and evidence.
