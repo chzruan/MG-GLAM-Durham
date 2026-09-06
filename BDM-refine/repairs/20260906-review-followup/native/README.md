@@ -7,8 +7,10 @@ common sources against commit `800eaac76ef7fe78e6a392c85c3a88822b1c9135`.
 Source, object, module, executable and diagnostic source hashes, every compiler
 command, and small native preflight results are recorded in `native/build.json`
 under `--root`. Existing receipts and build directories are rejected, so a
-failed build needs a new output root. Build artifacts remain in
-`work/native-build` for provenance and later verified cleanup.
+failed build needs a new output root. Build artifacts were staged in
+`work/native-build`; after completed validation they were consolidated into
+the verified `../work-artifacts.tar.gz`, with paths/hashes in
+[`../work-archive.json`](../work-archive.json).
 
 The variants are:
 
@@ -100,3 +102,29 @@ pass/work arrays, malformed or truncated density tapes, a header/step mismatch,
 and a 1200-cubed header (rejected before large allocation). Inputs are rehashed
 after all runs. All synthetic data and binaries stay under the ignored work
 directory; no historical audit or repair receipts are changed.
+
+## Completed N1024 follow-up
+
+Jobs 11949499 (64 threads) and 11949500 (32 threads) completed all ten stages
+and sixteen full finder calls. The computational-only v2 control has
+byte-identical catalogues, memberships and unbinding diagnostics. Every variant
+also agrees byte for byte across 32/64 threads with fixed FI, and all repeated
+z=0 catalogues agree. The wrapper verifies exact PM restoration and complete
+finder teardown after every call; final uncached input hashes also agree.
+
+The final v3 finder publishes 51,879 / 118,788 / 146,131 haloes at z=2 / 1 / 0,
+versus 52,370 / 119,688 / 147,042 for v2. All membership, mass-count and selected
+host checks pass. Job 11949535 completed the full paired property analysis and
+output/source identity checks. [Comparison](comparison.json),
+[compact tables](comparison-catalogues.npz), [32-thread receipt](results-t32.json),
+[64-thread receipt](results-t64.json), and [accounting](accounting.json) retain
+the quantitative evidence. The [follow-up report](../README.md) states the
+matching convention, property cuts, measured timing scope, unbinding tail and
+remaining limits.
+
+Verified cleanup job 11949711 consolidated 441 finished scratch files and
+removed 66 empty directories. Small original run products and complete build
+provenance remain in the archive; large science tapes and membership indexes
+remain unpacked. Refer to the archive manifest before accessing a historical
+`work/` path in a receipt. Reproduction should use a fresh output root and
+preserve the existing completed receipts.

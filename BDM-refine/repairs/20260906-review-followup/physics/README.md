@@ -140,8 +140,8 @@ micromamba run -n cosemu python3 -B BDM-refine/repairs/20260906-review-followup/
 Intel requires the compiler and runtime modules loaded before the same command
 with `--compiler ifx`; pass the native runtime library path through
 `BDM_AUDIT_NATIVE_LIBS` when the Python environment overrides it. No simulations
-or Slurm jobs are launched by this suite. Native production replay remains a
-separate integration requirement.
+or Slurm jobs are launched by this suite. The completed native production
+replay is recorded separately in the [follow-up report](../README.md).
 
 ## Current-source algorithm regressions
 

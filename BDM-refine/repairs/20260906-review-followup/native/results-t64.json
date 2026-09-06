@@ -1,0 +1,1854 @@
+{
+  "completed": true,
+  "started_at_utc": "2026-09-06T17:19:04.626218+00:00",
+  "job_id": "11949499",
+  "host": "m8116.pri.cosma.local",
+  "threads": 64,
+  "plan_sha256": "ebb703cf1416b6f58bfa8fa21d18c2a7f7d7ea9f7d1c75f6d010d07479fa69cb",
+  "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+  "build_sha256": "640d73b5194d030abb64abf9862d3a0af587da38e447d65f0161bd09128c0a5a",
+  "stages": [
+    {
+      "case": {
+        "label": "z0-reference",
+        "z": 0,
+        "variant": "reference",
+        "passes": 2,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "density_sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b"
+      },
+      "binary_sha256": "1a74d8519126268165b7c5d196ff537d4483594811a07928fa5e7c229af377af",
+      "threads": 64,
+      "plan_sha256": "ebb703cf1416b6f58bfa8fa21d18c2a7f7d7ea9f7d1c75f6d010d07479fa69cb",
+      "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+      "completed": true,
+      "started_at_utc": "2026-09-06T17:20:28.347810+00:00",
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/replay.exe",
+        "158",
+        "64",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "read"
+      ],
+      "job_id": "11949499",
+      "host": "m8116.pri.cosma.local",
+      "config_sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+      "outputs_sha256": {
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-reference/replay.log": "28f858e3a3831103b456f86407d2e647116b9a23f5931c9110314e508dd7b349",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-reference/replay.time": "637c12a2ed22e62dd876f7ca57684a19378fd25678464bc370a53adbb1e06840",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-reference/BDM.config": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-reference/p1.DAT": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-reference/p2.DAT": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-reference/repair-members.bin": "4675987404af7b5013f8b3f9250221e2f25cc55a1905a941b0d6e7d92cea93ec",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-reference/repair-members.index.npz": "01b02e5a1d53c0a666c9acef00be398c630d053cb9ba0db072c236230533dd20",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-reference/unbinding.bin": "1ab36520fd1a4f2e5949032151e12190660b2346bce12d8149397e3f4cbc4358"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 381.88048127200454,
+      "finder_seconds": [
+        142.859947,
+        136.395066
+      ],
+      "stage_seconds": {
+        "AddBuffer": [
+          3.69,
+          3.45
+        ],
+        "List": [
+          13.64,
+          12.99
+        ],
+        "ParametersDistinct": [
+          107.27,
+          96.95
+        ],
+        "WriteFiles": [
+          1.85,
+          10.01
+        ]
+      },
+      "membership": {
+        "selected": 147042,
+        "candidates": 794570,
+        "mass_one": 10711107584.0,
+        "exact_duplicate_member_sets": 0,
+        "repeated_original_ids": 0,
+        "mass_count_mismatches": 0,
+        "host_exclusion_violations": 0,
+        "higher_priority_neighbours_examined": 0,
+        "ordered_candidate_ids": true,
+        "catalogue_columns_linked_to_raw": 23,
+        "particle_mass_checked_against_snapshot": true,
+        "raw_sha256": "4675987404af7b5013f8b3f9250221e2f25cc55a1905a941b0d6e7d92cea93ec",
+        "retained_raw": "BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-reference/repair-members.bin",
+        "total_memberships": 218737661,
+        "index_sha256": "01b02e5a1d53c0a666c9acef00be398c630d053cb9ba0db072c236230533dd20"
+      },
+      "unbinding": {
+        "candidates": 794570,
+        "evaluated_candidates": 625829,
+        "max_passes": 209,
+        "active_particle_rows": 2110973656,
+        "candidates_over_32": 278,
+        "work_over_32": 147604184,
+        "selected_over_32": 1,
+        "selected_max_passes": 41,
+        "max_retained_bound_count": 183721,
+        "pass_histogram": {
+          "0": 168741,
+          "1": 327148,
+          "2": 180153,
+          "3": 61144,
+          "4": 25405,
+          "5": 11998,
+          "6": 6373,
+          "7": 3847,
+          "8": 2447,
+          "9": 1639,
+          "10": 1154,
+          "11": 869,
+          "12": 614,
+          "13": 506,
+          "14": 370,
+          "15": 315,
+          "16": 263,
+          "17": 183,
+          "18": 178,
+          "19": 152,
+          "20": 114,
+          "21": 113,
+          "22": 92,
+          "23": 84,
+          "24": 75,
+          "25": 52,
+          "26": 45,
+          "27": 49,
+          "28": 48,
+          "29": 31,
+          "30": 43,
+          "31": 28,
+          "32": 19,
+          "33": 25,
+          "34": 19,
+          "35": 14,
+          "36": 11,
+          "37": 15,
+          "38": 12,
+          "39": 16,
+          "40": 7,
+          "41": 12,
+          "42": 8,
+          "43": 9,
+          "44": 10,
+          "45": 7,
+          "46": 10,
+          "47": 10,
+          "48": 5,
+          "49": 8,
+          "50": 4,
+          "51": 5,
+          "52": 4,
+          "53": 3,
+          "54": 1,
+          "55": 4,
+          "56": 5,
+          "57": 4,
+          "58": 1,
+          "59": 3,
+          "60": 3,
+          "61": 5,
+          "63": 3,
+          "64": 2,
+          "65": 4,
+          "67": 3,
+          "68": 1,
+          "69": 1,
+          "70": 1,
+          "71": 1,
+          "72": 1,
+          "73": 1,
+          "74": 1,
+          "75": 1,
+          "78": 3,
+          "79": 2,
+          "81": 2,
+          "82": 1,
+          "83": 1,
+          "89": 1,
+          "90": 1,
+          "92": 1,
+          "94": 1,
+          "110": 1,
+          "118": 1,
+          "140": 1,
+          "148": 1,
+          "209": 1
+        },
+        "active_pass_percentiles": {
+          "50": 1.0,
+          "90": 3.0,
+          "95": 5.0,
+          "99": 9.0,
+          "99.9": 24.0,
+          "100": 209.0
+        },
+        "largest_work": [
+          {
+            "candidate": 659714,
+            "passes": 209,
+            "active_particle_rows": 17224382,
+            "retained_bound_count": 76368,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 746224,
+            "passes": 51,
+            "active_particle_rows": 4500384,
+            "retained_bound_count": 85528,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 660455,
+            "passes": 22,
+            "active_particle_rows": 3310085,
+            "retained_bound_count": 147367,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 241350,
+            "passes": 29,
+            "active_particle_rows": 3204601,
+            "retained_bound_count": 104428,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 97563,
+            "passes": 79,
+            "active_particle_rows": 2858429,
+            "retained_bound_count": 35201,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 339145,
+            "passes": 30,
+            "active_particle_rows": 2853761,
+            "retained_bound_count": 92241,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 626553,
+            "passes": 32,
+            "active_particle_rows": 2794826,
+            "retained_bound_count": 84233,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 243926,
+            "passes": 29,
+            "active_particle_rows": 2781540,
+            "retained_bound_count": 90212,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 542395,
+            "passes": 46,
+            "active_particle_rows": 2564749,
+            "retained_bound_count": 53559,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 243204,
+            "passes": 27,
+            "active_particle_rows": 2540649,
+            "retained_bound_count": 88631,
+            "post_selection_mass": 0.0,
+            "status": 0
+          }
+        ],
+        "sha256": "1ab36520fd1a4f2e5949032151e12190660b2346bce12d8149397e3f4cbc4358"
+      },
+      "density": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "bytes": 34359738388,
+        "sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b",
+        "density_threads": 64
+      },
+      "density_verification": "Full hash on first group use; metadata guards between calls; mandatory final group hash",
+      "catalogue": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-reference/p2.DAT",
+        "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+        "rows": 147042,
+        "version": "v2"
+      },
+      "repeated_catalogue_byte_identical": true,
+      "particle_state_and_workspace_restored": true,
+      "native_elapsed_seconds": 349.58,
+      "cpu_user_seconds": 15238.12,
+      "cpu_system_seconds": 578.14,
+      "maxrss_kib": 159021088,
+      "finished_at_utc": "2026-09-06T17:27:03.423874+00:00"
+    },
+    {
+      "case": {
+        "label": "z0-optimized-v2",
+        "z": 0,
+        "variant": "optimized-v2",
+        "passes": 2,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "density_sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b"
+      },
+      "binary_sha256": "73711010b4cfc5358a94c03d6c5bbd428830e41b974301220eafdd4cced37615",
+      "threads": 64,
+      "plan_sha256": "ebb703cf1416b6f58bfa8fa21d18c2a7f7d7ea9f7d1c75f6d010d07479fa69cb",
+      "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+      "completed": true,
+      "started_at_utc": "2026-09-06T17:27:08.657429+00:00",
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/optimized-v2/replay.exe",
+        "158",
+        "64",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "read"
+      ],
+      "job_id": "11949499",
+      "host": "m8116.pri.cosma.local",
+      "config_sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+      "outputs_sha256": {
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-optimized-v2/replay.log": "ba1c2a18da1cc09246a62c3bfd822e5397d52a1f0d29733e3fb48c88c9fd414c",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-optimized-v2/replay.time": "63126bae212f2107ec795e7ec1d3549aa0077b9d5da8f9f77c3a47630acb75a0",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-optimized-v2/BDM.config": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-optimized-v2/p1.DAT": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-optimized-v2/p2.DAT": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-optimized-v2/repair-members.bin": "4675987404af7b5013f8b3f9250221e2f25cc55a1905a941b0d6e7d92cea93ec",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-optimized-v2/repair-members.index.npz": "01b02e5a1d53c0a666c9acef00be398c630d053cb9ba0db072c236230533dd20",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-optimized-v2/unbinding.bin": "1ab36520fd1a4f2e5949032151e12190660b2346bce12d8149397e3f4cbc4358"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 328.9102508230135,
+      "finder_seconds": [
+        133.154054,
+        130.358412
+      ],
+      "stage_seconds": {
+        "AddBuffer": [
+          1.85,
+          1.48
+        ],
+        "List": [
+          3.74,
+          4.18
+        ],
+        "ParametersDistinct": [
+          109.58,
+          103.55
+        ],
+        "WriteFiles": [
+          2.82,
+          10.8
+        ]
+      },
+      "membership": {
+        "selected": 147042,
+        "candidates": 794570,
+        "mass_one": 10711107584.0,
+        "exact_duplicate_member_sets": 0,
+        "repeated_original_ids": 0,
+        "mass_count_mismatches": 0,
+        "host_exclusion_violations": 0,
+        "higher_priority_neighbours_examined": 0,
+        "ordered_candidate_ids": true,
+        "catalogue_columns_linked_to_raw": 23,
+        "particle_mass_checked_against_snapshot": true,
+        "raw_sha256": "4675987404af7b5013f8b3f9250221e2f25cc55a1905a941b0d6e7d92cea93ec",
+        "retained_raw": "BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-optimized-v2/repair-members.bin",
+        "total_memberships": 218737661,
+        "index_sha256": "01b02e5a1d53c0a666c9acef00be398c630d053cb9ba0db072c236230533dd20"
+      },
+      "unbinding": {
+        "candidates": 794570,
+        "evaluated_candidates": 625829,
+        "max_passes": 209,
+        "active_particle_rows": 2110973656,
+        "candidates_over_32": 278,
+        "work_over_32": 147604184,
+        "selected_over_32": 1,
+        "selected_max_passes": 41,
+        "max_retained_bound_count": 183721,
+        "pass_histogram": {
+          "0": 168741,
+          "1": 327148,
+          "2": 180153,
+          "3": 61144,
+          "4": 25405,
+          "5": 11998,
+          "6": 6373,
+          "7": 3847,
+          "8": 2447,
+          "9": 1639,
+          "10": 1154,
+          "11": 869,
+          "12": 614,
+          "13": 506,
+          "14": 370,
+          "15": 315,
+          "16": 263,
+          "17": 183,
+          "18": 178,
+          "19": 152,
+          "20": 114,
+          "21": 113,
+          "22": 92,
+          "23": 84,
+          "24": 75,
+          "25": 52,
+          "26": 45,
+          "27": 49,
+          "28": 48,
+          "29": 31,
+          "30": 43,
+          "31": 28,
+          "32": 19,
+          "33": 25,
+          "34": 19,
+          "35": 14,
+          "36": 11,
+          "37": 15,
+          "38": 12,
+          "39": 16,
+          "40": 7,
+          "41": 12,
+          "42": 8,
+          "43": 9,
+          "44": 10,
+          "45": 7,
+          "46": 10,
+          "47": 10,
+          "48": 5,
+          "49": 8,
+          "50": 4,
+          "51": 5,
+          "52": 4,
+          "53": 3,
+          "54": 1,
+          "55": 4,
+          "56": 5,
+          "57": 4,
+          "58": 1,
+          "59": 3,
+          "60": 3,
+          "61": 5,
+          "63": 3,
+          "64": 2,
+          "65": 4,
+          "67": 3,
+          "68": 1,
+          "69": 1,
+          "70": 1,
+          "71": 1,
+          "72": 1,
+          "73": 1,
+          "74": 1,
+          "75": 1,
+          "78": 3,
+          "79": 2,
+          "81": 2,
+          "82": 1,
+          "83": 1,
+          "89": 1,
+          "90": 1,
+          "92": 1,
+          "94": 1,
+          "110": 1,
+          "118": 1,
+          "140": 1,
+          "148": 1,
+          "209": 1
+        },
+        "active_pass_percentiles": {
+          "50": 1.0,
+          "90": 3.0,
+          "95": 5.0,
+          "99": 9.0,
+          "99.9": 24.0,
+          "100": 209.0
+        },
+        "largest_work": [
+          {
+            "candidate": 659714,
+            "passes": 209,
+            "active_particle_rows": 17224382,
+            "retained_bound_count": 76368,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 746224,
+            "passes": 51,
+            "active_particle_rows": 4500384,
+            "retained_bound_count": 85528,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 660455,
+            "passes": 22,
+            "active_particle_rows": 3310085,
+            "retained_bound_count": 147367,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 241350,
+            "passes": 29,
+            "active_particle_rows": 3204601,
+            "retained_bound_count": 104428,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 97563,
+            "passes": 79,
+            "active_particle_rows": 2858429,
+            "retained_bound_count": 35201,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 339145,
+            "passes": 30,
+            "active_particle_rows": 2853761,
+            "retained_bound_count": 92241,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 626553,
+            "passes": 32,
+            "active_particle_rows": 2794826,
+            "retained_bound_count": 84233,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 243926,
+            "passes": 29,
+            "active_particle_rows": 2781540,
+            "retained_bound_count": 90212,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 542395,
+            "passes": 46,
+            "active_particle_rows": 2564749,
+            "retained_bound_count": 53559,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 243204,
+            "passes": 27,
+            "active_particle_rows": 2540649,
+            "retained_bound_count": 88631,
+            "post_selection_mass": 0.0,
+            "status": 0
+          }
+        ],
+        "sha256": "1ab36520fd1a4f2e5949032151e12190660b2346bce12d8149397e3f4cbc4358"
+      },
+      "density": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "bytes": 34359738388,
+        "sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b",
+        "density_threads": 64
+      },
+      "density_verification": "Full hash on first group use; metadata guards between calls; mandatory final group hash",
+      "catalogue": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-optimized-v2/p2.DAT",
+        "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+        "rows": 147042,
+        "version": "v2"
+      },
+      "repeated_catalogue_byte_identical": true,
+      "particle_state_and_workspace_restored": true,
+      "native_elapsed_seconds": 328.78,
+      "cpu_user_seconds": 14260.23,
+      "cpu_system_seconds": 536.7,
+      "maxrss_kib": 151735412,
+      "finished_at_utc": "2026-09-06T17:32:49.816575+00:00"
+    },
+    {
+      "case": {
+        "label": "z0-v3",
+        "z": 0,
+        "variant": "v3",
+        "passes": 2,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "density_sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b"
+      },
+      "binary_sha256": "e751d52d9f081f9488bb83a5f536cc91f616f08029d70685e630e94316906432",
+      "threads": 64,
+      "plan_sha256": "ebb703cf1416b6f58bfa8fa21d18c2a7f7d7ea9f7d1c75f6d010d07479fa69cb",
+      "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+      "completed": true,
+      "started_at_utc": "2026-09-06T17:32:50.859753+00:00",
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/replay.exe",
+        "158",
+        "64",
+        "2",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "read"
+      ],
+      "job_id": "11949499",
+      "host": "m8116.pri.cosma.local",
+      "config_sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+      "outputs_sha256": {
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-v3/replay.log": "b023ce6ccd551b993dfa94a68bd431c30982965320ede68965aadd3c7a438ab7",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-v3/replay.time": "6b50991b1d3b56a2244555d45e0c0ed53527a2e2a66d81f8c811aff90aa63cc8",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-v3/BDM.config": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-v3/p1.DAT": "551ecfce20a73210e87b7ba1a376d97bba92630df12e8d85bced1e6578a666a5",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-v3/p2.DAT": "551ecfce20a73210e87b7ba1a376d97bba92630df12e8d85bced1e6578a666a5",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-v3/repair-members.bin": "41f8721c4fb14b15c66b1e43f053774c889cdb218baf8cd1d1cb3ff0f1820da7",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-v3/repair-members.index.npz": "a9ffaee0dbdcd70f07613a17cb959ac3a436ad08b3c444d8c0df2d7b9488b704",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-v3/unbinding.bin": "ad98dbb658c1690e7d0e9f1c77450d8a689ad9202039178d56b423ac6bfb1747"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 392.9042271900107,
+      "finder_seconds": [
+        134.023532,
+        130.656839
+      ],
+      "stage_seconds": {
+        "AddBuffer": [
+          1.47,
+          1.47
+        ],
+        "List": [
+          3.74,
+          4.14
+        ],
+        "ParametersDistinct": [
+          112.45,
+          104.4
+        ],
+        "WriteFiles": [
+          1.83,
+          9.93
+        ]
+      },
+      "membership": {
+        "selected": 146131,
+        "candidates": 794570,
+        "mass_one": 10711107584.0,
+        "exact_duplicate_member_sets": 0,
+        "repeated_original_ids": 0,
+        "mass_count_mismatches": 0,
+        "host_exclusion_violations": 0,
+        "higher_priority_neighbours_examined": 0,
+        "ordered_candidate_ids": true,
+        "catalogue_columns_linked_to_raw": 23,
+        "particle_mass_checked_against_snapshot": true,
+        "raw_sha256": "41f8721c4fb14b15c66b1e43f053774c889cdb218baf8cd1d1cb3ff0f1820da7",
+        "retained_raw": "BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-v3/repair-members.bin",
+        "total_memberships": 217485746,
+        "index_sha256": "a9ffaee0dbdcd70f07613a17cb959ac3a436ad08b3c444d8c0df2d7b9488b704"
+      },
+      "unbinding": {
+        "candidates": 794570,
+        "evaluated_candidates": 623054,
+        "max_passes": 144,
+        "active_particle_rows": 2084143350,
+        "candidates_over_32": 265,
+        "work_over_32": 130233703,
+        "selected_over_32": 7,
+        "selected_max_passes": 48,
+        "max_retained_bound_count": 183465,
+        "pass_histogram": {
+          "0": 171516,
+          "1": 324781,
+          "2": 179886,
+          "3": 61041,
+          "4": 25229,
+          "5": 12090,
+          "6": 6549,
+          "7": 3759,
+          "8": 2425,
+          "9": 1602,
+          "10": 1131,
+          "11": 874,
+          "12": 612,
+          "13": 519,
+          "14": 383,
+          "15": 314,
+          "16": 241,
+          "17": 221,
+          "18": 188,
+          "19": 157,
+          "20": 133,
+          "21": 106,
+          "22": 82,
+          "23": 78,
+          "24": 64,
+          "25": 59,
+          "26": 56,
+          "27": 54,
+          "28": 37,
+          "29": 40,
+          "30": 25,
+          "31": 28,
+          "32": 25,
+          "33": 29,
+          "34": 18,
+          "35": 17,
+          "36": 17,
+          "37": 9,
+          "38": 9,
+          "39": 13,
+          "40": 14,
+          "41": 10,
+          "42": 7,
+          "43": 9,
+          "44": 11,
+          "45": 6,
+          "46": 5,
+          "47": 7,
+          "48": 8,
+          "49": 4,
+          "50": 2,
+          "51": 8,
+          "52": 4,
+          "53": 1,
+          "54": 5,
+          "55": 4,
+          "56": 1,
+          "57": 2,
+          "58": 7,
+          "59": 3,
+          "60": 4,
+          "61": 2,
+          "62": 2,
+          "63": 1,
+          "64": 1,
+          "65": 1,
+          "66": 1,
+          "67": 1,
+          "69": 1,
+          "71": 1,
+          "72": 1,
+          "73": 1,
+          "75": 1,
+          "76": 1,
+          "78": 2,
+          "81": 1,
+          "83": 3,
+          "84": 1,
+          "88": 1,
+          "89": 1,
+          "90": 1,
+          "95": 1,
+          "108": 1,
+          "109": 1,
+          "121": 1,
+          "133": 1,
+          "144": 1
+        },
+        "active_pass_percentiles": {
+          "50": 1.0,
+          "90": 3.0,
+          "95": 5.0,
+          "99": 9.0,
+          "99.9": 24.0,
+          "100": 144.0
+        },
+        "largest_work": [
+          {
+            "candidate": 659714,
+            "passes": 108,
+            "active_particle_rows": 7399731,
+            "retained_bound_count": 0,
+            "post_selection_mass": 0.0,
+            "status": 8
+          },
+          {
+            "candidate": 746224,
+            "passes": 49,
+            "active_particle_rows": 4292418,
+            "retained_bound_count": 84545,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 660455,
+            "passes": 23,
+            "active_particle_rows": 3443612,
+            "retained_bound_count": 146746,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 542395,
+            "passes": 63,
+            "active_particle_rows": 3363734,
+            "retained_bound_count": 51122,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 244602,
+            "passes": 35,
+            "active_particle_rows": 3044296,
+            "retained_bound_count": 79160,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 626553,
+            "passes": 32,
+            "active_particle_rows": 2764182,
+            "retained_bound_count": 83176,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 241350,
+            "passes": 25,
+            "active_particle_rows": 2763823,
+            "retained_bound_count": 103652,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 541602,
+            "passes": 90,
+            "active_particle_rows": 2615142,
+            "retained_bound_count": 23264,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 339145,
+            "passes": 27,
+            "active_particle_rows": 2563050,
+            "retained_bound_count": 91771,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 241736,
+            "passes": 36,
+            "active_particle_rows": 2525394,
+            "retained_bound_count": 65272,
+            "post_selection_mass": 0.0,
+            "status": 0
+          }
+        ],
+        "sha256": "ad98dbb658c1690e7d0e9f1c77450d8a689ad9202039178d56b423ac6bfb1747"
+      },
+      "density": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "bytes": 34359738388,
+        "sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b",
+        "density_threads": 64
+      },
+      "density_verification": "Full hash on first group use; metadata guards between calls; mandatory final group hash",
+      "catalogue": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z0-v3/p2.DAT",
+        "sha256": "551ecfce20a73210e87b7ba1a376d97bba92630df12e8d85bced1e6578a666a5",
+        "rows": 146131,
+        "version": "v3"
+      },
+      "repeated_catalogue_byte_identical": true,
+      "particle_state_and_workspace_restored": true,
+      "native_elapsed_seconds": 392.82,
+      "cpu_user_seconds": 14710.67,
+      "cpu_system_seconds": 572.16,
+      "maxrss_kib": 151644676,
+      "finished_at_utc": "2026-09-06T17:39:36.604222+00:00"
+    },
+    {
+      "case": {
+        "label": "z2-reference",
+        "z": 2,
+        "variant": "reference",
+        "passes": 1,
+        "density_mode": "write",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2.density.bin"
+      },
+      "binary_sha256": "1a74d8519126268165b7c5d196ff537d4483594811a07928fa5e7c229af377af",
+      "threads": 64,
+      "plan_sha256": "ebb703cf1416b6f58bfa8fa21d18c2a7f7d7ea9f7d1c75f6d010d07479fa69cb",
+      "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+      "completed": true,
+      "started_at_utc": "2026-09-06T17:39:37.240800+00:00",
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/replay.exe",
+        "92",
+        "64",
+        "1",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2.density.bin",
+        "write"
+      ],
+      "job_id": "11949499",
+      "host": "m8116.pri.cosma.local",
+      "config_sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+      "outputs_sha256": {
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-reference/replay.log": "6bf6bbcff53e6ea58a07dceb1780cc82400b6f47399c04675c449ce8bad12dbe",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-reference/replay.time": "ce66df1aeaa5ad81a5e98b3ce388cae3dd0981c009e6da69546378dfa343d790",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-reference/BDM.config": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-reference/p1.DAT": "c7ff7260a45abd4be2294141aa54905a67f12e62ad8a9a6a05246f36edd0262b",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-reference/repair-members.bin": "997085e9f44ae7529467f29a7f08fe006a333621574341f684c43b5d6cc391f8",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-reference/repair-members.index.npz": "c5314f527ce9726884e2d43ec7650cfab72dcbedcbf900f966c886b591a167de",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-reference/unbinding.bin": "b884cf6a90ea7641cdf875be5c36d05febc203c026ee2473bb846fcd5867df14"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 221.1377936109784,
+      "finder_seconds": [
+        105.444242
+      ],
+      "stage_seconds": {
+        "AddBuffer": [
+          3.04
+        ],
+        "List": [
+          16.68
+        ],
+        "ParametersDistinct": [
+          65.8
+        ],
+        "WriteFiles": [
+          10.31
+        ]
+      },
+      "membership": {
+        "selected": 52370,
+        "candidates": 1024481,
+        "mass_one": 10711107584.0,
+        "exact_duplicate_member_sets": 0,
+        "repeated_original_ids": 0,
+        "mass_count_mismatches": 0,
+        "host_exclusion_violations": 0,
+        "higher_priority_neighbours_examined": 0,
+        "ordered_candidate_ids": true,
+        "catalogue_columns_linked_to_raw": 23,
+        "particle_mass_checked_against_snapshot": true,
+        "raw_sha256": "997085e9f44ae7529467f29a7f08fe006a333621574341f684c43b5d6cc391f8",
+        "retained_raw": "BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-reference/repair-members.bin",
+        "total_memberships": 28316984,
+        "index_sha256": "c5314f527ce9726884e2d43ec7650cfab72dcbedcbf900f966c886b591a167de"
+      },
+      "unbinding": {
+        "candidates": 1024481,
+        "evaluated_candidates": 661756,
+        "max_passes": 41,
+        "active_particle_rows": 105197737,
+        "candidates_over_32": 3,
+        "work_over_32": 48171,
+        "selected_over_32": 0,
+        "selected_max_passes": 23,
+        "max_retained_bound_count": 13169,
+        "pass_histogram": {
+          "0": 362725,
+          "1": 480167,
+          "2": 111729,
+          "3": 40552,
+          "4": 15879,
+          "5": 6688,
+          "6": 3069,
+          "7": 1514,
+          "8": 865,
+          "9": 421,
+          "10": 287,
+          "11": 185,
+          "12": 129,
+          "13": 76,
+          "14": 42,
+          "15": 29,
+          "16": 28,
+          "17": 17,
+          "18": 17,
+          "19": 6,
+          "20": 13,
+          "21": 7,
+          "22": 4,
+          "23": 7,
+          "24": 6,
+          "25": 2,
+          "26": 1,
+          "27": 2,
+          "28": 4,
+          "29": 3,
+          "30": 1,
+          "31": 1,
+          "32": 2,
+          "33": 1,
+          "35": 1,
+          "41": 1
+        },
+        "active_pass_percentiles": {
+          "50": 1.0,
+          "90": 3.0,
+          "95": 3.0,
+          "99": 6.0,
+          "99.9": 10.0,
+          "100": 41.0
+        },
+        "largest_work": [
+          {
+            "candidate": 55273,
+            "passes": 11,
+            "active_particle_rows": 102672,
+            "retained_bound_count": 8985,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 226708,
+            "passes": 9,
+            "active_particle_rows": 83282,
+            "retained_bound_count": 9161,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 148214,
+            "passes": 11,
+            "active_particle_rows": 81735,
+            "retained_bound_count": 7301,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 13817,
+            "passes": 20,
+            "active_particle_rows": 78997,
+            "retained_bound_count": 3773,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 731471,
+            "passes": 25,
+            "active_particle_rows": 76879,
+            "retained_bound_count": 2653,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 53213,
+            "passes": 32,
+            "active_particle_rows": 69826,
+            "retained_bound_count": 1283,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 546534,
+            "passes": 28,
+            "active_particle_rows": 67199,
+            "retained_bound_count": 2012,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 228360,
+            "passes": 6,
+            "active_particle_rows": 55741,
+            "retained_bound_count": 9154,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 660016,
+            "passes": 8,
+            "active_particle_rows": 55213,
+            "retained_bound_count": 6813,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 384639,
+            "passes": 10,
+            "active_particle_rows": 54946,
+            "retained_bound_count": 5444,
+            "post_selection_mass": 0.0,
+            "status": 0
+          }
+        ],
+        "sha256": "b884cf6a90ea7641cdf875be5c36d05febc203c026ee2473bb846fcd5867df14"
+      },
+      "density": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2.density.bin",
+        "bytes": 34359738388,
+        "sha256": "5824d4bd443e0b272446504366d485515798e636e69968d85518857d1e06cff8",
+        "density_threads": 64
+      },
+      "density_verification": "Full hash on first group use; metadata guards between calls; mandatory final group hash",
+      "catalogue": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-reference/p1.DAT",
+        "sha256": "c7ff7260a45abd4be2294141aa54905a67f12e62ad8a9a6a05246f36edd0262b",
+        "rows": 52370,
+        "version": "v2"
+      },
+      "repeated_catalogue_byte_identical": true,
+      "particle_state_and_workspace_restored": true,
+      "native_elapsed_seconds": 221.01,
+      "cpu_user_seconds": 7164.89,
+      "cpu_system_seconds": 576.94,
+      "maxrss_kib": 154169140,
+      "finished_at_utc": "2026-09-06T17:43:50.118070+00:00"
+    },
+    {
+      "case": {
+        "label": "z2-v3",
+        "z": 2,
+        "variant": "v3",
+        "passes": 1,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2.density.bin"
+      },
+      "binary_sha256": "e751d52d9f081f9488bb83a5f536cc91f616f08029d70685e630e94316906432",
+      "threads": 64,
+      "plan_sha256": "ebb703cf1416b6f58bfa8fa21d18c2a7f7d7ea9f7d1c75f6d010d07479fa69cb",
+      "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+      "completed": true,
+      "started_at_utc": "2026-09-06T17:43:52.411269+00:00",
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/replay.exe",
+        "92",
+        "64",
+        "1",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2.density.bin",
+        "read"
+      ],
+      "job_id": "11949499",
+      "host": "m8116.pri.cosma.local",
+      "config_sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+      "outputs_sha256": {
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-v3/replay.log": "ac77a475aadfbaafc93ad7c73723c9195dd8009b70343bb37c038305e984442a",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-v3/replay.time": "3869a557fc7724752bf9a092da762a1fb5676c8d0ebac070ca30cf90b8066007",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-v3/BDM.config": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-v3/p1.DAT": "fa44903820a32a7bc4df5d8ffb067b987d8f76f8f8a8ed11d1a279b45ded63cf",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-v3/repair-members.bin": "e83a0a0402cadad8b08271c70d1a9f1f619fe9053aac1b9dabd468578ee58447",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-v3/repair-members.index.npz": "464155a79c4d78ec9767e4a2e271e894041c97bba0c30ed9471849853901dfe5",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-v3/unbinding.bin": "7b41adcf096586ab1b867195a76c06bdc8b052b7a232d33d2185de789e878234"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 159.58556987397606,
+      "finder_seconds": [
+        84.7294
+      ],
+      "stage_seconds": {
+        "AddBuffer": [
+          1.51
+        ],
+        "List": [
+          3.53
+        ],
+        "ParametersDistinct": [
+          63.31
+        ],
+        "WriteFiles": [
+          5.45
+        ]
+      },
+      "membership": {
+        "selected": 51879,
+        "candidates": 1024481,
+        "mass_one": 10711107584.0,
+        "exact_duplicate_member_sets": 0,
+        "repeated_original_ids": 0,
+        "mass_count_mismatches": 0,
+        "host_exclusion_violations": 0,
+        "higher_priority_neighbours_examined": 0,
+        "ordered_candidate_ids": true,
+        "catalogue_columns_linked_to_raw": 23,
+        "particle_mass_checked_against_snapshot": true,
+        "raw_sha256": "e83a0a0402cadad8b08271c70d1a9f1f619fe9053aac1b9dabd468578ee58447",
+        "retained_raw": "BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-v3/repair-members.bin",
+        "total_memberships": 28043599,
+        "index_sha256": "464155a79c4d78ec9767e4a2e271e894041c97bba0c30ed9471849853901dfe5"
+      },
+      "unbinding": {
+        "candidates": 1024481,
+        "evaluated_candidates": 656674,
+        "max_passes": 58,
+        "active_particle_rows": 104387091,
+        "candidates_over_32": 2,
+        "work_over_32": 123736,
+        "selected_over_32": 0,
+        "selected_max_passes": 32,
+        "max_retained_bound_count": 13081,
+        "pass_histogram": {
+          "0": 367807,
+          "1": 475853,
+          "2": 111381,
+          "3": 40226,
+          "4": 15872,
+          "5": 6610,
+          "6": 3053,
+          "7": 1542,
+          "8": 834,
+          "9": 443,
+          "10": 290,
+          "11": 199,
+          "12": 101,
+          "13": 65,
+          "14": 51,
+          "15": 32,
+          "16": 24,
+          "17": 15,
+          "18": 14,
+          "19": 13,
+          "20": 16,
+          "21": 6,
+          "22": 5,
+          "23": 5,
+          "24": 3,
+          "25": 5,
+          "26": 3,
+          "27": 7,
+          "28": 1,
+          "32": 3,
+          "33": 1,
+          "58": 1
+        },
+        "active_pass_percentiles": {
+          "50": 1.0,
+          "90": 3.0,
+          "95": 3.0,
+          "99": 6.0,
+          "99.9": 10.0,
+          "100": 58.0
+        },
+        "largest_work": [
+          {
+            "candidate": 13817,
+            "passes": 28,
+            "active_particle_rows": 106649,
+            "retained_bound_count": 3636,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 55273,
+            "passes": 9,
+            "active_particle_rows": 83693,
+            "retained_bound_count": 8885,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 226708,
+            "passes": 9,
+            "active_particle_rows": 82513,
+            "retained_bound_count": 9075,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 228360,
+            "passes": 8,
+            "active_particle_rows": 73365,
+            "retained_bound_count": 9066,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 731471,
+            "passes": 26,
+            "active_particle_rows": 69524,
+            "retained_bound_count": 2278,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 53213,
+            "passes": 33,
+            "active_particle_rows": 68362,
+            "retained_bound_count": 1273,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 148214,
+            "passes": 8,
+            "active_particle_rows": 59482,
+            "retained_bound_count": 7266,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 946344,
+            "passes": 9,
+            "active_particle_rows": 56990,
+            "retained_bound_count": 6237,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 837835,
+            "passes": 14,
+            "active_particle_rows": 56236,
+            "retained_bound_count": 3844,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 368163,
+            "passes": 58,
+            "active_particle_rows": 55374,
+            "retained_bound_count": 355,
+            "post_selection_mass": 0.0,
+            "status": 0
+          }
+        ],
+        "sha256": "7b41adcf096586ab1b867195a76c06bdc8b052b7a232d33d2185de789e878234"
+      },
+      "density": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2.density.bin",
+        "bytes": 34359738388,
+        "sha256": "5824d4bd443e0b272446504366d485515798e636e69968d85518857d1e06cff8",
+        "density_threads": 64
+      },
+      "density_verification": "Full hash on first group use; metadata guards between calls; mandatory final group hash",
+      "catalogue": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2-v3/p1.DAT",
+        "sha256": "fa44903820a32a7bc4df5d8ffb067b987d8f76f8f8a8ed11d1a279b45ded63cf",
+        "rows": 51879,
+        "version": "v3"
+      },
+      "repeated_catalogue_byte_identical": true,
+      "particle_state_and_workspace_restored": true,
+      "native_elapsed_seconds": 159.53,
+      "cpu_user_seconds": 6522.89,
+      "cpu_system_seconds": 477.05,
+      "maxrss_kib": 146843444,
+      "finished_at_utc": "2026-09-06T17:46:36.505643+00:00"
+    },
+    {
+      "case": {
+        "label": "z1-reference",
+        "z": 1,
+        "variant": "reference",
+        "passes": 1,
+        "density_mode": "write",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1.density.bin"
+      },
+      "binary_sha256": "1a74d8519126268165b7c5d196ff537d4483594811a07928fa5e7c229af377af",
+      "threads": 64,
+      "plan_sha256": "ebb703cf1416b6f58bfa8fa21d18c2a7f7d7ea9f7d1c75f6d010d07479fa69cb",
+      "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+      "completed": true,
+      "started_at_utc": "2026-09-06T17:46:37.419332+00:00",
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/reference/replay.exe",
+        "109",
+        "64",
+        "1",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1.density.bin",
+        "write"
+      ],
+      "job_id": "11949499",
+      "host": "m8116.pri.cosma.local",
+      "config_sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+      "outputs_sha256": {
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-reference/replay.log": "02c63945df0d14390179d322c720cff933a05dd2a5b410d70cecd946c8abd1bc",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-reference/replay.time": "34e92090828019900754df5ac1d1e0f0823bd0ae1a336f8414c1882f174eda8c",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-reference/BDM.config": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-reference/p1.DAT": "6464edf69b7a470886135e34fb68eacc4342fed3cd6e86090ebd06a6eff6e13d",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-reference/repair-members.bin": "0eb5fa0c8da4e53222c747f77174b26eceb46bd21446233bbe819fd498560367",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-reference/repair-members.index.npz": "d0045630e865fca51fe1b21fea83053b0e95a06271b666f8bd23dd75426733e5",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-reference/unbinding.bin": "0fa353d711b86f58df3eb23cc0929a7c1b932be7d26e1d52d1ed17beee3da9cd"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 221.88391977600986,
+      "finder_seconds": [
+        114.579934
+      ],
+      "stage_seconds": {
+        "AddBuffer": [
+          2.56
+        ],
+        "List": [
+          12.89
+        ],
+        "ParametersDistinct": [
+          81.19
+        ],
+        "WriteFiles": [
+          9.01
+        ]
+      },
+      "membership": {
+        "selected": 119688,
+        "candidates": 1247926,
+        "mass_one": 10711107584.0,
+        "exact_duplicate_member_sets": 0,
+        "repeated_original_ids": 0,
+        "mass_count_mismatches": 0,
+        "host_exclusion_violations": 0,
+        "higher_priority_neighbours_examined": 0,
+        "ordered_candidate_ids": true,
+        "catalogue_columns_linked_to_raw": 23,
+        "particle_mass_checked_against_snapshot": true,
+        "raw_sha256": "0eb5fa0c8da4e53222c747f77174b26eceb46bd21446233bbe819fd498560367",
+        "retained_raw": "BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-reference/repair-members.bin",
+        "total_memberships": 97322225,
+        "index_sha256": "d0045630e865fca51fe1b21fea83053b0e95a06271b666f8bd23dd75426733e5"
+      },
+      "unbinding": {
+        "candidates": 1247926,
+        "evaluated_candidates": 876395,
+        "max_passes": 104,
+        "active_particle_rows": 503283923,
+        "candidates_over_32": 56,
+        "work_over_32": 3880778,
+        "selected_over_32": 2,
+        "selected_max_passes": 41,
+        "max_retained_bound_count": 37720,
+        "pass_histogram": {
+          "0": 371531,
+          "1": 515609,
+          "2": 220140,
+          "3": 77690,
+          "4": 30952,
+          "5": 14248,
+          "6": 6962,
+          "7": 3866,
+          "8": 2239,
+          "9": 1379,
+          "10": 902,
+          "11": 592,
+          "12": 415,
+          "13": 284,
+          "14": 229,
+          "15": 168,
+          "16": 119,
+          "17": 112,
+          "18": 78,
+          "19": 79,
+          "20": 41,
+          "21": 39,
+          "22": 28,
+          "23": 28,
+          "24": 30,
+          "25": 29,
+          "26": 19,
+          "27": 11,
+          "28": 11,
+          "29": 12,
+          "30": 9,
+          "31": 12,
+          "32": 7,
+          "33": 12,
+          "34": 5,
+          "35": 2,
+          "36": 1,
+          "37": 5,
+          "38": 3,
+          "40": 4,
+          "41": 1,
+          "42": 2,
+          "43": 2,
+          "45": 2,
+          "46": 3,
+          "48": 2,
+          "49": 2,
+          "50": 1,
+          "51": 3,
+          "56": 1,
+          "60": 1,
+          "63": 1,
+          "64": 1,
+          "69": 1,
+          "104": 1
+        },
+        "active_pass_percentiles": {
+          "50": 1.0,
+          "90": 3.0,
+          "95": 4.0,
+          "99": 7.0,
+          "99.9": 15.0,
+          "100": 104.0
+        },
+        "largest_work": [
+          {
+            "candidate": 474489,
+            "passes": 16,
+            "active_particle_rows": 453565,
+            "retained_bound_count": 27622,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 474490,
+            "passes": 14,
+            "active_particle_rows": 411471,
+            "retained_bound_count": 28698,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 632959,
+            "passes": 33,
+            "active_particle_rows": 399162,
+            "retained_bound_count": 11520,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 476332,
+            "passes": 22,
+            "active_particle_rows": 393811,
+            "retained_bound_count": 16095,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 478817,
+            "passes": 14,
+            "active_particle_rows": 348916,
+            "retained_bound_count": 24005,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 919075,
+            "passes": 29,
+            "active_particle_rows": 324855,
+            "retained_bound_count": 10911,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 781897,
+            "passes": 56,
+            "active_particle_rows": 323613,
+            "retained_bound_count": 5271,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 472613,
+            "passes": 16,
+            "active_particle_rows": 320036,
+            "retained_bound_count": 19017,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 486707,
+            "passes": 28,
+            "active_particle_rows": 319242,
+            "retained_bound_count": 11055,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 660570,
+            "passes": 25,
+            "active_particle_rows": 318458,
+            "retained_bound_count": 11910,
+            "post_selection_mass": 0.0,
+            "status": 0
+          }
+        ],
+        "sha256": "0fa353d711b86f58df3eb23cc0929a7c1b932be7d26e1d52d1ed17beee3da9cd"
+      },
+      "density": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1.density.bin",
+        "bytes": 34359738388,
+        "sha256": "d16c25c798c5f55a69c64d21a539d2591e8c5fc957e1b7be1ea5e215cadc62ca",
+        "density_threads": 64
+      },
+      "density_verification": "Full hash on first group use; metadata guards between calls; mandatory final group hash",
+      "catalogue": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-reference/p1.DAT",
+        "sha256": "6464edf69b7a470886135e34fb68eacc4342fed3cd6e86090ebd06a6eff6e13d",
+        "rows": 119688,
+        "version": "v2"
+      },
+      "repeated_catalogue_byte_identical": true,
+      "particle_state_and_workspace_restored": true,
+      "native_elapsed_seconds": 221.74,
+      "cpu_user_seconds": 8255.97,
+      "cpu_system_seconds": 514.93,
+      "maxrss_kib": 154180312,
+      "finished_at_utc": "2026-09-06T17:50:56.144975+00:00"
+    },
+    {
+      "case": {
+        "label": "z1-v3",
+        "z": 1,
+        "variant": "v3",
+        "passes": 1,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1.density.bin"
+      },
+      "binary_sha256": "e751d52d9f081f9488bb83a5f536cc91f616f08029d70685e630e94316906432",
+      "threads": 64,
+      "plan_sha256": "ebb703cf1416b6f58bfa8fa21d18c2a7f7d7ea9f7d1c75f6d010d07479fa69cb",
+      "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+      "completed": true,
+      "started_at_utc": "2026-09-06T17:50:57.132760+00:00",
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/native-build/v3/replay.exe",
+        "109",
+        "64",
+        "1",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1.density.bin",
+        "read"
+      ],
+      "job_id": "11949499",
+      "host": "m8116.pri.cosma.local",
+      "config_sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+      "outputs_sha256": {
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-v3/replay.log": "d3b1c2b55149afecd16f099f5199ba85a5ed12d06e98cd1f755302261bfd32b3",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-v3/replay.time": "35daa15ee251d6cf44bebc27b2156103bc2810bd86632e8a6ddcffd789ec8eee",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-v3/BDM.config": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-v3/p1.DAT": "9df4fe514c8387f6b9b27487aa9796bde72880c5f304dc0ffbc7aa0e8c531483",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-v3/repair-members.bin": "750d2e162f49307265294177ed4475859426a7b886cae2465cc007b8e532cffd",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-v3/repair-members.index.npz": "0482f91375953ba4275e1aeb819f458972a322b14a98ea3df9d811e4a5d5ae49",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-v3/unbinding.bin": "e72ec42ae0ce909261d23da758c6d38be6300417e242de79cc82161422626b5e"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 176.86713913700078,
+      "finder_seconds": [
+        109.424642
+      ],
+      "stage_seconds": {
+        "AddBuffer": [
+          1.47
+        ],
+        "List": [
+          4.01
+        ],
+        "ParametersDistinct": [
+          83.08
+        ],
+        "WriteFiles": [
+          8.8
+        ]
+      },
+      "membership": {
+        "selected": 118788,
+        "candidates": 1247926,
+        "mass_one": 10711107584.0,
+        "exact_duplicate_member_sets": 0,
+        "repeated_original_ids": 0,
+        "mass_count_mismatches": 0,
+        "host_exclusion_violations": 0,
+        "higher_priority_neighbours_examined": 0,
+        "ordered_candidate_ids": true,
+        "catalogue_columns_linked_to_raw": 23,
+        "particle_mass_checked_against_snapshot": true,
+        "raw_sha256": "750d2e162f49307265294177ed4475859426a7b886cae2465cc007b8e532cffd",
+        "retained_raw": "BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-v3/repair-members.bin",
+        "total_memberships": 96585214,
+        "index_sha256": "0482f91375953ba4275e1aeb819f458972a322b14a98ea3df9d811e4a5d5ae49"
+      },
+      "unbinding": {
+        "candidates": 1247926,
+        "evaluated_candidates": 870892,
+        "max_passes": 97,
+        "active_particle_rows": 502120464,
+        "candidates_over_32": 63,
+        "work_over_32": 5228990,
+        "selected_over_32": 7,
+        "selected_max_passes": 40,
+        "max_retained_bound_count": 37628,
+        "pass_histogram": {
+          "0": 377034,
+          "1": 510697,
+          "2": 219768,
+          "3": 77548,
+          "4": 31060,
+          "5": 14041,
+          "6": 7047,
+          "7": 3863,
+          "8": 2159,
+          "9": 1404,
+          "10": 878,
+          "11": 640,
+          "12": 421,
+          "13": 291,
+          "14": 215,
+          "15": 168,
+          "16": 109,
+          "17": 77,
+          "18": 91,
+          "19": 65,
+          "20": 47,
+          "21": 45,
+          "22": 32,
+          "23": 28,
+          "24": 34,
+          "25": 21,
+          "26": 21,
+          "27": 15,
+          "28": 14,
+          "29": 11,
+          "30": 3,
+          "31": 9,
+          "32": 7,
+          "33": 12,
+          "34": 6,
+          "35": 7,
+          "36": 4,
+          "37": 3,
+          "38": 6,
+          "39": 2,
+          "40": 1,
+          "41": 1,
+          "43": 1,
+          "44": 1,
+          "46": 2,
+          "47": 3,
+          "48": 2,
+          "53": 1,
+          "56": 1,
+          "57": 1,
+          "58": 2,
+          "60": 1,
+          "67": 1,
+          "70": 1,
+          "75": 1,
+          "78": 1,
+          "79": 1,
+          "97": 1
+        },
+        "active_pass_percentiles": {
+          "50": 1.0,
+          "90": 3.0,
+          "95": 4.0,
+          "99": 7.0,
+          "99.9": 14.0,
+          "100": 97.0
+        },
+        "largest_work": [
+          {
+            "candidate": 892237,
+            "passes": 39,
+            "active_particle_rows": 475231,
+            "retained_bound_count": 11946,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 474490,
+            "passes": 14,
+            "active_particle_rows": 408613,
+            "retained_bound_count": 28481,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 672815,
+            "passes": 78,
+            "active_particle_rows": 406609,
+            "retained_bound_count": 3187,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 478817,
+            "passes": 16,
+            "active_particle_rows": 391429,
+            "retained_bound_count": 23643,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 474489,
+            "passes": 13,
+            "active_particle_rows": 368300,
+            "retained_bound_count": 27446,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 476332,
+            "passes": 21,
+            "active_particle_rows": 367453,
+            "retained_bound_count": 15686,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 1018943,
+            "passes": 20,
+            "active_particle_rows": 357958,
+            "retained_bound_count": 17313,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 258166,
+            "passes": 26,
+            "active_particle_rows": 354136,
+            "retained_bound_count": 13456,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 668603,
+            "passes": 27,
+            "active_particle_rows": 349871,
+            "retained_bound_count": 12491,
+            "post_selection_mass": 0.0,
+            "status": 0
+          },
+          {
+            "candidate": 476963,
+            "passes": 9,
+            "active_particle_rows": 340985,
+            "retained_bound_count": 37628,
+            "post_selection_mass": 403037550018560.0,
+            "status": 0
+          }
+        ],
+        "sha256": "e72ec42ae0ce909261d23da758c6d38be6300417e242de79cc82161422626b5e"
+      },
+      "density": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1.density.bin",
+        "bytes": 34359738388,
+        "sha256": "d16c25c798c5f55a69c64d21a539d2591e8c5fc957e1b7be1ea5e215cadc62ca",
+        "density_threads": 64
+      },
+      "density_verification": "Full hash on first group use; metadata guards between calls; mandatory final group hash",
+      "catalogue": {
+        "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1-v3/p1.DAT",
+        "sha256": "9df4fe514c8387f6b9b27487aa9796bde72880c5f304dc0ffbc7aa0e8c531483",
+        "rows": 118788,
+        "version": "v3"
+      },
+      "repeated_catalogue_byte_identical": true,
+      "particle_state_and_workspace_restored": true,
+      "native_elapsed_seconds": 176.79,
+      "cpu_user_seconds": 7781.45,
+      "cpu_system_seconds": 445.27,
+      "maxrss_kib": 146840844,
+      "finished_at_utc": "2026-09-06T17:54:02.682408+00:00"
+    }
+  ],
+  "reference_matches_historical_fixed_density_catalogue": true,
+  "optimization_byte_identical": true,
+  "input_density_tapes_unchanged": true,
+  "input_snapshots_unchanged": true,
+  "finished_at_utc": "2026-09-06T17:57:28.887463+00:00"
+}
