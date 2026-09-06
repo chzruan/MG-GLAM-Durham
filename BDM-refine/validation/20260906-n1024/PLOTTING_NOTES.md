@@ -9,7 +9,7 @@ Its input is a consolidated NPZ containing
 `old_z0`, `new_z0`, `old_z1`, `new_z1`, `old_z2`, `new_z2`: each is an `(N,24)`
 native Catshort table. An empty population is `(0,24)`. A genuinely available
 subset of epochs is supported; never copy an epoch's rows into another epoch.
-The adjacent metadata JSON must contain `box_mpc_h` and `nrow`; preparation.json
+The adjacent metadata JSON must contain `box_mpc_h` and `nrow`; main-preparation.json
 is accepted directly, and its full contents/hash are preserved in the summary.
 Keep actual epoch, snapshot, finder-source and binary hashes in that metadata.
 
@@ -18,7 +18,7 @@ Run through the required environment, using a fresh output directory:
 ```sh
 MPLCONFIGDIR=/tmp/bdm-matplotlib-config micromamba run -n cosemu python3 -B \
   BDM-refine/validation/20260906-n1024/compare_properties.py \
-  --catalogues main-comparison-catalogues.npz --metadata preparation.json \
+  --catalogues main-comparison-catalogues.npz --metadata main-preparation.json \
   --outdir property-comparison
 ```
 
@@ -38,7 +38,7 @@ MPLCONFIGDIR=/tmp/bdm-matplotlib-config micromamba run -n cosemu python3 -B \
   --summary property-comparison/comparison-summary.json --outdir replotted
 ```
 
-Outputs are six vector PDFs, compressed plot-ready arrays, a scientific summary
+Outputs are seven vector PDFs, compressed plot-ready arrays, a scientific summary
 with input/provenance hashes, and a figure receipt with output hashes:
 
 - `hmf.pdf`: full published populations, plus fractional abundance differences.
@@ -47,6 +47,8 @@ with input/provenance hashes, and a figure receipt with output hashes:
 - `matched_structure.pdf`: both axis ratios, centre offset, radial RMS, velocity
   RMS and direct Rmax if available.
 - `matched_total_mass.pdf`: extended-aperture mass changes.
+- `matched_energy_direction.pdf`: signed virial-ratio changes and sign-independent
+  major-axis angles, with conservative direction conditioning.
 - `matching.pdf`: mass-dependent match coverage, normalized separation CDF, and
   exhaustive matched/unmatched/ambiguity counts.
 - `quality.pdf`: invalid-value and zero-sentinel fractions in published rows.
@@ -55,6 +57,20 @@ The figure headers state the actual particle count and box. Inputs with
 `nrow < 1024` are labelled **Small integration data** by default; `sample_label`
 can provide a more specific provenance label. These figures never establish
 precision or resolution convergence.
+
+Optional metadata `reference_logmass: 12.5` adds a dotted mass marker and light
+grey shading below it on every mass-axis figure, including HMF and match coverage.
+This is a **literature-only resolution reference** supplied by the producer;
+the script neither derives nor validates it. Preserve the associated citation
+in metadata (for example `reference_source`) for the deck. The marker applies
+no additional selection and does not establish convergence of the revised
+finder. A mass range outside the measured bins can be shown solely to make the
+reference visible; no data are extrapolated into that range.
+
+Plot-ready schema 2 includes energy and direction fields. Schema-1 statistics
+from the earlier plotting commit lack these catalogue fields, so regenerate
+them from the source catalogue NPZ into a fresh output directory before using
+the extended replot mode; historical receipts stay unchanged.
 
 ## Units and definitions
 
@@ -122,6 +138,23 @@ on the new side. Spin, axis ratios and Xoff use **absolute differences** to
 avoid unstable fractional changes near zero; bulk velocity uses the norm of
 the vector difference in km/s. Component-wise bulk differences are retained.
 
+Virial ratio is the **signed** column-16 quantity `2K/Ep-1`. Its comparison is
+absolute new minus old, keeping finite negative and zero values without division
+by the old value. Since energy normalizations changed, this comparison alone is
+not a common-definition test of equilibrium.
+
+Major-axis directions use columns 21–23. Each finite nonzero vector is normalized,
+then the plotted angle is `acos(abs(dot(old_hat,new_hat)))` in degrees (0–90).
+Taking the absolute dot product removes the arbitrary eigenvector sign; neither
+non-unit input norms nor sign flips imply a directional change. Zero or nonfinite
+vectors are invalid. To avoid directions that may be unstable near axis degeneracy,
+the plotted trend additionally requires both reported `b/a < 0.9` by default
+(`--direction-ba-max` changes this threshold). Large b/a is a conservative proxy
+that also excludes oblate cases; raw eigenvalue gaps are unavailable and this is
+not a calibrated orientation-reliability cut. The summary and plot-ready NPZ
+retain invalid-vector counts, shape-conditioning exclusions, the condition mask,
+and unconditioned angles, separately from the retained direction sample.
+
 HMF bins with 0<N<20 have open markers; zero counts are retained in evidence but
 cannot be drawn on log axes. HMF ratio bins require both counts >=20. Marginal
 sqrt(N) bars provide a counting scale and are not an uncertainty estimate for
@@ -147,7 +180,10 @@ read from the finder logs. The catalogue alone cannot establish their absence.
 boundary wrapping, duplicate-centre ambiguity, empty counterparts, invalid
 positions, minimum-radius cutoff/unit conversion, final mass-bin inclusion,
 zero-sentinel handling, empty full analysis, direct auxiliary Rmax and its
-required units, and the independent repaired-axis-order assertion. These
+required units, and the independent repaired-axis-order assertion. Additional
+controls cover signed virial-ratio subtraction through zero, normalized sign-flip
+and orthogonal directions, zero/nonfinite vectors, extreme finite vector norms,
+both-side direction conditioning, and reference-marker selection independence. These
 artificial values are tests, not plot inputs.
 
 The real-data mechanics fixture uses the archived N128, L128 z=0 catalogues:
