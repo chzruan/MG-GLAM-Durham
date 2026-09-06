@@ -1087,6 +1087,7 @@ integer*8 :: ic,ip,i
       SUBROUTINE GetHalo(x,y,z,xv,yv,zv,ip)
 !---------------------------------------------------------------------------
 ! SO uses the outermost crossing of the discrete enclosed-particle profile.
+! Catalogue v3 normalizes overdensity to the stored particle mass and box mean.
 ! The legacy Rext correction still defines the reported aperture and Mtotal.
 ! Mvir, drift, kinetic energy, shape, spin, and Vmax use only the converged bound
 ! population inside the unextended SO sphere. Binding uses the isolated,
@@ -1095,7 +1096,7 @@ integer*8 :: ic,ip,i
         implicit none
         real*4, intent(in) :: x,y,z,xv,yv,zv
         integer*8, intent(in) :: ip
-        real*8, parameter :: gravity=4.333d-9
+        real*8, parameter :: gravity=4.333d-9, sphere_volume=4.d0*acos(-1.d0)/3.d0
         integer*8, allocatable :: rows(:)
         real*8, allocatable :: radii(:),potential(:)
         real*8 :: search_cap,aperture_cap,rso,aperture,grid_size
@@ -1120,10 +1121,12 @@ integer*8 :: ic,ip,i
         Axba(ip)=0.; Axca(ip)=0.; Xax(ip)=0.; Yax(ip)=0.; Zax(ip)=0.
         if(.not.all(ieee_is_finite([x,y,z,Cell,Box,MassOne,Om0,Ovdens,AEXPN]))) &
              error stop 'Non-finite input to BDM GetHalo'
-        if(min(Cell,Box,MassOne,Om0,Ovdens,AEXPN)<=0..or.NGRID<=0) &
+        if(min(Cell,Box,MassOne,Om0,Ovdens,AEXPN)<=0..or.NGRID<=0.or.NROW<=0) &
              error stop 'Non-positive scale in BDM GetHalo'
         mass=dble(MassOne)
-        threshold=1.150d12*dble(Om0)*dble(Ovdens)
+        ! Ovdens is relative to mean matter density. Use the same stored mass
+        ! as the enclosed-particle sum, in comoving Msun/h per (Mpc/h)**3.
+        threshold=sphere_volume*dble(Ovdens)*mass*(dble(NROW)/dble(Box))**3
         grid_size=dble(Box)/NGRID
         hubble_a=100.d0*sqrt(dble(Om0)/dble(AEXPN)**3+1.d0-dble(Om0))*dble(AEXPN)
         search_cap=min(15.d0*dble(Cell),dble(nearest(.5*Box,-1.)))
@@ -2062,7 +2065,7 @@ end SUBROUTINE List
                  Txt6 ='  b/a  c/a MajorAxis:  x      y      z'   
                  WRITE (kfile) txt1,txt2b,txt3,txt4,txt5,txt6
                Else
-                 WRITE (kfile,'(a)') trim(HEADER)//' [BDM finder v2]'
+                 WRITE (kfile,'(a)') trim(HEADER)//' [BDM finder v3]'
                       sxt1 =' A    ='
                       sxt2 =' Step ='
                  WRITE (kfile,'(2(a,f8.5))') sxt1,AEXPN,sxt2,ASTEP 
