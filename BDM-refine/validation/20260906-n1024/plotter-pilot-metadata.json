@@ -1,0 +1,91 @@
+{
+  "box_mpc_h": 512.0,
+  "gravity": "GR",
+  "nrow": 512,
+  "ngrid": 1024,
+  "source_commit": "b6e96669b6f7a8cba2f3dcaa9853278aac7edf11",
+  "old_finder_commit": "a8c7715",
+  "cosmology": {
+    "Omega_m": 0.3089,
+    "Omega_Lambda": 0.6911,
+    "h": 0.6774,
+    "sigma8": 0.8159
+  },
+  "mass_one_estimate_msun_h": 85719750000.0,
+  "mesh_spacing_mpc_h": 0.5,
+  "halo_config": "iVirial=1\nMassMin=2.5e12\nRext=0.15\n",
+  "epochs": [
+    0
+  ],
+  "sample_label": "N512 resource pilot",
+  "new_finder_commit": "b6e96669b6f7a8cba2f3dcaa9853278aac7edf11",
+  "finder_source_sha256": "868bb0d6c89e5daf1ca0f631419d86577dcfe31dde7969375398cb0408140fc0",
+  "interpretation": "Plotter resource pilot on the historical N512 z=0 comparison; no main-run or convergence claim",
+  "pilot_review": {
+    "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/pilot-review.json",
+    "sha256": "aa7733f3ed562d47a605d281c39c100d28015d4045d3332f6894a69b005c2546"
+  },
+  "old_catalogue": {
+    "path": "work/pilot/replay-z0-old-t32/CATALOGS/CatshortV.0157.0001.DAT",
+    "sha256": "b324f2a0c7e579e8b9b1b50536b7079634cc6bd6ac4dfd67f2dde7e5e343659f",
+    "rows": 44326,
+    "nonfinite_by_column": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "new_catalogue": {
+    "path": "work/pilot/Run1/CATALOGS/CatshortV.0157.0001.DAT",
+    "sha256": "4f042274a341651771545f51bd5eb2b2c895194e6fa7f7ddf180b6f07c154313",
+    "rows": 71587,
+    "nonfinite_by_column": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "expected_axis_order": "Historical b6 catalogue predates corrected-axis ordering; do not assert ordered-new"
+}
