@@ -861,68 +861,77 @@ integer*8 :: ic,ip
 !
       SUBROUTINE RemoveDuplicates
 !---------------------------------------------------------------------------
-! The unequal-mass host test is separate from equal-mass numerical duplicates.
-! Read immutable measurements in parallel, then apply the mask after the barrier.
+! A distinct host centre lies outside every higher-priority host's aperture.
+! Priority is larger bound mass, then lower stable candidate index on ties.
+! Read immutable measurements in parallel, then apply the mask after the barrier:
+! a suppressing host can itself be suppressed, preserving legacy host chains.
+! Exact particle-set duplicates are handled separately after this host test.
         implicit none
         integer*8 :: ip,jp
         integer :: i1,i2,j1,j2,k1,k2,i3,j3,k3,sx,sy,sz
         integer :: sxlo,sxhi,sylo,syhi,szlo,szhi
-        real*4 :: x,y,z,xx,yy,zz,dx,dy,dz,dd,radius,tstart,tfinish
+        real*4 :: tstart,tfinish
+        real*8 :: x,y,z,xx,yy,zz,dx,dy,dz,dd,radius,box64,cell64
         logical, allocatable :: removeHost(:)
-        tstart = seconds()
-        if(Nmaxima == 0) return
-        Radius = max(3.5,maxval(Rvir))
+        tstart=seconds()
+        if(Nmaxima==0)return
+        radius=max(3.5d0,dble(maxval(Rvir)))
+        box64=dble(Box);cell64=dble(Cell)
         allocate(removeHost(Nmaxima))
         removeHost=.false.
 !$OMP PARALLEL DO DEFAULT(SHARED) &
 !$OMP PRIVATE(ip,jp,x,y,z,xx,yy,zz,dx,dy,dz,dd,i1,i2,j1,j2,k1,k2,i3,j3,k3) &
 !$OMP PRIVATE(sx,sy,sz,sxlo,sxhi,sylo,syhi,szlo,szhi)
-      Do ip=1,Nmaxima
-         If(Mvir(ip)>MassOne)Then
-            x   = xMaxx(ip);   y = yMaxx(ip);    z = zMaxx(ip)
-            sxlo=0;sxhi=0;sylo=0;syhi=0;szlo=0;szhi=0
-            if(x-Radius<0.)sxhi=1
-            if(x+Radius>=Box)sxlo=-1
-            if(y-Radius<0.)syhi=1
-            if(y+Radius>=Box)sylo=-1
-            if(z-Radius<0.)szhi=1
-            if(z+Radius>=Box)szlo=-1
-            do sz=szlo,szhi
-            do sy=sylo,syhi
-            do sx=sxlo,sxhi
-            xx=x+sx*Box; yy=y+sy*Box; zz=z+sz*Box
-            Call Limits(xx,yy,zz,Radius,i1,i2,j1,j2,k1,k2)
-            Do k3 =k1, k2
-            Do j3 =j1, j2
-            Do i3 =i1, i2
-              jp =Label(i3,j3,k3)
-              Do while (jp.ne.0)
-                If(Mvir(ip)<Mvir(jp))Then
-                  dx=x-Xmaxx(jp); dx=dx-Box*anint(dx/Box)
-                  dy=y-Ymaxx(jp); dy=dy-Box*anint(dy/Box)
-                  dz=z-Zmaxx(jp); dz=dz-Box*anint(dz/Box)
+        do ip=1,Nmaxima
+          if(Mvir(ip)<=MassOne)cycle
+          x=dble(xMaxx(ip));y=dble(yMaxx(ip));z=dble(zMaxx(ip))
+          sxlo=0;sxhi=0;sylo=0;syhi=0;szlo=0;szhi=0
+          if(x-radius<0.d0)sxhi=1
+          if(x+radius>=box64)sxlo=-1
+          if(y-radius<0.d0)syhi=1
+          if(y+radius>=box64)sylo=-1
+          if(z-radius<0.d0)szhi=1
+          if(z+radius>=box64)szlo=-1
+          do sz=szlo,szhi
+          do sy=sylo,syhi
+          do sx=sxlo,sxhi
+            xx=x+dble(sx)*box64;yy=y+dble(sy)*box64;zz=z+dble(sz)*box64
+            ! Match ListMaxima's double-precision ceiling bins. In particular,
+            ! never round a shifted x+Box query through float32 before finding
+            ! its bounds: a true neighbouring host could move outside that bin.
+            i1=min(max(Nmx,ceiling((xx-radius)/cell64)-1),Nbx)
+            i2=min(max(Nmx,ceiling((xx+radius)/cell64)-1),Nbx)
+            j1=min(max(Nmy,ceiling((yy-radius)/cell64)-1),Nby)
+            j2=min(max(Nmy,ceiling((yy+radius)/cell64)-1),Nby)
+            k1=min(max(Nmz,ceiling((zz-radius)/cell64)-1),Nbz)
+            k2=min(max(Nmz,ceiling((zz+radius)/cell64)-1),Nbz)
+            do k3=k1,k2
+            do j3=j1,j2
+            do i3=i1,i2
+              jp=Label(i3,j3,k3)
+              do while(jp/=0)
+                if(Mvir(ip)<Mvir(jp).or.(Mvir(ip)==Mvir(jp).and.jp<ip))then
+                  dx=x-dble(xMaxx(jp));dx=dx-box64*anint(dx/box64)
+                  dy=y-dble(yMaxx(jp));dy=dy-box64*anint(dy/box64)
+                  dz=z-dble(zMaxx(jp));dz=dz-box64*anint(dz/box64)
                   dd=dx*dx+dy*dy+dz*dz
-                  If(dd.lt.Rvir(jp)**2)Then
-                     removeHost(ip) = .true.
-                  End If
-               end If
-               jp =Lst(jp)
-              end do
-           end do
-           end do
-           end Do
-           end do
-           end do
-           end do
-         end If
-       End Do         ! ip
-       where(removeHost) Mvir=0.
-       deallocate(removeHost)
-       call MergeNumericalDuplicates
-       tfinish = seconds()
-      write(*,'(10x,a,T50,2f10.2)') ' time for RemoveDuplicates =',tfinish-tstart,tfinish-t0
-
-    end SUBROUTINE RemoveDuplicates
+                  if(dd<dble(Rvir(jp))**2)removeHost(ip)=.true.
+                endif
+                jp=Lst(jp)
+              enddo
+            enddo
+            enddo
+            enddo
+          enddo
+          enddo
+          enddo
+        enddo
+        where(removeHost)Mvir=0.
+        deallocate(removeHost)
+        call MergeNumericalDuplicates
+        tfinish=seconds()
+        write(*,'(10x,a,T50,2f10.2)') ' time for RemoveDuplicates =',tfinish-tstart,tfinish-t0
+      end SUBROUTINE RemoveDuplicates
 
 !---------------------------------------------------------------------------
 ! Merge identical bound-particle sets among host-test survivors.
