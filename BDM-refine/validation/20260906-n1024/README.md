@@ -249,6 +249,13 @@ density tapes remain in place. `work-archive.json` records the member hashes,
 removed paths and retained data; `cleanup.json` also records removed clean
 agent worktrees. Historical audit and repair archives remain unchanged.
 
+Cleanup job **11948648** consolidated **559 files**, removed **41 empty
+directories** and retained **32 data/log files**. It used one shared core for
+87 s (0.0242 core-hours), with 1.32 GiB peak RSS against a 2 GiB request.
+Three clean agent worktrees, four rebuildable bytecode files and the 16
+temporary slide previews were also removed. The archive's SHA256 and the two
+historical archive hashes were checked again after cleanup.
+
 To recover the small files, inspect `work-archive.json` first, then restore the
 archive **from this experiment directory**:
 

@@ -25,5 +25,146 @@
     }
   ],
   "plotter_archive": "plotter-evidence-archive.json",
-  "main_work_pending": true
+  "main_work_pending": false,
+  "removed_rebuildable_caches": [
+    {
+      "path": "BDM-refine/analysis/duplicate-hosts-20260905/tools/__pycache__/catalogue_core.cpython-314.pyc",
+      "bytes": 14633,
+      "sha256": "c40d245dfbf084c36829330bfcddfea2688d5c916f832f3ae3bd02b11f164bb5",
+      "reason": "Untracked Python bytecode; source retained"
+    },
+    {
+      "path": "BDM-refine/analysis/duplicate-hosts-20260905/tools/__pycache__/clean_catalogue.cpython-314.pyc",
+      "bytes": 19859,
+      "sha256": "57b02f1511b17e3a37f98f464dd3496b77cf46b41a723af74242a798ad735c3e",
+      "reason": "Untracked Python bytecode; source retained"
+    },
+    {
+      "path": "BDM-refine/analysis/duplicate-hosts-20260905/tools/__pycache__/load_cleaning.cpython-314.pyc",
+      "bytes": 2045,
+      "sha256": "2f868c7216bd12f2c0baac509755e352021fbba6195c5fc0decfcb738328386a",
+      "reason": "Untracked Python bytecode; source retained"
+    },
+    {
+      "path": "BDM-refine/analysis/duplicate-hosts-20260905/tests/__pycache__/source_reproduction.cpython-314.pyc",
+      "bytes": 8706,
+      "sha256": "94cb5aa10effe546a5d3ea0624b3e6f04e3faa9b2a64bbf02a77923fc66fce58",
+      "reason": "Untracked Python bytecode; source retained"
+    }
+  ],
+  "removed_cache_directories": [
+    "BDM-refine/analysis/duplicate-hosts-20260905/tests/__pycache__",
+    "BDM-refine/analysis/duplicate-hosts-20260905/tools/__pycache__"
+  ],
+  "removed_slide_previews": {
+    "directory": "/tmp/bdm-slide-review-20260906",
+    "files": 16,
+    "sha256": {
+      "/tmp/bdm-slide-review-20260906/page-01.png": "28a62d8f3c3042ab908b2930899c8ced7493cf26f6d7681f3d67df27b57ac039",
+      "/tmp/bdm-slide-review-20260906/page-02.png": "02cde239344cb1d4d44f961a2b0694297b6cdf19891893571de54b84738c6d3b",
+      "/tmp/bdm-slide-review-20260906/page-03.png": "6127786fb814c18811b6fe288cb5053d1ebaf1df99f926ff5f36f96054202734",
+      "/tmp/bdm-slide-review-20260906/page-04.png": "00e3f8818dfae2cc87e3ec233af2cc8a7b9a083982407acd54b35b1d34cab4c3",
+      "/tmp/bdm-slide-review-20260906/page-05.png": "b8a076e6d1fc83cbfe12b6ff9ee308604934c30a7e219e505fbba55db209595a",
+      "/tmp/bdm-slide-review-20260906/page-06.png": "aba29028ac7869f66883fbdd7d8fa4d60b38c5a911bf8bafe161ac2bfe694011",
+      "/tmp/bdm-slide-review-20260906/page-07.png": "53c65b4f354920f03985a72a5610df4217ae70a7f9780bbde5f6d117d6e352eb",
+      "/tmp/bdm-slide-review-20260906/page-08.png": "24cc99dc237fd2de5666fb55be4063f32eb4c9ab268695531c8228a4da071246",
+      "/tmp/bdm-slide-review-20260906/page-09.png": "72426b332c2feb1d360c92b5ec3032b4c3e57921a2e77cc31776db1e9042473e",
+      "/tmp/bdm-slide-review-20260906/page-10.png": "17d9bff1ea482bd87cbb46d28f4d1ca0494cd4f267c9e06b5ca80b7d67d38af9",
+      "/tmp/bdm-slide-review-20260906/page-11.png": "af899992daad2d35d6a00f6fdcb3f7f79b4591a8ca12342e33ade5adc2c53d34",
+      "/tmp/bdm-slide-review-20260906/page-12.png": "c3b8c24c14c6c323d8944808ac4b5f87fb796ea68373b7c8bb76343f07e67b98",
+      "/tmp/bdm-slide-review-20260906/page-13.png": "ca63318928c2a6daa7278aa37ca34b8d1af5a4b50fdc5989669a83a113aa4e8c",
+      "/tmp/bdm-slide-review-20260906/page-14.png": "e9db7dd770a8fefaebf67f030396d023031ece03ab8d6a7cce75e7849831c154",
+      "/tmp/bdm-slide-review-20260906/page-15.png": "c175c62253e59dd2090426d72eef518aa19626406fbe08be66cde77e039fa8e0",
+      "/tmp/bdm-slide-review-20260906/page-16.png": "b34efb5413f26e6e5e4df3a830b93accfc85fa4c675887101509e6ce3552fb33"
+    },
+    "pdf_preserved": true
+  },
+  "updated_at_utc": "2026-09-06T14:28:47.712337+00:00",
+  "completed": true,
+  "work_archive": {
+    "receipt": "work-archive.json",
+    "receipt_sha256": "b9a3dd8c6354ccf5c28069d681a423688d37aea89c0bcb09b812b9a4401c930a",
+    "archive_sha256": "0aa44a202587d732d3308a7da8693ea6253a4595286bda72f7fb3c4255efbc45",
+    "archive_bytes": 335803815,
+    "archived_and_removed_files": 559,
+    "removed_directories": 41,
+    "retained_data_and_log_files": 32,
+    "verification": "Archive SHA256 rechecked after job completion; all archived originals absent; retained data inode/device/size/mtime unchanged; all membership tapes retained"
+  },
+  "archive_accounting": {
+    "job_id": "11948648",
+    "command": [
+      "sacct",
+      "-P",
+      "-j",
+      "11948648",
+      "--units=K",
+      "--format=JobIDRaw,JobName,Partition,Account,State,ExitCode,ReqTRES,AllocTRES,Elapsed,ElapsedRaw,TotalCPU,MaxRSS,Timelimit"
+    ],
+    "raw_sacct": "JobIDRaw|JobName|Partition|Account|State|ExitCode|ReqTRES|AllocTRES|Elapsed|ElapsedRaw|TotalCPU|MaxRSS|Timelimit\n11948648|bdm-archive|cosma8-serial|dp004|COMPLETED|0:0|billing=1,cpu=1,mem=2097152K,node=1|billing=1,cpu=1,energy=29827,mem=2097152K,node=1|00:01:27|87|01:06.866||00:15:00\n11948648.batch|batch||dp004|COMPLETED|0:0||cpu=1,mem=2097152K,node=1|00:01:27|87|01:06.866|1386244K|\n11948648.extern|extern||dp004|COMPLETED|0:0||billing=1,cpu=1,mem=2097152K,node=1|00:01:27|87|00:00:00||\n",
+    "raw_scontrol": "JobId=11948648 JobName=bdm-archive\n   UserId=dc-ruan1(21209) GroupId=durham(64528) MCS_label=N/A\n   Priority=18351 Nice=0 Account=dp004 QOS=normal\n   JobState=COMPLETED Reason=None Dependency=(null)\n   Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0\n   RunTime=00:01:27 TimeLimit=00:15:00 TimeMin=N/A\n   SubmitTime=2026-09-06T15:24:52 EligibleTime=2026-09-06T15:24:52\n   AccrueTime=2026-09-06T15:24:52\n   StartTime=2026-09-06T15:25:15 EndTime=2026-09-06T15:26:42 Deadline=N/A\n   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-06T15:25:15 Scheduler=Backfill\n   Partition=cosma8-serial AllocNode:Sid=login8b.pri.cosma.local:1118549\n   ReqNodeList=(null) ExcNodeList=(null)\n   NodeList=m8474\n   BatchHost=m8474\n   NumNodes=1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*\n   ReqTRES=cpu=1,mem=2G,node=1,billing=1\n   AllocTRES=cpu=1,mem=2G,energy=29827,node=1,billing=1\n   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*\n   MinCPUsNode=1 MinMemoryNode=2G MinTmpDiskNode=0\n   Features=(null) DelayBoot=00:00:00\n   OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)\n   Command=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-archive/archive.sbatch\n   SubmitLine=sbatch --parsable --export=ALL,BDM_VALIDATION_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024 /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-archive/archive.sbatch /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-archive/archive_work.py\n   WorkDir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM\n   StdErr=\n   StdIn=/dev/null\n   StdOut=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/slurm-11948648.log\n   TresPerTask=cpu=1\n\n",
+    "records": [
+      {
+        "JobIDRaw": "11948648",
+        "JobName": "bdm-archive",
+        "Partition": "cosma8-serial",
+        "Account": "dp004",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "ReqTRES": "billing=1,cpu=1,mem=2097152K,node=1",
+        "AllocTRES": "billing=1,cpu=1,energy=29827,mem=2097152K,node=1",
+        "Elapsed": "00:01:27",
+        "ElapsedRaw": "87",
+        "TotalCPU": "01:06.866",
+        "MaxRSS": "",
+        "Timelimit": "00:15:00"
+      },
+      {
+        "JobIDRaw": "11948648.batch",
+        "JobName": "batch",
+        "Partition": "",
+        "Account": "dp004",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "ReqTRES": "",
+        "AllocTRES": "cpu=1,mem=2097152K,node=1",
+        "Elapsed": "00:01:27",
+        "ElapsedRaw": "87",
+        "TotalCPU": "01:06.866",
+        "MaxRSS": "1386244K",
+        "Timelimit": ""
+      },
+      {
+        "JobIDRaw": "11948648.extern",
+        "JobName": "extern",
+        "Partition": "",
+        "Account": "dp004",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "ReqTRES": "",
+        "AllocTRES": "billing=1,cpu=1,mem=2097152K,node=1",
+        "Elapsed": "00:01:27",
+        "ElapsedRaw": "87",
+        "TotalCPU": "00:00:00",
+        "MaxRSS": "",
+        "Timelimit": ""
+      }
+    ],
+    "elapsed_seconds": 87,
+    "total_cpu_seconds": 66.866,
+    "maxrss_gib": 1.3220252990722656,
+    "requested_cpus": 1,
+    "allocated_cpus": 1,
+    "billing_units": 1.0,
+    "req_tres": "billing=1,cpu=1,mem=2097152K,node=1",
+    "alloc_tres": "billing=1,cpu=1,energy=29827,mem=2097152K,node=1",
+    "billed_core_hours": 0.024166666666666666,
+    "utilisation": 0.7685747126436782,
+    "time_limit_core_hours": 0.25
+  },
+  "historical_archive_sha256_unchanged": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906/work-artifacts.tar.gz": "62a4e2cd1b7363c4a029d570801252c324fb871ec1739625a64242bc8fed134c",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/analysis/full-audit-20260906/work-artifacts.tar.gz": "b39e39ea17aaf65a53f42a2058986717b89d8ff1513cb02fe65e14294ff9a9c9"
+  },
+  "validation_and_cleanup_billed_core_hours": 110.9113888888889
 }
