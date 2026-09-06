@@ -11,9 +11,11 @@ The reproduced active-path findings F01–F16 and subsequent review/native
 failures have been repaired and pass the validation described below. This
 closes the implementation audit within the stated physics and input domain.
 
-The active distinct-host finder now has an explicit version-2 catalogue
-contract. This changes the interpretation and values of several fields;
-historical catalogues should retain their original definitions.
+This report records the version-2 catalogue contract and its original tests.
+The subsequent [SO normalization follow-up](../20260906-review-followup/physics/README.md)
+defines version 3, using the actual particle mass and box mean density, and
+clarifies the publication floor. Historical catalogues and receipts retain
+their original definitions and source revisions.
 
 ## Physics repairs
 
