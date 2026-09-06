@@ -325,6 +325,29 @@ def verify_old_completion(log, data):
         'Old finder did not finish WriteFiles'
 
 
+def compare_normal_density_catalogues(reference, comparison):
+    """Record density-rounding sensitivity; fixed-FI controls test finder threads.
+
+    The N512 pilot isolated a one-ulp density-dependent seed-aperture change.
+    Do not disguise ordinary DENSIT replays as tests on a bitwise fixed field.
+    """
+    answer = dict(reference_rows=len(reference), comparison_rows=len(comparison),
+                  same_shape=reference.shape == comparison.shape)
+    if reference.shape == comparison.shape:
+        rows = np.flatnonzero(np.any(reference != comparison, axis=1))
+        answer.update(changed_rows=len(rows), changed_fraction=len(rows)/max(len(reference), 1),
+                      identical=not len(rows),
+                      max_absolute_difference_by_column=np.max(np.abs(reference-comparison), axis=0).tolist(),
+                      bound_mass_counts_velocities_identical=bool(np.array_equal(
+                          reference[:, [3,4,5,6,13]], comparison[:, [3,4,5,6,13]])),
+                      first_changed_rows=[dict(row_one_based=int(i+1),reference=reference[i].tolist(),
+                                              comparison=comparison[i].tolist()) for i in rows[:20]])
+    else:
+        answer['identical'] = False
+        answer['interpretation'] = 'Selection/order changed; rowwise properties are not compared'
+    return answer
+
+
 def simulate(name, threads):
     spec = case_spec(name)
     if verify_report(ROOT / f'{name}-simulation.json', spec):
@@ -556,8 +579,8 @@ def validate(name, threads):
                     verify_old_completion(destination / 'old.log', data)
                     arrays[f'old_z{z}'] = data
                 else:
-                    assert cat['sha256'] == snapshot['catalogue']['sha256'], (variant, 'inline/replay mismatch')
-                    stage['byte_identical_to_inline'] = True
+                    stage['byte_identical_to_inline'] = cat['sha256'] == snapshot['catalogue']['sha256']
+                    stage['normal_density_comparison'] = compare_normal_density_catalogues(arrays[f'new_z{z}'], data)
                 if variant == 'members':
                     stage['membership'] = check_memberships(destination / 'repair-members.bin', spec, data)
                     assert stage['membership']['selected'] == len(data)
@@ -568,6 +591,9 @@ def validate(name, threads):
                 write_json(ROOT / f'{name}-validation.json', report)
         np.savez_compressed(ROOT / f'{name}-comparison-catalogues.npz', **arrays)
         report.update(completed=True, finished_at_utc=now(),
+                      physics_identity_checks_complete=True,
+                      normal_density_replays_byte_identical=all(r.get('byte_identical_to_inline', True) for r in records),
+                      fixed_density_thread_control='Required separately: normal parallel DENSIT is not bitwise reproducible',
                       comparison_sha256=sha(ROOT / f'{name}-comparison-catalogues.npz'))
     except BaseException:
         report['failure_traceback'] = traceback.format_exc()

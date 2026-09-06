@@ -18,5 +18,32 @@
       "run_validation.py": "7dc550cd1bf94f76eecedacefca59849b0716c59568d39074c51f2bbe23e1a09"
     },
     "dependencies": []
+  },
+  {
+    "job_id": "11948372",
+    "purpose": "N1024/Ng2048 GRsimulation with final refined BDM inline atz2,1,0",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "--job-name=bdm-n1024-main",
+      "--cpus-per-task=64",
+      "--mem=192G",
+      "--time=02:00:00",
+      "--export=ALL,BDM_VALIDATION_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024,BDM_VALIDATION_PREPARATION=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-preparation.json,BDM_VALIDATION_BIN=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/final-native-build",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-simulation/validation.sbatch",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-simulation/run_validation.py",
+      "simulate",
+      "--case",
+      "main"
+    ],
+    "submitted_at_utc": "2026-09-06T12:37:39.897357+00:00",
+    "commit": "6a02a0517cd28ea3d0cf6323f8a59bac1a26c321",
+    "script_sha256": {
+      "validation.sbatch": "dd4d746b9e55d6f969f2af2b7b3c8d52ceefe36dd766ab5136d9a5fa145fd510",
+      "run_validation.py": "0c692368726f5252d29069d592e6b488b1c3fc6732806f659f7d4c1ca7633cd7"
+    },
+    "dependencies": [],
+    "pilot": "11948326",
+    "preparation_sha256": "4affb6ff7fb104be2a18df12963881e191b76e95d4bf970883fbfef59f66badb"
   }
 ]

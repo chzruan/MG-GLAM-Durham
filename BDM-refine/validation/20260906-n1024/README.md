@@ -85,12 +85,29 @@ original IDs within each halo, consistent mass/count, no identical surviving
 member sets, and no lower-priority centre inside its host's radius, using the
 same documented mass/index priority and periodic geometry.
 
-The instrumented, standard and two-call state-probe catalogues must equal the
-inline catalogue byte for byte. The state probe checks all six particle arrays
-bitwise after each finder call, their allocation sizes and released per-call
-buffers. A half-thread z=0 replay checks parallel agreement. Old/new standard
-z=0 timings use equal thread counts; membership-dump or state-probe timings
-are not substituted for normal finder timings.
+Ordinary instrumented, standard and state-probe replays record byte agreement
+and any row differences from the inline catalogue. Parallel float32 CIC density
+accumulation is not bitwise reproducible: the N512 pilot isolated one-ulp changes
+in two density-dependent centring apertures, affecting2/71587 published rows
+while preserving every bound mass, particle count and bulk velocity. Holding
+the exact density field fixed gives byte-identical finder catalogues across
+16/32/16/32 threads; replacing only that field reproduces both original rows.
+The original strict pilot failure remains in its receipt; the controlled
+diagnosis is separate evidence, not a retroactive pass of that test.
+
+The state probes check all six particle arrays bitwise after each finder call,
+their allocation sizes and released per-call buffers. The main numerical test
+therefore separates ordinary density sensitivity from the immutable-density
+finder-thread comparison. Old/new standard z=0 timings use equal thread counts;
+membership-dump or state-probe timings are not substituted for normal timings.
+
+The plot mechanics check also exposed a retained empirical shape correction
+that could invert the two transverse axis ratios. The additional
+[shape repair](shape-repair/README.md) orders the corrected values without
+changing their coefficients, principal direction, other properties or
+memberships. It passed574 cases under each of GNU and Intel, including full
+production GetHalo fixtures. `main-preparation.json` and `native-build.json`
+freeze the resulting build separately from the original b6 pilot build.
 
 Plots use all catalogues for population changes and conservative periodic
 positional matches for individual-property changes. Candidate/output IDs are

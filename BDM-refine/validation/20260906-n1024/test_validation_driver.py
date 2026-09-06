@@ -1,4 +1,5 @@
 """Adversarial controls for false-success and stale-output validation hazards."""
+import argparse
 import json
 from pathlib import Path
 import struct
@@ -9,6 +10,9 @@ import run_validation as v
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--receipt', type=Path, default=v.ROOT/'driver-controls.json')
+    args = parser.parse_args()
     passed = []
 
     def rejected(name, action):
@@ -105,10 +109,26 @@ def main():
         product.write_bytes(b'changed same-length output')
         rejected('changed output cannot be blessed in a new aggregate', lambda: v.verify_report(aggregate, spec))
 
+        reference = np.ones((3, 24))
+        replay = reference.copy()
+        replay[[0, 2], 0] += .001
+        comparison = v.compare_normal_density_catalogues(reference, replay)
+        assert comparison['changed_rows'] == 2 and not comparison['identical']
+        assert comparison['bound_mass_counts_velocities_identical']
+        assert [row['row_one_based'] for row in comparison['first_changed_rows']] == [1, 3]
+        passed.append('density-dependent position changes remain explicit')
+        replay[1, 6] += 1
+        comparison = v.compare_normal_density_catalogues(reference, replay)
+        assert not comparison['bound_mass_counts_velocities_identical']
+        passed.append('changed bound mass is not classified as identical')
+        comparison = v.compare_normal_density_catalogues(reference, replay[:2])
+        assert not comparison['same_shape'] and 'changed_rows' not in comparison
+        passed.append('changed selection prevents rowwise residual comparison')
+
     result = dict(driver_sha256=v.sha(v.__file__), test_sha256=v.sha(__file__),
                   passed=passed, completed=True,
                   native_fixture='Archived repaired128^3 integration data; no large simulation or new native execution')
-    v.write_json(v.ROOT/'driver-controls.json', result)
+    v.write_json(args.receipt, result)
     print(len(passed), 'adversarial driver controls passed')
 
 
