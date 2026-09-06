@@ -1,0 +1,67 @@
+{
+  "completed": true,
+  "pilot": true,
+  "job_id": null,
+  "started_at_utc": "2026-09-06T16:46:52.343462+00:00",
+  "checker_module_sha256": "7a84c1dc7444b9bfdf0a99763ecfe6fc005657ec17baae840fa9fb7d53b6e81c",
+  "checker_function_sha256": "fdb5ae27c59c3a310292a2b422464d6972ce7b65f88f3c02863d3245acae7f4e",
+  "driver_sha256": "4ccb6cb130fddcfa95e25a7cc6150309565664b588015910e324511e19c690fd",
+  "simulation_receipt_sha256": "79ccdfed596fc230474dcefa6450af80c184f8b73a904c2dca6faaab68fff744",
+  "validation_receipt_sha256": "be8d44c8c62bac3ba8b1fb0235c6d50d934da7b7bb2dbac59e3c630fb0348931",
+  "catalogue_arrays_sha256": "82d0814b5f258f1827cf1a8c46e0821e2753678d2dfdf3a589c86b950ce23980",
+  "checker_change": "Only returned path base set to repository root; original checker function unmodified",
+  "records": [
+    {
+      "z": 0,
+      "selected": 2,
+      "baseline": {
+        "selected": 2,
+        "candidates": 794570,
+        "mass_one": 10711107584.0,
+        "exact_duplicate_member_sets": 0,
+        "repeated_original_ids": 0,
+        "mass_count_mismatches": 0,
+        "host_exclusion_violations": 0,
+        "higher_priority_neighbours_examined": 0,
+        "ordered_candidate_ids": true,
+        "catalogue_columns_linked_to_raw": 23,
+        "particle_mass_checked_against_snapshot": true,
+        "raw_sha256": "b58c057673859ac04f468509eaf6ef8d86a6863083d9d6b3fcd607c4d17bcb96",
+        "retained_raw": "BDM-refine/repairs/20260906-review-followup/work/host-control/z0-vpdfnbjz/pilot.bin",
+        "total_memberships": 2259,
+        "index_sha256": "3ce2ae961dc7ad8412ccb67339f7c2ffdd3f5330a3b78fb13185f8993d4339ee"
+      },
+      "injection": {
+        "expected_host_and_lower_priority_candidate": [
+          24,
+          29
+        ],
+        "host_row_zero_based": 0,
+        "moved_row_zero_based": 1,
+        "property_byte_offset": 15024,
+        "original_coordinate_bytes_hex": "4264d3494238525d3d66d679",
+        "injected_coordinate_bytes_hex": "439ee66d4224dd913ddb4707",
+        "host_mass": 19933371039744.0,
+        "moved_mass": 4263020855296.0,
+        "host_radius_mpc_h": 0.5846278071403503,
+        "separation_mpc_h": 0.0,
+        "detected_pairs": [
+          [
+            24,
+            29
+          ]
+        ],
+        "expected_host_assertion_failed": true
+      },
+      "original_raw": "BDM-refine/validation/20260906-n1024/work/main/replay-z0-members-t64/repair-members.bin",
+      "original_raw_sha256": "218913338fbff4c470c3714864ef43482a5d78323a94654573ee515475f35f8d",
+      "original_index_sha256": "002744821fb19dcde2abe0b4d83472092b211b664684eb627b9bc0472b6916d0"
+    }
+  ],
+  "original_data_and_indexes_unchanged": true,
+  "temporary_copies_removed": true,
+  "finished_at_utc": "2026-09-06T16:46:52.761115+00:00",
+  "elapsed_seconds": 0.4179717649240047,
+  "total_cpu_seconds": 0.33555299999999993,
+  "maxrss_kib": 129556
+}

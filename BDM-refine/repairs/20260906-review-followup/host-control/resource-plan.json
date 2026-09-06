@@ -1,0 +1,19 @@
+{
+  "purpose": "Positive failure control of the original membership checker on the full z2/z1/z0 catalogues; source data read only",
+  "pilot_receipt": "frozen-pilot.json",
+  "pilot_sha256": "80ccc9aa17b8f8d3219d34acc789a14ea058e9da0721653171ec7cbc89b47735",
+  "pilot_maxrss_mib": 126.51953125,
+  "request": {
+    "partition": "cosma8-serial",
+    "account": "dp004",
+    "cpus_per_task": 1,
+    "memory_gib": 4,
+    "time_limit_seconds": 600
+  },
+  "expected_seconds": 180,
+  "expected_core_hours": 0.05,
+  "time_limit_core_hours": 0.16666666666666666,
+  "memory_reason": "131 MiB two-row pilot includes loading the full z0 catalogue/index; stream one membership at a time. 4 GiB provides metadata, copy-buffer and file-cache headroom.",
+  "inspected_shared_accounting": "BDM-refine/validation/20260906-n1024/accounting.json; archive job11948648 cpu=1 mem=2G billing=1",
+  "driver_sha256": "4ccb6cb130fddcfa95e25a7cc6150309565664b588015910e324511e19c690fd"
+}
