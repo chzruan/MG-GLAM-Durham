@@ -1336,6 +1336,9 @@ integer*8 :: ic,ip,i
           return
         end select
         coordinate=stored
+        ! Original rows already store the exact analysis coordinate; only a
+        ! periodic image needs an integer shift reconstructed in float64.
+        if(original==row)return
         if(allocated(OriginalParticleId)) &
           coordinate=base+dble(nint((stored-base)/dble(Box)))*dble(Box)
       end function BdmParticleCoordinate
@@ -1345,6 +1348,13 @@ integer*8 :: ic,ip,i
         integer*8, intent(in) :: row
         real*8, intent(out) :: position(3)
         integer :: component
+        integer*8 :: original
+        original=row
+        if(allocated(OriginalParticleId))original=OriginalParticleId(row)
+        if(original==row)then
+          position=[dble(Xpar(row)),dble(Ypar(row)),dble(Zpar(row))]
+          return
+        endif
         do component=1,3
           position(component)=BdmParticleCoordinate(row,component)
         enddo
