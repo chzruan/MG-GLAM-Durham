@@ -1,0 +1,225 @@
+{
+  "created_at_utc": "2026-09-06T17:18:44.544870+00:00",
+  "completed_build": true,
+  "build_sha256": "640d73b5194d030abb64abf9862d3a0af587da38e447d65f0161bd09128c0a5a",
+  "source_commit": "f4492eacd001d942bcc143a35eed3b265b8f8f98",
+  "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+  "submitter_sha256": "597a522ce361fcebd12cec8fdc96d06a74df567e85226d9d138428a96d2eb5fd",
+  "batch_sha256": "4e4d4fd84f9af722b5c4531df6c9b662ddee24252dce742240f8c01af52bef5c",
+  "spec": {
+    "nrow": 1024,
+    "ngrid": 2048,
+    "box_mpc_h": 512.0,
+    "cosmology": {
+      "Omega_m": 0.3089,
+      "Omega_Lambda": 0.6911,
+      "h": 0.6774,
+      "sigma8": 0.8159
+    },
+    "halo_config": "! Identical requested settings for both finder revisions\niVirial = 1 ! virial overdensity\nMassMin = 2.5e12 ! bound-mass selection in Msun/h\nRext = 0.15 ! retained empirical aperture correction\n",
+    "particle_limit_exclusive": 1728000000
+  },
+  "snapshots": [
+    {
+      "z": 2,
+      "header": {
+        "scale_factor": 0.3333333432674408,
+        "step": 92,
+        "nrow": 1024,
+        "ngrid": 2048,
+        "particles": 1073741824
+      },
+      "files_sha256": {
+        "PMcrd.0092.DAT": "c97e602b799f50c2d272a5ef4aba5e72d8c3a1cb11161402e01668a69855e0d2",
+        "PMcrs0.0092.DAT": "5a6a2ed227ec50ad16afed61848f0def5cc4b3686bc4ccd28d5cb9b5091ffd33",
+        "PMcrs1.0092.DAT": "e45941fbe2d9fb2f21390f23ce675b194816d82ea40b46c15e5ca7e4503cd0e8"
+      },
+      "directory": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1"
+    },
+    {
+      "z": 1,
+      "header": {
+        "scale_factor": 0.5,
+        "step": 109,
+        "nrow": 1024,
+        "ngrid": 2048,
+        "particles": 1073741824
+      },
+      "files_sha256": {
+        "PMcrd.0109.DAT": "b3eb8b7a1d68f5b688db96f3e0ac0f9f888920803893c9354c672ac3dbd47da4",
+        "PMcrs0.0109.DAT": "a9c16c3850633b5c39f0984f07ac1f67ff711ffb0b269d1f7740ff0026bf19dc",
+        "PMcrs1.0109.DAT": "c29cb293e0999aebce62d90afcfac5bc45632d573e018b9c66eb4cd0b8140863"
+      },
+      "directory": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1"
+    },
+    {
+      "z": 0,
+      "header": {
+        "scale_factor": 1.0,
+        "step": 158,
+        "nrow": 1024,
+        "ngrid": 2048,
+        "particles": 1073741824
+      },
+      "files_sha256": {
+        "PMcrd.0158.DAT": "39a6ebd24ad0f6089f2f1e2579501fcdf5e98f00a2c6821daf91a0e8d2f78950",
+        "PMcrs0.0158.DAT": "8cb33290840e3190f9461af8c0496b7c7dce8dcbc0dcae65cb5a01c69421e316",
+        "PMcrs1.0158.DAT": "9521f13c077208926705ae1d60fb0ee0d46bb3653206f611dfd25da80f2c9ceb"
+      },
+      "directory": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1"
+    }
+  ],
+  "groups": {
+    "32": [
+      {
+        "label": "z0-optimized-v2",
+        "z": 0,
+        "variant": "optimized-v2",
+        "passes": 2,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "density_sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b"
+      },
+      {
+        "label": "z0-reference",
+        "z": 0,
+        "variant": "reference",
+        "passes": 2,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "density_sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b"
+      },
+      {
+        "label": "z0-v3",
+        "z": 0,
+        "variant": "v3",
+        "passes": 2,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "density_sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b"
+      }
+    ],
+    "64": [
+      {
+        "label": "z0-reference",
+        "z": 0,
+        "variant": "reference",
+        "passes": 2,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "density_sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b"
+      },
+      {
+        "label": "z0-optimized-v2",
+        "z": 0,
+        "variant": "optimized-v2",
+        "passes": 2,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "density_sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b"
+      },
+      {
+        "label": "z0-v3",
+        "z": 0,
+        "variant": "v3",
+        "passes": 2,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+        "density_sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b"
+      },
+      {
+        "label": "z2-reference",
+        "z": 2,
+        "variant": "reference",
+        "passes": 1,
+        "density_mode": "write",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2.density.bin"
+      },
+      {
+        "label": "z2-v3",
+        "z": 2,
+        "variant": "v3",
+        "passes": 1,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z2.density.bin"
+      },
+      {
+        "label": "z1-reference",
+        "z": 1,
+        "variant": "reference",
+        "passes": 1,
+        "density_mode": "write",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1.density.bin"
+      },
+      {
+        "label": "z1-v3",
+        "z": 1,
+        "variant": "v3",
+        "passes": 1,
+        "density_mode": "read",
+        "density_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/replays-t64/z1.density.bin"
+      }
+    ]
+  },
+  "historical_z0_d64_catalogue_sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+  "resources": {
+    "partition": "cosma8-serial",
+    "account": "dp004",
+    "nodes": 1,
+    "ntasks": 1,
+    "exclusive": false,
+    "mem": "256G",
+    "time_limit_seconds": 3600,
+    "pilot_jobs": [
+      "11948467",
+      "11948491"
+    ],
+    "pilot_accounting_command": [
+      "sacct",
+      "-j",
+      "11948467,11948491",
+      "--format=JobID,State,ElapsedRaw,TotalCPU,ReqTRES%100,AllocTRES%100,MaxRSS,ExitCode",
+      "--parsable2"
+    ],
+    "pilot_accounting": "JobID|State|ElapsedRaw|TotalCPU|ReqTRES|AllocTRES|MaxRSS|ExitCode\n11948467|COMPLETED|1162|10:48:20|billing=64,cpu=64,mem=192G,node=1|billing=64,cpu=64,energy=587909,mem=192G,node=1||0:0\n11948467.batch|COMPLETED|1162|10:48:20||cpu=64,mem=192G,node=1|136785660K|0:0\n11948467.extern|COMPLETED|1162|00:00:00||billing=64,cpu=64,mem=192G,node=1||0:0\n11948491|COMPLETED|1151|08:10:29|billing=64,cpu=64,mem=288G,node=1|billing=64,cpu=64,energy=553441,mem=288G,node=1||0:0\n11948491.batch|COMPLETED|1151|08:10:29||cpu=64,mem=288G,node=1|198231384K|0:0\n11948491.extern|COMPLETED|1151|00:00:00||billing=64,cpu=64,mem=288G,node=1||0:0\n",
+    "measured_fixed_density_batch_maxrss_kib": 198231384,
+    "measured_fixed_density_batch_gib": 189.04817962646484,
+    "measured_fixed_density_native_gib": 152.0,
+    "memory_reason": "The same N1024 saved-PM-bit and immutable-FI wrapper previously used 189.05 GiB batch RSS. 256 GiB gives 35% headroom for variant/tape I/O. The optimized buffer count reduces scratch by about 7 GiB; this saving is not needed to fit the request.",
+    "packing": "Independent 32-core and 64-core jobs use their actual thread counts on the shared queue. Concurrent requests total 96 cores and 512 GiB, below one COSMA8 node; the scheduler may place them separately. No exclusive-node request.",
+    "groups": {
+      "32": {
+        "cpus": 32,
+        "expected_seconds_range": [
+          1200,
+          2100
+        ],
+        "expected_core_hours_range": [
+          10.666666666666666,
+          18.666666666666668
+        ],
+        "time_limit_core_hours": 32
+      },
+      "64": {
+        "cpus": 64,
+        "expected_seconds_range": [
+          1200,
+          2100
+        ],
+        "expected_core_hours_range": [
+          21.333333333333332,
+          37.333333333333336
+        ],
+        "time_limit_core_hours": 64
+      }
+    }
+  },
+  "checker_function_sha256": "fdb5ae27c59c3a310292a2b422464d6972ce7b65f88f3c02863d3245acae7f4e",
+  "evidence_sha256": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-simulation.json": "79ccdfed596fc230474dcefa6450af80c184f8b73a904c2dca6faaab68fff744",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/results.json": "7440ea4ef6db1dce80756857e13ad5a9c1ed52df532519f4fa61801737e23d57",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/run_validation.py": "7a84c1dc7444b9bfdf0a99763ecfe6fc005657ec17baae840fa9fb7d53b6e81c"
+  },
+  "interpretation": "Reference is pre-follow-up v2 plus output-invariant telemetry. Optimized-v2 uses final computational code with only the diagnostic SO coefficient/header reverted. Final v3 changes the SO normalization. Each physical pair consumes exactly the same FI and original snapshot. Fixed-FI reproducibility does not imply ordinary-density peak stability.",
+  "performance_scope": "Two stage timings per variant/thread setting at z0; report individual values and medians as a controlled replay measurement, not a general scaling law. Last-pass full finder time includes membership/diagnostic I/O and must not be used as production wall time."
+}
