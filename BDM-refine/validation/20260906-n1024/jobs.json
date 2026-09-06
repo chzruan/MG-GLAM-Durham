@@ -1,0 +1,22 @@
+[
+  {
+    "job_id": "11948326",
+    "purpose": "N512 resource and validation pilot",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "--job-name=bdm-n512-pilot",
+      "--export=ALL,BDM_VALIDATION_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-pilot/validation.sbatch",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-pilot/run_validation.py",
+      "pilot"
+    ],
+    "submitted_at_utc": "2026-09-06T12:00:52.823783+00:00",
+    "commit": "a69fc04ecd4005ef6c79ca5e2ee71e65972a289d",
+    "script_sha256": {
+      "validation.sbatch": "dd4d746b9e55d6f969f2af2b7b3c8d52ceefe36dd766ab5136d9a5fa145fd510",
+      "run_validation.py": "7dc550cd1bf94f76eecedacefca59849b0716c59568d39074c51f2bbe23e1a09"
+    },
+    "dependencies": []
+  }
+]

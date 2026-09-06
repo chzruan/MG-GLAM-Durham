@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import resource
 import shutil
 import signal
@@ -28,7 +29,8 @@ from scipy.spatial import cKDTree
 ROOT = Path(os.environ.get('BDM_VALIDATION_ROOT', Path(__file__).resolve().parent)).resolve()
 REPO = ROOT.parents[2]
 WORK = ROOT / 'work'
-BIN = WORK / 'bin'
+BIN = Path(os.environ.get('BDM_VALIDATION_BIN', WORK / 'bin')).resolve()
+PREPARATION = Path(os.environ.get('BDM_VALIDATION_PREPARATION', ROOT / 'preparation.json')).resolve()
 AUDIT = REPO / 'BDM-refine/analysis/full-audit-20260906'
 REPAIRS = REPO / 'BDM-refine/repairs/20260906'
 CONFIG = 'iVirial=1\nMassMin=2.5e12\nRext=0.15\n'
@@ -116,10 +118,20 @@ def prepare(box):
 
 
 def case_spec(name):
-    spec = json.loads((ROOT / 'preparation.json').read_text())
+    spec = json.loads(PREPARATION.read_text())
     assert name in ['pilot', 'main']
     spec.update(nrow=512 if name == 'pilot' else 1024, ngrid=1024 if name == 'pilot' else 2048,
                 epochs=[0] if name == 'pilot' else [2, 1, 0])
+    spec['mesh_spacing_mpc_h'] = spec['box_mpc_h'] / spec['ngrid']
+    spec['mass_one_estimate_msun_h'] = 2.775e11 * spec['cosmology']['Omega_m'] * (spec['box_mpc_h']/spec['nrow'])**3
+    if name == 'main':
+        # The pre-audit parser skips line one and requires spaces and inline
+        # comments. The pilot's compact entries equal its defaults; make the
+        # common configuration explicit for the main comparison.
+        spec['halo_config'] = ('! Identical requested settings for both finder revisions\n'
+                               'iVirial = 1 ! virial overdensity\n'
+                               'MassMin = 2.5e12 ! bound-mass selection in Msun/h\n'
+                               'Rext = 0.15 ! retained empirical aperture correction\n')
     assert 0 < spec['nrow']**3 < spec['particle_limit_exclusive']
     return spec
 
@@ -149,16 +161,30 @@ def make_init(spec):
 def run_native(binary, cwd, stdin, threads, tag, receipts):
     """Persist logs while running; completed receipts are checked before reuse."""
     binary = BIN / binary
-    expected = json.loads((ROOT / 'preparation.json').read_text())['binaries_sha256'][binary.name]
+    expected = json.loads(PREPARATION.read_text())['binaries_sha256'][binary.name]
     assert sha(binary) == expected
     output = cwd / (tag + '.log')
     receipt = cwd / (tag + '.json')
     timing = cwd / (tag + '.time')
-    identity = dict(binary_sha256=expected, threads=threads, stdin=stdin)
+    if binary.name == 'PMP2init.exe':
+        inputs = [cwd / 'Init.dat', cwd / 'PkTable.dat']
+    elif binary.name == 'PMP2start.exe':
+        inputs = [cwd.parent / name for name in ['Setup.dat', 'PkTable.dat', 'TableSeeds.dat']]
+    elif binary.name == 'PMP2main.exe':
+        inputs = [cwd.parent / 'Setup.dat', cwd.parent / 'TableSeeds.dat', cwd / 'BDM.config',
+                  cwd / 'PMcrd.DAT', *sorted(cwd.glob('PMcrs[0-9].DAT'))]
+    else:
+        step = int(stdin.strip())
+        inputs = [cwd / 'BDM.config', *sorted(cwd.glob(f'PMcr*.{step:04d}.DAT'))]
+    identity = dict(binary_sha256=expected, threads=threads, stdin=stdin,
+                    inputs_sha256={str(p): sha(p) for p in inputs})
     if receipt.exists():
         previous = json.loads(receipt.read_text())
         if all(previous.get(k) == v for k, v in identity.items()) and previous.get('completed'):
             assert sha(output) == previous['log_sha256']
+            assert previous.get('outputs_sha256'), 'Missing output manifest; inspect legacy stage before reuse'
+            for path, value in previous['outputs_sha256'].items():
+                assert sha(path) == value, f'Changed completed-stage output: {path}'
             receipts.append(previous)
             return previous
         raise RuntimeError(f'Incomplete or incompatible previous stage: {receipt}; inspect before restarting')
@@ -168,6 +194,8 @@ def run_native(binary, cwd, stdin, threads, tag, receipts):
            'OMP_PROC_BIND': 'close', 'OMP_PLACES': 'cores',
            'LD_LIBRARY_PATH': os.environ['BDM_AUDIT_NATIVE_LIBS']}
     record = dict(**identity, binary=binary.name, started_at_utc=now(), completed=False,
+                  cwd=str(cwd), log_path=str(output),
+                  completion_scope='process exit only; scientific checks are recorded by the calling phase',
                   driver_sha256=sha(__file__), job_id=os.environ['SLURM_JOB_ID'], host=socket.gethostname())
     write_json(receipt, record)
     start = time.monotonic()
@@ -184,6 +212,19 @@ def run_native(binary, cwd, stdin, threads, tag, receipts):
         record.update(cpu_user_seconds=float(values[1]), cpu_system_seconds=float(values[2]),
                       maxrss_kib=int(values[3]))
         assert process.returncode == 0, f'{binary.name} failed; see {output}'
+        if binary.name == 'PMP2init.exe':
+            outputs = [cwd / 'Setup.dat']
+        elif binary.name == 'PMP2start.exe':
+            outputs = [cwd / 'PMcrd.DAT', *sorted(cwd.glob('PMcrs[0-9].DAT'))]
+        elif binary.name == 'PMP2main.exe':
+            outputs = [*sorted(cwd.glob('PMcr*.[0-9][0-9][0-9][0-9].DAT')),
+                       *sorted((cwd / 'CATALOGS').glob('Catshort*.DAT'))]
+        else:
+            outputs = [*sorted((cwd / 'CATALOGS').glob('Catshort*.DAT'))]
+            if (cwd / 'repair-members.bin').is_file():
+                outputs.append(cwd / 'repair-members.bin')
+        assert outputs, 'Native process did not produce expected outputs'
+        record['outputs_sha256'] = {str(p): sha(p) for p in outputs}
         record['completed'] = True
     except BaseException:
         if process is not None and process.poll() is None:
@@ -196,6 +237,37 @@ def run_native(binary, cwd, stdin, threads, tag, receipts):
         receipts.append(record)
     print(tag, 'completed', round(record['elapsed_seconds'], 2), 's', record['maxrss_kib'], 'KiB', flush=True)
     return record
+
+
+def verify_report(path, expected_spec):
+    """Never replace a completed aggregate with newly blessed output hashes."""
+    if not path.exists():
+        return False
+    report = json.loads(path.read_text())
+    if not report.get('completed'):
+        archived = path.with_name(path.stem + '-failed-' + sha(path)[:12] + '.json')
+        if not archived.exists():
+            shutil.copy2(path, archived)
+        return False
+    assert report['spec'] == expected_spec, 'Completed experiment specification changed'
+    for stage in report['records']:
+        assert stage['completed'] and stage.get('outputs_sha256')
+        assert sha(BIN / stage['binary']) == stage['binary_sha256']
+        assert sha(stage['log_path']) == stage['log_sha256']
+        for key in ['inputs_sha256', 'outputs_sha256']:
+            for filename, value in stage[key].items():
+                assert sha(filename) == value, f'Changed input/output of a completed report: {filename}'
+        if 'membership' in stage:
+            membership = stage['membership']
+            raw = ROOT / membership['retained_raw']
+            assert sha(raw) == membership['raw_sha256']
+            assert sha(raw.with_suffix('.index.npz')) == membership['index_sha256']
+    if 'inline_catalogue_arrays_sha256' in report:
+        assert sha(ROOT / path.name.replace('-simulation.json', '-inline-catalogues.npz')) == report['inline_catalogue_arrays_sha256']
+    if 'comparison_sha256' in report:
+        assert sha(ROOT / path.name.replace('-validation.json', '-comparison-catalogues.npz')) == report['comparison_sha256']
+    print('Verified and preserved completed receipt', path.name, flush=True)
+    return True
 
 
 def read_header(path):
@@ -220,22 +292,46 @@ def load_catalogue(path, spec, strict=True):
                   nonfinite_by_column=np.sum(~np.isfinite(data), axis=0).tolist())
     if strict:
         assert np.isfinite(data).all()
-        assert np.all((data[:, :3] >= 0) & (data[:, :3] < spec['box_mpc_h']))
+        # Four decimal places can round a canonical position up to the box
+        # boundary. The unrounded membership properties are checked below.
+        assert np.all((data[:, :3] >= 0) & (data[:, :3] <= spec['box_mpc_h']))
         assert np.all(data[:, 6] <= data[:, 7]) and np.all(data[:, 8] > 0)
         assert np.all(data[:, 10] >= 0)
         assert len(np.unique(data[:, 11])) == len(data), 'Duplicate published candidate ID'
     return data, record
 
 
+def native_diagnostics(path):
+    text = path.read_text()
+    values = {}
+    for key, value in re.findall(r'^\s*(iVirial|Rext|MassMin)\s*=\s*(\S+)', text, re.M):
+        values.setdefault(key, []).append(float(value.replace('D', 'e').replace('d', 'e')))
+    for key, expected in [('iVirial', 1), ('Rext', .15), ('MassMin', 2.5e12)]:
+        assert key in values and all(np.isclose(v, expected, rtol=1.e-5, atol=0) for v in values[key]), values
+    statuses = [[int(x) for x in row.split()] for row in
+                re.findall(r'BDM status \[few, SO cap, Vmax, no bound, singular centre\]:([^\n]+)', text)]
+    assert all(len(row) == 5 for row in statuses)
+    return dict(actual_configuration=values, candidate_status_counts=statuses,
+                status_order=['few', 'SO cap', 'Vmax unresolved', 'no bound', 'singular centre'])
+
+
+def verify_old_completion(log, data):
+    assert len(data) > 0, 'Unexpected empty historical cosmological catalogue'
+    assert len(re.findall(r'time for WriteFiles\s*=', log.read_text())) == 1, \
+        'Old finder did not finish WriteFiles'
+
+
 def simulate(name, threads):
     spec = case_spec(name)
+    if verify_report(ROOT / f'{name}-simulation.json', spec):
+        return
     case = WORK / name
     case.mkdir(exist_ok=True)
     run = case / 'Run1'
     run.mkdir(exist_ok=True)
     (run / 'CATALOGS').mkdir(exist_ok=True)
     intended = make_init(spec)
-    for path, content in [(case / 'Init.dat', intended), (run / 'BDM.config', CONFIG)]:
+    for path, content in [(case / 'Init.dat', intended), (run / 'BDM.config', spec['halo_config'])]:
         if path.exists():
             assert path.read_text() == content
         else:
@@ -264,6 +360,7 @@ def simulate(name, threads):
         assert initial['particles'] == spec['nrow']**3 and abs(initial['scale_factor'] - 1/101) < 1.e-8
         report['initial_header'] = initial
         run_native('PMP2main.exe', run, '2000\n', threads, 'main', records)
+        report['inline_diagnostics'] = native_diagnostics(run / 'main.log')
         headers = sorted(run.glob('PMcrd.*.DAT'))
         assert len(headers) == len(spec['epochs']), f'Wrong output count: {headers}'
         snapshots = []
@@ -281,12 +378,14 @@ def simulate(name, threads):
             if len(cats) != 1:
                 raise ValueError(f'Cannot identify z={z} catalogue: {cats}')
             data, catalogue = load_catalogue(cats[0], spec)
+            assert len(data) > 0, 'Unexpected empty cosmological halo catalogue'
             arrays[f'new_z{z}'] = data
             snapshots.append(dict(z=z, header=info, files_sha256={p.name: sha(p) for p in files},
                                   catalogue=catalogue))
             print(name, 'verified snapshot', z, step, len(data), 'haloes', flush=True)
         np.savez_compressed(ROOT / f'{name}-inline-catalogues.npz', **arrays)
-        report.update(snapshots=snapshots, completed=True, finished_at_utc=now())
+        report.update(snapshots=snapshots, completed=True, finished_at_utc=now(),
+                      inline_catalogue_arrays_sha256=sha(ROOT / f'{name}-inline-catalogues.npz'))
     except BaseException:
         report['failure_traceback'] = traceback.format_exc()
         raise
@@ -294,7 +393,7 @@ def simulate(name, threads):
         write_json(ROOT / f'{name}-simulation.json', report)
 
 
-def check_memberships(path, spec):
+def check_memberships(path, spec, catalogue):
     """Stream each membership once; memory is O(number of haloes + largest halo)."""
     file_size = path.stat().st_size
     offsets = []
@@ -306,8 +405,13 @@ def check_memberships(path, spec):
     with path.open('rb') as f:
         selected, candidates, mass_one = struct.unpack('>qqf', f.read(20))
         assert 0 <= selected <= candidates <= spec['nrow']**3
+        expected_mass = 2.774e11 * spec['cosmology']['Omega_m'] * (spec['box_mpc_h'] / spec['nrow'])**3
+        assert np.isclose(mass_one, expected_mass, rtol=2.e-7, atol=0), 'Membership particle mass does not match the snapshot'
+        previous_candidate = 0
         for _ in range(selected):
             candidate, count = struct.unpack('>qq', f.read(16))
+            assert previous_candidate < candidate <= candidates, 'Invalid or non-increasing candidate IDs'
+            previous_candidate = candidate
             values = np.frombuffer(f.read(84), dtype='>f4').astype(np.float64)
             offset = f.tell()
             assert 20 <= count <= spec['nrow']**3 and offset + count * 8 <= file_size
@@ -318,11 +422,11 @@ def check_memberships(path, spec):
             assert abs(values[6] - count * mass_one) <= 2 * abs(float(np.spacing(np.float32(values[6]))))
             key = (count, hashlib.sha256(raw).digest())
             if key in seen:
-                previous_offset, previous_candidate = seen[key]
+                previous_offset, duplicate_candidate = seen[key]
                 cursor = f.tell()
                 f.seek(previous_offset)
                 if f.read(count * 8) == raw:
-                    duplicate_pairs.append([previous_candidate, candidate])
+                    duplicate_pairs.append([duplicate_candidate, candidate])
                 f.seek(cursor)
             seen[key] = (offset, candidate)
             offsets.append(offset)
@@ -332,6 +436,34 @@ def check_memberships(path, spec):
         assert f.tell() == file_size
     assert not duplicate_pairs, duplicate_pairs[:10]
     props = np.asarray(properties).reshape(-1, 21)
+    assert np.all((props[:, :3] >= 0) & (props[:, :3] < spec['box_mpc_h']))
+    assert len(catalogue) == selected
+    # Independent parsing joins the raw tape to its published rows. Cvir is a
+    # derived numerical inversion, covered by the focused finder tests; the
+    # other23 fields have direct raw-property or integer-identity checks.
+    expected = np.zeros((selected, 24), dtype=np.float64)
+    expected[:, :8] = props[:, :8]
+    expected[:, 8] = np.float32(1000 * props[:, 8])
+    expected[:, 9] = np.float32(np.sqrt(2 * props[:, 9] / props[:, 6]))
+    expected[:, 10] = props[:, 11]
+    expected[:, 11] = np.arange(1, selected + 1)
+    expected[:, 13] = np.asarray(counts, dtype=np.float32)
+    expected[:, 15] = props[:, 13]
+    expected[:, 16] = np.float32(np.divide(2 * props[:, 9], props[:, 10],
+                                          out=np.ones(selected), where=props[:, 10] > 0) - 1)
+    expected[:, 17] = props[:, 14]
+    expected[:, 18] = np.float32(1000 * props[:, 15])
+    expected[:, 19:] = props[:, 16:]
+    printed_scale = np.maximum(np.abs(expected), np.abs(catalogue))
+    quantum = 10. ** (np.floor(np.log10(np.maximum(printed_scale, 1.e-30))) - 3)
+    quantum[:, :3] = 1.e-4
+    quantum[:, 3:6] = .01
+    quantum[:, 8] /= 10
+    quantum[:, [11, 14]] = 0
+    columns = [i for i in range(24) if i != 12]
+    assert np.all(np.abs(catalogue[:, columns] - expected[:, columns]) <= .51 * quantum[:, columns] + 1.e-12), \
+        'Membership tape is not consistent with the published catalogue rows'
+    assert np.all(catalogue[props[:, 11] == 0, 12] == 0), 'Unresolved Vmax must have zero concentration'
     index = np.asarray(indices, dtype=np.int64)
     box = spec['box_mpc_h']
     centre = props[:, :3] % box
@@ -350,17 +482,27 @@ def check_memberships(path, spec):
                 if np.dot(delta, delta) < props[i, 8]**2:
                     violations.append([int(index[i]), int(index[j])])
     assert not violations, violations[:10]
-    np.savez_compressed(path.with_suffix('.index.npz'), candidates=index, counts=np.asarray(counts),
-                        offsets=np.asarray(offsets), properties=props)
+    indexed = dict(candidates=index, counts=np.asarray(counts), offsets=np.asarray(offsets), properties=props)
+    index_path = path.with_suffix('.index.npz')
+    if index_path.exists():
+        with np.load(index_path) as saved:
+            assert set(saved.files) == set(indexed)
+            assert all(np.array_equal(saved[key], value) for key, value in indexed.items()), 'Changed membership index'
+    else:
+        np.savez_compressed(index_path, **indexed)
     return dict(selected=selected, candidates=candidates, mass_one=mass_one,
                 exact_duplicate_member_sets=0, repeated_original_ids=0, mass_count_mismatches=0,
                 host_exclusion_violations=0, higher_priority_neighbours_examined=examined,
+                ordered_candidate_ids=True, catalogue_columns_linked_to_raw=23,
+                particle_mass_checked_against_snapshot=True,
                 raw_sha256=sha(path), retained_raw=str(path.relative_to(ROOT)),
                 total_memberships=int(sum(counts)), index_sha256=sha(path.with_suffix('.index.npz')))
 
 
 def validate(name, threads):
     spec = case_spec(name)
+    if verify_report(ROOT / f'{name}-validation.json', spec):
+        return
     simulation = json.loads((ROOT / f'{name}-simulation.json').read_text())
     assert simulation['completed']
     snapshots = simulation['snapshots']
@@ -380,16 +522,16 @@ def validate(name, threads):
             arrays[f'new_z{z}'], _ = load_catalogue(inline, spec)
             tasks = [('members', threads), ('old', threads)]
             if z == 0:
-                tasks.extend([('baseline', max(1, threads//2)), ('state', threads)])
+                tasks.extend([('baseline', threads), ('baseline', max(1, threads//2)), ('state', threads)])
             for variant, nthreads in tasks:
                 destination = WORK / name / f'replay-z{z}-{variant}-t{nthreads}'
                 destination.mkdir(exist_ok=True)
                 (destination / 'CATALOGS').mkdir(exist_ok=True)
                 config = destination / 'BDM.config'
                 if config.exists():
-                    assert config.read_text() == CONFIG
+                    assert config.read_text() == spec['halo_config']
                 else:
-                    config.write_text(CONFIG)
+                    config.write_text(spec['halo_config'])
                 for filename in snapshot['files_sha256']:
                     target = destination / filename
                     if target.is_symlink():
@@ -402,17 +544,23 @@ def validate(name, threads):
                 assert len(cats) == 1
                 data, cat = load_catalogue(cats[0], spec, strict=variant != 'old')
                 stage.update(z=z, variant=variant, catalogue=cat)
+                stage['diagnostics'] = native_diagnostics(destination / (variant + '.log'))
+                assert len(data) > 0, 'Unexpected empty cosmological halo catalogue'
                 if variant == 'old':
+                    # Legacy STOP may exit with status zero after writing only
+                    # a catalogue header. Require evidence WriteFiles returned.
+                    verify_old_completion(destination / 'old.log', data)
                     arrays[f'old_z{z}'] = data
                 else:
                     assert cat['sha256'] == snapshot['catalogue']['sha256'], (variant, 'inline/replay mismatch')
                     stage['byte_identical_to_inline'] = True
                 if variant == 'members':
-                    stage['membership'] = check_memberships(destination / 'repair-members.bin', spec)
+                    stage['membership'] = check_memberships(destination / 'repair-members.bin', spec, data)
                     assert stage['membership']['selected'] == len(data)
                 if variant == 'state':
                     assert 'TWO CALLS BITWISE IDENTICAL' in (destination / 'state.log').read_text()
                     stage['two_calls_bitwise_identical'] = True
+                stage['scientific_verification_completed'] = True
                 write_json(ROOT / f'{name}-validation.json', report)
         np.savez_compressed(ROOT / f'{name}-comparison-catalogues.npz', **arrays)
         report.update(completed=True, finished_at_utc=now(),

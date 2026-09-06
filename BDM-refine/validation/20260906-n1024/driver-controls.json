@@ -1,0 +1,21 @@
+{
+  "driver_sha256": "208ad3847b081888a722c0e4a1e771b0422bf0295ba6e0f1f305a64e0a23cf59",
+  "test_sha256": "3eaf3dc87a83ff8aafbce847541aec90f4fecee793381c295bf97b139d4bf985",
+  "passed": [
+    "verified native128 tape agrees with23 printed fields",
+    "zero candidate ID",
+    "repeated candidate ID",
+    "wrong snapshot particle mass",
+    "same-size catalogue from another halo set",
+    "exit-zero STOP with header-only old catalogue",
+    "partial nonempty old catalogue before WriteFiles completion",
+    "actual legacy completion-marker spacing",
+    "unchanged completed stage reused",
+    "changed completed-stage output",
+    "changed completed-stage input",
+    "completed aggregate preserved",
+    "changed output cannot be blessed in a new aggregate"
+  ],
+  "completed": true,
+  "native_fixture": "Archived repaired128^3 integration data; no large simulation or new native execution"
+}
