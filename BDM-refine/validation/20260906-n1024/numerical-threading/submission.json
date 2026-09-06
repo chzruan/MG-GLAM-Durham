@@ -1,0 +1,42 @@
+{
+  "command": [
+    "sbatch",
+    "--parsable",
+    "--output=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/work/slurm-%j.log",
+    "--error=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/work/slurm-%j.log",
+    "--chdir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/probe.sbatch",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/run_probe.py",
+    "--original-repo",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM"
+  ],
+  "returncode": 0,
+  "stdout": "11948371\n",
+  "stderr": "",
+  "submitted_at_utc": "2026-09-06T12:37:21.192248+00:00",
+  "source_commit": "babd5a8376dbe23466a4f20ba341bebb91c01da4",
+  "scripts_sha256": {
+    "probe.sbatch": "61667dd4e7572d1af8bcab91fc1dad6512ac28f77e4becc6bcf00df8caa94c29",
+    "run_probe.py": "ebd8da903f36c447b8f01ccbcc7e364b060d2cccb8b26e9f31fc04e8237ab165",
+    "thread_probe.f90": "f74e1309f11849244b6d8c5bde7ba36f37d42048aa8934245df4d7d4af7cf476",
+    "thread_probe_entry.f90": "118a3b86a5212d8c973fd4d97757f2d4240b0c69982f461fdd60d9dcd291af02",
+    "publication_preflight.f90": "50190da54fc15daccc981ee6b5f26e486b09cc5861961a77be08c1baac88e1cf"
+  },
+  "build_receipt_sha256": "1352c32dd7d9d1856e3991824dd85f2460cd89ee9177b1702dd04f938e2fd5f5",
+  "dependencies": [],
+  "resources": {
+    "partition": "cosma8-serial",
+    "cpus": 32,
+    "mem_gib": 32,
+    "time_limit_minutes": 5,
+    "prior_pilot_job": "11948326",
+    "prior_batch_maxrss_kib": 19105956,
+    "estimated_elapsed_seconds": 180,
+    "expected_core_hours": 1.6,
+    "time_limit_core_hours": 2.6666666666666665,
+    "allocation_reason": "Shared queue; controlled finder uses16 and32 threads, with immutable4GiB FI and3GiB saved particle bits;32GiB includes measured native finder12GiB plus saved arrays and tape I/O cache."
+  },
+  "corrects_diagnostic_job": "11948363",
+  "job_id": "11948371",
+  "scontrol_at_submission": "JobId=11948371 JobName=bdm-fixed-density\n   UserId=dc-ruan1(21209) GroupId=durham(64528) MCS_label=N/A\n   Priority=18602 Nice=0 Account=dp004 QOS=normal\n   JobState=PENDING Reason=Priority Dependency=(null)\n   Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0\n   RunTime=00:00:00 TimeLimit=00:05:00 TimeMin=N/A\n   SubmitTime=2026-09-06T13:37:21 EligibleTime=2026-09-06T13:37:21\n   AccrueTime=Unknown\n   StartTime=Unknown EndTime=Unknown Deadline=N/A\n   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-06T13:37:21 Scheduler=Main\n   Partition=cosma8-serial AllocNode:Sid=login8b.pri.cosma.local:939879\n   ReqNodeList=(null) ExcNodeList=(null)\n   NodeList=\n   NumNodes=1-1 NumCPUs=32 NumTasks=1 CPUs/Task=32 ReqB:S:C:T=0:0:*:*\n   ReqTRES=cpu=32,mem=32G,node=1,billing=32\n   AllocTRES=(null)\n   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*\n   MinCPUsNode=32 MinMemoryNode=32G MinTmpDiskNode=0\n   Features=(null) DelayBoot=00:00:00\n   OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)\n   Command=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/probe.sbatch\n   SubmitLine=sbatch --parsable --output=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/work/slurm-%j.log --error=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/work/slurm-%j.log --chdir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading /cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/probe.sbatch /cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/run_probe.py --original-repo /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM\n   WorkDir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading\n   StdErr=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/work/slurm-11948371.log\n   StdIn=/dev/null\n   StdOut=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/work/slurm-11948371.log\n   TresPerTask=cpu=32\n\n"
+}
