@@ -1,0 +1,35 @@
+{
+  "created_at_utc": "2026-09-06T12:00:51.625992+00:00",
+  "prior_accounting": "JobIDRaw|JobName|Partition|Account|State|ExitCode|ReqTRES|AllocTRES|Elapsed|ElapsedRaw|TotalCPU|MaxRSS|Timelimit\n11448717|LCDM_m65_b1|cosma8|dp004|COMPLETED|0:0|billing=1,cpu=1,mem=1054720000K,node=1|billing=128,cpu=128,energy=15001910,mem=1054720000K,node=1|06:19:13|22753|27-06:02:19||2-00:00:00\n11448717.batch|batch||dp004|COMPLETED|0:0||cpu=128,mem=1054720000K,node=1|06:19:13|22753|27-06:02:19|512795664K|\n11448717.extern|extern||dp004|COMPLETED|0:0||billing=128,cpu=128,mem=1054720000K,node=1|06:19:13|22753|00:00:00||\n11448718|LCDM_m65_b2|cosma8|dp004|COMPLETED|0:0|billing=1,cpu=1,mem=1054720000K,node=1|billing=128,cpu=128,energy=15091818,mem=1054720000K,node=1|06:24:09|23049|28-09:15:47||2-00:00:00\n11448718.batch|batch||dp004|COMPLETED|0:0||cpu=128,mem=1054720000K,node=1|06:24:09|23049|28-09:15:47|522730380K|\n11448718.extern|extern||dp004|COMPLETED|0:0||billing=128,cpu=128,mem=1054720000K,node=1|06:26:51|23211|00:00:00||\n11946543|bdm-audit-n128|cosma8-serial|dp004|COMPLETED|0:0|billing=4,cpu=4,mem=1048576K,node=1|billing=4,cpu=4,energy=25641,mem=1048576K,node=1|00:00:48|48|02:58.979||00:10:00\n11946543.batch|batch||dp004|COMPLETED|0:0||cpu=4,mem=1048576K,node=1|00:00:48|48|02:58.979|298704K|\n11946543.extern|extern||dp004|COMPLETED|0:0||billing=4,cpu=4,mem=1048576K,node=1|00:00:48|48|00:00:00||\n11947875|bdm-repair|cosma8-serial|dp004|COMPLETED|0:0|billing=8,cpu=8,mem=524288K,node=1|billing=8,cpu=8,energy=11123,mem=524288K,node=1|00:00:30|30|01:00.567||00:02:00\n11947875.batch|batch||dp004|COMPLETED|0:0||cpu=8,mem=524288K,node=1|00:00:30|30|01:00.567|512088K|\n11947875.extern|extern||dp004|COMPLETED|0:0||billing=8,cpu=8,mem=524288K,node=1|00:00:30|30|00:00:00||\n",
+  "pilot": {
+    "partition": "cosma8-serial",
+    "account": "dp004",
+    "cpus": 32,
+    "mem": "32G",
+    "time_limit_seconds": 1800,
+    "expected_seconds_range": [
+      480,
+      900
+    ],
+    "expected_core_hours_range": [
+      4.266666666666667,
+      8.0
+    ],
+    "time_limit_core_hours": 16,
+    "reason": "Shared32-core allocation for N512^3/Ng1024^3 GR resource pilot plus diagnostic replays. N128 full GR pilot measured298704KiB; eightfold linear-volume-to-N256 and64fold-to-N512 extrapolation gives18.3GiB plus updated BDM/state headroom.32GiB requested; inspect actual accounting before main."
+  },
+  "main_provisional": {
+    "partition": "cosma8-serial",
+    "cpus": 64,
+    "mem": "192G",
+    "time_limit_seconds": 10800,
+    "expected_seconds_range": [
+      2400,
+      5400
+    ],
+    "status": "Not submitted; resources depend on measured pilot",
+    "full_node_exclusivity_required": false
+  },
+  "simulation_physics": "GR, L512h^-1Mpc, Omega_m .3089, N1024^3/Ng2048^3, zinit100 to0; new BDM inline at z2,1,0",
+  "snapshot_policy": "KeepICs and named analysis snapshots; periodic overwriting checkpoints disabled. An interrupted integration is inspected and restarted from verified ICs or a verified named snapshot, never an unverified in-place checkpoint."
+}
