@@ -4,7 +4,8 @@
 !
 ! Contains:     
 
-! Numerical duplicate policy shared by the finder and the catalogue replay.
+! Legacy numerical-field diagnostic retained for historical catalogue replay.
+! Production duplicate removal compares exact original bound-particle IDs.
 ! Equal particle counts alone do not establish equal particle membership.
 module BdmDuplicateRules
   implicit none
@@ -45,18 +46,38 @@ Real*4        ::                    &
                      Rext                     ! extra radius shift at M=1e15
 Integer*4  ::                      &
                      NradP,        &          ! Number of shells for halo profiles
-                     iVirial                  ! switch: 1 =Virial,  0=200 overdensity crit, 2=200rho_matter 
+                     iVirial=1                ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus
 
 Real*4 ::            TotalMemory=0.2, t0                           ! current memory
 Real*4 ::            Xleft,Xright,Yleft,Yright,Zleft,Zright,dBuffer    ! boundaries of domain
 Character*120 ::     CatshortName,CatalogName,    &                ! names of halo catalogs 
                      outputName                                    ! dump file
+! Publish a complete catalogue atomically; an interrupted finder may only leave
+! a hidden staged file, never a partially replaced final catalogue.
+character(256) :: CatalogueFinalPath='',CatalogueStagedPath=''
+logical :: CataloguePublicationPending=.false.
 
 Real*4     ::        Om0,Ovdens      ! cosmology
 Real*4     ::        MassOne                                 !  current simulation
 Integer*8 ::         Np                                          ! Number of particles in domain
+! Analysis owns a separate particle workspace. These arrays retain the exact
+! simulation state until RemoveBuffer moves it back without inverse arithmetic.
+Real*4, allocatable :: BdmPMX(:),BdmPMY(:),BdmPMZ(:),BdmPMVX(:),BdmPMVY(:),BdmPMVZ(:)
+Integer*8 :: BdmPMCount=0_8
+Integer*8, allocatable :: OriginalParticleId(:) ! snapshot row; shared by periodic images
+Real*4 :: HaloSearchRadius=0.,ParticleSearchRadius=0. ! maximum SO / aperture radii
                      ! -------------------------  Maxima ----------------------
 Integer*4 ::                     Nmaxima
+! Exact final bound membership is retained until the duplicate pass. IDs refer
+! to original particles, so a periodic image cannot create a different identity.
+type BdmHaloMembership
+  integer*8, allocatable :: ids(:)
+end type BdmHaloMembership
+type(BdmHaloMembership), allocatable :: BoundParticleIds(:)
+integer, parameter :: HaloTooFewParticles=1, HaloSearchTruncated=2, &
+                      HaloUnresolvedVmax=4, HaloNoBoundParticles=8, &
+                      HaloSingularCentre=16
+integer, allocatable :: HaloStatus(:)
 Real*4    ::                     RadMax
 Real*4,        ALLOCATABLE,   DIMENSION(:) ::                        &    ! maxima of density
                                  Mvir,Rvir,Mtotal,VmaxM,RmaxM,       &
@@ -115,15 +136,23 @@ Contains
       write (*,'(a,i4)')        ' mDENSIT                =',mDENSIT
       Path =''
       tstart = seconds()
+      Call ReadParameters(ISTEP)
+      Call PrepareParticleSearch
+      Call SetParameters
       If(mDENSIT==1)Call DENSIT                 ! density on original Ng mesh
       Call FindMaxima
-      
+
+      ! Empty analysis is a valid catalogue, including during an inline call.
+      ! No particle scaling/buffering has occurred and the PM density stays allocated.
+      if (Nmaxima == 0) then
+         Call WriteFiles
+         Call ReleaseMaxima
+         return
+      end if
 
       myMemory =Memory(-1_8*NGRID*NGRID*NGRID)
       DeAllocate (FI)
       write(*,'(a,i11)') ' Go to RescaleCoords    : ',Nparticles
-      Call ReadParameters(ISTEP)
-      Call SetParameters
       Call RescaleCoords(1)  
       tfinish = seconds()
 
@@ -138,7 +167,7 @@ Contains
       
       Call  SizeList
             ALLOCATE (Lst(Np),Label(Nmx:Nbx,Nmy:Nby,Nmz:Nbz))
-            myMemory= Memory(1_8*(Np+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
+            myMemory= Memory(2_8*(Np+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
       tstart = seconds()
       Call List
       tfinish = seconds()
@@ -160,11 +189,11 @@ Contains
               write(*,*) ' goto RemoveCloseMaxima'
               tfinish = seconds()
             DEALLOCATE (Lst,Label)
-            myMemory= Memory(-1_8*(Np+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
+            myMemory= Memory(-2_8*(Np+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
               
       Call  SizeListMaxima
             ALLOCATE (Lst(Nmaxima),Label(Nmx:Nbx,Nmy:Nby,Nmz:Nbz))
-            myMemory= Memory(1_8*(Nmaxima+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
+            myMemory= Memory(2_8*(Nmaxima+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
       Call ListMaxima     
 !      Call RemoveDuplicatesSimple
       Call RemoveDuplicates
@@ -179,22 +208,9 @@ Contains
       close(12)
        !-------- deallocate temporary arrays
             DEALLOCATE (Lst,Label)
-            myMemory= Memory(-1_8*(Nmaxima+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
+            myMemory= Memory(-2_8*(Nmaxima+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
       
-             DEALLOCATE (Mvir,Rvir,Xoff)
-             myMemory =Memory(-3_8*Nmaxima )
-             DEALLOCATE (xMaxx,yMaxx,zMaxx)
-             myMemory =Memory(-3_8*Nmaxima )
-             DEALLOCATE (VxMaxx,VyMaxx,VzMaxx)
-             myMemory =Memory(-3_8*Nmaxima )
-             DEALLOCATE(LstMax,EpotM,EkinM,LambdaM)
-             myMemory =Memory(-4_8*Nmaxima )
-             DEALLOCATE(VmaxM,RmaxM,Mtotal,RadRms)
-             myMemory =Memory(-4_8*Nmaxima )
-             DEALLOCATE(Xax,Yax,Zax)
-             myMemory =Memory(-3_8*Nmaxima )
-             DEALLOCATE(Axba,Axca)
-             myMemory =Memory(-2_8*Nmaxima )
+       Call ReleaseMaxima
       !-------- restore PM structure
        Call RemoveBuffer(NpPM)
        myMemory =Memory(1_8*NGRID*NGRID*NGRID)
@@ -202,116 +218,262 @@ Contains
              
            end SUBROUTINE BDM
 
+      SUBROUTINE ReleaseMaxima
+      implicit none
+      real :: released
+      DEALLOCATE(Mvir,Rvir,Xoff,xMaxx,yMaxx,zMaxx,VxMaxx,VyMaxx,VzMaxx)
+      DEALLOCATE(LstMax,EpotM,EkinM,LambdaM,VmaxM,RmaxM,Mtotal,RadRms)
+      DEALLOCATE(Xax,Yax,Zax,Axba,Axca)
+      if(allocated(BoundParticleIds))deallocate(BoundParticleIds)
+      if(allocated(HaloStatus))deallocate(HaloStatus)
+      released=Memory(-22_8*Nmaxima)
+      end SUBROUTINE ReleaseMaxima
+
 !----------------------------------------------------------
 !               Read/create  configuration file BDM.config       
 !                    
       SUBROUTINE ReadParameters(jStep)
-!----------------------------------------------------------
-  Character :: txt*80,str*10,eqsign*1,Line*120,Catlabel*10
-  logical   :: FileExists
-                ! default set of parameters
-     NradP    =   30
-     iVirial  =    1
-     dLogR    =  0.02
-     dLogP    =  0.02
-     dBuffer  = 5.
-     SlopeR   = 0.20
-     Rext     = 0.15
-     MassMin  = 2.5e12
-     
-  Inquire(file='BDM.config', Exist = FileExists)
-  If(FileExists)Then
-     open(1,file='BDM.config')
-     rewind(1)
-     Read(1,'(a)')txt
-     !write(*,'(a)')txt
-     Do 
-       Read(1,'(a)',iostat=io) Line
-       If(io /= 0)exit
-       !write(*,'(a)')Line
-       i0 = INDEX(Line,'=')
-       i1 = INDEX(Line,'!')
-       !write(*,*) ' position of = and "!" in current line =',i0,i1
-       If(i1.gt.i0.and.i0>0)Then  
-          backspace(1)
-          Read(1,*)str
-          !write(*,'(a,3x,a)')str
-          backspace(1)
-          If(TRIM(str)=='NradP'.or.TRIM(str)=='NRADP'.or.TRIM(str)=='nradp')Then
-                   Read(1,*)str,eqsign,NradP
-          Else If(TRIM(str)=='Nne'  .or.TRIM(str)=='NNE'  .or.TRIM(str)=='nne')Then
-                   Read(1,*)str,eqsign,Nne
-          Else If(TRIM(str)=='iVirial'.or.TRIM(str)=='IVIRIAL'.or.TRIM(str)=='ivirial')Then
-                   Read(1,*)str,eqsign,iVirial
-          Else If(TRIM(str)=='dLogR'.or.TRIM(str)=='DLOGR'.or.TRIM(str)=='dlogr')Then
-                   Read(1,*)str,eqsign,dLogR
-          Else If(TRIM(str)=='Rext'.or.TRIM(str)=='Rextr'.or.TRIM(str)=='Rextern')Then
-                   Read(1,*)str,eqsign,Rext
-          Else If(TRIM(str)=='SlopeR'.or.TRIM(str)=='Sloper'.or.TRIM(str)=='Slope')Then
-                   Read(1,*)str,eqsign,SlopeR
-          Else If(TRIM(str)=='MassMin'.or.TRIM(str)=='MinMass'.or.TRIM(str)=='massmin')Then
-                   Read(1,*)str,eqsign,MassMin
-          Else If(TRIM(str)=='dLogP'.or.TRIM(str)=='DLOGP'.or.TRIM(str)=='dlogp')Then
-                   Read(1,*)str,eqsign,dLogP
-          Else
-             !write(*,'(3a)') 'Unrecognized parameter: ',str,' Check spelling. I igonore it'
-             Read(1,*)str
-          End If
-       EndIf
-     EndDo
-  Else
-     open(1,file='BDM.config')   ! ------- create default config file
+      use, intrinsic :: iso_fortran_env, only: iostat_end,iostat_eor
+      implicit none
+      integer, intent(in) :: jStep
+      integer :: unit, io, i, equals, comment, line_number, nne_legacy
+      character(1024) :: line, key, value
+      character(10) :: CatLabel
+      logical :: FileExists
 
-     write(1,'(a)')'! ------------- BDM configuration file. Spaces between entries are significant'
-     write(1,'(a)')'!                   These are main parameters:'
-     write(1,10)'iVirial', iVirial,     '! switch: 1 =Virial,  0=200 overdensity' 
-     write(1,10)'NradP',   NradP,       '! Number of shells for halo profiles'
-     write(1,20)'Rext',   Rext,         '! extr radius shift at m=1e15'
-     write(1,20)'SlopeR',   SlopeR,     '! slope for extr radius shift'
-     write(1,20)'MassMin',   MassMin,     '! Minimum halo mass'
+      NradP=30; iVirial=1; dLogR=0.02; dLogP=0.02
+      dBuffer=5.; SlopeR=0.20; Rext=0.15; MassMin=2.5e12
+      inquire(file='BDM.config',exist=FileExists)
+      if (FileExists) then
+         open(newunit=unit,file='BDM.config',status='old',action='read',iostat=io)
+         if (io /= 0) call ConfigurationError(0,'cannot open BDM.config')
+         line_number=0
+         do
+            read(unit,'(a)',advance='no',iostat=io) line
+            if (io == iostat_end) exit
+            line_number=line_number+1
+            if (io == 0) call ConfigurationError(line_number,'configuration line is too long')
+            if (io /= iostat_eor) call ConfigurationError(line_number,'cannot read configuration')
+            do i=1,len_trim(line)
+               if (line(i:i) == achar(9)) line(i:i)=' '
+            end do
+            comment=index(line,'!')
+            if (comment > 0) line(comment:)=' '
+            if (len_trim(line) == 0) cycle
+            equals=index(line,'=')
+            if (equals <= 1) call ConfigurationError(line_number,'expected name = value')
+            key=adjustl(line(:equals-1))
+            value=adjustl(line(equals+1:))
+            if (len_trim(value) == 0) call ConfigurationError(line_number,'missing value')
+            ! A parameter has one scalar value. Do not silently accept trailing tokens.
+            if (scan(trim(value),' '//achar(9)//',/') /= 0) &
+               call ConfigurationError(line_number,'expected one scalar value')
+            do i=1,len_trim(key)
+               if (key(i:i) >= 'A'.and.key(i:i) <= 'Z') key(i:i)=achar(iachar(key(i:i))+32)
+            end do
+            select case(trim(key))
+            case('nradp')
+               read(value,*,iostat=io) NradP
+            case('ivirial')
+               read(value,*,iostat=io) iVirial
+            case('dlogr')
+               read(value,*,iostat=io) dLogR
+            case('dlogp')
+               read(value,*,iostat=io) dLogP
+            case('rext','rextr','rextern')
+               read(value,*,iostat=io) Rext
+            case('sloper','slope')
+               read(value,*,iostat=io) SlopeR
+            case('massmin','minmass')
+               read(value,*,iostat=io) MassMin
+            case('nne')
+               ! This historical option never affected the active finder.
+               read(value,*,iostat=io) nne_legacy
+               if (io == 0) then
+                  if (nne_legacy <= 0) call ConfigurationError(line_number,'Nne must be positive')
+                  write(*,'(a)') ' BDM.config: Nne is deprecated and has no effect'
+               end if
+            case default
+               call ConfigurationError(line_number,'unrecognized parameter: '//trim(key))
+            end select
+            if (io /= 0) call ConfigurationError(line_number,'invalid value for '//trim(key))
+         end do
+         close(unit)
+      end if
+      call ValidateParameters
+      if (.not.FileExists) then
+         open(newunit=unit,file='BDM.config',status='new',action='write',iostat=io)
+         if (io /= 0) call ConfigurationError(0,'cannot create default BDM.config')
+         write(unit,'(a)') '! BDM configuration; whitespace and trailing ! comments are optional'
+         write(unit,10) 'iVirial',iVirial,'! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus'
+         write(unit,10) 'NradP',NradP,'! Number of shells for halo profiles'
+         write(unit,20) 'Rext',Rext,'! Extra radius shift at m=1e15'
+         write(unit,20) 'SlopeR',SlopeR,'! Slope for extra radius shift'
+         write(unit,20) 'MassMin',MassMin,'! Minimum halo mass'
+         write(unit,20) 'dLogR',dLogR,'! Log bin size for potential'
+         write(unit,20) 'dLogP',dLogP,'! Log bin size for profiles'
+         close(unit)
+      end if
+      write(*,'(/a)') ' ------ current set of parameters:'
+      write(*,10) 'iVirial',iVirial,'! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus'
+      write(*,10) 'NradP',NradP,'! Number of shells for halo profiles'
+      write(*,20) 'Rext',Rext,'! Extra radius shift at m=1e15'
+      write(*,20) 'SlopeR',SlopeR,'! Slope for extra radius shift'
+      write(*,20) 'MassMin',MassMin,'! Minimum halo mass'
+      write(*,20) 'dLogR',dLogR,'! Log bin size for potential'
+      write(*,20) 'dLogP',dLogP,'! Log bin size for profiles'
+10    format(10x,a,T20,' = ',i6,T40,a)
+20    format(10x,a,T20,' = ',1p,g10.3,T40,a)
 
-     write(1,20)'dLogR',   dLogR,       '! size of log binning for potential'
-     write(1,20)'dLogP',   dLogP,       '! size of log binning for profiles'
-
-
-10   format(10x,a,T20,' = ',i6,T40,a)
-20   format(10x,a,T20,' = ',1p,g10.3,T40,a)
-  EndIf
-     close(1)
-
-   write(*,'(/a)') '  ------ current set of parameters:'
-     write(*,'(a)')'!                   These are main parameters:'
-     write(*,10)'iVirial', iVirial,     '! switch: 1 =Virial,  0=200 overdensity' 
-     write(*,10)'NradP',   NradP,       '! Number of shells for halo profiles'
-     write(*,20)'Rext',   Rext,         '! extr radius shift at m=1e15'
-     write(*,20)'SlopeR',   SlopeR,     '! slope for extr radius shift'
-     write(*,20)'MassMin',   MassMin,     '! Minimum halo mass'
-
-     write(*,20)'dLogR',   dLogR,       '! size of log binning for potential'
-     write(*,20)'dLogP',   dLogP,       '! size of log binning for profiles'
-
-          moment = jstep
-      write(outputName,'(a,i4.4,a)')'CATALOGS/outputB.',jStep,'.dat'
-      !open(13,file=TRIM(outputName),buffered='NO')
-      open(13,file=TRIM(outputName))
-      !----------------------------  Open files ---------------------
-        SELECT CASE (iVirial)
-        CASE (0)
-           CatLabel = 'W.' ! 200\rho_critical
-        CASE  (1)
-           CatLabel = 'V.' ! virial overdensity
-        CASE  (2)
-           CatLabel = 'M.' ! 200 matter overdensity
-        CASE  (3)
-           CatLabel = 'A.' ! Abacus overdensity: corrected virial
-        end SELECT
-
-      write(outputName,'(2a,2(i4.4,a))')'CATALOGS/Catshort',TRIM(CatLabel),jStep,'.',Nrealization,'.DAT'
-      open(12,file=TRIM(outputName))
-!      write(outputName,'(2a,i4.4,a)')'CATALOGS/Catalog',TRIM(CatLabel),jStep,'.DAT'
-!         open(20,file=TRIM(outputName),form='unformatted',status ='UNKNOWN')
-
+      ! Only validated configuration may create or replace catalogue outputs.
+      write(outputName,'(a,i4.4,a)') 'CATALOGS/outputB.',jStep,'.dat'
+      close(13)
+      open(13,file=trim(outputName),status='replace',iostat=io)
+      if (io /= 0) call ConfigurationError(0,'cannot open analysis log '//trim(outputName))
+      select case(iVirial)
+      case(0)
+         CatLabel='W.'
+      case(1)
+         CatLabel='V.'
+      case(2)
+         CatLabel='M.'
+      case(3)
+         CatLabel='A.'
+      end select
+      write(outputName,'(2a,2(i4.4,a))') 'CATALOGS/Catshort',trim(CatLabel),jStep,'.',Nrealization,'.DAT'
+      call BeginCataloguePublication(trim(outputName))
       end SUBROUTINE ReadParameters
+
+      SUBROUTINE BeginCataloguePublication(final_path)
+      use, intrinsic :: iso_c_binding, only: c_int
+      implicit none
+      character(*), intent(in) :: final_path
+      character(96) :: suffix
+      character(256) :: staged_base
+      integer*8 :: stamp
+      integer :: attempt,io,slash
+      integer(c_int) :: process_id
+      logical :: exists
+      interface
+         function c_getpid() bind(C,name='getpid') result(pid)
+            import c_int
+            integer(c_int) :: pid
+         end function c_getpid
+      end interface
+      if (CataloguePublicationPending) error stop 'BDM catalogue publication is already pending'
+      if (len_trim(final_path) == 0.or.len_trim(final_path) > len(CatalogueFinalPath)) &
+         error stop 'BDM catalogue path is empty or too long'
+      slash=index(trim(final_path),'/',back=.true.)
+      if (slash == len_trim(final_path)) error stop 'BDM catalogue path names a directory'
+      if (slash > 0) then
+         staged_base=final_path(:slash)//'.'//trim(final_path(slash+1:))
+      else
+         staged_base='.'//trim(final_path)
+      end if
+      process_id=c_getpid()
+      call system_clock(count=stamp)
+      close(12,iostat=io)
+      if (io /= 0) error stop 'BDM cannot close the previous catalogue unit'
+      do attempt=0,999
+         write(suffix,'(a,i0,a,i0,a,i0)') '.tmp.',process_id,'.',stamp,'.',attempt
+         if (len_trim(staged_base)+len_trim(suffix) > len(CatalogueStagedPath)) &
+            error stop 'BDM staged catalogue path is too long'
+         CatalogueStagedPath=trim(staged_base)//trim(suffix)
+         ! STATUS=NEW exclusively creates the path and keeps normal umask
+         ! permissions. A collision must never truncate another staged file.
+         open(12,file=trim(CatalogueStagedPath),status='new',action='write',iostat=io)
+         if (io == 0) then
+            CatalogueFinalPath=trim(final_path)
+            CataloguePublicationPending=.true.
+            return
+         end if
+         inquire(file=trim(CatalogueStagedPath),exist=exists)
+         if (.not.exists) error stop 'BDM cannot create staged catalogue'
+      end do
+      error stop 'BDM cannot reserve a unique staged catalogue'
+      end SUBROUTINE BeginCataloguePublication
+
+      SUBROUTINE PublishCatalogue
+      use, intrinsic :: iso_c_binding, only: c_int,c_char,c_null_char
+      implicit none
+      integer :: io,unit
+      integer(c_int) :: rename_status
+      logical :: opened
+      interface
+         function c_rename(old_path,new_path) bind(C,name='rename') result(status)
+            import c_int,c_char
+            character(kind=c_char), intent(in) :: old_path(*),new_path(*)
+            integer(c_int) :: status
+         end function c_rename
+      end interface
+      if (.not.CataloguePublicationPending) error stop 'BDM catalogue publication was not started'
+      unit=-1;opened=.false.
+      inquire(file=trim(CatalogueStagedPath),opened=opened,number=unit,iostat=io)
+      if (io /= 0.or..not.opened.or.unit /= 12) error stop 'BDM staged catalogue is not open on unit 12'
+      close(12,iostat=io)
+      if (io /= 0) error stop 'BDM staged catalogue could not be completely written'
+      ! C rename is atomic within this directory on the supported POSIX
+      ! filesystems. Only a fully written, successfully closed file is exposed.
+      rename_status=c_rename(trim(CatalogueStagedPath)//c_null_char,trim(CatalogueFinalPath)//c_null_char)
+      if (rename_status /= 0_c_int) error stop 'BDM cannot publish staged catalogue'
+      CataloguePublicationPending=.false.
+      CatalogueFinalPath='';CatalogueStagedPath=''
+      end SUBROUTINE PublishCatalogue
+
+      SUBROUTINE ConfigurationError(line_number,message)
+      use, intrinsic :: iso_fortran_env, only: error_unit
+      implicit none
+      integer, intent(in) :: line_number
+      character(*), intent(in) :: message
+      write(error_unit,'(a,i0,2a)') ' BDM configuration error, line ',line_number,': ',message
+      error stop 1
+      end SUBROUTINE ConfigurationError
+
+      SUBROUTINE ValidateParameters
+      use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+      implicit none
+      if (iVirial < 0.or.iVirial > 3) call ConfigurationError(0,'iVirial must be 0, 1, 2 or 3')
+      if (NradP < 1) call ConfigurationError(0,'NradP must be positive')
+      if (.not.all(ieee_is_finite([dLogR,dLogP,MassMin,Rext,SlopeR,dBuffer]))) &
+         call ConfigurationError(0,'all real parameters must be finite')
+      if (dLogR <= 0..or.dLogP <= 0.) call ConfigurationError(0,'logarithmic bin widths must be positive')
+      if (MassMin < 0.) call ConfigurationError(0,'MassMin must be nonnegative')
+      if (Rext < 0..or.SlopeR < 0.) call ConfigurationError(0,'radius corrections must be nonnegative')
+      if (dBuffer <= 0.) call ConfigurationError(0,'buffer width must be positive')
+      end SUBROUTINE ValidateParameters
+
+      SUBROUTINE SetOverdensity
+      use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+      implicit none
+      real*8 :: matter_fraction, background, density, xx
+      ! Retain the historical flat-Lambda convention and normalization 178.
+      ! Both peak selection and halo properties use this same calculation.
+      Om0=Om
+      if (.not.all(ieee_is_finite([Om0,AEXPN]))) &
+         call ConfigurationError(0,'Omega_m and expansion factor must be finite')
+      if (Om0 <= 0..or.AEXPN <= 0.) &
+         call ConfigurationError(0,'Omega_m and expansion factor must be positive')
+      background=dble(Om0)+(1.d0-dble(Om0))*dble(AEXPN)**3
+      if (background <= 0.d0) call ConfigurationError(0,'flat-Lambda background must be positive')
+      matter_fraction=dble(Om0)/background
+      xx=matter_fraction-1.d0
+      select case(iVirial)
+      case(0)
+         density=200.d0/matter_fraction
+      case(1)
+         density=(178.d0+82.d0*xx-39.d0*xx**2)/matter_fraction
+      case(2)
+         density=200.d0
+      case(3)
+         density=(178.d0+82.d0*xx-39.d0*xx**2)/matter_fraction*(200.d0/178.d0)
+      case default
+         call ConfigurationError(0,'iVirial must be 0, 1, 2 or 3')
+      end select
+      if (.not.ieee_is_finite(density)) call ConfigurationError(0,'overdensity must be finite')
+      if (density <= 0.d0.or.density > dble(huge(Ovdens))) &
+         call ConfigurationError(0,'overdensity is outside the representable positive range')
+      Ovdens=real(density)
+      end SUBROUTINE SetOverdensity
 
 !--------------------------------------------------------------
 !                        virial overdensity for cosmological model
@@ -336,81 +498,118 @@ Contains
 !----------------------------------------------------------
 !                      
 !                    
-SUBROUTINE RescaleCoords(iFlag)
-!----------------------------------------------------------
-Integer*8 :: ip
 
-           Xscale = Box/NGRID                 ! Scale for comoving coordinates
-           Vscale = 100.*Xscale/AEXPN          ! Scale for velocities
-           !Dscale = 2.774e+11*(Box/NROW)**3    ! mass scale
-           !MassOne= Om0*Dscale                ! mass of the smallest particle
-           write(*,*) ' Inside rescale coords:', Xscale,Vscale
-If(iFlag==1)Then                   ! scale to Mpc and Msun
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ip)
-           Do ip =1,Np             
-                Xpar(ip) = (Xpar(ip)-1.)*Xscale 
-                Ypar(ip) = (Ypar(ip)-1.)*Xscale 
-                Zpar(ip) = (Zpar(ip)-1.)*Xscale 
-               VX(ip) =  VX(ip)*Vscale 
-               VY(ip) =  VY(ip)*Vscale 
-               VZ(ip) =  VZ(ip)*Vscale
-            end Do
-         else
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ip)
-           Do ip =1,Np             
-                Xpar(ip) = Xpar(ip)/Xscale+1. 
-                Ypar(ip) = Ypar(ip)/Xscale+1. 
-                Zpar(ip) = Zpar(ip)/Xscale+1. 
-                If(Xpar(ip).ge.NGRID)Xpar(ip) =Xpar(ip)-NGRID
-                If(Xpar(ip).lt.1)    Xpar(ip) =Xpar(ip)+NGRID
-                If(Ypar(ip).ge.NGRID)Ypar(ip) =Ypar(ip)-NGRID
-                If(Ypar(ip).lt.1)    Ypar(ip) =Ypar(ip)+NGRID
-                If(Zpar(ip).ge.NGRID)Zpar(ip) =Zpar(ip)-NGRID
-                If(Zpar(ip).lt.1)    Zpar(ip) =Zpar(ip)+NGRID
-               VX(ip) =  VX(ip)/Vscale 
-               VY(ip) =  VY(ip)/Vscale 
-               VZ(ip) =  VZ(ip)/Vscale
-            end Do
-end If
-      end SUBROUTINE RescaleCoords
+SUBROUTINE RescaleCoords(iFlag)
+  use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+  implicit none
+  integer, intent(in) :: iFlag
+  integer*8 :: ip,restoreCount
+  real*8 :: Xscale,Vscale
+  real :: memoryUsed
+  logical :: invalid
+
+  if(iFlag/=1)then
+    restoreCount=BdmPMCount
+    call RemoveBuffer(restoreCount)
+    return
+  endif
+  if(allocated(BdmPMX))error stop 'BDM particle workspace already active'
+  if(Np/=Nparticles.or.Np<0_8)error stop 'BDM original particle count is inconsistent'
+  if(NGRID<=0.or.Box<=0..or.AEXPN<=0.)error stop 'Invalid BDM coordinate scales'
+  Xscale=dble(Box)/dble(NGRID)
+  Vscale=100.d0*Xscale/dble(AEXPN)
+  BdmPMCount=Nparticles
+  call move_alloc(Xpar,BdmPMX); call move_alloc(Ypar,BdmPMY); call move_alloc(Zpar,BdmPMZ)
+  call move_alloc(VX,BdmPMVX); call move_alloc(VY,BdmPMVY); call move_alloc(VZ,BdmPMVZ)
+  if(size(BdmPMX,kind=8)/=Np.or.size(BdmPMY,kind=8)/=Np.or.size(BdmPMZ,kind=8)/=Np.or. &
+     size(BdmPMVX,kind=8)/=Np.or.size(BdmPMVY,kind=8)/=Np.or.size(BdmPMVZ,kind=8)/=Np) &
+       error stop 'BDM original particle array size mismatch'
+  allocate(Xpar(Np),Ypar(Np),Zpar(Np),VX(Np),VY(Np),VZ(Np))
+  memoryUsed=Memory(6_8*Np)
+  invalid=.false.
+!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(ip) REDUCTION(.or.:invalid)
+  do ip=1,Np
+    invalid=invalid.or..not.all(ieee_is_finite([BdmPMX(ip),BdmPMY(ip),BdmPMZ(ip), &
+                                             BdmPMVX(ip),BdmPMVY(ip),BdmPMVZ(ip)]))
+    Xpar(ip)=real(modulo((dble(BdmPMX(ip))-1.d0)*Xscale,dble(Box)))
+    Ypar(ip)=real(modulo((dble(BdmPMY(ip))-1.d0)*Xscale,dble(Box)))
+    Zpar(ip)=real(modulo((dble(BdmPMZ(ip))-1.d0)*Xscale,dble(Box)))
+    ! Conversion to the storage precision can round a value up to Box.
+    if(Xpar(ip)>=Box)Xpar(ip)=0.
+    if(Ypar(ip)>=Box)Ypar(ip)=0.
+    if(Zpar(ip)>=Box)Zpar(ip)=0.
+    VX(ip)=real(dble(BdmPMVX(ip))*Vscale)
+    VY(ip)=real(dble(BdmPMVY(ip))*Vscale)
+    VZ(ip)=real(dble(BdmPMVZ(ip))*Vscale)
+  enddo
+  if(invalid)error stop 'Non-finite simulation particle supplied to BDM'
+end SUBROUTINE RescaleCoords
 !---------------------------------------------------------------------------
 !                  
 !                  
+
 SUBROUTINE WriteFiles
-   integer*8 :: ic    
-   iHalo = 0
-   MassMin = max(MassMin,20.*MassOne)
-      Do ip=1,Nmaxima
-         x    = xMaxx(ip);       y =   yMaxx(ip);    z = zMaxx(ip)
-         If(x>=Xleft.and.x<Xright.and. &
-            y>=Yleft.and.y<Yright.and. &
-            z>=Zleft.and.z<Zright)Then
-            if(Mvir(ip)<MassMin)cycle
-            Vrms = sqrt(EkinM(ip)/Mvir(ip)*2.)
-            rr   = 1.e3*Rvir(ip)
-            aM   = Mvir(ip)
-            vvx  = VxMaxx(ip) ;vvy  = VyMaxx(ip) ; vvz  = VzMaxx(ip)
-            vvmax = VmaxM(ip)
-            aNpart = Mvir(ip)/MassOne
-            if(aNpart<10)cycle          !-- do not take too small halos
-               iHalo = iHalo + 1
-            Cvir = Concentration(aM,rr,vvmax)
-            If(Cvir < 0.)Cvir = Rvir(ip)/RmaxM(ip)*2.15     ! simple estimate
-            Rin   = 1.e3*RadRms(ip)
-            VirRat = 2.*EkinM(ip)/EpotM(ip)-1.
-
-           write(12,'(3f11.4,3x,3f10.2,1p,2g12.4,g12.5,26g12.4)') &
-                    x,y,z,VxMaxx(ip),VyMaxx(ip),VzMaxx(ip), &
-                    Mvir(ip),Mtotal(ip),1.e3*Rvir(ip),Vrms, VmaxM(ip),   & 
-                    iHalo,Cvir,Mvir(ip)/MassOne,0,Xoff(ip), &
-                    2.*EkinM(ip)/EpotM(ip)-1.,LambdaM(ip),1.e3*RadRms(ip),   &
-                    Axba(ip),Axca(ip),Xax(ip),Yax(ip),Zax(ip)
-       end If
-      EndDo         ! i
-
-      close (12)
-
-      end SUBROUTINE WriteFiles
+   use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+   implicit none
+   integer :: ip,iHalo
+   real*4 :: x,y,z,Vrms,rr,aM,Cvir,aNpart,VirRat
+   real*8 :: value
+   if (.not.CataloguePublicationPending) error stop 'BDM writer requires staged catalogue publication'
+   iHalo=0
+   if(.not.ieee_is_finite(MassOne))error stop 'BDM particle mass is nonfinite'
+   if(MassOne<=0.)error stop 'BDM particle mass must be positive'
+   MassMin=max(MassMin,20.*MassOne)
+   if(allocated(HaloStatus))then
+     write(*,'(a,5i10)') ' BDM status [few, SO cap, Vmax, no bound, singular centre]:', &
+       count(btest(HaloStatus,0)),count(btest(HaloStatus,1)), &
+       count(btest(HaloStatus,2)),count(btest(HaloStatus,3)),count(btest(HaloStatus,4))
+   endif
+   do ip=1,Nmaxima
+     if(.not.all(ieee_is_finite([xMaxx(ip),yMaxx(ip),zMaxx(ip), &
+         VxMaxx(ip),VyMaxx(ip),VzMaxx(ip),Mvir(ip),Mtotal(ip),Rvir(ip), &
+         EkinM(ip),EpotM(ip),VmaxM(ip),RmaxM(ip),Xoff(ip),LambdaM(ip), &
+         RadRms(ip),Axba(ip),Axca(ip),Xax(ip),Yax(ip),Zax(ip)]))) &
+       error stop 'BDM refuses a catalogue with nonfinite halo properties'
+     x=xMaxx(ip);y=yMaxx(ip);z=zMaxx(ip)
+     if(x<Xleft.or.x>=Xright.or.y<Yleft.or.y>=Yright.or.z<Zleft.or.z>=Zright)cycle
+     if(Mvir(ip)<MassMin.or.Mvir(ip)<=0.)cycle
+     if(EkinM(ip)<0..or.EpotM(ip)<0..or.Rvir(ip)<=0.) &
+       error stop 'BDM halo has invalid mass, radius or energy'
+     value=sqrt(2.d0*dble(EkinM(ip))/dble(Mvir(ip)))
+     if(value>dble(huge(Vrms)))error stop 'BDM velocity dispersion is not representable'
+     Vrms=real(value,4);rr=1.e3*Rvir(ip);aM=Mvir(ip)
+     aNpart=Mvir(ip)/MassOne
+     if(allocated(BoundParticleIds))then
+       if(allocated(BoundParticleIds(ip)%ids))then
+         aNpart=real(size(BoundParticleIds(ip)%ids,kind=8),4)
+         value=dble(size(BoundParticleIds(ip)%ids,kind=8))*dble(MassOne)
+         if(abs(value-dble(Mvir(ip)))>2.d0*dble(spacing(Mvir(ip)))) &
+           error stop 'BDM bound mass disagrees with particle membership'
+       endif
+     endif
+     if(aNpart<20.)cycle
+     Cvir=Concentration(aM,rr,VmaxM(ip))
+     if(Cvir<0.)then
+       Cvir=0.
+       if(RmaxM(ip)>0.)Cvir=2.1625816*Rvir(ip)/RmaxM(ip)
+     endif
+     VirRat=0.
+     if(EpotM(ip)>0.)then
+       value=2.d0*dble(EkinM(ip))/dble(EpotM(ip))-1.d0
+       if(abs(value)>dble(huge(VirRat)))error stop 'BDM virial ratio is not representable'
+       VirRat=real(value,4)
+     endif
+     if(.not.all(ieee_is_finite([Vrms,rr,Cvir,aNpart,VirRat]))) &
+       error stop 'BDM derived catalogue property is nonfinite'
+     iHalo=iHalo+1
+     write(12,'(3f11.4,3x,3f10.2,1p,2g12.4,g12.5,26g12.4)') &
+       x,y,z,VxMaxx(ip),VyMaxx(ip),VzMaxx(ip),Mvir(ip),Mtotal(ip), &
+       rr,Vrms,VmaxM(ip),iHalo,Cvir,aNpart,0,Xoff(ip),VirRat,LambdaM(ip), &
+       1.e3*RadRms(ip),Axba(ip),Axca(ip),Xax(ip),Yax(ip),Zax(ip)
+   enddo
+   Nhalo=iHalo
+   call PublishCatalogue
+end SUBROUTINE WriteFiles
 
 !---------------------------------------------------------------------------
 !                  
@@ -662,135 +861,176 @@ integer*8 :: ic,ip
 !
       SUBROUTINE RemoveDuplicates
 !---------------------------------------------------------------------------
-! The unequal-mass host test is separate from equal-mass numerical duplicates.
-! Read immutable measurements in parallel, then apply the mask after the barrier.
+! A distinct host centre lies outside every higher-priority host's aperture.
+! Priority is larger bound mass, then lower stable candidate index on ties.
+! Read immutable measurements in parallel, then apply the mask after the barrier:
+! a suppressing host can itself be suppressed, preserving legacy host chains.
+! Exact particle-set duplicates are handled separately after this host test.
         implicit none
         integer*8 :: ip,jp
         integer :: i1,i2,j1,j2,k1,k2,i3,j3,k3,sx,sy,sz
         integer :: sxlo,sxhi,sylo,syhi,szlo,szhi
-        real*4 :: x,y,z,xx,yy,zz,dx,dy,dz,dd,radius,tstart,tfinish
+        real*4 :: tstart,tfinish
+        real*8 :: x,y,z,xx,yy,zz,dx,dy,dz,dd,radius,box64,cell64
         logical, allocatable :: removeHost(:)
-        tstart = seconds()
-        if(Nmaxima == 0) return
-        Radius = max(3.5,maxval(Rvir))
+        tstart=seconds()
+        if(Nmaxima==0)return
+        radius=max(3.5d0,dble(maxval(Rvir)))
+        box64=dble(Box);cell64=dble(Cell)
         allocate(removeHost(Nmaxima))
         removeHost=.false.
 !$OMP PARALLEL DO DEFAULT(SHARED) &
 !$OMP PRIVATE(ip,jp,x,y,z,xx,yy,zz,dx,dy,dz,dd,i1,i2,j1,j2,k1,k2,i3,j3,k3) &
 !$OMP PRIVATE(sx,sy,sz,sxlo,sxhi,sylo,syhi,szlo,szhi)
-      Do ip=1,Nmaxima
-         If(Mvir(ip)>MassOne)Then
-            x   = xMaxx(ip);   y = yMaxx(ip);    z = zMaxx(ip)
-            sxlo=0;sxhi=0;sylo=0;syhi=0;szlo=0;szhi=0
-            if(x-Radius<0.)sxhi=1
-            if(x+Radius>=Box)sxlo=-1
-            if(y-Radius<0.)syhi=1
-            if(y+Radius>=Box)sylo=-1
-            if(z-Radius<0.)szhi=1
-            if(z+Radius>=Box)szlo=-1
-            do sz=szlo,szhi
-            do sy=sylo,syhi
-            do sx=sxlo,sxhi
-            xx=x+sx*Box; yy=y+sy*Box; zz=z+sz*Box
-            Call Limits(xx,yy,zz,Radius,i1,i2,j1,j2,k1,k2)
-            Do k3 =k1, k2
-            Do j3 =j1, j2
-            Do i3 =i1, i2
-              jp =Label(i3,j3,k3)
-              Do while (jp.ne.0)
-                If(Mvir(ip)<Mvir(jp))Then
-                  dx=x-Xmaxx(jp); dx=dx-Box*anint(dx/Box)
-                  dy=y-Ymaxx(jp); dy=dy-Box*anint(dy/Box)
-                  dz=z-Zmaxx(jp); dz=dz-Box*anint(dz/Box)
-                  dd=dx*dx+dy*dy+dz*dz
-                  If(dd.lt.Rvir(jp)**2)Then
-                     removeHost(ip) = .true.
-                  End If
-               end If
-               jp =Lst(jp)
-              end do
-           end do
-           end do
-           end Do
-           end do
-           end do
-           end do
-         end If
-       End Do         ! ip
-       where(removeHost) Mvir=0.
-       deallocate(removeHost)
-       call MergeNumericalDuplicates
-       tfinish = seconds()
-      write(*,'(10x,a,T50,2f10.2)') ' time for RemoveDuplicates =',tfinish-tstart,tfinish-t0
-
-    end SUBROUTINE RemoveDuplicates
-
-!---------------------------------------------------------------------------
-! Merge connected components of the conservative strict duplicate graph.
-! Measurements stay read-only until all edges have been inspected. The lowest
-! original candidate index among host-test survivors wins, independent of list
-! order. This catalogue-level policy is not a particle-membership assertion.
-      SUBROUTINE MergeNumericalDuplicates
-        implicit none
-        integer :: ip,jp,i1,i2,j1,j2,k1,k2,i3,j3,k3,sx,sy,sz
-        integer :: sxlo,sxhi,sylo,syhi,szlo,szhi,ri,rj
-        integer, allocatable :: parent(:)
-        real*4 :: x,y,z,xx,yy,zz,radius
-        real*8 :: dx,dy,dz,dd,dv2
-        allocate(parent(Nmaxima))
-        do ip=1,Nmaxima
-          parent(ip)=ip
-        end do
-        radius=real(DuplicateRadius)
         do ip=1,Nmaxima
           if(Mvir(ip)<=MassOne)cycle
-          x=xMaxx(ip); y=yMaxx(ip); z=zMaxx(ip)
+          x=dble(xMaxx(ip));y=dble(yMaxx(ip));z=dble(zMaxx(ip))
           sxlo=0;sxhi=0;sylo=0;syhi=0;szlo=0;szhi=0
-          if(x-radius<0.)sxhi=1
-          if(x+radius>=Box)sxlo=-1
-          if(y-radius<0.)syhi=1
-          if(y+radius>=Box)sylo=-1
-          if(z-radius<0.)szhi=1
-          if(z+radius>=Box)szlo=-1
+          if(x-radius<0.d0)sxhi=1
+          if(x+radius>=box64)sxlo=-1
+          if(y-radius<0.d0)syhi=1
+          if(y+radius>=box64)sylo=-1
+          if(z-radius<0.d0)szhi=1
+          if(z+radius>=box64)szlo=-1
           do sz=szlo,szhi
           do sy=sylo,syhi
           do sx=sxlo,sxhi
-            xx=x+sx*Box; yy=y+sy*Box; zz=z+sz*Box
-            call Limits(xx,yy,zz,radius,i1,i2,j1,j2,k1,k2)
+            xx=x+dble(sx)*box64;yy=y+dble(sy)*box64;zz=z+dble(sz)*box64
+            ! Match ListMaxima's double-precision ceiling bins. In particular,
+            ! never round a shifted x+Box query through float32 before finding
+            ! its bounds: a true neighbouring host could move outside that bin.
+            i1=min(max(Nmx,ceiling((xx-radius)/cell64)-1),Nbx)
+            i2=min(max(Nmx,ceiling((xx+radius)/cell64)-1),Nbx)
+            j1=min(max(Nmy,ceiling((yy-radius)/cell64)-1),Nby)
+            j2=min(max(Nmy,ceiling((yy+radius)/cell64)-1),Nby)
+            k1=min(max(Nmz,ceiling((zz-radius)/cell64)-1),Nbz)
+            k2=min(max(Nmz,ceiling((zz+radius)/cell64)-1),Nbz)
             do k3=k1,k2
             do j3=j1,j2
             do i3=i1,i2
-              jp=int(Label(i3,j3,k3))
+              jp=Label(i3,j3,k3)
               do while(jp/=0)
-                if(jp>ip.and.Mvir(jp)>MassOne)then
-                  dx=dble(x)-dble(xMaxx(jp));dx=dx-Box*anint(dx/Box)
-                  dy=dble(y)-dble(yMaxx(jp));dy=dy-Box*anint(dy/Box)
-                  dz=dble(z)-dble(zMaxx(jp));dz=dz-Box*anint(dz/Box)
+                if(Mvir(ip)<Mvir(jp).or.(Mvir(ip)==Mvir(jp).and.jp<ip))then
+                  dx=x-dble(xMaxx(jp));dx=dx-box64*anint(dx/box64)
+                  dy=y-dble(yMaxx(jp));dy=dy-box64*anint(dy/box64)
+                  dz=z-dble(zMaxx(jp));dz=dz-box64*anint(dz/box64)
                   dd=dx*dx+dy*dy+dz*dz
-                  dv2=(dble(VxMaxx(ip))-dble(VxMaxx(jp)))**2 &
-                     +(dble(VyMaxx(ip))-dble(VyMaxx(jp)))**2 &
-                     +(dble(VzMaxx(ip))-dble(VzMaxx(jp)))**2
-                  if(StrictDuplicate(dd,dble(Mvir(ip)),dble(Mvir(jp)), &
-                         dble(Mvir(ip)/MassOne),dble(Mvir(jp)/MassOne), &
-                         dble(Mtotal(ip)),dble(Mtotal(jp)),dv2))then
-                    ri=DuplicateRoot(parent,ip);rj=DuplicateRoot(parent,jp)
-                    parent(max(ri,rj))=min(ri,rj)
-                  end if
-                end if
-                jp=int(Lst(jp))
-              end do
-            end do
-            end do
-            end do
-          end do
-          end do
-          end do
-        end do
+                  if(dd<dble(Rvir(jp))**2)removeHost(ip)=.true.
+                endif
+                jp=Lst(jp)
+              enddo
+            enddo
+            enddo
+            enddo
+          enddo
+          enddo
+          enddo
+        enddo
+        where(removeHost)Mvir=0.
+        deallocate(removeHost)
+        call MergeNumericalDuplicates
+        tfinish=seconds()
+        write(*,'(10x,a,T50,2f10.2)') ' time for RemoveDuplicates =',tfinish-tstart,tfinish-t0
+      end SUBROUTINE RemoveDuplicates
+
+!---------------------------------------------------------------------------
+! Merge identical bound-particle sets among host-test survivors.
+! The lowest original candidate index is the deterministic representative.
+
+      SUBROUTINE MergeNumericalDuplicates
+        use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+        implicit none
+        integer :: ip,jp,n,i,left,middle,right,a,b,k,width,representative
+        integer*8 :: member_index
+        integer, allocatable :: order(:),scratch(:)
+        ! Exact survivor identity is the numerical duplicate definition. Sorting
+        ! avoids an all-pairs scan and makes the lowest candidate index win.
+        if(.not.all(ieee_is_finite(Mvir)))error stop 'BDM duplicate input mass is nonfinite'
+        n=count(Mvir>MassOne)
+        if(n==0)return
+        if(.not.allocated(BoundParticleIds)) &
+          error stop 'BDM duplicate removal requires bound particle identities'
+        if(size(BoundParticleIds)/=Nmaxima)error stop 'BDM membership size mismatch'
+        allocate(order(n),scratch(n))
+        i=0
         do ip=1,Nmaxima
-          ri=DuplicateRoot(parent,ip)
-          if(ri/=ip)Mvir(ip)=0.
-        end do
-        deallocate(parent)
+          if(Mvir(ip)<=MassOne)cycle
+          if(.not.allocated(BoundParticleIds(ip)%ids)) &
+            error stop 'BDM candidate has no bound particle identities'
+          if(size(BoundParticleIds(ip)%ids)==0) &
+            error stop 'BDM positive bound mass has an empty particle set'
+          do member_index=1,size(BoundParticleIds(ip)%ids,kind=8)
+            if(BoundParticleIds(ip)%ids(member_index)<=0_8)error stop 'BDM original particle ID must be positive'
+            if(member_index==1)cycle
+            if(BoundParticleIds(ip)%ids(member_index)<=BoundParticleIds(ip)%ids(member_index-1)) &
+              error stop 'BDM bound identities must be sorted and unique'
+          enddo
+          i=i+1;order(i)=ip
+        enddo
+        width=1
+        do while(width<n)
+          left=1
+          do while(left<=n)
+            middle=left+min(width,n-left+1)-1
+            right=middle+min(width,n-middle)
+            a=left;b=middle+1
+            do k=left,right
+              if(a>middle)then
+                scratch(k)=order(b);b=b+1
+              elseif(b>right)then
+                scratch(k)=order(a);a=a+1
+              elseif(compare_sets(order(a),order(b))<=0)then
+                scratch(k)=order(a);a=a+1
+              else
+                scratch(k)=order(b);b=b+1
+              endif
+            enddo
+            left=right+1
+          enddo
+          order=scratch
+          if(width>n/2)exit
+          width=2*width
+        enddo
+        representative=order(1)
+        do i=2,n
+          jp=order(i)
+          if(same_set(representative,jp))then
+            Mvir(jp)=0.
+          else
+            representative=jp
+          endif
+        enddo
+        deallocate(order,scratch)
+      contains
+        integer function compare_sets(first,second) result(comparison)
+          integer,intent(in)::first,second
+          integer*8 :: count_first,count_second,j
+          comparison=0
+          count_first=size(BoundParticleIds(first)%ids,kind=8)
+          count_second=size(BoundParticleIds(second)%ids,kind=8)
+          if(count_first<count_second)then
+            comparison=-1;return
+          elseif(count_first>count_second)then
+            comparison=1;return
+          endif
+          do j=1,count_first
+            if(BoundParticleIds(first)%ids(j)<BoundParticleIds(second)%ids(j))then
+              comparison=-1;return
+            elseif(BoundParticleIds(first)%ids(j)>BoundParticleIds(second)%ids(j))then
+              comparison=1;return
+            endif
+          enddo
+          ! Resolve identical sets by stable original candidate index.
+          if(first<second)comparison=-1
+          if(first>second)comparison=1
+        end function compare_sets
+        logical function same_set(first,second)
+          integer,intent(in)::first,second
+          same_set=.false.
+          if(size(BoundParticleIds(first)%ids,kind=8)/= &
+             size(BoundParticleIds(second)%ids,kind=8))return
+          same_set=all(BoundParticleIds(first)%ids==BoundParticleIds(second)%ids)
+        end function same_set
       end SUBROUTINE MergeNumericalDuplicates
 !---------------------------------------------------------------------------
 !                   
@@ -828,6 +1068,7 @@ integer*8 :: ic,ip
 !---------------------------------------------------------------------------
 integer*8 :: ic,ip,i    
       tstart = seconds()
+      call BdmHaloMembershipInit
 
 !  --------------------------- 
 !$OMP PARALLEL DO DEFAULT(SHARED) &
@@ -845,367 +1086,503 @@ integer*8 :: ic,ip,i
 !                   Get parameters of distinct halos
       SUBROUTINE GetHalo(x,y,z,xv,yv,zv,ip)
 !---------------------------------------------------------------------------
-integer*8 :: ic,ip,jp    
-      Real*4, PARAMETER ::      fiScale  =  4.333e-9
-      Real*4      :: MassP(-Nrad:0) ,Fi(-Nrad:0), Axis(3),Direction(3) 
-      Real*8      :: wx,wy,wz,wL,v2, &
-                           xcm,ycm,zcm,     &
-                           ax,ay,az,              &
-                           x2,y2,z2,xy,xz,yz,r2,Rbound,Mbound,Mtot
-      
-      Integer*4 :: Ncount
-      Real*8 :: Tensor(3,3)
-      
-      Radius = Cell
-      factorZ    = 100.*sqrt(Om0/AEXPN**3+(1.-Om0)) *AEXPN
-      fact                = 1.150e12*Om0
-      dRvmax  = 0.1*(Box/NGRID)    ! correct Vmax_radius for resolution
-      R0      = Box/NGRID          ! one grid size
-!      write(*,'(a,7g12.4,i8)') '--- halo=',x,y,z,xv,yv,zv,Mvir(ip),ip
+! SO uses the outermost crossing of the discrete enclosed-particle profile.
+! The legacy Rext correction still defines the reported aperture and Mtotal.
+! Mvir, drift, kinetic energy, shape, spin, and Vmax use only the converged bound
+! population inside the unextended SO sphere. Binding uses the isolated,
+! spherical Newtonian potential, with each particle's self term excluded.
+        use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+        implicit none
+        real*4, intent(in) :: x,y,z,xv,yv,zv
+        integer*8, intent(in) :: ip
+        real*8, parameter :: gravity=4.333d-9
+        integer*8, allocatable :: rows(:)
+        real*8, allocatable :: radii(:),potential(:)
+        real*8 :: search_cap,aperture_cap,rso,aperture,grid_size
+        real*8 :: mass,threshold,hubble_a,bulk(3),offset(3),velocity(3)
+        real*8 :: kinetic,rms2,centre(3),angular(3),tensor(3,3),energy
+        real*8 :: shell_energy,circular2,maximum2,maximum_radius,correction
+        real*8 :: axis_ratio(3),concentration_proxy,slope_b,slope_c
+        real*4 :: axis(3),direction(3)
+        integer :: n,nkeep,naperture,q,j,iteration
+        logical :: singular
 
-10    MassP = 0.
-      aMa   = fact*Ovdens*Radius**3    !  virial mass for outer radial bin
-      d0    = Radius**2           ! get final statistics of bound particles
-      
-      Ncount  = 0
-      Mbound = 0.
-      Rbound = 0.
-      Mtot   = 0.
-      aM     = 0.
-      aR     =0.
-      xcm = 0. ; ycm = 0. ; zcm = 0.
-      ax    = 0. ; ay    = 0. ; az    = 0.
-      x2    = 0. ; y2    = 0. ; z2    = 0.
-      xy    = 0. ; xz    = 0. ; yz    = 0. 
-      r2     = 0. ;  v2 =0.
-      wx = xv ; wy = yv ; wz = zv 
-      Call Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
-                                             ! Get mass profile
-      Ncount  =0
-         Do k3 =k1, k2
-         Do j3 =j1, j2
-         Do i3 =i1, i2
-            jp =Label(i3,j3,k3)
-           Do while (jp.ne.0)
-                  dd =(x-Xpar(jp))**2+(y-Ypar(jp))**2+(z-Zpar(jp))**2
-                  If(dd< d0) Then
-                     r = sqrt(dd)
-                     ii    = max(min(INT(log10(r/Radius)/dLogR),0),-Nrad)
-                     MassP(ii)  = MassP(ii) + MassOne
-                   Ncount = Ncount +1
-                   Mtot   = Mtot   + MassOne
-                  EndIf                        ! dd<d0                                 
-               jp =Lst(jp)
-           End Do                          !  jp/= 0
-         EndDo   ! i3
-         EndDo   ! j3
-         EndDo   ! k3
-
-         Do ii =-Nrad+1,0
-                  MassP(ii) = MassP(ii) + MassP(ii-1)
-         EndDo
-         If(Mtot.gt.aMa)Then            !--- if outer radius too small, increase it and re-do analysis
-!            write(*,'(a,4es12.4,i7,/(16es12.4))') &
-!                 '       not enough particles:', Mtot,aMa,Radius,Cell,Ncount,(MassP(i),i=-Nrad,0)
-            Radius = Radius +Cell
-            If(Radius>15.*Cell)Stop '---- Too large outer radius in GetHalo'
-            goto 10
-         End If
-         Do i = 0,-Nrad+1,-1            !---- find virial Radius and Mass
-            Rout       = Radius*10.**((i+1)*dLogR)    ! outer radius of this bin
-            Rin        = Radius*10.**(i*dLogR)        ! inner radius of this bin
-            dRadius    = Rout-Rin
-            If(MassP(i-1).lt.10.*MassOne)exit
-            DeltaIn    =  MassP(i-1)/(fact*Rin**3)
-            DeltaOut   =  MassP(i)/(fact*Rout**3)
-            If(DeltaIn > Ovdens)Then                    
-               aR = Rout -dRadius*(Ovdens-DeltaOut)/(DeltaIn-DeltaOut)
-               aR = min(max(aR,Rin),Rout)
-               aM = fact*Ovdens*(aR)**3
-               exit
-            EndIf                    
-         EndDo
-!         if(aM<1.e-3)write(*,'(a,6g13.4)') ' Error virial mass: ', &
-!              MassP(0)/(fact*Radius*10.**(dLogR)**3), Ovdens
-         Mvir(ip) = aM
-         Rvir(ip) = aR
-
-         If(aM<10.*MassOne)Then
-            Mvir(ip) =0.
-            Rvir(ip) =0.
+        ! ParametersDistinct allocates before entering its parallel loop. The
+        ! guarded path also supports direct, sequential calls used by tests.
+        if(.not.allocated(BoundParticleIds)) call BdmHaloMembershipInit
+        if(size(BoundParticleIds)/=Nmaxima) error stop 'BDM membership size mismatch'
+        if(allocated(BoundParticleIds(ip)%ids)) deallocate(BoundParticleIds(ip)%ids)
+        HaloStatus(ip)=0
+        Mvir(ip)=0.; Mtotal(ip)=0.; Rvir(ip)=0.
+        VmaxM(ip)=0.; RmaxM(ip)=0.; EkinM(ip)=0.; EpotM(ip)=0.
+        VxMaxx(ip)=0.; VyMaxx(ip)=0.; VzMaxx(ip)=0.
+        Xoff(ip)=0.; LambdaM(ip)=0.; RadRms(ip)=0.
+        Axba(ip)=0.; Axca(ip)=0.; Xax(ip)=0.; Yax(ip)=0.; Zax(ip)=0.
+        if(.not.all(ieee_is_finite([x,y,z,Cell,Box,MassOne,Om0,Ovdens,AEXPN]))) &
+             error stop 'Non-finite input to BDM GetHalo'
+        if(min(Cell,Box,MassOne,Om0,Ovdens,AEXPN)<=0..or.NGRID<=0) &
+             error stop 'Non-positive scale in BDM GetHalo'
+        mass=dble(MassOne)
+        threshold=1.150d12*dble(Om0)*dble(Ovdens)
+        grid_size=dble(Box)/NGRID
+        hubble_a=100.d0*sqrt(dble(Om0)/dble(AEXPN)**3+1.d0-dble(Om0))*dble(AEXPN)
+        search_cap=min(15.d0*dble(Cell),dble(nearest(.5*Box,-1.)))
+        aperture_cap=min(search_cap+.75d0*grid_size,dble(nearest(.5*Box,-1.)))
+        if(HaloSearchRadius>0.) search_cap=min(search_cap,dble(HaloSearchRadius))
+        if(ParticleSearchRadius>0.) aperture_cap=min(aperture_cap,dble(ParticleSearchRadius))
+        ! The physical cap, not the first sampled underdense Cell, defines
+        ! the SO domain. Nonmonotonic profiles can cross the threshold again
+        ! outside an earlier underdense shell.
+        call BdmHaloGather(x,y,z,search_cap,rows,radii)
+        n=size(rows)
+        if(dble(n)*mass>threshold*search_cap**3)then
+          HaloStatus(ip)=HaloSearchTruncated
+          return
+        endif
+        if(n<10)then
+          HaloStatus(ip)=HaloTooFewParticles
+          return
+        endif
+        ! With n available particles, no SO root can exceed (n*m/rho)^(1/3).
+        ! Discarding rows outside that bound preserves every possible root.
+        ! Repeating gives the greatest self-consistent enclosed population;
+        ! most diffuse cap-neighbourhood particles need never be sorted.
+        rso=min((dble(n)*mass/threshold)**(1.d0/3.d0),search_cap)
+        do iteration=1,16
+          nkeep=0
+          do q=1,n
+            if(radii(q)<=rso)then
+              nkeep=nkeep+1
+              rows(nkeep)=rows(q); radii(nkeep)=radii(q)
+            endif
+          enddo
+          if(nkeep==n) exit
+          n=nkeep
+          if(n<10)then
+            HaloStatus(ip)=HaloTooFewParticles
             return
-         End If
-         
-        ! Radius = aR  + Rext*(Box/NGRID)/(aM/1.e15)**SlopeR !!! extend radius to account for resolution
-         Radius = aR  + R0*min(Rext/(aR/R0)**SlopeR,0.75) !!! extend radius to account for resolution
-                                                         !--- re-do binning using virial radius
-      MassP  = 0.
-      aMa    = fact*Ovdens*Radius**3    !  virial mass for outer radial bin
-      d0     = Radius**2           ! get final statistics of bound particles
-      Ncount = 0
-      Mbound = 0.
-      Rbound = 0.
-      Mtot   = 0.
-      wx = 0. ; wy = 0. ; wz = 0. 
-!      write(*,'(a,12g12.4)') '     Redo the halo with new Rvir=',Radius,Mvir(ip),dLogR
-      Call Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
-                                             ! Get mass profile
-      Ncount  =0
-               Do k3 =k1, k2
-               Do j3 =j1, j2
-               Do i3 =i1, i2
-                  jp =Label(i3,j3,k3)
-                 Do while (jp.ne.0)
-                        dd =(x-Xpar(jp))**2+(y-Ypar(jp))**2+(z-Zpar(jp))**2
-                        If(dd< d0) Then
-                           r = sqrt(dd)
-                           ii    = max(min(INT(log10(r/Radius)/dLogR),0),-Nrad)
-                           MassP(ii)  = MassP(ii) + MassOne
-                           Ncount = Ncount +1
-                           Mtot   = Mtot   + MassOne
-                           wx = VX(jp) + wx 
-                           wy = VY(jp) + wy 
-                           wz = VZ(jp) + wz 
-                        EndIf                        ! dd<d0                                 
-                     jp =Lst(jp)
-                 End Do                          !  jp/= 0
-               EndDo   ! i3
-               EndDo   ! j3
-               EndDo   ! k3
+          endif
+          rso=min((dble(n)*mass/threshold)**(1.d0/3.d0),search_cap)
+        enddo
+        if(iteration>16)then
+          ! Bound contraction can remove one row per pass in an adversarial
+          ! profile. Bound that cost and finish with an O(n log n) exact scan.
+          call BdmHaloSortRadii(rows(:n),radii(:n))
+          rso=0.d0
+          do q=n,10,-1
+            energy=(dble(q)*mass/threshold)**(1.d0/3.d0)
+            if(energy<radii(q)) cycle
+            if(q<n)then
+              if(energy>=radii(q+1)) cycle
+            endif
+            if(energy>search_cap) cycle
+            rso=energy
+            exit
+          enddo
+          if(rso<=0.d0)then
+            HaloStatus(ip)=HaloTooFewParticles
+            return
+          endif
+        endif
+        aperture=rso+grid_size*min(dble(Rext)/(rso/grid_size)**dble(SlopeR),.75d0)
+        if(aperture>aperture_cap)then
+          ! A larger aperture would require an image outside the verified
+          ! search domain. Reject explicitly rather than count a clipped sphere.
+          HaloStatus(ip)=HaloSearchTruncated
+          return
+        endif
+        call BdmHaloGather(x,y,z,aperture,rows,radii)
+        call BdmHaloSortRadii(rows,radii)
+        naperture=size(rows)
+        Mtotal(ip)=real(dble(naperture)*mass)
+        Rvir(ip)=real(aperture)
+        n=count(radii<=rso)
+        if(n==0)then
+          HaloStatus(ip)=HaloNoBoundParticles
+          return
+        endif
+        allocate(potential(n))
 
-               Do ii =-Nrad+1,0
-                        MassP(ii) = MassP(ii) + MassP(ii-1)
-               EndDo
-               wx = wx/max(Ncount,1)            !--- new drift velocity
-               wy = wy/max(Ncount,1)
-               wz = wz/max(Ncount,1)
-               VxMaxx(ip) =wx; VyMaxx(ip) =wy; VzMaxx(ip) =wz
+        ! Membership only shrinks. Every non-final pass removes at least one
+        ! particle; therefore convergence needs at most the initial n+1 passes.
+        ! No removed particle contributes to the next potential or drift.
+        do iteration=1,n+1
+          if(n==0) exit
+          bulk=0.d0
+          do q=1,n
+            bulk=bulk+[dble(VX(rows(q))),dble(VY(rows(q))),dble(VZ(rows(q)))]
+          enddo
+          bulk=bulk/dble(n)
+          call BdmHaloSphericalPotential(radii(:n),mass,gravity/dble(AEXPN), &
+                                         potential(:n),shell_energy,singular)
+          if(singular)then
+            ! Multiple particles exactly at the centre have an undefined
+            ! unsoftened shell potential. Do not invent a softening length.
+            HaloStatus(ip)=ior(HaloStatus(ip),HaloSingularCentre)
+            Mvir(ip)=0.
+            return
+          endif
+          nkeep=0
+          do q=1,n
+            call BdmParticlePosition(rows(q),offset)
+            offset=offset-[dble(x),dble(y),dble(z)]
+            velocity=[dble(VX(rows(q))),dble(VY(rows(q))),dble(VZ(rows(q)))] &
+                      -bulk+hubble_a*offset
+            energy=.5d0*sum(velocity**2)-potential(q)
+            if(energy<=0.d0)then
+              nkeep=nkeep+1
+              rows(nkeep)=rows(q); radii(nkeep)=radii(q)
+            endif
+          enddo
+          if(nkeep==n) exit
+          n=nkeep
+        enddo
+        if(n==0)then
+          HaloStatus(ip)=ior(HaloStatus(ip),HaloNoBoundParticles)
+          return
+        endif
 
-               Fi       = 0.                    !--- get potential
-               iR       = 0
-!              write(*,'(/3g13.4,i10,8g12.4)') aR,aM,dLogR,Ncount,MassP(0),Mtot
-              Fi(iR)               = fiScale*MassP(0)/Radius
-              Do i =iR-1,-Nrad,-1
-                 Rin    = Radius*10.**(i*dLogR)
-                 Rout = Radius*10.**((i+1)*dLogR)
-                 Fi(i)   = Fi(i+1) + fiScale*(MassP(i)+MassP(i+1))*0.5 &
-                                                         *(Rout-Rin)/(Rout*Rin)
-              EndDo
-              Fi = Fi/AEXPN
-!              write(*,'(3g12.4)') (Fi(i),MassP(i),Radius*10.**(i*dLogR),i=-10,0)
-              MassP = 0.
-           Ncount  =0
-           Icount  =0
-           d0       = Rvir(ip)**2                !--- get final statistics 
-           iBuffer  = 0
-               Do k3 =k1, k2
-               Do j3 =j1, j2
-               Do i3 =i1, i2
-                  jp =Label(i3,j3,k3)
-                 Do while (jp.ne.0)
-                        dd =(x-Xpar(jp))**2+(y-Ypar(jp))**2+(z-Zpar(jp))**2
-                        If(dd< d0) Then
-                           r = sqrt(dd)
-                           dx   = Xpar(jp) -x 
-                           dy   = Ypar(jp) -y 
-                           dz   = Zpar(jp) -z
-                           dvx = VX(jp) - wx +factorZ*dx    ! true velocity
-                           dvy = VY(jp) - wy +factorZ*dy
-                           dvz = VZ(jp) - wz +factorZ*dz
-                           ii    = max(min(INT(log10(r/Radius)/dLogR),0),-Nrad)
-                           vv =  dvx**2 + dvy**2 + dvz**2   ! kinetic energy
-                            !!ee = -1.e10 ! -Fi(ii) + 0.5*vv Unbound particles
-                            ee =  -Fi(ii) + 0.5*vv ! Unbind particles
-                           if(ee <= 0.)Ncount = Ncount +1             ! count bound particles
-                           MassP(ii)  = MassP(ii) + MassOne           ! count all particles
-                           Icount  = Icount + 1                       ! count all particles
-                           v2 = v2 + vv
-                           xcm = xcm + dx                             ! center of mass
-                           ycm = ycm + dy
-                           zcm = zcm + dz
-                           r2 = r2 + dd                               ! modified tensor of inertia
-                           x2 = x2 + dx**2/(dd+1.d-10)
-                           y2 = y2 + dy**2/(dd+1.d-10)
-                           z2 = z2 + dz**2/(dd+1.d-10)
-                           xy = xy + dx*dy/(dd+1.d-10)
-                           xz = xz + dx*dz/(dd+1.d-10)
-                           yz = yz + dy*dz/(dd+1.d-10)
-                           ax    = ax + dy*dvz - dz*dvy
-                           ay    = ay + dz*dvx - dx*dvz
-                           az    = az + dx*dvy - dy*dvx 
-                           
-                        !end if
-                        EndIf                        ! dd<d0                                 
-                     jp =Lst(jp)
-                 End Do                          !  jp/= 0
-               EndDo   ! i3
-               EndDo   ! j3
-               EndDo   ! k3
-
-               Do ii =-Nrad+1,0
-                        MassP(ii) = MassP(ii) + MassP(ii-1)
-               EndDo
-               Mbound   = Ncount*MassOne      
-               Mvir(ip) = Icount*MassOne
-               If(Ncount<10)Then
-                  EpotM(ip) = 1.
-                  EkinM(ip)  = 0.
-                  Mvir(ip)   = Ncount*MassOne
-                  Mtotal(ip) = Icount*MassOne
-                  Rvir(ip)   = Radius !!Rbound
-                  
-                  return
-                EndIf
-                Enrg =0.                  !--- potential energy of all particles R<Rvir
-                Do ii =-Nrad+1,0
-                   Rin    = Radius*10.**(ii*dLogR)
-                   Enrg = Enrg + fiScale*MassP(ii)*(MassP(ii)-MassP(ii-1))/Rin
-               EndDo
-                
-               EpotM(ip) = Enrg/AEXPN
-               EkinM(ip) = 0.5*v2*MassOne
-               Nn        = max(Icount,1)
-               Vrms         = sqrt(v2/Nn+1.e-10)
-               xcm = xcm/Nn ; ycm = ycm/Nn ; zcm = zcm/Nn
-               ax    = ax/Nn ;       ay = ay/Nn ;       az = az/Nn
-               RadRms(ip) = sqrt(r2/Nn)
-                     Tensor(1,1) = x2 ;Tensor(2,2) = y2 ; Tensor(3,3) = z2
-                     Tensor(1,2) = xy ;Tensor(1,3) = xz ; Tensor(2,3) = yz
-                     Tensor(2,1) = xy ;Tensor(3,1) = xz ; Tensor(3,2) = yz
-                     Tensor = Tensor/Nn
-                  Call EigenValues(Tensor,Direction,Axis)
-                  dd = Axis(1)
-                  Axis = sqrt(Axis/dd)
-                  if(Axis(2).gt.1.0 .or.Axis(3)>1.0)write(13,*) ' Error Axis ratio=',Axis
-                  Conc = RadRms(ip)/Radius
-                  Slopeb = 1+2.*max((Conc-0.4),0.)+(5.7*max((Conc-0.4),0.))**3
-                  Slopec = 1+2.*max((Conc-0.4),0.)+(5.5*max((Conc-0.4),0.))**3                  
-                  Axis(2) = Axis(2)**Slopeb
-                  Axis(3) = Axis(3)**Slopec
-               Xoff(ip) = sqrt((xcm)**2 + (ycm)**2 +(zcm)**2+1.e-10)/Rvir(ip)
-               aJ      = sqrt(ax**2 +ay**2 +az**2 +1.e-10)*AEXPN
-               LambdaM(ip) = aJ*Vrms/aM*1.632e8
-                ! Vv = 0.
-                ! Rm = 0.
-                ! Do ii = -Nrad+1,0     ! find Vmax and its radius using all particles
-                !    R = Radius*10.**(ii*dLogR)
-                !    if(R >aR)exit
-                !    V = sqrt(MassP(ii)/R)
-                !    If(V>Vv.and.MassP(ii)>5.*MassOne)Then
-                !       Vv = v ; Rm = R
-                !    EndIf
-                ! EndDo
-                 Vv2 =0.
-                 Rm2 =0.
-                 Do ii = 0,-Nrad+1,-1     ! find Vmax and its radius using all particles
-                    R = Radius*10.**(ii*dLogR)
-                    !if(R >aR)exit
-                    V = sqrt(MassP(ii)/R)
-                    If(V>Vv2)Then
-                       Vv2 = v ; Rm2 = R
-                    Else
-                       exit
-                    EndIf
-                 EndDo
-                    VmaxM(ip)       = 6.582e-5*Vv2/sqrt(AEXPN)/sqrt(1.-dRvmax/R) 
-                    RmaxM(ip)       = Rm2
-                    Xax(ip)              = Direction(1)
-                    Yax(ip)              = Direction(2)
-                    Zax(ip)              = Direction(3)
-                    Axba(ip)           = Axis(2)
-                    Axca(ip)           = Axis(3)
-                    !MassProf(:,ip) = MassP
-                    Mvir(ip)             = Mbound
-                    Mtotal(ip)           = Mtot 
-                    Rvir(ip)              = Radius !!Rbound
-                 !   write(13,'(10x,5g12.4,i5)') Mvir(ip),Mtotal(ip),Rvir(ip),VmaxM(ip),Vv,Ncount
+        ! The successful final pass evaluated every survivor against this same
+        ! survivor set and bulk velocity. All published bound statistics below
+        ! use precisely these rows and double-precision local offsets.
+        kinetic=0.d0; rms2=0.d0; centre=0.d0; angular=0.d0; tensor=0.d0
+        maximum2=0.d0; maximum_radius=0.d0
+        do q=1,n
+          call BdmParticlePosition(rows(q),offset)
+          offset=offset-[dble(x),dble(y),dble(z)]
+          velocity=[dble(VX(rows(q))),dble(VY(rows(q))),dble(VZ(rows(q)))] &
+                    -bulk+hubble_a*offset
+          kinetic=kinetic+sum(velocity**2)
+          rms2=rms2+sum(offset**2)
+          centre=centre+offset
+          angular=angular+[offset(2)*velocity(3)-offset(3)*velocity(2), &
+                           offset(3)*velocity(1)-offset(1)*velocity(3), &
+                           offset(1)*velocity(2)-offset(2)*velocity(1)]
+          if(radii(q)>0.d0)then
+            do j=1,3
+              tensor(:,j)=tensor(:,j)+offset*offset(j)/radii(q)**2
+            enddo
+            circular2=dble(q)*mass/radii(q)
+            if(circular2>maximum2)then
+              maximum2=circular2; maximum_radius=radii(q)
+            endif
+          endif
+        enddo
+        Mvir(ip)=real(dble(n)*mass)
+        EkinM(ip)=real(.5d0*kinetic*mass)
+        EpotM(ip)=real(shell_energy)
+        VxMaxx(ip)=real(bulk(1)); VyMaxx(ip)=real(bulk(2)); VzMaxx(ip)=real(bulk(3))
+        RadRms(ip)=real(sqrt(rms2/dble(n)))
+        centre=centre/dble(n); angular=angular/dble(n)
+        Xoff(ip)=real(sqrt(sum(centre**2))/aperture)
+        ! Retain the legacy spin proxy and empirical axis corrections, but use
+        ! one population for its angular momentum, RMS speed, and mass.
+        LambdaM(ip)=real(sqrt(sum(angular**2))*dble(AEXPN)*sqrt(kinetic/dble(n)) &
+                        /(dble(n)*mass)*1.632d8)
+        tensor=tensor/dble(n)
+        if(maxval(abs(tensor))>0.d0)then
+          call EigenValues(tensor,direction,axis)
+          if(all(ieee_is_finite(axis)).and.all(ieee_is_finite(direction)))then
+            if(axis(1)>0.)then
+              axis_ratio=sqrt(max(0.d0,min(1.d0,dble(axis)/dble(axis(1)))))
+              concentration_proxy=dble(RadRms(ip))/aperture
+              slope_b=1.d0+2.d0*max(concentration_proxy-.4d0,0.d0) &
+                      +(5.7d0*max(concentration_proxy-.4d0,0.d0))**3
+              slope_c=1.d0+2.d0*max(concentration_proxy-.4d0,0.d0) &
+                      +(5.5d0*max(concentration_proxy-.4d0,0.d0))**3
+              Axba(ip)=real(axis_ratio(2)**slope_b); Axca(ip)=real(axis_ratio(3)**slope_c)
+              Xax(ip)=direction(1); Yax(ip)=direction(2); Zax(ip)=direction(3)
+            endif
+          endif
+        endif
+        correction=.1d0*grid_size
+        if(maximum_radius>correction.and.maximum2>0.d0)then
+          VmaxM(ip)=real(sqrt(gravity*maximum2/dble(AEXPN)) &
+                         /sqrt(1.d0-correction/maximum_radius))
+          RmaxM(ip)=real(maximum_radius)
+        else
+          HaloStatus(ip)=ior(HaloStatus(ip),HaloUnresolvedVmax)
+          ! Zero is the documented finite unresolved sentinel; Concentration
+          ! and catalogue writing must preserve it without a 0/0 fallback.
+          VmaxM(ip)=0.; RmaxM(ip)=0.
+        endif
+        allocate(BoundParticleIds(ip)%ids(n))
+        if(allocated(OriginalParticleId))then
+          BoundParticleIds(ip)%ids=OriginalParticleId(rows(:n))
+        else
+          ! Direct fixtures without periodic buffering use original row IDs.
+          BoundParticleIds(ip)%ids=rows(:n)
+        endif
+        call BdmHaloSortIds(BoundParticleIds(ip)%ids)
+        if(n>1)then
+          if(any(BoundParticleIds(ip)%ids(2:)==BoundParticleIds(ip)%ids(:n-1))) &
+               error stop 'Repeated original particle in BDM bound sphere'
+        endif
       end SUBROUTINE GetHalo
+
+! Recover the exact double-precision location of this explicit periodic image.
+! Float32 storage of x+Box loses low bits on the positive face; the original
+! row remains exact. Infer only the integer image shift from the stored ghost.
+! Keeping that shift (rather than minimum-imaging each row independently) also
+! ensures two explicit images cannot both enter one sub-half-box sphere.
+      pure real*8 function BdmParticleCoordinate(row,component) result(coordinate)
+        implicit none
+        integer*8, intent(in) :: row
+        integer, intent(in) :: component
+        integer*8 :: original
+        real*8 :: stored,base
+        original=row
+        if(allocated(OriginalParticleId)) original=OriginalParticleId(row)
+        select case(component)
+        case(1)
+          stored=dble(Xpar(row)); base=dble(Xpar(original))
+        case(2)
+          stored=dble(Ypar(row)); base=dble(Ypar(original))
+        case(3)
+          stored=dble(Zpar(row)); base=dble(Zpar(original))
+        case default
+          coordinate=0.d0
+          return
+        end select
+        coordinate=stored
+        ! Original rows already store the exact analysis coordinate; only a
+        ! periodic image needs an integer shift reconstructed in float64.
+        if(original==row)return
+        if(allocated(OriginalParticleId)) &
+          coordinate=base+dble(nint((stored-base)/dble(Box)))*dble(Box)
+      end function BdmParticleCoordinate
+
+      SUBROUTINE BdmParticlePosition(row,position)
+        implicit none
+        integer*8, intent(in) :: row
+        real*8, intent(out) :: position(3)
+        integer :: component
+        integer*8 :: original
+        original=row
+        if(allocated(OriginalParticleId))original=OriginalParticleId(row)
+        if(original==row)then
+          position=[dble(Xpar(row)),dble(Ypar(row)),dble(Zpar(row))]
+          return
+        endif
+        do component=1,3
+          position(component)=BdmParticleCoordinate(row,component)
+        enddo
+      end SUBROUTINE BdmParticlePosition
+
+! Candidate-local workspace: two exact-count list scans, no Np-sized temporary.
+      SUBROUTINE BdmHaloGather(x,y,z,radius,rows,radii)
+        implicit none
+        real*4, intent(in) :: x,y,z
+        real*8, intent(in) :: radius
+        integer*8, allocatable, intent(out) :: rows(:)
+        real*8, allocatable, intent(out) :: radii(:)
+        integer :: i1,i2,j1,j2,k1,k2,i,j,k,n,pass
+        integer*8 :: jp
+        real*8 :: distance2,offset(3)
+        call Limits(x,y,z,nearest(real(radius),1.),i1,i2,j1,j2,k1,k2)
+        do pass=1,2
+          n=0
+          do k=k1,k2
+          do j=j1,j2
+          do i=i1,i2
+            jp=Label(i,j,k)
+            do while(jp/=0)
+              call BdmParticlePosition(jp,offset)
+              offset=offset-[dble(x),dble(y),dble(z)]
+              distance2=sum(offset**2)
+              if(distance2<=radius**2)then
+                n=n+1
+                if(pass==2)then
+                  rows(n)=jp; radii(n)=sqrt(distance2)
+                endif
+              endif
+              jp=Lst(jp)
+            enddo
+          enddo
+          enddo
+          enddo
+          if(pass==1) allocate(rows(n),radii(n))
+        enddo
+      end SUBROUTINE BdmHaloGather
+
+! In-place heapsort: deterministic radius order and row-ID tie breaking.
+      SUBROUTINE BdmHaloSortRadii(rows,radii)
+        implicit none
+        integer*8, intent(inout) :: rows(:)
+        real*8, intent(inout) :: radii(:)
+        integer*8 :: first,last,parent,child,n
+        integer*8 :: saved_row
+        real*8 :: saved_radius
+        n=size(rows,kind=8)
+        if(n<2) return
+        first=n/2+1; last=n
+        do
+          if(first>1)then
+            first=first-1
+            saved_row=rows(first); saved_radius=radii(first)
+          else
+            saved_row=rows(last); saved_radius=radii(last)
+            rows(last)=rows(1); radii(last)=radii(1)
+            last=last-1
+            if(last==1)then
+              rows(1)=saved_row; radii(1)=saved_radius
+              exit
+            endif
+          endif
+          parent=first; child=2*first
+          do while(child<=last)
+            if(child<last)then
+              if(radii(child)<radii(child+1))then
+                child=child+1
+              else if(radii(child)==radii(child+1))then
+                if(rows(child)<rows(child+1)) child=child+1
+              endif
+            endif
+            if(saved_radius>radii(child)) exit
+            if(saved_radius==radii(child))then
+              if(saved_row>=rows(child)) exit
+            endif
+            rows(parent)=rows(child); radii(parent)=radii(child)
+            parent=child; child=2*child
+          enddo
+          rows(parent)=saved_row; radii(parent)=saved_radius
+        enddo
+      end SUBROUTINE BdmHaloSortRadii
+
+      SUBROUTINE BdmHaloSortIds(ids)
+        implicit none
+        integer*8, intent(inout) :: ids(:)
+        integer*8 :: saved
+        integer*8 :: first,last,parent,child,n
+        n=size(ids,kind=8)
+        if(n<2) return
+        first=n/2+1; last=n
+        do
+          if(first>1)then
+            first=first-1; saved=ids(first)
+          else
+            saved=ids(last); ids(last)=ids(1); last=last-1
+            if(last==1)then
+              ids(1)=saved
+              exit
+            endif
+          endif
+          parent=first; child=2*first
+          do while(child<=last)
+            if(child<last)then
+              if(ids(child)<ids(child+1)) child=child+1
+            endif
+            if(saved>=ids(child)) exit
+            ids(parent)=ids(child); parent=child; child=2*child
+          enddo
+          ids(parent)=saved
+        enddo
+      end SUBROUTINE BdmHaloSortIds
+
+! Exact discrete spherical-shell potential and distinct-pair energy. A pair at
+! radii ri,rj contributes G*m^2/max(ri,rj); no shell includes its own particle.
+! This is a monopole approximation, not the exact aspherical N-body potential.
+      SUBROUTINE BdmHaloSphericalPotential(radii,mass,g_over_a,potential,energy,singular)
+        implicit none
+        real*8, intent(in) :: radii(:),mass,g_over_a
+        real*8, intent(out) :: potential(:),energy
+        logical, intent(out) :: singular
+        real*8 :: exterior,interior
+        integer :: q,n
+        n=size(radii); exterior=0.d0; energy=0.d0; potential=0.d0
+        singular=.false.
+        if(n>1)then
+          if(radii(2)==0.d0)then
+            singular=.true.
+            return
+          endif
+        endif
+        do q=n,1,-1
+          interior=0.d0
+          if(q>1) interior=dble(q-1)/radii(q)
+          potential(q)=g_over_a*mass*(interior+exterior)
+          energy=energy+g_over_a*mass**2*interior
+          if(radii(q)>0.d0) exterior=exterior+1.d0/radii(q)
+        enddo
+      end SUBROUTINE BdmHaloSphericalPotential
+
+      SUBROUTINE BdmHaloMembershipInit
+        implicit none
+        ! Called before the production parallel loop, or from a direct fixture.
+!$OMP CRITICAL (bdm_halo_membership_init)
+        if(allocated(BoundParticleIds)) deallocate(BoundParticleIds)
+        if(allocated(HaloStatus)) deallocate(HaloStatus)
+        allocate(BoundParticleIds(Nmaxima),HaloStatus(Nmaxima))
+        HaloStatus=0
+!$OMP END CRITICAL (bdm_halo_membership_init)
+      end SUBROUTINE BdmHaloMembershipInit
 
 
 !---------------------------------------------------------------------------
 !                   get centers and velocities of maxima
 !
 !
-      SUBROUTINE FindDistinctCandidates
-!---------------------------------------------------------------------------
-      integer*8 :: ic,ip,i,jp 
-      tstart = seconds()
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (i)
-     Do i =1, Nmaxima
-        Mvir(i)   = 0.
-        Rvir(i)   = 0.
-        VxMaxx(i) = 0.
-        VyMaxx(i) = 0.
-        VzMaxx(i) = 0.
-     EndDo
-                              ! --- improve halo positions and halo velocities   
-      Do iter =1,4
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (im,x,y,z,xc,yc,zc,xv,yv,zv,nn,i3,j3,k3,i1,i2,j1,j2,k1,k2,jp,dd,Radius,d0) 
-         Do im =1, Nmaxima
-            x = xMaxx(im)
-            y = yMaxx(im)
-            z = zMaxx(im)
-            xc = 0.
-            yc = 0.
-            zc = 0.
-            xv = 0.
-            yv = 0.
-            zv = 0.
-            nn = 0
-            Radius  = Cell*max(0.5,min(2.,log10(Xoff(im)+10.)/2.))
-            d0      = Radius**2
-            Call Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
-            Do k3 =k1, k2
-            Do j3 =j1, j2
-            Do i3 =i1, i2
-               jp =Label(i3,j3,k3)
-              Do while (jp.ne.0)
-                 dd = (x-Xpar(jp))**2+(y-Ypar(jp))**2+(z-Zpar(jp))**2
-                     If(dd< d0) Then
-                        xc = xc + Xpar(jp)
-                        yc = yc + Ypar(jp)
-                        zc = zc + Zpar(jp)
-                        xv = xv + VX(jp)
-                        yv = yv + VY(jp)
-                        zv = zv + VZ(jp)
-                        nn = nn + 1
-                     end If
-                jp =Lst(jp)
-              End Do                          !  jp/= 0
-            EndDo   ! i3
-            EndDo   ! j3
-         EndDo   ! k3
-         if(nn.le.1)write(18,'(a,i9,3f9.4,3i9,g12.4)') '  no particles: ',im,x,y,z,nn,k1,k2,Xoff(im)
-         !write(18,'(i9,3f9.4,6i9)') im,x,y,z,nn,k1,k2
-         If(nn>1)Then
-            xMaxx(im) = xc/nn
-            yMaxx(im) = yc/nn
-            zMaxx(im) = zc/nn
-            If(xMaxx(im).lt.0.) xMaxx(im) = xMaxx(im)+Box
-            If(xMaxx(im).ge.Box)xMaxx(im) = xMaxx(im)-Box
-            If(yMaxx(im).lt.0.) yMaxx(im) = yMaxx(im)+Box
-            If(yMaxx(im).ge.Box)yMaxx(im) = yMaxx(im)-Box
-            If(zMaxx(im).lt.0.) zMaxx(im) = zMaxx(im)+Box
-            If(zMaxx(im).ge.Box)zMaxx(im) = zMaxx(im)-Box
-            VxMaxx(im) = xv/nn
-            VyMaxx(im) = yv/nn
-            VzMaxx(im) = zv/nn
-            Mvir(im)   = nn*MassOne
-            Rvir(im)   = Radius
-         end If
-      End Do
-!      write(18,*) ' Iter = ',iter
-!     Do im=1,Nmaxima
-!        write(18,'(i9,16f10.4)') im,xMaxx(im),yMaxx(im),zMaxx(im),VxMaxx(im),VyMaxx(im),VzMaxx(im), Xoff(im)
-!     end Do
-     End Do         ! iter
-10      tfinish = seconds()
-      write(13,'(10x,a,T50,2f10.2)') ' time for FindDistinctCandidates (secs) =',tfinish-tstart,tfinish-t0
+SUBROUTINE FindDistinctCandidates
+  implicit none
+  integer*8 :: jp,nn
+  integer :: im,iter,i1,i2,j1,j2,k1,k2,i3,j3,k3
+  real :: x,y,z,Radius,timeStart,timeFinish
+  real*8 :: xc,yc,zc,xv,yv,zv,dx,dy,dz,d0,position(3)
 
-    end SUBROUTINE FindDistinctCandidates
+  timeStart=seconds()
+  Mvir=0.; Rvir=0.; VxMaxx=0.; VyMaxx=0.; VzMaxx=0.
+  do iter=1,4
+!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PRIVATE(im,x,y,z,xc,yc,zc,xv,yv,zv,nn,i3,j3,k3,i1,i2,j1,j2,k1,k2,jp,dx,dy,dz,Radius,d0,position)
+    do im=1,Nmaxima
+      x=xMaxx(im); y=yMaxx(im); z=zMaxx(im)
+      xc=0.d0; yc=0.d0; zc=0.d0
+      xv=0.d0; yv=0.d0; zv=0.d0; nn=0_8
+      Radius=min(Cell*max(0.5,min(2.,log10(max(Xoff(im),0.)+10.)/2.)),nearest(0.5*Box,-1.))
+      d0=dble(Radius)**2
+      call Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
+      do k3=k1,k2
+      do j3=j1,j2
+      do i3=i1,i2
+        jp=Label(i3,j3,k3)
+        do while(jp/=0_8)
+          call BdmParticlePosition(jp,position)
+          dx=position(1)-dble(x)
+          dy=position(2)-dble(y)
+          dz=position(3)-dble(z)
+          if(dx*dx+dy*dy+dz*dz<d0)then
+            ! Sum local displacements: the centre must remain in its cloud,
+            ! independently of the absolute box location or particle count.
+            xc=xc+dx; yc=yc+dy; zc=zc+dz
+            xv=xv+dble(VX(jp)); yv=yv+dble(VY(jp)); zv=zv+dble(VZ(jp))
+            nn=nn+1_8
+          endif
+          jp=Lst(jp)
+        enddo
+      enddo
+      enddo
+      enddo
+      if(nn>0_8)then
+        xMaxx(im)=real(modulo(dble(x)+xc/dble(nn),dble(Box)))
+        yMaxx(im)=real(modulo(dble(y)+yc/dble(nn),dble(Box)))
+        zMaxx(im)=real(modulo(dble(z)+zc/dble(nn),dble(Box)))
+        if(xMaxx(im)>=Box)xMaxx(im)=0.
+        if(yMaxx(im)>=Box)yMaxx(im)=0.
+        if(zMaxx(im)>=Box)zMaxx(im)=0.
+        VxMaxx(im)=real(xv/dble(nn)); VyMaxx(im)=real(yv/dble(nn)); VzMaxx(im)=real(zv/dble(nn))
+        Mvir(im)=real(dble(nn)*dble(MassOne)); Rvir(im)=Radius
+      else
+        ! An empty recentering aperture is not a valid mass estimate. Retain
+        ! the last position, but clear derived values instead of stale mass.
+        Mvir(im)=0.; Rvir(im)=0.
+        VxMaxx(im)=0.; VyMaxx(im)=0.; VzMaxx(im)=0.
+      endif
+    enddo
+  enddo
+  timeFinish=seconds()
+  write(13,'(10x,a,T50,2f10.2)') ' time for FindDistinctCandidates (secs) =',timeFinish-timeStart,timeFinish-t0
+end SUBROUTINE FindDistinctCandidates
 
 !---------------------------------------------------------------------------
 !                  
@@ -1213,188 +1590,119 @@ integer*8 :: ic,ip,jp
 !                  
 !                 
       SUBROUTINE FindMaxima
-!---------------------------------------------------------------------------
-  Integer*4, allocatable, dimension(:)  :: Mth
-  Real*4, allocatable, dimension(:,:)  :: Xxoff,xxMax,yyMax,zzMax
-  Integer*4 :: OMP_GET_NUM_THREADS, OMP_GET_THREAD_NUM,Nthreads
+      use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+      use omp_lib, only: omp_get_wtime
+      implicit none
+      integer*8, allocatable :: PlaneOffsets(:)
+      integer*8 :: plane_count
+      integer :: m1,m2,m3,slot
+      real :: xs,maximum_density,memory_usage
+      real*8 :: started,counted,finished
+      logical :: bad_density
 
-        tstart = seconds()
-        Om0 = Om                                    ! Set scales
-        SELECT CASE (iVirial)
-        CASE (0)
-           Ovdens   = 200./Om0*(Om0+(1.-Om0)*AEXPN**3) ! 200\rho_critical
-        CASE  (1)
-           Ovdens   = OverdenVir()                     ! virial overdensity
-        CASE  (2)
-           Ovdens   = 200.                             ! 200 matter overdens
-        CASE  (23)
-           Ovdens   = OverdenAbacus()                  ! Abacus overdens
-        end SELECT
+      started=omp_get_wtime()
+      call SetOverdensity
+      if (NGRID < 1) error stop 'BDM peak mesh size must be positive'
+      if (.not.allocated(FI)) error stop 'BDM peak density is not allocated'
+      if (any(shape(FI) /= NGRID)) error stop 'BDM peak density shape does not match NGRID'
+      write(*,'(a,i0,a,f12.4)') ' FindMaxima: particles=',Nparticles,', overdensity=',Ovdens
 
-!$OMP PARALLEL
-  Nthreads =OMP_GET_NUM_THREADS()
-!$OMP end parallel
-  write(*,*) ' Number of threads =',Nthreads
+      ! Two scans avoid a full-mesh flag array. Counts and prefix offsets are
+      ! per plane, independent of OpenMP scheduling and of the peak density.
+      allocate(PlaneOffsets(0:NGRID)); PlaneOffsets=0_8
+      maximum_density=0.; bad_density=.false.
+!$OMP PARALLEL DO DEFAULT(SHARED) SCHEDULE(STATIC) &
+!$OMP PRIVATE(m1,m2,m3,plane_count) REDUCTION(MAX:maximum_density) REDUCTION(.OR.:bad_density)
+      do m3=1,NGRID
+         plane_count=0_8
+         do m2=1,NGRID
+            do m1=1,NGRID
+               if (.not.ieee_is_finite(FI(m1,m2,m3))) then
+                  bad_density=.true.
+                  cycle
+               end if
+               maximum_density=max(maximum_density,FI(m1,m2,m3))
+               if (FI(m1,m2,m3) <= Ovdens/3.) cycle
+               if (IsDensityMaximum(m1,m2,m3)) plane_count=plane_count+1_8
+            end do
+         end do
+         PlaneOffsets(m3)=plane_count
+      end do
+      if (bad_density) error stop 'BDM density contains a nonfinite value'
+      do m3=1,NGRID
+         PlaneOffsets(m3)=PlaneOffsets(m3)+PlaneOffsets(m3-1)
+      end do
+      if (PlaneOffsets(NGRID) > int(huge(Nmaxima),8)) &
+         error stop 'BDM peak count exceeds supported integer range'
+      Nmaxima=int(PlaneOffsets(NGRID))
+      counted=omp_get_wtime()
+      write(*,'(a,g14.6,a,i0)') ' Maximum density=',maximum_density,', number of maxima=',Nmaxima
 
-           
-write(*,'(a,T40,i11,2f9.4)') ' Inside FindMaxima. Nparticles= ',Nparticles,Ovdens,Om0
-Dmaxim =0.
-!$OMP PARALLEL DO DEFAULT(SHARED) &         ! ------- find Maximum density
-!$OMP PRIVATE (M3,M2,M1) REDUCTION(MAX:Dmaxim)
-     DO M3=1,NGRID
-       DO M2=1,NGRID
-          DO M1=1,NGRID
-             Dmaxim =max(FI(M1,M2,M3),Dmaxim)
-          end DO
-       end DO
-    end DO
-    write(*,*) ' Maximum density =',Dmaxim
-    t0 = seconds()
-    write(*,*) ' time for Dmax  =',t0-tstart
-Nmaxima =0
-!$OMP PARALLEL DO DEFAULT(SHARED) &         ! ------- count how many maxima we have
-!$OMP PRIVATE (M3,M2,M1,M3p,M3m,M2p,M2m,M1p,M1m,iMax) REDUCTION(+:Nmaxima)
-DO M3=1,NGRID
-   M3p =M3+1 ; If(M3p>NGRID)M3p=M3p-NGRID
-   M3m =M3-1 ; If(M3m<1)M3m=M3m+NGRID
-       DO M2=1,NGRID
-          M2p =M2+1 ; If(M2p>NGRID)M2p=M2p-NGRID
-          M2m =M2-1 ; If(M2m<1)M2m=M2m+NGRID
-          DO M1=1,NGRID
-             M1p =M1+1 ; If(M1p>NGRID)M1p=M1p-NGRID
-             M1m =M1-1 ; If(M1m<1)M1m=M1m+NGRID
-             iMax = 1                   ! look for all 26 neighbors
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2m,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1 ,M2m,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2m,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1, M2,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2p,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1, M2p,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2p,M3m))iMax=0 
+      ! Zero-length allocations are intentional: BDM can publish an empty
+      ! catalogue and release these arrays without ending an inline simulation.
+      allocate(Mvir(Nmaxima),Rvir(Nmaxima),Xoff(Nmaxima))
+      allocate(xMaxx(Nmaxima),yMaxx(Nmaxima),zMaxx(Nmaxima))
+      allocate(VxMaxx(Nmaxima),VyMaxx(Nmaxima),VzMaxx(Nmaxima))
+      allocate(LstMax(Nmaxima),EpotM(Nmaxima),EkinM(Nmaxima),LambdaM(Nmaxima))
+      allocate(VmaxM(Nmaxima),RmaxM(Nmaxima),Mtotal(Nmaxima),RadRms(Nmaxima))
+      allocate(Xax(Nmaxima),Yax(Nmaxima),Zax(Nmaxima),Axba(Nmaxima),Axca(Nmaxima))
+      memory_usage=Memory(22_8*Nmaxima)
 
-                If(FI(M1,M2,M3).lt.FI(M1m,M2m,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1 ,M2m,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2m,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2p,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1, M2p,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2p,M3))iMax=0 
+      xs=Box/NGRID
+!$OMP PARALLEL DO DEFAULT(SHARED) SCHEDULE(STATIC) PRIVATE(m1,m2,m3,slot)
+      do m3=1,NGRID
+         slot=int(PlaneOffsets(m3-1))
+         do m2=1,NGRID
+            do m1=1,NGRID
+               if (FI(m1,m2,m3) <= Ovdens/3.) cycle
+               if (.not.IsDensityMaximum(m1,m2,m3)) cycle
+               slot=slot+1
+               Xoff(slot)=FI(m1,m2,m3)
+               xMaxx(slot)=(m1-1)*xs
+               yMaxx(slot)=(m2-1)*xs
+               zMaxx(slot)=(m3-1)*xs
+            end do
+         end do
+         if (int(slot,8) /= PlaneOffsets(m3)) error stop 'BDM peak count changed between scans'
+      end do
+      deallocate(PlaneOffsets)
+      finished=omp_get_wtime()
+      write(*,'(a,i0,a,i0)') ' Maxima above overdensity=',count(Xoff >= Ovdens), &
+                           ', maxima above 300=',count(Xoff > 300.)
+      write(13,'(10x,a,2f10.3)') 'time for FindMaxima: count/list =',counted-started,finished-counted
+      write(*,'(10x,a,2f10.3)') 'time for FindMaxima: count/list =',counted-started,finished-counted
+      end SUBROUTINE FindMaxima
 
-                If(FI(M1,M2,M3).lt.FI(M1m,M2m,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1 ,M2m,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2m,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1, M2,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2p,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1, M2p,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2p,M3p))iMax=0 
-         If(iMax==1.and.FI(M1,M2,M3)>Ovdens/3.)Then
-            Nmaxima = Nmaxima +1
-            FI(M1,M2,M3) = FI(M1,M2,M3) +Dmaxim+1.  ! assign large number to the maximum
-         end If
-	  END DO
-       END DO
-    END DO
-    t1 = seconds()
-    write(*,*) ' time for Find Max    =',t1-t0
-    write(*,*) ' FindMaxima: 1 finished: Nmaxima= ',Nmaxima
-    
-    Nbuff = Nmaxima/Nthreads *5  ! length of the buffer
-    Allocate(Mth(Nbuff),xxMax(Nbuff,Nthreads),yyMax(Nbuff,Nthreads),zzMax(Nbuff,Nthreads))
-    Allocate(Xxoff(Nbuff,Nthreads))
-      if(Nmaxima == 0)Stop ' No density maxima found'
-             ALLOCATE (Mvir(Nmaxima),Rvir(Nmaxima),Xoff(Nmaxima))
-             myMemory =Memory(3_8*Nmaxima )
-             ALLOCATE (xMaxx(Nmaxima),yMaxx(Nmaxima),zMaxx(Nmaxima))
-             myMemory =Memory(3_8*Nmaxima )
-             ALLOCATE (VxMaxx(Nmaxima),VyMaxx(Nmaxima),VzMaxx(Nmaxima))
-             myMemory =Memory(3_8*Nmaxima )
-             ALLOCATE(LstMax(Nmaxima),EpotM(Nmaxima),EkinM(Nmaxima),LambdaM(Nmaxima))
-             myMemory =Memory(4_8*Nmaxima )
-             ALLOCATE(VmaxM(Nmaxima),RmaxM(Nmaxima),Mtotal(Nmaxima),RadRms(Nmaxima))
-             myMemory =Memory(4_8*Nmaxima )
-             ALLOCATE(Xax(Nmaxima),Yax(Nmaxima),Zax(Nmaxima))
-             myMemory =Memory(3_8*Nmaxima )
-             ALLOCATE(Axba(Nmaxima),Axca(Nmaxima))
-             myMemory =Memory(2_8*Nmaxima )
-            
-    Nmaxx =0
-    xs     = Box/NGRID
-    Mth(:) = 0
-    Mm     = 1
-!$OMP PARALLEL DO PRIVATE(M1,M2,M3,Mthread) Firstprivate(Mm) 
-    DO M3=1,NGRID          !--- make list of maxima
-       DO M2=1,NGRID
-          DO M1=1,NGRID
-             If(FI(M1,M2,M3)>Dmaxim+1.)Then
-                Mthread       = OMP_GET_THREAD_NUM()+1
-                Mth(Mthread)  = Mm
-                If(Mm>Nbuff)Then
-                  write(*,'(3i6,i11,i4)') M1,M2,M3,Mm,Mthread
-                  Stop ' Too many elements for buffer XX'
-                end If
-                xxMax(Mm,Mthread) = (M1-1)*xs 
-                yyMax(Mm,Mthread) = (M2-1)*xs 
-                zzMax(Mm,Mthread) = (M3-1)*xs
-                Xxoff(Mm,Mthread)  = FI(M1,M2,M3) -Dmaxim-1.
-                Mm = Mm +1
-             end If
-          end DO
-       end DO
-    end DO
-  M = 0
-  Do i=1,Nthreads
-     M = M + Mth(i)
-  end Do
-  write(*,*) ' Elements on all buffers =',M,Nmaxima
-  i = 0
-  Do Mthread=1,Nthreads
-     Mnow = Mth(Mthread)
-     Do j = 1,Mnow
-        Xoff(j+i) = Xxoff(j,Mthread)
-        xMaxx(j+i) = xxMax(j,Mthread)
-        yMaxx(j+i) = yyMax(j,Mthread)
-        zMaxx(j+i) = zzMax(j,Mthread)
-     End Do
-     i = i+ Mnow
-  end Do
-  Deallocate(Xxoff,Mth,xxMax,yyMax,zzMax)
-  
-
-    t2 = seconds()
-    iOverdens  = 0
-    i300 = 0; i400 =0; i500 = 0; i600 =0; i700 =0
-    write(*,*) ' time for List Max    =',t2-t1
-                       !--- statistics of maxima
-       Do i=1,Nmaxima
-          If(Xoff(i) .ge. Ovdens)iOverdens = iOverdens +1
-          If(Xoff(i)>300.)Then
-                i300 = i300 +1
-             if(Xoff(i)>400.)Then
-                i400 = i400 +1
-             if(Xoff(i)>500.)Then
-                i500 = i500 +1
-             if(Xoff(i)>600.)Then
-                i600 = i600 +1
-                if(Xoff(i)>700.)Then
-                  i700 = i700 +1
-                End if
-             end if
-             end if
-             end if
-          end If
-          enddo
-          write(*,'(a,i8,/a,i9,5(a,i8))') ' Number of maxima:',Nmaxima, &
-               ' Above Overdensity =',iOverdens, &
-               ' Above: 300 =',i300,' 400 =',i400,' 500 =',i500,' 600 =',i600,' 700 =',i700
-       tfinish = seconds()
-      write(13,'(10x,a,T50,2f10.2)') ' time for FindMaxima(secs) =',tfinish-tstart,tfinish-t0
-      write(*,'(10x,a,T50,2f10.2)') ' time for FindMaxima(secs) =',tfinish-tstart,tfinish-t0
-    end SUBROUTINE FindMaxima
+      pure logical function IsDensityMaximum(m1,m2,m3) result(selected)
+      implicit none
+      integer, intent(in) :: m1,m2,m3
+      integer :: a,b,c,i,j,k,ix(3),iy(3),iz(3)
+      integer*8 :: here,neighbour
+      real :: density
+      ! Immutable density and a total (z,y,x) index order break equal-density
+      ! neighbour ties deterministically, including across periodic boundaries.
+      ! This is a local 26-neighbour rule, not a watershed/connected-plateau fit.
+      selected=.false.
+      density=FI(m1,m2,m3)
+      here=int(m1-1,8)+int(NGRID,8)*(int(m2-1,8)+int(NGRID,8)*int(m3-1,8))
+      ix=[modulo(m1-2,NGRID)+1,m1,modulo(m1,NGRID)+1]
+      iy=[modulo(m2-2,NGRID)+1,m2,modulo(m2,NGRID)+1]
+      iz=[modulo(m3-2,NGRID)+1,m3,modulo(m3,NGRID)+1]
+      do c=1,3
+         k=iz(c)
+         do b=1,3
+            j=iy(b)
+            do a=1,3
+               i=ix(a)
+               neighbour=int(i-1,8)+int(NGRID,8)*(int(j-1,8)+int(NGRID,8)*int(k-1,8))
+               if (neighbour == here) cycle
+               if (FI(i,j,k) > density) return
+               if (FI(i,j,k) == density.and.neighbour < here) return
+            end do
+         end do
+      end do
+      selected=.true.
+      end function IsDensityMaximum
 !---------------------------------------------------------------------------
 !                     Define size and boundaries of linked-list
       SUBROUTINE SizeListMaxima
@@ -1417,90 +1725,97 @@ DO M3=1,NGRID
     end SUBROUTINE SizeListMaxima
 !---------------------------------------------------------------------------
 !                     Define size and boundaries of linked-list
-      SUBROUTINE SizeList
-!---------------------------------------------------------------------------
-      Real*4 ::  MemList,MemMaxList,  &
-                       fractionMemory  = 0.90  ! fraction of memory allocated to Lists
 
-      !Roptimal         = (Nne*MassOne/(Om0*Ovdens))**(1./3.)*9.50e-5  ! Mpch inits
-      !Roptimal         = max(Roptimal,Box/NROW) * 1.2
+SUBROUTINE PrepareParticleSearch
+  implicit none
+  real :: halfBox
+  if(Box<=0..or.NGRID<=0)error stop 'Invalid BDM periodic box or mesh'
+  ! Cell controls physical searches as well as the list geometry. It must not
+  ! change after periodic images have been prepared to cover those searches.
+  Cell=2.*(Box/NGRID)
+  halfBox=nearest(0.5*Box,-1.)
+  HaloSearchRadius=min(15.*Cell,halfBox)
+  ParticleSearchRadius=min(HaloSearchRadius+0.75*(Box/NGRID),halfBox)
+  ! No supported spherical query needs a wider ghost layer than half a box.
+  ! This also makes the legacy five-Mpc default valid in very small boxes.
+  dBuffer=min(max(dBuffer,ParticleSearchRadius),halfBox)
+  Xleft=0.; Xright=Box; Yleft=0.; Yright=Box; Zleft=0.; Zright=Box
+end SUBROUTINE PrepareParticleSearch
 
-      MemMaxList  = (MaxMemory - TotalMemory-12.*Np/1024.**3)*fractionMemory
-      If(MemMaxList<0.1)Then
-
-              STOP ' Stop: Not enough memory !!!'
-      End If
-      Cell                  = (Box/NGRID*2.)  !Roptimal
-      k    = 0
-      write(13,'(2(a,g12.4))') '    SizeList: Roptimal=',Cell,' Allowed Memory=',MemMaxList
-      Do  
-         Nmx         = (Xleft  -dBuffer)/Cell - 1
-         Nmy         = (Yleft  -dBuffer)/Cell - 1
-         Nmz         = (Zleft  -dBuffer)/Cell - 1
-         Nbx         = (Xright +dBuffer)/Cell + 1
-         Nby         = (Yright +dBuffer)/Cell + 1
-         Nbz         = (Zright +dBuffer)/Cell + 1
-         MemList  =  (3.*4.*float(Nbx-Nmx+1)*float(Nby-Nmy+1)*float(Nbz-Nmz+1))/1024.**3
-         If(MemList < MemMaxList)Exit
-         k = k+1
-         Cell  = Cell *1.1
-         If(k > 100)STOP ' Stop: too many iterations in SizeList'
-      EndDo
-      write(13,'(a,g12.3,a,6i6)') '     Size List:  Cell=',Cell, &
-                          ' Limits=',Nmx,Nbx,Nmy,Nby,Nmz,Nbz
-
-    end SUBROUTINE SizeList
+SUBROUTINE SizeList
+  implicit none
+  integer*8 :: cellCount,listBytes
+  real*8 :: requiredGiB
+  call PrepareParticleSearch
+  Nmx=floor((Xleft-dBuffer)/Cell)-1; Nbx=ceiling((Xright+dBuffer)/Cell)+1
+  Nmy=floor((Yleft-dBuffer)/Cell)-1; Nby=ceiling((Yright+dBuffer)/Cell)+1
+  Nmz=floor((Zleft-dBuffer)/Cell)-1; Nbz=ceiling((Zright+dBuffer)/Cell)+1
+  cellCount=(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)
+  listBytes=8_8*(Np+cellCount)
+  requiredGiB=dble(listBytes)/1024.d0**3
+  ! Exact int64 storage estimate. Do not coarsen physical Cell to satisfy an
+  ! unrelated allocation estimate; reject insufficient memory explicitly.
+  if(requiredGiB+dble(Memory(0_8))>dble(MaxMemory)) &
+    error stop 'BDM linked-list allocation exceeds configured memory limit'
+  write(13,'(a,g12.3,a,6i6,a,f10.4)') ' Size List: Cell=',Cell, &
+       ' Limits=',Nmx,Nbx,Nmy,Nby,Nmz,Nbz,' int64 storage GiB=',requiredGiB
+end SUBROUTINE SizeList
 !--------------------------------------------------------------
 !                          Make linker lists of particles in each cell
-      SUBROUTINE List
-!--------------------------------------------------------------
-        Integer*8 :: Nm,N0,N1,N2,N3,iMax,jp
-        Integer*4  :: Ndiv(0:1000)
-        Integer*4 :: OMP_GET_NUM_THREADS, OMP_GET_THREAD_NUM,Nthreads
 
-!$OMP PARALLEL
-        Nthreads =OMP_GET_NUM_THREADS()
-!$OMP end parallel
-        Nsplit = Nthreads  
-        d = (Nbx-Nmx)/float(Nsplit)    !--- parallelization setup
-        Do i=0,Nsplit
-           Ndiv(i) =  Floor(d*i+Nmx+0.5)
-        End Do
-        Ndiv(Nsplit) = Nbx+1
-        t0 =seconds()
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (i)
-             Do jp=1,Np
-                Lst(jp)=-1
-             EndDo
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (i,j,k)
-             Do k=Nmz,Nbz
-             Do j=Nmy,Nby
-             Do i=Nmx,Nbx
-                Label(i,j,k)=0
-             EndDo
-             EndDo
-          EndDo
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (jp,i,j,k,Isplit)
-    Do Isplit =1,Nsplit
-      Do jp=1,Np
-         i=Ceiling(Xpar(jp)/Cell)-1
-         j=Ceiling(Ypar(jp)/Cell)-1
-         k=Ceiling(Zpar(jp)/Cell)-1
-         i=MIN(MAX(Nmx,i),Nbx)
-         j=MIN(MAX(Nmy,j),Nby)
-         k=MIN(MAX(Nmz,k),Nbz)
-         If(k.ge.Ndiv(Isplit-1).and.k.lt.Ndiv(Isplit))Then
-            Lst(jp)      = Label(i,j,k)
-            Label(i,j,k) = jp
-         End If
-      EndDo
-   end Do
-      t1 = seconds()
-      write(*,*) ' time to make list  =',t1-t0
-    end SUBROUTINE List
+SUBROUTINE List
+  use omp_lib, only: omp_get_max_threads,omp_get_num_threads,omp_get_thread_num
+  implicit none
+  integer*8 :: jp,planeCount
+  integer :: i,j,k,thread,threads,lo,hi
+  real :: timeStart,timeFinish
+
+  timeStart=seconds()
+  if(omp_get_max_threads()==1.or.Np<10000_8)then
+    Label=0_8
+    do jp=1,Np
+      i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)
+      j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)
+      k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)
+      Lst(jp)=Label(i,j,k)
+      Label(i,j,k)=jp
+    enddo
+  else
+    planeCount=Nbz-Nmz+1_8
+!$OMP PARALLEL DEFAULT(SHARED) PRIVATE(thread,threads,lo,hi,jp,i,j,k)
+    thread=omp_get_thread_num()
+    threads=omp_get_num_threads()
+    ! Partition the z bounds, not the x bounds. Each cell has one writer, and
+    ! ascending particle traversal gives identical descending row-ID links at
+    ! every thread count. Thread counts are local, avoiding a shared write race.
+    lo=Nmz+int(planeCount*thread/threads)
+    hi=Nmz+int(planeCount*(thread+1_8)/threads)-1
+!$OMP DO COLLAPSE(3)
+    do k=Nmz,Nbz
+    do j=Nmy,Nby
+    do i=Nmx,Nbx
+      Label(i,j,k)=0_8
+    enddo
+    enddo
+    enddo
+!$OMP END DO
+    if(lo<=hi)then
+      do jp=1,Np
+        k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)
+        if(k<lo.or.k>hi)cycle
+        ! The complete z scan remains O(T*Np). Compute the other two indices
+        ! only for this slab, avoiding repeated x/y reads and cell arithmetic.
+        i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)
+        j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)
+        Lst(jp)=Label(i,j,k)
+        Label(i,j,k)=jp
+      enddo
+    endif
+!$OMP END PARALLEL
+  endif
+  timeFinish=seconds()
+  write(*,*) ' time to make list =',timeFinish-timeStart
+end SUBROUTINE List
 !--------------------------------------------------------------
 !                          Make linker lists of maxima in each cell
       SUBROUTINE ListMaxima
@@ -1523,9 +1838,9 @@ DO M3=1,NGRID
              EndDo
           EndDo       
       Do jp=1,Nmaxima
-         i=Ceiling(Xmaxx(jp)/Cell)-1
-         j=Ceiling(Ymaxx(jp)/Cell)-1
-         k=Ceiling(Zmaxx(jp)/Cell)-1
+         i=Ceiling(dble(Xmaxx(jp))/dble(Cell))-1
+         j=Ceiling(dble(Ymaxx(jp))/dble(Cell))-1
+         k=Ceiling(dble(Zmaxx(jp))/dble(Cell))-1
          i=MIN(MAX(Nmx,i),Nbx)
          j=MIN(MAX(Nmy,j),Nby)
          k=MIN(MAX(Nmz,k),Nbz)
@@ -1544,78 +1859,69 @@ DO M3=1,NGRID
 !                        then use Trace(A) = sum(eigenvalues) and
 !                                          product of eigenvalues = det(A)
 !                        to get other two eigenvalues
+
   SUBROUTINE EigenValues(A,x,EigVal)
-    Integer*4, Parameter :: Nmax =200
-    Real*8, Parameter :: error =2.d-7
-    Real*4  :: EigVal(3),x(3)
-    Real*8 :: A(3,3),xx(3),y(3),Eig,EigNew,a1,b1,Trace,detA,x1,x2
-    Integer*4 :: ind(3)
-    xx       = 1.     ! initial guess
-    Eig    = 0.
-    Do kstep=1,Nmax
-       y            = MATMUL(A,xx)
-       EigNew = max(y(1),y(2),y(3))
-       xx     = y/EigNew
-       !write(13,'(10x,i4,1p,2g13.5,3x,4g13.5)')kstep,EigNew,Eig,xx
-       If(abs(EigNew-Eig)< error*abs(EigNew))exit
-       Eig = EigNew
-    End Do
-    Eig = EigNew
-    Trace  = A(1,1) +A(2,2) +A(3,3)
-    detA    = A(1,1)*(A(2,2)*A(3,3)-A(2,3)*A(3,2))        &
-                   -A(1,2)*(A(2,1)*A(3,3)-A(2,3)*A(3,1))        &
-                   +A(1,3)*(A(2,1)*A(3,2)-A(2,2)*A(3,1))
-                                        ! solve quadratic equation for other eigenvalues
-    a1 = (Trace-Eig)/2.
-    b1 =  detA/Eig
-    d = sqrt(max(a1**2-b1,1.d-20))
-    x1 = a1 + d
-    x2 = a1 - d
-    !EigVal(1) = max(Eig,x1,x2)
-    !EigVal(3) = min(Eig,x1,x2)
-    EigVal = -1.e30
-    ind = 0
-    If(Eig.ge.x1.and.Eig.ge.x2)Then ! Eig is the max
-       EigVal(1) = Eig
-       If(x1.ge.x2)Then
-          EigVal(2) = x1
-          EigVal(3) = x2
-       Else
-          EigVal(2) = x2
-          EigVal(3) = x1
-       EndIf
-    Else  If(x1.ge.x2)Then          ! x1 is max
-       EigVal(1) = x1
-       If(Eig.ge.x2)Then
-          EigVal(2) = Eig
-          EigVal(3) = x2
-       Else
-          EigVal(2) = x2
-          EigVal(3) = Eig
-       EndIf
-    Else                           ! x2 is max
-       EigVal(1) = x2
-       If(Eig.ge.x1)Then
-          EigVal(2) = Eig
-          EigVal(3) = x1
-       Else
-          EigVal(2) = x1
-          EigVal(3) = Eig
-       EndIf
-    End If
-
-
-!    If(EigVal(2)>EigVal(1).or.EigVal(3)>EigVal(2))Then
-!          write(13,'(/5x,1p,10g13.5)')Trace,detA,a1,b1,x1,x2,EigVal
-!          write(13,'(1p,3g12.4)') A
-!          write(13,'(a,1p,g13.5)') '   Sum  =',EigVal(1)+EigVal(2)+EigVal(3)
-!          write(13,'(a,1p,g13.5)') '   Prod =',EigVal(1)*EigVal(2)*EigVal(3)
-!          write(13,'(a,1p,2g13.5)') '   Iter =',EigNew-Eig,Eig
-!          write(13,'(10x,3i3)') ind
-!    EndIf
-    x               = xx
-    d               = sqrt(SUM(x**2))
-    x      =  x/d
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+    implicit none
+    real*8,intent(in) :: A(3,3)
+    real*4,intent(out) :: EigVal(3),x(3)
+    real*8 :: matrix(3,3),vectors(3,3),column(3),scale,off,angle,c,s,app,aqq,apq,u,v,value
+    integer :: iteration,p,q,i,j,major,sign_component
+    integer :: permutation(3),temporary
+    if(.not.all(ieee_is_finite(A)))error stop 'BDM shape tensor is nonfinite'
+    scale=maxval(abs(A))
+    EigVal=0.;x=[1.,0.,0.]
+    if(scale==0.d0)return
+    matrix=0.5d0*(A/scale+transpose(A)/scale)
+    vectors=0.d0
+    do i=1,3
+      vectors(i,i)=1.d0
+    enddo
+    ! Max-pivot Jacobi rotations preserve the eigenvector/eigenvalue pairing.
+    ! Scaling and atan2 avoid both a fixed-seed failure and large tau overflow.
+    do iteration=1,64
+      p=1;q=2;off=abs(matrix(1,2))
+      if(abs(matrix(1,3))>off)then
+        p=1;q=3;off=abs(matrix(1,3))
+      endif
+      if(abs(matrix(2,3))>off)then
+        p=2;q=3;off=abs(matrix(2,3))
+      endif
+      if(off<=16.d0*epsilon(1.d0))exit
+      app=matrix(p,p);aqq=matrix(q,q);apq=matrix(p,q)
+      angle=0.5d0*atan2(2.d0*apq,aqq-app)
+      c=cos(angle);s=sin(angle)
+      do i=1,3
+        if(i==p.or.i==q)cycle
+        u=matrix(i,p);v=matrix(i,q)
+        matrix(i,p)=c*u-s*v;matrix(p,i)=matrix(i,p)
+        matrix(i,q)=s*u+c*v;matrix(q,i)=matrix(i,q)
+      enddo
+      matrix(p,p)=c*c*app-2.d0*c*s*apq+s*s*aqq
+      matrix(q,q)=s*s*app+2.d0*c*s*apq+c*c*aqq
+      matrix(p,q)=0.d0;matrix(q,p)=0.d0
+      column=vectors(:,p)
+      vectors(:,p)=c*column-s*vectors(:,q)
+      vectors(:,q)=s*column+c*vectors(:,q)
+    enddo
+    if(iteration>64)error stop 'BDM shape eigensolver failed to converge'
+    permutation=[1,2,3]
+    do i=1,2
+      do j=i+1,3
+        if(matrix(permutation(j),permutation(j))>matrix(permutation(i),permutation(i)))then
+          temporary=permutation(i);permutation(i)=permutation(j);permutation(j)=temporary
+        endif
+      enddo
+    enddo
+    do i=1,3
+      value=matrix(permutation(i),permutation(i))*scale
+      if(abs(value)>dble(huge(EigVal)))error stop 'BDM shape eigenvalue is not representable'
+      EigVal(i)=real(value,4)
+    enddo
+    major=permutation(1)
+    sign_component=maxloc(abs(vectors(:,major)),dim=1)
+    if(vectors(sign_component,major)<0.d0)vectors(:,major)=-vectors(:,major)
+    x=real(vectors(:,major),4)
   end SUBROUTINE EigenValues
 
 !--------------------------------------------------------------
@@ -1623,49 +1929,52 @@ DO M3=1,NGRID
 !           Find halo concentration using M,R, and Vmax
 !                 M - in Msunh, R - comoving kpch
 !                 Vmax = in km/s
-      real function Concentration(aM,aR,Vmax)
-!     ------------------------
-!
-        Real*8, parameter :: d0 =1.d0, dCmin =3.d-5, C0= 2.162d0
-        Real*8 :: M,V,R,A,C,Fc,Vvir,Vratio,dC 
 
-        If(aM<1.e-6.or.aR<1.e-6.or.Vmax <1.e-6)Then
-           Concentration = 0. ; return
-        End If
-        Vvir = 2.076d-3*sqrt(aM/(aR*AEXPN))
-        Vratio = Vmax/Vvir
-        If(Vratio<1.)Then
-           Concentration = -1.
-        Else
-           dC = 2.
-           C= 2.*C0
-           A  = Vratio**2
-           !N = 0
-           Do while (abs(dC)>dCmin)
-              Fc = 0.2162166_8/(log(1.d0+C)/C -1.d0/(1.d0+C))
-              If(Fc.gt.A.and.C.ge.C0)Then
-                 dC = dC/2.d0
-                 C = C - dC
-              Else
-                 C = C + dC
-              EndIf
-              !N = N +1
-              !write(*,'(i6,1p,4G13.6)')N,C,dC,Fc,A
-           End Do
-           Concentration = C
-        End If
-      End function Concentration
+      real function Concentration(aM,aR,Vmax)
+        use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+        implicit none
+        real*4,intent(in) :: aM,aR,Vmax
+        real*8,parameter :: C0=2.162581587d0,Gkpc=4.333d-6
+        real*8 :: normalization,target,virial2,lo,hi,mid,c,predicted
+        integer :: iteration
+        Concentration=0.
+        if(.not.all(ieee_is_finite([aM,aR,Vmax,AEXPN])))return
+        if(aM<=0..or.aR<=0..or.Vmax<=0..or.AEXPN<=0.)return
+        virial2=Gkpc*dble(aM)/(dble(aR)*dble(AEXPN))
+        target=dble(Vmax)**2/virial2
+        if(target<1.d0)then
+          Concentration=-1.;return
+        endif
+        normalization=(log(1.d0+C0)-C0/(1.d0+C0))/C0
+        lo=log(C0);hi=log(dble(huge(Concentration)))
+        c=exp(hi)
+        predicted=normalization*c/(log(1.d0+c)-c/(1.d0+c))
+        if(target>predicted)return
+        ! Invert only the monotonic c >= 2.16258 NFW branch, with a finite
+        ! logarithmic bracket and bounded iterations even for invalid inputs.
+        do iteration=1,80
+          mid=0.5d0*(lo+hi);c=exp(mid)
+          predicted=normalization*c/(log(1.d0+c)-c/(1.d0+c))
+          if(predicted>target)then
+            hi=mid
+          else
+            lo=mid
+          endif
+          if(hi-lo<=1.d-12)exit
+        enddo
+        Concentration=real(exp(0.5d0*(lo+hi)),4)
+      end function Concentration
 
 !---------------------------------------------------------------------------
 !              find limits for the linker-list search
       SUBROUTINE Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
 !----------------------------------------------------------------------------
-           i2=Ceiling((x+Radius)/Cell)-1  
-           j2=Ceiling((y+Radius)/Cell)-1  
-           k2=Ceiling((z+Radius)/Cell)-1 
-           i1=Ceiling((x-Radius)/Cell)-1  
-           j1=Ceiling((y-Radius)/Cell)-1  
-           k1=Ceiling((z-Radius)/Cell)-1 
+           i2=Ceiling((dble(x)+dble(Radius))/dble(Cell))-1
+           j2=Ceiling((dble(y)+dble(Radius))/dble(Cell))-1
+           k2=Ceiling((dble(z)+dble(Radius))/dble(Cell))-1
+           i1=Ceiling((dble(x)-dble(Radius))/dble(Cell))-1
+           j1=Ceiling((dble(y)-dble(Radius))/dble(Cell))-1
+           k1=Ceiling((dble(z)-dble(Radius))/dble(Cell))-1
  
             i1=MIN(MAX(Nmx,i1),Nbx) 
             j1=MIN(MAX(Nmy,j1),Nby)
@@ -1681,6 +1990,10 @@ DO M3=1,NGRID
 !                          allocate arrays
 !
       Subroutine SetParameters
+     use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+     implicit none
+     real :: Xscale,Vscale,Dscale
+     integer :: kf,kfile
 
      Integer*4          :: jstep
      Integer            :: FileList(3)=(/12,20,30/)
@@ -1691,22 +2004,17 @@ DO M3=1,NGRID
      Character*10       :: sxt1,sxt2,sxt3,sxt4
 
            
-           Om0 = Om                                    ! Set scales
+           call ValidateParameters
+           call SetOverdensity
+           if (.not.ieee_is_finite(Box)) call ConfigurationError(0,'box size must be finite')
+           if (Box <= 0..or.NGRID <= 0.or.NROW <= 0) &
+              call ConfigurationError(0,'box, mesh size and particle-grid size must be positive')
            Xscale = Box/NGRID                 ! Scale for comoving coordinates
            Vscale = 100.*Xscale/AEXPN          ! Scale for velocities
            Dscale = 2.774e+11*(Box/NROW)**3    ! mass scale
            MassOne= Om0*Dscale                ! mass of the smallest particle
 
-        SELECT CASE (iVirial)
-        CASE (0)
-           Ovdens   = 200./Om0*(Om0+(1.-Om0)*AEXPN**3) ! 200\rho_critical
-        CASE  (1)
-           Ovdens   = OverdenVir()                     ! virial overdensity
-        CASE  (2)
-           Ovdens   = 200.                             ! 200 matter overdens
-        CASE  (3)
-           Ovdens   = OverdenAbacus()                 ! Abacus overdens
-        end SELECT
+
            Xleft = 0. ; Xright = Box
            Yleft = 0. ; Yright = Box
            Zleft = 0. ; Zright = Box
@@ -1732,7 +2040,7 @@ DO M3=1,NGRID
                       sxt2 =' Omega_L='
                       sxt3 =' hubble ='
                       txt4 =' buffer width (Mpch) ='
-                 WRITE (kfile) sxt1,Om0,sxt2,1.-Om0,sxt3,hubble,txt4,dBuffer 
+                 WRITE (kfile) sxt1,Om0,sxt2,OmL,sxt3,hubble,txt4,dBuffer
                      txt1= ' Number of radial bins                ='
                  WRITE (kfile) txt1,NradP
                      txt1= ' Mass of smallest particle (Msunh)    ='
@@ -1748,7 +2056,7 @@ DO M3=1,NGRID
                  Txt6 ='  b/a  c/a MajorAxis:  x      y      z'   
                  WRITE (kfile) txt1,txt2b,txt3,txt4,txt5,txt6
                Else
-                 WRITE (kfile,'(a)') HEADER
+                 WRITE (kfile,'(a)') trim(HEADER)//' [BDM finder v2]'
                       sxt1 =' A    ='
                       sxt2 =' Step ='
                  WRITE (kfile,'(2(a,f8.5))') sxt1,AEXPN,sxt2,ASTEP 
@@ -1760,7 +2068,7 @@ DO M3=1,NGRID
                       sxt2 =' Omega_L='
                       sxt3 =' hubble ='
                       txt4 =' buffer width (Mpch) ='
-                 WRITE (kfile,'(6(a,f8.4))') sxt1,Om0,sxt2,Oml0,sxt3,hubble,txt4,dBuffer 
+                 WRITE (kfile,'(6(a,f8.4))') sxt1,Om0,sxt2,OmL,sxt3,hubble,txt4,dBuffer
                      txt1= ' Number of radial bins                ='
                  WRITE (kfile,'(a,i4)') txt1,NradP
                      txt1= ' Mass of smallest particle (Msunh)    ='
@@ -1809,200 +2117,108 @@ DO M3=1,NGRID
 !           -- 
 !           -- 
 !           -- move coordinates to new arrays
-    
-    Subroutine AddBuffer
 
-     Integer*4          :: jstep
-     Integer            :: FileList(3)=(/12,20,30/)
-     Real*4,       ALLOCATABLE,   DIMENSION(:) ::               &
-                     Xbb,   Ybb,  Zbb,       &   !   coords
-                     VXbb, VYbb, Vzbb            !    velocities
-     Integer*8 :: idummy,ic,ip,iPartMax,i
+SUBROUTINE AddBuffer
+  use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+  implicit none
+  real, allocatable :: Xbb(:),Ybb(:),Zbb(:),VXbb(:),VYbb(:),VZbb(:)
+  integer*8, allocatable :: imageEnd(:)
+  integer*8 :: ic,ip,originalCount,imageCount,iPartMax,nx,ny,nz
+  integer :: ilo,ihi,jlo,jhi,klo,khi,i,j,k
+  real :: memoryUsed
+  real*8 :: xx,yy,zz,box64,width64
+  logical :: invalid
 
-     Factor   = (1.+4.*dBuffer/Box)**3
-     iPartMax = Factor*Np               ! reserve extra space for total N particles
-     Nparticles  = Np                   ! old number of particles
-     write(*,*) ' Allocate buffers for particles. N=',iPartMax
-     myMemory= Memory(6_8*iPartMax)
-       ALLOCATE(Xbb(iPartMax),Ybb(iPartMax),Zbb(iPartMax))
-       ALLOCATE(VXbb(iPartMax),VYbb(iPartMax),VZbb(iPartMax))
-           Xleft = 0. ; Xright = Box
-           Yleft = 0. ; Yright = Box
-           Zleft = 0. ; Zright = Box
-
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic)
-       Do ic=1,iPartMax
-          VXbb(ic)= 0.
-          VYbb(ic)= 0.
-          VZbb(ic)= 0.
-          Xbb(ic)= 0.
-          Ybb(ic)= 0.
-          Zbb(ic)= 0.          
-       End Do
-       
-       ip = 0
-       Xl = Xleft  -dBuffer ; Xr = Xright +dBuffer
-       Yl = Yleft  -dBuffer ; Yr = Yright +dBuffer
-       Zl = Zleft  -dBuffer ; Zr = Zright +dBuffer
-       write(*,*) '    Replicate coordinates'
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic,xx,yy,zz)
-       Do ic=1,Np
-          !xx = Xp(ic) ; yy =Yp(ic) ; zz =Zp(ic)
-          !Xb(ic)  =xx ; Yb(ic) = yy ; Zb(ic) = zz
-          Xbb(ic)= Xpar(ic)
-          Ybb(ic)= Ypar(ic)
-          Zbb(ic)= Zpar(ic)
-       End Do
-       write(*,*) '    Replicate velocities'
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic,xx,yy,zz)
-       Do ic=1,Np
-          VXbb(ic)= VX(ic)
-          VYbb(ic)= VY(ic)
-          VZbb(ic)= VZ(ic)
-       End Do
-              write(*,*) '    add buffer'
-
-       ip = Np
-!!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic,xx,yy,zz,x,y,z,k,j,i)       
-       Do ic=1,Np
-          xx = Xpar(ic) ; yy =Ypar(ic) ; zz =Zpar(ic)
-          do k = -1,1
-             z = zz+k*Box
-             if(z<Zl.or.z>Zr)cycle
-               do j = -1,1
-                 y = yy+j*Box
-                 if(y<Yl.or.y>Yr)cycle
-                   do i = -1,1
-                      x = xx+i*Box
-                      if(x<Xl.or.x>Xr)cycle
-                      if((x<Xleft.or.x>Xright) .or.    &
-                           (y<Yleft.or.y>Yright) .or.    &
-                           (z<Zleft.or.z>Zright))Then
-                      ip = ip +1
-                      If(ip>iPartMax)Stop ' Too many buffer particles. Increase Factor in AddBuffer'
-                      Xbb(ip) = x
-                      Ybb(ip) = y
-                      Zbb(ip) = z 
-                      VXbb(ip)= VX(ic)
-                      VYbb(ip)= VY(ic)
-                      VZbb(ip)= VZ(ic)
-                   end if
-                  end do
-              end do
-           end do
-        end Do
-      write(*,*) ' New number of particles = ',ip
-      myMemory=Memory(-6_8*Np)  
-      DEALLOCATE(Xpar,Ypar,Zpar)  
-      DEALLOCATE(VX,VY,VZ)
-      Np = ip
-      Nparticles = Np
-      myMemory=Memory(6_8*Np)  
-      ALLOCATE(Xpar(Np),Ypar(Np),Zpar(Np))  
-      ALLOCATE(VX(Np),VY(Np),VZ(Np))  
-
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ip)
-      Do ip =1,Np
-         Xpar(ip) = Xbb(ip) ; Ypar(ip) = Ybb(ip) ; Zpar(ip) = Zbb(ip)
-         VX(ip)= VXbb(ip); VY(ip)= VYbb(ip); VZ(ip)= VZbb(ip)
-      EndDo
-      myMemory= Memory(-6_8*iPartMax)  
-      DEALLOCATE(Xbb,Ybb,Zbb)  
-      DEALLOCATE(VXbb,VYbb,VZbb)
-
-
-      xmin = 1.e12; xmax = -1.e12
-      ymin = 1.e12; ymax = -1.e12
-      zmin = 1.e12; zmax = -1.e12
-
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ip)  &
-!$OMP REDUCTION(MAX:xmax,ymax,zmax) REDUCTION(MIN:xmin,ymin,zmin) 
-           Do ip =1,Np
-              xmin =MIN(xmin,Xpar(ip))
-              ymin =MIN(ymin,Ypar(ip))
-              zmin =MIN(zmin,Zpar(ip))
-              xmax =MAX(xmax,Xpar(ip))
-              ymax =MAX(ymax,Ypar(ip))
-              zmax =MAX(zmax,Zpar(ip))
-              
-              If(Xpar(ip).lt.Xl.or.Ypar(ip).lt.Yl.or.Zpar(ip).lt.Zl)&
-                write(*,'(a,i10,1p,3g14.5)')' Error coord: ',i,Xpar(i),Ypar(i),Zpar(i)
-           EndDo
-!     write(*,'(a,20es13.5)') ' X= ',(Xpar(i),i=1,10)    
-!     write(*,'(a,20es13.5)') ' Y= ',(Ypar(i),i=1,10)    
-!     write(*,'(a,20es13.5)') ' Z= ',(Zpar(i),i=1,10)
-!     write(*,'(a,20es13.5)') ' X= ',(Xpar(i),i=Np-9,Np)    
-!     write(*,'(a,20es13.5)') ' Y= ',(Ypar(i),i=Np-9,Np)    
-!     write(*,'(a,20es13.5)') ' Z= ',(Zpar(i),i=Np-9,Np)
-     
-     write(*,'(a,2es13.5)') ' X range= ',xmin,xmax
-     write(*,'(a,2es13.5)') ' Y range= ',ymin,ymax
-     write(*,'(a,2es13.5)') ' Z range= ',zmin,zmax
-    end Subroutine AddBuffer
+  if(allocated(OriginalParticleId))error stop 'BDM periodic buffer already active'
+  call PrepareParticleSearch
+  if(.not.ieee_is_finite(dBuffer).or.dBuffer<0..or.dBuffer>Box) &
+    error stop 'BDM buffer width must be finite and between zero and Box'
+  originalCount=Np
+  if(Np/=Nparticles)error stop 'BDM periodic buffer original count mismatch'
+  box64=dble(Box); width64=dble(dBuffer)
+  ! Count exactly, including images of x=0 at x=Box. A row is an original
+  ! only when its shift is (0,0,0); the primary domain is [0,Box).
+  allocate(imageEnd(originalCount))
+  memoryUsed=Memory(2_8*originalCount)
+  invalid=.false.
+!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(ic,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,nx,ny,nz) REDUCTION(.or.:invalid)
+  do ic=1,originalCount
+    xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
+    if(.not.all(ieee_is_finite([xx,yy,zz])).or.min(xx,yy,zz)<0.d0.or.max(xx,yy,zz)>=box64)then
+      invalid=.true.
+      imageEnd(ic)=0_8
+      cycle
+    endif
+    ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
+    jlo=ceiling((-width64-yy)/box64); jhi=floor((box64+width64-yy)/box64)
+    klo=ceiling((-width64-zz)/box64); khi=floor((box64+width64-zz)/box64)
+    nx=ihi-ilo+1_8; ny=jhi-jlo+1_8; nz=khi-klo+1_8
+    imageEnd(ic)=nx*ny*nz-1_8
+  enddo
+  if(invalid)error stop 'BDM original analysis coordinates must lie in [0,Box)'
+  imageCount=originalCount
+  do ic=1,originalCount
+    imageCount=imageCount+imageEnd(ic)
+    imageEnd(ic)=imageCount
+  enddo
+  iPartMax=imageCount
+  write(*,*) ' Allocate exact periodic particle buffer: ',originalCount,iPartMax
+  allocate(Xbb(iPartMax),Ybb(iPartMax),Zbb(iPartMax),VXbb(iPartMax),VYbb(iPartMax),VZbb(iPartMax))
+  allocate(OriginalParticleId(iPartMax))
+  memoryUsed=Memory(8_8*iPartMax) ! six float32 fields and one int64 identity
+!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(ic,ip,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,i,j,k)
+  do ic=1,originalCount
+    xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
+    Xbb(ic)=Xpar(ic); Ybb(ic)=Ypar(ic); Zbb(ic)=Zpar(ic)
+    VXbb(ic)=VX(ic); VYbb(ic)=VY(ic); VZbb(ic)=VZ(ic)
+    OriginalParticleId(ic)=ic
+    ip=originalCount
+    if(ic>1_8)ip=imageEnd(ic-1_8)
+    ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
+    jlo=ceiling((-width64-yy)/box64); jhi=floor((box64+width64-yy)/box64)
+    klo=ceiling((-width64-zz)/box64); khi=floor((box64+width64-zz)/box64)
+    do k=klo,khi
+    do j=jlo,jhi
+    do i=ilo,ihi
+      if(i==0.and.j==0.and.k==0)cycle
+      ip=ip+1_8
+      Xbb(ip)=real(xx+dble(i)*box64); Ybb(ip)=real(yy+dble(j)*box64); Zbb(ip)=real(zz+dble(k)*box64)
+      VXbb(ip)=VX(ic); VYbb(ip)=VY(ic); VZbb(ip)=VZ(ic)
+      OriginalParticleId(ip)=ic
+    enddo
+    enddo
+    enddo
+    if(ip/=imageEnd(ic))error stop 'BDM periodic count/fill mismatch'
+  enddo
+  deallocate(imageEnd)
+  memoryUsed=Memory(-2_8*originalCount)
+  deallocate(Xpar,Ypar,Zpar,VX,VY,VZ)
+  memoryUsed=Memory(-6_8*originalCount)
+  call move_alloc(Xbb,Xpar); call move_alloc(Ybb,Ypar); call move_alloc(Zbb,Zpar)
+  call move_alloc(VXbb,VX); call move_alloc(VYbb,VY); call move_alloc(VZbb,VZ)
+  Np=iPartMax; Nparticles=Np
+end SUBROUTINE AddBuffer
 !---------------------------------------------------------------------------- 
 !         Remove buffer around the computational box
 !
 !
-    Subroutine RemoveBuffer(NpPM)
-     Real*4,       ALLOCATABLE,   DIMENSION(:) ::               &
-                     Xbb,   Ybb,  Zbb,       &   !   coords
-                     VXbb, VYbb, Vzbb            !    velocities
-     Integer*8 :: NpPM,ic
 
-           Xscale = Box/NGRID                 ! Scale for comoving coordinates
-           Vscale = 100.*Xscale/AEXPN          ! Scale for velocities
-     
-     myMemory= Memory(6_8*Nparticles)
-       ALLOCATE(Xbb(Nparticles),Ybb(Nparticles),Zbb(Nparticles))
-       ALLOCATE(VXbb(Nparticles),VYbb(Nparticles),VZbb(Nparticles))
-       !--- copy data to buffers
-       write(*,*) ' Copy to new buffer ',NpPM,Xscale
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic)
-       Do ic=1,NpPM
-          Xbb(ic)= Xpar(ic)
-          Ybb(ic)= Ypar(ic)
-          Zbb(ic)= Zpar(ic)
-          VXbb(ic)= VX(ic)
-          VYbb(ic)= VY(ic)
-          VZbb(ic)= VZ(ic)          
-       End Do
-     myMemory= Memory(-6_8*Nparticles)
-     DEALLOCATE(Xpar,Ypar,Zpar,VX,VY,VZ)
-     
-                               !--- restore data structur, rescale Coords and Veloc
-     myMemory= Memory(6_8*NpPM)
-     ALLOCATE(Xpar(NpPM),Ypar(NpPM),Zpar(NpPM),VX(NpPM),VY(NpPM),VZ(NpPM))
-       write(*,*) ' Copy to  old arrays ',Xscale,Vscale
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic)
-       Do ic=1,NpPM
-          Xpar(ic) =Xbb(ic) 
-          Ypar(ic) =Ybb(ic) 
-          Zpar(ic) =Zbb(ic) 
-           VX(ic)  =VXbb(ic)
-           VY(ic)  =VYbb(ic)
-           VZ(ic)  =VZbb(ic)         
-        End Do
-       DEALLOCATE(Xbb,Ybb,Zbb)
-       DEALLOCATE(VXbb,VYbb,VZbb)        
-       myMemory= Memory(-6_8*Nparticles)
-       Nparticles = NpPM
-       Np         = Nparticles
-        write(*,*) ' Rescale ',Nparticles
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic)
-       Do ic=1,Nparticles      
-           Xpar(ic) = Xpar(ic)/Xscale+1. 
-           Ypar(ic) = Ypar(ic)/Xscale+1. 
-           Zpar(ic) = Zpar(ic)/Xscale+1. 
-           If(Xpar(ic).ge.NGRID)Xpar(ic) =Xpar(ic)-NGRID
-           If(Xpar(ic).lt.1)    Xpar(ic) =Xpar(ic)+NGRID
-           If(Ypar(ic).ge.NGRID)Ypar(ic) =Ypar(ic)-NGRID
-           If(Ypar(ic).lt.1)    Ypar(ic) =Ypar(ic)+NGRID
-           If(Zpar(ic).ge.NGRID)Zpar(ic) =Zpar(ic)-NGRID
-           If(Zpar(ic).lt.1)    Zpar(ic) =Zpar(ic)+NGRID
-           VX(ic) =  VX(ic)/Vscale 
-           VY(ic) =  VY(ic)/Vscale 
-           VZ(ic) =  VZ(ic)/Vscale
-        End Do
-       
-end Subroutine RemoveBuffer
+SUBROUTINE RemoveBuffer(NpPM)
+  implicit none
+  integer*8, intent(in) :: NpPM
+  real :: memoryUsed
+  if(.not.allocated(BdmPMX))error stop 'BDM has no retained simulation state to restore'
+  if(NpPM/=BdmPMCount)error stop 'BDM restoration particle count mismatch'
+  memoryUsed=Memory(-6_8*size(Xpar,kind=8))
+  deallocate(Xpar,Ypar,Zpar,VX,VY,VZ)
+  if(allocated(OriginalParticleId))then
+    memoryUsed=Memory(-2_8*size(OriginalParticleId,kind=8))
+    deallocate(OriginalParticleId)
+  endif
+  call move_alloc(BdmPMX,Xpar); call move_alloc(BdmPMY,Ypar); call move_alloc(BdmPMZ,Zpar)
+  call move_alloc(BdmPMVX,VX); call move_alloc(BdmPMVY,VY); call move_alloc(BdmPMVZ,VZ)
+  Nparticles=BdmPMCount; Np=Nparticles
+  BdmPMCount=0_8
+  HaloSearchRadius=0.; ParticleSearchRadius=0.
+end SUBROUTINE RemoveBuffer
 end Module LinkerList

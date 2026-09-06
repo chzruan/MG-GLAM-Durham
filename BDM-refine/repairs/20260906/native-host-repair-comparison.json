@@ -1,0 +1,11 @@
+{
+  "removed_native_candidates": [
+    263,
+    695,
+    1087
+  ],
+  "added_candidates": [],
+  "all_retained_memberships_and_21_raw_properties_identical": true,
+  "n128_before": 1218,
+  "n128_after": 1215
+}

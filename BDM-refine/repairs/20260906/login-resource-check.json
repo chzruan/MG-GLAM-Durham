@@ -1,0 +1,14 @@
+{
+  "host": "login8b.pri.cosma.local",
+  "logical_cpus": 128,
+  "load_average": [
+    37.2,
+    24.96,
+    20.61
+  ],
+  "cpu_idle_fraction": 0.701640625,
+  "sample_seconds": 1,
+  "mem_available_kib": 928664360,
+  "decision": "Use one core for bounded local builds/replays; reserve Slurm for parallel timing.",
+  "user_authorization": "2026-09-06: non-heavy jobs may run on idle login node"
+}

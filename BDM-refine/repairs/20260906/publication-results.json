@@ -1,0 +1,403 @@
+{
+  "validated_at_utc": "2026-09-06T09:34:58.784851+00:00",
+  "source_sha256": "86cee3fb28032f889513672ddbf10a3d650d88c5d080154f59e7fd2dce033743",
+  "driver_sha256": "53b3f3134962a773a7cda03a5a88d1696784b470e69c2cbfc3a4f586219c1df0",
+  "asserted_experiments": 26,
+  "compilation": [
+    {
+      "mode": "checked",
+      "command": [
+        "gfortran",
+        "-O0",
+        "-g",
+        "-fcheck=all",
+        "-ffpe-trap=invalid,zero,overflow",
+        "-ffree-line-length-none",
+        "cases.f90",
+        "-o",
+        "checked"
+      ],
+      "stderr": ""
+    },
+    {
+      "mode": "optimized",
+      "command": [
+        "gfortran",
+        "-O3",
+        "-ffree-line-length-none",
+        "cases.f90",
+        "-o",
+        "optimized"
+      ],
+      "stderr": ""
+    }
+  ],
+  "results": [
+    {
+      "mode": "checked",
+      "case": "valid",
+      "prior_catalogue": false,
+      "returncode": 0,
+      "staged_count": 0,
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "mode": "checked",
+      "case": "valid",
+      "prior_catalogue": true,
+      "returncode": 0,
+      "staged_count": 0,
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "mode": "checked",
+      "case": "empty",
+      "prior_catalogue": false,
+      "returncode": 0,
+      "staged_count": 0,
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "mode": "checked",
+      "case": "empty",
+      "prior_catalogue": true,
+      "returncode": 0,
+      "staged_count": 0,
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "mode": "checked",
+      "case": "invalid_late",
+      "prior_catalogue": false,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP BDM refuses a catalogue with nonfinite halo properties\n\nError termination. Backtrace:\n#0  0x405724 in __linkerlist_MOD_writefiles\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:388\n#1  0x40f1d0 in publication_cases\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:579\n#2  0x40f2b4 in main\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:542\n",
+      "passed": true
+    },
+    {
+      "mode": "checked",
+      "case": "invalid_late",
+      "prior_catalogue": true,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP BDM refuses a catalogue with nonfinite halo properties\n\nError termination. Backtrace:\n#0  0x405724 in __linkerlist_MOD_writefiles\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:388\n#1  0x40f1d0 in publication_cases\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:579\n#2  0x40f2b4 in main\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:542\n",
+      "passed": true
+    },
+    {
+      "mode": "checked",
+      "case": "abort_header",
+      "prior_catalogue": false,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP injected failure after header\n\nError termination. Backtrace:\n#0  0x40bd0d in publication_cases\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:553\n#1  0x40f2b4 in main\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:542\n",
+      "passed": true
+    },
+    {
+      "mode": "checked",
+      "case": "abort_header",
+      "prior_catalogue": true,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP injected failure after header\n\nError termination. Backtrace:\n#0  0x40bd0d in publication_cases\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:553\n#1  0x40f2b4 in main\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:542\n",
+      "passed": true
+    },
+    {
+      "mode": "checked",
+      "case": "closed_stage",
+      "prior_catalogue": false,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP BDM staged catalogue is not open on unit 12\n\nError termination. Backtrace:\n#0  0x402e1a in __linkerlist_MOD_publishcatalogue\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:530\n#1  0x40bdb6 in publication_cases\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:556\n#2  0x40f2b4 in main\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:542\n",
+      "passed": true
+    },
+    {
+      "mode": "checked",
+      "case": "closed_stage",
+      "prior_catalogue": true,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP BDM staged catalogue is not open on unit 12\n\nError termination. Backtrace:\n#0  0x402e1a in __linkerlist_MOD_publishcatalogue\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:530\n#1  0x40bdb6 in publication_cases\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:556\n#2  0x40f2b4 in main\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:542\n",
+      "passed": true
+    },
+    {
+      "mode": "checked",
+      "case": "rename_failure",
+      "prior_catalogue": false,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP BDM cannot publish staged catalogue\n\nError termination. Backtrace:\n#0  0x403007 in __linkerlist_MOD_publishcatalogue\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:536\n#1  0x407294 in __linkerlist_MOD_writefiles\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:427\n#2  0x40f1d0 in publication_cases\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:579\n#3  0x40f2b4 in main\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:542\n",
+      "passed": true
+    },
+    {
+      "mode": "checked",
+      "case": "rename_failure",
+      "prior_catalogue": true,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP BDM cannot publish staged catalogue\n\nError termination. Backtrace:\n#0  0x403007 in __linkerlist_MOD_publishcatalogue\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:536\n#1  0x407294 in __linkerlist_MOD_writefiles\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:427\n#2  0x40f1d0 in publication_cases\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:579\n#3  0x40f2b4 in main\n\tat /tmp/bdm-publication-build-73f15mie/cases.f90:542\n",
+      "passed": true
+    },
+    {
+      "mode": "checked",
+      "case": "concurrent_writers",
+      "unique_staged_paths": true,
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "valid",
+      "prior_catalogue": false,
+      "returncode": 0,
+      "staged_count": 0,
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "valid",
+      "prior_catalogue": true,
+      "returncode": 0,
+      "staged_count": 0,
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "empty",
+      "prior_catalogue": false,
+      "returncode": 0,
+      "staged_count": 0,
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "empty",
+      "prior_catalogue": true,
+      "returncode": 0,
+      "staged_count": 0,
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "invalid_late",
+      "prior_catalogue": false,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP BDM refuses a catalogue with nonfinite halo properties\n\nError termination. Backtrace:\n#0  0x4041ad in ???\n#1  0x407e97 in ???\n#2  0x4022fc in ???\n#3  0x145602a2a60f in ???\n#4  0x145602a2a6bf in ???\n#5  0x402334 in ???\n#6  0xffffffffffffffff in ???\n",
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "invalid_late",
+      "prior_catalogue": true,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP BDM refuses a catalogue with nonfinite halo properties\n\nError termination. Backtrace:\n#0  0x4041ad in ???\n#1  0x407e97 in ???\n#2  0x4022fc in ???\n#3  0x151f7a62a60f in ???\n#4  0x151f7a62a6bf in ???\n#5  0x402334 in ???\n#6  0xffffffffffffffff in ???\n",
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "abort_header",
+      "prior_catalogue": false,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP injected failure after header\n\nError termination. Backtrace:\n#0  0x4081ce in ???\n#1  0x4022fc in ???\n#2  0x154971c2a60f in ???\n#3  0x154971c2a6bf in ???\n#4  0x402334 in ???\n#5  0xffffffffffffffff in ???\n",
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "abort_header",
+      "prior_catalogue": true,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP injected failure after header\n\nError termination. Backtrace:\n#0  0x4081ce in ???\n#1  0x4022fc in ???\n#2  0x145c3322a60f in ???\n#3  0x145c3322a6bf in ???\n#4  0x402334 in ???\n#5  0xffffffffffffffff in ???\n",
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "closed_stage",
+      "prior_catalogue": false,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP BDM staged catalogue is not open on unit 12\n\nError termination. Backtrace:\n#0  0x402abe in ???\n#1  0x40838d in ???\n#2  0x4022fc in ???\n#3  0x148c45c2a60f in ???\n#4  0x148c45c2a6bf in ???\n#5  0x402334 in ???\n#6  0xffffffffffffffff in ???\n",
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "closed_stage",
+      "prior_catalogue": true,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP BDM staged catalogue is not open on unit 12\n\nError termination. Backtrace:\n#0  0x402abe in ???\n#1  0x40838d in ???\n#2  0x4022fc in ???\n#3  0x14d8d3a2a60f in ???\n#4  0x14d8d3a2a6bf in ???\n#5  0x402334 in ???\n#6  0xffffffffffffffff in ???\n",
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "rename_failure",
+      "prior_catalogue": false,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP BDM cannot publish staged catalogue\n\nError termination. Backtrace:\n#0  0x402ae0 in ???\n#1  0x40435b in ???\n#2  0x407e97 in ???\n#3  0x4022fc in ???\n#4  0x14797ae2a60f in ???\n#5  0x14797ae2a6bf in ???\n#6  0x402334 in ???\n#7  0xffffffffffffffff in ???\n",
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "rename_failure",
+      "prior_catalogue": true,
+      "returncode": 1,
+      "staged_count": 1,
+      "stderr": "ERROR STOP BDM cannot publish staged catalogue\n\nError termination. Backtrace:\n#0  0x402ae0 in ???\n#1  0x40435b in ???\n#2  0x407e97 in ???\n#3  0x4022fc in ???\n#4  0x15362de2a60f in ???\n#5  0x15362de2a6bf in ???\n#6  0x402334 in ???\n#7  0xffffffffffffffff in ???\n",
+      "passed": true
+    },
+    {
+      "mode": "optimized",
+      "case": "concurrent_writers",
+      "unique_staged_paths": true,
+      "passed": true
+    }
+  ],
+  "integration_regressions": {
+    "peaks_asserted_experiments": 136,
+    "peaks_source_and_driver_sha256": {
+      "PMP2linker.f90": "86cee3fb28032f889513672ddbf10a3d650d88c5d080154f59e7fd2dce033743",
+      "BDM-refine/repairs/20260906/tests/peaks_regression.py": "f9ce52368dddfd9032d1c2373dd4d137ea61eb0b733d57b536d43cdfae8096de",
+      "BDM-refine/repairs/20260906/tests/peaks_cases.f90": "3eae7c083ece917a273b35663d6dfdb2497777f7cc477f126872c61ba7c55497"
+    },
+    "core": {
+      "validated_at_utc": "2026-09-06T09:35:12.495302+00:00",
+      "source_sha256": "86cee3fb28032f889513672ddbf10a3d650d88c5d080154f59e7fd2dce033743",
+      "driver_sha256": "4c71bca7eb425a3c9c9c42d3a25004cc98bcda9d69394d7dcb530254f30a2939",
+      "results": [
+        {
+          "mode": "checked",
+          "compiler_command": [
+            "gfortran",
+            "-O0",
+            "-g",
+            "-fcheck=all",
+            "-ffpe-trap=invalid,zero,overflow",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "cases.f90",
+            "-o",
+            "checked"
+          ],
+          "shape_matrices": 129,
+          "maximum_relative_eigenpair_residual": 5.833159769074793e-08,
+          "concentration_expected": [
+            3.0,
+            5.0,
+            10.0,
+            30.0,
+            100.0,
+            1000.0
+          ],
+          "concentration_measured": [
+            3.0,
+            4.999999046325684,
+            10.000000953674316,
+            30.000003814697266,
+            100.00000762939453,
+            1000.0001220703125
+          ],
+          "invalid_input_result": "INVALID INPUTS TERMINATE WITH DEFINED UNRESOLVED VALUE",
+          "duplicate_controls_threads": [
+            1,
+            2,
+            4,
+            8
+          ],
+          "duplicate_sort_candidates": 257,
+          "duplicate_sort_survivors": 68,
+          "writer_valid_and_invalid_controls": 4,
+          "passed": true
+        },
+        {
+          "mode": "optimized",
+          "compiler_command": [
+            "gfortran",
+            "-O3",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "cases.f90",
+            "-o",
+            "optimized"
+          ],
+          "shape_matrices": 129,
+          "maximum_relative_eigenpair_residual": 5.833159769074793e-08,
+          "concentration_expected": [
+            3.0,
+            5.0,
+            10.0,
+            30.0,
+            100.0,
+            1000.0
+          ],
+          "concentration_measured": [
+            3.0,
+            4.999999046325684,
+            10.000000953674316,
+            30.000003814697266,
+            100.00000762939453,
+            1000.0001220703125
+          ],
+          "invalid_input_result": "INVALID INPUTS TERMINATE WITH DEFINED UNRESOLVED VALUE",
+          "duplicate_controls_threads": [
+            1,
+            2,
+            4,
+            8
+          ],
+          "duplicate_sort_candidates": 257,
+          "duplicate_sort_survivors": 68,
+          "writer_valid_and_invalid_controls": 4,
+          "passed": true
+        }
+      ]
+    }
+  },
+  "native_ifx": {
+    "compiler_command": [
+      "ifx",
+      "-O3",
+      "-fp-model",
+      "precise",
+      "cases.f90",
+      "-o",
+      "cases"
+    ],
+    "build_stderr": "",
+    "results": [
+      {
+        "case": "valid",
+        "returncode": 0,
+        "final_lines": 10,
+        "stderr": ""
+      },
+      {
+        "case": "invalid_late",
+        "returncode": 128,
+        "final_lines": 10,
+        "stderr": "BDM refuses a catalogue with nonfinite halo properties\n"
+      },
+      {
+        "case": "empty",
+        "returncode": 0,
+        "final_lines": 8,
+        "stderr": ""
+      }
+    ],
+    "environment_modules": [
+      "intel_comp/2024.2.0",
+      "compiler-rt",
+      "tbb",
+      "compiler"
+    ]
+  }
+}

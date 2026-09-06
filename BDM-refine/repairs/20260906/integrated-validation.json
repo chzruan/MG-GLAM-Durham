@@ -1,0 +1,340 @@
+{
+  "commit": "34818a8d7942cc9b6e4d4b81475afca4ccda92ee",
+  "source_sha256": "e89b30162715478a8172bd23875cd13dfaa588a16b0c2eb2ea0bb309cddc10c6",
+  "suites": [
+    {
+      "script": "core_regressions.py",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/core_regressions.py",
+        "--output",
+        "/tmp/bdm-integrated-validation-w1xrtdwy/core_regressions.json"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 2.509125299984589,
+      "receipt_sha256": "769e8e34d7637c8c9fdc0400983da7911a81c828b6e72c8db61a9f7f599ceb7f",
+      "source_sha256": "e89b30162715478a8172bd23875cd13dfaa588a16b0c2eb2ea0bb309cddc10c6",
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 1,
+        "optimized": 1
+      },
+      "threads": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "cases": [],
+      "fixtures": [],
+      "asserted_experiments": null,
+      "driver_hashes": "4c71bca7eb425a3c9c9c42d3a25004cc98bcda9d69394d7dcb530254f30a2939",
+      "core_checks": [
+        {
+          "mode": "checked",
+          "compiler_command": [
+            "gfortran",
+            "-O0",
+            "-g",
+            "-fcheck=all",
+            "-ffpe-trap=invalid,zero,overflow",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "cases.f90",
+            "-o",
+            "checked"
+          ],
+          "shape_matrices": 129,
+          "maximum_relative_eigenpair_residual": 5.833159769074793e-08,
+          "concentration_expected": [
+            3.0,
+            5.0,
+            10.0,
+            30.0,
+            100.0,
+            1000.0
+          ],
+          "concentration_measured": [
+            3.0,
+            4.999999046325684,
+            10.000000953674316,
+            30.000003814697266,
+            100.00000762939453,
+            1000.0001220703125
+          ],
+          "invalid_input_result": "INVALID INPUTS TERMINATE WITH DEFINED UNRESOLVED VALUE",
+          "duplicate_controls_threads": [
+            1,
+            2,
+            4,
+            8
+          ],
+          "duplicate_sort_candidates": 257,
+          "duplicate_sort_survivors": 68,
+          "writer_valid_and_invalid_controls": 4,
+          "passed": true
+        },
+        {
+          "mode": "optimized",
+          "compiler_command": [
+            "gfortran",
+            "-O3",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "cases.f90",
+            "-o",
+            "optimized"
+          ],
+          "shape_matrices": 129,
+          "maximum_relative_eigenpair_residual": 5.833159769074793e-08,
+          "concentration_expected": [
+            3.0,
+            5.0,
+            10.0,
+            30.0,
+            100.0,
+            1000.0
+          ],
+          "concentration_measured": [
+            3.0,
+            4.999999046325684,
+            10.000000953674316,
+            30.000003814697266,
+            100.00000762939453,
+            1000.0001220703125
+          ],
+          "invalid_input_result": "INVALID INPUTS TERMINATE WITH DEFINED UNRESOLVED VALUE",
+          "duplicate_controls_threads": [
+            1,
+            2,
+            4,
+            8
+          ],
+          "duplicate_sort_candidates": 257,
+          "duplicate_sort_survivors": 68,
+          "writer_valid_and_invalid_controls": 4,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "peaks_regression.py",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/peaks_regression.py",
+        "--output",
+        "/tmp/bdm-integrated-validation-w1xrtdwy/peaks_regression.json"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 4.271896719001234,
+      "receipt_sha256": "7e23cd0f3cc81d592921ac76228bf7a8b99f7846eff3fd7880953351a572cf91",
+      "source_sha256": "e89b30162715478a8172bd23875cd13dfaa588a16b0c2eb2ea0bb309cddc10c6",
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 68,
+        "optimized": 68
+      },
+      "threads": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "cases": [
+        "configuration",
+        "empty_bdm",
+        "peaks"
+      ],
+      "fixtures": [
+        "dynamic_range",
+        "empty",
+        "periodic_tie",
+        "plateau",
+        "random",
+        "skewed",
+        "sparse",
+        "uniform"
+      ],
+      "asserted_experiments": 136,
+      "driver_hashes": {}
+    },
+    {
+      "script": "particles_tests.py",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/particles_tests.py",
+        "--output",
+        "/tmp/bdm-integrated-validation-w1xrtdwy/particles_tests.json"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 3.7035715819802135,
+      "receipt_sha256": "b443281d60188df633201a8a9f8c9c586bff19d83a8daf76d56c66a82626b70e",
+      "source_sha256": "e89b30162715478a8172bd23875cd13dfaa588a16b0c2eb2ea0bb309cddc10c6",
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 52,
+        "optimized": 52
+      },
+      "threads": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "cases": [
+        "buffer_corner",
+        "buffer_face",
+        "buffer_halfbox",
+        "buffer_query",
+        "buffer_search",
+        "buffer_smallbox",
+        "centering_empty",
+        "centering_far",
+        "centering_near",
+        "centering_one",
+        "list_check",
+        "restore_buffered",
+        "restore_roundtrip"
+      ],
+      "fixtures": [],
+      "asserted_experiments": 104,
+      "driver_hashes": {
+        "particles_tests.py": "3eae7c7031904457806b7d7775dc13b066e145a087435c60cee1e1779ee64c89",
+        "particles_cases.f90": "0a0b145f824a352de186e51ae6c225350995c4e45332e8651ba601da00e1e383"
+      }
+    },
+    {
+      "script": "publication_regression.py",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/publication_regression.py",
+        "--output",
+        "/tmp/bdm-integrated-validation-w1xrtdwy/publication_regression.json"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 2.1568613378331065,
+      "receipt_sha256": "75a16f1fbcc79a537c4f98c3b448a6631dee1f812edb9317d1246e4695751fc1",
+      "source_sha256": "e89b30162715478a8172bd23875cd13dfaa588a16b0c2eb2ea0bb309cddc10c6",
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 13,
+        "optimized": 13
+      },
+      "threads": [],
+      "cases": [
+        "abort_header",
+        "closed_stage",
+        "concurrent_writers",
+        "empty",
+        "invalid_late",
+        "rename_failure",
+        "valid"
+      ],
+      "fixtures": [],
+      "asserted_experiments": 26,
+      "driver_hashes": "53b3f3134962a773a7cda03a5a88d1696784b470e69c2cbfc3a4f586219c1df0"
+    }
+  ],
+  "all_requested_suites_passed": true,
+  "preserved_historical_receipts": true,
+  "production_or_harness_changes": false,
+  "followup_review": {
+    "source_sha256": "e89b30162715478a8172bd23875cd13dfaa588a16b0c2eb2ea0bb309cddc10c6",
+    "results": [
+      {
+        "path": "/tmp/bdm-combined-followup-34818a8d.json",
+        "sha256": "bbc71de3fd699b0b3cbae0b193c609680527cee9c695ab28232f03876e334280",
+        "passed": 26,
+        "source_sha256": "e89b30162715478a8172bd23875cd13dfaa588a16b0c2eb2ea0bb309cddc10c6"
+      },
+      {
+        "path": "/tmp/bdm-combined-periodic-34818a8d.json",
+        "sha256": "5f68ab4e98ae4da048516b4ed403cdc8865b2a078c52a6f85dbb3c49fe7c86dc",
+        "passed": 30,
+        "source_sha256": "e89b30162715478a8172bd23875cd13dfaa588a16b0c2eb2ea0bb309cddc10c6"
+      }
+    ],
+    "review": "No additional defect found in the combined SO/Gather contract: full-cap mass-bound contraction preserves all outer roots; sorted fallback covers slow contraction; explicit image positions and double ceiling bins preserve coverage without repeated physical rows below half Box.",
+    "limitations": "Bounded review of the changed routines and controlled cases; no new native production replay by this reviewer.",
+    "start_commit": "34818a8d7942cc9b6e4d4b81475afca4ccda92ee",
+    "finish_commit": "3740f1b4102ba8e7b85ee781823aab5c64bfdd62",
+    "source_unchanged_during_validation": true
+  },
+  "historical_cleaner_tests": {
+    "command": "micromamba run -n cosemu python3 -B -m unittest discover -s BDM-refine/analysis/duplicate-hosts-20260905/tests -p test_*.py -v",
+    "passed": 10,
+    "elapsed_seconds": 0.855,
+    "includes": "float64 HDF5 and interrupted receipt publication regressions"
+  },
+  "lifecycle_review": {
+    "reviewer": "repair_peaks",
+    "source_sha256": "e89b30162715478a8172bd23875cd13dfaa588a16b0c2eb2ea0bb309cddc10c6",
+    "result": "No additional issue in initialization, release, empty catalogue publication or repeated configuration; four native configuration/newline combinations passed."
+  },
+  "full_halo_regression": {
+    "commit": "34818a8d7942cc9b6e4d4b81475afca4ccda92ee",
+    "source_sha256": "e89b30162715478a8172bd23875cd13dfaa588a16b0c2eb2ea0bb309cddc10c6",
+    "elapsed_seconds": 133.33879421907477,
+    "timeout_seconds": 240,
+    "timed_out": false,
+    "returncode": 0,
+    "process_group": 484670,
+    "command": [
+      "micromamba",
+      "run",
+      "-n",
+      "cosemu",
+      "python3",
+      "-B",
+      "-c",
+      "\nimport faulthandler,importlib.util,json,os,sys,time\nfrom pathlib import Path\nfolder=Path('/tmp/bdm-integrated-validation-w1xrtdwy')\nfaulthandler.dump_traceback_later(30,repeat=True,file=sys.stderr)\npath=Path('BDM-refine/repairs/20260906/tests/halo_regression.py').resolve()\nspec=importlib.util.spec_from_file_location('bdm_halo_full_validation',path)\nmodule=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)\nrecords=[]\nfor name in ['run','spherical_pair_potential','exact_geometric_potential','reference_unbind']:\n    original=getattr(module,name)\n    def wrapper(*args,_original=original,_name=name,**kwargs):\n        start=time.monotonic()\n        details={\"function\":_name}\n        if _name=='run':details.update(case=args[1],mode=args[2] if len(args)>2 else kwargs.get('mode','checked'))\n        elif args:details['population']=len(args[0])\n        print('BEGIN',json.dumps(details),file=sys.stderr,flush=True)\n        try:\n            return _original(*args,**kwargs)\n        finally:\n            details['elapsed_seconds']=time.monotonic()-start\n            records.append(details)\n            (folder/'halo_oracle_timings.json').write_text(json.dumps(records,indent=2)+'\\n')\n            print('END',json.dumps(details),file=sys.stderr,flush=True)\n    setattr(module,name,wrapper)\nsys.argv=[str(path),'--output',str(folder/'halo_full_results.json')]\ntry:\n    module.main()\nfinally:\n    faulthandler.cancel_dump_traceback_later()\n"
+    ],
+    "log": "/tmp/bdm-integrated-validation-w1xrtdwy/halo_full_run.log"
+  },
+  "native_driver_review": {
+    "driver_sha256": "0c15f693dea077787cf30960e250d4d84370fce21104b2edeac0ae1e19a55da0",
+    "regression_driver_sha256": "fc63e0e24375019aca97f7fc42a1776469f4607700cfa660855cc3c36cf80e56",
+    "passed": 5,
+    "checks": [
+      "reject changed row count",
+      "reject changed continuous properties",
+      "reject changed particle counts",
+      "kill process group on timeout",
+      "retain failed replay output and record"
+    ],
+    "build_provenance": "Frozen copied source hashes, builder/probe hashes and tracked worktree status recorded before compilation"
+  }
+}

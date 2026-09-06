@@ -1,0 +1,1801 @@
+{
+  "checked_at_utc": "2026-09-06T10:08:09.108033+00:00",
+  "compiler": "gfortran",
+  "source_sha256": "bdd432d2addae6347251f151aeb023cb7a86967edeab101bd9b9242be2d7d88d",
+  "before_source_sha256": "e89b30162715478a8172bd23875cd13dfaa588a16b0c2eb2ea0bb309cddc10c6",
+  "compilation": {
+    "before-checked": {
+      "command": [
+        "gfortran",
+        "-O0",
+        "-g",
+        "-fcheck=all",
+        "-ffpe-trap=invalid,zero,overflow",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "before.f90",
+        "-o",
+        "before-checked"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "before-optimized": {
+      "command": [
+        "gfortran",
+        "-O3",
+        "-fno-fast-math",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "before.f90",
+        "-o",
+        "before-optimized"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "repaired-checked": {
+      "command": [
+        "gfortran",
+        "-O0",
+        "-g",
+        "-fcheck=all",
+        "-ffpe-trap=invalid,zero,overflow",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "repaired.f90",
+        "-o",
+        "repaired-checked"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "repaired-optimized": {
+      "command": [
+        "gfortran",
+        "-O3",
+        "-fno-fast-math",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "repaired.f90",
+        "-o",
+        "repaired-optimized"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "test_sha256": {
+    "halo_host_ties.py": "021f28cf1697bf6a79de63e5aff3e9dcd8d43ce2ac8a7396bb08353d547e941b",
+    "halo_host_ties_cases.f90": "f944d0e28f487acb6ea19c5b08cb34e507612487940dbc38f692ab0d66e3d05a",
+    "halo_equal_mass_native.json": "318c4300133d3c07431b2c1c7ce80ad7896e0acb6530c39f5e81350fafa49ab4"
+  },
+  "native_reproductions": [
+    {
+      "candidates": [
+        261,
+        263
+      ],
+      "counts": [
+        2110,
+        2110
+      ],
+      "shared": 2109,
+      "keepers": [
+        261
+      ]
+    },
+    {
+      "candidates": [
+        673,
+        695
+      ],
+      "counts": [
+        329,
+        329
+      ],
+      "shared": 326,
+      "keepers": [
+        673
+      ]
+    },
+    {
+      "candidates": [
+        1086,
+        1087
+      ],
+      "counts": [
+        1445,
+        1445
+      ],
+      "shared": 1441,
+      "keepers": [
+        1086
+      ]
+    }
+  ],
+  "before_failures": [
+    {
+      "case": "native_three_pairs",
+      "variant": "before",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        261,
+        263,
+        673,
+        695,
+        1086,
+        1087
+      ],
+      "expected_after_repair": [
+        261,
+        673,
+        1086
+      ]
+    },
+    {
+      "case": "periodic_float64_cutoff",
+      "variant": "before",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ],
+      "expected_after_repair": [
+        1
+      ]
+    },
+    {
+      "case": "shifted_query_boundary",
+      "variant": "before",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ],
+      "expected_after_repair": [
+        1
+      ]
+    },
+    {
+      "case": "native_three_pairs",
+      "variant": "before",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        261,
+        263,
+        673,
+        695,
+        1086,
+        1087
+      ],
+      "expected_after_repair": [
+        261,
+        673,
+        1086
+      ]
+    },
+    {
+      "case": "periodic_float64_cutoff",
+      "variant": "before",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ],
+      "expected_after_repair": [
+        1
+      ]
+    },
+    {
+      "case": "shifted_query_boundary",
+      "variant": "before",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ],
+      "expected_after_repair": [
+        1
+      ]
+    }
+  ],
+  "passed": 160,
+  "results": [
+    {
+      "case": "native_three_pairs",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        261,
+        673,
+        1086
+      ]
+    },
+    {
+      "case": "native_three_pairs",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        261,
+        673,
+        1086
+      ]
+    },
+    {
+      "case": "native_three_pairs",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        261,
+        673,
+        1086
+      ]
+    },
+    {
+      "case": "native_three_pairs",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        261,
+        673,
+        1086
+      ]
+    },
+    {
+      "case": "native_periodic_corner_261_263",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        261
+      ]
+    },
+    {
+      "case": "native_periodic_corner_261_263",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        261
+      ]
+    },
+    {
+      "case": "native_periodic_corner_261_263",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        261
+      ]
+    },
+    {
+      "case": "native_periodic_corner_261_263",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        261
+      ]
+    },
+    {
+      "case": "native_periodic_corner_673_695",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        673
+      ]
+    },
+    {
+      "case": "native_periodic_corner_673_695",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        673
+      ]
+    },
+    {
+      "case": "native_periodic_corner_673_695",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        673
+      ]
+    },
+    {
+      "case": "native_periodic_corner_673_695",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        673
+      ]
+    },
+    {
+      "case": "native_periodic_corner_1086_1087",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1086
+      ]
+    },
+    {
+      "case": "native_periodic_corner_1086_1087",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1086
+      ]
+    },
+    {
+      "case": "native_periodic_corner_1086_1087",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1086
+      ]
+    },
+    {
+      "case": "native_periodic_corner_1086_1087",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1086
+      ]
+    },
+    {
+      "case": "disjoint_low_mass",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "disjoint_low_mass",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "disjoint_low_mass",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "disjoint_low_mass",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "overlapping_outskirts",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "overlapping_outskirts",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "overlapping_outskirts",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "overlapping_outskirts",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_reverse_containment",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_reverse_containment",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_reverse_containment",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_reverse_containment",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_forward_containment",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_forward_containment",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_forward_containment",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_forward_containment",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "immutable_equal_mass_chain",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "immutable_equal_mass_chain",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "immutable_equal_mass_chain",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "immutable_equal_mass_chain",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "immutable_unequal_mass_chain",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        3
+      ]
+    },
+    {
+      "case": "immutable_unequal_mass_chain",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        3
+      ]
+    },
+    {
+      "case": "immutable_unequal_mass_chain",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        3
+      ]
+    },
+    {
+      "case": "immutable_unequal_mass_chain",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        3
+      ]
+    },
+    {
+      "case": "mass_priority_over_index",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        2
+      ]
+    },
+    {
+      "case": "mass_priority_over_index",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        2
+      ]
+    },
+    {
+      "case": "mass_priority_over_index",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        2
+      ]
+    },
+    {
+      "case": "mass_priority_over_index",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        2
+      ]
+    },
+    {
+      "case": "strict_on",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_on",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_on",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_on",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_inside",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "strict_inside",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "strict_inside",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "strict_inside",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "strict_outside",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_outside",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_outside",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_outside",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "periodic_float64_cutoff",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_float64_cutoff",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_float64_cutoff",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_float64_cutoff",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_corner_containment",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_corner_containment",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_corner_containment",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_corner_containment",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "shifted_query_boundary",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "shifted_query_boundary",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "shifted_query_boundary",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "shifted_query_boundary",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "exact_set_fallback",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "exact_set_fallback",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "exact_set_fallback",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "exact_set_fallback",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "stable_index_with_reverse_input",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        7
+      ]
+    },
+    {
+      "case": "stable_index_with_reverse_input",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        7
+      ]
+    },
+    {
+      "case": "stable_index_with_reverse_input",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        7
+      ]
+    },
+    {
+      "case": "stable_index_with_reverse_input",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        7
+      ]
+    },
+    {
+      "case": "independent_cluster_graph",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 1,
+      "keep": [
+        1,
+        9,
+        15,
+        16,
+        21,
+        24,
+        29,
+        38,
+        46,
+        50,
+        52,
+        60
+      ]
+    },
+    {
+      "case": "independent_cluster_graph",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 2,
+      "keep": [
+        1,
+        9,
+        15,
+        16,
+        21,
+        24,
+        29,
+        38,
+        46,
+        50,
+        52,
+        60
+      ]
+    },
+    {
+      "case": "independent_cluster_graph",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 4,
+      "keep": [
+        1,
+        9,
+        15,
+        16,
+        21,
+        24,
+        29,
+        38,
+        46,
+        50,
+        52,
+        60
+      ]
+    },
+    {
+      "case": "independent_cluster_graph",
+      "variant": "repaired",
+      "mode": "checked",
+      "threads": 8,
+      "keep": [
+        1,
+        9,
+        15,
+        16,
+        21,
+        24,
+        29,
+        38,
+        46,
+        50,
+        52,
+        60
+      ]
+    },
+    {
+      "case": "native_three_pairs",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        261,
+        673,
+        1086
+      ]
+    },
+    {
+      "case": "native_three_pairs",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        261,
+        673,
+        1086
+      ]
+    },
+    {
+      "case": "native_three_pairs",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        261,
+        673,
+        1086
+      ]
+    },
+    {
+      "case": "native_three_pairs",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        261,
+        673,
+        1086
+      ]
+    },
+    {
+      "case": "native_periodic_corner_261_263",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        261
+      ]
+    },
+    {
+      "case": "native_periodic_corner_261_263",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        261
+      ]
+    },
+    {
+      "case": "native_periodic_corner_261_263",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        261
+      ]
+    },
+    {
+      "case": "native_periodic_corner_261_263",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        261
+      ]
+    },
+    {
+      "case": "native_periodic_corner_673_695",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        673
+      ]
+    },
+    {
+      "case": "native_periodic_corner_673_695",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        673
+      ]
+    },
+    {
+      "case": "native_periodic_corner_673_695",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        673
+      ]
+    },
+    {
+      "case": "native_periodic_corner_673_695",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        673
+      ]
+    },
+    {
+      "case": "native_periodic_corner_1086_1087",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1086
+      ]
+    },
+    {
+      "case": "native_periodic_corner_1086_1087",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1086
+      ]
+    },
+    {
+      "case": "native_periodic_corner_1086_1087",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1086
+      ]
+    },
+    {
+      "case": "native_periodic_corner_1086_1087",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1086
+      ]
+    },
+    {
+      "case": "disjoint_low_mass",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "disjoint_low_mass",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "disjoint_low_mass",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "disjoint_low_mass",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "overlapping_outskirts",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "overlapping_outskirts",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "overlapping_outskirts",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "overlapping_outskirts",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_reverse_containment",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_reverse_containment",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_reverse_containment",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_reverse_containment",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_forward_containment",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_forward_containment",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_forward_containment",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "equal_mass_unequal_radius_forward_containment",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "immutable_equal_mass_chain",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "immutable_equal_mass_chain",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "immutable_equal_mass_chain",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "immutable_equal_mass_chain",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "immutable_unequal_mass_chain",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        3
+      ]
+    },
+    {
+      "case": "immutable_unequal_mass_chain",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        3
+      ]
+    },
+    {
+      "case": "immutable_unequal_mass_chain",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        3
+      ]
+    },
+    {
+      "case": "immutable_unequal_mass_chain",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        3
+      ]
+    },
+    {
+      "case": "mass_priority_over_index",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        2
+      ]
+    },
+    {
+      "case": "mass_priority_over_index",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        2
+      ]
+    },
+    {
+      "case": "mass_priority_over_index",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        2
+      ]
+    },
+    {
+      "case": "mass_priority_over_index",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        2
+      ]
+    },
+    {
+      "case": "strict_on",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_on",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_on",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_on",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_inside",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "strict_inside",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "strict_inside",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "strict_inside",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "strict_outside",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_outside",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_outside",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "strict_outside",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1,
+        2
+      ]
+    },
+    {
+      "case": "periodic_float64_cutoff",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_float64_cutoff",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_float64_cutoff",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_float64_cutoff",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_corner_containment",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_corner_containment",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_corner_containment",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "periodic_corner_containment",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "shifted_query_boundary",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "shifted_query_boundary",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "shifted_query_boundary",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "shifted_query_boundary",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "exact_set_fallback",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "exact_set_fallback",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "exact_set_fallback",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "exact_set_fallback",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1
+      ]
+    },
+    {
+      "case": "stable_index_with_reverse_input",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        7
+      ]
+    },
+    {
+      "case": "stable_index_with_reverse_input",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        7
+      ]
+    },
+    {
+      "case": "stable_index_with_reverse_input",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        7
+      ]
+    },
+    {
+      "case": "stable_index_with_reverse_input",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        7
+      ]
+    },
+    {
+      "case": "independent_cluster_graph",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 1,
+      "keep": [
+        1,
+        9,
+        15,
+        16,
+        21,
+        24,
+        29,
+        38,
+        46,
+        50,
+        52,
+        60
+      ]
+    },
+    {
+      "case": "independent_cluster_graph",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 2,
+      "keep": [
+        1,
+        9,
+        15,
+        16,
+        21,
+        24,
+        29,
+        38,
+        46,
+        50,
+        52,
+        60
+      ]
+    },
+    {
+      "case": "independent_cluster_graph",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 4,
+      "keep": [
+        1,
+        9,
+        15,
+        16,
+        21,
+        24,
+        29,
+        38,
+        46,
+        50,
+        52,
+        60
+      ]
+    },
+    {
+      "case": "independent_cluster_graph",
+      "variant": "repaired",
+      "mode": "optimized",
+      "threads": 8,
+      "keep": [
+        1,
+        9,
+        15,
+        16,
+        21,
+        24,
+        29,
+        38,
+        46,
+        50,
+        52,
+        60
+      ]
+    }
+  ],
+  "oracle": "Immutable all-pairs higher-bound-mass / lower-index priority plus exact-set fallback; strict double minimum-image containment"
+}

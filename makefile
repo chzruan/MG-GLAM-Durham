@@ -5,6 +5,9 @@
 FC = ifx
 FFLAGS =   -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian
 LDFLAGS =  -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian
+# The finder validates IEEE domains and uses reproducible diagnostic arithmetic.
+# Keep the simulator's flags while disabling unsafe FP assumptions in BDM.
+BDM_FFLAGS = $(subst -fp-model fast=1,-fp-model precise,$(FFLAGS))
 FMPI = mpiifort
 MPIFLAGS =  -O3 -lmpi -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian
 
@@ -29,6 +32,9 @@ PMP2main: $(OBJ)  PMP2main.o
 # ExtradofBackgroundData) is satisfied.
 PMP2BDM: $(OBJ) PMP2bdm.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
+
+PMP2linker.o: PMP2linker.f90 PMP2mod_tools.o PMP2mod_density.o
+	$(FC) $(BDM_FFLAGS) -c $<
 
 # Gadget-2 -> MG-GLAM PM converter (reuses Tools/WriteDataPM).
 gadget2pm: PMP2mod_tools.o gadget2pm.o

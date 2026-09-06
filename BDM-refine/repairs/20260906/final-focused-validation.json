@@ -1,0 +1,905 @@
+{
+  "commit": "32087c8841dfd393cef42986c07fed5c74714918",
+  "source_sha256": "868bb0d6c89e5daf1ca0f631419d86577dcfe31dde7969375398cb0408140fc0",
+  "historical_receipt_sha256": "762513f1c37f21d0c63166ecefb6bae2059923edfa9bb1391fea265e1a3340a3",
+  "suites": [
+    {
+      "script": "core_regressions.py",
+      "compiler": "gfortran",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/core_regressions.py",
+        "--output",
+        "/tmp/bdm-final-focused-validation-5y9pr1yt/core_regressions-gfortran.json"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 2.7658733760472387,
+      "log": "/tmp/bdm-final-focused-validation-5y9pr1yt/core_regressions-gfortran.log",
+      "stderr": "",
+      "receipt": "/tmp/bdm-final-focused-validation-5y9pr1yt/core_regressions-gfortran.json",
+      "receipt_sha256": "9d661f93df0543f669faef482061aae68c8ad7bbdc5b6408639afe684ebf4496",
+      "passed": "two compiler modes; all shape/concentration/duplicate/writer assertions",
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 1,
+        "optimized": 1
+      },
+      "threads": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "cases": [],
+      "driver_sha256": "4c71bca7eb425a3c9c9c42d3a25004cc98bcda9d69394d7dcb530254f30a2939",
+      "compilation": {},
+      "log_sha256": "7218fc39923694a1d3eaa02db0e22355b771df279166984ed57904a2fd27bacf",
+      "core_checks": [
+        {
+          "mode": "checked",
+          "compiler_command": [
+            "gfortran",
+            "-O0",
+            "-g",
+            "-fcheck=all",
+            "-ffpe-trap=invalid,zero,overflow",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "cases.f90",
+            "-o",
+            "checked"
+          ],
+          "shape_matrices": 129,
+          "maximum_relative_eigenpair_residual": 5.833159769074793e-08,
+          "concentration_expected": [
+            3.0,
+            5.0,
+            10.0,
+            30.0,
+            100.0,
+            1000.0
+          ],
+          "concentration_measured": [
+            3.0,
+            4.999999046325684,
+            10.000000953674316,
+            30.000003814697266,
+            100.00000762939453,
+            1000.0001220703125
+          ],
+          "invalid_input_result": "INVALID INPUTS TERMINATE WITH DEFINED UNRESOLVED VALUE",
+          "duplicate_controls_threads": [
+            1,
+            2,
+            4,
+            8
+          ],
+          "duplicate_sort_candidates": 257,
+          "duplicate_sort_survivors": 68,
+          "writer_valid_and_invalid_controls": 4,
+          "passed": true
+        },
+        {
+          "mode": "optimized",
+          "compiler_command": [
+            "gfortran",
+            "-O3",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "cases.f90",
+            "-o",
+            "optimized"
+          ],
+          "shape_matrices": 129,
+          "maximum_relative_eigenpair_residual": 5.833159769074793e-08,
+          "concentration_expected": [
+            3.0,
+            5.0,
+            10.0,
+            30.0,
+            100.0,
+            1000.0
+          ],
+          "concentration_measured": [
+            3.0,
+            4.999999046325684,
+            10.000000953674316,
+            30.000003814697266,
+            100.00000762939453,
+            1000.0001220703125
+          ],
+          "invalid_input_result": "INVALID INPUTS TERMINATE WITH DEFINED UNRESOLVED VALUE",
+          "duplicate_controls_threads": [
+            1,
+            2,
+            4,
+            8
+          ],
+          "duplicate_sort_candidates": 257,
+          "duplicate_sort_survivors": 68,
+          "writer_valid_and_invalid_controls": 4,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "script": "peaks_regression.py",
+      "compiler": "gfortran",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/peaks_regression.py",
+        "--output",
+        "/tmp/bdm-final-focused-validation-5y9pr1yt/peaks_regression-gfortran.json"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 12.692626485135406,
+      "log": "/tmp/bdm-final-focused-validation-5y9pr1yt/peaks_regression-gfortran.log",
+      "stderr": "",
+      "receipt": "/tmp/bdm-final-focused-validation-5y9pr1yt/peaks_regression-gfortran.json",
+      "receipt_sha256": "d3581885f29406e1f2e02b901066635ddb4c63ecb9e28994a6c95372a0c9731f",
+      "passed": 136,
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 68,
+        "optimized": 68
+      },
+      "threads": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "cases": [
+        "configuration",
+        "empty_bdm",
+        "peaks"
+      ],
+      "driver_sha256": "92faa060112d03c0877991d00fde85ff0f92088bf8f3e163ed2db85b63a30ae1",
+      "compilation": [
+        {
+          "mode": "checked",
+          "command": [
+            "gfortran",
+            "-O0",
+            "-g",
+            "-fcheck=all",
+            "-ffpe-trap=invalid,zero,overflow",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "peaks_source.f90",
+            "-o",
+            "checked"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "mode": "optimized",
+          "command": [
+            "gfortran",
+            "-O3",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "peaks_source.f90",
+            "-o",
+            "optimized"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "log_sha256": "25be2aa9c202310759d2fbec3eee5bfd70be97a15a2736f843e68d28fdfba4a3"
+    },
+    {
+      "script": "particles_tests.py",
+      "compiler": "gfortran",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/particles_tests.py",
+        "--output",
+        "/tmp/bdm-final-focused-validation-5y9pr1yt/particles_tests-gfortran.json"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 10.16320914006792,
+      "log": "/tmp/bdm-final-focused-validation-5y9pr1yt/particles_tests-gfortran.log",
+      "stderr": "",
+      "receipt": "/tmp/bdm-final-focused-validation-5y9pr1yt/particles_tests-gfortran.json",
+      "receipt_sha256": "27ec46169ab822f0cad6694b24815e4a3a76dd64862f9eabfa5d6e55123541c7",
+      "passed": 104,
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 52,
+        "optimized": 52
+      },
+      "threads": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "cases": [
+        "buffer_corner",
+        "buffer_face",
+        "buffer_halfbox",
+        "buffer_query",
+        "buffer_search",
+        "buffer_smallbox",
+        "centering_empty",
+        "centering_far",
+        "centering_near",
+        "centering_one",
+        "list_check",
+        "restore_buffered",
+        "restore_roundtrip"
+      ],
+      "driver_sha256": "3eae7c7031904457806b7d7775dc13b066e145a087435c60cee1e1779ee64c89",
+      "compilation": {
+        "checked": {
+          "command": [
+            "gfortran",
+            "-O0",
+            "-g",
+            "-fcheck=all",
+            "-ffpe-trap=invalid,zero,overflow",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "particle_cases.f90",
+            "-o",
+            "checked"
+          ],
+          "stdout": "",
+          "stderr": ""
+        },
+        "optimized": {
+          "command": [
+            "gfortran",
+            "-O3",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "particle_cases.f90",
+            "-o",
+            "optimized"
+          ],
+          "stdout": "",
+          "stderr": ""
+        }
+      },
+      "log_sha256": "9de590dcc7cd5f1a3fbf49e93c02a5dddb2de96418fc19103b35ff8771fdbccd"
+    },
+    {
+      "script": "publication_regression.py",
+      "compiler": "gfortran",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/publication_regression.py",
+        "--output",
+        "/tmp/bdm-final-focused-validation-5y9pr1yt/publication_regression-gfortran.json"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 2.0840780129656196,
+      "log": "/tmp/bdm-final-focused-validation-5y9pr1yt/publication_regression-gfortran.log",
+      "stderr": "",
+      "receipt": "/tmp/bdm-final-focused-validation-5y9pr1yt/publication_regression-gfortran.json",
+      "receipt_sha256": "a07cd13611102baf52edbf6b6f7d42f2913b442a1829077f0c252e9cf63b089d",
+      "passed": 26,
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 13,
+        "optimized": 13
+      },
+      "threads": [],
+      "cases": [
+        "abort_header",
+        "closed_stage",
+        "concurrent_writers",
+        "empty",
+        "invalid_late",
+        "rename_failure",
+        "valid"
+      ],
+      "driver_sha256": "53b3f3134962a773a7cda03a5a88d1696784b470e69c2cbfc3a4f586219c1df0",
+      "compilation": [
+        {
+          "mode": "checked",
+          "command": [
+            "gfortran",
+            "-O0",
+            "-g",
+            "-fcheck=all",
+            "-ffpe-trap=invalid,zero,overflow",
+            "-ffree-line-length-none",
+            "cases.f90",
+            "-o",
+            "checked"
+          ],
+          "stderr": ""
+        },
+        {
+          "mode": "optimized",
+          "command": [
+            "gfortran",
+            "-O3",
+            "-ffree-line-length-none",
+            "cases.f90",
+            "-o",
+            "optimized"
+          ],
+          "stderr": ""
+        }
+      ],
+      "log_sha256": "49565360a108ffe8974f6fded4e5640a3fe77e0d0c62b9fd71d409933581c087"
+    },
+    {
+      "script": "halo_followup.py",
+      "compiler": "gfortran",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "-c",
+        "from pathlib import Path\nfrom unittest import mock\nimport runpy,sys\nsource=Path('/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/halo_followup.py')\ntarget=source.parent/'halo_followup_results.json'\noutput=Path('/tmp/bdm-final-focused-validation-5y9pr1yt/halo_followup-gfortran.json')\noriginal=Path.write_text\ndef write(path,*args,**kwargs):\n    return original(output if path.resolve()==target.resolve() else path,*args,**kwargs)\nsys.path.insert(0,str(source.parent))\nsys.argv=[str(source)]\nwith mock.patch.object(Path,'write_text',write):\n    runpy.run_path(str(source),run_name='__main__')\n"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 3.1590387909673154,
+      "log": "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_followup-gfortran.log",
+      "stderr": "",
+      "receipt": "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_followup-gfortran.json",
+      "receipt_sha256": "a3c6772c93ccfe47a48d8fb063a2788162c0a0ea8480a0ec5cca73e192e9bf83",
+      "passed": 26,
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 13,
+        "optimized": 13
+      },
+      "threads": [],
+      "cases": [
+        "bound_statistics_with_hot_contaminants",
+        "heap_ids_index",
+        "heap_index",
+        "population_0",
+        "population_1",
+        "population_10",
+        "population_9",
+        "slow_contraction_fallback",
+        "sort_int64_values",
+        "two_so_crossings_fixed"
+      ],
+      "driver_sha256": "b03c21281a4d8aaa042498448553ceab6cb1da9653b37cb142f9ccd46645305d",
+      "compilation": {
+        "checked": {
+          "command": [
+            "gfortran",
+            "-O0",
+            "-fcheck=all",
+            "-ffpe-trap=invalid,zero,overflow",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "source.f90",
+            "-o",
+            "checked"
+          ],
+          "stderr": ""
+        },
+        "optimized": {
+          "command": [
+            "gfortran",
+            "-O3",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "source.f90",
+            "-o",
+            "optimized"
+          ],
+          "stderr": ""
+        }
+      },
+      "log_sha256": "f3bef7391937a438da2e05d7ef1bc89b65756db37863eb23b58d5671b82483a1"
+    },
+    {
+      "script": "halo_periodic_regression.py",
+      "compiler": "gfortran",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/halo_periodic_regression.py",
+        "--output",
+        "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_periodic_regression-gfortran.json",
+        "--compiler",
+        "gfortran"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 4.633521724957973,
+      "log": "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_periodic_regression-gfortran.log",
+      "stderr": "",
+      "receipt": "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_periodic_regression-gfortran.json",
+      "receipt_sha256": "4b6b3d4b228019dff6e35502f38c0c1414958947f775d322133ceeae22162d08",
+      "passed": 30,
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 15,
+        "optimized": 15
+      },
+      "threads": [
+        1,
+        2,
+        4
+      ],
+      "cases": [
+        "corner",
+        "coverage",
+        "face",
+        "half_box",
+        "parallel_list"
+      ],
+      "driver_sha256": "e401e994933c22264dbf2db46f60a944951b9ff7f41b9f71e057e4cf18aafe44",
+      "compilation": {
+        "checked": {
+          "command": [
+            "gfortran",
+            "-O0",
+            "-g",
+            "-fcheck=all",
+            "-ffpe-trap=invalid,zero,overflow",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "source.f90",
+            "-o",
+            "checked"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "optimized": {
+          "command": [
+            "gfortran",
+            "-O3",
+            "-fno-fast-math",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "source.f90",
+            "-o",
+            "optimized"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      },
+      "log_sha256": "0dc86a5ee5d7a1156fad200d6b7211e5ec8e040c84f42647891a3f0fadd2bdb6"
+    },
+    {
+      "script": "halo_host_ties.py",
+      "compiler": "gfortran",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/halo_host_ties.py",
+        "--output",
+        "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_host_ties-gfortran.json",
+        "--compiler",
+        "gfortran"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 12.494230411015451,
+      "log": "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_host_ties-gfortran.log",
+      "stderr": "",
+      "receipt": "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_host_ties-gfortran.json",
+      "receipt_sha256": "3e46cacdda9365680d14dd32ce0c78becaf5749b5cd252397770014a81a5a3f6",
+      "passed": 160,
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 80,
+        "optimized": 80
+      },
+      "threads": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "cases": [
+        "disjoint_low_mass",
+        "equal_mass_unequal_radius_forward_containment",
+        "equal_mass_unequal_radius_reverse_containment",
+        "exact_set_fallback",
+        "immutable_equal_mass_chain",
+        "immutable_unequal_mass_chain",
+        "independent_cluster_graph",
+        "mass_priority_over_index",
+        "native_periodic_corner_1086_1087",
+        "native_periodic_corner_261_263",
+        "native_periodic_corner_673_695",
+        "native_three_pairs",
+        "overlapping_outskirts",
+        "periodic_corner_containment",
+        "periodic_float64_cutoff",
+        "shifted_query_boundary",
+        "stable_index_with_reverse_input",
+        "strict_inside",
+        "strict_on",
+        "strict_outside"
+      ],
+      "driver_sha256": "021f28cf1697bf6a79de63e5aff3e9dcd8d43ce2ac8a7396bb08353d547e941b",
+      "compilation": {
+        "before-checked": {
+          "command": [
+            "gfortran",
+            "-O0",
+            "-g",
+            "-fcheck=all",
+            "-ffpe-trap=invalid,zero,overflow",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "before.f90",
+            "-o",
+            "before-checked"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "before-optimized": {
+          "command": [
+            "gfortran",
+            "-O3",
+            "-fno-fast-math",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "before.f90",
+            "-o",
+            "before-optimized"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "repaired-checked": {
+          "command": [
+            "gfortran",
+            "-O0",
+            "-g",
+            "-fcheck=all",
+            "-ffpe-trap=invalid,zero,overflow",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "repaired.f90",
+            "-o",
+            "repaired-checked"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "repaired-optimized": {
+          "command": [
+            "gfortran",
+            "-O3",
+            "-fno-fast-math",
+            "-fopenmp",
+            "-ffree-line-length-none",
+            "repaired.f90",
+            "-o",
+            "repaired-optimized"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      },
+      "log_sha256": "c22f886d1498edf675efcbec781857e712980d0bc29193e80bc5e4a6bdac5e17"
+    },
+    {
+      "script": "halo_periodic_regression.py",
+      "compiler": "ifx",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/halo_periodic_regression.py",
+        "--output",
+        "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_periodic_regression-ifx.json",
+        "--compiler",
+        "ifx"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 5.872492340859026,
+      "log": "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_periodic_regression-ifx.log",
+      "stderr": "",
+      "receipt": "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_periodic_regression-ifx.json",
+      "receipt_sha256": "71dc578691b1442528ad1411e99ff65ee20e4243f4d5692a18b5669d0b16632a",
+      "passed": 30,
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 15,
+        "optimized": 15
+      },
+      "threads": [
+        1,
+        2,
+        4
+      ],
+      "cases": [
+        "corner",
+        "coverage",
+        "face",
+        "half_box",
+        "parallel_list"
+      ],
+      "driver_sha256": "e401e994933c22264dbf2db46f60a944951b9ff7f41b9f71e057e4cf18aafe44",
+      "compilation": {
+        "checked": {
+          "command": [
+            "ifx",
+            "-O0",
+            "-check",
+            "bounds",
+            "-fpe0",
+            "-fp-model",
+            "precise",
+            "-qopenmp",
+            "source.f90",
+            "-o",
+            "checked"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "optimized": {
+          "command": [
+            "ifx",
+            "-O3",
+            "-fp-model",
+            "precise",
+            "-qopenmp",
+            "source.f90",
+            "-o",
+            "optimized"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      },
+      "log_sha256": "9f14268f047dac65c1d82c2fd5b0c2e19ffcc12cf59b097952431101df5853c7"
+    },
+    {
+      "script": "halo_host_ties.py",
+      "compiler": "ifx",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/halo_host_ties.py",
+        "--output",
+        "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_host_ties-ifx.json",
+        "--compiler",
+        "ifx"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 14.661796917906031,
+      "log": "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_host_ties-ifx.log",
+      "stderr": "",
+      "receipt": "/tmp/bdm-final-focused-validation-5y9pr1yt/halo_host_ties-ifx.json",
+      "receipt_sha256": "3c0fd82e9888cb69b8a03cb8f69eae605041b371a76b58bbfef80f7600c53832",
+      "passed": 160,
+      "modes": [
+        "checked",
+        "optimized"
+      ],
+      "mode_counts": {
+        "checked": 80,
+        "optimized": 80
+      },
+      "threads": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "cases": [
+        "disjoint_low_mass",
+        "equal_mass_unequal_radius_forward_containment",
+        "equal_mass_unequal_radius_reverse_containment",
+        "exact_set_fallback",
+        "immutable_equal_mass_chain",
+        "immutable_unequal_mass_chain",
+        "independent_cluster_graph",
+        "mass_priority_over_index",
+        "native_periodic_corner_1086_1087",
+        "native_periodic_corner_261_263",
+        "native_periodic_corner_673_695",
+        "native_three_pairs",
+        "overlapping_outskirts",
+        "periodic_corner_containment",
+        "periodic_float64_cutoff",
+        "shifted_query_boundary",
+        "stable_index_with_reverse_input",
+        "strict_inside",
+        "strict_on",
+        "strict_outside"
+      ],
+      "driver_sha256": "021f28cf1697bf6a79de63e5aff3e9dcd8d43ce2ac8a7396bb08353d547e941b",
+      "compilation": {
+        "before-checked": {
+          "command": [
+            "ifx",
+            "-O0",
+            "-check",
+            "bounds",
+            "-fpe0",
+            "-fp-model",
+            "precise",
+            "-qopenmp",
+            "-extend-source",
+            "before.f90",
+            "-o",
+            "before-checked"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "before-optimized": {
+          "command": [
+            "ifx",
+            "-O3",
+            "-fp-model",
+            "precise",
+            "-qopenmp",
+            "-extend-source",
+            "before.f90",
+            "-o",
+            "before-optimized"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "repaired-checked": {
+          "command": [
+            "ifx",
+            "-O0",
+            "-check",
+            "bounds",
+            "-fpe0",
+            "-fp-model",
+            "precise",
+            "-qopenmp",
+            "-extend-source",
+            "repaired.f90",
+            "-o",
+            "repaired-checked"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "repaired-optimized": {
+          "command": [
+            "ifx",
+            "-O3",
+            "-fp-model",
+            "precise",
+            "-qopenmp",
+            "-extend-source",
+            "repaired.f90",
+            "-o",
+            "repaired-optimized"
+          ],
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      },
+      "log_sha256": "05e962a702e4211871395533bc7b316379ff299a70cd30c738b8b6859b4ba6a6"
+    },
+    {
+      "script": "native_driver_regression.py",
+      "compiler": "driver",
+      "command": [
+        "micromamba",
+        "run",
+        "-n",
+        "cosemu",
+        "python3",
+        "-B",
+        "/tmp/bdm-repairs-20260906-2blb0ygi/particles/BDM-refine/repairs/20260906/tests/native_driver_regression.py"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 1.0557042469736189,
+      "log": "/tmp/bdm-final-focused-validation-5y9pr1yt/native_driver_regression-driver.log",
+      "stderr": "",
+      "receipt": "/tmp/bdm-final-focused-validation-5y9pr1yt/native_driver_regression-driver.json",
+      "receipt_sha256": "a10d0f150d6d273264ec45775d022b17c185944b75b6a99c875cf94b32b7fa82",
+      "passed": 5,
+      "modes": [],
+      "mode_counts": {},
+      "threads": [],
+      "cases": [],
+      "driver_sha256": "fc63e0e24375019aca97f7fc42a1776469f4607700cfa660855cc3c36cf80e56",
+      "compilation": {},
+      "log_sha256": "1b0bc2975550a355e2aa729d4b19b05a255685f179a249de996c3295e28bfe56",
+      "checks": [
+        "different population rejected",
+        "different physics rejected",
+        "different particle count rejected",
+        "timeout stops wrapper and finder child",
+        "timeout preserves failed record and output"
+      ],
+      "native_validation_sha256": "0c15f693dea077787cf30960e250d4d84370fce21104b2edeac0ae1e19a55da0"
+    }
+  ],
+  "all_requested_suites_passed": true,
+  "total_elapsed_seconds": 69.5825714468956,
+  "production_changes": false,
+  "harness_changes": false,
+  "prior_36_case_aggregate_preserved": "/tmp/bdm-integrated-validation-w1xrtdwy/halo_full_results.json",
+  "git_worktree_status": "",
+  "source_matches_current_integration": true
+}
