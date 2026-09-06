@@ -1,0 +1,57 @@
+{
+  "command": [
+    "sbatch",
+    "--parsable",
+    "--partition=cosma8-serial",
+    "--account=dp004",
+    "--nodes=1",
+    "--ntasks=1",
+    "--cpus-per-task=1",
+    "--mem=8G",
+    "--time=00:15:00",
+    "--job-name=bdm-v3-comparison",
+    "--dependency=afterok:11949499:11949500",
+    "--chdir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM",
+    "--output=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/analysis-%j.log",
+    "--error=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/analysis-%j.log",
+    "--export=ALL,BDM_REVIEW_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-analysis/analysis.sbatch",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-analysis/analyze_replays.py"
+  ],
+  "dependencies": [
+    "11949499",
+    "11949500"
+  ],
+  "prepared_at_utc": "2026-09-06T17:39:27.451844+00:00",
+  "submitter_sha256": "04e0593777d2e68d2ba63727e148357fa6184be6baa15cc7688daa60dfead990",
+  "script_sha256": {
+    "run_replays.py": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+    "analyze_replays.py": "26c820d43e687e61fe6c42325a3ed915ce66585af9f57f81d71f2c90a7dad561",
+    "analysis.sbatch": "ed1a22574990ebdbc4b8e796ce65243db2d07cb4c327bbac20c586c5f6ec315b"
+  },
+  "plan_sha256": "ebb703cf1416b6f58bfa8fa21d18c2a7f7d7ea9f7d1c75f6d010d07479fa69cb",
+  "pilot_sha256": "09e19b116e72980505c42c9deae20fed634c2bb81c7a351610bc079dbc410bfa",
+  "resources": {
+    "partition": "cosma8-serial",
+    "account": "dp004",
+    "cpus": 1,
+    "mem": "8G",
+    "time_limit_seconds": 900,
+    "expected_seconds_range": [
+      120,
+      360
+    ],
+    "expected_core_hours_range": [
+      0.03333333333333333,
+      0.1
+    ],
+    "time_limit_core_hours": 0.25,
+    "pilot": "Full-size host-control job11949318 used 455556 KiB process RSS and 4181824 KiB Slurm MaxRSS. The paired-index/NPZ analysis uses bounded per-halo membership arrays; 8 GiB doubles the measured batch memory for extra catalogue arrays and I/O. Only one CPU is requested for its serial work."
+  },
+  "submitted_at_utc": "2026-09-06T17:39:27.521264+00:00",
+  "returncode": 0,
+  "stdout": "11949535\n",
+  "stderr": "",
+  "job_id": "11949535",
+  "scontrol": "JobId=11949535 JobName=bdm-v3-comparison UserId=dc-ruan1(21209) GroupId=durham(64528) MCS_label=N/A Priority=18124 Nice=0 Account=dp004 QOS=normal JobState=PENDING Reason=Dependency Dependency=afterok:11949499(unfulfilled),afterok:11949500(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=00:15:00 TimeMin=N/A SubmitTime=2026-09-06T18:39:27 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-06T18:39:27 Scheduler=Main Partition=cosma8-serial AllocNode:Sid=login8b.pri.cosma.local:1539709 ReqNodeList=(null) ExcNodeList=(null) NodeList= NumNodes=1-1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=1,mem=8G,node=1,billing=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=1 MinMemoryNode=8G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-analysis/analysis.sbatch SubmitLine=sbatch --parsable --partition=cosma8-serial --account=dp004 --nodes=1 --ntasks=1 --cpus-per-task=1 --mem=8G --time=00:15:00 --job-name=bdm-v3-comparison --dependency=afterok:11949499:11949500 --chdir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM --output=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/analysis-%j.log --error=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/analysis-%j.log --export=ALL,BDM_REVIEW_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-analysis/analysis.sbatch /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-analysis/analyze_replays.py WorkDir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM StdErr=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/analysis-11949535.log StdIn=/dev/null StdOut=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/analysis-11949535.log TresPerTask=cpu=1\n"
+}
