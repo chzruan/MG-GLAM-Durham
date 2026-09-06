@@ -70,14 +70,15 @@ def copy_member(tar, name, destination, expected=None, executable=False):
     return sha(destination)
 
 
-def prepare(box):
+def prepare(box, verify_current_sources=True):
     """Restore only nine binaries and three small inputs, verifying archives."""
     WORK.mkdir(parents=True, exist_ok=True)
     receipt = ROOT / 'preparation.json'
     build = json.loads((REPAIRS / 'native-build.json').read_text())
-    for name, expected in build['source_sha256'].items():
-        if sha(REPO / name) != expected:
-            raise ValueError(f'Current source differs from audited native build: {name}')
+    if verify_current_sources:
+        for name, expected in build['source_sha256'].items():
+            if sha(REPO / name) != expected:
+                raise ValueError(f'Current source differs from audited native build: {name}')
     archives = {
         str(REPAIRS / 'work-artifacts.tar.gz'): '62a4e2cd1b7363c4a029d570801252c324fb871ec1739625a64242bc8fed134c',
         str(AUDIT / 'work-artifacts.tar.gz'): 'b39e39ea17aaf65a53f42a2058986717b89d8ff1513cb02fe65e14294ff9a9c9',
@@ -298,6 +299,9 @@ def load_catalogue(path, spec, strict=True):
         assert np.all(data[:, 6] <= data[:, 7]) and np.all(data[:, 8] > 0)
         assert np.all(data[:, 10] >= 0)
         assert len(np.unique(data[:, 11])) == len(data), 'Duplicate published candidate ID'
+        if spec.get('shape_repair_commit'):
+            assert np.all((data[:, 20] >= 0) & (data[:, 20] <= data[:, 19]) & (data[:, 19] <= 1)), \
+                'Invalid corrected-axis ordering'
     return data, record
 
 

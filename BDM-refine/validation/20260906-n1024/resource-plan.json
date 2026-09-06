@@ -31,5 +31,32 @@
     "full_node_exclusivity_required": false
   },
   "simulation_physics": "GR, L512h^-1Mpc, Omega_m .3089, N1024^3/Ng2048^3, zinit100 to0; new BDM inline at z2,1,0",
-  "snapshot_policy": "KeepICs and named analysis snapshots; periodic overwriting checkpoints disabled. An interrupted integration is inspected and restarted from verified ICs or a verified named snapshot, never an unverified in-place checkpoint."
+  "snapshot_policy": "KeepICs and named analysis snapshots; periodic overwriting checkpoints disabled. An interrupted integration is inspected and restarted from verified ICs or a verified named snapshot, never an unverified in-place checkpoint.",
+  "main_measured_plan": {
+    "partition": "cosma8-serial",
+    "account": "dp004",
+    "cpus": 64,
+    "mem": "192G",
+    "time_limit_seconds": 7200,
+    "expected_seconds_range": [
+      3000,
+      5400
+    ],
+    "expected_core_hours_range": [
+      53.333333333333336,
+      96.0
+    ],
+    "time_limit_core_hours": 128,
+    "pilot_job": "11948326",
+    "pilot_elapsed_seconds": 719,
+    "pilot_total_cpu_seconds": 20788,
+    "pilot_allocated_core_hours": 6.391111111111111,
+    "pilot_utilisation": 0.9035118219749653,
+    "pilot_batch_maxrss_kib": 19105956,
+    "simple_volume_scaled_pilot_batch_GiB": 145.76687622070312,
+    "memory_reason": "Measured entire pilot batch18.22GiB scales to145.77GiB at8xvolume;192GiB provides~32% headroom. Simulation+inline BDM estimated~100GiB; state/fixed-field diagnostics will be sized separately. Pilot threading difference is under controlled investigation; GR evolution and duplicate/membership checks succeeded. The revised-only shape-order fix has bothcompiler regression coverage. Replays can use preserved particles regardless of finder followups.",
+    "full_node_exclusivity_required": false,
+    "packing": "Use64 of128cores and192GiB of1TB on shared queue; leaves64cores and~808GiB available to other jobs.",
+    "dependencies": []
+  }
 }
