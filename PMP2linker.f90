@@ -40,7 +40,7 @@ Integer*4,  PARAMETER  ::                         &
 Real*4        ::                    & 
                      dLogR,         &         ! size of log binning for profiles
                      dLogP,         &         ! size of log binning for potential
-                     MaxMemory=500, &         ! limit on memory for the run
+                     MaxMemory=500, &         ! linked-list admission limit in GiB (BDM.config)
                      MassMin      , &         ! minimum halo mass
                      SlopeR       , &         ! slope for extra radius for resolution correction
                      Rext                     ! extra radius shift at M=1e15
@@ -243,6 +243,7 @@ Contains
 
       NradP=30; iVirial=1; dLogR=0.02; dLogP=0.02
       dBuffer=5.; SlopeR=0.20; Rext=0.15; MassMin=2.5e12
+      MaxMemory=500.
       inquire(file='BDM.config',exist=FileExists)
       if (FileExists) then
          open(newunit=unit,file='BDM.config',status='old',action='read',iostat=io)
@@ -286,6 +287,8 @@ Contains
                read(value,*,iostat=io) SlopeR
             case('massmin','minmass')
                read(value,*,iostat=io) MassMin
+            case('maxmemory')
+               read(value,*,iostat=io) MaxMemory
             case('nne')
                ! This historical option never affected the active finder.
                read(value,*,iostat=io) nne_legacy
@@ -310,6 +313,7 @@ Contains
          write(unit,20) 'Rext',Rext,'! Extra radius shift at m=1e15'
          write(unit,20) 'SlopeR',SlopeR,'! Slope for extra radius shift'
          write(unit,20) 'MassMin',MassMin,'! Minimum halo mass'
+         write(unit,20) 'MaxMemory',MaxMemory,'! Linked-list admission limit in GiB'
          write(unit,20) 'dLogR',dLogR,'! Log bin size for potential'
          write(unit,20) 'dLogP',dLogP,'! Log bin size for profiles'
          close(unit)
@@ -320,6 +324,7 @@ Contains
       write(*,20) 'Rext',Rext,'! Extra radius shift at m=1e15'
       write(*,20) 'SlopeR',SlopeR,'! Slope for extra radius shift'
       write(*,20) 'MassMin',MassMin,'! Minimum halo mass'
+      write(*,20) 'MaxMemory',MaxMemory,'! Linked-list admission limit in GiB'
       write(*,20) 'dLogR',dLogR,'! Log bin size for potential'
       write(*,20) 'dLogP',dLogP,'! Log bin size for profiles'
 10    format(10x,a,T20,' = ',i6,T40,a)
@@ -434,12 +439,13 @@ Contains
       implicit none
       if (iVirial < 0.or.iVirial > 3) call ConfigurationError(0,'iVirial must be 0, 1, 2 or 3')
       if (NradP < 1) call ConfigurationError(0,'NradP must be positive')
-      if (.not.all(ieee_is_finite([dLogR,dLogP,MassMin,Rext,SlopeR,dBuffer]))) &
+      if (.not.all(ieee_is_finite([dLogR,dLogP,MassMin,Rext,SlopeR,dBuffer,MaxMemory]))) &
          call ConfigurationError(0,'all real parameters must be finite')
       if (dLogR <= 0..or.dLogP <= 0.) call ConfigurationError(0,'logarithmic bin widths must be positive')
       if (MassMin < 0.) call ConfigurationError(0,'MassMin must be nonnegative')
       if (Rext < 0..or.SlopeR < 0.) call ConfigurationError(0,'radius corrections must be nonnegative')
       if (dBuffer <= 0.) call ConfigurationError(0,'buffer width must be positive')
+      if (MaxMemory <= 0.) call ConfigurationError(0,'MaxMemory must be positive (GiB)')
       end SUBROUTINE ValidateParameters
 
       SUBROUTINE SetOverdensity
@@ -503,16 +509,12 @@ SUBROUTINE RescaleCoords(iFlag)
   use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
   implicit none
   integer, intent(in) :: iFlag
-  integer*8 :: ip,restoreCount
+  integer*8 :: ip
   real*8 :: Xscale,Vscale
   real :: memoryUsed
   logical :: invalid
 
-  if(iFlag/=1)then
-    restoreCount=BdmPMCount
-    call RemoveBuffer(restoreCount)
-    return
-  endif
+  if(iFlag/=1)error stop 'BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration'
   if(allocated(BdmPMX))error stop 'BDM particle workspace already active'
   if(Np/=Nparticles.or.Np<0_8)error stop 'BDM original particle count is inconsistent'
   if(NGRID<=0.or.Box<=0..or.AEXPN<=0.)error stop 'Invalid BDM coordinate scales'
@@ -615,220 +617,26 @@ end SUBROUTINE WriteFiles
 !                  
 !                  
       SUBROUTINE WriteProfiles
-integer*8 :: ic   
-      iHalo = 0
-      Do ip=1,Nmaxima
-         If(Mvir(ip)>10*MassOne)Then
-            iHalo = iHalo +1
-            x    = xMaxx(ip);       y =  yMaxx(ip);    z = zMaxx(ip)
-         If(Mvir(ip)>100.*MassOne)Then
-         Vrms = sqrt(EkinM(ip)/Mvir(ip)*2.)
-         Cvir = Concentration(Mvir(ip),1.e3*Rvir(ip),VmaxM(ip))
-         If(Cvir < 0.)Cvir = Rvir(ip)/RmaxM(ip)*2.15
-         iHalo= ih
-
-         iStart  = 0
-         Do i=-NradP+1,0
-            If(NbinH1(i,ih)>0.and.MassH1(i,ih)>5.*MassOne)Then
-               iStart = i ; exit
-            EndIf
-         EndDo
-         Nlines  = 0 ! total lines of profile
-         Do i=-NradP+1,0
-            If(NbinH1(i,ih)>0.and.MassH1(i,ih)>5.*MassOne)Then
-               Nlines = Nlines +1
-            EndIf
-         EndDo
-           write(20) &
-                    x,y,z,VxMaxx(ip),VyMaxx(ip),VzMaxx(ip), &
-                    Mvir(ip),Mtotal(ip),1.e3*Rvir(ip),Vrms, VmaxM(ip),   & 
-                    iHalo,Cvir,Mvir(ip)/MassOne,MaxIndex(ip),Xoff(ip), &
-                    2.*EkinM(ip)/EpotM(ip)-1.,LambdaM(ip),1.e3*RadRms(ip),                 &
-                    Axba(ip),Axca(ip),Xax(ip),Yax(ip),Zax(ip),Nlines
-          Radius = 2.*Rvir(ip)
-          Do i=iStart,0
-            R     = Radius*10.**(i*dLogP)
-            Rin   = Radius*10.**((i-1)*dLogP)
-            Vcirc1 = 6.582e-5*sqrt(MassH1(i,ih)/R)/sqrt(AEXPN)
-            Vcirc2 = 6.582e-5*sqrt(MassH2(i,ih)/R)/sqrt(AEXPN)
-            Volume =  4.1888*(R**3-Rin**3)
-            DensH1 = (MassH1(i,ih)-MassH1(i-1,ih))/Volume*1.e-9  !density Msunh/kpch**3 comoving
-            DensH2 = (MassH2(i,ih)-MassH2(i-1,ih))/Volume*1.e-9
-            If(NbinH1(i,ih)/= 0.and.MassH1(i,ih)>5.*MassOne)Then
- 
-              write(20) R*1.e3,            &
-                 NbinH1(i,ih),RadH1(i,ih),MassH1(i,ih),Vcirc1, &
-                 DensH1,VrmsH1(i,ih),VradH1(i,ih),VrmsrH1(i,ih), &
-                 NbinH2(i,ih),RadH2(i,ih),MassH2(i,ih),Vcirc2, &
-                 DensH2,VrmsH2(i,ih),VradH2(i,ih),VrmsrH2(i,ih)
-
-            End If
-         EndDo
-      End If
-    end If
-    end do
-
-      close (20)
-
-    end SUBROUTINE WriteProfiles
+      implicit none
+      error stop 'BDM WriteProfiles is unsupported: legacy profile workspace is not implemented'
+      end SUBROUTINE WriteProfiles
 
 !---------------------------------------------------------------------------
 !                  Find profile of each halo and subhalos
 !                  
       SUBROUTINE GetProfiles
-integer*8 :: ic,ip   
-      Nhalo = Nmaxima
-        write(13,*) ' GetProfiles. Nhalo=',Nhalo
-        iHalo = 0
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (i)
-        Do i=1,Nhalo
-           RadH1(:,i)  =0. ; MassH1(:,i)  =0. ; VrmsH1(:,i) =0.
-           VradH1(:,i) =0. ; VrmsrH1(:,i) =0. ; NbinH1(:,i) =0
-           RadH2(:,i)  =0. ; MassH2(:,i)  =0. ; VrmsH2(:,i) =0.
-           VradH2(:,i) =0. ; VrmsrH2(:,i) =0. ; NbinH2(:,i) =0
-        EndDo
-       
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (ih,ip,ic,x,y,z,aR) 
-      Do ip=1,Nmaxima
-             If(Mvir(ip)>100.*MassOne)Then
-                x    = xMaxx(ip);  y = yMaxx(ip);  z = zMaxx(ip)
-                aR   = Rvir(ip)
-                if(mod(ih,1000)==0) &
-                write(13,'(i8,5f9.4)') ip,x,y,z,aR
-                Call HaloProfile(x,y,z,aR,ip)
-             EndIf
-      EndDo         ! i
-    end SUBROUTINE GetProfiles
+      implicit none
+      error stop 'BDM GetProfiles is unsupported: legacy profile workspace is not implemented'
+      end SUBROUTINE GetProfiles
 
 !---------------------------------------------------------------------------
 !                   Get profile of a halo
       SUBROUTINE HaloProfile(x,y,z,aR,ip)
-!---------------------------------------------------------------------------
-      Real*4, PARAMETER ::      fiScale  =  4.333e-9
-      Real*4      :: Fi(-NradP:0)
-      Real*8      :: wx,wy,wz
-      integer*8   :: ic,ip,jp   
-      
-      Radius = 2.*aR
-      d0     = Radius**2           ! get final statistics of  particles
-      factorZ    = 100.*sqrt(Om0/AEXPN**3+(1.-Om0)) *AEXPN 
-      
-
-      wx = VxMaxx(ip) ; wy = VyMaxx(ip) ; wz = VzMaxx(ip) 
-      Call Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
-                                             ! Get mass profile
-      Do k3 =k1, k2
-      Do j3 =j1, j2
-      Do i3 =i1, i2
-         jp =Label(i3,j3,k3)
-        Do while (jp.ne.0)
-           dd =(x-Xpar(jp))**2+(y-Ypar(jp))**2+(z-Zpar(jp))**2
-           If(dd< d0) Then
-              r = sqrt(max(dd,1.e-20))
-              ii    = max(min(INT(log10(r/Radius)/dLogP),0),-NradP)
-              dx   = Xpar(jp) -x
-              dy   = Ypar(jp) -y
-              dz   = Zpar(jp) -z
-              dvx = VX(jp) - wx +factorZ*dx    ! true velocity
-              dvy = VY(jp) - wy +factorZ*dy
-              dvz = VZ(jp) - wz +factorZ*dz
-              vv =  dvx**2 + dvy**2 + dvz**2   ! kinetic energy
-              vr =  (dvx*dx+dvy*dy+dvz*dz)/r   ! radial velocity
-              MassH1(ii,ih)   = MassH1(ii,ih)  + MassOne
-              RadH1(ii,ih)    = RadH1(ii,ih)   + r/aR ! radius in virial units
-              VrmsH1(ii,ih)   = VrmsH1(ii,ih)  + vv
-              VradH1(ii,ih)   = VradH1(ii,ih)  + vr
-              VrmsrH1(ii,ih)  = VrmsrH1(ii,ih) + vr**2
-              NbinH1(ii,ih)   = NbinH1(ii,ih)  + 1
-           EndIf                        ! dd<d0                                 
-            jp =Lst(jp)
-        End Do                          !  jp/= 0
-      EndDo   ! i3
-      EndDo   ! j3
-      EndDo   ! k3
-
-      Do ii =-NradP+1,0
-             MassH1(ii,ih) = MassH1(ii,ih) + MassH1(ii-1,ih)
-      EndDo                         
-      Fi           = 0.            ! get potential
-      iR           = min(-INT(0.301/dLogP),0)   ! potential at R =aR
-      Rin          = Radius*10.**(iR*dLogP)
-      Fi(iR)       = fiScale*MassH1(iR,ih)/Rin
-      Do i =iR+1,0                         ! outer part of profile: only mass
-         Rin   = Radius*10.**(i*dLogP)     !  inside aR fi =GM(aR)/R
-         Fi(i) = fiScale*MassH1(iR,ih)/Rin
-      EndDo
-      Do i =iR-1,-NradP,-1                 ! integrate inner part 
-         Rin   = Radius*10.**(i*dLogP)
-         Rout  = Radius*10.**((i+1)*dLogP)
-         Fi(i) = Fi(i+1) + fiScale*(MassH1(i,ih)+MassH1(i+1,ih))*0.5 &
-                                                 *(Rout-Rin)/(Rout*Rin)
-      EndDo
-      Fi = Fi/AEXPN
-       !write(13,'(3g12.4)') (Fi(i),MassP(i),Radius*10.**(i*dLogR),i=-10,0)
-
-        Do k3 =k1, k2   ! ----------- get final statistics of bound particles
-        Do j3 =j1, j2
-        Do i3 =i1, i2
-          jp =Label(i3,j3,k3)
-          Do while (jp.ne.0)
-             dd =(x-Xpar(jp))**2+(y-Ypar(jp))**2+(z-Zpar(jp))**2
-             If(dd< d0) Then
-                r = sqrt(max(dd,1.e-20))
-                dx   = Xpar(jp) -x
-                dy   = Ypar(jp) -y
-                dz   = Zpar(jp) -z
-                dvx = VX(jp) - wx +factorZ*dx    ! true velocity
-                dvy = VY(jp) - wy +factorZ*dy
-                dvz = VZ(jp) - wz +factorZ*dz
-                ii    = max(min(INT(log10(r/Radius)/dLogP),0),-NradP)
-                vv =  dvx**2 + dvy**2 + dvz**2   ! kinetic energy
-                 ee = -Fi(ii) + 0.5*vv
-              if(ee <= 0.)Then                          
-                 vr =  (dvx*dx+dvy*dy+dvz*dz)/r   ! radial velocity
-                 MassH2(ii,ih)   = MassH2(ii,ih)  + MassOne
-                 RadH2(ii,ih)    = RadH2(ii,ih)   + r/aR ! radius in virial units
-                 VrmsH2(ii,ih)   = VrmsH2(ii,ih)  + vv
-                 VradH2(ii,ih)   = VradH2(ii,ih)  + vr
-                 VrmsrH2(ii,ih)  = VrmsrH2(ii,ih) + vr**2
-                 NbinH2(ii,ih)   = NbinH2(ii,ih)  + 1 
-              end if                      ! ee<0
-             EndIf                        ! dd<d0                                 
-            jp =Lst(jp)
-          End Do                          !  jp/= 0
-        EndDo   ! i3
-        EndDo   ! j3
-        EndDo   ! k3
-
-        !Do ii =-NradP+1,0
-        ! write(13,'(2i8,g12.4)') ii,NbinH2(ii,ih),MassH2(ii,ih)
-        !EndDo
-        Do ii =-NradP+1,0
-                 MassH2(ii,ih) = MassH2(ii,ih) + MassH2(ii-1,ih)
-        EndDo
-        
-        Do ii = -NradP+1,0
-          If(NbinH1(ii,ih) /= 0)Then
-            RadH1(ii,ih) = RadH1(ii,ih)/NbinH1(ii,ih)
-            VrmsH1(ii,ih) = sqrt(VrmsH1(ii,ih)/NbinH1(ii,ih))
-            VradH1(ii,ih) = VradH1(ii,ih)/NbinH1(ii,ih)
-            VrmsrH1(ii,ih) = sqrt(VrmsrH1(ii,ih)/NbinH1(ii,ih))
-          end If
-          If(NbinH2(ii,ih) /= 0)Then
-            RadH2(ii,ih)   = RadH2(ii,ih)/NbinH2(ii,ih)
-            VrmsH2(ii,ih)  = sqrt(VrmsH2(ii,ih)/NbinH2(ii,ih))
-            VradH2(ii,ih)  = VradH2(ii,ih)/NbinH2(ii,ih)
-            VrmsrH2(ii,ih) = sqrt(VrmsrH2(ii,ih)/NbinH2(ii,ih))
-          end If
-       End Do
-       !Do ii =-NradP+1,0
-       ! write(13,'(2i8,8g12.4)') ii,NbinH1(ii,ih),MassH1(ii,ih), &
-       !          RadH1(ii,ih),VrmsH1(ii,ih),VrmsrH1(ii,ih)
-       !EndDo
-
-             end SUBROUTINE HaloProfile
+      implicit none
+      real*4, intent(in) :: x,y,z,aR
+      integer*8, intent(in) :: ip
+      error stop 'BDM HaloProfile is unsupported: legacy profile workspace is not implemented'
+      end SUBROUTINE HaloProfile
 
 !---------------------------------------------------------------------------
 !                 Initialize arrays for halo structure
@@ -1036,31 +844,9 @@ integer*8 :: ic,ip
 !                   
 !
       SUBROUTINE RemoveDuplicatesSimple
-!---------------------------------------------------------------------------
-        integer*8 :: ic,ip,i
-        real*4 :: m
-      tstart = seconds()
-!  --------------------------- 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (ip,x,y,z,m,ic,D2) 
-      Do ip=1,Nmaxima
-         If(Mvir(ip)>MassOne)Then
-            x   = xMaxx(ip);   y = yMaxx(ip);    z = zMaxx(ip)
-            m   = Mvir(ip)
-            do ic =1,Nmaxima
-               If(ic/=ip)Then
-                  D2 = (xMaxx(ic) -x)**2 +(yMaxx(ic) -y)**2 +(zMaxx(ic) -z)**2
-                  If(D2.lt.Rvir(ic)**2.and.m.lt.Mvir(ic))Then
-                     Mvir(ip) = 0.
-                  End If
-               end If
-            end do
-         end If
-       End Do         ! ip
-       tfinish = seconds()
-      write(*,'(10x,a,T50,2f10.2)') ' time for RemoveDuplicates =',tfinish-tstart,tfinish-t0
-
-    end SUBROUTINE RemoveDuplicatesSimple
+      implicit none
+      error stop 'BDM RemoveDuplicatesSimple is unsupported: use RemoveDuplicates with exact bound IDs'
+      end SUBROUTINE RemoveDuplicatesSimple
 !---------------------------------------------------------------------------
 !                  Find parameters of distinct halos 
 !
