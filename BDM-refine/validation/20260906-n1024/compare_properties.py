@@ -45,6 +45,8 @@ PROPERTIES = {
     "radial_rms": (18, "nonnegative", "percent"),
     "vrms": (9, "nonnegative", "percent"),
     "bulk_velocity": (None, "vector", "vector_norm"),
+    "virial_ratio": (16, "finite_signed", "difference"),
+    "major_axis_angle_deg": (None, "direction", "axis_angle_deg"),
 }
 STATUS_NAMES = ["matched", "invalid_position_or_radius", "no_eligible_counterpart",
                 "non_mutual_nearest", "outside_radius_cut", "ambiguous_neighbour"]
@@ -57,6 +59,9 @@ LIMITATIONS = [
     "Reported Rvir is the extended aperture (Rext correction); it is not the unextended SO crossing radius. Xoff uses the reported aperture radius.",
     "Concentration is a mass/radius/Vmax diagnostic with a radius-based fallback, not an independently fitted profile concentration.",
     "Separate empirical corrections can make the reported c/a exceed b/a. Axis-order anomalies are counted separately; in-range calibrated axis ratios remain in matched-property statistics.",
+    "Virial-ratio changes compare the signed catalogue quantity 2K/Ep-1 by absolute subtraction; old/new energy definitions differ, so this is not a common-definition equilibrium test.",
+    "Major-axis angles normalize both vectors and remove the arbitrary sign with acos(abs(dot)). Direction trends require both reported b/a below the configured threshold; this conservative degeneracy proxy cannot replace unavailable raw eigenvalue-gap conditioning.",
+    "An optional reference_logmass marker/shading is supplied by metadata as a literature-only resolution reference. It neither selects rows nor establishes convergence of the revised finder.",
     "Catshort contains no Rmax. Direct row-aligned auxiliary values may be supplied, but Rmax is never inferred from concentration.",
     "Quality fractions describe published catalogue rows only. Candidate rejection/status fractions require finder logs; missing candidates are not counted as valid or invalid published rows.",
     "HMF error bars are marginal sqrt(N) counting scales, not errors on the correlated old/new difference. Trend bands are 16th–84th percentiles of halo differences, not confidence intervals.",
@@ -144,12 +149,17 @@ def property_values(table: np.ndarray, name: str, auxiliary: np.ndarray | None) 
         return np.full(len(table), np.nan) if auxiliary is None else auxiliary
     if name == "bulk_velocity":
         return table[:, 3:6]
+    if name == "major_axis_angle_deg":
+        return table[:, 21:24]
     return table[:, column]
 
 
 def valid_values(values: np.ndarray, domain: str) -> np.ndarray:
-    if domain == "vector":
-        return np.all(np.isfinite(values), axis=1)
+    if domain in ("vector", "direction"):
+        valid = np.all(np.isfinite(values), axis=1)
+        if domain == "direction":
+            valid &= np.max(np.abs(values), axis=1) > 0
+        return valid
     valid = np.isfinite(values)
     if domain == "positive":
         valid &= values > 0
@@ -158,6 +168,25 @@ def valid_values(values: np.ndarray, domain: str) -> np.ndarray:
     elif domain == "axis_ratio":
         valid &= (values >= 0) & (values <= 1.0005)  # native ASCII rounding
     return valid
+
+
+def major_axis_angles(old: np.ndarray, new: np.ndarray) -> np.ndarray:
+    """Projective angle in degrees, with stable normalization of finite vectors."""
+    valid = valid_values(old, "direction") & valid_values(new, "direction")
+    result = np.full(len(old), np.nan)
+    unit = []
+    for values in (old[valid], new[valid]):
+        scaled = values / np.max(np.abs(values), axis=1)[:, None]
+        unit.append(scaled / np.linalg.norm(scaled, axis=1)[:, None])
+    dot = np.sum(unit[0] * unit[1], axis=1)
+    result[valid] = np.degrees(np.arccos(np.clip(np.abs(dot), 0., 1.)))
+    return result
+
+
+def direction_shape_mask(table: np.ndarray, maximum_ba: float) -> np.ndarray:
+    """Reported b/a is a proxy, not an eigenvalue-gap measurement."""
+    ba = table[:, 19]
+    return np.isfinite(ba) & (ba >= 0.) & (ba < maximum_ba)
 
 
 def binned_quantiles(mass: np.ndarray, change: np.ndarray, edges: np.ndarray) -> tuple:
@@ -183,8 +212,16 @@ def analyse(catalogue_path: Path, metadata_path: Path, args: argparse.Namespace)
     nrow = int(metadata["nrow"])
     if not np.isfinite(box) or box <= 0 or nrow <= 0:
         raise ValueError("Metadata requires positive box_mpc_h and nrow")
+    direction_ba_max = float(getattr(args, "direction_ba_max", .9))
+    if not 0. < direction_ba_max <= 1.:
+        raise ValueError("direction_ba_max must be in (0,1]")
+    reference_logmass = metadata.get("reference_logmass")
+    if reference_logmass is not None:
+        reference_logmass = float(reference_logmass)
+        if not np.isfinite(reference_logmass):
+            raise ValueError("reference_logmass must be finite when supplied")
     prepared = {}
-    report = {"schema_version": 1, "created_utc": datetime.now(timezone.utc).isoformat(),
+    report = {"schema_version": 2, "created_utc": datetime.now(timezone.utc).isoformat(),
               "input_npz": str(catalogue_path.resolve()), "input_npz_sha256": sha256(catalogue_path),
               "metadata_sha256": sha256(metadata_path), "metadata": metadata,
               "script_sha256": sha256(Path(__file__)), "columns": COLUMNS,
@@ -195,6 +232,8 @@ def analyse(catalogue_path: Path, metadata_path: Path, args: argparse.Namespace)
                                 "match_fraction": args.match_fraction,
                                 "ambiguity_ratio": args.ambiguity_ratio,
                                 "tie_atol_mpc_h": args.tie_atol,
+                                "direction_ba_max": direction_ba_max,
+                                "reference_logmass": reference_logmass,
                                 "expect_ordered_new": bool(getattr(args, "expect_ordered_new", False))}, "epochs": {}}
     report["finder_revisions"] = {
         "old": metadata.get("old_finder_commit", metadata.get("old_source_commit", "not supplied")),
@@ -283,8 +322,15 @@ def analyse(catalogue_path: Path, metadata_path: Path, args: argparse.Namespace)
                         "invalid_fraction": float(np.mean(~valid)) if len(table) and available[-1] else None,
                         "zero_sentinel_count": int(unresolved.sum()) if available[-1] and domain == "sentinel" else None,
                         "zero_sentinel_fraction": float(unresolved.mean()) if len(table) and available[-1] and domain == "sentinel" else None}
+                    if domain == "direction":
+                        shape_rejected = valid & ~direction_shape_mask(table, direction_ba_max)
+                        epoch["quality"][side][name].update(
+                            shape_conditioning_excluded_count=int(shape_rejected.sum()),
+                            shape_conditioning_excluded_fraction=float(shape_rejected.mean()) if len(table) else None,
+                            conditioning="Finite nonzero direction and reported b/a below direction_ba_max; raw eigenvalue gaps unavailable")
                 a, b = values[0][oi], values[1][ni]
                 valid = valid_values(a, domain) & valid_values(b, domain)
+                conditioning = {}
                 change = np.full(len(oi), np.nan)
                 if difference == "percent":
                     valid &= a > 0
@@ -295,6 +341,15 @@ def analyse(catalogue_path: Path, metadata_path: Path, args: argparse.Namespace)
                 elif difference == "vector_norm":
                     change[valid] = np.linalg.norm(b[valid] - a[valid], axis=1)
                     prepared[f"{tag}__bulk_velocity_components_delta"] = b - a
+                elif difference == "axis_angle_deg":
+                    shape_ok = direction_shape_mask(old[oi], direction_ba_max) & direction_shape_mask(new[ni], direction_ba_max)
+                    conditioning = {"valid_direction_vector_pairs": int(valid.sum()),
+                                    "shape_conditioning_excluded_pairs": int(np.count_nonzero(valid & ~shape_ok)),
+                                    "direction_ba_max": direction_ba_max}
+                    change = major_axis_angles(a, b)
+                    prepared[f"{tag}__major_axis_angle_deg__unconditioned_change"] = change.copy()
+                    prepared[f"{tag}__major_axis_angle_deg__shape_conditioning_mask"] = shape_ok
+                    valid &= shape_ok
                 else:
                     change[valid] = b[valid] - a[valid]
                 valid &= np.isfinite(change)
@@ -307,6 +362,7 @@ def analyse(catalogue_path: Path, metadata_path: Path, args: argparse.Namespace)
                     "total_position_pairs": len(oi), "valid_property_pairs": int(valid.sum()),
                     "excluded_property_pairs": int((~valid).sum()), "change_percentiles": quantiles(change),
                     "mass_binned_pairs": int(count.sum()), "bins_at_min_count": int(np.count_nonzero(count >= args.min_count))}
+                epoch["properties"][name].update(conditioning)
     return prepared, report
 
 
@@ -341,8 +397,12 @@ def plot_figures(data: dict, report: dict, output: Path, usetex: bool = True) ->
         revisions = report["finder_revisions"]
         source_text = f"Finder revisions: {str(revisions['old'])[:12]} to {str(revisions['new'])[:12]}"
         fig.text(.5, .93, tex_escape(source_text) if usetex else source_text, ha="center", va="top", fontsize=10)
+        if any(getattr(ax, "_bdm_mass_reference", False) for ax in fig.axes):
+            note += "\n" + (rf"Grey below $\log_{{10}}M={cfg['reference_logmass']:g}$: literature-only reference; "
+                           "no convergence claim for the revised finder.")
+        bottom = .065 + .03 * note.count("\n")
         fig.text(.5, .012, note, ha="center", va="bottom", fontsize=10)
-        fig.tight_layout(rect=(0, .065, 1, .90), h_pad=1.2)
+        fig.tight_layout(rect=(0, bottom, 1, .90), h_pad=1.2)
         path = output / name
         save_figure(fig, path)
         plt.close(fig)
@@ -350,6 +410,20 @@ def plot_figures(data: dict, report: dict, output: Path, usetex: bool = True) ->
 
     def epoch_handles():
         return [Line2D([], [], color=colors[t], label=rf"$z={report['epochs'][t]['redshift']:g}$") for t in tags]
+
+    def mass_reference(ax):
+        if not np.all(np.isfinite(ax.dataLim.intervalx)):
+            ax.set_xlim(edges[0], edges[-1])
+        reference = cfg.get("reference_logmass")
+        if reference is None:
+            return
+        lo, hi = ax.get_xlim()
+        padding = .035 * (edges[-1] - edges[0])
+        lo, hi = min(lo, reference-padding), max(hi, reference+padding)
+        ax.set_xlim(lo, hi)
+        ax.axvspan(lo, reference, color=".92", alpha=.8, zorder=-5)
+        ax.axvline(reference, color=".4", ls=":", lw=1., zorder=1)
+        ax._bdm_mass_reference = True
 
     # Full published populations; no positional/matching selection in the HMF.
     fig, (ax, residual) = plt.subplots(2, 1, figsize=(10.8, 6.5), sharex=True,
@@ -383,6 +457,7 @@ def plot_figures(data: dict, report: dict, output: Path, usetex: bool = True) ->
     residual.set_ylabel(r"$100(n_\mathrm{new}/n_\mathrm{old}-1)$")
     residual.set_xlabel(r"$\log_{10}(M_\mathrm{cat}/[h^{-1}M_\odot])$")
     residual.grid(True, ls=":", alpha=.3)
+    mass_reference(ax); mass_reference(residual)
     finish(fig, "hmf.pdf", rf"All published populations. Open low-count bins: $0<N<{minimum}$; ratios require both $N\geq {minimum}$. Bars: $\sqrt{{N}}$ only.")
 
     labels = {
@@ -396,6 +471,8 @@ def plot_figures(data: dict, report: dict, output: Path, usetex: bool = True) ->
         "radial_rms": r"$\Delta R_\mathrm{rms}/R_\mathrm{rms,old}\;[\%]$",
         "vrms": r"$\Delta V_\mathrm{rms}/V_\mathrm{rms,old}\;[\%]$",
         "bulk_velocity": r"$|\boldsymbol{V}_\mathrm{new}-\boldsymbol{V}_\mathrm{old}|\;[\mathrm{km\,s}^{-1}]$"}
+    labels.update(virial_ratio=r"$\Delta(2K/E_\mathrm{p}-1)$",
+                  major_axis_angle_deg=r"$\arccos|\hat{\boldsymbol{a}}_\mathrm{new}\cdot\hat{\boldsymbol{a}}_\mathrm{old}|\;[\mathrm{deg}]$")
     groups = [("matched_primary.pdf", ["mass", "radius", "vmax", "concentration", "spin", "bulk_velocity"]),
               ("matched_structure.pdf", ["b_over_a", "c_over_a", "offset", "radial_rms", "vrms", "rmax"])]
     for filename, names in groups:
@@ -421,6 +498,7 @@ def plot_figures(data: dict, report: dict, output: Path, usetex: bool = True) ->
             ax.set_ylabel(labels[name], fontsize=12)
             ax.grid(True, ls=":", alpha=.2)
             ax.tick_params(labelsize=10)
+            mass_reference(ax)
         axes[0, 0].legend(handles=epoch_handles(), loc="best", fontsize=10)
         for ax in axes[-1]:
             ax.set_xlabel(r"$\log_{10}(M_\mathrm{cat,old}/[h^{-1}M_\odot])$", fontsize=12)
@@ -437,7 +515,30 @@ def plot_figures(data: dict, report: dict, output: Path, usetex: bool = True) ->
     ax.set_ylabel(labels["total_mass"])
     ax.set_xlabel(r"$\log_{10}(M_\mathrm{cat,old}/[h^{-1}M_\odot])$")
     ax.legend(handles=epoch_handles())
+    mass_reference(ax)
     finish(fig, "matched_total_mass.pdf", "Aperture mass; matched objects only. Bands are halo-to-halo percentile ranges.")
+
+    fig, axes = plt.subplots(1, 2, figsize=(11.2, 5.3))
+    for ax, name in zip(axes, ("virial_ratio", "major_axis_angle_deg")):
+        sample_handles = []
+        for tag in tags:
+            bands = data[f"{tag}__{name}__bin_percentiles_16_50_84"].copy()
+            count = data[f"{tag}__{name}__bin_counts"]
+            bands[count < minimum] = np.nan
+            ax.fill_between(centres, bands[:, 0], bands[:, 2], color=colors[tag], alpha=.16)
+            ax.plot(centres, bands[:, 1], "o-", color=colors[tag], ms=3.5, mec="k", mew=.4)
+            n = report["epochs"][tag]["properties"][name]["valid_property_pairs"]
+            sample_handles.append(Line2D([], [], color=colors[tag],
+                label=rf"$z={report['epochs'][tag]['redshift']:g}$; $N={n:,}$"))
+        ax.axhline(0, color="k", lw=.8)
+        ax.set_ylabel(labels[name], fontsize=12)
+        ax.set_xlabel(r"$\log_{10}(M_\mathrm{cat,old}/[h^{-1}M_\odot])$", fontsize=12)
+        ax.legend(handles=sample_handles, fontsize=10, loc="best")
+        ax.grid(True, ls=":", alpha=.2)
+        mass_reference(ax)
+    finish(fig, "matched_energy_direction.pdf",
+           rf"Directions: both reported $b/a<{cfg['direction_ba_max']:g}$; raw eigenvalue gaps unavailable. "
+           rf"Medians and 16--84 percentiles; $N_\mathrm{{bin}}\geq {minimum}$; bands are not errors on the median.")
 
     fig = plt.figure(figsize=(11.8, 6.5))
     grid = fig.add_gridspec(2, 2, height_ratios=[2.1, 1.25])
@@ -464,6 +565,7 @@ def plot_figures(data: dict, report: dict, output: Path, usetex: bool = True) ->
     coverage.set_ylabel("Matched fraction of published rows")
     coverage.set_xlabel(r"$\log_{10}(M_\mathrm{cat}/[h^{-1}M_\odot])$")
     coverage.legend(handles=handles, ncol=2, fontsize=9, loc="best")
+    mass_reference(coverage)
     distance.set_xlabel(r"$d_\mathrm{periodic}/\min(R_\mathrm{ap,old},R_\mathrm{ap,new})$")
     distance.set_ylabel("Cumulative matched fraction")
     distance.set_xscale("symlog", linthresh=1.e-4)
@@ -481,7 +583,8 @@ def plot_figures(data: dict, report: dict, output: Path, usetex: bool = True) ->
 
     names = list(PROPERTIES) + ["axis_order"]
     short = [r"$M_\mathrm{cat}$", r"$M_\mathrm{tot}$", r"$R_\mathrm{ap}$", r"$V_\mathrm{max}$", r"$R_\mathrm{max}$",
-             r"$c$", r"$\lambda$", r"$b/a$", r"$c/a$", r"$X_\mathrm{off}$", r"$R_\mathrm{rms}$", r"$V_\mathrm{rms}$", r"$\boldsymbol{V}$", r"$c>b$"]
+             r"$c$", r"$\lambda$", r"$b/a$", r"$c/a$", r"$X_\mathrm{off}$", r"$R_\mathrm{rms}$", r"$V_\mathrm{rms}$", r"$\boldsymbol{V}$",
+             r"$2K/E_\mathrm{p}-1$", r"$\hat{\boldsymbol{a}}$", r"$c>b$"]
     fig, axes = plt.subplots(2, 1, figsize=(11.8, 6.4))
     for ax, metric, title in zip(axes, ("invalid_fraction", "zero_sentinel_fraction"),
                                  ("Invalid values / axis-order anomalies [percent of published rows]", "Zero unresolved sentinels [percent of published rows]")):
@@ -534,6 +637,12 @@ def self_check() -> dict:
     count, bands = binned_quantiles(np.array([10., 100., 1000.]), np.array([1., 2., 3.]), np.array([1., 2., 3.]))
     assert np.array_equal(count, [1, 2]) and bands[1, 1] == 2.5
     assert np.array_equal(valid_values(np.array([0., -1., np.nan]), "sentinel"), [True, False, False])
+    assert np.array_equal(valid_values(np.array([-2., -1., 0., 1., np.nan, np.inf]), "finite_signed"),
+                          [True, True, True, True, False, False])
+    angles = major_axis_angles(np.array([[3., 4., 0.], [1., 0., 0.], [0., 0., 0.], [np.nan, 0., 0.], [1.e300, 0., 0.]]),
+                               np.array([[-6., -8., 0.], [0., 5., 0.], [1., 0., 0.], [1., 0., 0.], [-1.e-300, 0., 0.]]))
+    assert np.allclose(angles[[0, 1, 4]], [0., 90., 0.], atol=1.e-6)
+    assert np.all(np.isnan(angles[[2, 3]]))
     with tempfile.TemporaryDirectory(prefix="bdm-comparison-self-check-") as temporary:
         directory = Path(temporary)
         meta = directory / "metadata.json"
@@ -564,11 +673,33 @@ def self_check() -> dict:
             assert "violate expected" in str(error)
         else:
             raise AssertionError("Expected axis order must be checked independently")
+        # Signed subtraction must cross zero; no fractional-ratio division.
+        before = table([[1., 1., 1.], [3., 3., 3.], [5., 5., 5.], [7., 7., 7.]])
+        after = before.copy()
+        before[:, 16] = [-.5, 0., .5, 0.]; after[:, 16] = [.25, -1., -.25, .5]
+        before[:, 19] = [.8, .9, .8, .8]; after[:, 19] = [.8, .8, .8, .9]
+        before[:, 21:24] = [[1, 0, 0], [1, 0, 0], [0, 0, 0], [0, 1, 0]]
+        after[:, 21:24] = [[-2, 0, 0], [0, 1, 0], [1, 0, 0], [1, 0, 0]]
+        np.savez(fixture, old_z0=before, new_z0=after)
+        meta.write_text(json.dumps({"box_mpc_h": 10, "nrow": 8, "reference_logmass": 12.5}))
+        options.expect_ordered_new = False
+        arrays, direction_report = analyse(fixture, meta, options)
+        assert np.allclose(arrays["z0__virial_ratio__change"], [.75, -1., -.75, .5])
+        direction_stats = direction_report["epochs"]["z0"]["properties"]["major_axis_angle_deg"]
+        assert direction_stats["valid_direction_vector_pairs"] == 3
+        assert direction_stats["shape_conditioning_excluded_pairs"] == 2
+        assert direction_stats["valid_property_pairs"] == 1
+        assert np.array_equal(arrays["z0__major_axis_angle_deg__valid"], [True, False, False, False])
+        assert direction_report["configuration"]["reference_logmass"] == 12.5
+        assert arrays["z0__old_hmf_counts"].sum() == 4 and direction_report["epochs"]["z0"]["matching"]["pairs"] == 4
     return {"passed": True, "checks": ["dense periodic nearest-neighbour oracle", "periodic face",
             "duplicate-centre ambiguity", "empty counterpart", "invalid position", "minimum-radius cutoff and units",
             "rightmost mass-bin inclusion", "zero sentinel distinct from invalid", "empty full analysis",
             "required auxiliary Rmax units", "direct Rmax residual", "published zero-sentinel fraction",
-            "independent repaired axis-order assertion"]}
+            "independent repaired axis-order assertion", "finite signed virial-ratio domain and subtraction across zero",
+            "normalized sign-flip and orthogonal major axes", "zero/nonfinite direction rejection",
+            "extreme finite direction normalization", "both-side b/a degeneracy-proxy exclusion",
+            "literature reference metadata does not select rows"]}
 
 
 def main() -> None:
@@ -585,6 +716,7 @@ def main() -> None:
     parser.add_argument("--ambiguity-ratio", type=float, default=.5)
     parser.add_argument("--tie-atol", type=float, default=1.e-4, help="Mpc/h; native ASCII position rounding scale")
     parser.add_argument("--expect-ordered-new", action="store_true", help="Fail if a repaired catalogue still reports c/a>b/a beyond ASCII tolerance")
+    parser.add_argument("--direction-ba-max", type=float, default=.9, help="Direction comparison requires both reported b/a below this degeneracy-proxy threshold")
     parser.add_argument("--skip-plots", action="store_true")
     parser.add_argument("--no-tex", action="store_true", help="Explicit mathtext fallback if a LaTeX installation is unavailable")
     parser.add_argument("--self-check", action="store_true")
@@ -595,6 +727,8 @@ def main() -> None:
         parser.error("Provide --outdir and --catalogues/--metadata or --plot-ready/--summary")
     if args.mass_bins < 1 or args.min_count < 1 or not 0 < args.match_fraction < 1 or not 0 < args.ambiguity_ratio < 1 or not np.isfinite(args.tie_atol) or args.tie_atol < 0:
         parser.error("Require positive bins/count, cutoff and ambiguity ratios in (0,1), and finite nonnegative tie tolerance")
+    if not 0. < args.direction_ba_max <= 1.:
+        parser.error("Require --direction-ba-max in (0,1]")
     output = args.outdir.resolve(); output.mkdir(parents=True, exist_ok=True)
     if args.catalogues is not None:
         if args.metadata is None:
@@ -609,6 +743,8 @@ def main() -> None:
         if args.summary is None:
             parser.error("--plot-ready requires --summary")
         report = json.loads(args.summary.read_text())
+        if report.get("schema_version") != 2:
+            raise ValueError("These saved statistics predate energy/direction comparisons; rerun --catalogues/--metadata into a fresh output directory")
         if sha256(args.plot_ready) != report["plot_ready_sha256"]:
             raise ValueError("Saved plot-ready data hash disagrees with summary")
         with np.load(args.plot_ready, allow_pickle=False) as archive:
