@@ -43,3 +43,9 @@ initialize Intel modules and `BDM_AUDIT_NATIVE_LIBS`, then invoke it with
 It checks copied hashes and pins all timed processes to one CPU. Failed timed
 process groups are terminated rather than leaving the time wrapper's child.
 The copied build and snapshot scratch were removed after evidence was retained.
+
+To reconstruct the copied workspace from the verified repair archive, map
+`work/equal-mass-discovery/native-build/` to `build/` and
+`work/snapshots/n128/` to `snapshot/`. Write the `copied_manifest` object in
+`coordinate-results.json` to `copied-manifest.json` in that workspace. The
+driver verifies these original input hashes before compiling either variant.

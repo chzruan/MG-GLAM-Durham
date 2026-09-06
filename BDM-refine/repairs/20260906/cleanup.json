@@ -1,0 +1,70 @@
+{
+  "removed_worktrees": [
+    {
+      "path": "/tmp/bdm-repairs-20260906-2blb0ygi/halo",
+      "preserved_branch": "repair/bdm-host-ties-20260906",
+      "filesystem_entries": 352
+    },
+    {
+      "path": "/tmp/bdm-repairs-20260906-2blb0ygi/peaks",
+      "preserved_branch": "repair/bdm-coordinate-fast-20260906",
+      "filesystem_entries": 351
+    },
+    {
+      "path": "/tmp/bdm-repairs-20260906-2blb0ygi/particles",
+      "preserved_branch": "verify/bdm-integrated-20260906",
+      "files": 332,
+      "directories": 28,
+      "filesystem_entries": 360,
+      "reported_by": "repair_particles"
+    }
+  ],
+  "removed_orphan_git_reverse_index": {
+    "path": ".git/objects/pack/pack-0bb9a4437ccaad17d272401cadb1a8a5226d8bdc.rev",
+    "sha256": "1dd378689f644fbfe43e9249d02499fdf6d7634314a6bf934b15c527e0e525d7",
+    "bytes": 320,
+    "reason": "Both corresponding .pack and .idx absent; redundant generated reverse index, preserved in work archive"
+  },
+  "archive": {
+    "path": "BDM-refine/repairs/20260906/work-artifacts.tar.gz",
+    "sha256": "62a4e2cd1b7363c4a029d570801252c324fb871ec1739625a64242bc8fed134c",
+    "bytes": 61006738,
+    "verified_entries": 318,
+    "removed_loose_entries": 318,
+    "net_work_entries_reduced": 317,
+    "verified_at_utc": "2026-09-06T10:24:57.042940+00:00",
+    "verification": "Every archive file rehashed, size and mode checked; directory/symlink targets and full member list checked before deletion."
+  },
+  "removed_external_scratch_copies": [
+    {
+      "path": "/tmp/bdm-integrated-validation-w1xrtdwy",
+      "filesystem_entries": 6,
+      "reason": "Receipts and required raw logs preserved in verified work archive"
+    },
+    {
+      "path": "/tmp/bdm-final-focused-validation-5y9pr1yt",
+      "filesystem_entries": 23,
+      "reason": "Receipts and required raw logs preserved in verified work archive"
+    },
+    {
+      "path": "/tmp/bdm-combined-review-34818a8d.json",
+      "filesystem_entries": 1,
+      "reason": "Verified archived receipt copy"
+    },
+    {
+      "path": "/tmp/bdm-combined-followup-34818a8d.json",
+      "filesystem_entries": 1,
+      "reason": "Verified archived receipt copy"
+    },
+    {
+      "path": "/tmp/bdm-combined-periodic-34818a8d.json",
+      "filesystem_entries": 1,
+      "reason": "Verified archived receipt copy"
+    },
+    {
+      "path": "/tmp/bdm-repairs-20260906-2blb0ygi",
+      "filesystem_entries": 1,
+      "reason": "Empty parent after worktree removal"
+    }
+  ]
+}

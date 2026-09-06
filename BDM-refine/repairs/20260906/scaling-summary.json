@@ -1,0 +1,40 @@
+{
+  "job_id": "11947875",
+  "source_sha256": "868bb0d6c89e5daf1ca0f631419d86577dcfe31dde7969375398cb0408140fc0",
+  "all_12_catalogues_byte_identical": true,
+  "rows": 1215,
+  "records": [
+    {
+      "threads": 1,
+      "median_seconds": 4.036105067993049,
+      "speedup": 1.0,
+      "parallel_efficiency": 1.0,
+      "median_cpu_seconds": 3.9299999999999997,
+      "maximum_finder_rss_kib": 270008
+    },
+    {
+      "threads": 2,
+      "median_seconds": 2.3065184089937247,
+      "speedup": 1.7498690026731234,
+      "parallel_efficiency": 0.8749345013365617,
+      "median_cpu_seconds": 4.44,
+      "maximum_finder_rss_kib": 280024
+    },
+    {
+      "threads": 4,
+      "median_seconds": 1.2381182640092447,
+      "speedup": 3.2598703898635906,
+      "parallel_efficiency": 0.8149675974658976,
+      "median_cpu_seconds": 4.57,
+      "maximum_finder_rss_kib": 290468
+    },
+    {
+      "threads": 8,
+      "median_seconds": 0.9288623619941063,
+      "speedup": 4.345213277162217,
+      "parallel_efficiency": 0.5431516596452771,
+      "median_cpu_seconds": 6.260000000000001,
+      "maximum_finder_rss_kib": 299540
+    }
+  ]
+}

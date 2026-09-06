@@ -5,7 +5,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=1G
+#SBATCH --mem=768M
 #SBATCH --time=00:05:00
 #SBATCH --output=BDM-refine/repairs/20260906/work/native-%j.log
 #SBATCH --error=BDM-refine/repairs/20260906/work/native-%j.log
