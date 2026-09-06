@@ -45,7 +45,7 @@ Real*4        ::                    &
                      Rext                     ! extra radius shift at M=1e15
 Integer*4  ::                      &
                      NradP,        &          ! Number of shells for halo profiles
-                     iVirial                  ! switch: 1 =Virial,  0=200 overdensity crit, 2=200rho_matter 
+                     iVirial=1                ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus
 
 Real*4 ::            TotalMemory=0.2, t0                           ! current memory
 Real*4 ::            Xleft,Xright,Yleft,Yright,Zleft,Zright,dBuffer    ! boundaries of domain
@@ -115,15 +115,22 @@ Contains
       write (*,'(a,i4)')        ' mDENSIT                =',mDENSIT
       Path =''
       tstart = seconds()
+      Call ReadParameters(ISTEP)
+      Call SetParameters
       If(mDENSIT==1)Call DENSIT                 ! density on original Ng mesh
       Call FindMaxima
-      
+
+      ! Empty analysis is a valid catalogue, including during an inline call.
+      ! No particle scaling/buffering has occurred and the PM density stays allocated.
+      if (Nmaxima == 0) then
+         Call WriteFiles
+         Call ReleaseMaxima
+         return
+      end if
 
       myMemory =Memory(-1_8*NGRID*NGRID*NGRID)
       DeAllocate (FI)
       write(*,'(a,i11)') ' Go to RescaleCoords    : ',Nparticles
-      Call ReadParameters(ISTEP)
-      Call SetParameters
       Call RescaleCoords(1)  
       tfinish = seconds()
 
@@ -181,20 +188,7 @@ Contains
             DEALLOCATE (Lst,Label)
             myMemory= Memory(-1_8*(Nmaxima+(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)))
       
-             DEALLOCATE (Mvir,Rvir,Xoff)
-             myMemory =Memory(-3_8*Nmaxima )
-             DEALLOCATE (xMaxx,yMaxx,zMaxx)
-             myMemory =Memory(-3_8*Nmaxima )
-             DEALLOCATE (VxMaxx,VyMaxx,VzMaxx)
-             myMemory =Memory(-3_8*Nmaxima )
-             DEALLOCATE(LstMax,EpotM,EkinM,LambdaM)
-             myMemory =Memory(-4_8*Nmaxima )
-             DEALLOCATE(VmaxM,RmaxM,Mtotal,RadRms)
-             myMemory =Memory(-4_8*Nmaxima )
-             DEALLOCATE(Xax,Yax,Zax)
-             myMemory =Memory(-3_8*Nmaxima )
-             DEALLOCATE(Axba,Axca)
-             myMemory =Memory(-2_8*Nmaxima )
+       Call ReleaseMaxima
       !-------- restore PM structure
        Call RemoveBuffer(NpPM)
        myMemory =Memory(1_8*NGRID*NGRID*NGRID)
@@ -202,116 +196,186 @@ Contains
              
            end SUBROUTINE BDM
 
+      SUBROUTINE ReleaseMaxima
+      implicit none
+      real :: released
+      DEALLOCATE(Mvir,Rvir,Xoff,xMaxx,yMaxx,zMaxx,VxMaxx,VyMaxx,VzMaxx)
+      DEALLOCATE(LstMax,EpotM,EkinM,LambdaM,VmaxM,RmaxM,Mtotal,RadRms)
+      DEALLOCATE(Xax,Yax,Zax,Axba,Axca)
+      released=Memory(-22_8*Nmaxima)
+      end SUBROUTINE ReleaseMaxima
+
 !----------------------------------------------------------
 !               Read/create  configuration file BDM.config       
 !                    
       SUBROUTINE ReadParameters(jStep)
-!----------------------------------------------------------
-  Character :: txt*80,str*10,eqsign*1,Line*120,Catlabel*10
-  logical   :: FileExists
-                ! default set of parameters
-     NradP    =   30
-     iVirial  =    1
-     dLogR    =  0.02
-     dLogP    =  0.02
-     dBuffer  = 5.
-     SlopeR   = 0.20
-     Rext     = 0.15
-     MassMin  = 2.5e12
-     
-  Inquire(file='BDM.config', Exist = FileExists)
-  If(FileExists)Then
-     open(1,file='BDM.config')
-     rewind(1)
-     Read(1,'(a)')txt
-     !write(*,'(a)')txt
-     Do 
-       Read(1,'(a)',iostat=io) Line
-       If(io /= 0)exit
-       !write(*,'(a)')Line
-       i0 = INDEX(Line,'=')
-       i1 = INDEX(Line,'!')
-       !write(*,*) ' position of = and "!" in current line =',i0,i1
-       If(i1.gt.i0.and.i0>0)Then  
-          backspace(1)
-          Read(1,*)str
-          !write(*,'(a,3x,a)')str
-          backspace(1)
-          If(TRIM(str)=='NradP'.or.TRIM(str)=='NRADP'.or.TRIM(str)=='nradp')Then
-                   Read(1,*)str,eqsign,NradP
-          Else If(TRIM(str)=='Nne'  .or.TRIM(str)=='NNE'  .or.TRIM(str)=='nne')Then
-                   Read(1,*)str,eqsign,Nne
-          Else If(TRIM(str)=='iVirial'.or.TRIM(str)=='IVIRIAL'.or.TRIM(str)=='ivirial')Then
-                   Read(1,*)str,eqsign,iVirial
-          Else If(TRIM(str)=='dLogR'.or.TRIM(str)=='DLOGR'.or.TRIM(str)=='dlogr')Then
-                   Read(1,*)str,eqsign,dLogR
-          Else If(TRIM(str)=='Rext'.or.TRIM(str)=='Rextr'.or.TRIM(str)=='Rextern')Then
-                   Read(1,*)str,eqsign,Rext
-          Else If(TRIM(str)=='SlopeR'.or.TRIM(str)=='Sloper'.or.TRIM(str)=='Slope')Then
-                   Read(1,*)str,eqsign,SlopeR
-          Else If(TRIM(str)=='MassMin'.or.TRIM(str)=='MinMass'.or.TRIM(str)=='massmin')Then
-                   Read(1,*)str,eqsign,MassMin
-          Else If(TRIM(str)=='dLogP'.or.TRIM(str)=='DLOGP'.or.TRIM(str)=='dlogp')Then
-                   Read(1,*)str,eqsign,dLogP
-          Else
-             !write(*,'(3a)') 'Unrecognized parameter: ',str,' Check spelling. I igonore it'
-             Read(1,*)str
-          End If
-       EndIf
-     EndDo
-  Else
-     open(1,file='BDM.config')   ! ------- create default config file
+      use, intrinsic :: iso_fortran_env, only: iostat_end,iostat_eor
+      implicit none
+      integer, intent(in) :: jStep
+      integer :: unit, io, i, equals, comment, line_number, nne_legacy
+      character(1024) :: line, key, value
+      character(10) :: CatLabel
+      logical :: FileExists
 
-     write(1,'(a)')'! ------------- BDM configuration file. Spaces between entries are significant'
-     write(1,'(a)')'!                   These are main parameters:'
-     write(1,10)'iVirial', iVirial,     '! switch: 1 =Virial,  0=200 overdensity' 
-     write(1,10)'NradP',   NradP,       '! Number of shells for halo profiles'
-     write(1,20)'Rext',   Rext,         '! extr radius shift at m=1e15'
-     write(1,20)'SlopeR',   SlopeR,     '! slope for extr radius shift'
-     write(1,20)'MassMin',   MassMin,     '! Minimum halo mass'
+      NradP=30; iVirial=1; dLogR=0.02; dLogP=0.02
+      dBuffer=5.; SlopeR=0.20; Rext=0.15; MassMin=2.5e12
+      inquire(file='BDM.config',exist=FileExists)
+      if (FileExists) then
+         open(newunit=unit,file='BDM.config',status='old',action='read',iostat=io)
+         if (io /= 0) call ConfigurationError(0,'cannot open BDM.config')
+         line_number=0
+         do
+            read(unit,'(a)',advance='no',iostat=io) line
+            if (io == iostat_end) exit
+            line_number=line_number+1
+            if (io == 0) call ConfigurationError(line_number,'configuration line is too long')
+            if (io /= iostat_eor) call ConfigurationError(line_number,'cannot read configuration')
+            do i=1,len_trim(line)
+               if (line(i:i) == achar(9)) line(i:i)=' '
+            end do
+            comment=index(line,'!')
+            if (comment > 0) line(comment:)=' '
+            if (len_trim(line) == 0) cycle
+            equals=index(line,'=')
+            if (equals <= 1) call ConfigurationError(line_number,'expected name = value')
+            key=adjustl(line(:equals-1))
+            value=adjustl(line(equals+1:))
+            if (len_trim(value) == 0) call ConfigurationError(line_number,'missing value')
+            ! A parameter has one scalar value. Do not silently accept trailing tokens.
+            if (scan(trim(value),' '//achar(9)//',/') /= 0) &
+               call ConfigurationError(line_number,'expected one scalar value')
+            do i=1,len_trim(key)
+               if (key(i:i) >= 'A'.and.key(i:i) <= 'Z') key(i:i)=achar(iachar(key(i:i))+32)
+            end do
+            select case(trim(key))
+            case('nradp')
+               read(value,*,iostat=io) NradP
+            case('ivirial')
+               read(value,*,iostat=io) iVirial
+            case('dlogr')
+               read(value,*,iostat=io) dLogR
+            case('dlogp')
+               read(value,*,iostat=io) dLogP
+            case('rext','rextr','rextern')
+               read(value,*,iostat=io) Rext
+            case('sloper','slope')
+               read(value,*,iostat=io) SlopeR
+            case('massmin','minmass')
+               read(value,*,iostat=io) MassMin
+            case('nne')
+               ! This historical option never affected the active finder.
+               read(value,*,iostat=io) nne_legacy
+               if (io == 0) then
+                  if (nne_legacy <= 0) call ConfigurationError(line_number,'Nne must be positive')
+                  write(*,'(a)') ' BDM.config: Nne is deprecated and has no effect'
+               end if
+            case default
+               call ConfigurationError(line_number,'unrecognized parameter: '//trim(key))
+            end select
+            if (io /= 0) call ConfigurationError(line_number,'invalid value for '//trim(key))
+         end do
+         close(unit)
+      end if
+      call ValidateParameters
+      if (.not.FileExists) then
+         open(newunit=unit,file='BDM.config',status='new',action='write',iostat=io)
+         if (io /= 0) call ConfigurationError(0,'cannot create default BDM.config')
+         write(unit,'(a)') '! BDM configuration; whitespace and trailing ! comments are optional'
+         write(unit,10) 'iVirial',iVirial,'! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus'
+         write(unit,10) 'NradP',NradP,'! Number of shells for halo profiles'
+         write(unit,20) 'Rext',Rext,'! Extra radius shift at m=1e15'
+         write(unit,20) 'SlopeR',SlopeR,'! Slope for extra radius shift'
+         write(unit,20) 'MassMin',MassMin,'! Minimum halo mass'
+         write(unit,20) 'dLogR',dLogR,'! Log bin size for potential'
+         write(unit,20) 'dLogP',dLogP,'! Log bin size for profiles'
+         close(unit)
+      end if
+      write(*,'(/a)') ' ------ current set of parameters:'
+      write(*,10) 'iVirial',iVirial,'! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus'
+      write(*,10) 'NradP',NradP,'! Number of shells for halo profiles'
+      write(*,20) 'Rext',Rext,'! Extra radius shift at m=1e15'
+      write(*,20) 'SlopeR',SlopeR,'! Slope for extra radius shift'
+      write(*,20) 'MassMin',MassMin,'! Minimum halo mass'
+      write(*,20) 'dLogR',dLogR,'! Log bin size for potential'
+      write(*,20) 'dLogP',dLogP,'! Log bin size for profiles'
+10    format(10x,a,T20,' = ',i6,T40,a)
+20    format(10x,a,T20,' = ',1p,g10.3,T40,a)
 
-     write(1,20)'dLogR',   dLogR,       '! size of log binning for potential'
-     write(1,20)'dLogP',   dLogP,       '! size of log binning for profiles'
-
-
-10   format(10x,a,T20,' = ',i6,T40,a)
-20   format(10x,a,T20,' = ',1p,g10.3,T40,a)
-  EndIf
-     close(1)
-
-   write(*,'(/a)') '  ------ current set of parameters:'
-     write(*,'(a)')'!                   These are main parameters:'
-     write(*,10)'iVirial', iVirial,     '! switch: 1 =Virial,  0=200 overdensity' 
-     write(*,10)'NradP',   NradP,       '! Number of shells for halo profiles'
-     write(*,20)'Rext',   Rext,         '! extr radius shift at m=1e15'
-     write(*,20)'SlopeR',   SlopeR,     '! slope for extr radius shift'
-     write(*,20)'MassMin',   MassMin,     '! Minimum halo mass'
-
-     write(*,20)'dLogR',   dLogR,       '! size of log binning for potential'
-     write(*,20)'dLogP',   dLogP,       '! size of log binning for profiles'
-
-          moment = jstep
-      write(outputName,'(a,i4.4,a)')'CATALOGS/outputB.',jStep,'.dat'
-      !open(13,file=TRIM(outputName),buffered='NO')
-      open(13,file=TRIM(outputName))
-      !----------------------------  Open files ---------------------
-        SELECT CASE (iVirial)
-        CASE (0)
-           CatLabel = 'W.' ! 200\rho_critical
-        CASE  (1)
-           CatLabel = 'V.' ! virial overdensity
-        CASE  (2)
-           CatLabel = 'M.' ! 200 matter overdensity
-        CASE  (3)
-           CatLabel = 'A.' ! Abacus overdensity: corrected virial
-        end SELECT
-
-      write(outputName,'(2a,2(i4.4,a))')'CATALOGS/Catshort',TRIM(CatLabel),jStep,'.',Nrealization,'.DAT'
-      open(12,file=TRIM(outputName))
-!      write(outputName,'(2a,i4.4,a)')'CATALOGS/Catalog',TRIM(CatLabel),jStep,'.DAT'
-!         open(20,file=TRIM(outputName),form='unformatted',status ='UNKNOWN')
-
+      ! Only validated configuration may create or replace catalogue outputs.
+      write(outputName,'(a,i4.4,a)') 'CATALOGS/outputB.',jStep,'.dat'
+      close(13)
+      open(13,file=trim(outputName),status='replace',iostat=io)
+      if (io /= 0) call ConfigurationError(0,'cannot open analysis log '//trim(outputName))
+      select case(iVirial)
+      case(0)
+         CatLabel='W.'
+      case(1)
+         CatLabel='V.'
+      case(2)
+         CatLabel='M.'
+      case(3)
+         CatLabel='A.'
+      end select
+      write(outputName,'(2a,2(i4.4,a))') 'CATALOGS/Catshort',trim(CatLabel),jStep,'.',Nrealization,'.DAT'
+      close(12)
+      open(12,file=trim(outputName),status='replace',iostat=io)
+      if (io /= 0) call ConfigurationError(0,'cannot open catalogue '//trim(outputName))
       end SUBROUTINE ReadParameters
+
+      SUBROUTINE ConfigurationError(line_number,message)
+      use, intrinsic :: iso_fortran_env, only: error_unit
+      implicit none
+      integer, intent(in) :: line_number
+      character(*), intent(in) :: message
+      write(error_unit,'(a,i0,2a)') ' BDM configuration error, line ',line_number,': ',message
+      error stop 1
+      end SUBROUTINE ConfigurationError
+
+      SUBROUTINE ValidateParameters
+      use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+      implicit none
+      if (iVirial < 0.or.iVirial > 3) call ConfigurationError(0,'iVirial must be 0, 1, 2 or 3')
+      if (NradP < 1) call ConfigurationError(0,'NradP must be positive')
+      if (.not.all(ieee_is_finite([dLogR,dLogP,MassMin,Rext,SlopeR,dBuffer]))) &
+         call ConfigurationError(0,'all real parameters must be finite')
+      if (dLogR <= 0..or.dLogP <= 0.) call ConfigurationError(0,'logarithmic bin widths must be positive')
+      if (MassMin < 0.) call ConfigurationError(0,'MassMin must be nonnegative')
+      if (Rext < 0..or.SlopeR < 0.) call ConfigurationError(0,'radius corrections must be nonnegative')
+      if (dBuffer <= 0.) call ConfigurationError(0,'buffer width must be positive')
+      end SUBROUTINE ValidateParameters
+
+      SUBROUTINE SetOverdensity
+      use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+      implicit none
+      real*8 :: matter_fraction, background, density, xx
+      ! Retain the historical flat-Lambda convention and normalization 178.
+      ! Both peak selection and halo properties use this same calculation.
+      Om0=Om
+      if (.not.all(ieee_is_finite([Om0,AEXPN]))) &
+         call ConfigurationError(0,'Omega_m and expansion factor must be finite')
+      if (Om0 <= 0..or.AEXPN <= 0.) &
+         call ConfigurationError(0,'Omega_m and expansion factor must be positive')
+      background=dble(Om0)+(1.d0-dble(Om0))*dble(AEXPN)**3
+      if (background <= 0.d0) call ConfigurationError(0,'flat-Lambda background must be positive')
+      matter_fraction=dble(Om0)/background
+      xx=matter_fraction-1.d0
+      select case(iVirial)
+      case(0)
+         density=200.d0/matter_fraction
+      case(1)
+         density=(178.d0+82.d0*xx-39.d0*xx**2)/matter_fraction
+      case(2)
+         density=200.d0
+      case(3)
+         density=(178.d0+82.d0*xx-39.d0*xx**2)/matter_fraction*(200.d0/178.d0)
+      case default
+         call ConfigurationError(0,'iVirial must be 0, 1, 2 or 3')
+      end select
+      if (.not.ieee_is_finite(density)) call ConfigurationError(0,'overdensity must be finite')
+      if (density <= 0.d0.or.density > dble(huge(Ovdens))) &
+         call ConfigurationError(0,'overdensity is outside the representable positive range')
+      Ovdens=real(density)
+      end SUBROUTINE SetOverdensity
 
 !--------------------------------------------------------------
 !                        virial overdensity for cosmological model
@@ -1213,188 +1277,119 @@ integer*8 :: ic,ip,jp
 !                  
 !                 
       SUBROUTINE FindMaxima
-!---------------------------------------------------------------------------
-  Integer*4, allocatable, dimension(:)  :: Mth
-  Real*4, allocatable, dimension(:,:)  :: Xxoff,xxMax,yyMax,zzMax
-  Integer*4 :: OMP_GET_NUM_THREADS, OMP_GET_THREAD_NUM,Nthreads
+      use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+      use omp_lib, only: omp_get_wtime
+      implicit none
+      integer*8, allocatable :: PlaneOffsets(:)
+      integer*8 :: plane_count
+      integer :: m1,m2,m3,slot
+      real :: xs,maximum_density,memory_usage
+      real*8 :: started,counted,finished
+      logical :: bad_density
 
-        tstart = seconds()
-        Om0 = Om                                    ! Set scales
-        SELECT CASE (iVirial)
-        CASE (0)
-           Ovdens   = 200./Om0*(Om0+(1.-Om0)*AEXPN**3) ! 200\rho_critical
-        CASE  (1)
-           Ovdens   = OverdenVir()                     ! virial overdensity
-        CASE  (2)
-           Ovdens   = 200.                             ! 200 matter overdens
-        CASE  (23)
-           Ovdens   = OverdenAbacus()                  ! Abacus overdens
-        end SELECT
+      started=omp_get_wtime()
+      call SetOverdensity
+      if (NGRID < 1) error stop 'BDM peak mesh size must be positive'
+      if (.not.allocated(FI)) error stop 'BDM peak density is not allocated'
+      if (any(shape(FI) /= NGRID)) error stop 'BDM peak density shape does not match NGRID'
+      write(*,'(a,i0,a,f12.4)') ' FindMaxima: particles=',Nparticles,', overdensity=',Ovdens
 
-!$OMP PARALLEL
-  Nthreads =OMP_GET_NUM_THREADS()
-!$OMP end parallel
-  write(*,*) ' Number of threads =',Nthreads
+      ! Two scans avoid a full-mesh flag array. Counts and prefix offsets are
+      ! per plane, independent of OpenMP scheduling and of the peak density.
+      allocate(PlaneOffsets(0:NGRID)); PlaneOffsets=0_8
+      maximum_density=0.; bad_density=.false.
+!$OMP PARALLEL DO DEFAULT(SHARED) SCHEDULE(STATIC) &
+!$OMP PRIVATE(m1,m2,m3,plane_count) REDUCTION(MAX:maximum_density) REDUCTION(.OR.:bad_density)
+      do m3=1,NGRID
+         plane_count=0_8
+         do m2=1,NGRID
+            do m1=1,NGRID
+               if (.not.ieee_is_finite(FI(m1,m2,m3))) then
+                  bad_density=.true.
+                  cycle
+               end if
+               maximum_density=max(maximum_density,FI(m1,m2,m3))
+               if (FI(m1,m2,m3) <= Ovdens/3.) cycle
+               if (IsDensityMaximum(m1,m2,m3)) plane_count=plane_count+1_8
+            end do
+         end do
+         PlaneOffsets(m3)=plane_count
+      end do
+      if (bad_density) error stop 'BDM density contains a nonfinite value'
+      do m3=1,NGRID
+         PlaneOffsets(m3)=PlaneOffsets(m3)+PlaneOffsets(m3-1)
+      end do
+      if (PlaneOffsets(NGRID) > int(huge(Nmaxima),8)) &
+         error stop 'BDM peak count exceeds supported integer range'
+      Nmaxima=int(PlaneOffsets(NGRID))
+      counted=omp_get_wtime()
+      write(*,'(a,g14.6,a,i0)') ' Maximum density=',maximum_density,', number of maxima=',Nmaxima
 
-           
-write(*,'(a,T40,i11,2f9.4)') ' Inside FindMaxima. Nparticles= ',Nparticles,Ovdens,Om0
-Dmaxim =0.
-!$OMP PARALLEL DO DEFAULT(SHARED) &         ! ------- find Maximum density
-!$OMP PRIVATE (M3,M2,M1) REDUCTION(MAX:Dmaxim)
-     DO M3=1,NGRID
-       DO M2=1,NGRID
-          DO M1=1,NGRID
-             Dmaxim =max(FI(M1,M2,M3),Dmaxim)
-          end DO
-       end DO
-    end DO
-    write(*,*) ' Maximum density =',Dmaxim
-    t0 = seconds()
-    write(*,*) ' time for Dmax  =',t0-tstart
-Nmaxima =0
-!$OMP PARALLEL DO DEFAULT(SHARED) &         ! ------- count how many maxima we have
-!$OMP PRIVATE (M3,M2,M1,M3p,M3m,M2p,M2m,M1p,M1m,iMax) REDUCTION(+:Nmaxima)
-DO M3=1,NGRID
-   M3p =M3+1 ; If(M3p>NGRID)M3p=M3p-NGRID
-   M3m =M3-1 ; If(M3m<1)M3m=M3m+NGRID
-       DO M2=1,NGRID
-          M2p =M2+1 ; If(M2p>NGRID)M2p=M2p-NGRID
-          M2m =M2-1 ; If(M2m<1)M2m=M2m+NGRID
-          DO M1=1,NGRID
-             M1p =M1+1 ; If(M1p>NGRID)M1p=M1p-NGRID
-             M1m =M1-1 ; If(M1m<1)M1m=M1m+NGRID
-             iMax = 1                   ! look for all 26 neighbors
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2m,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1 ,M2m,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2m,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1, M2,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2p,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1, M2p,M3m))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2p,M3m))iMax=0 
+      ! Zero-length allocations are intentional: BDM can publish an empty
+      ! catalogue and release these arrays without ending an inline simulation.
+      allocate(Mvir(Nmaxima),Rvir(Nmaxima),Xoff(Nmaxima))
+      allocate(xMaxx(Nmaxima),yMaxx(Nmaxima),zMaxx(Nmaxima))
+      allocate(VxMaxx(Nmaxima),VyMaxx(Nmaxima),VzMaxx(Nmaxima))
+      allocate(LstMax(Nmaxima),EpotM(Nmaxima),EkinM(Nmaxima),LambdaM(Nmaxima))
+      allocate(VmaxM(Nmaxima),RmaxM(Nmaxima),Mtotal(Nmaxima),RadRms(Nmaxima))
+      allocate(Xax(Nmaxima),Yax(Nmaxima),Zax(Nmaxima),Axba(Nmaxima),Axca(Nmaxima))
+      memory_usage=Memory(22_8*Nmaxima)
 
-                If(FI(M1,M2,M3).lt.FI(M1m,M2m,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1 ,M2m,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2m,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2p,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1, M2p,M3))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2p,M3))iMax=0 
+      xs=Box/NGRID
+!$OMP PARALLEL DO DEFAULT(SHARED) SCHEDULE(STATIC) PRIVATE(m1,m2,m3,slot)
+      do m3=1,NGRID
+         slot=int(PlaneOffsets(m3-1))
+         do m2=1,NGRID
+            do m1=1,NGRID
+               if (FI(m1,m2,m3) <= Ovdens/3.) cycle
+               if (.not.IsDensityMaximum(m1,m2,m3)) cycle
+               slot=slot+1
+               Xoff(slot)=FI(m1,m2,m3)
+               xMaxx(slot)=(m1-1)*xs
+               yMaxx(slot)=(m2-1)*xs
+               zMaxx(slot)=(m3-1)*xs
+            end do
+         end do
+         if (int(slot,8) /= PlaneOffsets(m3)) error stop 'BDM peak count changed between scans'
+      end do
+      deallocate(PlaneOffsets)
+      finished=omp_get_wtime()
+      write(*,'(a,i0,a,i0)') ' Maxima above overdensity=',count(Xoff >= Ovdens), &
+                           ', maxima above 300=',count(Xoff > 300.)
+      write(13,'(10x,a,2f10.3)') 'time for FindMaxima: count/list =',counted-started,finished-counted
+      write(*,'(10x,a,2f10.3)') 'time for FindMaxima: count/list =',counted-started,finished-counted
+      end SUBROUTINE FindMaxima
 
-                If(FI(M1,M2,M3).lt.FI(M1m,M2m,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1 ,M2m,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2m,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1, M2,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1m,M2p,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1, M2p,M3p))iMax=0 
-	        If(FI(M1,M2,M3).lt.FI(M1p,M2p,M3p))iMax=0 
-         If(iMax==1.and.FI(M1,M2,M3)>Ovdens/3.)Then
-            Nmaxima = Nmaxima +1
-            FI(M1,M2,M3) = FI(M1,M2,M3) +Dmaxim+1.  ! assign large number to the maximum
-         end If
-	  END DO
-       END DO
-    END DO
-    t1 = seconds()
-    write(*,*) ' time for Find Max    =',t1-t0
-    write(*,*) ' FindMaxima: 1 finished: Nmaxima= ',Nmaxima
-    
-    Nbuff = Nmaxima/Nthreads *5  ! length of the buffer
-    Allocate(Mth(Nbuff),xxMax(Nbuff,Nthreads),yyMax(Nbuff,Nthreads),zzMax(Nbuff,Nthreads))
-    Allocate(Xxoff(Nbuff,Nthreads))
-      if(Nmaxima == 0)Stop ' No density maxima found'
-             ALLOCATE (Mvir(Nmaxima),Rvir(Nmaxima),Xoff(Nmaxima))
-             myMemory =Memory(3_8*Nmaxima )
-             ALLOCATE (xMaxx(Nmaxima),yMaxx(Nmaxima),zMaxx(Nmaxima))
-             myMemory =Memory(3_8*Nmaxima )
-             ALLOCATE (VxMaxx(Nmaxima),VyMaxx(Nmaxima),VzMaxx(Nmaxima))
-             myMemory =Memory(3_8*Nmaxima )
-             ALLOCATE(LstMax(Nmaxima),EpotM(Nmaxima),EkinM(Nmaxima),LambdaM(Nmaxima))
-             myMemory =Memory(4_8*Nmaxima )
-             ALLOCATE(VmaxM(Nmaxima),RmaxM(Nmaxima),Mtotal(Nmaxima),RadRms(Nmaxima))
-             myMemory =Memory(4_8*Nmaxima )
-             ALLOCATE(Xax(Nmaxima),Yax(Nmaxima),Zax(Nmaxima))
-             myMemory =Memory(3_8*Nmaxima )
-             ALLOCATE(Axba(Nmaxima),Axca(Nmaxima))
-             myMemory =Memory(2_8*Nmaxima )
-            
-    Nmaxx =0
-    xs     = Box/NGRID
-    Mth(:) = 0
-    Mm     = 1
-!$OMP PARALLEL DO PRIVATE(M1,M2,M3,Mthread) Firstprivate(Mm) 
-    DO M3=1,NGRID          !--- make list of maxima
-       DO M2=1,NGRID
-          DO M1=1,NGRID
-             If(FI(M1,M2,M3)>Dmaxim+1.)Then
-                Mthread       = OMP_GET_THREAD_NUM()+1
-                Mth(Mthread)  = Mm
-                If(Mm>Nbuff)Then
-                  write(*,'(3i6,i11,i4)') M1,M2,M3,Mm,Mthread
-                  Stop ' Too many elements for buffer XX'
-                end If
-                xxMax(Mm,Mthread) = (M1-1)*xs 
-                yyMax(Mm,Mthread) = (M2-1)*xs 
-                zzMax(Mm,Mthread) = (M3-1)*xs
-                Xxoff(Mm,Mthread)  = FI(M1,M2,M3) -Dmaxim-1.
-                Mm = Mm +1
-             end If
-          end DO
-       end DO
-    end DO
-  M = 0
-  Do i=1,Nthreads
-     M = M + Mth(i)
-  end Do
-  write(*,*) ' Elements on all buffers =',M,Nmaxima
-  i = 0
-  Do Mthread=1,Nthreads
-     Mnow = Mth(Mthread)
-     Do j = 1,Mnow
-        Xoff(j+i) = Xxoff(j,Mthread)
-        xMaxx(j+i) = xxMax(j,Mthread)
-        yMaxx(j+i) = yyMax(j,Mthread)
-        zMaxx(j+i) = zzMax(j,Mthread)
-     End Do
-     i = i+ Mnow
-  end Do
-  Deallocate(Xxoff,Mth,xxMax,yyMax,zzMax)
-  
-
-    t2 = seconds()
-    iOverdens  = 0
-    i300 = 0; i400 =0; i500 = 0; i600 =0; i700 =0
-    write(*,*) ' time for List Max    =',t2-t1
-                       !--- statistics of maxima
-       Do i=1,Nmaxima
-          If(Xoff(i) .ge. Ovdens)iOverdens = iOverdens +1
-          If(Xoff(i)>300.)Then
-                i300 = i300 +1
-             if(Xoff(i)>400.)Then
-                i400 = i400 +1
-             if(Xoff(i)>500.)Then
-                i500 = i500 +1
-             if(Xoff(i)>600.)Then
-                i600 = i600 +1
-                if(Xoff(i)>700.)Then
-                  i700 = i700 +1
-                End if
-             end if
-             end if
-             end if
-          end If
-          enddo
-          write(*,'(a,i8,/a,i9,5(a,i8))') ' Number of maxima:',Nmaxima, &
-               ' Above Overdensity =',iOverdens, &
-               ' Above: 300 =',i300,' 400 =',i400,' 500 =',i500,' 600 =',i600,' 700 =',i700
-       tfinish = seconds()
-      write(13,'(10x,a,T50,2f10.2)') ' time for FindMaxima(secs) =',tfinish-tstart,tfinish-t0
-      write(*,'(10x,a,T50,2f10.2)') ' time for FindMaxima(secs) =',tfinish-tstart,tfinish-t0
-    end SUBROUTINE FindMaxima
+      pure logical function IsDensityMaximum(m1,m2,m3) result(selected)
+      implicit none
+      integer, intent(in) :: m1,m2,m3
+      integer :: a,b,c,i,j,k,ix(3),iy(3),iz(3)
+      integer*8 :: here,neighbour
+      real :: density
+      ! Immutable density and a total (z,y,x) index order break equal-density
+      ! neighbour ties deterministically, including across periodic boundaries.
+      ! This is a local 26-neighbour rule, not a watershed/connected-plateau fit.
+      selected=.false.
+      density=FI(m1,m2,m3)
+      here=int(m1-1,8)+int(NGRID,8)*(int(m2-1,8)+int(NGRID,8)*int(m3-1,8))
+      ix=[modulo(m1-2,NGRID)+1,m1,modulo(m1,NGRID)+1]
+      iy=[modulo(m2-2,NGRID)+1,m2,modulo(m2,NGRID)+1]
+      iz=[modulo(m3-2,NGRID)+1,m3,modulo(m3,NGRID)+1]
+      do c=1,3
+         k=iz(c)
+         do b=1,3
+            j=iy(b)
+            do a=1,3
+               i=ix(a)
+               neighbour=int(i-1,8)+int(NGRID,8)*(int(j-1,8)+int(NGRID,8)*int(k-1,8))
+               if (neighbour == here) cycle
+               if (FI(i,j,k) > density) return
+               if (FI(i,j,k) == density.and.neighbour < here) return
+            end do
+         end do
+      end do
+      selected=.true.
+      end function IsDensityMaximum
 !---------------------------------------------------------------------------
 !                     Define size and boundaries of linked-list
       SUBROUTINE SizeListMaxima
@@ -1681,6 +1676,10 @@ DO M3=1,NGRID
 !                          allocate arrays
 !
       Subroutine SetParameters
+     use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+     implicit none
+     real :: Xscale,Vscale,Dscale
+     integer :: kf,kfile
 
      Integer*4          :: jstep
      Integer            :: FileList(3)=(/12,20,30/)
@@ -1691,22 +1690,17 @@ DO M3=1,NGRID
      Character*10       :: sxt1,sxt2,sxt3,sxt4
 
            
-           Om0 = Om                                    ! Set scales
+           call ValidateParameters
+           call SetOverdensity
+           if (.not.ieee_is_finite(Box)) call ConfigurationError(0,'box size must be finite')
+           if (Box <= 0..or.NGRID <= 0.or.NROW <= 0) &
+              call ConfigurationError(0,'box, mesh size and particle-grid size must be positive')
            Xscale = Box/NGRID                 ! Scale for comoving coordinates
            Vscale = 100.*Xscale/AEXPN          ! Scale for velocities
            Dscale = 2.774e+11*(Box/NROW)**3    ! mass scale
            MassOne= Om0*Dscale                ! mass of the smallest particle
 
-        SELECT CASE (iVirial)
-        CASE (0)
-           Ovdens   = 200./Om0*(Om0+(1.-Om0)*AEXPN**3) ! 200\rho_critical
-        CASE  (1)
-           Ovdens   = OverdenVir()                     ! virial overdensity
-        CASE  (2)
-           Ovdens   = 200.                             ! 200 matter overdens
-        CASE  (3)
-           Ovdens   = OverdenAbacus()                 ! Abacus overdens
-        end SELECT
+
            Xleft = 0. ; Xright = Box
            Yleft = 0. ; Yright = Box
            Zleft = 0. ; Zright = Box
@@ -1732,7 +1726,7 @@ DO M3=1,NGRID
                       sxt2 =' Omega_L='
                       sxt3 =' hubble ='
                       txt4 =' buffer width (Mpch) ='
-                 WRITE (kfile) sxt1,Om0,sxt2,1.-Om0,sxt3,hubble,txt4,dBuffer 
+                 WRITE (kfile) sxt1,Om0,sxt2,OmL,sxt3,hubble,txt4,dBuffer
                      txt1= ' Number of radial bins                ='
                  WRITE (kfile) txt1,NradP
                      txt1= ' Mass of smallest particle (Msunh)    ='
@@ -1748,7 +1742,7 @@ DO M3=1,NGRID
                  Txt6 ='  b/a  c/a MajorAxis:  x      y      z'   
                  WRITE (kfile) txt1,txt2b,txt3,txt4,txt5,txt6
                Else
-                 WRITE (kfile,'(a)') HEADER
+                 WRITE (kfile,'(a)') trim(HEADER)//' [BDM finder v2]'
                       sxt1 =' A    ='
                       sxt2 =' Step ='
                  WRITE (kfile,'(2(a,f8.5))') sxt1,AEXPN,sxt2,ASTEP 
@@ -1760,7 +1754,7 @@ DO M3=1,NGRID
                       sxt2 =' Omega_L='
                       sxt3 =' hubble ='
                       txt4 =' buffer width (Mpch) ='
-                 WRITE (kfile,'(6(a,f8.4))') sxt1,Om0,sxt2,Oml0,sxt3,hubble,txt4,dBuffer 
+                 WRITE (kfile,'(6(a,f8.4))') sxt1,Om0,sxt2,OmL,sxt3,hubble,txt4,dBuffer
                      txt1= ' Number of radial bins                ='
                  WRITE (kfile,'(a,i4)') txt1,NradP
                      txt1= ' Mass of smallest particle (Msunh)    ='
