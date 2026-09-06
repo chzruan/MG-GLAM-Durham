@@ -66,5 +66,26 @@
       "filesystem_entries": 1,
       "reason": "Empty parent after worktree removal"
     }
-  ]
+  ],
+  "git_object_packing": {
+    "command": "git -c pack.threads=1 repack -d",
+    "before": {
+      "files": 2585,
+      "directories": 259
+    },
+    "after": {
+      "files": 21,
+      "directories": 18
+    },
+    "files_reduced": 2564,
+    "directories_reduced": 241,
+    "all_refs_unchanged": true,
+    "integrity_command": "git fsck --full --no-dangling",
+    "integrity_returncode": 0,
+    "integrity_stdout": "",
+    "integrity_stderr": "",
+    "elapsed_seconds": 49.98957975883968,
+    "checked_at_utc": "2026-09-06T10:28:05.371726+00:00",
+    "scope": "Pack reachable loose objects; preserve branch history and unreachable objects. No aggressive pruning."
+  }
 }

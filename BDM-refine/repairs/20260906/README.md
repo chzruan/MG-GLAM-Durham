@@ -7,6 +7,10 @@ isolated `repair/bdm-*` branches, integrated through
 `repair/bdm-audit-20260906`. The historical audit and its failing experiments
 are preserved as evidence against their recorded source revisions.
 
+The reproduced active-path findings F01–F16 and subsequent review/native
+failures have been repaired and pass the validation described below. This
+closes the implementation audit within the stated physics and input domain.
+
 The active distinct-host finder now has an explicit version-2 catalogue
 contract. This changes the interpretation and values of several fields;
 historical catalogues should retain their original definitions.
@@ -247,3 +251,9 @@ is removed. Compact reports and final catalogues/memberships remain tracked.
 Disposable agent worktrees are removed while their branches remain available.
 See [cleanup.json](cleanup.json) and [validation.json](validation.json) for
 archive verification, Git object packing and final source/artifact checks.
+
+Cleanup consolidated 318 loose work entries into one verified archive (317
+fewer entries), and Git packing removed 2,564 files and 241 directories while
+preserving every reference. `git fsck --full --no-dangling` passed afterward.
+All three disposable worktrees and duplicate temporary receipt copies were
+also removed; unrelated user work was retained.
