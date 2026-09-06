@@ -1602,35 +1602,80 @@ end SUBROUTINE SizeList
 
 SUBROUTINE List
   use omp_lib, only: omp_get_max_threads,omp_get_num_threads,omp_get_thread_num
+  use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
   implicit none
-  integer*8 :: jp,planeCount
-  integer :: i,j,k,thread,threads,lo,hi
-  real :: timeStart,timeFinish
+  integer*2, allocatable :: zCell16(:)
+  integer*4, allocatable :: zCell32(:)
+  integer*8 :: jp,planeCount,i,j,k,lo,hi,cacheWords
+  integer :: thread,threads
+  real :: timeStart,timeFinish,memoryUsed
+  logical :: compactZ,bufferedCoordinates
 
   timeStart=seconds()
+  if(.not.ieee_is_finite(Cell).or.Cell<=0..or.Np<0_8)error stop 'Invalid BDM particle list geometry'
+  if(Nmx>Nbx.or.Nmy>Nby.or.Nmz>Nbz)error stop 'Invalid BDM particle list bounds'
+  ! AddBuffer validates originals and restricts image shifts to -1..1. This
+  ! box/cell bound therefore proves the original fast integer conversion safe.
+  ! Direct unbuffered tests/callers use the guarded clamp below instead.
+  bufferedCoordinates=allocated(OriginalParticleId).and.ieee_is_finite(Box)
+  if(bufferedCoordinates)bufferedCoordinates=Box>0..and. &
+    2.d0*dble(Box)<dble(huge(0.)).and.2.d0*dble(Box)/dble(Cell)<dble(huge(0))
   if(omp_get_max_threads()==1.or.Np<10000_8)then
     Label=0_8
     do jp=1,Np
-      i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)
-      j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)
-      k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)
+      if(bufferedCoordinates)then
+        i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)
+        j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)
+        k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)
+      else
+        i=ClampedCell(BdmParticleCoordinate(jp,1)/dble(Cell),Nmx,Nbx)
+        j=ClampedCell(BdmParticleCoordinate(jp,2)/dble(Cell),Nmy,Nby)
+        k=ClampedCell(BdmParticleCoordinate(jp,3)/dble(Cell),Nmz,Nbz)
+      endif
       Lst(jp)=Label(i,j,k)
       Label(i,j,k)=jp
     enddo
   else
-    planeCount=Nbz-Nmz+1_8
+    planeCount=int(Nbz,8)-int(Nmz,8)+1_8
+    compactZ=Nmz>=-int(huge(0_2),4)-1.and.Nbz<=int(huge(0_2),4)
+    cacheWords=Np
+    if(compactZ)cacheWords=Np/2_8+mod(Np,2_8)
+    if(4.d0*dble(cacheWords)/1024.d0**3+dble(Memory(0_8))>dble(MaxMemory)) &
+      error stop 'BDM z-cell cache exceeds configured memory limit'
+    if(compactZ)then
+      allocate(zCell16(Np))
+    else
+      allocate(zCell32(Np))
+    endif
+    memoryUsed=Memory(cacheWords)
 !$OMP PARALLEL DEFAULT(SHARED) PRIVATE(thread,threads,lo,hi,jp,i,j,k)
     thread=omp_get_thread_num()
     threads=omp_get_num_threads()
-    ! Partition the z bounds, not the x bounds. Each cell has one writer, and
-    ! ascending particle traversal gives identical descending row-ID links at
-    ! every thread count. Thread counts are local, avoiding a shared write race.
-    lo=Nmz+int(planeCount*thread/threads)
-    hi=Nmz+int(planeCount*(thread+1_8)/threads)-1
+    ! Convert each exact periodic z coordinate once. Signed int16 is sufficient
+    ! for ordinary grids; the int32 fallback covers every declared list bound.
+!$OMP DO SCHEDULE(STATIC)
+    do jp=1,Np
+      if(bufferedCoordinates)then
+        k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)
+      else
+        k=ClampedCell(BdmParticleCoordinate(jp,3)/dble(Cell),Nmz,Nbz)
+      endif
+      if(compactZ)then
+        zCell16(jp)=int(k,2)
+      else
+        zCell32(jp)=int(k,4)
+      endif
+    enddo
+!$OMP END DO
+    ! Each cell has one writer. The slab scans keep ascending particle order,
+    ! hence identical descending row-ID links, while reading only cached z cells.
+    ! Int64 bounds also represent empty slabs below the minimum int32 cell.
+    lo=int(Nmz,8)+planeCount*int(thread,8)/int(threads,8)
+    hi=int(Nmz,8)+planeCount*(int(thread,8)+1_8)/int(threads,8)-1_8
 !$OMP DO COLLAPSE(3)
-    do k=Nmz,Nbz
-    do j=Nmy,Nby
-    do i=Nmx,Nbx
+    do k=int(Nmz,8),int(Nbz,8)
+    do j=int(Nmy,8),int(Nby,8)
+    do i=int(Nmx,8),int(Nbx,8)
       Label(i,j,k)=0_8
     enddo
     enddo
@@ -1638,20 +1683,45 @@ SUBROUTINE List
 !$OMP END DO
     if(lo<=hi)then
       do jp=1,Np
-        k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)
+        if(compactZ)then
+          k=zCell16(jp)
+        else
+          k=zCell32(jp)
+        endif
         if(k<lo.or.k>hi)cycle
-        ! The complete z scan remains O(T*Np). Compute the other two indices
-        ! only for this slab, avoiding repeated x/y reads and cell arithmetic.
-        i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)
-        j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)
+        if(bufferedCoordinates)then
+          i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)
+          j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)
+        else
+          i=ClampedCell(BdmParticleCoordinate(jp,1)/dble(Cell),Nmx,Nbx)
+          j=ClampedCell(BdmParticleCoordinate(jp,2)/dble(Cell),Nmy,Nby)
+        endif
         Lst(jp)=Label(i,j,k)
         Label(i,j,k)=jp
       enddo
     endif
 !$OMP END PARALLEL
+    if(allocated(zCell16))deallocate(zCell16)
+    if(allocated(zCell32))deallocate(zCell32)
+    memoryUsed=Memory(-cacheWords)
   endif
   timeFinish=seconds()
   write(*,*) ' time to make list =',timeFinish-timeStart
+contains
+  integer*8 function ClampedCell(scaled,lower,upper) result(index)
+    real*8, intent(in) :: scaled
+    integer*4, intent(in) :: lower,upper
+    if(.not.ieee_is_finite(scaled))error stop 'Nonfinite BDM particle cell coordinate'
+    ! In an interior cell lower+1 < scaled <= upper proves that the ordinary
+    ! ceiling and subtraction fit int32, even at the declared bound extrema.
+    if(scaled<=dble(lower)+1.d0)then
+      index=int(lower,8)
+    else if(scaled>dble(upper))then
+      index=int(upper,8)
+    else
+      index=int(ceiling(scaled)-1,8)
+    endif
+  end function ClampedCell
 end SUBROUTINE List
 !--------------------------------------------------------------
 !                          Make linker lists of maxima in each cell
@@ -1959,8 +2029,10 @@ SUBROUTINE AddBuffer
   use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
   implicit none
   real, allocatable :: Xbb(:),Ybb(:),Zbb(:),VXbb(:),VYbb(:),VZbb(:)
-  integer*8, allocatable :: imageEnd(:)
-  integer*8 :: ic,ip,originalCount,imageCount,iPartMax,nx,ny,nz
+  integer*1, allocatable :: imageCounts(:)
+  integer*8, allocatable :: blockEnd(:)
+  integer*8, parameter :: blockRows=16384_8
+  integer*8 :: ic,ip,originalCount,iPartMax,nx,ny,nz,block,blockCount,first,last,localImages,expectedEnd,scratchWords
   integer :: ilo,ihi,jlo,jhi,klo,khi,i,j,k
   real :: memoryUsed
   real*8 :: xx,yy,zz,box64,width64
@@ -1972,63 +2044,86 @@ SUBROUTINE AddBuffer
     error stop 'BDM buffer width must be finite and between zero and Box'
   originalCount=Np
   if(Np/=Nparticles)error stop 'BDM periodic buffer original count mismatch'
+  if(originalCount<0_8.or.originalCount>huge(0_8)/8_8) &
+    error stop 'BDM periodic particle count exceeds safe int64 range'
   box64=dble(Box); width64=dble(dBuffer)
-  ! Count exactly, including images of x=0 at x=Box. A row is an original
-  ! only when its shift is (0,0,0); the primary domain is [0,Box).
-  allocate(imageEnd(originalCount))
-  memoryUsed=Memory(2_8*originalCount)
+  ! Below half a box each axis contributes at most two images, hence 0..7
+  ! ghosts per original row. Retain byte counts and only one int64 end per block.
+  blockCount=originalCount/blockRows
+  if(mod(originalCount,blockRows)/=0_8)blockCount=blockCount+1_8
+  scratchWords=originalCount/4_8+2_8*(blockCount+1_8)
+  if(mod(originalCount,4_8)/=0_8)scratchWords=scratchWords+1_8
+  allocate(imageCounts(originalCount),blockEnd(0:blockCount))
+  memoryUsed=Memory(scratchWords)
   invalid=.false.
-!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(ic,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,nx,ny,nz) REDUCTION(.or.:invalid)
-  do ic=1,originalCount
-    xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
-    if(.not.all(ieee_is_finite([xx,yy,zz])).or.min(xx,yy,zz)<0.d0.or.max(xx,yy,zz)>=box64)then
-      invalid=.true.
-      imageEnd(ic)=0_8
-      cycle
-    endif
-    ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
-    jlo=ceiling((-width64-yy)/box64); jhi=floor((box64+width64-yy)/box64)
-    klo=ceiling((-width64-zz)/box64); khi=floor((box64+width64-zz)/box64)
-    nx=ihi-ilo+1_8; ny=jhi-jlo+1_8; nz=khi-klo+1_8
-    imageEnd(ic)=nx*ny*nz-1_8
+!$OMP PARALLEL DO DEFAULT(SHARED) SCHEDULE(STATIC) &
+!$OMP PRIVATE(block,ic,first,last,localImages,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,nx,ny,nz) REDUCTION(.or.:invalid)
+  do block=1,blockCount
+    first=(block-1_8)*blockRows+1_8; last=min(first+blockRows-1_8,originalCount)
+    localImages=0_8
+    do ic=first,last
+      xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
+      if(.not.all(ieee_is_finite([xx,yy,zz])).or.min(xx,yy,zz)<0.d0.or.max(xx,yy,zz)>=box64)then
+        invalid=.true.
+        imageCounts(ic)=0_1
+        cycle
+      endif
+      ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
+      jlo=ceiling((-width64-yy)/box64); jhi=floor((box64+width64-yy)/box64)
+      klo=ceiling((-width64-zz)/box64); khi=floor((box64+width64-zz)/box64)
+      nx=ihi-ilo+1_8; ny=jhi-jlo+1_8; nz=khi-klo+1_8
+      if(min(nx,ny,nz)<1_8.or.max(nx,ny,nz)>2_8) &
+        error stop 'BDM periodic image count outside supported half-box range'
+      imageCounts(ic)=int(nx*ny*nz-1_8,1)
+      localImages=localImages+int(imageCounts(ic),8)
+    enddo
+    blockEnd(block)=localImages
   enddo
   if(invalid)error stop 'BDM original analysis coordinates must lie in [0,Box)'
-  imageCount=originalCount
-  do ic=1,originalCount
-    imageCount=imageCount+imageEnd(ic)
-    imageEnd(ic)=imageCount
+  blockEnd(0)=originalCount
+  ! Prefix only the block totals. Independent blocks retain original row order
+  ! during filling, including the existing k/j/i periodic-image order per row.
+  do block=1,blockCount
+    if(blockEnd(block)>huge(0_8)-blockEnd(block-1_8))error stop 'BDM periodic prefix exceeds int64 range'
+    blockEnd(block)=blockEnd(block-1_8)+blockEnd(block)
   enddo
-  iPartMax=imageCount
+  iPartMax=blockEnd(blockCount)
+  if(iPartMax>huge(0_8)/8_8)error stop 'BDM periodic allocation accounting exceeds int64 range'
   write(*,*) ' Allocate exact periodic particle buffer: ',originalCount,iPartMax
   allocate(Xbb(iPartMax),Ybb(iPartMax),Zbb(iPartMax),VXbb(iPartMax),VYbb(iPartMax),VZbb(iPartMax))
   allocate(OriginalParticleId(iPartMax))
   memoryUsed=Memory(8_8*iPartMax) ! six float32 fields and one int64 identity
-!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(ic,ip,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,i,j,k)
-  do ic=1,originalCount
-    xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
-    Xbb(ic)=Xpar(ic); Ybb(ic)=Ypar(ic); Zbb(ic)=Zpar(ic)
-    VXbb(ic)=VX(ic); VYbb(ic)=VY(ic); VZbb(ic)=VZ(ic)
-    OriginalParticleId(ic)=ic
-    ip=originalCount
-    if(ic>1_8)ip=imageEnd(ic-1_8)
-    ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
-    jlo=ceiling((-width64-yy)/box64); jhi=floor((box64+width64-yy)/box64)
-    klo=ceiling((-width64-zz)/box64); khi=floor((box64+width64-zz)/box64)
-    do k=klo,khi
-    do j=jlo,jhi
-    do i=ilo,ihi
-      if(i==0.and.j==0.and.k==0)cycle
-      ip=ip+1_8
-      Xbb(ip)=real(xx+dble(i)*box64); Ybb(ip)=real(yy+dble(j)*box64); Zbb(ip)=real(zz+dble(k)*box64)
-      VXbb(ip)=VX(ic); VYbb(ip)=VY(ic); VZbb(ip)=VZ(ic)
-      OriginalParticleId(ip)=ic
+!$OMP PARALLEL DO DEFAULT(SHARED) SCHEDULE(STATIC) &
+!$OMP PRIVATE(block,ic,first,last,ip,expectedEnd,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,i,j,k)
+  do block=1,blockCount
+    first=(block-1_8)*blockRows+1_8; last=min(first+blockRows-1_8,originalCount)
+    ip=blockEnd(block-1_8)
+    do ic=first,last
+      xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
+      Xbb(ic)=Xpar(ic); Ybb(ic)=Ypar(ic); Zbb(ic)=Zpar(ic)
+      VXbb(ic)=VX(ic); VYbb(ic)=VY(ic); VZbb(ic)=VZ(ic)
+      OriginalParticleId(ic)=ic
+      expectedEnd=ip+int(imageCounts(ic),8)
+      ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
+      jlo=ceiling((-width64-yy)/box64); jhi=floor((box64+width64-yy)/box64)
+      klo=ceiling((-width64-zz)/box64); khi=floor((box64+width64-zz)/box64)
+      do k=klo,khi
+      do j=jlo,jhi
+      do i=ilo,ihi
+        if(i==0.and.j==0.and.k==0)cycle
+        ip=ip+1_8
+        Xbb(ip)=real(xx+dble(i)*box64); Ybb(ip)=real(yy+dble(j)*box64); Zbb(ip)=real(zz+dble(k)*box64)
+        VXbb(ip)=VX(ic); VYbb(ip)=VY(ic); VZbb(ip)=VZ(ic)
+        OriginalParticleId(ip)=ic
+      enddo
+      enddo
+      enddo
+      if(ip/=expectedEnd)error stop 'BDM periodic count/fill mismatch'
     enddo
-    enddo
-    enddo
-    if(ip/=imageEnd(ic))error stop 'BDM periodic count/fill mismatch'
+    if(ip/=blockEnd(block))error stop 'BDM periodic block count/fill mismatch'
   enddo
-  deallocate(imageEnd)
-  memoryUsed=Memory(-2_8*originalCount)
+  deallocate(imageCounts,blockEnd)
+  memoryUsed=Memory(-scratchWords)
   deallocate(Xpar,Ypar,Zpar,VX,VY,VZ)
   memoryUsed=Memory(-6_8*originalCount)
   call move_alloc(Xbb,Xpar); call move_alloc(Ybb,Ypar); call move_alloc(Zbb,Zpar)

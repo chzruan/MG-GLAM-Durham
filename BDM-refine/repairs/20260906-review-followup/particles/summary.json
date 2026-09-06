@@ -1,0 +1,168 @@
+{
+  "recorded_utc": "2026-09-06T17:07:29.342201+00:00",
+  "base_commit": "54f53aae2aac6700d1ddb8490bebb0719f71165d",
+  "source_sha256": "8dfc0c21c0d73fc458ba8dfc17abb9db21f24db1b4c035aa66fe422294954da8",
+  "production_scope_verified": [
+    "List",
+    "AddBuffer"
+  ],
+  "other_source_bytes_equal_base": true,
+  "counts": {
+    "focused-gnu": 342,
+    "focused-ifx": 342,
+    "legacy-gnu": 104,
+    "legacy-ifx": 104,
+    "benchmark-gnu": 48,
+    "benchmark-ifx": 48
+  },
+  "cross_compiler_successful_case_hashes": {
+    "compared": 256,
+    "equal": 256,
+    "different_keys": []
+  },
+  "median_seconds": {
+    "gnu": {
+      "list": {
+        "1": {
+          "baseline": 0.030258065671660006,
+          "updated": 0.03214539416755239,
+          "baseline_over_updated": 0.9412877475990804
+        },
+        "2": {
+          "baseline": 0.01910104350342105,
+          "updated": 0.01906692748889327,
+          "baseline_over_updated": 1.001789276984855
+        },
+        "4": {
+          "baseline": 0.01523253635969013,
+          "updated": 0.01062754231194655,
+          "baseline_over_updated": 1.4333075242210092
+        },
+        "8": {
+          "baseline": 0.013440545997582376,
+          "updated": 0.007974289823323488,
+          "baseline_over_updated": 1.6854850143859816
+        }
+      },
+      "buffer": {
+        "1": {
+          "baseline": 0.0157338361411045,
+          "updated": 0.014119552836442987,
+          "baseline_over_updated": 1.1143296337611344
+        },
+        "2": {
+          "baseline": 0.011483459345375499,
+          "updated": 0.010616915533319116,
+          "baseline_over_updated": 1.0816191679529619
+        },
+        "4": {
+          "baseline": 0.007815368861580888,
+          "updated": 0.007232720303970079,
+          "baseline_over_updated": 1.0805573191169842
+        },
+        "8": {
+          "baseline": 0.0052130371720219655,
+          "updated": 0.004792953181701402,
+          "baseline_over_updated": 1.0876461701992761
+        }
+      }
+    },
+    "ifx": {
+      "list": {
+        "1": {
+          "baseline": 0.02859965960184733,
+          "updated": 0.02879114945729573,
+          "baseline_over_updated": 0.9933490027644631
+        },
+        "2": {
+          "baseline": 0.02333549658457438,
+          "updated": 0.02367019653320312,
+          "baseline_over_updated": 0.9858598576416868
+        },
+        "4": {
+          "baseline": 0.01678649584452311,
+          "updated": 0.01406983534495036,
+          "baseline_over_updated": 1.1930840292703038
+        },
+        "8": {
+          "baseline": 0.0123140017191569,
+          "updated": 0.007399996121724446,
+          "baseline_over_updated": 1.6640551584893706
+        }
+      },
+      "buffer": {
+        "1": {
+          "baseline": 0.0224455197652181,
+          "updated": 0.02315346399943034,
+          "baseline_over_updated": 0.9694238307395534
+        },
+        "2": {
+          "baseline": 0.01346564292907715,
+          "updated": 0.01259414354960124,
+          "baseline_over_updated": 1.069198780849493
+        },
+        "4": {
+          "baseline": 0.007119973500569661,
+          "updated": 0.006778677304585774,
+          "baseline_over_updated": 1.0503484943519883
+        },
+        "8": {
+          "baseline": 0.005995273590087891,
+          "updated": 0.004926443099975586,
+          "baseline_over_updated": 1.2169578473600156
+        }
+      }
+    }
+  },
+  "resources": {
+    "gnu": {
+      "elapsed_seconds": 29.7,
+      "total_cpu_seconds": 29.16,
+      "maxrss_kib": 78072,
+      "gnu_time_text_sha256": "43a9f987c7239c2bb9432e901bf6b4a6d2aa4259aa0a8f504669b4650ed05cde",
+      "gnu_time_text": "\tCommand being timed: \"micromamba run -n cosemu python3 -B BDM-refine/repairs/20260906-review-followup/particles/run_checks.py --benchmark --compiler gfortran --particles 262144 --output BDM-refine/repairs/20260906-review-followup/particles/benchmark-gnu.json\"\n\tUser time (seconds): 20.61\n\tSystem time (seconds): 8.55\n\tPercent of CPU this job got: 98%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:29.70\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 78072\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 1531243\n\tVoluntary context switches: 3791\n\tInvoluntary context switches: 361\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 3920408\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n"
+    },
+    "ifx": {
+      "elapsed_seconds": 31.75,
+      "total_cpu_seconds": 58.99,
+      "maxrss_kib": 78792,
+      "gnu_time_text_sha256": "881dd1735ecae123d5045cc0dc69650a53fe245502e6d4ca52630c33440b5152",
+      "gnu_time_text": "\tCommand being timed: \"micromamba run -n cosemu python3 -B BDM-refine/repairs/20260906-review-followup/particles/run_checks.py --benchmark --compiler ifx --particles 262144 --output BDM-refine/repairs/20260906-review-followup/particles/benchmark-ifx.json\"\n\tUser time (seconds): 48.16\n\tSystem time (seconds): 10.83\n\tPercent of CPU this job got: 185%\n\tElapsed (wall clock) time (h:mm:ss or m:ss): 0:31.75\n\tAverage shared text size (kbytes): 0\n\tAverage unshared data size (kbytes): 0\n\tAverage stack size (kbytes): 0\n\tAverage total size (kbytes): 0\n\tMaximum resident set size (kbytes): 78792\n\tAverage resident set size (kbytes): 0\n\tMajor (requiring I/O) page faults: 0\n\tMinor (reclaiming a frame) page faults: 1557824\n\tVoluntary context switches: 8328\n\tInvoluntary context switches: 6424\n\tSwaps: 0\n\tFile system inputs: 0\n\tFile system outputs: 3922728\n\tSocket messages sent: 0\n\tSocket messages received: 0\n\tSignals delivered: 0\n\tPage size (bytes): 4096\n\tExit status: 0\n"
+    }
+  },
+  "execution_context": {
+    "host": "login8b.pri.cosma.local",
+    "preflight_load_average": [
+      4.98,
+      5.28,
+      5.79
+    ],
+    "logical_cpus": 128,
+    "slurm_job_id": null,
+    "reason": "Explicitly authorized bounded light login-host kernels; individual complete benchmark scripts run about30seconds with under128MiBMaxRSS; no full-node allocation or campaign",
+    "timing_scope": "Synthetic262144original/850823buffered-row kernels, repeated6timesper sample and3alternating samples;1/2/4/8threads. Full finder atN1024 remains parent validation."
+  },
+  "buffer_count_scratch_n1024": {
+    "original_particles": 1073741824,
+    "block_rows": 16384,
+    "prefix_entries": 65536,
+    "old_bytes": 8589934592,
+    "new_bytes": 1074266120,
+    "saved_bytes": 7515668472
+  },
+  "receipt_sha256": {
+    "focused-gnu.json": "84b4fb58d0452dde97c38e8d7904f5238afcb39bf49f16e41ae17a5e94949d02",
+    "focused-ifx.json": "0105bf0e966c8f412526baffb148a768bbbb79f804758a057ea11eaed2e14251",
+    "legacy-gnu.json": "771408427d9beaa1c45272032bf58b4911cf8bbe8e7018b3059e80c674a7315b",
+    "legacy-ifx.json": "1dc2fdb09081675a05c4626edbe22e696c2e99c613e9d084008dbfc09c095f11",
+    "benchmark-gnu.json": "e05745208242d92c2ad29e27f92b65ed09fe2f305ff88183277f148db8572adc",
+    "benchmark-ifx.json": "384aafbc9702f00d6666754f1854f22b10cbba9b5e6c4e7671e46e681f813aa1"
+  },
+  "limitations": [
+    "Repeated slab scanning remains O(threads*Np); only coordinate work becomes O(Np).",
+    "The coarse kernel mesh has a larger ghost fraction than the production mesh.",
+    "Shared-host and allocation noise remain; no N1024 or full-finder speedup claim.",
+    "ifx checked builds use the established bounds-check option because -check all failed in compiler MemorySanitizer startup before baseline main.",
+    "The fast conversion assumes the validated AddBuffer original-ID workspace invariant; unbuffered or unsafe scale ranges use guarded conversion."
+  ]
+}
