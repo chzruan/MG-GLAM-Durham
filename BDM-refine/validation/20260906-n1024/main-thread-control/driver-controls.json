@@ -1,0 +1,23 @@
+{
+  "completed": true,
+  "tests": [
+    "big-endian header and actual non-157 step",
+    "int64 particle header above int32 range",
+    "truncated header rejected",
+    "actual final step selected without hardcoded 157",
+    "incomplete simulation rejected",
+    "wrong source rejected",
+    "missing z0 rejected",
+    "duplicate z0 rejected",
+    "wrong snapshot filename step rejected",
+    "wrong particle count rejected",
+    "failed main stage rejected",
+    "six ordered density and particle restoration markers",
+    "nonzero restored density difference rejected",
+    "missing particle restoration rejected",
+    "exit-zero without native completion rejected",
+    "one unequal fixed-FI catalogue makes experiment fail"
+  ],
+  "driver_sha256": "52cc1e40cf0f5bebc7e73257d0ff8beb9115014c143dc4ee552648b2e83a28c7",
+  "test_sha256": "734dc28b9bda59d010172b082b9f9d0a03a9164780822ba781f6b23320883d3d"
+}

@@ -1,0 +1,53 @@
+{
+  "collected_at_utc": "2026-09-06T13:56:53.793095+00:00",
+  "job_id": "11948491",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "results_sha256": "7440ea4ef6db1dce80756857e13ad5a9c1ed52df532519f4fa61801737e23d57",
+  "submission_sha256": "f35461614b8557c9f650d9c5fbbfd2d5871e29e7c24a300c762d103c6a94a131",
+  "collector_sha256": "63e11e0428470f4ea6fe169dd1d0de65564177d25cc8f4ac180398771751791d",
+  "sacct_command": [
+    "sacct",
+    "-j",
+    "11948491",
+    "--parsable2",
+    "--format=JobID,State,ReqTRES,AllocTRES,ElapsedRaw,TotalCPU,CPUTimeRAW,MaxRSS,ExitCode"
+  ],
+  "sacct": "JobID|State|ReqTRES|AllocTRES|ElapsedRaw|TotalCPU|CPUTimeRAW|MaxRSS|ExitCode\n11948491|COMPLETED|billing=64,cpu=64,mem=288G,node=1|billing=64,cpu=64,energy=553441,mem=288G,node=1|1151|08:10:29|73664||0:0\n11948491.batch|COMPLETED||cpu=64,mem=288G,node=1|1151|08:10:29|73664|198231384K|0:0\n11948491.extern|COMPLETED||billing=64,cpu=64,mem=288G,node=1|1151|00:00:00|73664||0:0\n",
+  "scontrol_command": [
+    "scontrol",
+    "show",
+    "job",
+    "11948491"
+  ],
+  "scontrol": "JobId=11948491 JobName=bdm-n1024-fixed-fi\n   UserId=dc-ruan1(21209) GroupId=durham(64528) MCS_label=N/A\n   Priority=18422 Nice=0 Account=dp004 QOS=normal\n   JobState=COMPLETED Reason=None Dependency=(null)\n   Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0\n   RunTime=00:19:11 TimeLimit=00:45:00 TimeMin=N/A\n   SubmitTime=2026-09-06T14:29:54 EligibleTime=2026-09-06T14:36:00\n   AccrueTime=2026-09-06T14:36:00\n   StartTime=2026-09-06T14:36:25 EndTime=2026-09-06T14:55:36 Deadline=N/A\n   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-06T14:36:25 Scheduler=Backfill\n   Partition=cosma8-serial AllocNode:Sid=login8b.pri.cosma.local:1029439\n   ReqNodeList=(null) ExcNodeList=(null)\n   NodeList=m8422\n   BatchHost=m8422\n   NumNodes=1 NumCPUs=64 NumTasks=1 CPUs/Task=64 ReqB:S:C:T=0:0:*:*\n   ReqTRES=cpu=64,mem=288G,node=1,billing=64\n   AllocTRES=cpu=64,mem=288G,energy=553441,node=1,billing=64\n   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*\n   MinCPUsNode=64 MinMemoryNode=288G MinTmpDiskNode=0\n   Features=(null) DelayBoot=00:00:00\n   OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)\n   Command=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/launch/control.sbatch\n   SubmitLine=sbatch --parsable --dependency=afterok:11948372 --chdir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control --output=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/slurm-%j.log --error=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/slurm-%j.log --export=ALL,BDM_MAIN_THREAD_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control /cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/launch/control.sbatch /cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/launch/run_control.py --plan-sha256 6458cbef0baee79f70414da50b5d9983665eb136c83464a3c1585038d6d90645\n   WorkDir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control\n   StdErr=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/slurm-11948491.log\n   StdIn=/dev/null\n   StdOut=/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/slurm-11948491.log\n   TresPerTask=cpu=64\n\n",
+  "scontrol_stderr": "",
+  "scontrol_returncode": 0,
+  "allocation": {
+    "requested": {
+      "billing": "64",
+      "cpu": "64",
+      "mem": "288G",
+      "node": "1"
+    },
+    "allocated": {
+      "billing": "64",
+      "cpu": "64",
+      "energy": "553441",
+      "mem": "288G",
+      "node": "1"
+    },
+    "elapsed_seconds": 1151,
+    "cpu_seconds": 29429.0,
+    "cpu_core_hours": 8.174722222222222,
+    "allocated_core_hours": 20.462222222222223,
+    "cpu_utilization": 0.39950314943527365,
+    "batch_maxrss_kib": 198231384.0,
+    "batch_maxrss_gib": 189.04817962646484,
+    "process_maxrss_kib": 159517752,
+    "time_limit_core_hours": 48,
+    "headroom_fraction_of_request": 0.34358270963033044
+  },
+  "scientific_completed": true,
+  "fixed_density_controls_passed": true
+}

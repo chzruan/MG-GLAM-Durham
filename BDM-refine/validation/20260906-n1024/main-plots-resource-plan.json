@@ -1,0 +1,27 @@
+{
+  "partition": "cosma8-serial",
+  "account": "dp004",
+  "cpus": 1,
+  "mem": "2G",
+  "time_limit_seconds": 600,
+  "expected_seconds_range": [
+    60,
+    300
+  ],
+  "expected_core_hours_range": [
+    0.016666666666666666,
+    0.08333333333333333
+  ],
+  "time_limit_core_hours": 0.16666666666666666,
+  "pilot_receipt_sha256": "2697ca203e24c0ce5da41b6d1129bab7c8e97325d5175aa6045787bdd952dfa0",
+  "pilot_elapsed_seconds": 118.69,
+  "pilot_cpu_seconds": 57.98,
+  "pilot_maxrss_kib": 194484,
+  "memory_headroom_over_pilot": 10.78315954011641,
+  "memory_reason": "One-epoch N512 pilot used 189.93 MiB. 2 GiB provides 10.8x headroom for three epochs and their larger selected populations. Completed N1024 inline outputs contain 52,370 rows at z2 and 119,688 at z1, versus 71,587 pilot refined rows. Large raw tapes are hashed in 8 MiB blocks and never loaded whole.",
+  "cache": "Node-local temporary Matplotlib/LaTeX cache, removed on exit",
+  "full_node_exclusivity_required": false,
+  "dependencies": [
+    "afterok:11948467"
+  ]
+}

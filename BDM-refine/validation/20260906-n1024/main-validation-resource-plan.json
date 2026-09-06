@@ -1,0 +1,25 @@
+{
+  "partition": "cosma8-serial",
+  "account": "dp004",
+  "cpus": 64,
+  "mem": "192G",
+  "time_limit_seconds": 2700,
+  "expected_seconds_range": [
+    600,
+    1500
+  ],
+  "expected_core_hours_range": [
+    10.666666666666666,
+    26.666666666666668
+  ],
+  "time_limit_core_hours": 48,
+  "full_node_exclusivity_required": false,
+  "dependencies": [
+    "afterok:11948372"
+  ],
+  "pilot_job": "11948326",
+  "pilot_batch_maxrss_kib": 19105956,
+  "memory_reason": "N512 normal membership replay uses 12389104 KiB native RSS. Eightfold volume gives 94.5 GiB; the repeated-state probe adds 24 GiB of saved particle bits at N1024. The 192 GiB request also covers transient arrays and batch page cache. Fixed-density diagnostics need a separate measured 288 GiB allocation.",
+  "packing": "Nine native replays run sequentially with at most 64 threads; streaming membership checks use one CPU. Shared allocation leaves the other 64 cores and remaining node memory schedulable.",
+  "scope": "Membership identity and host geometry at z2,1,0; old/new catalogues on identical snapshots; ordinary 64/32-thread comparison and two-call bitwise particle-state restoration at z0. Normal density differences are recorded and interpreted alongside the separate fixed-field control."
+}

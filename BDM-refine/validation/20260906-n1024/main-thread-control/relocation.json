@@ -1,0 +1,5233 @@
+{
+  "started_at_utc": "2026-09-06T14:04:31.669664+00:00",
+  "completed": true,
+  "implementation_sha256": "541275fdd953cb80c0d413a5a219df5a90081ed205d34d87fe53bf03adef9df0",
+  "command": [
+    "micromamba",
+    "run",
+    "-n",
+    "cosemu",
+    "python3",
+    "-B",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/relocate_work.py"
+  ],
+  "method": "os.rename on the same filesystem; no file contents or historical receipts are rewritten",
+  "metadata_columns": [
+    "device",
+    "inode",
+    "size_bytes",
+    "mtime_ns",
+    "type",
+    "symlink_target"
+  ],
+  "sha_scope": "SHA references reuse validated build/execution manifests; large tapes are not rehashed on the login node",
+  "sacct_command": [
+    "sacct",
+    "-j",
+    "11948363,11948371,11948491",
+    "--parsable2",
+    "--format=JobID,State,ExitCode"
+  ],
+  "sacct": "JobID|State|ExitCode\n11948363|FAILED|1:0\n11948363.batch|FAILED|1:0\n11948363.extern|COMPLETED|0:0\n11948371|COMPLETED|0:0\n11948371.batch|COMPLETED|0:0\n11948371.extern|COMPLETED|0:0\n11948491|COMPLETED|0:0\n11948491.batch|COMPLETED|0:0\n11948491.extern|COMPLETED|0:0\n",
+  "existing_validated_manifests": {
+    "numerical-threading/results.json": {
+      "original": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/results.json",
+      "destination": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/numerical-threading/results.json",
+      "sha256": "708047b53bf71dd508bef5634d9cb42bbe1276e44d90abc4598d84612b259cc7"
+    },
+    "numerical-threading/build.json": {
+      "original": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/build.json",
+      "destination": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/numerical-threading/build.json",
+      "sha256": "1352c32dd7d9d1856e3991824dd85f2460cd89ee9177b1702dd04f938e2fd5f5"
+    },
+    "main-thread-control/results.json": {
+      "original": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/results.json",
+      "destination": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/results.json",
+      "sha256": "7440ea4ef6db1dce80756857e13ad5a9c1ed52df532519f4fa61801737e23d57"
+    },
+    "main-thread-control/build.json": {
+      "original": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/build.json",
+      "destination": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/build.json",
+      "sha256": "9989b0fefdc1f8623ae457edc333be688dd15cf264af1a7e72be205065121032"
+    },
+    "numerical-threading/attempt-11948363.json": {
+      "original": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/attempt-11948363.json",
+      "destination": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/numerical-threading/attempt-11948363.json",
+      "sha256": "884f0b6f7c9309837ab65cd12ba5dd1f2d812b0974665e7b5e7be6629499831d"
+    },
+    "main-thread-control/plan.json": {
+      "original": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/plan.json",
+      "destination": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/plan.json",
+      "sha256": "6458cbef0baee79f70414da50b5d9983665eb136c83464a3c1585038d6d90645"
+    }
+  },
+  "moves": [
+    {
+      "original": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/numerical-threading/work",
+      "destination": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/numerical-threading/work",
+      "renamed": true,
+      "before": {
+        ".": [
+          56918434,
+          198160013510944893,
+          4096,
+          1788698254000000000,
+          "directory",
+          null
+        ],
+        "build": [
+          56918434,
+          198160013510945196,
+          4096,
+          1788698150000000000,
+          "directory",
+          null
+        ],
+        "build-11948363": [
+          56918434,
+          198160013510944949,
+          4096,
+          1788697693000000000,
+          "directory",
+          null
+        ],
+        "build-11948363/BDM-thread-probe.exe": [
+          56918434,
+          198160013510944990,
+          1176232,
+          1788697693000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2MG_subroutines.o": [
+          56918434,
+          198160013510944956,
+          25136,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2MGsolver_DGP.o": [
+          56918434,
+          198160013510944957,
+          59600,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2MGsolver_csf.o": [
+          56918434,
+          198160013510944958,
+          61736,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2MGsolver_fR.o": [
+          56918434,
+          198160013510944959,
+          155328,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2MGsolver_kmf.o": [
+          56918434,
+          198160013510944960,
+          90224,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2MGsolver_sym.o": [
+          56918434,
+          198160013510944961,
+          51288,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2extradof.o": [
+          56918434,
+          198160013510944962,
+          152224,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2linker.o": [
+          56918434,
+          198160013510944963,
+          397384,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_MGbackground.o": [
+          56918434,
+          198160013510944964,
+          55264,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_analyze.o": [
+          56918434,
+          198160013510944965,
+          64208,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_density.o": [
+          56918434,
+          198160013510944966,
+          195472,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_fft5.o": [
+          56918434,
+          198160013510944967,
+          158424,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_power.o": [
+          56918434,
+          198160013510944968,
+          109104,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_random.o": [
+          56918434,
+          198160013510944969,
+          38808,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_tools.o": [
+          56918434,
+          198160013510944970,
+          111064,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/analyze.mod": [
+          56918434,
+          198160013510944971,
+          895,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/bdmduplicaterules.mod": [
+          56918434,
+          198160013510944972,
+          2246,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/bdmthreadcontrol.mod": [
+          56918434,
+          198160013510944987,
+          8086,
+          1788697692000000000,
+          "file",
+          null
+        ],
+        "build-11948363/density.mod": [
+          56918434,
+          198160013510944973,
+          8417,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/extradofbackgrounddata.mod": [
+          56918434,
+          198160013510944974,
+          5887,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/fft5.mod": [
+          56918434,
+          198160013510944975,
+          31680,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/linkerlist.mod": [
+          56918434,
+          198160013510944976,
+          33225,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/localdata.mod": [
+          56918434,
+          198160013510944977,
+          1358,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/luxury.mod": [
+          56918434,
+          198160013510944978,
+          1605,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/param.mod": [
+          56918434,
+          198160013510944979,
+          8785,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/power.mod": [
+          56918434,
+          198160013510944980,
+          6209,
+          1788697688000000000,
+          "file",
+          null
+        ],
+        "build-11948363/random.mod": [
+          56918434,
+          198160013510944981,
+          12418,
+          1788697688000000000,
+          "file",
+          null
+        ],
+        "build-11948363/setinitialconditions.mod": [
+          56918434,
+          198160013510944982,
+          19885,
+          1788697688000000000,
+          "file",
+          null
+        ],
+        "build-11948363/structures.mod": [
+          56918434,
+          198160013510944983,
+          14595,
+          1788697690000000000,
+          "file",
+          null
+        ],
+        "build-11948363/thread_probe.f90": [
+          56918434,
+          198160013510944985,
+          7535,
+          1788697637000000000,
+          "file",
+          null
+        ],
+        "build-11948363/thread_probe.o": [
+          56918434,
+          198160013510944988,
+          50208,
+          1788697693000000000,
+          "file",
+          null
+        ],
+        "build-11948363/thread_probe_entry.f90": [
+          56918434,
+          198160013510944986,
+          356,
+          1788697637000000000,
+          "file",
+          null
+        ],
+        "build-11948363/thread_probe_entry.o": [
+          56918434,
+          198160013510944989,
+          5024,
+          1788697693000000000,
+          "file",
+          null
+        ],
+        "build-11948363/tools.mod": [
+          56918434,
+          198160013510944984,
+          13644,
+          1788697692000000000,
+          "file",
+          null
+        ],
+        "build/BDM-thread-probe.exe": [
+          56918434,
+          198160013510945232,
+          1176224,
+          1788698150000000000,
+          "file",
+          null
+        ],
+        "build/PMP2MG_subroutines.o": [
+          56918434,
+          198160013510945197,
+          25136,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2MGsolver_DGP.o": [
+          56918434,
+          198160013510945198,
+          59600,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2MGsolver_csf.o": [
+          56918434,
+          198160013510945199,
+          61736,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2MGsolver_fR.o": [
+          56918434,
+          198160013510945200,
+          155328,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2MGsolver_kmf.o": [
+          56918434,
+          198160013510945201,
+          90224,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2MGsolver_sym.o": [
+          56918434,
+          198160013510945202,
+          51288,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2extradof.o": [
+          56918434,
+          198160013510945203,
+          152224,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2linker.o": [
+          56918434,
+          198160013510945204,
+          397384,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_MGbackground.o": [
+          56918434,
+          198160013510945205,
+          55264,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_analyze.o": [
+          56918434,
+          198160013510945206,
+          64208,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_density.o": [
+          56918434,
+          198160013510945207,
+          195472,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_fft5.o": [
+          56918434,
+          198160013510945208,
+          158424,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_power.o": [
+          56918434,
+          198160013510945209,
+          109104,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_random.o": [
+          56918434,
+          198160013510945210,
+          38808,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_tools.o": [
+          56918434,
+          198160013510945211,
+          111064,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/analyze.mod": [
+          56918434,
+          198160013510945212,
+          895,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/bdmduplicaterules.mod": [
+          56918434,
+          198160013510945213,
+          2246,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/bdmthreadcontrol.mod": [
+          56918434,
+          198160013510945229,
+          8078,
+          1788698150000000000,
+          "file",
+          null
+        ],
+        "build/density.mod": [
+          56918434,
+          198160013510945214,
+          8417,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/extradofbackgrounddata.mod": [
+          56918434,
+          198160013510945215,
+          5887,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/fft5.mod": [
+          56918434,
+          198160013510945216,
+          31680,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/linkerlist.mod": [
+          56918434,
+          198160013510945217,
+          33225,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/localdata.mod": [
+          56918434,
+          198160013510945218,
+          1358,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/luxury.mod": [
+          56918434,
+          198160013510945219,
+          1605,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/param.mod": [
+          56918434,
+          198160013510945220,
+          8785,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/power.mod": [
+          56918434,
+          198160013510945221,
+          6209,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/publication-preflight.exe": [
+          56918434,
+          198160013510945233,
+          1176544,
+          1788698150000000000,
+          "file",
+          null
+        ],
+        "build/publication_preflight.f90": [
+          56918434,
+          198160013510945228,
+          731,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "build/random.mod": [
+          56918434,
+          198160013510945222,
+          12418,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/setinitialconditions.mod": [
+          56918434,
+          198160013510945223,
+          19885,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/structures.mod": [
+          56918434,
+          198160013510945224,
+          14595,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/thread_probe.f90": [
+          56918434,
+          198160013510945226,
+          7675,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "build/thread_probe.o": [
+          56918434,
+          198160013510945230,
+          50176,
+          1788698150000000000,
+          "file",
+          null
+        ],
+        "build/thread_probe_entry.f90": [
+          56918434,
+          198160013510945227,
+          356,
+          1788697637000000000,
+          "file",
+          null
+        ],
+        "build/thread_probe_entry.o": [
+          56918434,
+          198160013510945231,
+          5024,
+          1788698150000000000,
+          "file",
+          null
+        ],
+        "build/tools.mod": [
+          56918434,
+          198160013510945225,
+          13644,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "run": [
+          56918434,
+          198160015507325880,
+          4096,
+          1788698376000000000,
+          "directory",
+          null
+        ],
+        "run-11948363": [
+          56918434,
+          198160015507325857,
+          4096,
+          1788697966000000000,
+          "directory",
+          null
+        ],
+        "run-11948363/BDM.config": [
+          56918434,
+          198160015507325861,
+          35,
+          1788697956000000000,
+          "file",
+          null
+        ],
+        "run-11948363/CATALOGS": [
+          56918434,
+          198160015507325858,
+          4096,
+          1788697988000000000,
+          "directory",
+          null
+        ],
+        "run-11948363/CATALOGS/CatshortV.0157.0001.DAT": [
+          56918434,
+          198160015507325871,
+          20259763,
+          1788697988000000000,
+          "file",
+          null
+        ],
+        "run-11948363/CATALOGS/outputB.0157.dat": [
+          56918434,
+          198160015507325870,
+          978,
+          1788697988000000000,
+          "file",
+          null
+        ],
+        "run-11948363/PMcrd.0157.DAT": [
+          56918434,
+          198160015507325859,
+          117,
+          1788697953000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/pilot/Run1/PMcrd.0157.DAT"
+        ],
+        "run-11948363/PMcrs0.0157.DAT": [
+          56918434,
+          198160015507325860,
+          118,
+          1788697956000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/pilot/Run1/PMcrs0.0157.DAT"
+        ],
+        "run-11948363/d32.density.bin": [
+          56918434,
+          198160015507325867,
+          4294967316,
+          1788697965000000000,
+          "file",
+          null
+        ],
+        "run-11948363/d32.peaks.bin": [
+          56918434,
+          198160015507325869,
+          3411396,
+          1788697966000000000,
+          "file",
+          null
+        ],
+        "run-11948363/d32.peaks.log": [
+          56918434,
+          198160015507325868,
+          64,
+          1788697966000000000,
+          "file",
+          null
+        ],
+        "run-11948363/fort.17": [
+          56918434,
+          198160015507325866,
+          1503,
+          1788697988000000000,
+          "file",
+          null
+        ],
+        "run-11948363/probe.log": [
+          56918434,
+          198160015507325863,
+          2593,
+          1788697988000000000,
+          "file",
+          null
+        ],
+        "run-11948363/probe.time": [
+          56918434,
+          198160015507325864,
+          68,
+          1788697988000000000,
+          "file",
+          null
+        ],
+        "run/BDM.config": [
+          56918434,
+          198160015507325884,
+          35,
+          1788698259000000000,
+          "file",
+          null
+        ],
+        "run/CATALOGS": [
+          56918434,
+          198160015507325881,
+          4096,
+          1788698376000000000,
+          "directory",
+          null
+        ],
+        "run/CATALOGS/outputB.0157.dat": [
+          56918434,
+          198160015507325893,
+          978,
+          1788698376000000000,
+          "file",
+          null
+        ],
+        "run/PMcrd.0157.DAT": [
+          56918434,
+          198160015507325882,
+          117,
+          1788698254000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/pilot/Run1/PMcrd.0157.DAT"
+        ],
+        "run/PMcrs0.0157.DAT": [
+          56918434,
+          198160015507325883,
+          118,
+          1788698259000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/pilot/Run1/PMcrs0.0157.DAT"
+        ],
+        "run/d16-t16-p1.DAT": [
+          56918434,
+          198160015507325904,
+          20259763,
+          1788698363000000000,
+          "file",
+          null
+        ],
+        "run/d16-t32-p2.DAT": [
+          56918434,
+          198160015507325906,
+          20259763,
+          1788698376000000000,
+          "file",
+          null
+        ],
+        "run/d16.density.bin": [
+          56918434,
+          198160015507325900,
+          4294967316,
+          1788698342000000000,
+          "file",
+          null
+        ],
+        "run/d16.peaks.bin": [
+          56918434,
+          198160015507325902,
+          3411396,
+          1788698343000000000,
+          "file",
+          null
+        ],
+        "run/d16.peaks.log": [
+          56918434,
+          198160015507325901,
+          64,
+          1788698343000000000,
+          "file",
+          null
+        ],
+        "run/d32-t16-p1.DAT": [
+          56918434,
+          198160015507325894,
+          20259763,
+          1788698290000000000,
+          "file",
+          null
+        ],
+        "run/d32-t16-p3.DAT": [
+          56918434,
+          198160015507325897,
+          20259763,
+          1788698322000000000,
+          "file",
+          null
+        ],
+        "run/d32-t32-p2.DAT": [
+          56918434,
+          198160015507325895,
+          20259763,
+          1788698302000000000,
+          "file",
+          null
+        ],
+        "run/d32-t32-p4.DAT": [
+          56918434,
+          198160015507325899,
+          20259763,
+          1788698335000000000,
+          "file",
+          null
+        ],
+        "run/d32.density.bin": [
+          56918434,
+          198160015507325890,
+          4294967316,
+          1788698269000000000,
+          "file",
+          null
+        ],
+        "run/d32.peaks.bin": [
+          56918434,
+          198160015507325892,
+          3411396,
+          1788698269000000000,
+          "file",
+          null
+        ],
+        "run/d32.peaks.log": [
+          56918434,
+          198160015507325891,
+          64,
+          1788698269000000000,
+          "file",
+          null
+        ],
+        "run/fort.17": [
+          56918434,
+          198160015507325889,
+          3881,
+          1788698376000000000,
+          "file",
+          null
+        ],
+        "run/probe.log": [
+          56918434,
+          198160015507325886,
+          13723,
+          1788698376000000000,
+          "file",
+          null
+        ],
+        "run/probe.time": [
+          56918434,
+          198160015507325887,
+          30,
+          1788698376000000000,
+          "file",
+          null
+        ],
+        "slurm-11948363.log": [
+          56918434,
+          198160015507325856,
+          840,
+          1788697988000000000,
+          "file",
+          null
+        ],
+        "slurm-11948371.log": [
+          56918434,
+          198160015507325879,
+          342,
+          1788698388000000000,
+          "file",
+          null
+        ]
+      },
+      "renamed_at_utc": "2026-09-06T14:04:32.202745+00:00",
+      "after": {
+        ".": [
+          56918434,
+          198160013510944893,
+          4096,
+          1788698254000000000,
+          "directory",
+          null
+        ],
+        "build": [
+          56918434,
+          198160013510945196,
+          4096,
+          1788698150000000000,
+          "directory",
+          null
+        ],
+        "build-11948363": [
+          56918434,
+          198160013510944949,
+          4096,
+          1788697693000000000,
+          "directory",
+          null
+        ],
+        "build-11948363/BDM-thread-probe.exe": [
+          56918434,
+          198160013510944990,
+          1176232,
+          1788697693000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2MG_subroutines.o": [
+          56918434,
+          198160013510944956,
+          25136,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2MGsolver_DGP.o": [
+          56918434,
+          198160013510944957,
+          59600,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2MGsolver_csf.o": [
+          56918434,
+          198160013510944958,
+          61736,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2MGsolver_fR.o": [
+          56918434,
+          198160013510944959,
+          155328,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2MGsolver_kmf.o": [
+          56918434,
+          198160013510944960,
+          90224,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2MGsolver_sym.o": [
+          56918434,
+          198160013510944961,
+          51288,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2extradof.o": [
+          56918434,
+          198160013510944962,
+          152224,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2linker.o": [
+          56918434,
+          198160013510944963,
+          397384,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_MGbackground.o": [
+          56918434,
+          198160013510944964,
+          55264,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_analyze.o": [
+          56918434,
+          198160013510944965,
+          64208,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_density.o": [
+          56918434,
+          198160013510944966,
+          195472,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_fft5.o": [
+          56918434,
+          198160013510944967,
+          158424,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_power.o": [
+          56918434,
+          198160013510944968,
+          109104,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_random.o": [
+          56918434,
+          198160013510944969,
+          38808,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/PMP2mod_tools.o": [
+          56918434,
+          198160013510944970,
+          111064,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/analyze.mod": [
+          56918434,
+          198160013510944971,
+          895,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/bdmduplicaterules.mod": [
+          56918434,
+          198160013510944972,
+          2246,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/bdmthreadcontrol.mod": [
+          56918434,
+          198160013510944987,
+          8086,
+          1788697692000000000,
+          "file",
+          null
+        ],
+        "build-11948363/density.mod": [
+          56918434,
+          198160013510944973,
+          8417,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/extradofbackgrounddata.mod": [
+          56918434,
+          198160013510944974,
+          5887,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/fft5.mod": [
+          56918434,
+          198160013510944975,
+          31680,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/linkerlist.mod": [
+          56918434,
+          198160013510944976,
+          33225,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/localdata.mod": [
+          56918434,
+          198160013510944977,
+          1358,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/luxury.mod": [
+          56918434,
+          198160013510944978,
+          1605,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/param.mod": [
+          56918434,
+          198160013510944979,
+          8785,
+          1788697686000000000,
+          "file",
+          null
+        ],
+        "build-11948363/power.mod": [
+          56918434,
+          198160013510944980,
+          6209,
+          1788697688000000000,
+          "file",
+          null
+        ],
+        "build-11948363/random.mod": [
+          56918434,
+          198160013510944981,
+          12418,
+          1788697688000000000,
+          "file",
+          null
+        ],
+        "build-11948363/setinitialconditions.mod": [
+          56918434,
+          198160013510944982,
+          19885,
+          1788697688000000000,
+          "file",
+          null
+        ],
+        "build-11948363/structures.mod": [
+          56918434,
+          198160013510944983,
+          14595,
+          1788697690000000000,
+          "file",
+          null
+        ],
+        "build-11948363/thread_probe.f90": [
+          56918434,
+          198160013510944985,
+          7535,
+          1788697637000000000,
+          "file",
+          null
+        ],
+        "build-11948363/thread_probe.o": [
+          56918434,
+          198160013510944988,
+          50208,
+          1788697693000000000,
+          "file",
+          null
+        ],
+        "build-11948363/thread_probe_entry.f90": [
+          56918434,
+          198160013510944986,
+          356,
+          1788697637000000000,
+          "file",
+          null
+        ],
+        "build-11948363/thread_probe_entry.o": [
+          56918434,
+          198160013510944989,
+          5024,
+          1788697693000000000,
+          "file",
+          null
+        ],
+        "build-11948363/tools.mod": [
+          56918434,
+          198160013510944984,
+          13644,
+          1788697692000000000,
+          "file",
+          null
+        ],
+        "build/BDM-thread-probe.exe": [
+          56918434,
+          198160013510945232,
+          1176224,
+          1788698150000000000,
+          "file",
+          null
+        ],
+        "build/PMP2MG_subroutines.o": [
+          56918434,
+          198160013510945197,
+          25136,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2MGsolver_DGP.o": [
+          56918434,
+          198160013510945198,
+          59600,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2MGsolver_csf.o": [
+          56918434,
+          198160013510945199,
+          61736,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2MGsolver_fR.o": [
+          56918434,
+          198160013510945200,
+          155328,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2MGsolver_kmf.o": [
+          56918434,
+          198160013510945201,
+          90224,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2MGsolver_sym.o": [
+          56918434,
+          198160013510945202,
+          51288,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2extradof.o": [
+          56918434,
+          198160013510945203,
+          152224,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2linker.o": [
+          56918434,
+          198160013510945204,
+          397384,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_MGbackground.o": [
+          56918434,
+          198160013510945205,
+          55264,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_analyze.o": [
+          56918434,
+          198160013510945206,
+          64208,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_density.o": [
+          56918434,
+          198160013510945207,
+          195472,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_fft5.o": [
+          56918434,
+          198160013510945208,
+          158424,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_power.o": [
+          56918434,
+          198160013510945209,
+          109104,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_random.o": [
+          56918434,
+          198160013510945210,
+          38808,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/PMP2mod_tools.o": [
+          56918434,
+          198160013510945211,
+          111064,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/analyze.mod": [
+          56918434,
+          198160013510945212,
+          895,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/bdmduplicaterules.mod": [
+          56918434,
+          198160013510945213,
+          2246,
+          1788698148000000000,
+          "file",
+          null
+        ],
+        "build/bdmthreadcontrol.mod": [
+          56918434,
+          198160013510945229,
+          8078,
+          1788698150000000000,
+          "file",
+          null
+        ],
+        "build/density.mod": [
+          56918434,
+          198160013510945214,
+          8417,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/extradofbackgrounddata.mod": [
+          56918434,
+          198160013510945215,
+          5887,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/fft5.mod": [
+          56918434,
+          198160013510945216,
+          31680,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/linkerlist.mod": [
+          56918434,
+          198160013510945217,
+          33225,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/localdata.mod": [
+          56918434,
+          198160013510945218,
+          1358,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/luxury.mod": [
+          56918434,
+          198160013510945219,
+          1605,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/param.mod": [
+          56918434,
+          198160013510945220,
+          8785,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/power.mod": [
+          56918434,
+          198160013510945221,
+          6209,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/publication-preflight.exe": [
+          56918434,
+          198160013510945233,
+          1176544,
+          1788698150000000000,
+          "file",
+          null
+        ],
+        "build/publication_preflight.f90": [
+          56918434,
+          198160013510945228,
+          731,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "build/random.mod": [
+          56918434,
+          198160013510945222,
+          12418,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/setinitialconditions.mod": [
+          56918434,
+          198160013510945223,
+          19885,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/structures.mod": [
+          56918434,
+          198160013510945224,
+          14595,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "build/thread_probe.f90": [
+          56918434,
+          198160013510945226,
+          7675,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "build/thread_probe.o": [
+          56918434,
+          198160013510945230,
+          50176,
+          1788698150000000000,
+          "file",
+          null
+        ],
+        "build/thread_probe_entry.f90": [
+          56918434,
+          198160013510945227,
+          356,
+          1788697637000000000,
+          "file",
+          null
+        ],
+        "build/thread_probe_entry.o": [
+          56918434,
+          198160013510945231,
+          5024,
+          1788698150000000000,
+          "file",
+          null
+        ],
+        "build/tools.mod": [
+          56918434,
+          198160013510945225,
+          13644,
+          1788698149000000000,
+          "file",
+          null
+        ],
+        "run": [
+          56918434,
+          198160015507325880,
+          4096,
+          1788698376000000000,
+          "directory",
+          null
+        ],
+        "run-11948363": [
+          56918434,
+          198160015507325857,
+          4096,
+          1788697966000000000,
+          "directory",
+          null
+        ],
+        "run-11948363/BDM.config": [
+          56918434,
+          198160015507325861,
+          35,
+          1788697956000000000,
+          "file",
+          null
+        ],
+        "run-11948363/CATALOGS": [
+          56918434,
+          198160015507325858,
+          4096,
+          1788697988000000000,
+          "directory",
+          null
+        ],
+        "run-11948363/CATALOGS/CatshortV.0157.0001.DAT": [
+          56918434,
+          198160015507325871,
+          20259763,
+          1788697988000000000,
+          "file",
+          null
+        ],
+        "run-11948363/CATALOGS/outputB.0157.dat": [
+          56918434,
+          198160015507325870,
+          978,
+          1788697988000000000,
+          "file",
+          null
+        ],
+        "run-11948363/PMcrd.0157.DAT": [
+          56918434,
+          198160015507325859,
+          117,
+          1788697953000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/pilot/Run1/PMcrd.0157.DAT"
+        ],
+        "run-11948363/PMcrs0.0157.DAT": [
+          56918434,
+          198160015507325860,
+          118,
+          1788697956000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/pilot/Run1/PMcrs0.0157.DAT"
+        ],
+        "run-11948363/d32.density.bin": [
+          56918434,
+          198160015507325867,
+          4294967316,
+          1788697965000000000,
+          "file",
+          null
+        ],
+        "run-11948363/d32.peaks.bin": [
+          56918434,
+          198160015507325869,
+          3411396,
+          1788697966000000000,
+          "file",
+          null
+        ],
+        "run-11948363/d32.peaks.log": [
+          56918434,
+          198160015507325868,
+          64,
+          1788697966000000000,
+          "file",
+          null
+        ],
+        "run-11948363/fort.17": [
+          56918434,
+          198160015507325866,
+          1503,
+          1788697988000000000,
+          "file",
+          null
+        ],
+        "run-11948363/probe.log": [
+          56918434,
+          198160015507325863,
+          2593,
+          1788697988000000000,
+          "file",
+          null
+        ],
+        "run-11948363/probe.time": [
+          56918434,
+          198160015507325864,
+          68,
+          1788697988000000000,
+          "file",
+          null
+        ],
+        "run/BDM.config": [
+          56918434,
+          198160015507325884,
+          35,
+          1788698259000000000,
+          "file",
+          null
+        ],
+        "run/CATALOGS": [
+          56918434,
+          198160015507325881,
+          4096,
+          1788698376000000000,
+          "directory",
+          null
+        ],
+        "run/CATALOGS/outputB.0157.dat": [
+          56918434,
+          198160015507325893,
+          978,
+          1788698376000000000,
+          "file",
+          null
+        ],
+        "run/PMcrd.0157.DAT": [
+          56918434,
+          198160015507325882,
+          117,
+          1788698254000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/pilot/Run1/PMcrd.0157.DAT"
+        ],
+        "run/PMcrs0.0157.DAT": [
+          56918434,
+          198160015507325883,
+          118,
+          1788698259000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/pilot/Run1/PMcrs0.0157.DAT"
+        ],
+        "run/d16-t16-p1.DAT": [
+          56918434,
+          198160015507325904,
+          20259763,
+          1788698363000000000,
+          "file",
+          null
+        ],
+        "run/d16-t32-p2.DAT": [
+          56918434,
+          198160015507325906,
+          20259763,
+          1788698376000000000,
+          "file",
+          null
+        ],
+        "run/d16.density.bin": [
+          56918434,
+          198160015507325900,
+          4294967316,
+          1788698342000000000,
+          "file",
+          null
+        ],
+        "run/d16.peaks.bin": [
+          56918434,
+          198160015507325902,
+          3411396,
+          1788698343000000000,
+          "file",
+          null
+        ],
+        "run/d16.peaks.log": [
+          56918434,
+          198160015507325901,
+          64,
+          1788698343000000000,
+          "file",
+          null
+        ],
+        "run/d32-t16-p1.DAT": [
+          56918434,
+          198160015507325894,
+          20259763,
+          1788698290000000000,
+          "file",
+          null
+        ],
+        "run/d32-t16-p3.DAT": [
+          56918434,
+          198160015507325897,
+          20259763,
+          1788698322000000000,
+          "file",
+          null
+        ],
+        "run/d32-t32-p2.DAT": [
+          56918434,
+          198160015507325895,
+          20259763,
+          1788698302000000000,
+          "file",
+          null
+        ],
+        "run/d32-t32-p4.DAT": [
+          56918434,
+          198160015507325899,
+          20259763,
+          1788698335000000000,
+          "file",
+          null
+        ],
+        "run/d32.density.bin": [
+          56918434,
+          198160015507325890,
+          4294967316,
+          1788698269000000000,
+          "file",
+          null
+        ],
+        "run/d32.peaks.bin": [
+          56918434,
+          198160015507325892,
+          3411396,
+          1788698269000000000,
+          "file",
+          null
+        ],
+        "run/d32.peaks.log": [
+          56918434,
+          198160015507325891,
+          64,
+          1788698269000000000,
+          "file",
+          null
+        ],
+        "run/fort.17": [
+          56918434,
+          198160015507325889,
+          3881,
+          1788698376000000000,
+          "file",
+          null
+        ],
+        "run/probe.log": [
+          56918434,
+          198160015507325886,
+          13723,
+          1788698376000000000,
+          "file",
+          null
+        ],
+        "run/probe.time": [
+          56918434,
+          198160015507325887,
+          30,
+          1788698376000000000,
+          "file",
+          null
+        ],
+        "slurm-11948363.log": [
+          56918434,
+          198160015507325856,
+          840,
+          1788697988000000000,
+          "file",
+          null
+        ],
+        "slurm-11948371.log": [
+          56918434,
+          198160015507325879,
+          342,
+          1788698388000000000,
+          "file",
+          null
+        ]
+      },
+      "all_entry_metadata_equal": true,
+      "existing_sha_links": {
+        "build-11948363/BDM-thread-probe.exe": [
+          {
+            "sha256": "8b8b5dd8317f7333b7c2f1830758b9c0e8584a9ded937b0f2ce30375e1fb9efd",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.binary_sha256"
+          }
+        ],
+        "build-11948363/PMP2MG_subroutines.o": [
+          {
+            "sha256": "d83c658063e58a502624d594d26c59958c693c8a0d2bdeb944595aa1fe317cab",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2MG_subroutines.o"
+          }
+        ],
+        "build-11948363/PMP2MGsolver_DGP.o": [
+          {
+            "sha256": "ec9f7e363a3faa2c859ba9ee366acf585cf65bff182da4198f3e01d0314d18f8",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2MGsolver_DGP.o"
+          }
+        ],
+        "build-11948363/PMP2MGsolver_csf.o": [
+          {
+            "sha256": "5ac246ba3f12200ce41c59ab95d305b2e1cc026dcf8f9c047a1b799ee068a039",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2MGsolver_csf.o"
+          }
+        ],
+        "build-11948363/PMP2MGsolver_fR.o": [
+          {
+            "sha256": "be90ea66659e44cf2a147757c124431fb00ba70e1dc49a99e725eab367820d13",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2MGsolver_fR.o"
+          }
+        ],
+        "build-11948363/PMP2MGsolver_kmf.o": [
+          {
+            "sha256": "a15216ee17efbe9764a01aeed8b1fed40b3aca382bc857ffeb5c4af9e2e0458b",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2MGsolver_kmf.o"
+          }
+        ],
+        "build-11948363/PMP2MGsolver_sym.o": [
+          {
+            "sha256": "b7ed04fcc4662732b5b1b3a7ba2250a7cda2a4011fbde44848c8109f7598eda4",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2MGsolver_sym.o"
+          }
+        ],
+        "build-11948363/PMP2extradof.o": [
+          {
+            "sha256": "1453468e248e4cf4c3eb853d90006a9c5b69a6c62c47584ac9a7736f6a354d34",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2extradof.o"
+          }
+        ],
+        "build-11948363/PMP2linker.o": [
+          {
+            "sha256": "954e33300776ab53a9ff7092decf03bd4e7eccdc7deca89a7f3e9c2a5750c08a",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2linker.o"
+          }
+        ],
+        "build-11948363/PMP2mod_MGbackground.o": [
+          {
+            "sha256": "e80969a3ef4bef8f9c4ef54261b9c2b7d596fab636239e3771c2fe58119dbd44",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2mod_MGbackground.o"
+          }
+        ],
+        "build-11948363/PMP2mod_analyze.o": [
+          {
+            "sha256": "0e70e437087da6bf1ccffe4c380c60da853ced27fbc123d4c45b51973fc22a45",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2mod_analyze.o"
+          }
+        ],
+        "build-11948363/PMP2mod_density.o": [
+          {
+            "sha256": "4cfc394a04925531b2a58cb77c72146f225da9105d2219478cd107a4345a0a42",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2mod_density.o"
+          }
+        ],
+        "build-11948363/PMP2mod_fft5.o": [
+          {
+            "sha256": "a390abbc6299554535dda1b4aa1527fd73b642f7465eb28ead5a7fddc51b8503",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2mod_fft5.o"
+          }
+        ],
+        "build-11948363/PMP2mod_power.o": [
+          {
+            "sha256": "dc59aa99b5673d0b599898886a233c1f957c776eb497ddc081bae4375e252035",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2mod_power.o"
+          }
+        ],
+        "build-11948363/PMP2mod_random.o": [
+          {
+            "sha256": "2336762d4e05221c574145e185b10bd480393310ec162894cedb3390c1cc8d72",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2mod_random.o"
+          }
+        ],
+        "build-11948363/PMP2mod_tools.o": [
+          {
+            "sha256": "de0bca9a9847da40ab9d65d2d01aa24ab0504a3bf1716f2e2788c0ca1e999652",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.PMP2mod_tools.o"
+          }
+        ],
+        "build-11948363/analyze.mod": [
+          {
+            "sha256": "977b2abf3f22745b5dbeeef3da4ff4a7ca819aff47ba10f0d9683c035b3e4352",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.analyze.mod"
+          }
+        ],
+        "build-11948363/bdmduplicaterules.mod": [
+          {
+            "sha256": "7c59a30030de12bed8c06171b3f3b93f3d32896020a74de3c01e28699798e9fa",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.bdmduplicaterules.mod"
+          }
+        ],
+        "build-11948363/density.mod": [
+          {
+            "sha256": "2d44a938eaa8ed6a739bc74deb506700b8a9397adae1fd2cfeac3e465c51e2f1",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.density.mod"
+          }
+        ],
+        "build-11948363/extradofbackgrounddata.mod": [
+          {
+            "sha256": "13e657374add869db48c7888c6006a1c712feb5b6e34c4c873eca13c664aeea8",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.extradofbackgrounddata.mod"
+          }
+        ],
+        "build-11948363/fft5.mod": [
+          {
+            "sha256": "09fe946dbfc7613e75aaa014db380d9e5adb02ef03b93a83fcd1d274b9553680",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.fft5.mod"
+          }
+        ],
+        "build-11948363/linkerlist.mod": [
+          {
+            "sha256": "eeb13ad85795f823900abcc2f88a3f10e6b93df8184ae9b3af776fbfceeb4157",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.linkerlist.mod"
+          }
+        ],
+        "build-11948363/localdata.mod": [
+          {
+            "sha256": "77a378f9e21ef529ad115a6eea2baf4aece0d2e8e3772dcf593608c0971aef30",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.localdata.mod"
+          }
+        ],
+        "build-11948363/luxury.mod": [
+          {
+            "sha256": "91b2c7fe90cb0a170c7ead1f42f891fe3d251ff002efd5ba7bac1b4af397825f",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.luxury.mod"
+          }
+        ],
+        "build-11948363/param.mod": [
+          {
+            "sha256": "f8943db32f476a4e660cf82227d3e798fbe838576798c9a046c41aec4379924e",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.param.mod"
+          }
+        ],
+        "build-11948363/power.mod": [
+          {
+            "sha256": "1cd350103f99847ad768e9cb3f7b69ea6358e9ae8644b2651064f203caf0d269",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.power.mod"
+          }
+        ],
+        "build-11948363/random.mod": [
+          {
+            "sha256": "3ff188cceaa09cd64684d0445ca583f172d504233feabcbf15ab9d891a8f2554",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.random.mod"
+          }
+        ],
+        "build-11948363/setinitialconditions.mod": [
+          {
+            "sha256": "7fbd5dc7728caa780e38d2b40edfe6e1e9f4b9503b2720c2e5c2579b73c3f25f",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.setinitialconditions.mod"
+          }
+        ],
+        "build-11948363/structures.mod": [
+          {
+            "sha256": "5a63c0402e0cbd725a265111ef0501422255abcd1ef976e1e39ffd61f78580a8",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.structures.mod"
+          }
+        ],
+        "build-11948363/thread_probe.f90": [
+          {
+            "sha256": "06a57504b09c96bd62ff593e405987d19ae16cd39163563e4eba5297f9454b55",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.probe_source_sha256.thread_probe.f90"
+          }
+        ],
+        "build-11948363/thread_probe_entry.f90": [
+          {
+            "sha256": "118a3b86a5212d8c973fd4d97757f2d4240b0c69982f461fdd60d9dcd291af02",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.probe_source_sha256.thread_probe_entry.f90"
+          }
+        ],
+        "build-11948363/tools.mod": [
+          {
+            "sha256": "bf8f043e0fc6190ea345667cece60326f692bb44faa21feef0412b565e4c52ad",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "build.linked_input_sha256.tools.mod"
+          }
+        ],
+        "build/BDM-thread-probe.exe": [
+          {
+            "sha256": "3b0eb7c9c2823022856d5910ea8885a8ddc9611f8e202388a758819d5fa3f04d",
+            "receipt": "numerical-threading/build.json",
+            "field": "binary_sha256"
+          }
+        ],
+        "build/PMP2MG_subroutines.o": [
+          {
+            "sha256": "d83c658063e58a502624d594d26c59958c693c8a0d2bdeb944595aa1fe317cab",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2MG_subroutines.o"
+          }
+        ],
+        "build/PMP2MGsolver_DGP.o": [
+          {
+            "sha256": "ec9f7e363a3faa2c859ba9ee366acf585cf65bff182da4198f3e01d0314d18f8",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2MGsolver_DGP.o"
+          }
+        ],
+        "build/PMP2MGsolver_csf.o": [
+          {
+            "sha256": "5ac246ba3f12200ce41c59ab95d305b2e1cc026dcf8f9c047a1b799ee068a039",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2MGsolver_csf.o"
+          }
+        ],
+        "build/PMP2MGsolver_fR.o": [
+          {
+            "sha256": "be90ea66659e44cf2a147757c124431fb00ba70e1dc49a99e725eab367820d13",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2MGsolver_fR.o"
+          }
+        ],
+        "build/PMP2MGsolver_kmf.o": [
+          {
+            "sha256": "a15216ee17efbe9764a01aeed8b1fed40b3aca382bc857ffeb5c4af9e2e0458b",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2MGsolver_kmf.o"
+          }
+        ],
+        "build/PMP2MGsolver_sym.o": [
+          {
+            "sha256": "b7ed04fcc4662732b5b1b3a7ba2250a7cda2a4011fbde44848c8109f7598eda4",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2MGsolver_sym.o"
+          }
+        ],
+        "build/PMP2extradof.o": [
+          {
+            "sha256": "1453468e248e4cf4c3eb853d90006a9c5b69a6c62c47584ac9a7736f6a354d34",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2extradof.o"
+          }
+        ],
+        "build/PMP2linker.o": [
+          {
+            "sha256": "954e33300776ab53a9ff7092decf03bd4e7eccdc7deca89a7f3e9c2a5750c08a",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2linker.o"
+          }
+        ],
+        "build/PMP2mod_MGbackground.o": [
+          {
+            "sha256": "e80969a3ef4bef8f9c4ef54261b9c2b7d596fab636239e3771c2fe58119dbd44",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2mod_MGbackground.o"
+          }
+        ],
+        "build/PMP2mod_analyze.o": [
+          {
+            "sha256": "0e70e437087da6bf1ccffe4c380c60da853ced27fbc123d4c45b51973fc22a45",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2mod_analyze.o"
+          }
+        ],
+        "build/PMP2mod_density.o": [
+          {
+            "sha256": "4cfc394a04925531b2a58cb77c72146f225da9105d2219478cd107a4345a0a42",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2mod_density.o"
+          }
+        ],
+        "build/PMP2mod_fft5.o": [
+          {
+            "sha256": "a390abbc6299554535dda1b4aa1527fd73b642f7465eb28ead5a7fddc51b8503",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2mod_fft5.o"
+          }
+        ],
+        "build/PMP2mod_power.o": [
+          {
+            "sha256": "dc59aa99b5673d0b599898886a233c1f957c776eb497ddc081bae4375e252035",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2mod_power.o"
+          }
+        ],
+        "build/PMP2mod_random.o": [
+          {
+            "sha256": "2336762d4e05221c574145e185b10bd480393310ec162894cedb3390c1cc8d72",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2mod_random.o"
+          }
+        ],
+        "build/PMP2mod_tools.o": [
+          {
+            "sha256": "de0bca9a9847da40ab9d65d2d01aa24ab0504a3bf1716f2e2788c0ca1e999652",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.PMP2mod_tools.o"
+          }
+        ],
+        "build/analyze.mod": [
+          {
+            "sha256": "977b2abf3f22745b5dbeeef3da4ff4a7ca819aff47ba10f0d9683c035b3e4352",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.analyze.mod"
+          }
+        ],
+        "build/bdmduplicaterules.mod": [
+          {
+            "sha256": "7c59a30030de12bed8c06171b3f3b93f3d32896020a74de3c01e28699798e9fa",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.bdmduplicaterules.mod"
+          }
+        ],
+        "build/density.mod": [
+          {
+            "sha256": "2d44a938eaa8ed6a739bc74deb506700b8a9397adae1fd2cfeac3e465c51e2f1",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.density.mod"
+          }
+        ],
+        "build/extradofbackgrounddata.mod": [
+          {
+            "sha256": "13e657374add869db48c7888c6006a1c712feb5b6e34c4c873eca13c664aeea8",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.extradofbackgrounddata.mod"
+          }
+        ],
+        "build/fft5.mod": [
+          {
+            "sha256": "09fe946dbfc7613e75aaa014db380d9e5adb02ef03b93a83fcd1d274b9553680",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.fft5.mod"
+          }
+        ],
+        "build/linkerlist.mod": [
+          {
+            "sha256": "eeb13ad85795f823900abcc2f88a3f10e6b93df8184ae9b3af776fbfceeb4157",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.linkerlist.mod"
+          }
+        ],
+        "build/localdata.mod": [
+          {
+            "sha256": "77a378f9e21ef529ad115a6eea2baf4aece0d2e8e3772dcf593608c0971aef30",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.localdata.mod"
+          }
+        ],
+        "build/luxury.mod": [
+          {
+            "sha256": "91b2c7fe90cb0a170c7ead1f42f891fe3d251ff002efd5ba7bac1b4af397825f",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.luxury.mod"
+          }
+        ],
+        "build/param.mod": [
+          {
+            "sha256": "f8943db32f476a4e660cf82227d3e798fbe838576798c9a046c41aec4379924e",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.param.mod"
+          }
+        ],
+        "build/power.mod": [
+          {
+            "sha256": "1cd350103f99847ad768e9cb3f7b69ea6358e9ae8644b2651064f203caf0d269",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.power.mod"
+          }
+        ],
+        "build/publication_preflight.f90": [
+          {
+            "sha256": "50190da54fc15daccc981ee6b5f26e486b09cc5861961a77be08c1baac88e1cf",
+            "receipt": "numerical-threading/build.json",
+            "field": "probe_source_sha256.publication_preflight.f90"
+          }
+        ],
+        "build/random.mod": [
+          {
+            "sha256": "3ff188cceaa09cd64684d0445ca583f172d504233feabcbf15ab9d891a8f2554",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.random.mod"
+          }
+        ],
+        "build/setinitialconditions.mod": [
+          {
+            "sha256": "7fbd5dc7728caa780e38d2b40edfe6e1e9f4b9503b2720c2e5c2579b73c3f25f",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.setinitialconditions.mod"
+          }
+        ],
+        "build/structures.mod": [
+          {
+            "sha256": "5a63c0402e0cbd725a265111ef0501422255abcd1ef976e1e39ffd61f78580a8",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.structures.mod"
+          }
+        ],
+        "build/thread_probe.f90": [
+          {
+            "sha256": "f74e1309f11849244b6d8c5bde7ba36f37d42048aa8934245df4d7d4af7cf476",
+            "receipt": "numerical-threading/build.json",
+            "field": "probe_source_sha256.thread_probe.f90"
+          }
+        ],
+        "build/thread_probe_entry.f90": [
+          {
+            "sha256": "118a3b86a5212d8c973fd4d97757f2d4240b0c69982f461fdd60d9dcd291af02",
+            "receipt": "numerical-threading/build.json",
+            "field": "probe_source_sha256.thread_probe_entry.f90"
+          }
+        ],
+        "build/tools.mod": [
+          {
+            "sha256": "bf8f043e0fc6190ea345667cece60326f692bb44faa21feef0412b565e4c52ad",
+            "receipt": "numerical-threading/build.json",
+            "field": "linked_input_sha256.tools.mod"
+          }
+        ],
+        "run-11948363/probe.log": [
+          {
+            "sha256": "e278cbf469dd3d4dbe0309a11a870e1fea1524e18fc944f4f982c4ec6b5caa21",
+            "receipt": "numerical-threading/attempt-11948363.json",
+            "field": "results.log_sha256"
+          }
+        ],
+        "run/BDM.config": [
+          {
+            "sha256": "9b40239d016714be455ca3012d14f656fe00c99a306f2b3f8d3157da2db442b9",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.BDM.config"
+          }
+        ],
+        "run/d16-t16-p1.DAT": [
+          {
+            "sha256": "bd6c779cb9e45e043934a4daa73dd8c935522578aa7855a5831422ffef2bed07",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.d16-t16-p1.DAT"
+          }
+        ],
+        "run/d16-t32-p2.DAT": [
+          {
+            "sha256": "bd6c779cb9e45e043934a4daa73dd8c935522578aa7855a5831422ffef2bed07",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.d16-t32-p2.DAT"
+          }
+        ],
+        "run/d16.density.bin": [
+          {
+            "sha256": "d3dd9dd66899898be125bc324ec18aae45ed016b37b999866cc12d72cac0d4bc",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.d16.density.bin"
+          }
+        ],
+        "run/d16.peaks.bin": [
+          {
+            "sha256": "157ed7a6f803e0b65cae863e4afc9c1f45a42061d6d71ea6e3294abec02799de",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.d16.peaks.bin"
+          }
+        ],
+        "run/d16.peaks.log": [
+          {
+            "sha256": "a294f24b4b13e01d9e0365e5c27fe5363fd232d773ea1923879bcce33574628b",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.d16.peaks.log"
+          }
+        ],
+        "run/d32-t16-p1.DAT": [
+          {
+            "sha256": "4f042274a341651771545f51bd5eb2b2c895194e6fa7f7ddf180b6f07c154313",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.d32-t16-p1.DAT"
+          }
+        ],
+        "run/d32-t16-p3.DAT": [
+          {
+            "sha256": "4f042274a341651771545f51bd5eb2b2c895194e6fa7f7ddf180b6f07c154313",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.d32-t16-p3.DAT"
+          }
+        ],
+        "run/d32-t32-p2.DAT": [
+          {
+            "sha256": "4f042274a341651771545f51bd5eb2b2c895194e6fa7f7ddf180b6f07c154313",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.d32-t32-p2.DAT"
+          }
+        ],
+        "run/d32-t32-p4.DAT": [
+          {
+            "sha256": "4f042274a341651771545f51bd5eb2b2c895194e6fa7f7ddf180b6f07c154313",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.d32-t32-p4.DAT"
+          }
+        ],
+        "run/d32.density.bin": [
+          {
+            "sha256": "a7a8386be6d4da4abcd617024d9b91b8e42b63e99f4f2ec9a6f7035a53ab8b18",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.d32.density.bin"
+          }
+        ],
+        "run/d32.peaks.bin": [
+          {
+            "sha256": "b31890b2bbb997d704738e512193d26cf48cb6f340e997144ab9e1f1a8301e7a",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.d32.peaks.bin"
+          }
+        ],
+        "run/d32.peaks.log": [
+          {
+            "sha256": "b679aad1f899525132ce06662d6b33296e6686b93b4cce7db9949d48b735c455",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.d32.peaks.log"
+          }
+        ],
+        "run/fort.17": [
+          {
+            "sha256": "2c9b7b0e0592bd226de758927472058b1012616e495e5ef8ee2007e41c9b6f8d",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.fort.17"
+          }
+        ],
+        "run/probe.log": [
+          {
+            "sha256": "9047658776b1ff13774289ca2a281b2307a2eba879e4c0022636890282c32d52",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.probe.log"
+          }
+        ],
+        "run/probe.time": [
+          {
+            "sha256": "c248cdb166c0df0bd68cec466c32b8fdbbf776d695321efd9f8be7569ab22897",
+            "receipt": "numerical-threading/results.json",
+            "field": "outputs_sha256.probe.time"
+          }
+        ]
+      },
+      "all_symlink_targets_still_exist": true
+    },
+    {
+      "original": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work",
+      "destination": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-thread-control/work",
+      "renamed": true,
+      "before": {
+        ".": [
+          56918434,
+          198160013510946785,
+          4096,
+          1788701790000000000,
+          "directory",
+          null
+        ],
+        "frozen": [
+          56918434,
+          198160013510946786,
+          4096,
+          1788701297000000000,
+          "directory",
+          null
+        ],
+        "frozen/build.json": [
+          56918434,
+          198160013510946876,
+          11097,
+          1788701297000000000,
+          "file",
+          null
+        ],
+        "frozen/build_probe.py": [
+          56918434,
+          198160013510946790,
+          5845,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "frozen/main-preparation.json": [
+          56918434,
+          198160013510946792,
+          6453,
+          1788697845000000000,
+          "file",
+          null
+        ],
+        "frozen/native-build.json": [
+          56918434,
+          198160013510946791,
+          16752,
+          1788697845000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources": [
+          56918434,
+          198160013510946793,
+          4096,
+          1788701291000000000,
+          "directory",
+          null
+        ],
+        "frozen/production-sources/AverageBispectrum.f90": [
+          56918434,
+          198160013510946794,
+          2414,
+          1776226877000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/AveragePk.f90": [
+          56918434,
+          198160013510946795,
+          1509,
+          1776226877000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/Massfunction.f90": [
+          56918434,
+          198160013510946796,
+          80653,
+          1788266739000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2MG_subroutines.f90": [
+          56918434,
+          198160013510946797,
+          41597,
+          1776226877000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2MGsolver_DGP.f90": [
+          56918434,
+          198160013510946798,
+          58001,
+          1776370664000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2MGsolver_csf.f90": [
+          56918434,
+          198160013510946799,
+          25833,
+          1776370626000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2MGsolver_fR.f90": [
+          56918434,
+          198160013510946800,
+          51752,
+          1776376661000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2MGsolver_kmf.f90": [
+          56918434,
+          198160013510946801,
+          70478,
+          1776370795000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2MGsolver_sym.f90": [
+          56918434,
+          198160013510946802,
+          19673,
+          1776370693000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2analyze.f90": [
+          56918434,
+          198160013510946803,
+          1357,
+          1776226877000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2bdm.f90": [
+          56918434,
+          198160013510946804,
+          1282,
+          1780567066000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2catalReform.f90": [
+          56918434,
+          198160013510946805,
+          3504,
+          1788266739000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2catalogCorrect.f90": [
+          56918434,
+          198160013510946806,
+          20572,
+          1788266740000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2correlation.f90": [
+          56918434,
+          198160013510946807,
+          43468,
+          1788266740000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2density.f90": [
+          56918434,
+          198160013510946808,
+          3052,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2extradof.f90": [
+          56918434,
+          198160013510946809,
+          60394,
+          1776370824000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2formatFiles.f90": [
+          56918434,
+          198160013510946810,
+          1298,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2haloStat.f90": [
+          56918434,
+          198160013510946811,
+          62109,
+          1788266740000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2init.f90": [
+          56918434,
+          198160013510946812,
+          36346,
+          1787753892000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2linker.f90": [
+          56918434,
+          198160013510946813,
+          96591,
+          1788697685000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2main.f90": [
+          56918434,
+          198160013510946814,
+          42035,
+          1787753892000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mainMPI.f90": [
+          56918434,
+          198160013510946815,
+          22264,
+          1787753892000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_MGbackground.f90": [
+          56918434,
+          198160013510946816,
+          31651,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_analyze.f90": [
+          56918434,
+          198160013510946817,
+          14247,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_density.f90": [
+          56918434,
+          198160013510946818,
+          43662,
+          1788266740000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_fft5.f90": [
+          56918434,
+          198160013510946819,
+          56680,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_power.f90": [
+          56918434,
+          198160013510946820,
+          17617,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_random.f90": [
+          56918434,
+          198160013510946821,
+          13195,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_tools.f90": [
+          56918434,
+          198160013510946822,
+          23316,
+          1788266740000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2power.f90": [
+          56918434,
+          198160013510946823,
+          25548,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2powerSSC.f90": [
+          56918434,
+          198160013510946824,
+          16212,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2readFiles.f90": [
+          56918434,
+          198160013510946825,
+          7846,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2spectrum.f90": [
+          56918434,
+          198160013510946826,
+          1513,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2start.f90": [
+          56918434,
+          198160013510946827,
+          29003,
+          1785609481000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2startMPI.f90": [
+          56918434,
+          198160013510946828,
+          34138,
+          1785609481000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2tunestepping.f90": [
+          56918434,
+          198160013510946829,
+          5337,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMPcovariance.f90": [
+          56918434,
+          198160013510946830,
+          6285,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/gadget2pm.f90": [
+          56918434,
+          198160013510946831,
+          6604,
+          1780566669000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/ic2pm.f90": [
+          56918434,
+          198160013510946832,
+          9344,
+          1785609484000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/luxuryp.h": [
+          56918434,
+          198160013510946835,
+          1108,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/makefile": [
+          56918434,
+          198160013510946836,
+          5721,
+          1788690744000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/testMemory.f90": [
+          56918434,
+          198160013510946833,
+          1066,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/testtOmp.f90": [
+          56918434,
+          198160013510946834,
+          3406,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/publication_preflight.f90": [
+          56918434,
+          198160013510946789,
+          731,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "frozen/thread_probe.f90": [
+          56918434,
+          198160013510946787,
+          7675,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "frozen/thread_probe_entry.f90": [
+          56918434,
+          198160013510946788,
+          356,
+          1788697637000000000,
+          "file",
+          null
+        ],
+        "frozen/work": [
+          56918434,
+          198160013510946837,
+          4096,
+          1788701294000000000,
+          "directory",
+          null
+        ],
+        "frozen/work/build": [
+          56918434,
+          198160013510946838,
+          4096,
+          1788701297000000000,
+          "directory",
+          null
+        ],
+        "frozen/work/build/BDM-thread-probe.exe": [
+          56918434,
+          198160013510946874,
+          1179624,
+          1788701297000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2MG_subroutines.o": [
+          56918434,
+          198160013510946841,
+          25152,
+          1788697824000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2MGsolver_DGP.o": [
+          56918434,
+          198160013510946857,
+          59800,
+          1788697836000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2MGsolver_csf.o": [
+          56918434,
+          198160013510946849,
+          61944,
+          1788697839000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2MGsolver_fR.o": [
+          56918434,
+          198160013510946854,
+          155944,
+          1788697834000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2MGsolver_kmf.o": [
+          56918434,
+          198160013510946846,
+          90432,
+          1788697838000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2MGsolver_sym.o": [
+          56918434,
+          198160013510946865,
+          51496,
+          1788697837000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2extradof.o": [
+          56918434,
+          198160013510946853,
+          152624,
+          1788697835000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2linker.o": [
+          56918434,
+          198160013510946852,
+          397928,
+          1788697831000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_MGbackground.o": [
+          56918434,
+          198160013510946858,
+          55280,
+          1788697820000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_analyze.o": [
+          56918434,
+          198160013510946850,
+          64224,
+          1788697831000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_density.o": [
+          56918434,
+          198160013510946845,
+          196128,
+          1788697825000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_fft5.o": [
+          56918434,
+          198160013510946839,
+          158440,
+          1788697823000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_power.o": [
+          56918434,
+          198160013510946855,
+          109304,
+          1788697826000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_random.o": [
+          56918434,
+          198160013510946843,
+          38824,
+          1788697823000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_tools.o": [
+          56918434,
+          198160013510946842,
+          111136,
+          1788697820000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/analyze.mod": [
+          56918434,
+          198160013510946856,
+          895,
+          1788697831000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/bdmduplicaterules.mod": [
+          56918434,
+          198160013510946848,
+          2246,
+          1788697844000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/bdmthreadcontrol.mod": [
+          56918434,
+          198160013510946871,
+          8078,
+          1788701296000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/density.mod": [
+          56918434,
+          198160013510946851,
+          8417,
+          1788697824000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/extradofbackgrounddata.mod": [
+          56918434,
+          198160013510946844,
+          5887,
+          1788697820000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/fft5.mod": [
+          56918434,
+          198160013510946859,
+          31680,
+          1788697821000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/linkerlist.mod": [
+          56918434,
+          198160013510946863,
+          33225,
+          1788697844000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/localdata.mod": [
+          56918434,
+          198160013510946862,
+          1358,
+          1788697839000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/luxury.mod": [
+          56918434,
+          198160013510946847,
+          1605,
+          1788697823000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/param.mod": [
+          56918434,
+          198160013510946866,
+          8785,
+          1788697820000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/power.mod": [
+          56918434,
+          198160013510946867,
+          6209,
+          1788697825000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/publication-preflight.exe": [
+          56918434,
+          198160013510946875,
+          1179944,
+          1788701297000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/publication_preflight.f90": [
+          56918434,
+          198160013510946870,
+          731,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/random.mod": [
+          56918434,
+          198160013510946861,
+          12418,
+          1788697823000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/setinitialconditions.mod": [
+          56918434,
+          198160013510946860,
+          19885,
+          1788697827000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/structures.mod": [
+          56918434,
+          198160013510946840,
+          14595,
+          1788697844000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/thread_probe.f90": [
+          56918434,
+          198160013510946868,
+          7675,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/thread_probe.o": [
+          56918434,
+          198160013510946872,
+          50312,
+          1788701296000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/thread_probe_entry.f90": [
+          56918434,
+          198160013510946869,
+          356,
+          1788697637000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/thread_probe_entry.o": [
+          56918434,
+          198160013510946873,
+          5040,
+          1788701296000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/tools.mod": [
+          56918434,
+          198160013510946864,
+          13644,
+          1788697819000000000,
+          "file",
+          null
+        ],
+        "launch": [
+          56918434,
+          198160013510946878,
+          4096,
+          1788701297000000000,
+          "directory",
+          null
+        ],
+        "launch/control.sbatch": [
+          56918434,
+          198160013510946880,
+          600,
+          1788701131000000000,
+          "file",
+          null
+        ],
+        "launch/run_control.py": [
+          56918434,
+          198160013510946879,
+          16492,
+          1788701131000000000,
+          "file",
+          null
+        ],
+        "run": [
+          56918434,
+          198160015188585577,
+          4096,
+          1788702833000000000,
+          "directory",
+          null
+        ],
+        "run/BDM.config": [
+          56918434,
+          198160015188585583,
+          193,
+          1788701824000000000,
+          "file",
+          null
+        ],
+        "run/CATALOGS": [
+          56918434,
+          198160015188585578,
+          4096,
+          1788702833000000000,
+          "directory",
+          null
+        ],
+        "run/CATALOGS/outputB.0158.dat": [
+          56918434,
+          198160015188585592,
+          978,
+          1788702831000000000,
+          "file",
+          null
+        ],
+        "run/PMcrd.0158.DAT": [
+          56918434,
+          198160015188585580,
+          116,
+          1788701794000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrd.0158.DAT"
+        ],
+        "run/PMcrs0.0158.DAT": [
+          56918434,
+          198160015188585581,
+          117,
+          1788701809000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs0.0158.DAT"
+        ],
+        "run/PMcrs1.0158.DAT": [
+          56918434,
+          198160015188585582,
+          117,
+          1788701824000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs1.0158.DAT"
+        ],
+        "run/d32-t32-p1.DAT": [
+          56918434,
+          198160015188585603,
+          41613528,
+          1788702723000000000,
+          "file",
+          null
+        ],
+        "run/d32-t64-p2.DAT": [
+          56918434,
+          198160015188585605,
+          41613528,
+          1788702831000000000,
+          "file",
+          null
+        ],
+        "run/d32.density.bin": [
+          56918434,
+          198160015188585599,
+          34359738388,
+          1788702537000000000,
+          "file",
+          null
+        ],
+        "run/d32.peaks.bin": [
+          56918434,
+          198160015188585601,
+          22247976,
+          1788702545000000000,
+          "file",
+          null
+        ],
+        "run/d32.peaks.log": [
+          56918434,
+          198160015188585600,
+          64,
+          1788702542000000000,
+          "file",
+          null
+        ],
+        "run/d64-t32-p1.DAT": [
+          56918434,
+          198160015188585593,
+          41613528,
+          1788702075000000000,
+          "file",
+          null
+        ],
+        "run/d64-t32-p3.DAT": [
+          56918434,
+          198160015188585596,
+          41613528,
+          1788702371000000000,
+          "file",
+          null
+        ],
+        "run/d64-t64-p2.DAT": [
+          56918434,
+          198160015188585594,
+          41613528,
+          1788702189000000000,
+          "file",
+          null
+        ],
+        "run/d64-t64-p4.DAT": [
+          56918434,
+          198160015188585598,
+          41613528,
+          1788702482000000000,
+          "file",
+          null
+        ],
+        "run/d64.density.bin": [
+          56918434,
+          198160015188585589,
+          34359738388,
+          1788701896000000000,
+          "file",
+          null
+        ],
+        "run/d64.peaks.bin": [
+          56918434,
+          198160015188585591,
+          22247976,
+          1788701902000000000,
+          "file",
+          null
+        ],
+        "run/d64.peaks.log": [
+          56918434,
+          198160015188585590,
+          64,
+          1788701899000000000,
+          "file",
+          null
+        ],
+        "run/fort.17": [
+          56918434,
+          198160015188585588,
+          3936,
+          1788702832000000000,
+          "file",
+          null
+        ],
+        "run/probe.log": [
+          56918434,
+          198160015188585585,
+          13748,
+          1788702833000000000,
+          "file",
+          null
+        ],
+        "run/probe.time": [
+          56918434,
+          198160015188585586,
+          34,
+          1788702834000000000,
+          "file",
+          null
+        ],
+        "slurm-11948491.log": [
+          56918434,
+          198160015188585576,
+          342,
+          1788702936000000000,
+          "file",
+          null
+        ]
+      },
+      "renamed_at_utc": "2026-09-06T14:04:32.269247+00:00",
+      "after": {
+        ".": [
+          56918434,
+          198160013510946785,
+          4096,
+          1788701790000000000,
+          "directory",
+          null
+        ],
+        "frozen": [
+          56918434,
+          198160013510946786,
+          4096,
+          1788701297000000000,
+          "directory",
+          null
+        ],
+        "frozen/build.json": [
+          56918434,
+          198160013510946876,
+          11097,
+          1788701297000000000,
+          "file",
+          null
+        ],
+        "frozen/build_probe.py": [
+          56918434,
+          198160013510946790,
+          5845,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "frozen/main-preparation.json": [
+          56918434,
+          198160013510946792,
+          6453,
+          1788697845000000000,
+          "file",
+          null
+        ],
+        "frozen/native-build.json": [
+          56918434,
+          198160013510946791,
+          16752,
+          1788697845000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources": [
+          56918434,
+          198160013510946793,
+          4096,
+          1788701291000000000,
+          "directory",
+          null
+        ],
+        "frozen/production-sources/AverageBispectrum.f90": [
+          56918434,
+          198160013510946794,
+          2414,
+          1776226877000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/AveragePk.f90": [
+          56918434,
+          198160013510946795,
+          1509,
+          1776226877000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/Massfunction.f90": [
+          56918434,
+          198160013510946796,
+          80653,
+          1788266739000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2MG_subroutines.f90": [
+          56918434,
+          198160013510946797,
+          41597,
+          1776226877000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2MGsolver_DGP.f90": [
+          56918434,
+          198160013510946798,
+          58001,
+          1776370664000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2MGsolver_csf.f90": [
+          56918434,
+          198160013510946799,
+          25833,
+          1776370626000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2MGsolver_fR.f90": [
+          56918434,
+          198160013510946800,
+          51752,
+          1776376661000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2MGsolver_kmf.f90": [
+          56918434,
+          198160013510946801,
+          70478,
+          1776370795000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2MGsolver_sym.f90": [
+          56918434,
+          198160013510946802,
+          19673,
+          1776370693000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2analyze.f90": [
+          56918434,
+          198160013510946803,
+          1357,
+          1776226877000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2bdm.f90": [
+          56918434,
+          198160013510946804,
+          1282,
+          1780567066000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2catalReform.f90": [
+          56918434,
+          198160013510946805,
+          3504,
+          1788266739000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2catalogCorrect.f90": [
+          56918434,
+          198160013510946806,
+          20572,
+          1788266740000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2correlation.f90": [
+          56918434,
+          198160013510946807,
+          43468,
+          1788266740000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2density.f90": [
+          56918434,
+          198160013510946808,
+          3052,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2extradof.f90": [
+          56918434,
+          198160013510946809,
+          60394,
+          1776370824000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2formatFiles.f90": [
+          56918434,
+          198160013510946810,
+          1298,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2haloStat.f90": [
+          56918434,
+          198160013510946811,
+          62109,
+          1788266740000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2init.f90": [
+          56918434,
+          198160013510946812,
+          36346,
+          1787753892000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2linker.f90": [
+          56918434,
+          198160013510946813,
+          96591,
+          1788697685000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2main.f90": [
+          56918434,
+          198160013510946814,
+          42035,
+          1787753892000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mainMPI.f90": [
+          56918434,
+          198160013510946815,
+          22264,
+          1787753892000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_MGbackground.f90": [
+          56918434,
+          198160013510946816,
+          31651,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_analyze.f90": [
+          56918434,
+          198160013510946817,
+          14247,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_density.f90": [
+          56918434,
+          198160013510946818,
+          43662,
+          1788266740000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_fft5.f90": [
+          56918434,
+          198160013510946819,
+          56680,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_power.f90": [
+          56918434,
+          198160013510946820,
+          17617,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_random.f90": [
+          56918434,
+          198160013510946821,
+          13195,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2mod_tools.f90": [
+          56918434,
+          198160013510946822,
+          23316,
+          1788266740000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2power.f90": [
+          56918434,
+          198160013510946823,
+          25548,
+          1776226878000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2powerSSC.f90": [
+          56918434,
+          198160013510946824,
+          16212,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2readFiles.f90": [
+          56918434,
+          198160013510946825,
+          7846,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2spectrum.f90": [
+          56918434,
+          198160013510946826,
+          1513,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2start.f90": [
+          56918434,
+          198160013510946827,
+          29003,
+          1785609481000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2startMPI.f90": [
+          56918434,
+          198160013510946828,
+          34138,
+          1785609481000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMP2tunestepping.f90": [
+          56918434,
+          198160013510946829,
+          5337,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/PMPcovariance.f90": [
+          56918434,
+          198160013510946830,
+          6285,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/gadget2pm.f90": [
+          56918434,
+          198160013510946831,
+          6604,
+          1780566669000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/ic2pm.f90": [
+          56918434,
+          198160013510946832,
+          9344,
+          1785609484000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/luxuryp.h": [
+          56918434,
+          198160013510946835,
+          1108,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/makefile": [
+          56918434,
+          198160013510946836,
+          5721,
+          1788690744000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/testMemory.f90": [
+          56918434,
+          198160013510946833,
+          1066,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/production-sources/testtOmp.f90": [
+          56918434,
+          198160013510946834,
+          3406,
+          1776226879000000000,
+          "file",
+          null
+        ],
+        "frozen/publication_preflight.f90": [
+          56918434,
+          198160013510946789,
+          731,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "frozen/thread_probe.f90": [
+          56918434,
+          198160013510946787,
+          7675,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "frozen/thread_probe_entry.f90": [
+          56918434,
+          198160013510946788,
+          356,
+          1788697637000000000,
+          "file",
+          null
+        ],
+        "frozen/work": [
+          56918434,
+          198160013510946837,
+          4096,
+          1788701294000000000,
+          "directory",
+          null
+        ],
+        "frozen/work/build": [
+          56918434,
+          198160013510946838,
+          4096,
+          1788701297000000000,
+          "directory",
+          null
+        ],
+        "frozen/work/build/BDM-thread-probe.exe": [
+          56918434,
+          198160013510946874,
+          1179624,
+          1788701297000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2MG_subroutines.o": [
+          56918434,
+          198160013510946841,
+          25152,
+          1788697824000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2MGsolver_DGP.o": [
+          56918434,
+          198160013510946857,
+          59800,
+          1788697836000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2MGsolver_csf.o": [
+          56918434,
+          198160013510946849,
+          61944,
+          1788697839000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2MGsolver_fR.o": [
+          56918434,
+          198160013510946854,
+          155944,
+          1788697834000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2MGsolver_kmf.o": [
+          56918434,
+          198160013510946846,
+          90432,
+          1788697838000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2MGsolver_sym.o": [
+          56918434,
+          198160013510946865,
+          51496,
+          1788697837000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2extradof.o": [
+          56918434,
+          198160013510946853,
+          152624,
+          1788697835000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2linker.o": [
+          56918434,
+          198160013510946852,
+          397928,
+          1788697831000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_MGbackground.o": [
+          56918434,
+          198160013510946858,
+          55280,
+          1788697820000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_analyze.o": [
+          56918434,
+          198160013510946850,
+          64224,
+          1788697831000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_density.o": [
+          56918434,
+          198160013510946845,
+          196128,
+          1788697825000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_fft5.o": [
+          56918434,
+          198160013510946839,
+          158440,
+          1788697823000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_power.o": [
+          56918434,
+          198160013510946855,
+          109304,
+          1788697826000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_random.o": [
+          56918434,
+          198160013510946843,
+          38824,
+          1788697823000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/PMP2mod_tools.o": [
+          56918434,
+          198160013510946842,
+          111136,
+          1788697820000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/analyze.mod": [
+          56918434,
+          198160013510946856,
+          895,
+          1788697831000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/bdmduplicaterules.mod": [
+          56918434,
+          198160013510946848,
+          2246,
+          1788697844000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/bdmthreadcontrol.mod": [
+          56918434,
+          198160013510946871,
+          8078,
+          1788701296000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/density.mod": [
+          56918434,
+          198160013510946851,
+          8417,
+          1788697824000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/extradofbackgrounddata.mod": [
+          56918434,
+          198160013510946844,
+          5887,
+          1788697820000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/fft5.mod": [
+          56918434,
+          198160013510946859,
+          31680,
+          1788697821000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/linkerlist.mod": [
+          56918434,
+          198160013510946863,
+          33225,
+          1788697844000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/localdata.mod": [
+          56918434,
+          198160013510946862,
+          1358,
+          1788697839000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/luxury.mod": [
+          56918434,
+          198160013510946847,
+          1605,
+          1788697823000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/param.mod": [
+          56918434,
+          198160013510946866,
+          8785,
+          1788697820000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/power.mod": [
+          56918434,
+          198160013510946867,
+          6209,
+          1788697825000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/publication-preflight.exe": [
+          56918434,
+          198160013510946875,
+          1179944,
+          1788701297000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/publication_preflight.f90": [
+          56918434,
+          198160013510946870,
+          731,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/random.mod": [
+          56918434,
+          198160013510946861,
+          12418,
+          1788697823000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/setinitialconditions.mod": [
+          56918434,
+          198160013510946860,
+          19885,
+          1788697827000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/structures.mod": [
+          56918434,
+          198160013510946840,
+          14595,
+          1788697844000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/thread_probe.f90": [
+          56918434,
+          198160013510946868,
+          7675,
+          1788698146000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/thread_probe.o": [
+          56918434,
+          198160013510946872,
+          50312,
+          1788701296000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/thread_probe_entry.f90": [
+          56918434,
+          198160013510946869,
+          356,
+          1788697637000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/thread_probe_entry.o": [
+          56918434,
+          198160013510946873,
+          5040,
+          1788701296000000000,
+          "file",
+          null
+        ],
+        "frozen/work/build/tools.mod": [
+          56918434,
+          198160013510946864,
+          13644,
+          1788697819000000000,
+          "file",
+          null
+        ],
+        "launch": [
+          56918434,
+          198160013510946878,
+          4096,
+          1788701297000000000,
+          "directory",
+          null
+        ],
+        "launch/control.sbatch": [
+          56918434,
+          198160013510946880,
+          600,
+          1788701131000000000,
+          "file",
+          null
+        ],
+        "launch/run_control.py": [
+          56918434,
+          198160013510946879,
+          16492,
+          1788701131000000000,
+          "file",
+          null
+        ],
+        "run": [
+          56918434,
+          198160015188585577,
+          4096,
+          1788702833000000000,
+          "directory",
+          null
+        ],
+        "run/BDM.config": [
+          56918434,
+          198160015188585583,
+          193,
+          1788701824000000000,
+          "file",
+          null
+        ],
+        "run/CATALOGS": [
+          56918434,
+          198160015188585578,
+          4096,
+          1788702833000000000,
+          "directory",
+          null
+        ],
+        "run/CATALOGS/outputB.0158.dat": [
+          56918434,
+          198160015188585592,
+          978,
+          1788702831000000000,
+          "file",
+          null
+        ],
+        "run/PMcrd.0158.DAT": [
+          56918434,
+          198160015188585580,
+          116,
+          1788701794000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrd.0158.DAT"
+        ],
+        "run/PMcrs0.0158.DAT": [
+          56918434,
+          198160015188585581,
+          117,
+          1788701809000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs0.0158.DAT"
+        ],
+        "run/PMcrs1.0158.DAT": [
+          56918434,
+          198160015188585582,
+          117,
+          1788701824000000000,
+          "symlink",
+          "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs1.0158.DAT"
+        ],
+        "run/d32-t32-p1.DAT": [
+          56918434,
+          198160015188585603,
+          41613528,
+          1788702723000000000,
+          "file",
+          null
+        ],
+        "run/d32-t64-p2.DAT": [
+          56918434,
+          198160015188585605,
+          41613528,
+          1788702831000000000,
+          "file",
+          null
+        ],
+        "run/d32.density.bin": [
+          56918434,
+          198160015188585599,
+          34359738388,
+          1788702537000000000,
+          "file",
+          null
+        ],
+        "run/d32.peaks.bin": [
+          56918434,
+          198160015188585601,
+          22247976,
+          1788702545000000000,
+          "file",
+          null
+        ],
+        "run/d32.peaks.log": [
+          56918434,
+          198160015188585600,
+          64,
+          1788702542000000000,
+          "file",
+          null
+        ],
+        "run/d64-t32-p1.DAT": [
+          56918434,
+          198160015188585593,
+          41613528,
+          1788702075000000000,
+          "file",
+          null
+        ],
+        "run/d64-t32-p3.DAT": [
+          56918434,
+          198160015188585596,
+          41613528,
+          1788702371000000000,
+          "file",
+          null
+        ],
+        "run/d64-t64-p2.DAT": [
+          56918434,
+          198160015188585594,
+          41613528,
+          1788702189000000000,
+          "file",
+          null
+        ],
+        "run/d64-t64-p4.DAT": [
+          56918434,
+          198160015188585598,
+          41613528,
+          1788702482000000000,
+          "file",
+          null
+        ],
+        "run/d64.density.bin": [
+          56918434,
+          198160015188585589,
+          34359738388,
+          1788701896000000000,
+          "file",
+          null
+        ],
+        "run/d64.peaks.bin": [
+          56918434,
+          198160015188585591,
+          22247976,
+          1788701902000000000,
+          "file",
+          null
+        ],
+        "run/d64.peaks.log": [
+          56918434,
+          198160015188585590,
+          64,
+          1788701899000000000,
+          "file",
+          null
+        ],
+        "run/fort.17": [
+          56918434,
+          198160015188585588,
+          3936,
+          1788702832000000000,
+          "file",
+          null
+        ],
+        "run/probe.log": [
+          56918434,
+          198160015188585585,
+          13748,
+          1788702833000000000,
+          "file",
+          null
+        ],
+        "run/probe.time": [
+          56918434,
+          198160015188585586,
+          34,
+          1788702834000000000,
+          "file",
+          null
+        ],
+        "slurm-11948491.log": [
+          56918434,
+          198160015188585576,
+          342,
+          1788702936000000000,
+          "file",
+          null
+        ]
+      },
+      "all_entry_metadata_equal": true,
+      "existing_sha_links": {
+        "frozen/build.json": [
+          {
+            "sha256": "9989b0fefdc1f8623ae457edc333be688dd15cf264af1a7e72be205065121032",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/build.json"
+          }
+        ],
+        "frozen/build_probe.py": [
+          {
+            "sha256": "451b65486311753b1c4ecfec6e6ad00bba598104bc0d6dce0e72811bc38adfc4",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/build_probe.py"
+          }
+        ],
+        "frozen/main-preparation.json": [
+          {
+            "sha256": "4affb6ff7fb104be2a18df12963881e191b76e95d4bf970883fbfef59f66badb",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/main-preparation.json"
+          }
+        ],
+        "frozen/native-build.json": [
+          {
+            "sha256": "7790985f9c2ea286d984ac41b83b23ca4282c2fb43e42536af76d3b4fe88f5eb",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/native-build.json"
+          }
+        ],
+        "frozen/production-sources/AverageBispectrum.f90": [
+          {
+            "sha256": "119c00b67d1ab507e21533508ec946841886635f11d4a3f2b6df140b0318d2fc",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/AverageBispectrum.f90"
+          }
+        ],
+        "frozen/production-sources/AveragePk.f90": [
+          {
+            "sha256": "f92fb983583fc79c5d9eada9f448784a58004a7641f07d8bbca7d31b6f7334b4",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/AveragePk.f90"
+          }
+        ],
+        "frozen/production-sources/Massfunction.f90": [
+          {
+            "sha256": "8b1c30f459e6da82f3bb274b9045b7ff4a567d41e243d45a415063b021abe77d",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/Massfunction.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2MG_subroutines.f90": [
+          {
+            "sha256": "128e0f3f17885a90baf42f90fb8e79a152354c5b476fd56ee7f1637bf15a1dbc",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2MG_subroutines.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2MGsolver_DGP.f90": [
+          {
+            "sha256": "985ad50a2a754bbf23358244c1880c707ae45a8ca38ac9aac27a16d7ade9734d",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2MGsolver_DGP.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2MGsolver_csf.f90": [
+          {
+            "sha256": "31e7c8f561ea135944abd07c4d578967a86405e7dba719e44b9a26466cca6a88",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2MGsolver_csf.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2MGsolver_fR.f90": [
+          {
+            "sha256": "e64c83a8a8ea404d106a7be02b2f62d334a5bd15ca34a55edf7d5d516c6cca20",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2MGsolver_fR.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2MGsolver_kmf.f90": [
+          {
+            "sha256": "f46433a9ee2bc2689381beb32931c8015f0243f147c0e3cfd86de322a6b60967",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2MGsolver_kmf.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2MGsolver_sym.f90": [
+          {
+            "sha256": "84bcec5eaaf1054b72db7147b842b3b83952bdf72e9cb80523431e08cbedaf6c",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2MGsolver_sym.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2analyze.f90": [
+          {
+            "sha256": "ee116ae532dfdadb41e07b8017bcb4c655e52ce22a8c86d0d3c5039e43911cce",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2analyze.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2bdm.f90": [
+          {
+            "sha256": "99fe4f521881aaf462ca650e0990a44fcd82ce113b8204931eff684baffcd766",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2bdm.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2catalReform.f90": [
+          {
+            "sha256": "ebb857911929711fc1cfc3a42f4a65f4ed73933891d03b2d14b38a6080a89e29",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2catalReform.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2catalogCorrect.f90": [
+          {
+            "sha256": "1df9edb128f0561efce0d10139f5674b933246bc28d8db4f3df28a14e79248b4",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2catalogCorrect.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2correlation.f90": [
+          {
+            "sha256": "774249be21ed3a2bc11479d64d92e4dfb45e0d130bd193cea2085fe023e337ae",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2correlation.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2density.f90": [
+          {
+            "sha256": "c3cb79f5d4f1d5315ecb4edc94120674f9df1eda563e8bdc48bf79b47594682f",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2density.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2extradof.f90": [
+          {
+            "sha256": "d741567059e23c36fcc37762ed3b323145bd5e770b379adfa1368639b15af87d",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2extradof.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2formatFiles.f90": [
+          {
+            "sha256": "e7f26617ead8f8db4d323458b3a0a7ebb6f6507b954a96c87612b4cc17389f44",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2formatFiles.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2haloStat.f90": [
+          {
+            "sha256": "6fcc2c14aababa6a8288a5c8a9f3da8aaaffe127414eb28af016fafdd5957b7a",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2haloStat.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2init.f90": [
+          {
+            "sha256": "5978546b1ba8efdaae512c22c31d764fb852dc0117d78e42950917870fa0a111",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2init.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2linker.f90": [
+          {
+            "sha256": "1353532b32f6f3f80457208f5d023f8f359097a35a24edfc41856453a21b154c",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2linker.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2main.f90": [
+          {
+            "sha256": "487f9835ae1a73a41c84e31c138e356c2700aeb3a798304f53e7610594b2f0bb",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2main.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2mainMPI.f90": [
+          {
+            "sha256": "edc0c750b4c9f02c07881b87455f111b638f0b47ef7d62c1ff7b3bebc0bb689d",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2mainMPI.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2mod_MGbackground.f90": [
+          {
+            "sha256": "cd4b9fc2f9dca17c06c1be53ca9739437a4c9731eebeec34c6b429cacd763860",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2mod_MGbackground.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2mod_analyze.f90": [
+          {
+            "sha256": "444918cac15c7486718dcf6a7cf65e3fe21ad06b9bd9d0653dea0d83d6ae42fb",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2mod_analyze.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2mod_density.f90": [
+          {
+            "sha256": "199ad91667f32c068bab5882c08046c24970ca3caa0321d277cfc7d704e88ed3",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2mod_density.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2mod_fft5.f90": [
+          {
+            "sha256": "1cf32f6d5271c55ef282ce9299a9235d2de673b32b0d83bfd9ca409ea13c08c9",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2mod_fft5.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2mod_power.f90": [
+          {
+            "sha256": "3bb942f8a7ed217e79057e9d523728ac5a56328c89c01c01075a82ed89d4f7e0",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2mod_power.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2mod_random.f90": [
+          {
+            "sha256": "3b8eca39991da447d868c9c7ca1407e53d9ab6f0075789270d0e244c6a6258e8",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2mod_random.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2mod_tools.f90": [
+          {
+            "sha256": "c40db0bcdf20413878e2fc91262293f47dc322d9ab846ea146fe2b7d12e1e0fb",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2mod_tools.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2power.f90": [
+          {
+            "sha256": "cf6c0c99d5e6819648626cae23381a4be7858985e0adf77048cfe280c527a3b7",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2power.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2powerSSC.f90": [
+          {
+            "sha256": "e5a555dd9e602ff93460b4b3f90bce9e3f7a4186626bc53f9d576075159eefe3",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2powerSSC.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2readFiles.f90": [
+          {
+            "sha256": "18ec7c4e5acd8f3cb00f422572f033dafeb7b33662b4210dd84c36352668c27b",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2readFiles.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2spectrum.f90": [
+          {
+            "sha256": "318594381c772eaf76fce54c4b872219ef9e432a5d65de794ab682943104059f",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2spectrum.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2start.f90": [
+          {
+            "sha256": "cf60bcf92c5620b3fd8428cbeaae2a56dc0177afb872f997df32c0280a8ecc4a",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2start.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2startMPI.f90": [
+          {
+            "sha256": "63a16fb3b7964fb6a2adc40abd21e9aab9db9adfe960baac28e5cb26bce2bb20",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2startMPI.f90"
+          }
+        ],
+        "frozen/production-sources/PMP2tunestepping.f90": [
+          {
+            "sha256": "99d9b9162bcab93e9494923d24bc2b681ae22b1c8274cc9dfc5b0ba90d5105e3",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMP2tunestepping.f90"
+          }
+        ],
+        "frozen/production-sources/PMPcovariance.f90": [
+          {
+            "sha256": "878aaf616bd579eb5097e0bb4761c4d52e67062ffb958b9a2f4adeadf566dc52",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/PMPcovariance.f90"
+          }
+        ],
+        "frozen/production-sources/gadget2pm.f90": [
+          {
+            "sha256": "7b6156f94ebe88e3623572c1d82eed466164b5c9d002fbc622f15889700116ee",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/gadget2pm.f90"
+          }
+        ],
+        "frozen/production-sources/ic2pm.f90": [
+          {
+            "sha256": "b7c19a0393b38d85db09bd878e082a27c7513a5f62a3e0c69b0d14bcdfd5c96e",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/ic2pm.f90"
+          }
+        ],
+        "frozen/production-sources/luxuryp.h": [
+          {
+            "sha256": "ca26e590488d836593d330385e4f2e872932dd29966f78c83c1bc96b3b107836",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/luxuryp.h"
+          }
+        ],
+        "frozen/production-sources/makefile": [
+          {
+            "sha256": "1e9d3fede25513954e7be16cf89d4fc5dfe75364916a5c8f9e8b8d29e54dff60",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/makefile"
+          }
+        ],
+        "frozen/production-sources/testMemory.f90": [
+          {
+            "sha256": "4ec069a4b41fa5ea19f9ca82bcafe05eb7b5693e4c66b6ebc0763d905f9a23c3",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/testMemory.f90"
+          }
+        ],
+        "frozen/production-sources/testtOmp.f90": [
+          {
+            "sha256": "a35dbb2e8b7ccc866377c40d60b795b0d0c29d91aa83ab8321cdae838e98d4c1",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/production-sources/testtOmp.f90"
+          }
+        ],
+        "frozen/publication_preflight.f90": [
+          {
+            "sha256": "50190da54fc15daccc981ee6b5f26e486b09cc5861961a77be08c1baac88e1cf",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/publication_preflight.f90"
+          }
+        ],
+        "frozen/thread_probe.f90": [
+          {
+            "sha256": "f74e1309f11849244b6d8c5bde7ba36f37d42048aa8934245df4d7d4af7cf476",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/thread_probe.f90"
+          }
+        ],
+        "frozen/thread_probe_entry.f90": [
+          {
+            "sha256": "118a3b86a5212d8c973fd4d97757f2d4240b0c69982f461fdd60d9dcd291af02",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/thread_probe_entry.f90"
+          }
+        ],
+        "frozen/work/build/BDM-thread-probe.exe": [
+          {
+            "sha256": "0d46dcdbd4fe358c71d535467d49d08138bdf48f1518971e7914e5b7b7d9474c",
+            "receipt": "main-thread-control/build.json",
+            "field": "binary_sha256"
+          },
+          {
+            "sha256": "0d46dcdbd4fe358c71d535467d49d08138bdf48f1518971e7914e5b7b7d9474c",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/BDM-thread-probe.exe"
+          }
+        ],
+        "frozen/work/build/PMP2MG_subroutines.o": [
+          {
+            "sha256": "c0e603fb4a398cb238e01b6ce3312f04a304dc26e182b02312a05a4dcc591e24",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2MG_subroutines.o"
+          },
+          {
+            "sha256": "c0e603fb4a398cb238e01b6ce3312f04a304dc26e182b02312a05a4dcc591e24",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2MG_subroutines.o"
+          }
+        ],
+        "frozen/work/build/PMP2MGsolver_DGP.o": [
+          {
+            "sha256": "9f52a746bc29f50795a5432cf272613b4f6cc2089884096d2a3618fec2fcbd98",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2MGsolver_DGP.o"
+          },
+          {
+            "sha256": "9f52a746bc29f50795a5432cf272613b4f6cc2089884096d2a3618fec2fcbd98",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2MGsolver_DGP.o"
+          }
+        ],
+        "frozen/work/build/PMP2MGsolver_csf.o": [
+          {
+            "sha256": "58da8e121a5e778e0e4759cde32381c9ec5f5abf62f70eb2a628f04345eb6f1a",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2MGsolver_csf.o"
+          },
+          {
+            "sha256": "58da8e121a5e778e0e4759cde32381c9ec5f5abf62f70eb2a628f04345eb6f1a",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2MGsolver_csf.o"
+          }
+        ],
+        "frozen/work/build/PMP2MGsolver_fR.o": [
+          {
+            "sha256": "44c88084b64ac74d8fc880c80dd20c242bb5ec2aef68fa3ac3b11a16a7934af1",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2MGsolver_fR.o"
+          },
+          {
+            "sha256": "44c88084b64ac74d8fc880c80dd20c242bb5ec2aef68fa3ac3b11a16a7934af1",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2MGsolver_fR.o"
+          }
+        ],
+        "frozen/work/build/PMP2MGsolver_kmf.o": [
+          {
+            "sha256": "9d441a6b7e0ca8e7c84cee295715dc2a3fe0e6d69f7f008fefef44d6233cd927",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2MGsolver_kmf.o"
+          },
+          {
+            "sha256": "9d441a6b7e0ca8e7c84cee295715dc2a3fe0e6d69f7f008fefef44d6233cd927",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2MGsolver_kmf.o"
+          }
+        ],
+        "frozen/work/build/PMP2MGsolver_sym.o": [
+          {
+            "sha256": "a5558294cd9f23026b23c7d269bddfea3d8dd33ed0b7e5ea10d82a299cdc8099",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2MGsolver_sym.o"
+          },
+          {
+            "sha256": "a5558294cd9f23026b23c7d269bddfea3d8dd33ed0b7e5ea10d82a299cdc8099",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2MGsolver_sym.o"
+          }
+        ],
+        "frozen/work/build/PMP2extradof.o": [
+          {
+            "sha256": "00f38032ff28c9457f0e7160fa3df011ad239483dc8451abc9aa74e59b27f4a7",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2extradof.o"
+          },
+          {
+            "sha256": "00f38032ff28c9457f0e7160fa3df011ad239483dc8451abc9aa74e59b27f4a7",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2extradof.o"
+          }
+        ],
+        "frozen/work/build/PMP2linker.o": [
+          {
+            "sha256": "afb47038e2407f56963dcbe1948a514d3610428d00ba2cef7d1db14691f594f5",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2linker.o"
+          },
+          {
+            "sha256": "afb47038e2407f56963dcbe1948a514d3610428d00ba2cef7d1db14691f594f5",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2linker.o"
+          }
+        ],
+        "frozen/work/build/PMP2mod_MGbackground.o": [
+          {
+            "sha256": "b5393ae8516018920a3859f62f9ad158fb591dd5c96f2abb3a2c05411a8ffe58",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2mod_MGbackground.o"
+          },
+          {
+            "sha256": "b5393ae8516018920a3859f62f9ad158fb591dd5c96f2abb3a2c05411a8ffe58",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2mod_MGbackground.o"
+          }
+        ],
+        "frozen/work/build/PMP2mod_analyze.o": [
+          {
+            "sha256": "51ee0c007d601509e17b24de8592e3fef3528cd3f38c108f2997cf839a5f7aec",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2mod_analyze.o"
+          },
+          {
+            "sha256": "51ee0c007d601509e17b24de8592e3fef3528cd3f38c108f2997cf839a5f7aec",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2mod_analyze.o"
+          }
+        ],
+        "frozen/work/build/PMP2mod_density.o": [
+          {
+            "sha256": "fd406fb24f7561792533d4c61a9162b078fec185cb45196ffc0759167e46759c",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2mod_density.o"
+          },
+          {
+            "sha256": "fd406fb24f7561792533d4c61a9162b078fec185cb45196ffc0759167e46759c",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2mod_density.o"
+          }
+        ],
+        "frozen/work/build/PMP2mod_fft5.o": [
+          {
+            "sha256": "b0650a1be6717171841c8428e7427f6d18e8fff657a7c2cd1133b17ea466aab4",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2mod_fft5.o"
+          },
+          {
+            "sha256": "b0650a1be6717171841c8428e7427f6d18e8fff657a7c2cd1133b17ea466aab4",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2mod_fft5.o"
+          }
+        ],
+        "frozen/work/build/PMP2mod_power.o": [
+          {
+            "sha256": "eed572b7b5bc0d7d709973a82232e57bef13094f609098f29039473b0ce709c8",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2mod_power.o"
+          },
+          {
+            "sha256": "eed572b7b5bc0d7d709973a82232e57bef13094f609098f29039473b0ce709c8",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2mod_power.o"
+          }
+        ],
+        "frozen/work/build/PMP2mod_random.o": [
+          {
+            "sha256": "26cb28cca8a9d641153cf6536459caaa563902ab39ba1597c272a9e990cdcd4a",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2mod_random.o"
+          },
+          {
+            "sha256": "26cb28cca8a9d641153cf6536459caaa563902ab39ba1597c272a9e990cdcd4a",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2mod_random.o"
+          }
+        ],
+        "frozen/work/build/PMP2mod_tools.o": [
+          {
+            "sha256": "4789531dd801ea77831d862ce3679fa12be6a3310e8e058f98d0364ddb435b55",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.PMP2mod_tools.o"
+          },
+          {
+            "sha256": "4789531dd801ea77831d862ce3679fa12be6a3310e8e058f98d0364ddb435b55",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/PMP2mod_tools.o"
+          }
+        ],
+        "frozen/work/build/analyze.mod": [
+          {
+            "sha256": "bac87c2290aba7edaeaaafc2e6a5dec215c096ad9c6409fddc88150665e51d8b",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.analyze.mod"
+          },
+          {
+            "sha256": "bac87c2290aba7edaeaaafc2e6a5dec215c096ad9c6409fddc88150665e51d8b",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/analyze.mod"
+          }
+        ],
+        "frozen/work/build/bdmduplicaterules.mod": [
+          {
+            "sha256": "d513444a487c3a0cd6407c693c7fa268394f8c84e1000296b2e25af403846b37",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.bdmduplicaterules.mod"
+          },
+          {
+            "sha256": "d513444a487c3a0cd6407c693c7fa268394f8c84e1000296b2e25af403846b37",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/bdmduplicaterules.mod"
+          }
+        ],
+        "frozen/work/build/bdmthreadcontrol.mod": [
+          {
+            "sha256": "e5f9dde4c64f84ffae48f1c62810d9b92b1aefb11b51ba8c5ac52532489258a8",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/bdmthreadcontrol.mod"
+          }
+        ],
+        "frozen/work/build/density.mod": [
+          {
+            "sha256": "d694fcf8f517d1f5ea47c3e1a9bd7e2d627cf0495428b28a4e50ae374ec5c185",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.density.mod"
+          },
+          {
+            "sha256": "d694fcf8f517d1f5ea47c3e1a9bd7e2d627cf0495428b28a4e50ae374ec5c185",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/density.mod"
+          }
+        ],
+        "frozen/work/build/extradofbackgrounddata.mod": [
+          {
+            "sha256": "4fbc54936c73418f640d0bb71f11d3dcb0289f813db090eb0eb61f63df814177",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.extradofbackgrounddata.mod"
+          },
+          {
+            "sha256": "4fbc54936c73418f640d0bb71f11d3dcb0289f813db090eb0eb61f63df814177",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/extradofbackgrounddata.mod"
+          }
+        ],
+        "frozen/work/build/fft5.mod": [
+          {
+            "sha256": "aa9abcb4af0563cdb5dc2e32a05b99da7a455afe5c01790805dc1ee519a4f7be",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.fft5.mod"
+          },
+          {
+            "sha256": "aa9abcb4af0563cdb5dc2e32a05b99da7a455afe5c01790805dc1ee519a4f7be",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/fft5.mod"
+          }
+        ],
+        "frozen/work/build/linkerlist.mod": [
+          {
+            "sha256": "4e8a8ea3cea9effd4bfcbae7ec56166e7b39ee48e9159bd5e27704c147c7954e",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.linkerlist.mod"
+          },
+          {
+            "sha256": "4e8a8ea3cea9effd4bfcbae7ec56166e7b39ee48e9159bd5e27704c147c7954e",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/linkerlist.mod"
+          }
+        ],
+        "frozen/work/build/localdata.mod": [
+          {
+            "sha256": "e511fc5f9a5de0f3fcfad7a8760a368ea773ec7beed09f6da5f50d69c687e95b",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.localdata.mod"
+          },
+          {
+            "sha256": "e511fc5f9a5de0f3fcfad7a8760a368ea773ec7beed09f6da5f50d69c687e95b",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/localdata.mod"
+          }
+        ],
+        "frozen/work/build/luxury.mod": [
+          {
+            "sha256": "a02991e77c765ab5d1fe1c8a4fd470de95f0be8cc347a8966bb2beb34f0bb4e1",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.luxury.mod"
+          },
+          {
+            "sha256": "a02991e77c765ab5d1fe1c8a4fd470de95f0be8cc347a8966bb2beb34f0bb4e1",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/luxury.mod"
+          }
+        ],
+        "frozen/work/build/param.mod": [
+          {
+            "sha256": "aafcb86e7c0d32cb33c95fd7a637f67a5015e016ccfa9bbe6759598ded5538be",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.param.mod"
+          },
+          {
+            "sha256": "aafcb86e7c0d32cb33c95fd7a637f67a5015e016ccfa9bbe6759598ded5538be",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/param.mod"
+          }
+        ],
+        "frozen/work/build/power.mod": [
+          {
+            "sha256": "3e6e2a2dfa5021e6d2cccfc0b6b1a4a8835de05f4af08387e79f1ccaa96cf54f",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.power.mod"
+          },
+          {
+            "sha256": "3e6e2a2dfa5021e6d2cccfc0b6b1a4a8835de05f4af08387e79f1ccaa96cf54f",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/power.mod"
+          }
+        ],
+        "frozen/work/build/publication-preflight.exe": [
+          {
+            "sha256": "d9f7c841185757a1167c3c28a0e83bb555cdc71e8503c66b7062ccd5c7f62ae1",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/publication-preflight.exe"
+          }
+        ],
+        "frozen/work/build/publication_preflight.f90": [
+          {
+            "sha256": "50190da54fc15daccc981ee6b5f26e486b09cc5861961a77be08c1baac88e1cf",
+            "receipt": "main-thread-control/build.json",
+            "field": "probe_source_sha256.publication_preflight.f90"
+          },
+          {
+            "sha256": "50190da54fc15daccc981ee6b5f26e486b09cc5861961a77be08c1baac88e1cf",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/publication_preflight.f90"
+          }
+        ],
+        "frozen/work/build/random.mod": [
+          {
+            "sha256": "a3985a03bf17c7a0f3e829f1e55f028fef7bbb1a2a2c3ab91dd1ceb9dc7350e3",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.random.mod"
+          },
+          {
+            "sha256": "a3985a03bf17c7a0f3e829f1e55f028fef7bbb1a2a2c3ab91dd1ceb9dc7350e3",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/random.mod"
+          }
+        ],
+        "frozen/work/build/setinitialconditions.mod": [
+          {
+            "sha256": "a33ab808229184de695c57aa729f0692ee3c247dbfbd80db9886d1e69dd2afe5",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.setinitialconditions.mod"
+          },
+          {
+            "sha256": "a33ab808229184de695c57aa729f0692ee3c247dbfbd80db9886d1e69dd2afe5",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/setinitialconditions.mod"
+          }
+        ],
+        "frozen/work/build/structures.mod": [
+          {
+            "sha256": "fa20d762bce0356ed6cc03a55b27ef10b85d805a037e22e40c9652bc703e2248",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.structures.mod"
+          },
+          {
+            "sha256": "fa20d762bce0356ed6cc03a55b27ef10b85d805a037e22e40c9652bc703e2248",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/structures.mod"
+          }
+        ],
+        "frozen/work/build/thread_probe.f90": [
+          {
+            "sha256": "f74e1309f11849244b6d8c5bde7ba36f37d42048aa8934245df4d7d4af7cf476",
+            "receipt": "main-thread-control/build.json",
+            "field": "probe_source_sha256.thread_probe.f90"
+          },
+          {
+            "sha256": "f74e1309f11849244b6d8c5bde7ba36f37d42048aa8934245df4d7d4af7cf476",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/thread_probe.f90"
+          }
+        ],
+        "frozen/work/build/thread_probe.o": [
+          {
+            "sha256": "0921f79b9e72e59d5a5336f5f5d4c1445743536a18221affb5b084e7c23b4740",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/thread_probe.o"
+          }
+        ],
+        "frozen/work/build/thread_probe_entry.f90": [
+          {
+            "sha256": "118a3b86a5212d8c973fd4d97757f2d4240b0c69982f461fdd60d9dcd291af02",
+            "receipt": "main-thread-control/build.json",
+            "field": "probe_source_sha256.thread_probe_entry.f90"
+          },
+          {
+            "sha256": "118a3b86a5212d8c973fd4d97757f2d4240b0c69982f461fdd60d9dcd291af02",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/thread_probe_entry.f90"
+          }
+        ],
+        "frozen/work/build/thread_probe_entry.o": [
+          {
+            "sha256": "a43eaceb39bb03fe5be5adef74da05c44c5c6e5dfe7c82518a9a5f5988098a6b",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/thread_probe_entry.o"
+          }
+        ],
+        "frozen/work/build/tools.mod": [
+          {
+            "sha256": "06504fc58d00b6e8066cabf84698bb52292c960a9246c63a20bf1530e46566ba",
+            "receipt": "main-thread-control/build.json",
+            "field": "linked_input_sha256.tools.mod"
+          },
+          {
+            "sha256": "06504fc58d00b6e8066cabf84698bb52292c960a9246c63a20bf1530e46566ba",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/frozen/work/build/tools.mod"
+          }
+        ],
+        "launch/control.sbatch": [
+          {
+            "sha256": "a25258c6f99044c86a807976dd76516ee13176c1ee212f47d2dd6399469035b3",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/launch/control.sbatch"
+          }
+        ],
+        "launch/run_control.py": [
+          {
+            "sha256": "52cc1e40cf0f5bebc7e73257d0ff8beb9115014c143dc4ee552648b2e83a28c7",
+            "receipt": "main-thread-control/plan.json",
+            "field": "frozen_files_sha256.work/launch/run_control.py"
+          }
+        ],
+        "run/BDM.config": [
+          {
+            "sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.BDM.config"
+          }
+        ],
+        "run/d32-t32-p1.DAT": [
+          {
+            "sha256": "088a0502d95409fbc4efe2e2a4eaa40839c07ab48d7a950e066c8c4da21aa567",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.d32-t32-p1.DAT"
+          }
+        ],
+        "run/d32-t64-p2.DAT": [
+          {
+            "sha256": "088a0502d95409fbc4efe2e2a4eaa40839c07ab48d7a950e066c8c4da21aa567",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.d32-t64-p2.DAT"
+          }
+        ],
+        "run/d32.density.bin": [
+          {
+            "sha256": "095c002544d007df730c3e6b8452868643ca7ff4ab2866a875f88f02e9a70f21",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.d32.density.bin"
+          }
+        ],
+        "run/d32.peaks.bin": [
+          {
+            "sha256": "05ca8a0a2740f102594fb06392d9901f9976b97754f38d8fd4b538df6cd19dc1",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.d32.peaks.bin"
+          }
+        ],
+        "run/d32.peaks.log": [
+          {
+            "sha256": "cf9202f8a430ace299f8eb0cd6ab00cd847a0605b8339c9235a89cc5e68c02e2",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.d32.peaks.log"
+          }
+        ],
+        "run/d64-t32-p1.DAT": [
+          {
+            "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.d64-t32-p1.DAT"
+          }
+        ],
+        "run/d64-t32-p3.DAT": [
+          {
+            "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.d64-t32-p3.DAT"
+          }
+        ],
+        "run/d64-t64-p2.DAT": [
+          {
+            "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.d64-t64-p2.DAT"
+          }
+        ],
+        "run/d64-t64-p4.DAT": [
+          {
+            "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.d64-t64-p4.DAT"
+          }
+        ],
+        "run/d64.density.bin": [
+          {
+            "sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.d64.density.bin"
+          }
+        ],
+        "run/d64.peaks.bin": [
+          {
+            "sha256": "5b2c6ed6857bd8724271681f82319588e8ab6ccebd6aca433dd75aaa0713db29",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.d64.peaks.bin"
+          }
+        ],
+        "run/d64.peaks.log": [
+          {
+            "sha256": "7257055e7a6f34fe69d29626699bae6f30bca1db540e8ad4d5cea24bcb67e47d",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.d64.peaks.log"
+          }
+        ],
+        "run/fort.17": [
+          {
+            "sha256": "7a4e185b10e60553bebdd21530eb4a8e4cd5b7f70fbe7d791858ea8c8b0e21ff",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.fort.17"
+          }
+        ],
+        "run/probe.log": [
+          {
+            "sha256": "67e27255db9706758ab884a2e028d7bec8a0d0a5c9f0e1d79a63a0527fa12910",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.probe.log"
+          }
+        ],
+        "run/probe.time": [
+          {
+            "sha256": "d41a4483b541d8846bc93f7acc2353b0734371a6edba3936e02a3b8051cd3f30",
+            "receipt": "main-thread-control/results.json",
+            "field": "outputs_sha256.probe.time"
+          }
+        ]
+      },
+      "all_symlink_targets_still_exist": true
+    }
+  ],
+  "finished_at_utc": "2026-09-06T14:04:32.395632+00:00"
+}

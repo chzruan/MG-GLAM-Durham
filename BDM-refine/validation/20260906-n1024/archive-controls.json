@@ -1,0 +1,14 @@
+{
+  "completed": true,
+  "archiver_sha256": "896982f7ea2745e6960fe5fd59927c0ca2972a218cbc44e4fd9af1337b66db09",
+  "checks": [
+    "Only selected small files and symlinks are archived",
+    "All raw membership tapes, PM headers, membership indexes, large data and live job log are retained",
+    "Unchanged original file and symlink accepted",
+    "Changed mode rejected",
+    "Changed source rejected",
+    "Changed file kind rejected",
+    "Missing consolidated workroot rejected"
+  ],
+  "scope": "Tiny temporary fixtures only; no production files removed. Archive also verifies every member before any deletion."
+}

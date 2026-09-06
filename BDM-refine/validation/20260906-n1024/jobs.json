@@ -1,0 +1,148 @@
+[
+  {
+    "job_id": "11948326",
+    "purpose": "N512 resource and validation pilot",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "--job-name=bdm-n512-pilot",
+      "--export=ALL,BDM_VALIDATION_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-pilot/validation.sbatch",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-pilot/run_validation.py",
+      "pilot"
+    ],
+    "submitted_at_utc": "2026-09-06T12:00:52.823783+00:00",
+    "commit": "a69fc04ecd4005ef6c79ca5e2ee71e65972a289d",
+    "script_sha256": {
+      "validation.sbatch": "dd4d746b9e55d6f969f2af2b7b3c8d52ceefe36dd766ab5136d9a5fa145fd510",
+      "run_validation.py": "7dc550cd1bf94f76eecedacefca59849b0716c59568d39074c51f2bbe23e1a09"
+    },
+    "dependencies": []
+  },
+  {
+    "job_id": "11948372",
+    "purpose": "N1024/Ng2048 GRsimulation with final refined BDM inline atz2,1,0",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "--job-name=bdm-n1024-main",
+      "--cpus-per-task=64",
+      "--mem=192G",
+      "--time=02:00:00",
+      "--export=ALL,BDM_VALIDATION_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024,BDM_VALIDATION_PREPARATION=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-preparation.json,BDM_VALIDATION_BIN=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/final-native-build",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-simulation/validation.sbatch",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-simulation/run_validation.py",
+      "simulate",
+      "--case",
+      "main"
+    ],
+    "submitted_at_utc": "2026-09-06T12:37:39.897357+00:00",
+    "commit": "6a02a0517cd28ea3d0cf6323f8a59bac1a26c321",
+    "script_sha256": {
+      "validation.sbatch": "dd4d746b9e55d6f969f2af2b7b3c8d52ceefe36dd766ab5136d9a5fa145fd510",
+      "run_validation.py": "0c692368726f5252d29069d592e6b488b1c3fc6732806f659f7d4c1ca7633cd7"
+    },
+    "dependencies": [],
+    "pilot": "11948326",
+    "preparation_sha256": "4affb6ff7fb104be2a18df12963881e191b76e95d4bf970883fbfef59f66badb"
+  },
+  {
+    "stage": "main-validation",
+    "purpose": "Membership identity and host geometry at z2,1,0; old/new catalogues on identical snapshots; ordinary 64/32-thread comparison and two-call bitwise particle-state restoration at z0. Normal density differences are recorded and interpreted alongside the separate fixed-field control.",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "--job-name=bdm-n1024-validate",
+      "--cpus-per-task=64",
+      "--mem=192G",
+      "--time=00:45:00",
+      "--dependency=afterok:11948372",
+      "--export=ALL,BDM_VALIDATION_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024,BDM_VALIDATION_PREPARATION=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/main-preparation.json,BDM_VALIDATION_BIN=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/final-native-build",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-validation/validation.sbatch",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-validation/run_validation.py",
+      "validate",
+      "--case",
+      "main"
+    ],
+    "prepared_at_utc": "2026-09-06T13:15:37.280444+00:00",
+    "commit": "cd06f484bd29a8d7f26442c386e34e49fe740ad5",
+    "script_sha256": {
+      "validation.sbatch": "dd4d746b9e55d6f969f2af2b7b3c8d52ceefe36dd766ab5136d9a5fa145fd510",
+      "run_validation.py": "7a84c1dc7444b9bfdf0a99763ecfe6fc005657ec17baae840fa9fb7d53b6e81c"
+    },
+    "submitter_sha256": "030d65bb4738b4a866270235d17ceb093611eaf950bc56cf128cd791698a144f",
+    "dependencies": [
+      "afterok:11948372"
+    ],
+    "preparation_sha256": "4affb6ff7fb104be2a18df12963881e191b76e95d4bf970883fbfef59f66badb",
+    "resource_plan_sha256": "deb5cd2086db81aecf94dc012ab703c97ecb3b1644f5b13c9b219d558fefa599",
+    "submission_returncode": 0,
+    "stdout": "11948467\n",
+    "stderr": "",
+    "submitted_at_utc": "2026-09-06T13:15:38.197091+00:00",
+    "job_id": "11948467"
+  },
+  {
+    "stage": "main-plots",
+    "purpose": "Seven property PDFs from membership-verified refined and original standalone catalogues on identical saved snapshots",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "--dependency=afterok:11948467",
+      "--export=ALL,BDM_VALIDATION_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-plots/plots.sbatch",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-plots/plot_main_results.py"
+    ],
+    "dependencies": [
+      "afterok:11948467"
+    ],
+    "script_sha256": {
+      "compare_properties.py": "00fdd0cf9cc7de9df0e93e39bb30ff22a89cc03103c44da02ba070e43361be82",
+      "house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+      "plot_main_results.py": "318bdc34029689d582c785059bbf23ed7c68de024f8807778df413e1d05457a2",
+      "plots.sbatch": "a57a1a0926f7463db5e75167fc53360f2f67a508acff0a8fba347da4ef04c39e",
+      "chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992"
+    },
+    "submitter_sha256": "58fa5b4fad02c95887a1c4d51f7b582a7dcff8e731e32b4c544769e3527d793b",
+    "resource_plan_sha256": "210ee401fe57007662ff7b9245aeaad199aff80a9258fb985d3a4e0c4a0074f2",
+    "commit": "b518035f4ac733c4437992be01f3e5d34b308f20",
+    "submitted_at_utc": "2026-09-06T13:24:04.203597+00:00",
+    "submission_returncode": 0,
+    "stdout": "11948484\n",
+    "stderr": "",
+    "job_id": "11948484",
+    "superseded": true,
+    "cancelled_at_utc": "2026-09-06T13:25:00.105476+00:00",
+    "cancellation_reason": "Independent review found historical reversed transverse-axis labels could bypass the direction-degeneracy proxy. Cancelled pending plot job before any run, to freeze a corrected plotting script; old submitted files retained."
+  },
+  {
+    "stage": "main-plots",
+    "purpose": "Seven property PDFs from membership-verified refined and original standalone catalogues on identical saved snapshots",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "--dependency=afterok:11948467",
+      "--export=ALL,BDM_VALIDATION_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-plots-02/plots.sbatch",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-main-plots-02/plot_main_results.py"
+    ],
+    "dependencies": [
+      "afterok:11948467"
+    ],
+    "script_sha256": {
+      "compare_properties.py": "45081bde5966aec49d9762a1d7b2e49dd6c834df1707a557a60d8447876e59bc",
+      "house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+      "plot_main_results.py": "214cf075a527f8df4b58f603998a2c0ed71e82670f067cadca68c594cd36fb22",
+      "plots.sbatch": "a57a1a0926f7463db5e75167fc53360f2f67a508acff0a8fba347da4ef04c39e",
+      "chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992"
+    },
+    "submitter_sha256": "0c60a2b0c57b188b37df0b4491a1e99b4d1d0e5074a1a462b257478f25e71e0d",
+    "resource_plan_sha256": "210ee401fe57007662ff7b9245aeaad199aff80a9258fb985d3a4e0c4a0074f2",
+    "commit": "848316cfccebfcf8599e9a4cc2606c1a7ceeb3bc",
+    "submitted_at_utc": "2026-09-06T13:31:46.395552+00:00",
+    "submission_returncode": 0,
+    "stdout": "11948494\n",
+    "stderr": "",
+    "job_id": "11948494"
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "completed": true,
+  "scope": "Read-only serial compression/readback pilot on one finished ASCII catalogue; temporary compressed copy deleted.",
+  "sample": "work/main/replay-z0-baseline-t64/CATALOGS/CatshortV.0158.0001.DAT",
+  "sample_bytes": 41613528,
+  "sample_sha256": "ded219ecf4b68873f2d0a047ee2130d6e03195e705923d61e8a8c44570c608c6",
+  "compressed_bytes": 13194011,
+  "elapsed_seconds": 2.586741814855486,
+  "total_cpu_seconds": 2.4769789999999996,
+  "maxrss_kib": 26284,
+  "preliminary_inventory": {
+    "archive_files": 557,
+    "archive_input_bytes": 1006436126,
+    "retained_files": 31,
+    "retained_bytes": 194106200375
+  },
+  "resource_request": {
+    "partition": "cosma8-serial",
+    "account": "dp004",
+    "cpus_per_task": 1,
+    "memory_gib": 2,
+    "time_limit_seconds": 900
+  },
+  "estimate": {
+    "sample_scaled_compression_readback_seconds": 62.561155860309775,
+    "expected_seconds_with_extra_hashing_and_io_headroom": 180,
+    "time_limit_core_hours": 0.25,
+    "expected_core_hours": 0.05,
+    "memory_reason": "Measured process RSS plus 8 MiB streaming buffers, metadata, and headroom for roughly 1 GiB input/cache; no large data tapes read by archiver."
+  },
+  "prior_shared_allocation_accounting": "accounting.json",
+  "archiver_sha256": "896982f7ea2745e6960fe5fd59927c0ca2972a218cbc44e4fd9af1337b66db09"
+}

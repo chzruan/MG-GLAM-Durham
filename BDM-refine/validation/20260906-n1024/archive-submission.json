@@ -1,0 +1,28 @@
+{
+  "purpose": "Verify one archive of completed small build/log/catalogue files before removing loose copies; retain all raw membership/particle/density data",
+  "command": [
+    "sbatch",
+    "--parsable",
+    "--export=ALL,BDM_VALIDATION_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-archive/archive.sbatch",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/launch-archive/archive_work.py"
+  ],
+  "dependencies": [],
+  "prepared_at_utc": "2026-09-06T14:24:52.328892+00:00",
+  "commit": "f28bc1db88e432b203d8fdfbaf0f4726f4b0ce7d",
+  "script_sha256": {
+    "archive.sbatch": "ede3ed73c2d646cb45bdcd1edef38d91497e8235458a1b20df8416c249afaf2c",
+    "archive_work.py": "896982f7ea2745e6960fe5fd59927c0ca2972a218cbc44e4fd9af1337b66db09"
+  },
+  "input_sha256": {
+    "archive-resource-plan.json": "7c0167852c30a9ee1b8a3541f34acdfbfa0a36b3334941d73412f9a897620300",
+    "archive-controls.json": "8c6b5c820560c0363f2c32579552e43fec225ea8521cde60e1b4f84fca676d38",
+    "presentation-validation.json": "01a9340c69766dfa798ccf91405d966e05646af656ae4701e67bef7c31e65274",
+    "validation-summary.json": "92665b4e0f379470a4ccb645369ccea84f0f0e39d4ee2d4e837c4d476ee16d4b"
+  },
+  "submitted_at_utc": "2026-09-06T14:24:52.442179+00:00",
+  "submission_returncode": 0,
+  "stdout": "11948648\n",
+  "stderr": "",
+  "job_id": "11948648"
+}

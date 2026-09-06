@@ -1,0 +1,68 @@
+{
+  "reviewed_commit": "b6e96669b6f7a8cba2f3dcaa9853278aac7edf11",
+  "dimensions": {
+    "NROW": 1024,
+    "NGRID": 2048,
+    "Nparticles": 1073741824,
+    "Ncells": 8589934592
+  },
+  "source_sha256": {
+    "PMP2main.f90": "487f9835ae1a73a41c84e31c138e356c2700aeb3a798304f53e7610594b2f0bb",
+    "PMP2mod_tools.f90": "c40db0bcdf20413878e2fc91262293f47dc322d9ab846ea146fe2b7d12e1e0fb",
+    "PMP2mod_density.f90": "199ad91667f32c068bab5882c08046c24970ca3caa0321d277cfc7d704e88ed3",
+    "PMP2mod_power.f90": "3bb942f8a7ed217e79057e9d523728ac5a56328c89c01c01075a82ed89d4f7e0",
+    "PMP2mod_analyze.f90": "444918cac15c7486718dcf6a7cf65e3fe21ad06b9bd9d0653dea0d83d6ae42fb",
+    "PMP2start.f90": "cf60bcf92c5620b3fd8428cbeaae2a56dc0177afb872f997df32c0280a8ecc4a",
+    "PMP2linker.f90": "868bb0d6c89e5daf1ca0f631419d86577dcfe31dde7969375398cb0408140fc0",
+    "ic2pm.f90": "b7c19a0393b38d85db09bd878e082a27c7513a5f62a3e0c69b0d14bcdfd5c96e",
+    "makefile": "1e9d3fede25513954e7be16cf89d4fc5dfe75364916a5c8f9e8b8d29e54dff60"
+  },
+  "boxes": [
+    {
+      "box_Mpch": 512,
+      "cell_Mpch": 0.5,
+      "SO_cap_Mpch": 7.5,
+      "particle_cap_and_buffer_Mpch": 7.6875,
+      "uniform_buffer_factor": 1.092820245816256,
+      "list_side": 1059,
+      "label_GiB": 8.848669968545437,
+      "simulation_baseline_GiB": 56,
+      "buffer_peak_baseline_GiB": 90.97024786612019,
+      "list_phase_baseline_GiB": 76.56147980119567
+    },
+    {
+      "box_Mpch": 1024,
+      "cell_Mpch": 1.0,
+      "SO_cap_Mpch": 15.0,
+      "particle_cap_and_buffer_Mpch": 15.375,
+      "uniform_buffer_factor": 1.092820245816256,
+      "list_side": 1059,
+      "label_GiB": 8.848669968545437,
+      "simulation_baseline_GiB": 56,
+      "buffer_peak_baseline_GiB": 90.97024786612019,
+      "list_phase_baseline_GiB": 76.56147980119567
+    }
+  ],
+  "probe": {
+    "compiler": "/cosma/local/gcc/14.1.0/bin/gfortran",
+    "build_returncode": 0,
+    "returncode": 0,
+    "stdout": " np=  1073741824  three_np= -1073741824  safe_three_np=           3221225472\n grid_cells=           8589934592  list_cells=  1187648379\n membership_descriptor_bytes=          64\n",
+    "stderr": ""
+  },
+  "probe_source_sha256": "a491f04814da797a2866a099aa7137d019673f0843f36c12709ed33201353f89",
+  "scope": "Read-only scalar/static preflight; no mesh/particle allocation and no production simulation executed",
+  "conditional_issue": "ic2pm default-int 3*np allocation and 3*j indexing require Gadget input np<=715827882 per file; conventional format-1 record-size limits are stricter if POS/VEL blocks are not split",
+  "memory_notes": "Add 88 bytes per density peak at buffer peak. List/halo phase additionally retains allocation descriptors/status, 8 bytes per aggregate bound membership, and thread-local cap/aperture workspaces. MaxMemory500GiB is not an RSS bound.",
+  "snapshot": {
+    "page_particles": 1048576,
+    "page_buffer_MiB": 24,
+    "particles_per_data_file": 536870912,
+    "data_files": 2,
+    "data_file_GiB": 12,
+    "total_data_GiB": 24,
+    "header_files": 1
+  },
+  "sources_modified": false,
+  "root_annotation": "The agent boxes[].cell_Mpch values denote BDM linked-list/particle-spacing cells (L/NROW), not the PM force mesh. The PM mesh spacing is L/NGRID: 0.25 and 0.5 Mpc/h for L=512 and1024 respectively."
+}

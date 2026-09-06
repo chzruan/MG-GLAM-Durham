@@ -1,0 +1,214 @@
+{
+  "started_at_utc": "2026-09-06T12:01:23.660800+00:00",
+  "job_id": "11948326",
+  "spec": {
+    "box_mpc_h": 512.0,
+    "gravity": "GR",
+    "nrow": 512,
+    "ngrid": 1024,
+    "particle_limit_exclusive": 1728000000,
+    "source_commit": "b6e96669b6f7a8cba2f3dcaa9853278aac7edf11",
+    "old_finder_commit": "a8c7715",
+    "sources_sha256": {
+      "AverageBispectrum.f90": "119c00b67d1ab507e21533508ec946841886635f11d4a3f2b6df140b0318d2fc",
+      "AveragePk.f90": "f92fb983583fc79c5d9eada9f448784a58004a7641f07d8bbca7d31b6f7334b4",
+      "Massfunction.f90": "8b1c30f459e6da82f3bb274b9045b7ff4a567d41e243d45a415063b021abe77d",
+      "PMP2MG_subroutines.f90": "128e0f3f17885a90baf42f90fb8e79a152354c5b476fd56ee7f1637bf15a1dbc",
+      "PMP2MGsolver_DGP.f90": "985ad50a2a754bbf23358244c1880c707ae45a8ca38ac9aac27a16d7ade9734d",
+      "PMP2MGsolver_csf.f90": "31e7c8f561ea135944abd07c4d578967a86405e7dba719e44b9a26466cca6a88",
+      "PMP2MGsolver_fR.f90": "e64c83a8a8ea404d106a7be02b2f62d334a5bd15ca34a55edf7d5d516c6cca20",
+      "PMP2MGsolver_kmf.f90": "f46433a9ee2bc2689381beb32931c8015f0243f147c0e3cfd86de322a6b60967",
+      "PMP2MGsolver_sym.f90": "84bcec5eaaf1054b72db7147b842b3b83952bdf72e9cb80523431e08cbedaf6c",
+      "PMP2analyze.f90": "ee116ae532dfdadb41e07b8017bcb4c655e52ce22a8c86d0d3c5039e43911cce",
+      "PMP2bdm.f90": "99fe4f521881aaf462ca650e0990a44fcd82ce113b8204931eff684baffcd766",
+      "PMP2catalReform.f90": "ebb857911929711fc1cfc3a42f4a65f4ed73933891d03b2d14b38a6080a89e29",
+      "PMP2catalogCorrect.f90": "1df9edb128f0561efce0d10139f5674b933246bc28d8db4f3df28a14e79248b4",
+      "PMP2correlation.f90": "774249be21ed3a2bc11479d64d92e4dfb45e0d130bd193cea2085fe023e337ae",
+      "PMP2density.f90": "c3cb79f5d4f1d5315ecb4edc94120674f9df1eda563e8bdc48bf79b47594682f",
+      "PMP2extradof.f90": "d741567059e23c36fcc37762ed3b323145bd5e770b379adfa1368639b15af87d",
+      "PMP2formatFiles.f90": "e7f26617ead8f8db4d323458b3a0a7ebb6f6507b954a96c87612b4cc17389f44",
+      "PMP2haloStat.f90": "6fcc2c14aababa6a8288a5c8a9f3da8aaaffe127414eb28af016fafdd5957b7a",
+      "PMP2init.f90": "5978546b1ba8efdaae512c22c31d764fb852dc0117d78e42950917870fa0a111",
+      "PMP2linker.f90": "868bb0d6c89e5daf1ca0f631419d86577dcfe31dde7969375398cb0408140fc0",
+      "PMP2main.f90": "487f9835ae1a73a41c84e31c138e356c2700aeb3a798304f53e7610594b2f0bb",
+      "PMP2mainMPI.f90": "edc0c750b4c9f02c07881b87455f111b638f0b47ef7d62c1ff7b3bebc0bb689d",
+      "PMP2mod_MGbackground.f90": "cd4b9fc2f9dca17c06c1be53ca9739437a4c9731eebeec34c6b429cacd763860",
+      "PMP2mod_analyze.f90": "444918cac15c7486718dcf6a7cf65e3fe21ad06b9bd9d0653dea0d83d6ae42fb",
+      "PMP2mod_density.f90": "199ad91667f32c068bab5882c08046c24970ca3caa0321d277cfc7d704e88ed3",
+      "PMP2mod_fft5.f90": "1cf32f6d5271c55ef282ce9299a9235d2de673b32b0d83bfd9ca409ea13c08c9",
+      "PMP2mod_power.f90": "3bb942f8a7ed217e79057e9d523728ac5a56328c89c01c01075a82ed89d4f7e0",
+      "PMP2mod_random.f90": "3b8eca39991da447d868c9c7ca1407e53d9ab6f0075789270d0e244c6a6258e8",
+      "PMP2mod_tools.f90": "c40db0bcdf20413878e2fc91262293f47dc322d9ab846ea146fe2b7d12e1e0fb",
+      "PMP2power.f90": "cf6c0c99d5e6819648626cae23381a4be7858985e0adf77048cfe280c527a3b7",
+      "PMP2powerSSC.f90": "e5a555dd9e602ff93460b4b3f90bce9e3f7a4186626bc53f9d576075159eefe3",
+      "PMP2readFiles.f90": "18ec7c4e5acd8f3cb00f422572f033dafeb7b33662b4210dd84c36352668c27b",
+      "PMP2spectrum.f90": "318594381c772eaf76fce54c4b872219ef9e432a5d65de794ab682943104059f",
+      "PMP2start.f90": "cf60bcf92c5620b3fd8428cbeaae2a56dc0177afb872f997df32c0280a8ecc4a",
+      "PMP2startMPI.f90": "63a16fb3b7964fb6a2adc40abd21e9aab9db9adfe960baac28e5cb26bce2bb20",
+      "PMP2tunestepping.f90": "99d9b9162bcab93e9494923d24bc2b681ae22b1c8274cc9dfc5b0ba90d5105e3",
+      "PMPcovariance.f90": "878aaf616bd579eb5097e0bb4761c4d52e67062ffb958b9a2f4adeadf566dc52",
+      "gadget2pm.f90": "7b6156f94ebe88e3623572c1d82eed466164b5c9d002fbc622f15889700116ee",
+      "ic2pm.f90": "b7c19a0393b38d85db09bd878e082a27c7513a5f62a3e0c69b0d14bcdfd5c96e",
+      "testMemory.f90": "4ec069a4b41fa5ea19f9ca82bcafe05eb7b5693e4c66b6ebc0763d905f9a23c3",
+      "testtOmp.f90": "a35dbb2e8b7ccc866377c40d60b795b0d0c29d91aa83ab8321cdae838e98d4c1",
+      "luxuryp.h": "ca26e590488d836593d330385e4f2e872932dd29966f78c83c1bc96b3b107836",
+      "makefile": "1e9d3fede25513954e7be16cf89d4fc5dfe75364916a5c8f9e8b8d29e54dff60"
+    },
+    "binaries_sha256": {
+      "PMP2BDM.members.exe": "d8aa2a165d9abc20fc9edf0e8aa3c1510607c99972e3d0eb2ba3e0931e799a2f",
+      "PMP2init.exe": "8e4544c848c6f1b27f5910d44a5edd03db9565b476bcc19855f6125fa5af8510",
+      "PMP2BDM.exe": "f29fc75c78f43e886c9ce40b9d0b9e9a0cadfea4e640ad4f0ee1c7e5b5736035",
+      "PMP2BDM.state.exe": "9561e2cd9d230038a42e718e91432b62b722907b603ba387124b9de51e68fe5c",
+      "PMP2BDM.bounds.exe": "0c4c16b8586cc1bb12f895f7431fd6b5b4f0108e8395fa36b3d96ac5dd5df12c",
+      "PMP2main.exe": "030fe0f509a0ed7e442a43c4db5e11854adda205fc4b24e5363f1ebf91e077a5",
+      "PMP2start.exe": "2708221523b96ad85321c645cd632c692748d3837abd3e55f70a7cdd53e4181a",
+      "PMP2BDM.old.exe": "34256c1e64e974a8d4a75f6ac17e383fde382651ae3d01a04a32ef0f2fcaa3f8"
+    },
+    "archive_sha256": {
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906/work-artifacts.tar.gz": "62a4e2cd1b7363c4a029d570801252c324fb871ec1739625a64242bc8fed134c",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/analysis/full-audit-20260906/work-artifacts.tar.gz": "b39e39ea17aaf65a53f42a2058986717b89d8ff1513cb02fe65e14294ff9a9c9"
+    },
+    "cosmology": {
+      "Omega_m": 0.3089,
+      "Omega_Lambda": 0.6911,
+      "h": 0.6774,
+      "sigma8": 0.8159
+    },
+    "mass_one_estimate_msun_h": 10714968750.0,
+    "mesh_spacing_mpc_h": 0.25,
+    "initial_redshift": 100,
+    "realization": 1,
+    "halo_config": "iVirial=1\nMassMin=2.5e12\nRext=0.15\n",
+    "main_epochs": [
+      2,
+      1,
+      0
+    ],
+    "pilot_epochs": [
+      0
+    ],
+    "interpretation": "Finder validation and same-snapshot before/after comparison; not resolution convergence",
+    "epochs": [
+      0
+    ]
+  },
+  "inputs_sha256": {
+    "Init.dat": "885215a2f9a39f70cfccceaf7a65905aab9b12ff946cfda2eeed8b299c554dab",
+    "PkTable.dat": "b90b23d14a403544045ec93533402a70db8b5bc3381a3694547dfd742e0476f2",
+    "TableSeeds.dat": "31e0ae21219dadc93da86c6cfe8cd1972e406f7bbf80c2a1046bafe5ab506e4d",
+    "BDM.config": "9b40239d016714be455ca3012d14f656fe00c99a306f2b3f8d3157da2db442b9"
+  },
+  "records": [
+    {
+      "binary_sha256": "8e4544c848c6f1b27f5910d44a5edd03db9565b476bcc19855f6125fa5af8510",
+      "threads": 32,
+      "stdin": "",
+      "binary": "PMP2init.exe",
+      "started_at_utc": "2026-09-06T12:01:23.683492+00:00",
+      "completed": true,
+      "driver_sha256": "7dc550cd1bf94f76eecedacefca59849b0716c59568d39074c51f2bbe23e1a09",
+      "job_id": "11948326",
+      "host": "m8476.pri.cosma.local",
+      "returncode": 0,
+      "elapsed_seconds": 0.19020323600852862,
+      "finished_at_utc": "2026-09-06T12:01:27.564621+00:00",
+      "log_sha256": "e9437bd28b413dedb3376cccac68ce445bf284f9507156b58efef7490171e3be",
+      "cpu_user_seconds": 0.01,
+      "cpu_system_seconds": 0.0,
+      "maxrss_kib": 4096
+    },
+    {
+      "binary_sha256": "2708221523b96ad85321c645cd632c692748d3837abd3e55f70a7cdd53e4181a",
+      "threads": 32,
+      "stdin": "1\n",
+      "binary": "PMP2start.exe",
+      "started_at_utc": "2026-09-06T12:01:27.664670+00:00",
+      "completed": true,
+      "driver_sha256": "7dc550cd1bf94f76eecedacefca59849b0716c59568d39074c51f2bbe23e1a09",
+      "job_id": "11948326",
+      "host": "m8476.pri.cosma.local",
+      "returncode": 0,
+      "elapsed_seconds": 5.489889148971997,
+      "finished_at_utc": "2026-09-06T12:01:33.204996+00:00",
+      "log_sha256": "eb6f7086ac0bebbc1e60e4d671bdacaa9627ae39d2c809cc2a7f4d0766635ccd",
+      "cpu_user_seconds": 41.8,
+      "cpu_system_seconds": 5.85,
+      "maxrss_kib": 4746768
+    },
+    {
+      "binary_sha256": "030fe0f509a0ed7e442a43c4db5e11854adda205fc4b24e5363f1ebf91e077a5",
+      "threads": 32,
+      "stdin": "2000\n",
+      "binary": "PMP2main.exe",
+      "started_at_utc": "2026-09-06T12:01:33.812619+00:00",
+      "completed": true,
+      "driver_sha256": "7dc550cd1bf94f76eecedacefca59849b0716c59568d39074c51f2bbe23e1a09",
+      "job_id": "11948326",
+      "host": "m8476.pri.cosma.local",
+      "returncode": 0,
+      "elapsed_seconds": 635.0527033699909,
+      "finished_at_utc": "2026-09-06T12:12:08.931245+00:00",
+      "log_sha256": "12ac906efcb607bc2ec0a4f253758e34fa26da37c1ec0ec1d744e65cedca1ac6",
+      "cpu_user_seconds": 19645.41,
+      "cpu_system_seconds": 177.49,
+      "maxrss_kib": 12437704
+    }
+  ],
+  "completed": true,
+  "setup": " --------------- Setup file for PMP2 simulations ------------------\nN=0512x1024L=0512zi100da=4.00E-04f0.040\n 9.90099E-03       Expansion Parameter\n 4.00000E-04       Step in dAEXPN    da/a =   4.0400E-02\n 3.87163E-02       DRho/rho in box    \n 5.12000E+02       Box in  Mpc/h   \n 8.15900E-01       sigma8    \n 6.77397E-01       Hubble    \n 3.08900E-01       Omega Matter\n 6.91100E-01       Omega Lambda\n 2.22990E-02       Omega Baryons or Neutrinos\n  512              NROW  Number Particles   \n 1024              NGRID Number grid points \n    0              Random seed\n 5.00000E-01       Cell Size   \n 8.57091E+10       Particle Mass\n 1.00000E+02       Initial redshift       \n 0.00000E+00       Final redshift       \n 3.00000E+01       Density Threshold for V correction \n 0.00000E+00       rms V correction factor\n   -1              Number of redshifts for analysis (<0: exact)\n  0.00000000E+00\n   10              Number of bias parameters\n 0.00000E+00       Bias\n 0.00000E+00       Bias\n 0.00000E+00       Bias\n 0.00000E+00       Bias\n 0.00000E+00       Bias\n 0.00000E+00       Bias\n 0.00000E+00       Bias\n 0.00000E+00       Bias\n 0.00000E+00       Bias\n 1.00500E+00       Pk tune\n10000              Steps between checkpoints\n    1              Save snapshots           \n    0              DM power spectrum        \n    0              Redshift distortions     \n    0              DM PDF                   \n    0              Biasing model            \n    0              Write Mocks              \n    0              Dump random fraction     \n    1              Find BDM halos           \n !--------------- MG-flag and Multigrid solvers ------------------\n    0              MG flag\n    0              MG test flag\n    3              MG_model\n    1              V-cycle\n    0              F-cycle\n    0              W-cycle\n    2              Maximum number of cycles\n 1.00000E-08       Relaxation convergence criterion\n !-------------- f(R) parameters ------------------\n    1              Hu-Sawicki power: n\n-1.00000E-05       Present value of scalaron field: fR_0\n !--------------- DGP parameters ------------------\n    0              nDGP model\n    0              sDGP model\n 1.00000E+00       DGP parameter: H0rc\n !------------ symmetron parameters ---------------\n 5.00000E-01       symmetron parameter: a_star\n 1.00000E-03       symmetron parameter: xi\n 1.00000E-01       symmetron parameter: beta_star\n !------------ kmouflage parameters ---------------\n    0              power-law type kmouflage model\n    0              Born-Infeld type kmouflage model\n    3              power-law kmouflage parameter: n\n 1.00000E+00       power-law kmouflage parameter: K0\n 1.00000E-01       kmouflage parameter: beta\n !------------ csf model parameters ---------------\n    1              coupled scalar field model coupling type: 1 - exponential, 2 - quadratic\n    1              coupled scalar field model potential type: 1 - inverse power law, 2 - SUGRA\n 1.00000E-01       coupled scalar field model potential parameter\n-2.00000E-01       coupled scalar field model coupling parameter\n",
+  "initial_header": {
+    "scale_factor": 0.009900989942252636,
+    "step": 0,
+    "nrow": 512,
+    "ngrid": 1024,
+    "particles": 134217728
+  },
+  "snapshots": [
+    {
+      "z": 0,
+      "header": {
+        "scale_factor": 1.0,
+        "step": 157,
+        "nrow": 512,
+        "ngrid": 1024,
+        "particles": 134217728
+      },
+      "files_sha256": {
+        "PMcrd.0157.DAT": "7ce3580bafc2765af6952b52d04aa75fca960f25d93bd6266d72bf239a714648",
+        "PMcrs0.0157.DAT": "158511df98e6859e3783d478490ea4d56c4acfa1ad78f018e9119d15e9b6458b"
+      },
+      "catalogue": {
+        "path": "work/pilot/Run1/CATALOGS/CatshortV.0157.0001.DAT",
+        "sha256": "4f042274a341651771545f51bd5eb2b2c895194e6fa7f7ddf180b6f07c154313",
+        "rows": 71587,
+        "nonfinite_by_column": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ],
+  "finished_at_utc": "2026-09-06T12:12:12.479451+00:00"
+}

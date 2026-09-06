@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "consolidated_utc": "2026-09-06T13:18:57.088374+00:00",
+  "scope": "Archived N128 mechanics and focused artificial controls only; no N1024 results or convergence claims",
+  "original_receipts_unchanged": true,
+  "receipts": [
+    {
+      "stage": "initial",
+      "source_commit": "93dc88bf29800602c3786480d84921ab1bd28059",
+      "original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/test-receipt.json",
+      "original_sha256": "8edb7e7fe983be66d5f599713b1356b01464a953c5917e1980622904afac326d",
+      "receipt": {
+        "script_sha256": "31753f7ba7ae1a229473982ae7f0c80639e21a7902ef8aa32ca82d3575ec7f28",
+        "embedded_self_checks": {
+          "passed": true,
+          "checks": [
+            "dense periodic nearest-neighbour oracle",
+            "periodic face",
+            "duplicate-centre ambiguity",
+            "empty counterpart",
+            "invalid position",
+            "minimum-radius cutoff and units",
+            "rightmost mass-bin inclusion",
+            "zero sentinel distinct from invalid",
+            "empty full analysis",
+            "required auxiliary Rmax units",
+            "direct Rmax residual",
+            "published zero-sentinel fraction",
+            "independent repaired axis-order assertion"
+          ]
+        },
+        "archived_n128_counts": {
+          "old": 757,
+          "new": 1215,
+          "matched": 754,
+          "old_unmatched": 3,
+          "new_unmatched": 461
+        },
+        "ordering_diagnostic": {
+          "old": 2,
+          "new": 7,
+          "guard_rejection_checked": true
+        },
+        "additional_checks": [
+          "independent dense N128 periodic distance oracle confirms754 pairs",
+          "direct N128 mass residual calculation",
+          "full-population HMF count conservation",
+          "Rmax unavailable with24 columns",
+          "saved-data replot and hash preservation",
+          "three empty epochs render six PDFs with mathtext fallback"
+        ],
+        "native_latex_pdf_count": 6,
+        "rendered_for_visual_inspection": true,
+        "source_and_historical_receipts_unchanged": true,
+        "elapsed_seconds_final_render_and_checks": 11.670075071044266,
+        "figure_receipt_sha256": "9bcaf0965dea952600f3ac17f1253bd5c5977f94199aed6710f95463033904f6",
+        "visual_inspection": "Six PDFs rendered and inspected; labels and metadata legible; no clipping. Final HMF, matching and quality layouts reinspected after changes.",
+        "cleanup": {
+          "removed_preview_pngs": 6,
+          "removed_temporary_matplotlib_cache_files": 361,
+          "temporary_self_check_replot_empty_layout_directories_auto_removed": true,
+          "preserved": "six PDF figures, input fixture and metadata, plot-ready NPZ, scientific summary and receipts"
+        }
+      },
+      "figure_receipt_original_path": "/tmp/bdm-property-comparison-check-4opt2b9h/figures/comparison-figure-receipt.json",
+      "figure_receipt_original_sha256": "9bcaf0965dea952600f3ac17f1253bd5c5977f94199aed6710f95463033904f6",
+      "figure_receipt": {
+        "summary": "/tmp/bdm-property-comparison-check-4opt2b9h/figures/comparison-summary.json",
+        "summary_sha256": "6ef2782785323e900c50c1f3ce19ce69611e4b6add326b1817fc39e8ae5c30ed",
+        "plot_ready": "/tmp/bdm-property-comparison-check-4opt2b9h/figures/comparison-plot-ready.npz",
+        "plot_ready_sha256": "18b3a313d5093862aa4e5a8626e15b96e03c7cc5fad5fd557aaf1bf3bcedb5e6",
+        "script_sha256": "31753f7ba7ae1a229473982ae7f0c80639e21a7902ef8aa32ca82d3575ec7f28",
+        "tex_enabled": true,
+        "style_sha256": {
+          "house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+          "chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992"
+        },
+        "figures_sha256": {
+          "hmf.pdf": "aec3f33290778d443ae9ead40e3e8a77fcba3db3700a136b59c44358bffa6c09",
+          "matched_primary.pdf": "2a106df68dc2052b65f3e1ee710af6e3416ea694b6ff8c803e13655ecb56003f",
+          "matched_structure.pdf": "dc7976f82d1f5f3abe11d3f4727fb1cb01f69756163b720bf033ab1303b449cb",
+          "matched_total_mass.pdf": "4530641455ecfbd4f5cb84c06a2b0d934dbb5d07856895f2c46a92c4c3834ca0",
+          "matching.pdf": "61ea8e2658571b8a47e55ea6eaa9cacc079c6b42a896e798841a16074984171d",
+          "quality.pdf": "afbbad6ba6be4d79bbff97b3cfbd5007edf9c075df21ce2dbef22b1ac551affc"
+        }
+      }
+    },
+    {
+      "stage": "energy_direction",
+      "source_commit": "f5b09a480848f47afec21a4aee14474baa61b81d",
+      "original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/test-receipt.json",
+      "original_sha256": "008d7033c6f3967b9816c011a6e6c1db621c0ee8497353995e8a7dd946ef334f",
+      "receipt": {
+        "source_sha256": "00fdd0cf9cc7de9df0e93e39bb30ff22a89cc03103c44da02ba070e43361be82",
+        "self_check": {
+          "passed": true,
+          "checks": [
+            "dense periodic nearest-neighbour oracle",
+            "periodic face",
+            "duplicate-centre ambiguity",
+            "empty counterpart",
+            "invalid position",
+            "minimum-radius cutoff and units",
+            "rightmost mass-bin inclusion",
+            "zero sentinel distinct from invalid",
+            "empty full analysis",
+            "required auxiliary Rmax units",
+            "direct Rmax residual",
+            "published zero-sentinel fraction",
+            "independent repaired axis-order assertion",
+            "finite signed virial-ratio domain and subtraction across zero",
+            "normalized sign-flip and orthogonal major axes",
+            "zero/nonfinite direction rejection",
+            "extreme finite direction normalization",
+            "both-side b/a degeneracy-proxy exclusion",
+            "literature reference metadata does not select rows"
+          ]
+        },
+        "previous_arrays_unchanged": 91,
+        "independent_signed_ratio_pairs": 754,
+        "independent_direction_pairs": 692,
+        "maximum_direction_oracle_difference_degrees": 1.4787793334710982e-06,
+        "shape_conditioning_excluded_pairs": 62,
+        "matched_pairs": 754,
+        "published_old_rows": 757,
+        "published_new_rows": 1215,
+        "tex_replot_figures": 7,
+        "empty_three_epoch_layout_figures": 7,
+        "original_figure_hashes_preserved": true,
+        "figure_receipt_sha256": "c6d370ca1ea1582a35903992a6e6010c4d1e5cbb3c6b4a2b45448fc560d343cd",
+        "visual_inspection": "All seven PDFs inspected at slide scale; no overlap or clipped labels",
+        "elapsed_seconds": 10.047040430130437,
+        "cleanup": {
+          "removed_png_previews": 7,
+          "removed_render_cache_files": 389,
+          "preserved_pdfs_arrays_metadata_receipts": true
+        }
+      },
+      "figure_receipt_original_path": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/comparison-figure-receipt.json",
+      "figure_receipt_original_sha256": "c6d370ca1ea1582a35903992a6e6010c4d1e5cbb3c6b4a2b45448fc560d343cd",
+      "figure_receipt": {
+        "summary": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/comparison-summary.json",
+        "summary_sha256": "87f5e1b825cf341cb14f10cf34d425e7527e484c759a53fe179fd07ade4f12b6",
+        "plot_ready": "/tmp/bdm-energy-direction-check-gqc_urzs/figures/comparison-plot-ready.npz",
+        "plot_ready_sha256": "d826df8556f69205d44c8d62efa17661efadaa4ea91fbe7b800954125e4eed98",
+        "script_sha256": "00fdd0cf9cc7de9df0e93e39bb30ff22a89cc03103c44da02ba070e43361be82",
+        "tex_enabled": true,
+        "style_sha256": {
+          "house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+          "chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992"
+        },
+        "figures_sha256": {
+          "hmf.pdf": "71f5a0bcbd7ea12860cce12f3c008ac7de66780084d5a84ce143fd42b2fdf77c",
+          "matched_primary.pdf": "e330c83fb6939bf9a40996af2b7c6f8972f702fd74ff041e7a3c758dc5438f83",
+          "matched_structure.pdf": "9ec89e63db7eb51558f7f877b6d9367edd73566dd39e87e26126bc01272b4053",
+          "matched_total_mass.pdf": "fc95f11d78adcc025448b6857c66937669bf576916b79de09f0d35973cb45c96",
+          "matched_energy_direction.pdf": "d7b4fe27c589c59829c0246ac8575278525556687cd2d896f9a410cda79a7a80",
+          "matching.pdf": "f805ee658542843b7985705669d69b888dd33541dac0161155b2f3538433c492",
+          "quality.pdf": "04a68dc1fb09c2cbab4dc6afabfab86681508f40fdf28d70a327bcc8f8acae5b"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "collected_at_utc": "2026-09-06T12:45:56.487969+00:00",
+  "jobs": {
+    "11948363": {
+      "sacct_command": [
+        "sacct",
+        "-j",
+        "11948363",
+        "--format=JobID,State,ReqTRES,AllocTRES,ElapsedRaw,TotalCPU,MaxRSS,ExitCode",
+        "-P"
+      ],
+      "sacct": "JobID|State|ReqTRES|AllocTRES|ElapsedRaw|TotalCPU|MaxRSS|ExitCode\n11948363|FAILED|billing=32,cpu=32,mem=32G,node=1|billing=32,cpu=32,energy=17213,mem=32G,node=1|37|07:29.214||1:0\n11948363.batch|FAILED||cpu=32,mem=32G,node=1|37|07:29.214|26411664K|1:0\n11948363.extern|COMPLETED||billing=32,cpu=32,mem=32G,node=1|37|00:00:00||0:0\n",
+      "sacct_returncode": 0,
+      "scontrol_command": [
+        "scontrol",
+        "show",
+        "job",
+        "11948363"
+      ],
+      "scontrol": "",
+      "scontrol_stderr": "slurm_load_jobs error: Invalid job id specified\n",
+      "scontrol_returncode": 1
+    },
+    "11948371": {
+      "sacct_command": [
+        "sacct",
+        "-j",
+        "11948371",
+        "--format=JobID,State,ReqTRES,AllocTRES,ElapsedRaw,TotalCPU,MaxRSS,ExitCode",
+        "-P"
+      ],
+      "sacct": "JobID|State|ReqTRES|AllocTRES|ElapsedRaw|TotalCPU|MaxRSS|ExitCode\n11948371|COMPLETED|billing=32,cpu=32,mem=32G,node=1|billing=32,cpu=32,energy=64911,mem=32G,node=1|136|33:47.275||0:0\n11948371.batch|COMPLETED||cpu=32,mem=32G,node=1|136|33:47.275|31325680K|0:0\n11948371.extern|COMPLETED||billing=32,cpu=32,mem=32G,node=1|136|00:00:00||0:0\n",
+      "sacct_returncode": 0,
+      "scontrol_command": [
+        "scontrol",
+        "show",
+        "job",
+        "11948371"
+      ],
+      "scontrol": "",
+      "scontrol_stderr": "slurm_load_jobs error: Invalid job id specified\n",
+      "scontrol_returncode": 1
+    }
+  },
+  "successful_allocation": {
+    "elapsed_seconds": 136,
+    "allocated_cores": 32,
+    "billing_cores": 32,
+    "actual_core_hours": 1.208888888888889,
+    "cpu_seconds": 2027.275,
+    "cpu_core_hours": 0.5631319444444445,
+    "cpu_utilization": 0.4658260569852941,
+    "batch_maxrss_kib": 31325680,
+    "batch_maxrss_gib": 29.874496459960938,
+    "process_maxrss_kib": 20359012,
+    "process_maxrss_gib": 19.41586685180664
+  },
+  "probe_allocations": {
+    "formula": "Extra resident arrays:4*ngrid**3 bytes immutable FI +24*nrow**3 bytes saved particle bits. Normal FI remains separate and BDM deallocates it during halo work. Two density tapes are sequential disk outputs, not two persistent immutable arrays.",
+    "pilot": {
+      "nrow": 512,
+      "ngrid": 1024,
+      "saved_density_bytes": 4294967296,
+      "saved_particle_bits_bytes": 3221225472,
+      "extra_resident_gib": 7,
+      "density_tape_bytes_each": 4294967316
+    },
+    "main": {
+      "nrow": 1024,
+      "ngrid": 2048,
+      "saved_density_bytes": 34359738368,
+      "saved_particle_bits_bytes": 25769803776,
+      "extra_resident_gib": 56,
+      "density_tape_bytes_each": 34359738388,
+      "crude_8x_batch_maxrss_gib": 238.9959716796875,
+      "with_20pct_headroom_gib": 286.795166015625,
+      "root_selected_memory_gib": 288
+    },
+    "limitation": "Batch accounting exceeds process MaxRSS; copied arrays alone do not capture job memory accounting and I/O cache.8x is a sizing extrapolation, not a measured N1024 peak."
+  }
+}

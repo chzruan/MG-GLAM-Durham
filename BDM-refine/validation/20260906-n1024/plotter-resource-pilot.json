@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-09-06T13:21:52.601997+00:00",
+  "scope": "One N512/Ng1024/L512 z=0 resource pilot of matching/statistics plus seven LaTeX PDFs; historical b6 finder data, no main-run validation or convergence claim",
+  "plotter_source_commit": "f5b09a480848f47afec21a4aee14474baa61b81d",
+  "preflight": {
+    "at_utc": "2026-09-06T13:17:41.400517+00:00",
+    "host": "login8b.pri.cosma.local",
+    "load_average": [
+      13.42,
+      9.89,
+      11.01
+    ],
+    "logical_cpus": 128,
+    "memory_available_kib": 902535936,
+    "script_sha256": "00fdd0cf9cc7de9df0e93e39bb30ff22a89cc03103c44da02ba070e43361be82",
+    "metadata_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/BDM-refine/validation/20260906-n1024/plotter-pilot-metadata.json",
+    "metadata_sha256": "30e60b53fd4a4e6e04a657908d8ddd23cb2f5452c54ca74d327de7f26eb1307d",
+    "input_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/pilot-comparison-catalogues.npz",
+    "input_sha256": "78c1dae52f69a27f699dcd8965f7046c05a6ab0e68b7b04e31b0494975b495ed",
+    "input_bytes": 11287853,
+    "scratch": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat"
+  },
+  "execution": {
+    "cwd": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4",
+    "command_from_gnu_time": "Command being timed: \"timeout --signal=TERM --kill-after=10s 180s micromamba run -n cosemu python3 -B BDM-refine/validation/20260906-n1024/compare_properties.py --catalogues /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/pilot-comparison-catalogues.npz --metadata BDM-refine/validation/20260906-n1024/plotter-pilot-metadata.json --outdir .cache/bdm-plotter-resource-pilot-lhf23dat/figures\"",
+    "environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "MPLCONFIGDIR": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat/mpl-cache"
+    },
+    "timeout_seconds": 180,
+    "slurm_job_id": null,
+    "slurm_allocation_and_billing": "Not applicable: explicitly authorized bounded login-node resource pilot after load check",
+    "tex_cache": "Fresh cold cache on shared worktree storage; removed after successful run. Main plot job should use node-local temporary cache.",
+    "input_cache": "Input was read once for SHA256 before the timed run.",
+    "expected_ordered_new": false
+  },
+  "measurements": {
+    "tool": "/usr/bin/time -v",
+    "elapsed_seconds": 118.69,
+    "user_seconds": 41.81,
+    "system_seconds": 16.17,
+    "total_cpu_seconds": 57.98,
+    "maxrss_kib": 194484,
+    "maxrss_mib": 189.92578125,
+    "cpu_utilisation": 0.4884994523548741,
+    "exit_status": 0,
+    "measurement_scope": "Includes micromamba startup and waited LaTeX descendants. MaxRSS is GNU time reporting, not Slurm cgroup peak memory."
+  },
+  "output_counts": {
+    "z0": {
+      "old": 44326,
+      "new": 71587,
+      "matched": 44206
+    }
+  },
+  "valid_property_pairs": {
+    "virial_ratio": 44206,
+    "major_axis_angle_deg": 40673
+  },
+  "checks": {
+    "seven_pdf_headers_and_sha256_verified": true,
+    "summary_plot_ready_and_input_hashes_verified": true,
+    "stderr_empty": true,
+    "actual_pilot_dimensions_and_revisions_preserved": true,
+    "source_unchanged": true
+  },
+  "retained_scratch": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-property-comparison-t8zr2vm4/.cache/bdm-plotter-resource-pilot-lhf23dat",
+  "outputs": {
+    "figures/comparison-figure-receipt.json": {
+      "sha256": "9aea0138abb51a863b07f54828d450ed99e996cfc5abc6279ff476efc5844aa3",
+      "bytes": 1515
+    },
+    "figures/comparison-plot-ready.npz": {
+      "sha256": "37624cf22e41d630940efbd7833ccc902a86541aad3676f2db6b0abfe615c97e",
+      "bytes": 10190265
+    },
+    "figures/comparison-summary.json": {
+      "sha256": "4289e2d2d417110d193a917429816eff2df828ab36bb0e941666aa3c848cbb33",
+      "bytes": 27660
+    },
+    "figures/hmf.pdf": {
+      "sha256": "521c5cbb3afb3e73bb1180264f374d979847280540f34dea5be4d18851abe084",
+      "bytes": 358799
+    },
+    "figures/matched_energy_direction.pdf": {
+      "sha256": "ab1bf50e9a4a5281fbd06c625cfbb768c1e30781fb2547afb8158a02bde9096f",
+      "bytes": 364115
+    },
+    "figures/matched_primary.pdf": {
+      "sha256": "06992acf282b99ea7dfd660f052340e01dc862317928d1cc1bb9fbe6ec520727",
+      "bytes": 369222
+    },
+    "figures/matched_structure.pdf": {
+      "sha256": "2fb89ff454b5e7d4e38254ec597030537a537952166ad5b4173a37df47d76751",
+      "bytes": 333247
+    },
+    "figures/matched_total_mass.pdf": {
+      "sha256": "c1144afe5658ca1073abcbac96dc81aa0b1b1c70a5ce92dbd26264403423200c",
+      "bytes": 297842
+    },
+    "figures/matching.pdf": {
+      "sha256": "fd7f777b35b5717c05049c49c304328488a3383725b9b82d0346485270960cbf",
+      "bytes": 422697
+    },
+    "figures/quality.pdf": {
+      "sha256": "53d971d58137f4cafec55769ab74f08a366b7fb1edc2e4bb07a6f602491f4e43",
+      "bytes": 303638
+    },
+    "preflight.json": {
+      "sha256": "d78a337960bbb7b23f5b9f663511b1da90d933ad70321cf914a82bc7e4b1c5bf",
+      "bytes": 927
+    },
+    "resource-time.txt": {
+      "sha256": "956fa1ed3e7cc98140b88fd219e1f456fd69c976428c8777f55b214ee3b0cd43",
+      "bytes": 1142
+    },
+    "run-stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "run-stdout.log": {
+      "sha256": "89d1b73104d237f0ed80973fa7f6d757b5f87fa1cbee88a1a95d5da82778a3ac",
+      "bytes": 439
+    }
+  },
+  "cleanup": {
+    "removed_render_cache_files": 351,
+    "generated_pdfs_plot_ready_summary_and_logs_preserved": true,
+    "temporary_previews_created": false
+  },
+  "main_resource_context": {
+    "parent_provisional_cpus": 1,
+    "parent_provisional_memory_mib": 2048,
+    "parent_provisional_time_limit_seconds": 600,
+    "memory_to_measured_maxrss_ratio": 10.78315954011641,
+    "limitation": "Headroom planning only; main catalogue sizes and three epochs were not measured in this pilot."
+  }
+}
