@@ -1,0 +1,265 @@
+{
+  "completed": true,
+  "recorded_at_utc": "2026-09-06T17:17:46.958749+00:00",
+  "reviewed_source_commit": "c68c22dfa7e312334d504da6d8efcb8cad7ba7a7",
+  "reviewed_source_sha256": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d",
+  "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+  "submitter_sha256": "597a522ce361fcebd12cec8fdc96d06a74df567e85226d9d138428a96d2eb5fd",
+  "scope": [
+    "run_replays.py and submit_replays.py controlled input/provenance checks",
+    "List z-cache memory admission at default MaxMemory=500",
+    "BdmHaloMembershipInit/ReleaseMaxima telemetry accounting integration"
+  ],
+  "finding": "No blocker found within this review scope.",
+  "source_changes": false,
+  "checks": [
+    "Current four driver tests passed with output redirected to isolated scratch.",
+    "Historical d64 catalogue reference identifies the matching 147042-row control.",
+    "GNU checked extraction includes the actual production Memory routine; cache accepts default and near-limit allocations, rejects insufficient headroom, and releases its charge without changing links.",
+    "Three actual telemetry allocation/reinitialization/release cycles clear counters and restore the original accounting value."
+  ],
+  "commands": [
+    "micromamba run -n cosemu python3 -B <isolated importer invoking current test_driver.main()>",
+    [
+      "gfortran",
+      "-O0",
+      "-g",
+      "-fopenmp",
+      "-ffree-line-length-none",
+      "-fcheck=all",
+      "-ffpe-trap=invalid,zero,overflow",
+      "-ftrapv",
+      "check.f90",
+      "-o",
+      "check"
+    ],
+    "OMP_NUM_THREADS=4 OMP_DYNAMIC=FALSE ./check telemetry",
+    "OMP_NUM_THREADS=4 OMP_DYNAMIC=FALSE ./check cache_default",
+    "OMP_NUM_THREADS=4 OMP_DYNAMIC=FALSE ./check cache_near_limit",
+    "OMP_NUM_THREADS=4 OMP_DYNAMIC=FALSE ./check cache_reject"
+  ],
+  "embedded_original_receipts": {
+    "/tmp/bdm-particles-integrated-review-72jfv8x3/memory-review.json": {
+      "sha256": "1efcf129e4273cb79705b98f3db3ff2cd1c51578ab2df910a1ab5e9f3a7da326",
+      "bytes": 18175,
+      "json": {
+        "source_sha256": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d",
+        "tools_source_sha256": "c40db0bcdf20413878e2fc91262293f47dc322d9ab846ea146fe2b7d12e1e0fb",
+        "generated_sha256": "d6440e20703aca344894839204b76f4a8a21eed1a3caa2cd86ed09c3b37ab5ba",
+        "generated_source": "Module  Structures \n\nInteger*4,  PARAMETER  ::                         & \n                     Nrad     =   200          ! Number of shells for halo potential\nReal*4        ::                    & \n                     dLogR,         &         ! size of log binning for profiles\n                     dLogP,         &         ! size of log binning for potential\n                     MaxMemory=500, &         ! linked-list admission limit in GiB (BDM.config)\n                     MassMin      , &         ! minimum halo mass\n                     SlopeR       , &         ! slope for extra radius for resolution correction\n                     Rext                     ! extra radius shift at M=1e15\nInteger*4  ::                      &\n                     NradP,        &          ! Number of shells for halo profiles\n                     iVirial=1                ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n\nReal*4 ::            TotalMemory=0.2, t0                           ! current memory\nReal*4 ::            Xleft,Xright,Yleft,Yright,Zleft,Zright,dBuffer    ! boundaries of domain\nCharacter*120 ::     CatshortName,CatalogName,    &                ! names of halo catalogs \n                     outputName                                    ! dump file\n! Publish a complete catalogue atomically; an interrupted finder may only leave\n! a hidden staged file, never a partially replaced final catalogue.\ncharacter(256) :: CatalogueFinalPath='',CatalogueStagedPath=''\nlogical :: CataloguePublicationPending=.false.\n\nReal*4     ::        Om0,Ovdens      ! cosmology\nReal*4     ::        MassOne                                 !  current simulation\nInteger*8 ::         Np                                          ! Number of particles in domain\n! Analysis owns a separate particle workspace. These arrays retain the exact\n! simulation state until RemoveBuffer moves it back without inverse arithmetic.\nReal*4, allocatable :: BdmPMX(:),BdmPMY(:),BdmPMZ(:),BdmPMVX(:),BdmPMVY(:),BdmPMVZ(:)\nInteger*8 :: BdmPMCount=0_8\nInteger*8, allocatable :: OriginalParticleId(:) ! snapshot row; shared by periodic images\nReal*4 :: HaloSearchRadius=0.,ParticleSearchRadius=0. ! maximum SO / aperture radii\n                     ! -------------------------  Maxima ----------------------\nInteger*4 ::                     Nmaxima\n! Exact final bound membership is retained until the duplicate pass. IDs refer\n! to original particles, so a periodic image cannot create a different identity.\ntype BdmHaloMembership\n  integer*8, allocatable :: ids(:)\nend type BdmHaloMembership\ntype(BdmHaloMembership), allocatable :: BoundParticleIds(:)\ninteger, parameter :: HaloTooFewParticles=1, HaloSearchTruncated=2, &\n                      HaloUnresolvedVmax=4, HaloNoBoundParticles=8, &\n                      HaloSingularCentre=16\ninteger, allocatable :: HaloStatus(:)\n! Per-candidate work diagnostics do not alter the converged bound population.\n! A pass counts one evaluation of the current potential, drift and energies.\ninteger, allocatable :: HaloUnbindingPasses(:)\ninteger*8, allocatable :: HaloUnbindingWork(:)\nReal*4    ::                     RadMax\nReal*4,        ALLOCATABLE,   DIMENSION(:) ::                        &    ! maxima of density\n                                 Mvir,Rvir,Mtotal,VmaxM,RmaxM,       &\n                                 xMaxx,yMaxx,zMaxx,                     &\n                                 VxMaxx,VyMaxx,VzMaxx,                  &\n                                 Xoff,EpotM,EkinM,LambdaM,           & \n                                 RadRms,Axba,Axca,Xax,Yax,Zax\nInteger*4,   ALLOCATABLE,   DIMENSION(:) ::           & \n                                 LstMax,                             &   ! linker-list of maxima\n                                 MaxIndex,                           &   !  =0 for distinct, =-2 for sub\n                                 IndexDist, IndexLoc                \nReal*4,        ALLOCATABLE,   DIMENSION(:,:) ::                      &    \n                                 MassProf,                           &   ! mass profile\n                                 DensMax,DistSub\n                     ! ------------------------- Halos ----------------------\nInteger*4 ::                     Nhalo\nReal*4,        ALLOCATABLE,   DIMENSION(:,:) ::                      &   \n                                 RadH1,MassH1,VrmsH1,VradH1,VrmsrH1, &\n                                 RadH2,MassH2,VrmsH2,VradH2,VrmsrH2\nInteger*4,     ALLOCATABLE,   DIMENSION(:,:) ::                      &   \n                                 NbinH1,NbinH2\n                     !-------------------------  Main linker-list --------------\nInteger*8,  ALLOCATABLE :: Lst(:)                                   ! Linker list\nInteger*8,  ALLOCATABLE :: Label(:,:,:)                         ! Head of zero-level LL \nInteger*4 ::                    Nmx,Nmy,Nmz,Nbx,Nby,Nbz         ! limits for linker-list\nReal*4    ::                    Cell,Roptimal                   ! Size in Mpch of a linker-list cell\n\nend Module Structures\nmodule Tools\nreal :: Box=32., AEXPN=.8\ninteger :: NGRID=128,NROW=32\ninteger*8 :: Nparticles=0\nreal,allocatable :: Xpar(:),Ypar(:),Zpar(:),VX(:),VY(:),VZ(:)\ncontains\nreal function seconds()\nuse omp_lib, only: omp_get_wtime\nseconds=real(omp_get_wtime())\nend function\nReal*4 Function Memory(i_add)\n!--------------------------------------------\n\n    Real*8, SAVE :: mem =0.001   ! initial memory in Gb\n    Integer*8 :: i_add           ! number of 4byte words\n    Real*8    :: add\n    mem    = mem + i_add*4./1024.**3\n    Memory = mem\n    write(17,'(a,f8.3,a)') ' Current Memory = ',Memory,'Gb'\n  end Function Memory\nend module\nmodule LinkerList\nuse Structures\nuse Tools\ncontains\n\nSUBROUTINE List\n  use omp_lib, only: omp_get_max_threads,omp_get_num_threads,omp_get_thread_num\n  use, intrinsic :: ieee_arithmetic, only: ieee_is_finite\n  implicit none\n  integer*2, allocatable :: zCell16(:)\n  integer*4, allocatable :: zCell32(:)\n  integer*8 :: jp,planeCount,i,j,k,lo,hi,cacheWords\n  integer :: thread,threads\n  real :: timeStart,timeFinish,memoryUsed\n  logical :: compactZ,bufferedCoordinates\n\n  timeStart=seconds()\n  if(.not.ieee_is_finite(Cell).or.Cell<=0..or.Np<0_8)error stop 'Invalid BDM particle list geometry'\n  if(Nmx>Nbx.or.Nmy>Nby.or.Nmz>Nbz)error stop 'Invalid BDM particle list bounds'\n  ! AddBuffer validates originals and restricts image shifts to -1..1. This\n  ! box/cell bound therefore proves the original fast integer conversion safe.\n  ! Direct unbuffered tests/callers use the guarded clamp below instead.\n  bufferedCoordinates=allocated(OriginalParticleId).and.ieee_is_finite(Box)\n  if(bufferedCoordinates)bufferedCoordinates=Box>0..and. &\n    2.d0*dble(Box)<dble(huge(0.)).and.2.d0*dble(Box)/dble(Cell)<dble(huge(0))\n  if(omp_get_max_threads()==1.or.Np<10000_8)then\n    Label=0_8\n    do jp=1,Np\n      if(bufferedCoordinates)then\n        i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)\n        j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)\n        k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)\n      else\n        i=ClampedCell(BdmParticleCoordinate(jp,1)/dble(Cell),Nmx,Nbx)\n        j=ClampedCell(BdmParticleCoordinate(jp,2)/dble(Cell),Nmy,Nby)\n        k=ClampedCell(BdmParticleCoordinate(jp,3)/dble(Cell),Nmz,Nbz)\n      endif\n      Lst(jp)=Label(i,j,k)\n      Label(i,j,k)=jp\n    enddo\n  else\n    planeCount=int(Nbz,8)-int(Nmz,8)+1_8\n    compactZ=Nmz>=-int(huge(0_2),4)-1.and.Nbz<=int(huge(0_2),4)\n    cacheWords=Np\n    if(compactZ)cacheWords=Np/2_8+mod(Np,2_8)\n    if(4.d0*dble(cacheWords)/1024.d0**3+dble(Memory(0_8))>dble(MaxMemory)) &\n      error stop 'BDM z-cell cache exceeds configured memory limit'\n    if(compactZ)then\n      allocate(zCell16(Np))\n    else\n      allocate(zCell32(Np))\n    endif\n    memoryUsed=Memory(cacheWords)\n!$OMP PARALLEL DEFAULT(SHARED) PRIVATE(thread,threads,lo,hi,jp,i,j,k)\n    thread=omp_get_thread_num()\n    threads=omp_get_num_threads()\n    ! Convert each exact periodic z coordinate once. Signed int16 is sufficient\n    ! for ordinary grids; the int32 fallback covers every declared list bound.\n!$OMP DO SCHEDULE(STATIC)\n    do jp=1,Np\n      if(bufferedCoordinates)then\n        k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)\n      else\n        k=ClampedCell(BdmParticleCoordinate(jp,3)/dble(Cell),Nmz,Nbz)\n      endif\n      if(compactZ)then\n        zCell16(jp)=int(k,2)\n      else\n        zCell32(jp)=int(k,4)\n      endif\n    enddo\n!$OMP END DO\n    ! Each cell has one writer. The slab scans keep ascending particle order,\n    ! hence identical descending row-ID links, while reading only cached z cells.\n    ! Int64 bounds also represent empty slabs below the minimum int32 cell.\n    lo=int(Nmz,8)+planeCount*int(thread,8)/int(threads,8)\n    hi=int(Nmz,8)+planeCount*(int(thread,8)+1_8)/int(threads,8)-1_8\n!$OMP DO COLLAPSE(3)\n    do k=int(Nmz,8),int(Nbz,8)\n    do j=int(Nmy,8),int(Nby,8)\n    do i=int(Nmx,8),int(Nbx,8)\n      Label(i,j,k)=0_8\n    enddo\n    enddo\n    enddo\n!$OMP END DO\n    if(lo<=hi)then\n      do jp=1,Np\n        if(compactZ)then\n          k=zCell16(jp)\n        else\n          k=zCell32(jp)\n        endif\n        if(k<lo.or.k>hi)cycle\n        if(bufferedCoordinates)then\n          i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)\n          j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)\n        else\n          i=ClampedCell(BdmParticleCoordinate(jp,1)/dble(Cell),Nmx,Nbx)\n          j=ClampedCell(BdmParticleCoordinate(jp,2)/dble(Cell),Nmy,Nby)\n        endif\n        Lst(jp)=Label(i,j,k)\n        Label(i,j,k)=jp\n      enddo\n    endif\n!$OMP END PARALLEL\n    if(allocated(zCell16))deallocate(zCell16)\n    if(allocated(zCell32))deallocate(zCell32)\n    memoryUsed=Memory(-cacheWords)\n  endif\n  timeFinish=seconds()\n  write(*,*) ' time to make list =',timeFinish-timeStart\ncontains\n  integer*8 function ClampedCell(scaled,lower,upper) result(index)\n    real*8, intent(in) :: scaled\n    integer*4, intent(in) :: lower,upper\n    if(.not.ieee_is_finite(scaled))error stop 'Nonfinite BDM particle cell coordinate'\n    ! In an interior cell lower+1 < scaled <= upper proves that the ordinary\n    ! ceiling and subtraction fit int32, even at the declared bound extrema.\n    if(scaled<=dble(lower)+1.d0)then\n      index=int(lower,8)\n    else if(scaled>dble(upper))then\n      index=int(upper,8)\n    else\n      index=int(ceiling(scaled)-1,8)\n    endif\n  end function ClampedCell\nend SUBROUTINE List\n\n      SUBROUTINE BdmHaloMembershipInit\n        implicit none\n        real :: memoryUsed\n        ! Called before the production parallel loop, or from a direct fixture.\n!$OMP CRITICAL (bdm_halo_membership_init)\n        if(allocated(BoundParticleIds)) deallocate(BoundParticleIds)\n        if(allocated(HaloStatus)) deallocate(HaloStatus)\n        if(allocated(HaloUnbindingPasses))then\n          memoryUsed=Memory(-1_8*size(HaloUnbindingPasses,kind=8))\n          deallocate(HaloUnbindingPasses)\n        endif\n        if(allocated(HaloUnbindingWork))then\n          memoryUsed=Memory(-2_8*size(HaloUnbindingWork,kind=8))\n          deallocate(HaloUnbindingWork)\n        endif\n        allocate(BoundParticleIds(Nmaxima),HaloStatus(Nmaxima))\n        allocate(HaloUnbindingPasses(Nmaxima),HaloUnbindingWork(Nmaxima))\n        memoryUsed=Memory(3_8*Nmaxima)\n        HaloStatus=0\n        HaloUnbindingPasses=0\n        HaloUnbindingWork=0_8\n!$OMP END CRITICAL (bdm_halo_membership_init)\n      end SUBROUTINE BdmHaloMembershipInit\n\n      SUBROUTINE ReleaseMaxima\n      implicit none\n      real :: released\n      DEALLOCATE(Mvir,Rvir,Xoff,xMaxx,yMaxx,zMaxx,VxMaxx,VyMaxx,VzMaxx)\n      DEALLOCATE(LstMax,EpotM,EkinM,LambdaM,VmaxM,RmaxM,Mtotal,RadRms)\n      DEALLOCATE(Xax,Yax,Zax,Axba,Axca)\n      if(allocated(BoundParticleIds))deallocate(BoundParticleIds)\n      if(allocated(HaloStatus))deallocate(HaloStatus)\n      if(allocated(HaloUnbindingPasses))then\n        released=Memory(-1_8*size(HaloUnbindingPasses,kind=8))\n        deallocate(HaloUnbindingPasses)\n      endif\n      if(allocated(HaloUnbindingWork))then\n        released=Memory(-2_8*size(HaloUnbindingWork,kind=8))\n        deallocate(HaloUnbindingWork)\n      endif\n      released=Memory(-22_8*Nmaxima)\n      end SUBROUTINE ReleaseMaxima\n      pure real*8 function BdmParticleCoordinate(row,component) result(coordinate)\n        implicit none\n        integer*8, intent(in) :: row\n        integer, intent(in) :: component\n        integer*8 :: original\n        real*8 :: stored,base\n        original=row\n        if(allocated(OriginalParticleId)) original=OriginalParticleId(row)\n        select case(component)\n        case(1)\n          stored=dble(Xpar(row)); base=dble(Xpar(original))\n        case(2)\n          stored=dble(Ypar(row)); base=dble(Ypar(original))\n        case(3)\n          stored=dble(Zpar(row)); base=dble(Zpar(original))\n        case default\n          coordinate=0.d0\n          return\n        end select\n        coordinate=stored\n        ! Original rows already store the exact analysis coordinate; only a\n        ! periodic image needs an integer shift reconstructed in float64.\n        if(original==row)return\n        if(allocated(OriginalParticleId)) &\n          coordinate=base+dble(nint((stored-base)/dble(Box)))*dble(Box)\n      end function BdmParticleCoordinate\nend module\nprogram check\nuse LinkerList\nimplicit none\nreal :: baseline,measured,tmp\ninteger :: i\ncharacter(24) :: mode\ncall get_command_argument(1,mode)\nif(MaxMemory/=500.)error stop 'wrong memory default'\nif(trim(mode)=='telemetry')then\n  baseline=Memory(0_8)\n  do i=1,3\n    Nmaxima=5\n    allocate(Mvir(5),Rvir(5),Xoff(5),xMaxx(5),yMaxx(5),zMaxx(5),VxMaxx(5),VyMaxx(5),VzMaxx(5))\n    allocate(LstMax(5),EpotM(5),EkinM(5),LambdaM(5),VmaxM(5),RmaxM(5),Mtotal(5),RadRms(5))\n    allocate(Xax(5),Yax(5),Zax(5),Axba(5),Axca(5))\n    tmp=Memory(22_8*Nmaxima)\n    call BdmHaloMembershipInit\n    measured=Memory(0_8)\n    if(abs(dble(measured-baseline)-100.d0*Nmaxima/1024.d0**3)>2.d-10)error stop 'telemetry allocation accounting'\n    if(any(HaloUnbindingPasses/=0).or.any(HaloUnbindingWork/=0_8))error stop 'telemetry initial state'\n    HaloUnbindingPasses=2;HaloUnbindingWork=20_8\n    call BdmHaloMembershipInit\n    tmp=Memory(0_8)\n    if(tmp/=measured.or.any(HaloUnbindingPasses/=0).or.any(HaloUnbindingWork/=0_8))error stop 'telemetry reinit'\n    call ReleaseMaxima\n    measured=Memory(0_8)\n    if(abs(measured-baseline)>2.e-10.or.allocated(HaloUnbindingPasses).or.allocated(HaloUnbindingWork)) &\n      error stop 'telemetry release accounting'\n  enddo\n  print *, 'INTEGRATED_PASS telemetry',baseline,measured\nelse\n  Np=32769_8;Nparticles=Np;Cell=1.;Box=32.\n  Nmx=0;Nmy=0;Nmz=0;Nbx=0;Nby=0;Nbz=0\n  allocate(Xpar(Np),Ypar(Np),Zpar(Np),Lst(Np),Label(0:0,0:0,0:0))\n  Xpar=.5;Ypar=.5;Zpar=.5\n  if(trim(mode)=='cache_reject')then\n    tmp=Memory(500_8*1024_8**3/4_8)\n  else if(trim(mode)=='cache_near_limit')then\n    tmp=Memory(500_8*1024_8**3/4_8-1024_8**2)\n  endif\n  baseline=Memory(0_8)\n  call List\n  if(trim(mode)=='cache_reject')error stop 'missing cache rejection'\n  measured=Memory(0_8)\n  if(measured/=baseline)error stop 'cache memory not released'\n  if(Label(0,0,0)/=Np.or.Lst(1)/=0_8)error stop 'wrong linked head'\n  do i=2,int(Np)\n    if(Lst(i)/=i-1)error stop 'changed link order'\n  enddo\n  print *, 'INTEGRATED_PASS cache',baseline,measured\nendif\nend program\n",
+        "compiler_command": [
+          "gfortran",
+          "-O0",
+          "-g",
+          "-fopenmp",
+          "-ffree-line-length-none",
+          "-fcheck=all",
+          "-ffpe-trap=invalid,zero,overflow",
+          "-ftrapv",
+          "check.f90",
+          "-o",
+          "check"
+        ],
+        "controls": [
+          {
+            "mode": "telemetry",
+            "returncode": 0,
+            "stdout": " INTEGRATED_PASS telemetry   1.00000005E-03   1.00000005E-03\n",
+            "stderr": ""
+          },
+          {
+            "mode": "cache_default",
+            "returncode": 0,
+            "stdout": "  time to make list =   0.00000000    \n INTEGRATED_PASS cache   1.00000005E-03   1.00000005E-03\n",
+            "stderr": ""
+          },
+          {
+            "mode": "cache_near_limit",
+            "returncode": 0,
+            "stdout": "  time to make list =   0.00000000    \n INTEGRATED_PASS cache   499.997101       499.997101    \n",
+            "stderr": ""
+          },
+          {
+            "mode": "cache_reject",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM z-cell cache exceeds configured memory limit\n\nError termination. Backtrace:\n#0  0x405636 in __linkerlist_MOD_list\n\tat /tmp/bdm-particles-integrated-review-72jfv8x3/native-mdr2slm4/check.f90:145\n#1  0x40835a in check\n\tat /tmp/bdm-particles-integrated-review-72jfv8x3/native-mdr2slm4/check.f90:338\n#2  0x4087ef in main\n\tat /tmp/bdm-particles-integrated-review-72jfv8x3/native-mdr2slm4/check.f90:298\n"
+          }
+        ],
+        "historical_z0_counts": {
+          "original": 1073741824,
+          "buffered": 1173652721,
+          "maxima": 794570
+        },
+        "list_memory_estimate": {
+          "cell_bounds": [
+            -17,
+            1041
+          ],
+          "accounted_components_bytes": {
+            "original_pm_bytes": 25769803776,
+            "buffer_and_ids_bytes": 37556887072,
+            "linked_rows_bytes": 9389221768,
+            "label_bytes": 9501187032,
+            "maxima_bytes": 69922160,
+            "z_cache_bytes": 2347305442
+          },
+          "sum_gib": 78.82185955531895,
+          "default_admission_limit_gib": 500.0,
+          "z_cache_gib": 2.1860985476523638,
+          "telemetry_allocated_later_bytes": 9534840,
+          "scope": "Arithmetic bookkeeping estimate; excludes untracked replay wrappers and general heap/allocator overhead, so not an RSS cap."
+        }
+      }
+    },
+    "/tmp/bdm-particles-integrated-review-72jfv8x3/repo/BDM-refine/repairs/20260906-review-followup/native/driver-preflight.json": {
+      "sha256": "dc58687f0e92de0bcf5e0e0b570d1ce01ea03e07a26b159c483a8b15d46d8efb",
+      "bytes": 2051,
+      "json": {
+        "completed": true,
+        "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+        "test_sha256": "2ad3604555d4cfc1e4298e0da9ff85e3aece5194076714330e2ba99db2501b24",
+        "checks": [
+          "big-endian diagnostic layout/histogram/work/selection decode",
+          "density dimensions and initial hash",
+          "mandatory uncached final hash rejects changed same-size density",
+          "outer timing excludes the duplicate internal ParametersDistinct label"
+        ],
+        "metadata_cache_limitation": "Timestamp metadata alone can miss rapid same-size changes; the final uncached hash is required.",
+        "diagnostic_fixture": {
+          "candidates": 4,
+          "evaluated_candidates": 3,
+          "max_passes": 91,
+          "active_particle_rows": 10150,
+          "candidates_over_32": 1,
+          "work_over_32": 10010,
+          "selected_over_32": 0,
+          "selected_max_passes": 3,
+          "max_retained_bound_count": 40,
+          "pass_histogram": {
+            "0": 1,
+            "1": 1,
+            "3": 1,
+            "91": 1
+          },
+          "active_pass_percentiles": {
+            "50": 3.0,
+            "90": 73.4,
+            "95": 82.19999999999999,
+            "99": 89.24,
+            "99.9": 90.82400000000001,
+            "100": 91.0
+          },
+          "largest_work": [
+            {
+              "candidate": 4,
+              "passes": 91,
+              "active_particle_rows": 10010,
+              "retained_bound_count": 20,
+              "post_selection_mass": 0.0,
+              "status": 0
+            },
+            {
+              "candidate": 3,
+              "passes": 3,
+              "active_particle_rows": 100,
+              "retained_bound_count": 30,
+              "post_selection_mass": 3000000053248.0,
+              "status": 0
+            },
+            {
+              "candidate": 2,
+              "passes": 1,
+              "active_particle_rows": 40,
+              "retained_bound_count": 40,
+              "post_selection_mass": 3999999983616.0,
+              "status": 0
+            },
+            {
+              "candidate": 1,
+              "passes": 0,
+              "active_particle_rows": 0,
+              "retained_bound_count": 0,
+              "post_selection_mass": 0.0,
+              "status": 1
+            }
+          ],
+          "sha256": "0cc360910680ef0883110a17381c1e23892edef6a8492ec117529388121fd78b"
+        }
+      }
+    },
+    "/tmp/bdm-particles-integrated-review-72jfv8x3/review-context.json": {
+      "sha256": "530491b35db6c6acc67f39628715c855e83471666616aa3254f8e924f50780c0",
+      "bytes": 2460,
+      "json": {
+        "scratch": "/tmp/bdm-particles-integrated-review-72jfv8x3",
+        "git": "c68c22dfa7e312334d504da6d8efcb8cad7ba7a7",
+        "source_sha256": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d",
+        "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+        "submitter_sha256": "597a522ce361fcebd12cec8fdc96d06a74df567e85226d9d138428a96d2eb5fd",
+        "historical_control": {
+          "first": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64-t32-p1.DAT",
+          "second": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64-t64-p2.DAT",
+          "first_sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+          "second_sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f",
+          "first_rows": 147042,
+          "second_rows": 147042,
+          "byte_identical": true,
+          "changed_rows": 0,
+          "row_alignment": "published row order; candidate identity across distinct density fields is not assumed",
+          "rows": [],
+          "max_absolute_difference_by_column": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "masses_counts_velocities_identical": true
+        },
+        "density_tape_metadata": {
+          "d64.density.bin": {
+            "bytes": 34359738388,
+            "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d64.density.bin",
+            "sha256": "c713aa5addbc5f8070fc4c6e13c16af2ce8a776c58db7fd4eb042e72627f684b"
+          },
+          "d32.density.bin": {
+            "bytes": 34359738388,
+            "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-large-threading-20260906/BDM-refine/validation/20260906-n1024/main-thread-control/work/run/d32.density.bin",
+            "sha256": "095c002544d007df730c3e6b8452868643ca7ff4ab2866a875f88f02e9a70f21"
+          }
+        },
+        "driver_checks": [
+          "big-endian diagnostic layout/histogram/work/selection decode",
+          "density dimensions and initial hash",
+          "mandatory uncached final hash rejects changed same-size density",
+          "outer timing excludes the duplicate internal ParametersDistinct label"
+        ]
+      }
+    }
+  },
+  "limitations": [
+    "The ~78.822 GiB list-stage sum is arithmetic accounting, not a measurement or complete RSS cap; replay wrapper copies and allocator costs are additional.",
+    "N1024 native comparisons and memory/RSS measurements are coordinated by the parent agent; no large replay was run in this review.",
+    "The interpreted replay driver is reviewed at the exact recorded SHA; subsequent edits require separate checks."
+  ]
+}
