@@ -1,0 +1,50 @@
+{
+  "command": [
+    "sacct",
+    "-j",
+    "11949318",
+    "--format=JobID,State,Partition,ElapsedRaw,TotalCPU,ReqTRES%100,AllocTRES%100,MaxRSS,ExitCode",
+    "--parsable2"
+  ],
+  "rows": [
+    {
+      "JobID": "11949318",
+      "State": "COMPLETED",
+      "Partition": "cosma8-serial",
+      "ElapsedRaw": "80",
+      "TotalCPU": "01:03.297",
+      "ReqTRES": "billing=1,cpu=1,mem=4G,node=1",
+      "AllocTRES": "billing=1,cpu=1,energy=45745,mem=4G,node=1",
+      "MaxRSS": "",
+      "ExitCode": "0:0"
+    },
+    {
+      "JobID": "11949318.batch",
+      "State": "COMPLETED",
+      "Partition": "",
+      "ElapsedRaw": "80",
+      "TotalCPU": "01:03.297",
+      "ReqTRES": "",
+      "AllocTRES": "cpu=1,mem=4G,node=1",
+      "MaxRSS": "4181824K",
+      "ExitCode": "0:0"
+    },
+    {
+      "JobID": "11949318.extern",
+      "State": "COMPLETED",
+      "Partition": "",
+      "ElapsedRaw": "80",
+      "TotalCPU": "00:00:00",
+      "ReqTRES": "",
+      "AllocTRES": "billing=1,cpu=1,mem=4G,node=1",
+      "MaxRSS": "",
+      "ExitCode": "0:0"
+    }
+  ],
+  "scontrol": "JobId=11949318 JobName=bdm-host-positive UserId=dc-ruan1(21209) GroupId=durham(64528) MCS_label=N/A Priority=18206 Nice=0 Account=dp004 QOS=normal JobState=COMPLETED Reason=None Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:01:20 TimeLimit=00:10:00 TimeMin=N/A SubmitTime=2026-09-06T17:46:53 EligibleTime=2026-09-06T17:46:53 AccrueTime=2026-09-06T17:46:53 StartTime=2026-09-06T17:47:11 EndTime=2026-09-06T17:48:31 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-06T17:47:11 Scheduler=Backfill Partition=cosma8-serial AllocNode:Sid=login8b.pri.cosma.local:1400958 ReqNodeList=(null) ExcNodeList=(null) NodeList=m8422 BatchHost=m8422 NumNodes=1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=1,mem=4G,node=1,billing=1 AllocTRES=cpu=1,mem=4G,energy=45745,node=1,billing=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=1 MinMemoryNode=4G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-host-control/control.sbatch SubmitLine=sbatch --parsable --export=ALL,BDM_REVIEW_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-host-control/control.sbatch /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-host-control/check_positive.py WorkDir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM StdErr= StdIn=/dev/null StdOut=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/host-control-11949318.log TresPerTask=cpu=1\n",
+  "scontrol_returncode": 0,
+  "charged_core_hours": 0.022222222222222223,
+  "time_limit_core_hours": 0.16666666666666666,
+  "cpu_efficiency": 0.7912125,
+  "memory_note": "Slurm batch MaxRSS 4181824 KiB, process self-report 455556 KiB. Their difference was not measured. The 4 GiB request sufficed but near-limit Slurm accounting argues for 6 GiB if repeated."
+}

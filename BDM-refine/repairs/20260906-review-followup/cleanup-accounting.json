@@ -1,0 +1,85 @@
+{
+  "collected_at_utc": "2026-09-06T18:03:53.421280+00:00",
+  "collector_sha256": "494ee9963ace293fb662e2313b1fabce67f3ded29682b0b5b0f01fefb3c3533d",
+  "command": [
+    "sacct",
+    "-j",
+    "11949711",
+    "--format=JobID,JobName%35,State,Partition,ElapsedRaw,TimelimitRaw,TotalCPU,ReqTRES%100,AllocTRES%100,MaxRSS,ExitCode",
+    "--parsable2"
+  ],
+  "raw_rows": [
+    {
+      "JobID": "11949711",
+      "JobName": "bdm-v3-archive",
+      "State": "COMPLETED",
+      "Partition": "cosma8-serial",
+      "ElapsedRaw": "65",
+      "TimelimitRaw": "10",
+      "TotalCPU": "00:55.666",
+      "ReqTRES": "billing=1,cpu=1,mem=4G,node=1",
+      "AllocTRES": "billing=1,cpu=1,energy=37457,mem=4G,node=1",
+      "MaxRSS": "",
+      "ExitCode": "0:0"
+    },
+    {
+      "JobID": "11949711.batch",
+      "JobName": "batch",
+      "State": "COMPLETED",
+      "Partition": "",
+      "ElapsedRaw": "65",
+      "TimelimitRaw": "",
+      "TotalCPU": "00:55.666",
+      "ReqTRES": "",
+      "AllocTRES": "cpu=1,mem=4G,node=1",
+      "MaxRSS": "1247640K",
+      "ExitCode": "0:0"
+    },
+    {
+      "JobID": "11949711.extern",
+      "JobName": "extern",
+      "State": "COMPLETED",
+      "Partition": "",
+      "ElapsedRaw": "65",
+      "TimelimitRaw": "",
+      "TotalCPU": "00:00:00",
+      "ReqTRES": "",
+      "AllocTRES": "billing=1,cpu=1,mem=4G,node=1",
+      "MaxRSS": "",
+      "ExitCode": "0:0"
+    }
+  ],
+  "jobs": {
+    "11949711": {
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "partition": "cosma8-serial",
+      "requested": {
+        "billing": "1",
+        "cpu": "1",
+        "mem": "4G",
+        "node": "1"
+      },
+      "allocated": {
+        "billing": "1",
+        "cpu": "1",
+        "energy": "37457",
+        "mem": "4G",
+        "node": "1"
+      },
+      "batch_maxrss": "1247640K",
+      "elapsed_seconds": 65,
+      "total_cpu_seconds": 55.666,
+      "cpu_efficiency": 0.8563999999999999,
+      "allocated_core_hours": 0.018055555555555554,
+      "billed_core_hours": 0.018055555555555554,
+      "time_limit_core_hours": 0.16666666666666666,
+      "scontrol": "JobId=11949711 JobName=bdm-v3-archive UserId=dc-ruan1(21209) GroupId=durham(64528) MCS_label=N/A Priority=18084 Nice=0 Account=dp004 QOS=normal JobState=COMPLETED Reason=None Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:01:05 TimeLimit=00:10:00 TimeMin=N/A SubmitTime=2026-09-06T19:01:22 EligibleTime=2026-09-06T19:01:22 AccrueTime=2026-09-06T19:01:22 StartTime=2026-09-06T19:01:28 EndTime=2026-09-06T19:02:33 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-06T19:01:28 Scheduler=Backfill Partition=cosma8-serial AllocNode:Sid=login8b.pri.cosma.local:1592288 ReqNodeList=(null) ExcNodeList=(null) NodeList=m8422 BatchHost=m8422 NumNodes=1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=1,mem=4G,node=1,billing=1 AllocTRES=cpu=1,mem=4G,energy=37457,node=1,billing=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=1 MinMemoryNode=4G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-archive/archive.sbatch SubmitLine=sbatch --parsable --partition=cosma8-serial --account=dp004 --nodes=1 --ntasks=1 --cpus-per-task=1 --mem=4G --time=00:10:00 --job-name=bdm-v3-archive --chdir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM --output=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/archive-%j.log --error=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/archive-%j.log --export=ALL,BDM_REVIEW_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-archive/archive.sbatch /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-archive/archive_work.py WorkDir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM StdErr=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/archive-11949711.log StdIn=/dev/null StdOut=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/archive-11949711.log TresPerTask=cpu=1\n",
+      "scontrol_returncode": 0
+    }
+  },
+  "all_completed": true,
+  "allocated_core_hours": 0.018055555555555554,
+  "billed_core_hours": 0.018055555555555554,
+  "time_limit_core_hours": 0.16666666666666666
+}

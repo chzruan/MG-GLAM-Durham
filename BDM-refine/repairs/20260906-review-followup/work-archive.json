@@ -1,0 +1,4714 @@
+{
+  "completed": true,
+  "job_id": "11949711",
+  "started_at_utc": "2026-09-06T18:01:38.017426+00:00",
+  "archiver_sha256": "5c6a8541cfbee7c9810ceda8ef88b9e62ce766be997740d5e94094ea8e6ee57d",
+  "helper_sha256": "896982f7ea2745e6960fe5fd59927c0ca2972a218cbc44e4fd9af1337b66db09",
+  "manifest": {
+    "schema_version": 1,
+    "original_root": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup",
+    "prefixes": [
+      "work"
+    ],
+    "archived": {
+      "work/analysis-11949535.log": {
+        "bytes": 191,
+        "mode": 420,
+        "mtime_ns": 1788717548000000000,
+        "device": 56918434,
+        "inode": 198160015557657025,
+        "kind": "file",
+        "sha256": "7df41796e61fb8ada45b12a26b138e72f250c0e24b6b5f3638984a9d00e037ae"
+      },
+      "work/host-control-11949318.log": {
+        "bytes": 277,
+        "mode": 420,
+        "mtime_ns": 1788713311000000000,
+        "device": 56918434,
+        "inode": 198160015188585834,
+        "kind": "file",
+        "sha256": "5b99e1d3230fa93655a385a1030994f9d92adf13eabd15f054bf877202ee1863"
+      },
+      "work/launch-analysis/analysis.sbatch": {
+        "bytes": 149,
+        "mode": 420,
+        "mtime_ns": 1788716367000000000,
+        "device": 56918434,
+        "inode": 198160013510950154,
+        "kind": "file",
+        "sha256": "ed1a22574990ebdbc4b8e796ce65243db2d07cb4c327bbac20c586c5f6ec315b"
+      },
+      "work/launch-analysis/analyze_replays.py": {
+        "bytes": 10338,
+        "mode": 420,
+        "mtime_ns": 1788716264000000000,
+        "device": 56918434,
+        "inode": 198160013510950152,
+        "kind": "file",
+        "sha256": "26c820d43e687e61fe6c42325a3ed915ce66585af9f57f81d71f2c90a7dad561"
+      },
+      "work/launch-analysis/run_replays.py": {
+        "bytes": 14334,
+        "mode": 420,
+        "mtime_ns": 1788714527000000000,
+        "device": 56918434,
+        "inode": 198160013510950153,
+        "kind": "file",
+        "sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d"
+      },
+      "work/launch-archive/archive.sbatch": {
+        "bytes": 149,
+        "mode": 420,
+        "mtime_ns": 1788717640000000000,
+        "device": 56918434,
+        "inode": 198160013510950231,
+        "kind": "file",
+        "sha256": "ed1a22574990ebdbc4b8e796ce65243db2d07cb4c327bbac20c586c5f6ec315b"
+      },
+      "work/launch-archive/archive_work.py": {
+        "bytes": 8475,
+        "mode": 420,
+        "mtime_ns": 1788715963000000000,
+        "device": 56918434,
+        "inode": 198160013510950230,
+        "kind": "file",
+        "sha256": "5c6a8541cfbee7c9810ceda8ef88b9e62ce766be997740d5e94094ea8e6ee57d"
+      },
+      "work/launch-host-control/check_positive.py": {
+        "bytes": 8682,
+        "mode": 420,
+        "mtime_ns": 1788713106000000000,
+        "device": 56918434,
+        "inode": 198160013510948697,
+        "kind": "file",
+        "sha256": "4ccb6cb130fddcfa95e25a7cc6150309565664b588015910e324511e19c690fd"
+      },
+      "work/launch-host-control/control.sbatch": {
+        "bytes": 477,
+        "mode": 420,
+        "mtime_ns": 1788713212000000000,
+        "device": 56918434,
+        "inode": 198160013510948704,
+        "kind": "file",
+        "sha256": "846098ab2b0c42e8c74b415ccfa1791e6e0fd735b0659545cfce358a89ea65a5"
+      },
+      "work/launch-native/replays.sbatch": {
+        "bytes": 516,
+        "mode": 420,
+        "mtime_ns": 1788714168000000000,
+        "device": 56918434,
+        "inode": 198160013510950080,
+        "kind": "file",
+        "sha256": "4e4d4fd84f9af722b5c4531df6c9b662ddee24252dce742240f8c01af52bef5c"
+      },
+      "work/launch-native/run_replays.py": {
+        "bytes": 14334,
+        "mode": 420,
+        "mtime_ns": 1788714527000000000,
+        "device": 56918434,
+        "inode": 198160013510950079,
+        "kind": "file",
+        "sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d"
+      },
+      "work/native-build/diagnostics.f90": {
+        "bytes": 4173,
+        "mode": 420,
+        "mtime_ns": 1788714201000000000,
+        "device": 56918434,
+        "inode": 198160013510949509,
+        "kind": "file",
+        "sha256": "33f06021eb69a67e81036d5843fc026d337f4fff963f31338a19e666363b24e7"
+      },
+      "work/native-build/optimized-v2/analyze.mod": {
+        "bytes": 895,
+        "mode": 420,
+        "mtime_ns": 1788714752000000000,
+        "device": 56918434,
+        "inode": 198160013510949606,
+        "kind": "file",
+        "sha256": "0b8a3a17e45beddc01d1109acbb13685997e25f96ab6b44c0034320b6069a046"
+      },
+      "work/native-build/optimized-v2/bdmduplicaterules.mod": {
+        "bytes": 2239,
+        "mode": 420,
+        "mtime_ns": 1788714769000000000,
+        "device": 56918434,
+        "inode": 198160013510949616,
+        "kind": "file",
+        "sha256": "459dcec5a706edbf2829791532344deb93444bee13aabbb197ae23069d9ad3d2"
+      },
+      "work/native-build/optimized-v2/bdmreplaycontrol.mod": {
+        "bytes": 19644,
+        "mode": 420,
+        "mtime_ns": 1788714772000000000,
+        "device": 56918434,
+        "inode": 198160013510949621,
+        "kind": "file",
+        "sha256": "99493d33832942b1dfd2cfa07f0c796d325ee9fe7b101ab1990171614074c475"
+      },
+      "work/native-build/optimized-v2/density.mod": {
+        "bytes": 8417,
+        "mode": 420,
+        "mtime_ns": 1788714747000000000,
+        "device": 56918434,
+        "inode": 198160013510949605,
+        "kind": "file",
+        "sha256": "af857218a8d2dc03dcd794e1b3460d5ea4d6d318cc6ec2eb38531244fcb86532"
+      },
+      "work/native-build/optimized-v2/extradofbackgrounddata.mod": {
+        "bytes": 5887,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949603,
+        "kind": "file",
+        "sha256": "09ff56039bfe1e0f8b96fdb4ed1a03ccb800adb4eed9f850e1f9a7915192750f"
+      },
+      "work/native-build/optimized-v2/fft5.mod": {
+        "bytes": 31680,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949607,
+        "kind": "file",
+        "sha256": "8c7e1f631ad523ffbf2ce58da4920cc558143f073d89e477dfd8f48fa97ea28d"
+      },
+      "work/native-build/optimized-v2/finder-original.f90": {
+        "bytes": 95341,
+        "mode": 420,
+        "mtime_ns": 1788714769000000000,
+        "device": 56918434,
+        "inode": 198160013510949611,
+        "kind": "file",
+        "sha256": "15a7c3c0fe2992fa0eb993608cf6459ea7b12e43cd0ac76db1f0e30f7b5cdf93"
+      },
+      "work/native-build/optimized-v2/finder.f90": {
+        "bytes": 99690,
+        "mode": 420,
+        "mtime_ns": 1788714769000000000,
+        "device": 56918434,
+        "inode": 198160013510949612,
+        "kind": "file",
+        "sha256": "c7473858265f74b5a3e10fc86a77a4c9eb047bcc59f58e668e5058c367ffe576"
+      },
+      "work/native-build/optimized-v2/finder.o": {
+        "bytes": 406256,
+        "mode": 420,
+        "mtime_ns": 1788714772000000000,
+        "device": 56918434,
+        "inode": 198160013510949619,
+        "kind": "file",
+        "sha256": "491f7de8adcc97684176706693fe696ef6f34aa9c3114d5a9ec61cab71936796"
+      },
+      "work/native-build/optimized-v2/linkerlist.mod": {
+        "bytes": 31948,
+        "mode": 420,
+        "mtime_ns": 1788714770000000000,
+        "device": 56918434,
+        "inode": 198160013510949618,
+        "kind": "file",
+        "sha256": "938fcce0525c30b45487a5cf60b97ed46ea2e4de95807dce806098bd5bdde66b"
+      },
+      "work/native-build/optimized-v2/luxury.mod": {
+        "bytes": 1605,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949604,
+        "kind": "file",
+        "sha256": "60ebaac9a0485b7c160883c1f537f0dbbb5034d7159df7ca8713748514e2efa9"
+      },
+      "work/native-build/optimized-v2/power.mod": {
+        "bytes": 6209,
+        "mode": 420,
+        "mtime_ns": 1788714748000000000,
+        "device": 56918434,
+        "inode": 198160013510949610,
+        "kind": "file",
+        "sha256": "4dc78d8220d453a1583f54c8371401ab89212d8fa30df67df37e3ef70d84ba4d"
+      },
+      "work/native-build/optimized-v2/publication-preflight.exe": {
+        "bytes": 1205296,
+        "mode": 493,
+        "mtime_ns": 1788714773000000000,
+        "device": 56918434,
+        "inode": 198160013510949627,
+        "kind": "file",
+        "sha256": "c61c2c912bab15665f942827c824a5b0e6ee501237212da55e6f56675efb5c35"
+      },
+      "work/native-build/optimized-v2/publication_preflight.f90": {
+        "bytes": 2289,
+        "mode": 420,
+        "mtime_ns": 1788714614000000000,
+        "device": 56918434,
+        "inode": 198160013510949615,
+        "kind": "file",
+        "sha256": "711bd48a5733ef06e6ab296b4f1fcaaa4652c53479d05eef2fb1fa6284e218b0"
+      },
+      "work/native-build/optimized-v2/random.mod": {
+        "bytes": 12418,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949608,
+        "kind": "file",
+        "sha256": "6a9ddf9306b2f9996de294020527ad804d8dc58114ced7c68c29ecb653896ab4"
+      },
+      "work/native-build/optimized-v2/replay.exe": {
+        "bytes": 1199024,
+        "mode": 493,
+        "mtime_ns": 1788714773000000000,
+        "device": 56918434,
+        "inode": 198160013510949625,
+        "kind": "file",
+        "sha256": "73711010b4cfc5358a94c03d6c5bbd428830e41b974301220eafdd4cced37615"
+      },
+      "work/native-build/optimized-v2/replay_entry.f90": {
+        "bytes": 1191,
+        "mode": 420,
+        "mtime_ns": 1788714725000000000,
+        "device": 56918434,
+        "inode": 198160013510949614,
+        "kind": "file",
+        "sha256": "25683c9a0cce109fc223f87728ea56256baba0ad5bb001df9acdc7d078cbf916"
+      },
+      "work/native-build/optimized-v2/replay_entry.o": {
+        "bytes": 9048,
+        "mode": 420,
+        "mtime_ns": 1788714773000000000,
+        "device": 56918434,
+        "inode": 198160013510949623,
+        "kind": "file",
+        "sha256": "9cc26e3f9643b1aeaaf8b4177fe22ab909e3fee90a0cd8303aef40765e0d1c6e"
+      },
+      "work/native-build/optimized-v2/replay_probe.f90": {
+        "bytes": 10614,
+        "mode": 420,
+        "mtime_ns": 1788714141000000000,
+        "device": 56918434,
+        "inode": 198160013510949613,
+        "kind": "file",
+        "sha256": "6330c69b25904123c0816302c03ee6a1c2f6088d2357ccd6d2c396520fdadef2"
+      },
+      "work/native-build/optimized-v2/replay_probe.o": {
+        "bytes": 70688,
+        "mode": 420,
+        "mtime_ns": 1788714772000000000,
+        "device": 56918434,
+        "inode": 198160013510949622,
+        "kind": "file",
+        "sha256": "91d73d2e642d0714f9c4e32addfd6bfd7519861dc92fae97dfd859288cc99644"
+      },
+      "work/native-build/optimized-v2/structures.mod": {
+        "bytes": 15062,
+        "mode": 420,
+        "mtime_ns": 1788714769000000000,
+        "device": 56918434,
+        "inode": 198160013510949617,
+        "kind": "file",
+        "sha256": "99c34233dbd993a95948debf3d3315ff4e9439f18f358cd9c93ab06b8ee1ffb9"
+      },
+      "work/native-build/optimized-v2/tools.mod": {
+        "bytes": 13644,
+        "mode": 420,
+        "mtime_ns": 1788714743000000000,
+        "device": 56918434,
+        "inode": 198160013510949609,
+        "kind": "file",
+        "sha256": "cbfc18aa5425e49f37d1ca8d44b375fe9ac6f1818c22b3073d82455005c2ae18"
+      },
+      "work/native-build/preflight/density-metadata/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949854,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/density-metadata/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949908,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/density-metadata/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949909,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/density-metadata/fort.17": {
+        "bytes": 452,
+        "mode": 420,
+        "mtime_ns": 1788714785000000000,
+        "device": 56918434,
+        "inode": 198160013510949859,
+        "kind": "file",
+        "sha256": "4c64b0954379ccd4e166c623e380cba8239592f286b2aea74af0506559a46b21"
+      },
+      "work/native-build/preflight/density-metadata/invalid-density.bin": {
+        "bytes": 16404,
+        "mode": 420,
+        "mtime_ns": 1788714785000000000,
+        "device": 56918434,
+        "inode": 198160013510949857,
+        "kind": "file",
+        "sha256": "c750474af4f8c42548144da8c753de9afd353156a06e641ad4253206a90797a8"
+      },
+      "work/native-build/preflight/density-path-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/empty.bin": {
+        "bytes": 16404,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949663,
+        "kind": "file",
+        "sha256": "d2b5b5340c5a6934f342ea5045dd3ac6f3a2a6ccfcf43e0965fb3c4eb7ccb1c4"
+      },
+      "work/native-build/preflight/density-path-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/fixed.bin": {
+        "bytes": 16404,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949671,
+        "kind": "file",
+        "sha256": "26cf67c131b6a9315f8b4655ab3833404b31e4516ef9aca60d0a705631b6e029"
+      },
+      "work/native-build/preflight/density-truncated/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949845,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/density-truncated/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949910,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/density-truncated/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949911,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/density-truncated/fort.17": {
+        "bytes": 452,
+        "mode": 420,
+        "mtime_ns": 1788714784000000000,
+        "device": 56918434,
+        "inode": 198160013510949850,
+        "kind": "file",
+        "sha256": "4c64b0954379ccd4e166c623e380cba8239592f286b2aea74af0506559a46b21"
+      },
+      "work/native-build/preflight/density-truncated/invalid-density.bin": {
+        "bytes": 16400,
+        "mode": 420,
+        "mtime_ns": 1788714784000000000,
+        "device": 56918434,
+        "inode": 198160013510949848,
+        "kind": "file",
+        "sha256": "f1888eb435b644788344bff70852e36e2700815d13800ccd02a53551b9b9e307"
+      },
+      "work/native-build/preflight/header-step/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949870,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/header-step/PMcrd.0001.DAT": {
+        "bytes": 537,
+        "mode": 420,
+        "mtime_ns": 1788714786000000000,
+        "device": 56918434,
+        "inode": 198160013510949873,
+        "kind": "file",
+        "sha256": "f9785ce536ee4d8393a120072d056ba285930fb4b2f572e2523457d401a858ca"
+      },
+      "work/native-build/preflight/header-step/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949912,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/optimized-v2-bound/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949725,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/optimized-v2-bound/CATALOGS/outputB.0001.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949730,
+        "kind": "file",
+        "sha256": "fa66f68047f1ac574b2525de9477a79040bb1a71a1ad351653315d1414cc30d2"
+      },
+      "work/native-build/preflight/optimized-v2-bound/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949913,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/optimized-v2-bound/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949914,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/optimized-v2-bound/fort.17": {
+        "bytes": 1554,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949729,
+        "kind": "file",
+        "sha256": "01791f943bb4d9b599b04db25dc0a237d64f07a4d014bba1cb1cb537609bf4ae"
+      },
+      "work/native-build/preflight/optimized-v2-bound/p1.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714780000000000,
+        "device": 56918434,
+        "inode": 198160013510949731,
+        "kind": "file",
+        "sha256": "6ccca831797872b5a9f0c6cf8869a066cc0af981f366fac645ffe382fe48fc37"
+      },
+      "work/native-build/preflight/optimized-v2-bound/p2.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714780000000000,
+        "device": 56918434,
+        "inode": 198160013510949732,
+        "kind": "file",
+        "sha256": "6ccca831797872b5a9f0c6cf8869a066cc0af981f366fac645ffe382fe48fc37"
+      },
+      "work/native-build/preflight/optimized-v2-bound/repair-members.bin": {
+        "bytes": 632,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949733,
+        "kind": "file",
+        "sha256": "2b21e192fc6aafbb26ccadf720e4c910d0cab1690d6207f22a51a282df8e3c0b"
+      },
+      "work/native-build/preflight/optimized-v2-bound/unbinding.bin": {
+        "bytes": 36,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949734,
+        "kind": "file",
+        "sha256": "1405e861a43bc9259eb6008be715258cad73f04e443cf93a35f649f1ca0417ac"
+      },
+      "work/native-build/preflight/optimized-v2-empty/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949738,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/optimized-v2-empty/CATALOGS/outputB.0001.dat": {
+        "bytes": 343,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949743,
+        "kind": "file",
+        "sha256": "aa3b9af9d171b626b9f6a34a026b84f7277a73c0239325aa46efe22b3b6f018e"
+      },
+      "work/native-build/preflight/optimized-v2-empty/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949915,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/optimized-v2-empty/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949916,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/optimized-v2-empty/fort.17": {
+        "bytes": 568,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949742,
+        "kind": "file",
+        "sha256": "7cd8a3af2abba48e2cae02d72a41ad060b410f2f6cf2819b79d2066bc771d364"
+      },
+      "work/native-build/preflight/optimized-v2-empty/p1.DAT": {
+        "bytes": 629,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949744,
+        "kind": "file",
+        "sha256": "898503c4a55c75ecf7dafa661f706503ea9bf30c883d128553a9f2dd6dd0701d"
+      },
+      "work/native-build/preflight/optimized-v2-empty/p2.DAT": {
+        "bytes": 629,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949745,
+        "kind": "file",
+        "sha256": "898503c4a55c75ecf7dafa661f706503ea9bf30c883d128553a9f2dd6dd0701d"
+      },
+      "work/native-build/preflight/optimized-v2-empty/repair-members.bin": {
+        "bytes": 20,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949746,
+        "kind": "file",
+        "sha256": "63f203b188a1d4d7a4878c345210ceef93e2ba02cae947f3cb7f3de654983fd8"
+      },
+      "work/native-build/preflight/optimized-v2-empty/unbinding.bin": {
+        "bytes": 8,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949747,
+        "kind": "file",
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      "work/native-build/preflight/optimized-v2-publication-empty/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949761,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/optimized-v2-publication-empty/CATALOGS/outputB.0001.dat": {
+        "bytes": 343,
+        "mode": 420,
+        "mtime_ns": 1788714782000000000,
+        "device": 56918434,
+        "inode": 198160013510949765,
+        "kind": "file",
+        "sha256": "26e8216b0b7b99344bd07c99d9d3b84711f73bafda0abe78271dc83497173c47"
+      },
+      "work/native-build/preflight/optimized-v2-publication-empty/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949917,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/optimized-v2-publication-empty/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949918,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/optimized-v2-publication-empty/fort.17": {
+        "bytes": 58,
+        "mode": 420,
+        "mtime_ns": 1788714782000000000,
+        "device": 56918434,
+        "inode": 198160013510949767,
+        "kind": "file",
+        "sha256": "a5d989e3b6a5b8f3e5788e65506a0092b75158675d67f2dc06b87a298cd8193e"
+      },
+      "work/native-build/preflight/optimized-v2-publication-empty/preserved.DAT": {
+        "bytes": 629,
+        "mode": 420,
+        "mtime_ns": 1788714782000000000,
+        "device": 56918434,
+        "inode": 198160013510949766,
+        "kind": "file",
+        "sha256": "898503c4a55c75ecf7dafa661f706503ea9bf30c883d128553a9f2dd6dd0701d"
+      },
+      "work/native-build/preflight/optimized-v2-publication-invalid/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949771,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/optimized-v2-publication-invalid/CATALOGS/.CatshortM.0001.0001.DAT.tmp.1465853.1788714782428993.0": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714782000000000,
+        "device": 56918434,
+        "inode": 198160013510949779,
+        "kind": "file",
+        "sha256": "07a2ee71acee9b0a09a8a19a1b1eb17417faf806bc452e3dee35d417b53151b9"
+      },
+      "work/native-build/preflight/optimized-v2-publication-invalid/CATALOGS/CatshortM.0001.0001.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714782000000000,
+        "device": 56918434,
+        "inode": 198160013510949776,
+        "kind": "file",
+        "sha256": "07a2ee71acee9b0a09a8a19a1b1eb17417faf806bc452e3dee35d417b53151b9"
+      },
+      "work/native-build/preflight/optimized-v2-publication-invalid/CATALOGS/outputB.0001.dat": {
+        "bytes": 343,
+        "mode": 420,
+        "mtime_ns": 1788714782000000000,
+        "device": 56918434,
+        "inode": 198160013510949775,
+        "kind": "file",
+        "sha256": "535a2f5ad08b27f70e704069a77bc1c7456e7bb0ee66dcfec5c5e985db7accdf"
+      },
+      "work/native-build/preflight/optimized-v2-publication-invalid/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949919,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/optimized-v2-publication-invalid/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949920,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/optimized-v2-publication-invalid/fort.17": {
+        "bytes": 58,
+        "mode": 420,
+        "mtime_ns": 1788714782000000000,
+        "device": 56918434,
+        "inode": 198160013510949777,
+        "kind": "file",
+        "sha256": "a5d989e3b6a5b8f3e5788e65506a0092b75158675d67f2dc06b87a298cd8193e"
+      },
+      "work/native-build/preflight/optimized-v2-publication-valid/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949751,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/optimized-v2-publication-valid/CATALOGS/outputB.0001.dat": {
+        "bytes": 343,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949755,
+        "kind": "file",
+        "sha256": "d01c03f0b0de77de3900c82423019c122da4fd94ea234831b7c7887c0fe448ae"
+      },
+      "work/native-build/preflight/optimized-v2-publication-valid/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949921,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/optimized-v2-publication-valid/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949922,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/optimized-v2-publication-valid/fort.17": {
+        "bytes": 145,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949757,
+        "kind": "file",
+        "sha256": "6d51f5152c354398dbf2add6a377748a1f4e3fd42162ddfb9b5878e4ad76439a"
+      },
+      "work/native-build/preflight/optimized-v2-publication-valid/preserved.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714781000000000,
+        "device": 56918434,
+        "inode": 198160013510949756,
+        "kind": "file",
+        "sha256": "07a2ee71acee9b0a09a8a19a1b1eb17417faf806bc452e3dee35d417b53151b9"
+      },
+      "work/native-build/preflight/particle-limit/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949863,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/particle-limit/PMcrd.0001.DAT": {
+        "bytes": 537,
+        "mode": 420,
+        "mtime_ns": 1788714786000000000,
+        "device": 56918434,
+        "inode": 198160013510949866,
+        "kind": "file",
+        "sha256": "9690a4f150714ce3099dc4bc486c1fbbfab66cbfc387ea849ed625a973e6e586"
+      },
+      "work/native-build/preflight/particle-limit/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949923,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/production/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949877,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/production/CATALOGS/CatshortM.0001.0001.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714786000000000,
+        "device": 56918434,
+        "inode": 198160013510949884,
+        "kind": "file",
+        "sha256": "2a306d4c8ceaee48d4aef683f181f6be98956da88dbbc4dfdd47755c06f475ca"
+      },
+      "work/native-build/preflight/production/CATALOGS/outputB.0001.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788714786000000000,
+        "device": 56918434,
+        "inode": 198160013510949883,
+        "kind": "file",
+        "sha256": "3493ba598ec7075ad32d6a6a899435cb24dc913e545aa75e773405563a79400e"
+      },
+      "work/native-build/preflight/production/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949924,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/production/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949925,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/production/fort.13": {
+        "bytes": 70,
+        "mode": 420,
+        "mtime_ns": 1788714786000000000,
+        "device": 56918434,
+        "inode": 198160013510949882,
+        "kind": "file",
+        "sha256": "bb215dff96075f306930675885e95114866236c3b4e5ff9296765ddf8e372129"
+      },
+      "work/native-build/preflight/production/fort.17": {
+        "bytes": 1003,
+        "mode": 420,
+        "mtime_ns": 1788714786000000000,
+        "device": 56918434,
+        "inode": 198160013510949881,
+        "kind": "file",
+        "sha256": "34f1146c5693d81bc971f513ea9ca3aa586777966f0abad8ad4824d637578460"
+      },
+      "work/native-build/preflight/reference-bound/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949666,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/reference-bound/CATALOGS/outputB.0001.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949672,
+        "kind": "file",
+        "sha256": "5ceef73e530a4aaf15a3134d85bfb6af7af1bf2f14ae516e2df001b0a8164548"
+      },
+      "work/native-build/preflight/reference-bound/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949926,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/reference-bound/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949927,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/reference-bound/fort.17": {
+        "bytes": 1554,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949670,
+        "kind": "file",
+        "sha256": "01791f943bb4d9b599b04db25dc0a237d64f07a4d014bba1cb1cb537609bf4ae"
+      },
+      "work/native-build/preflight/reference-bound/p1.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949673,
+        "kind": "file",
+        "sha256": "6ccca831797872b5a9f0c6cf8869a066cc0af981f366fac645ffe382fe48fc37"
+      },
+      "work/native-build/preflight/reference-bound/p2.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949674,
+        "kind": "file",
+        "sha256": "6ccca831797872b5a9f0c6cf8869a066cc0af981f366fac645ffe382fe48fc37"
+      },
+      "work/native-build/preflight/reference-bound/repair-members.bin": {
+        "bytes": 632,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949675,
+        "kind": "file",
+        "sha256": "2b21e192fc6aafbb26ccadf720e4c910d0cab1690d6207f22a51a282df8e3c0b"
+      },
+      "work/native-build/preflight/reference-bound/unbinding.bin": {
+        "bytes": 36,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949676,
+        "kind": "file",
+        "sha256": "1405e861a43bc9259eb6008be715258cad73f04e443cf93a35f649f1ca0417ac"
+      },
+      "work/native-build/preflight/reference-empty/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949680,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/reference-empty/CATALOGS/outputB.0001.dat": {
+        "bytes": 343,
+        "mode": 420,
+        "mtime_ns": 1788714779000000000,
+        "device": 56918434,
+        "inode": 198160013510949685,
+        "kind": "file",
+        "sha256": "aa3b9af9d171b626b9f6a34a026b84f7277a73c0239325aa46efe22b3b6f018e"
+      },
+      "work/native-build/preflight/reference-empty/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949928,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/reference-empty/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949929,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/reference-empty/fort.17": {
+        "bytes": 568,
+        "mode": 420,
+        "mtime_ns": 1788714779000000000,
+        "device": 56918434,
+        "inode": 198160013510949684,
+        "kind": "file",
+        "sha256": "7cd8a3af2abba48e2cae02d72a41ad060b410f2f6cf2819b79d2066bc771d364"
+      },
+      "work/native-build/preflight/reference-empty/p1.DAT": {
+        "bytes": 629,
+        "mode": 420,
+        "mtime_ns": 1788714779000000000,
+        "device": 56918434,
+        "inode": 198160013510949686,
+        "kind": "file",
+        "sha256": "898503c4a55c75ecf7dafa661f706503ea9bf30c883d128553a9f2dd6dd0701d"
+      },
+      "work/native-build/preflight/reference-empty/p2.DAT": {
+        "bytes": 629,
+        "mode": 420,
+        "mtime_ns": 1788714779000000000,
+        "device": 56918434,
+        "inode": 198160013510949687,
+        "kind": "file",
+        "sha256": "898503c4a55c75ecf7dafa661f706503ea9bf30c883d128553a9f2dd6dd0701d"
+      },
+      "work/native-build/preflight/reference-empty/repair-members.bin": {
+        "bytes": 20,
+        "mode": 420,
+        "mtime_ns": 1788714779000000000,
+        "device": 56918434,
+        "inode": 198160013510949688,
+        "kind": "file",
+        "sha256": "63f203b188a1d4d7a4878c345210ceef93e2ba02cae947f3cb7f3de654983fd8"
+      },
+      "work/native-build/preflight/reference-empty/unbinding.bin": {
+        "bytes": 8,
+        "mode": 420,
+        "mtime_ns": 1788714779000000000,
+        "device": 56918434,
+        "inode": 198160013510949689,
+        "kind": "file",
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      "work/native-build/preflight/reference-publication-empty/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949703,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/reference-publication-empty/CATALOGS/outputB.0001.dat": {
+        "bytes": 343,
+        "mode": 420,
+        "mtime_ns": 1788714780000000000,
+        "device": 56918434,
+        "inode": 198160013510949707,
+        "kind": "file",
+        "sha256": "31baf695b2f47ebbc9f6a5f28b9bf774d8fc81eb891ef8b0c8ddc5b588f51c29"
+      },
+      "work/native-build/preflight/reference-publication-empty/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949930,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/reference-publication-empty/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949931,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/reference-publication-empty/fort.17": {
+        "bytes": 58,
+        "mode": 420,
+        "mtime_ns": 1788714780000000000,
+        "device": 56918434,
+        "inode": 198160013510949709,
+        "kind": "file",
+        "sha256": "a5d989e3b6a5b8f3e5788e65506a0092b75158675d67f2dc06b87a298cd8193e"
+      },
+      "work/native-build/preflight/reference-publication-empty/preserved.DAT": {
+        "bytes": 629,
+        "mode": 420,
+        "mtime_ns": 1788714780000000000,
+        "device": 56918434,
+        "inode": 198160013510949708,
+        "kind": "file",
+        "sha256": "898503c4a55c75ecf7dafa661f706503ea9bf30c883d128553a9f2dd6dd0701d"
+      },
+      "work/native-build/preflight/reference-publication-invalid/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949713,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/reference-publication-invalid/CATALOGS/.CatshortM.0001.0001.DAT.tmp.1465717.1788714780631043.0": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714780000000000,
+        "device": 56918434,
+        "inode": 198160013510949721,
+        "kind": "file",
+        "sha256": "07a2ee71acee9b0a09a8a19a1b1eb17417faf806bc452e3dee35d417b53151b9"
+      },
+      "work/native-build/preflight/reference-publication-invalid/CATALOGS/CatshortM.0001.0001.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714780000000000,
+        "device": 56918434,
+        "inode": 198160013510949718,
+        "kind": "file",
+        "sha256": "07a2ee71acee9b0a09a8a19a1b1eb17417faf806bc452e3dee35d417b53151b9"
+      },
+      "work/native-build/preflight/reference-publication-invalid/CATALOGS/outputB.0001.dat": {
+        "bytes": 343,
+        "mode": 420,
+        "mtime_ns": 1788714780000000000,
+        "device": 56918434,
+        "inode": 198160013510949717,
+        "kind": "file",
+        "sha256": "71b8a20051c8dc8236688fa6826bdc24fdab57115e414c805eb2a4abf112e234"
+      },
+      "work/native-build/preflight/reference-publication-invalid/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949932,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/reference-publication-invalid/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949933,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/reference-publication-invalid/fort.17": {
+        "bytes": 58,
+        "mode": 420,
+        "mtime_ns": 1788714780000000000,
+        "device": 56918434,
+        "inode": 198160013510949719,
+        "kind": "file",
+        "sha256": "a5d989e3b6a5b8f3e5788e65506a0092b75158675d67f2dc06b87a298cd8193e"
+      },
+      "work/native-build/preflight/reference-publication-valid/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949693,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/reference-publication-valid/CATALOGS/outputB.0001.dat": {
+        "bytes": 343,
+        "mode": 420,
+        "mtime_ns": 1788714779000000000,
+        "device": 56918434,
+        "inode": 198160013510949697,
+        "kind": "file",
+        "sha256": "981edc3cb55bfbe9d40417ec5199f6b036ee12d07b0f3b03135ab7e1946cb8c5"
+      },
+      "work/native-build/preflight/reference-publication-valid/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949934,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/reference-publication-valid/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949935,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/reference-publication-valid/fort.17": {
+        "bytes": 145,
+        "mode": 420,
+        "mtime_ns": 1788714779000000000,
+        "device": 56918434,
+        "inode": 198160013510949699,
+        "kind": "file",
+        "sha256": "6d51f5152c354398dbf2add6a377748a1f4e3fd42162ddfb9b5878e4ad76439a"
+      },
+      "work/native-build/preflight/reference-publication-valid/preserved.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714779000000000,
+        "device": 56918434,
+        "inode": 198160013510949698,
+        "kind": "file",
+        "sha256": "07a2ee71acee9b0a09a8a19a1b1eb17417faf806bc452e3dee35d417b53151b9"
+      },
+      "work/native-build/preflight/snapshot/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949659,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/snapshot/PMcrd.0001.DAT": {
+        "bytes": 537,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949660,
+        "kind": "file",
+        "sha256": "4705a99f0b53e779f75c9ebc307cffed42429a8e16bb95ab4cac397437ac9e42"
+      },
+      "work/native-build/preflight/snapshot/PMcrs0.0001.DAT": {
+        "bytes": 25165824,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949661,
+        "kind": "file",
+        "sha256": "712078bb5c75f05f040fbd2ea51f9c7998f324cb831f83780cc1195b61135953"
+      },
+      "work/native-build/preflight/v3-bound/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949783,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/v3-bound/CATALOGS/outputB.0001.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788714783000000000,
+        "device": 56918434,
+        "inode": 198160013510949788,
+        "kind": "file",
+        "sha256": "129705bef3f87a59688e0296e2cf836e8eefe7cca10e9fa3fd051447a9d99a42"
+      },
+      "work/native-build/preflight/v3-bound/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949936,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/v3-bound/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949937,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/v3-bound/fort.17": {
+        "bytes": 1554,
+        "mode": 420,
+        "mtime_ns": 1788714783000000000,
+        "device": 56918434,
+        "inode": 198160013510949787,
+        "kind": "file",
+        "sha256": "01791f943bb4d9b599b04db25dc0a237d64f07a4d014bba1cb1cb537609bf4ae"
+      },
+      "work/native-build/preflight/v3-bound/p1.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714782000000000,
+        "device": 56918434,
+        "inode": 198160013510949789,
+        "kind": "file",
+        "sha256": "2a306d4c8ceaee48d4aef683f181f6be98956da88dbbc4dfdd47755c06f475ca"
+      },
+      "work/native-build/preflight/v3-bound/p2.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714782000000000,
+        "device": 56918434,
+        "inode": 198160013510949790,
+        "kind": "file",
+        "sha256": "2a306d4c8ceaee48d4aef683f181f6be98956da88dbbc4dfdd47755c06f475ca"
+      },
+      "work/native-build/preflight/v3-bound/repair-members.bin": {
+        "bytes": 632,
+        "mode": 420,
+        "mtime_ns": 1788714782000000000,
+        "device": 56918434,
+        "inode": 198160013510949791,
+        "kind": "file",
+        "sha256": "c87d911e64a2c0924ecce96034a1f4579053972086ce5961dae9ec46c0e9431e"
+      },
+      "work/native-build/preflight/v3-bound/unbinding.bin": {
+        "bytes": 36,
+        "mode": 420,
+        "mtime_ns": 1788714783000000000,
+        "device": 56918434,
+        "inode": 198160013510949792,
+        "kind": "file",
+        "sha256": "1405e861a43bc9259eb6008be715258cad73f04e443cf93a35f649f1ca0417ac"
+      },
+      "work/native-build/preflight/v3-empty/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949796,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/v3-empty/CATALOGS/outputB.0001.dat": {
+        "bytes": 343,
+        "mode": 420,
+        "mtime_ns": 1788714783000000000,
+        "device": 56918434,
+        "inode": 198160013510949801,
+        "kind": "file",
+        "sha256": "aa3b9af9d171b626b9f6a34a026b84f7277a73c0239325aa46efe22b3b6f018e"
+      },
+      "work/native-build/preflight/v3-empty/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949938,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/v3-empty/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949939,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/v3-empty/fort.17": {
+        "bytes": 568,
+        "mode": 420,
+        "mtime_ns": 1788714783000000000,
+        "device": 56918434,
+        "inode": 198160013510949800,
+        "kind": "file",
+        "sha256": "7cd8a3af2abba48e2cae02d72a41ad060b410f2f6cf2819b79d2066bc771d364"
+      },
+      "work/native-build/preflight/v3-empty/p1.DAT": {
+        "bytes": 629,
+        "mode": 420,
+        "mtime_ns": 1788714783000000000,
+        "device": 56918434,
+        "inode": 198160013510949802,
+        "kind": "file",
+        "sha256": "02fec79d397755d57590bfe6902725525a6bc4077a083f5a10e0019035f9a3a2"
+      },
+      "work/native-build/preflight/v3-empty/p2.DAT": {
+        "bytes": 629,
+        "mode": 420,
+        "mtime_ns": 1788714783000000000,
+        "device": 56918434,
+        "inode": 198160013510949803,
+        "kind": "file",
+        "sha256": "02fec79d397755d57590bfe6902725525a6bc4077a083f5a10e0019035f9a3a2"
+      },
+      "work/native-build/preflight/v3-empty/repair-members.bin": {
+        "bytes": 20,
+        "mode": 420,
+        "mtime_ns": 1788714783000000000,
+        "device": 56918434,
+        "inode": 198160013510949804,
+        "kind": "file",
+        "sha256": "63f203b188a1d4d7a4878c345210ceef93e2ba02cae947f3cb7f3de654983fd8"
+      },
+      "work/native-build/preflight/v3-empty/unbinding.bin": {
+        "bytes": 8,
+        "mode": 420,
+        "mtime_ns": 1788714783000000000,
+        "device": 56918434,
+        "inode": 198160013510949805,
+        "kind": "file",
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      "work/native-build/preflight/v3-publication-empty/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949819,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/v3-publication-empty/CATALOGS/outputB.0001.dat": {
+        "bytes": 343,
+        "mode": 420,
+        "mtime_ns": 1788714784000000000,
+        "device": 56918434,
+        "inode": 198160013510949823,
+        "kind": "file",
+        "sha256": "56f0249ec1e69aae2564805578fd17acf56ef309b05423ac700a5500c106005a"
+      },
+      "work/native-build/preflight/v3-publication-empty/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949940,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/v3-publication-empty/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949941,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/v3-publication-empty/fort.17": {
+        "bytes": 58,
+        "mode": 420,
+        "mtime_ns": 1788714784000000000,
+        "device": 56918434,
+        "inode": 198160013510949825,
+        "kind": "file",
+        "sha256": "a5d989e3b6a5b8f3e5788e65506a0092b75158675d67f2dc06b87a298cd8193e"
+      },
+      "work/native-build/preflight/v3-publication-empty/preserved.DAT": {
+        "bytes": 629,
+        "mode": 420,
+        "mtime_ns": 1788714784000000000,
+        "device": 56918434,
+        "inode": 198160013510949824,
+        "kind": "file",
+        "sha256": "02fec79d397755d57590bfe6902725525a6bc4077a083f5a10e0019035f9a3a2"
+      },
+      "work/native-build/preflight/v3-publication-invalid/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949829,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/v3-publication-invalid/CATALOGS/.CatshortM.0001.0001.DAT.tmp.1465976.1788714784532590.0": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714784000000000,
+        "device": 56918434,
+        "inode": 198160013510949837,
+        "kind": "file",
+        "sha256": "28ad33da791c6d1719b48afd4bb82cc69945fcb85e963a7a1809f04ceb3100cf"
+      },
+      "work/native-build/preflight/v3-publication-invalid/CATALOGS/CatshortM.0001.0001.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714784000000000,
+        "device": 56918434,
+        "inode": 198160013510949834,
+        "kind": "file",
+        "sha256": "28ad33da791c6d1719b48afd4bb82cc69945fcb85e963a7a1809f04ceb3100cf"
+      },
+      "work/native-build/preflight/v3-publication-invalid/CATALOGS/outputB.0001.dat": {
+        "bytes": 343,
+        "mode": 420,
+        "mtime_ns": 1788714784000000000,
+        "device": 56918434,
+        "inode": 198160013510949833,
+        "kind": "file",
+        "sha256": "8d02023a7dfb04dd7cf1a8f372088626a1b01d5050b706c06fa9ff5b6640ba14"
+      },
+      "work/native-build/preflight/v3-publication-invalid/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949942,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/v3-publication-invalid/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949943,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/v3-publication-invalid/fort.17": {
+        "bytes": 58,
+        "mode": 420,
+        "mtime_ns": 1788714784000000000,
+        "device": 56918434,
+        "inode": 198160013510949835,
+        "kind": "file",
+        "sha256": "a5d989e3b6a5b8f3e5788e65506a0092b75158675d67f2dc06b87a298cd8193e"
+      },
+      "work/native-build/preflight/v3-publication-valid/BDM.config": {
+        "bytes": 28,
+        "mode": 420,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949809,
+        "kind": "file",
+        "sha256": "616d7864bd76c4ca58de2cbfdf8963a75b43c25bfd76aba89792e86a21baffe7"
+      },
+      "work/native-build/preflight/v3-publication-valid/CATALOGS/outputB.0001.dat": {
+        "bytes": 343,
+        "mode": 420,
+        "mtime_ns": 1788714783000000000,
+        "device": 56918434,
+        "inode": 198160013510949813,
+        "kind": "file",
+        "sha256": "578cba048dcff9e7b1063a33ce45db793744a113a4edc83632d81aec84cbc0ba"
+      },
+      "work/native-build/preflight/v3-publication-valid/PMcrd.0001.DAT": {
+        "bytes": 26,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949944,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrd.0001.DAT"
+      },
+      "work/native-build/preflight/v3-publication-valid/PMcrs0.0001.DAT": {
+        "bytes": 27,
+        "mode": 511,
+        "mtime_ns": 1788715005000000000,
+        "device": 56918434,
+        "inode": 198160013510949945,
+        "kind": "symlink",
+        "target": "../snapshot/PMcrs0.0001.DAT"
+      },
+      "work/native-build/preflight/v3-publication-valid/fort.17": {
+        "bytes": 145,
+        "mode": 420,
+        "mtime_ns": 1788714783000000000,
+        "device": 56918434,
+        "inode": 198160013510949815,
+        "kind": "file",
+        "sha256": "6d51f5152c354398dbf2add6a377748a1f4e3fd42162ddfb9b5878e4ad76439a"
+      },
+      "work/native-build/preflight/v3-publication-valid/preserved.DAT": {
+        "bytes": 912,
+        "mode": 420,
+        "mtime_ns": 1788714783000000000,
+        "device": 56918434,
+        "inode": 198160013510949814,
+        "kind": "file",
+        "sha256": "28ad33da791c6d1719b48afd4bb82cc69945fcb85e963a7a1809f04ceb3100cf"
+      },
+      "work/native-build/production/AverageBispectrum.f90": {
+        "bytes": 2414,
+        "mode": 420,
+        "mtime_ns": 1776226877000000000,
+        "device": 56918434,
+        "inode": 198160013510949463,
+        "kind": "file",
+        "sha256": "119c00b67d1ab507e21533508ec946841886635f11d4a3f2b6df140b0318d2fc"
+      },
+      "work/native-build/production/AveragePk.f90": {
+        "bytes": 1509,
+        "mode": 420,
+        "mtime_ns": 1776226877000000000,
+        "device": 56918434,
+        "inode": 198160013510949464,
+        "kind": "file",
+        "sha256": "f92fb983583fc79c5d9eada9f448784a58004a7641f07d8bbca7d31b6f7334b4"
+      },
+      "work/native-build/production/Massfunction.f90": {
+        "bytes": 80653,
+        "mode": 420,
+        "mtime_ns": 1788266739000000000,
+        "device": 56918434,
+        "inode": 198160013510949465,
+        "kind": "file",
+        "sha256": "8b1c30f459e6da82f3bb274b9045b7ff4a567d41e243d45a415063b021abe77d"
+      },
+      "work/native-build/production/PMP2BDM.exe": {
+        "bytes": 1149120,
+        "mode": 493,
+        "mtime_ns": 1788714764000000000,
+        "device": 56918434,
+        "inode": 198160013510949571,
+        "kind": "file",
+        "sha256": "e4e72db0e623db10095260a6d033aedc68359db21b255148e395eeba28506a59"
+      },
+      "work/native-build/production/PMP2MG_subroutines.f90": {
+        "bytes": 41597,
+        "mode": 420,
+        "mtime_ns": 1776226877000000000,
+        "device": 56918434,
+        "inode": 198160013510949466,
+        "kind": "file",
+        "sha256": "128e0f3f17885a90baf42f90fb8e79a152354c5b476fd56ee7f1637bf15a1dbc"
+      },
+      "work/native-build/production/PMP2MG_subroutines.o": {
+        "bytes": 25192,
+        "mode": 420,
+        "mtime_ns": 1788714753000000000,
+        "device": 56918434,
+        "inode": 198160013510949548,
+        "kind": "file",
+        "sha256": "04cd24b96529dd21e4acfd2d3d927a8beeb5df9c386b338f087a403f1794e1c3"
+      },
+      "work/native-build/production/PMP2MG_subroutines.opt.yaml": {
+        "bytes": 343787,
+        "mode": 420,
+        "mtime_ns": 1788714753000000000,
+        "device": 56918434,
+        "inode": 198160013510949547,
+        "kind": "file",
+        "sha256": "62419c28cf791c243831ab5d4b7d529d65d05ae506f9163b580ff11e864962f1"
+      },
+      "work/native-build/production/PMP2MG_subroutines.optrpt": {
+        "bytes": 19719,
+        "mode": 420,
+        "mtime_ns": 1788714753000000000,
+        "device": 56918434,
+        "inode": 198160013510949549,
+        "kind": "file",
+        "sha256": "b46e8ca8715b5ade70e34f48afc677927ecdf822495f59d43ba2bbb1194cca2f"
+      },
+      "work/native-build/production/PMP2MGsolver_DGP.f90": {
+        "bytes": 58001,
+        "mode": 420,
+        "mtime_ns": 1776370664000000000,
+        "device": 56918434,
+        "inode": 198160013510949467,
+        "kind": "file",
+        "sha256": "985ad50a2a754bbf23358244c1880c707ae45a8ca38ac9aac27a16d7ade9734d"
+      },
+      "work/native-build/production/PMP2MGsolver_DGP.o": {
+        "bytes": 60248,
+        "mode": 420,
+        "mtime_ns": 1788714761000000000,
+        "device": 56918434,
+        "inode": 198160013510949557,
+        "kind": "file",
+        "sha256": "bf6482e2556bbaf5a05698cee83e51ce93d9e161807d6273b47157cab38afa94"
+      },
+      "work/native-build/production/PMP2MGsolver_DGP.opt.yaml": {
+        "bytes": 395641,
+        "mode": 420,
+        "mtime_ns": 1788714761000000000,
+        "device": 56918434,
+        "inode": 198160013510949556,
+        "kind": "file",
+        "sha256": "b0747f31a2f6aecfca974e4b71c59e280c61c2d021675400f3e1395dec36c4ec"
+      },
+      "work/native-build/production/PMP2MGsolver_DGP.optrpt": {
+        "bytes": 41233,
+        "mode": 420,
+        "mtime_ns": 1788714761000000000,
+        "device": 56918434,
+        "inode": 198160013510949558,
+        "kind": "file",
+        "sha256": "5e2d08a9b7ace18cfd0c7c450b1c6c3c9c87b6ea1f4b8484144f5ee4a7d98fef"
+      },
+      "work/native-build/production/PMP2MGsolver_csf.f90": {
+        "bytes": 25833,
+        "mode": 420,
+        "mtime_ns": 1776370626000000000,
+        "device": 56918434,
+        "inode": 198160013510949468,
+        "kind": "file",
+        "sha256": "31e7c8f561ea135944abd07c4d578967a86405e7dba719e44b9a26466cca6a88"
+      },
+      "work/native-build/production/PMP2MGsolver_csf.o": {
+        "bytes": 62368,
+        "mode": 420,
+        "mtime_ns": 1788714763000000000,
+        "device": 56918434,
+        "inode": 198160013510949566,
+        "kind": "file",
+        "sha256": "20ecefd813488721a03516ef5d8916633529cac250abdb6f3012cb93fe727970"
+      },
+      "work/native-build/production/PMP2MGsolver_csf.opt.yaml": {
+        "bytes": 619239,
+        "mode": 420,
+        "mtime_ns": 1788714763000000000,
+        "device": 56918434,
+        "inode": 198160013510949565,
+        "kind": "file",
+        "sha256": "797cf6fd9df2cc785670b7cc989ee3cbe602322248c21481418bf8d999055484"
+      },
+      "work/native-build/production/PMP2MGsolver_csf.optrpt": {
+        "bytes": 116410,
+        "mode": 420,
+        "mtime_ns": 1788714763000000000,
+        "device": 56918434,
+        "inode": 198160013510949567,
+        "kind": "file",
+        "sha256": "fa6ae84f4ac92dc6776d5c7b00870aab05ac63504b2974f9d251d5836ccad52a"
+      },
+      "work/native-build/production/PMP2MGsolver_fR.f90": {
+        "bytes": 51752,
+        "mode": 420,
+        "mtime_ns": 1776376661000000000,
+        "device": 56918434,
+        "inode": 198160013510949469,
+        "kind": "file",
+        "sha256": "e64c83a8a8ea404d106a7be02b2f62d334a5bd15ca34a55edf7d5d516c6cca20"
+      },
+      "work/native-build/production/PMP2MGsolver_fR.o": {
+        "bytes": 157264,
+        "mode": 420,
+        "mtime_ns": 1788714755000000000,
+        "device": 56918434,
+        "inode": 198160013510949551,
+        "kind": "file",
+        "sha256": "fb1b92d4248749a2b88e0dfe6053cfa9212b32403e3b33d88b09d5c611307ecb"
+      },
+      "work/native-build/production/PMP2MGsolver_fR.opt.yaml": {
+        "bytes": 1360923,
+        "mode": 420,
+        "mtime_ns": 1788714755000000000,
+        "device": 56918434,
+        "inode": 198160013510949550,
+        "kind": "file",
+        "sha256": "2d0af2395cbfd7f3851b4c84fd0d36fdd378cdeb4bccc7854e625e8342fb4f1f"
+      },
+      "work/native-build/production/PMP2MGsolver_fR.optrpt": {
+        "bytes": 53255,
+        "mode": 420,
+        "mtime_ns": 1788714755000000000,
+        "device": 56918434,
+        "inode": 198160013510949552,
+        "kind": "file",
+        "sha256": "83450bd6a0ffa2a6c110741ba551c60f908684e13d31749b0ba7ba1738423c9d"
+      },
+      "work/native-build/production/PMP2MGsolver_kmf.f90": {
+        "bytes": 70478,
+        "mode": 420,
+        "mtime_ns": 1776370795000000000,
+        "device": 56918434,
+        "inode": 198160013510949470,
+        "kind": "file",
+        "sha256": "f46433a9ee2bc2689381beb32931c8015f0243f147c0e3cfd86de322a6b60967"
+      },
+      "work/native-build/production/PMP2MGsolver_kmf.o": {
+        "bytes": 90904,
+        "mode": 420,
+        "mtime_ns": 1788714762000000000,
+        "device": 56918434,
+        "inode": 198160013510949563,
+        "kind": "file",
+        "sha256": "654490c7bfb983e92aa32275c33c72d7b613d6dc5ad331445759956765a65382"
+      },
+      "work/native-build/production/PMP2MGsolver_kmf.opt.yaml": {
+        "bytes": 573554,
+        "mode": 420,
+        "mtime_ns": 1788714762000000000,
+        "device": 56918434,
+        "inode": 198160013510949562,
+        "kind": "file",
+        "sha256": "b0d33e5f583f9b19b048c4e77f84414238d19c5f4455417623bc977fe7e02cc8"
+      },
+      "work/native-build/production/PMP2MGsolver_kmf.optrpt": {
+        "bytes": 78777,
+        "mode": 420,
+        "mtime_ns": 1788714762000000000,
+        "device": 56918434,
+        "inode": 198160013510949564,
+        "kind": "file",
+        "sha256": "46f7291c8b3358704bbc912b51a8a9ee5e234f0465cefe5069b882f6b9c671dc"
+      },
+      "work/native-build/production/PMP2MGsolver_sym.f90": {
+        "bytes": 19673,
+        "mode": 420,
+        "mtime_ns": 1776370693000000000,
+        "device": 56918434,
+        "inode": 198160013510949471,
+        "kind": "file",
+        "sha256": "84bcec5eaaf1054b72db7147b842b3b83952bdf72e9cb80523431e08cbedaf6c"
+      },
+      "work/native-build/production/PMP2MGsolver_sym.o": {
+        "bytes": 51920,
+        "mode": 420,
+        "mtime_ns": 1788714761000000000,
+        "device": 56918434,
+        "inode": 198160013510949560,
+        "kind": "file",
+        "sha256": "7f8fa1d61e189973d7c2d902203f6bbdcfe1e87774dde95438e21e7424f418b9"
+      },
+      "work/native-build/production/PMP2MGsolver_sym.opt.yaml": {
+        "bytes": 405304,
+        "mode": 420,
+        "mtime_ns": 1788714761000000000,
+        "device": 56918434,
+        "inode": 198160013510949559,
+        "kind": "file",
+        "sha256": "b548a5434c6f87b3957f4eee28413e51fe362ce7597bcee39093b0e644558d8e"
+      },
+      "work/native-build/production/PMP2MGsolver_sym.optrpt": {
+        "bytes": 44261,
+        "mode": 420,
+        "mtime_ns": 1788714761000000000,
+        "device": 56918434,
+        "inode": 198160013510949561,
+        "kind": "file",
+        "sha256": "daa5b1f49e7692b2f824e91ebfd414e31420a4546c0f3cb4da54a46afae5df03"
+      },
+      "work/native-build/production/PMP2analyze.f90": {
+        "bytes": 1357,
+        "mode": 420,
+        "mtime_ns": 1776226877000000000,
+        "device": 56918434,
+        "inode": 198160013510949472,
+        "kind": "file",
+        "sha256": "ee116ae532dfdadb41e07b8017bcb4c655e52ce22a8c86d0d3c5039e43911cce"
+      },
+      "work/native-build/production/PMP2bdm.f90": {
+        "bytes": 1282,
+        "mode": 420,
+        "mtime_ns": 1780567066000000000,
+        "device": 56918434,
+        "inode": 198160013510949473,
+        "kind": "file",
+        "sha256": "99fe4f521881aaf462ca650e0990a44fcd82ce113b8204931eff684baffcd766"
+      },
+      "work/native-build/production/PMP2bdm.o": {
+        "bytes": 8760,
+        "mode": 420,
+        "mtime_ns": 1788714763000000000,
+        "device": 56918434,
+        "inode": 198160013510949569,
+        "kind": "file",
+        "sha256": "07c0bed96c20a3a5055f31ed2b3ae9318fa72245ca9df97a1d457a566f4da3be"
+      },
+      "work/native-build/production/PMP2bdm.opt.yaml": {
+        "bytes": 31391,
+        "mode": 420,
+        "mtime_ns": 1788714763000000000,
+        "device": 56918434,
+        "inode": 198160013510949568,
+        "kind": "file",
+        "sha256": "06217cf9b289a62eca917c8f5abea13d84294a6344023859092bc8fb7628172a"
+      },
+      "work/native-build/production/PMP2bdm.optrpt": {
+        "bytes": 698,
+        "mode": 420,
+        "mtime_ns": 1788714763000000000,
+        "device": 56918434,
+        "inode": 198160013510949570,
+        "kind": "file",
+        "sha256": "e93b7e86b6573f0aaba58fc214e77255edcb0cdc7e8da02f5eb952ea342ce6d3"
+      },
+      "work/native-build/production/PMP2catalReform.f90": {
+        "bytes": 3504,
+        "mode": 493,
+        "mtime_ns": 1788266739000000000,
+        "device": 56918434,
+        "inode": 198160013510949474,
+        "kind": "file",
+        "sha256": "ebb857911929711fc1cfc3a42f4a65f4ed73933891d03b2d14b38a6080a89e29"
+      },
+      "work/native-build/production/PMP2catalogCorrect.f90": {
+        "bytes": 20572,
+        "mode": 420,
+        "mtime_ns": 1788266740000000000,
+        "device": 56918434,
+        "inode": 198160013510949475,
+        "kind": "file",
+        "sha256": "1df9edb128f0561efce0d10139f5674b933246bc28d8db4f3df28a14e79248b4"
+      },
+      "work/native-build/production/PMP2correlation.f90": {
+        "bytes": 43468,
+        "mode": 420,
+        "mtime_ns": 1788266740000000000,
+        "device": 56918434,
+        "inode": 198160013510949476,
+        "kind": "file",
+        "sha256": "774249be21ed3a2bc11479d64d92e4dfb45e0d130bd193cea2085fe023e337ae"
+      },
+      "work/native-build/production/PMP2density.f90": {
+        "bytes": 3052,
+        "mode": 420,
+        "mtime_ns": 1776226878000000000,
+        "device": 56918434,
+        "inode": 198160013510949477,
+        "kind": "file",
+        "sha256": "c3cb79f5d4f1d5315ecb4edc94120674f9df1eda563e8bdc48bf79b47594682f"
+      },
+      "work/native-build/production/PMP2extradof.f90": {
+        "bytes": 60394,
+        "mode": 420,
+        "mtime_ns": 1776370824000000000,
+        "device": 56918434,
+        "inode": 198160013510949478,
+        "kind": "file",
+        "sha256": "d741567059e23c36fcc37762ed3b323145bd5e770b379adfa1368639b15af87d"
+      },
+      "work/native-build/production/PMP2extradof.o": {
+        "bytes": 153752,
+        "mode": 420,
+        "mtime_ns": 1788714756000000000,
+        "device": 56918434,
+        "inode": 198160013510949554,
+        "kind": "file",
+        "sha256": "e7a4759fdde4cbdaa8643237e121433dc44663ea1653a363a74c5bd0dff5f0af"
+      },
+      "work/native-build/production/PMP2extradof.opt.yaml": {
+        "bytes": 2123440,
+        "mode": 420,
+        "mtime_ns": 1788714759000000000,
+        "device": 56918434,
+        "inode": 198160013510949553,
+        "kind": "file",
+        "sha256": "783e7acbe2384d2edb1882547e372da0a6252905337915150c6193588480ac97"
+      },
+      "work/native-build/production/PMP2extradof.optrpt": {
+        "bytes": 78423,
+        "mode": 420,
+        "mtime_ns": 1788714759000000000,
+        "device": 56918434,
+        "inode": 198160013510949555,
+        "kind": "file",
+        "sha256": "0107e85ab8a41d92ca8897b9d48e055a08fe7e54c8e1c5e144e9d9da86e33d57"
+      },
+      "work/native-build/production/PMP2formatFiles.f90": {
+        "bytes": 1298,
+        "mode": 420,
+        "mtime_ns": 1776226878000000000,
+        "device": 56918434,
+        "inode": 198160013510949479,
+        "kind": "file",
+        "sha256": "e7f26617ead8f8db4d323458b3a0a7ebb6f6507b954a96c87612b4cc17389f44"
+      },
+      "work/native-build/production/PMP2haloStat.f90": {
+        "bytes": 62109,
+        "mode": 420,
+        "mtime_ns": 1788266740000000000,
+        "device": 56918434,
+        "inode": 198160013510949480,
+        "kind": "file",
+        "sha256": "6fcc2c14aababa6a8288a5c8a9f3da8aaaffe127414eb28af016fafdd5957b7a"
+      },
+      "work/native-build/production/PMP2init.f90": {
+        "bytes": 36346,
+        "mode": 420,
+        "mtime_ns": 1787753892000000000,
+        "device": 56918434,
+        "inode": 198160013510949481,
+        "kind": "file",
+        "sha256": "5978546b1ba8efdaae512c22c31d764fb852dc0117d78e42950917870fa0a111"
+      },
+      "work/native-build/production/PMP2linker.f90": {
+        "bytes": 95367,
+        "mode": 420,
+        "mtime_ns": 1788714636000000000,
+        "device": 56918434,
+        "inode": 198160013510949482,
+        "kind": "file",
+        "sha256": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d"
+      },
+      "work/native-build/production/PMP2linker.o": {
+        "bytes": 389344,
+        "mode": 420,
+        "mtime_ns": 1788714752000000000,
+        "device": 56918434,
+        "inode": 198160013510949541,
+        "kind": "file",
+        "sha256": "406eecc8743ac694a670883c291d64e5d95e17313285fb0413aeb6486facdd49"
+      },
+      "work/native-build/production/PMP2linker.opt.yaml": {
+        "bytes": 11130721,
+        "mode": 420,
+        "mtime_ns": 1788714752000000000,
+        "device": 56918434,
+        "inode": 198160013510949537,
+        "kind": "file",
+        "sha256": "c8cb1dba0046bbcddfeb9d8af0a9a02b4c6277edefcaf350ca4828085f88b23d"
+      },
+      "work/native-build/production/PMP2linker.optrpt": {
+        "bytes": 185910,
+        "mode": 420,
+        "mtime_ns": 1788714752000000000,
+        "device": 56918434,
+        "inode": 198160013510949542,
+        "kind": "file",
+        "sha256": "446b17e875502d4dab2bd4d2c978d87c25c72b5c3420577539185bc7ce9b53d7"
+      },
+      "work/native-build/production/PMP2main.f90": {
+        "bytes": 42035,
+        "mode": 420,
+        "mtime_ns": 1787753892000000000,
+        "device": 56918434,
+        "inode": 198160013510949483,
+        "kind": "file",
+        "sha256": "487f9835ae1a73a41c84e31c138e356c2700aeb3a798304f53e7610594b2f0bb"
+      },
+      "work/native-build/production/PMP2mainMPI.f90": {
+        "bytes": 22264,
+        "mode": 420,
+        "mtime_ns": 1787753892000000000,
+        "device": 56918434,
+        "inode": 198160013510949484,
+        "kind": "file",
+        "sha256": "edc0c750b4c9f02c07881b87455f111b638f0b47ef7d62c1ff7b3bebc0bb689d"
+      },
+      "work/native-build/production/PMP2mod_MGbackground.f90": {
+        "bytes": 31651,
+        "mode": 420,
+        "mtime_ns": 1776226878000000000,
+        "device": 56918434,
+        "inode": 198160013510949485,
+        "kind": "file",
+        "sha256": "cd4b9fc2f9dca17c06c1be53ca9739437a4c9731eebeec34c6b429cacd763860"
+      },
+      "work/native-build/production/PMP2mod_MGbackground.o": {
+        "bytes": 55320,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949517,
+        "kind": "file",
+        "sha256": "fa05fed992d977e057e4f66d14f2c5c0854d423894d957a7d07a1a49acde1190"
+      },
+      "work/native-build/production/PMP2mod_MGbackground.opt.yaml": {
+        "bytes": 409722,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949515,
+        "kind": "file",
+        "sha256": "f0b4575e25b1387ab96777d74de5de081db2bcf9e5df2440338d682e190e6942"
+      },
+      "work/native-build/production/PMP2mod_MGbackground.optrpt": {
+        "bytes": 14332,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949518,
+        "kind": "file",
+        "sha256": "dd5170022334b23753b719adea41fba74c07d1875ebc61c260418a91a12e9716"
+      },
+      "work/native-build/production/PMP2mod_analyze.f90": {
+        "bytes": 14247,
+        "mode": 420,
+        "mtime_ns": 1776226878000000000,
+        "device": 56918434,
+        "inode": 198160013510949486,
+        "kind": "file",
+        "sha256": "444918cac15c7486718dcf6a7cf65e3fe21ad06b9bd9d0653dea0d83d6ae42fb"
+      },
+      "work/native-build/production/PMP2mod_analyze.o": {
+        "bytes": 64168,
+        "mode": 420,
+        "mtime_ns": 1788714752000000000,
+        "device": 56918434,
+        "inode": 198160013510949545,
+        "kind": "file",
+        "sha256": "a9433ec35492e53733da78fd68919c151950cfe4a07422b54cc13764f1c74bdf"
+      },
+      "work/native-build/production/PMP2mod_analyze.opt.yaml": {
+        "bytes": 1215819,
+        "mode": 420,
+        "mtime_ns": 1788714752000000000,
+        "device": 56918434,
+        "inode": 198160013510949543,
+        "kind": "file",
+        "sha256": "9555edbf26d54694c0f3754c89cf7ec479c6ac8fc987cc2df4ed575dd05efa7a"
+      },
+      "work/native-build/production/PMP2mod_analyze.optrpt": {
+        "bytes": 8647,
+        "mode": 420,
+        "mtime_ns": 1788714752000000000,
+        "device": 56918434,
+        "inode": 198160013510949546,
+        "kind": "file",
+        "sha256": "dd1266c21aa0dc8d68d61b5f47f84929b04ff1eeafcc1bb248b1e340cb3d2184"
+      },
+      "work/native-build/production/PMP2mod_density.f90": {
+        "bytes": 43662,
+        "mode": 420,
+        "mtime_ns": 1788266740000000000,
+        "device": 56918434,
+        "inode": 198160013510949487,
+        "kind": "file",
+        "sha256": "199ad91667f32c068bab5882c08046c24970ca3caa0321d277cfc7d704e88ed3"
+      },
+      "work/native-build/production/PMP2mod_density.o": {
+        "bytes": 197544,
+        "mode": 420,
+        "mtime_ns": 1788714748000000000,
+        "device": 56918434,
+        "inode": 198160013510949531,
+        "kind": "file",
+        "sha256": "3d599cabce76e879150c8e4057f6b87565979f0539fa81f063da85801d19aaf1"
+      },
+      "work/native-build/production/PMP2mod_density.opt.yaml": {
+        "bytes": 4545201,
+        "mode": 420,
+        "mtime_ns": 1788714748000000000,
+        "device": 56918434,
+        "inode": 198160013510949529,
+        "kind": "file",
+        "sha256": "6647935f6a147d6fbc6e9f82ad48b8ded006d83159538dabfb4c78e57a34f5d9"
+      },
+      "work/native-build/production/PMP2mod_density.optrpt": {
+        "bytes": 48889,
+        "mode": 420,
+        "mtime_ns": 1788714748000000000,
+        "device": 56918434,
+        "inode": 198160013510949532,
+        "kind": "file",
+        "sha256": "2a545a91c77d304a4829ddf948ed46072fc598ca78bd1d21a2e6020d20e9e63e"
+      },
+      "work/native-build/production/PMP2mod_fft5.f90": {
+        "bytes": 56680,
+        "mode": 420,
+        "mtime_ns": 1776226878000000000,
+        "device": 56918434,
+        "inode": 198160013510949488,
+        "kind": "file",
+        "sha256": "1cf32f6d5271c55ef282ce9299a9235d2de673b32b0d83bfd9ca409ea13c08c9"
+      },
+      "work/native-build/production/PMP2mod_fft5.o": {
+        "bytes": 158480,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949522,
+        "kind": "file",
+        "sha256": "c8efb2eaf80df4e709368fe0af5c4f956b938508caeacaf72c2fe525515c6dec"
+      },
+      "work/native-build/production/PMP2mod_fft5.opt.yaml": {
+        "bytes": 962032,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949520,
+        "kind": "file",
+        "sha256": "6eff2765ab46882e532b36a91ed6804131b5b9726dd288fc9fc4f17d83b9aa2d"
+      },
+      "work/native-build/production/PMP2mod_fft5.optrpt": {
+        "bytes": 53550,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949523,
+        "kind": "file",
+        "sha256": "47bd6ba9967e6b94baf62a93e60a051f669bc87366abea7550b3a057376e1f70"
+      },
+      "work/native-build/production/PMP2mod_power.f90": {
+        "bytes": 17617,
+        "mode": 420,
+        "mtime_ns": 1776226878000000000,
+        "device": 56918434,
+        "inode": 198160013510949489,
+        "kind": "file",
+        "sha256": "3bb942f8a7ed217e79057e9d523728ac5a56328c89c01c01075a82ed89d4f7e0"
+      },
+      "work/native-build/production/PMP2mod_power.o": {
+        "bytes": 109856,
+        "mode": 420,
+        "mtime_ns": 1788714749000000000,
+        "device": 56918434,
+        "inode": 198160013510949535,
+        "kind": "file",
+        "sha256": "1c1499cab682b54a4915d86d3be490ec9b3f68b396d37cf4f02f739926ebb9fc"
+      },
+      "work/native-build/production/PMP2mod_power.opt.yaml": {
+        "bytes": 2756794,
+        "mode": 420,
+        "mtime_ns": 1788714749000000000,
+        "device": 56918434,
+        "inode": 198160013510949533,
+        "kind": "file",
+        "sha256": "69a51057a9fe69924abc50c7a94d73f8af38301c12f14054ba05cb0f38ec82ae"
+      },
+      "work/native-build/production/PMP2mod_power.optrpt": {
+        "bytes": 43073,
+        "mode": 420,
+        "mtime_ns": 1788714749000000000,
+        "device": 56918434,
+        "inode": 198160013510949536,
+        "kind": "file",
+        "sha256": "ab14ed5199e2ae5ce06b93959dbaee90f5702d5eb08720f770e0c5c2ef510894"
+      },
+      "work/native-build/production/PMP2mod_random.f90": {
+        "bytes": 13195,
+        "mode": 420,
+        "mtime_ns": 1776226878000000000,
+        "device": 56918434,
+        "inode": 198160013510949490,
+        "kind": "file",
+        "sha256": "3b8eca39991da447d868c9c7ca1407e53d9ab6f0075789270d0e244c6a6258e8"
+      },
+      "work/native-build/production/PMP2mod_random.o": {
+        "bytes": 38928,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949527,
+        "kind": "file",
+        "sha256": "4c9ad0911d5fc922a7bf884e25138a779a6cb1702e13b8238acd57f665123079"
+      },
+      "work/native-build/production/PMP2mod_random.opt.yaml": {
+        "bytes": 157595,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949524,
+        "kind": "file",
+        "sha256": "371e4373ce69928c8ae68c8355b3faca3f496cc166222a3f3bcb15ac6aa5f8d1"
+      },
+      "work/native-build/production/PMP2mod_random.optrpt": {
+        "bytes": 20729,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949528,
+        "kind": "file",
+        "sha256": "899c7984ce1ff9dd6d1db860fe2be8a47f4cd21b855f5804402b2ed6f1df8230"
+      },
+      "work/native-build/production/PMP2mod_tools.f90": {
+        "bytes": 23316,
+        "mode": 420,
+        "mtime_ns": 1788266740000000000,
+        "device": 56918434,
+        "inode": 198160013510949491,
+        "kind": "file",
+        "sha256": "c40db0bcdf20413878e2fc91262293f47dc322d9ab846ea146fe2b7d12e1e0fb"
+      },
+      "work/native-build/production/PMP2mod_tools.o": {
+        "bytes": 111304,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949513,
+        "kind": "file",
+        "sha256": "5547e07fb77a77be3f573efea5d0e9a705f6f821fb042e813d61258fadc34901"
+      },
+      "work/native-build/production/PMP2mod_tools.opt.yaml": {
+        "bytes": 1934265,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949511,
+        "kind": "file",
+        "sha256": "54621b9aae61c4ea19d7ee157f98734e8da9c948e09c6d0ec1f3301fdd37ac23"
+      },
+      "work/native-build/production/PMP2mod_tools.optrpt": {
+        "bytes": 18599,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949514,
+        "kind": "file",
+        "sha256": "96f54ef5c65bf1311f4e44a7d300bc97de9aa75a302ca6fbb74a5a85571cb89a"
+      },
+      "work/native-build/production/PMP2power.f90": {
+        "bytes": 25548,
+        "mode": 493,
+        "mtime_ns": 1776226878000000000,
+        "device": 56918434,
+        "inode": 198160013510949492,
+        "kind": "file",
+        "sha256": "cf6c0c99d5e6819648626cae23381a4be7858985e0adf77048cfe280c527a3b7"
+      },
+      "work/native-build/production/PMP2powerSSC.f90": {
+        "bytes": 16212,
+        "mode": 493,
+        "mtime_ns": 1776226879000000000,
+        "device": 56918434,
+        "inode": 198160013510949493,
+        "kind": "file",
+        "sha256": "e5a555dd9e602ff93460b4b3f90bce9e3f7a4186626bc53f9d576075159eefe3"
+      },
+      "work/native-build/production/PMP2readFiles.f90": {
+        "bytes": 7846,
+        "mode": 420,
+        "mtime_ns": 1776226879000000000,
+        "device": 56918434,
+        "inode": 198160013510949494,
+        "kind": "file",
+        "sha256": "18ec7c4e5acd8f3cb00f422572f033dafeb7b33662b4210dd84c36352668c27b"
+      },
+      "work/native-build/production/PMP2spectrum.f90": {
+        "bytes": 1513,
+        "mode": 420,
+        "mtime_ns": 1776226879000000000,
+        "device": 56918434,
+        "inode": 198160013510949495,
+        "kind": "file",
+        "sha256": "318594381c772eaf76fce54c4b872219ef9e432a5d65de794ab682943104059f"
+      },
+      "work/native-build/production/PMP2start.f90": {
+        "bytes": 29003,
+        "mode": 420,
+        "mtime_ns": 1785609481000000000,
+        "device": 56918434,
+        "inode": 198160013510949496,
+        "kind": "file",
+        "sha256": "cf60bcf92c5620b3fd8428cbeaae2a56dc0177afb872f997df32c0280a8ecc4a"
+      },
+      "work/native-build/production/PMP2startMPI.f90": {
+        "bytes": 34138,
+        "mode": 420,
+        "mtime_ns": 1785609481000000000,
+        "device": 56918434,
+        "inode": 198160013510949497,
+        "kind": "file",
+        "sha256": "63a16fb3b7964fb6a2adc40abd21e9aab9db9adfe960baac28e5cb26bce2bb20"
+      },
+      "work/native-build/production/PMP2tunestepping.f90": {
+        "bytes": 5337,
+        "mode": 420,
+        "mtime_ns": 1776226879000000000,
+        "device": 56918434,
+        "inode": 198160013510949498,
+        "kind": "file",
+        "sha256": "99d9b9162bcab93e9494923d24bc2b681ae22b1c8274cc9dfc5b0ba90d5105e3"
+      },
+      "work/native-build/production/PMPcovariance.f90": {
+        "bytes": 6285,
+        "mode": 420,
+        "mtime_ns": 1776226879000000000,
+        "device": 56918434,
+        "inode": 198160013510949499,
+        "kind": "file",
+        "sha256": "878aaf616bd579eb5097e0bb4761c4d52e67062ffb958b9a2f4adeadf566dc52"
+      },
+      "work/native-build/production/analyze.mod": {
+        "bytes": 895,
+        "mode": 420,
+        "mtime_ns": 1788714752000000000,
+        "device": 56918434,
+        "inode": 198160013510949544,
+        "kind": "file",
+        "sha256": "0b8a3a17e45beddc01d1109acbb13685997e25f96ab6b44c0034320b6069a046"
+      },
+      "work/native-build/production/bdmduplicaterules.mod": {
+        "bytes": 2243,
+        "mode": 420,
+        "mtime_ns": 1788714749000000000,
+        "device": 56918434,
+        "inode": 198160013510949538,
+        "kind": "file",
+        "sha256": "5775ef031a2db2775522403d4f185c2316928e376ace621a627d14b9317a58d0"
+      },
+      "work/native-build/production/density.mod": {
+        "bytes": 8417,
+        "mode": 420,
+        "mtime_ns": 1788714747000000000,
+        "device": 56918434,
+        "inode": 198160013510949530,
+        "kind": "file",
+        "sha256": "af857218a8d2dc03dcd794e1b3460d5ea4d6d318cc6ec2eb38531244fcb86532"
+      },
+      "work/native-build/production/extradofbackgrounddata.mod": {
+        "bytes": 5887,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949516,
+        "kind": "file",
+        "sha256": "09ff56039bfe1e0f8b96fdb4ed1a03ccb800adb4eed9f850e1f9a7915192750f"
+      },
+      "work/native-build/production/fft5.mod": {
+        "bytes": 31680,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949521,
+        "kind": "file",
+        "sha256": "8c7e1f631ad523ffbf2ce58da4920cc558143f073d89e477dfd8f48fa97ea28d"
+      },
+      "work/native-build/production/gadget2pm.f90": {
+        "bytes": 6604,
+        "mode": 420,
+        "mtime_ns": 1780566669000000000,
+        "device": 56918434,
+        "inode": 198160013510949500,
+        "kind": "file",
+        "sha256": "7b6156f94ebe88e3623572c1d82eed466164b5c9d002fbc622f15889700116ee"
+      },
+      "work/native-build/production/ic2pm.f90": {
+        "bytes": 9344,
+        "mode": 420,
+        "mtime_ns": 1785609484000000000,
+        "device": 56918434,
+        "inode": 198160013510949501,
+        "kind": "file",
+        "sha256": "b7c19a0393b38d85db09bd878e082a27c7513a5f62a3e0c69b0d14bcdfd5c96e"
+      },
+      "work/native-build/production/linkerlist.mod": {
+        "bytes": 30954,
+        "mode": 420,
+        "mtime_ns": 1788714749000000000,
+        "device": 56918434,
+        "inode": 198160013510949540,
+        "kind": "file",
+        "sha256": "4b2c39f90f61d32bf4fbc264fded52969f535ffbdf501ffcccaa244edc9f571f"
+      },
+      "work/native-build/production/luxury.mod": {
+        "bytes": 1605,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949525,
+        "kind": "file",
+        "sha256": "60ebaac9a0485b7c160883c1f537f0dbbb5034d7159df7ca8713748514e2efa9"
+      },
+      "work/native-build/production/luxuryp.h": {
+        "bytes": 1108,
+        "mode": 420,
+        "mtime_ns": 1776226879000000000,
+        "device": 56918434,
+        "inode": 198160013510949504,
+        "kind": "file",
+        "sha256": "ca26e590488d836593d330385e4f2e872932dd29966f78c83c1bc96b3b107836"
+      },
+      "work/native-build/production/makefile": {
+        "bytes": 5896,
+        "mode": 420,
+        "mtime_ns": 1788713839000000000,
+        "device": 56918434,
+        "inode": 198160013510949505,
+        "kind": "file",
+        "sha256": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74"
+      },
+      "work/native-build/production/power.mod": {
+        "bytes": 6209,
+        "mode": 420,
+        "mtime_ns": 1788714748000000000,
+        "device": 56918434,
+        "inode": 198160013510949534,
+        "kind": "file",
+        "sha256": "4dc78d8220d453a1583f54c8371401ab89212d8fa30df67df37e3ef70d84ba4d"
+      },
+      "work/native-build/production/random.mod": {
+        "bytes": 12418,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949526,
+        "kind": "file",
+        "sha256": "6a9ddf9306b2f9996de294020527ad804d8dc58114ced7c68c29ecb653896ab4"
+      },
+      "work/native-build/production/structures.mod": {
+        "bytes": 14958,
+        "mode": 420,
+        "mtime_ns": 1788714749000000000,
+        "device": 56918434,
+        "inode": 198160013510949539,
+        "kind": "file",
+        "sha256": "e59fc84121387e1a8e82af308cb7dadbebed7a84b6b64217bb2331253e2b6d49"
+      },
+      "work/native-build/production/testMemory.f90": {
+        "bytes": 1066,
+        "mode": 420,
+        "mtime_ns": 1776226879000000000,
+        "device": 56918434,
+        "inode": 198160013510949502,
+        "kind": "file",
+        "sha256": "4ec069a4b41fa5ea19f9ca82bcafe05eb7b5693e4c66b6ebc0763d905f9a23c3"
+      },
+      "work/native-build/production/testtOmp.f90": {
+        "bytes": 3406,
+        "mode": 420,
+        "mtime_ns": 1776226879000000000,
+        "device": 56918434,
+        "inode": 198160013510949503,
+        "kind": "file",
+        "sha256": "a35dbb2e8b7ccc866377c40d60b795b0d0c29d91aa83ab8321cdae838e98d4c1"
+      },
+      "work/native-build/production/tools.mod": {
+        "bytes": 13644,
+        "mode": 420,
+        "mtime_ns": 1788714743000000000,
+        "device": 56918434,
+        "inode": 198160013510949512,
+        "kind": "file",
+        "sha256": "cbfc18aa5425e49f37d1ca8d44b375fe9ac6f1818c22b3073d82455005c2ae18"
+      },
+      "work/native-build/publication_preflight.f90": {
+        "bytes": 2289,
+        "mode": 420,
+        "mtime_ns": 1788714614000000000,
+        "device": 56918434,
+        "inode": 198160013510949508,
+        "kind": "file",
+        "sha256": "711bd48a5733ef06e6ab296b4f1fcaaa4652c53479d05eef2fb1fa6284e218b0"
+      },
+      "work/native-build/reference/analyze.mod": {
+        "bytes": 895,
+        "mode": 420,
+        "mtime_ns": 1788714752000000000,
+        "device": 56918434,
+        "inode": 198160013510949577,
+        "kind": "file",
+        "sha256": "0b8a3a17e45beddc01d1109acbb13685997e25f96ab6b44c0034320b6069a046"
+      },
+      "work/native-build/reference/bdmduplicaterules.mod": {
+        "bytes": 2239,
+        "mode": 420,
+        "mtime_ns": 1788714764000000000,
+        "device": 56918434,
+        "inode": 198160013510949587,
+        "kind": "file",
+        "sha256": "28ddfa8b201896c07d49860b78100902b36a11557e389dcc5f5c343a565c7ac3"
+      },
+      "work/native-build/reference/bdmreplaycontrol.mod": {
+        "bytes": 19644,
+        "mode": 420,
+        "mtime_ns": 1788714767000000000,
+        "device": 56918434,
+        "inode": 198160013510949593,
+        "kind": "file",
+        "sha256": "bb8962a42195e7dedd75ec31440e0d38687d2d470630c34cd680df3ed0997b5d"
+      },
+      "work/native-build/reference/density.mod": {
+        "bytes": 8417,
+        "mode": 420,
+        "mtime_ns": 1788714747000000000,
+        "device": 56918434,
+        "inode": 198160013510949576,
+        "kind": "file",
+        "sha256": "af857218a8d2dc03dcd794e1b3460d5ea4d6d318cc6ec2eb38531244fcb86532"
+      },
+      "work/native-build/reference/extradofbackgrounddata.mod": {
+        "bytes": 5887,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949574,
+        "kind": "file",
+        "sha256": "09ff56039bfe1e0f8b96fdb4ed1a03ccb800adb4eed9f850e1f9a7915192750f"
+      },
+      "work/native-build/reference/fft5.mod": {
+        "bytes": 31680,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949578,
+        "kind": "file",
+        "sha256": "8c7e1f631ad523ffbf2ce58da4920cc558143f073d89e477dfd8f48fa97ea28d"
+      },
+      "work/native-build/reference/finder-original.f90": {
+        "bytes": 98746,
+        "mode": 420,
+        "mtime_ns": 1788714764000000000,
+        "device": 56918434,
+        "inode": 198160013510949582,
+        "kind": "file",
+        "sha256": "ef8a0bdf0c3406c83404ee35f569bd89705bcbb5670b220ffa63af156c4f7598"
+      },
+      "work/native-build/reference/finder.f90": {
+        "bytes": 103095,
+        "mode": 420,
+        "mtime_ns": 1788714764000000000,
+        "device": 56918434,
+        "inode": 198160013510949583,
+        "kind": "file",
+        "sha256": "ab2098c6bacbbc572c1352ea2efe4f82ca43c1af352fa54eb2b134fdda3df4fb"
+      },
+      "work/native-build/reference/finder.o": {
+        "bytes": 423224,
+        "mode": 420,
+        "mtime_ns": 1788714767000000000,
+        "device": 56918434,
+        "inode": 198160013510949590,
+        "kind": "file",
+        "sha256": "ebe57d2136b34b14a3962c0078435a87591e560550af7a9f6dfe60e91871d467"
+      },
+      "work/native-build/reference/linkerlist.mod": {
+        "bytes": 34604,
+        "mode": 420,
+        "mtime_ns": 1788714764000000000,
+        "device": 56918434,
+        "inode": 198160013510949589,
+        "kind": "file",
+        "sha256": "a062eec705b5ad3a91a348cbbc2b3324f99f98ee64d560ec54736a1ea346f883"
+      },
+      "work/native-build/reference/luxury.mod": {
+        "bytes": 1605,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949575,
+        "kind": "file",
+        "sha256": "60ebaac9a0485b7c160883c1f537f0dbbb5034d7159df7ca8713748514e2efa9"
+      },
+      "work/native-build/reference/power.mod": {
+        "bytes": 6209,
+        "mode": 420,
+        "mtime_ns": 1788714748000000000,
+        "device": 56918434,
+        "inode": 198160013510949581,
+        "kind": "file",
+        "sha256": "4dc78d8220d453a1583f54c8371401ab89212d8fa30df67df37e3ef70d84ba4d"
+      },
+      "work/native-build/reference/publication-preflight.exe": {
+        "bytes": 1217856,
+        "mode": 493,
+        "mtime_ns": 1788714768000000000,
+        "device": 56918434,
+        "inode": 198160013510949600,
+        "kind": "file",
+        "sha256": "78b10fdbc5a884e2f461a90552b0345515e709139e44e59fdee02db0d9845455"
+      },
+      "work/native-build/reference/publication_preflight.f90": {
+        "bytes": 2289,
+        "mode": 420,
+        "mtime_ns": 1788714614000000000,
+        "device": 56918434,
+        "inode": 198160013510949586,
+        "kind": "file",
+        "sha256": "711bd48a5733ef06e6ab296b4f1fcaaa4652c53479d05eef2fb1fa6284e218b0"
+      },
+      "work/native-build/reference/random.mod": {
+        "bytes": 12418,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949579,
+        "kind": "file",
+        "sha256": "6a9ddf9306b2f9996de294020527ad804d8dc58114ced7c68c29ecb653896ab4"
+      },
+      "work/native-build/reference/replay.exe": {
+        "bytes": 1211600,
+        "mode": 493,
+        "mtime_ns": 1788714768000000000,
+        "device": 56918434,
+        "inode": 198160013510949598,
+        "kind": "file",
+        "sha256": "1a74d8519126268165b7c5d196ff537d4483594811a07928fa5e7c229af377af"
+      },
+      "work/native-build/reference/replay_entry.f90": {
+        "bytes": 1191,
+        "mode": 420,
+        "mtime_ns": 1788714725000000000,
+        "device": 56918434,
+        "inode": 198160013510949585,
+        "kind": "file",
+        "sha256": "25683c9a0cce109fc223f87728ea56256baba0ad5bb001df9acdc7d078cbf916"
+      },
+      "work/native-build/reference/replay_entry.o": {
+        "bytes": 9152,
+        "mode": 420,
+        "mtime_ns": 1788714768000000000,
+        "device": 56918434,
+        "inode": 198160013510949596,
+        "kind": "file",
+        "sha256": "f3e5ac1b4f1131cee43b6543e3854c490120742917d8244f8194036ca0051c7f"
+      },
+      "work/native-build/reference/replay_probe.f90": {
+        "bytes": 10614,
+        "mode": 420,
+        "mtime_ns": 1788714141000000000,
+        "device": 56918434,
+        "inode": 198160013510949584,
+        "kind": "file",
+        "sha256": "6330c69b25904123c0816302c03ee6a1c2f6088d2357ccd6d2c396520fdadef2"
+      },
+      "work/native-build/reference/replay_probe.o": {
+        "bytes": 70792,
+        "mode": 420,
+        "mtime_ns": 1788714767000000000,
+        "device": 56918434,
+        "inode": 198160013510949594,
+        "kind": "file",
+        "sha256": "283b74510785a8a878abf2833a18a8f591bd0edaaf1a3a171ee63ef201d77f67"
+      },
+      "work/native-build/reference/structures.mod": {
+        "bytes": 15062,
+        "mode": 420,
+        "mtime_ns": 1788714764000000000,
+        "device": 56918434,
+        "inode": 198160013510949588,
+        "kind": "file",
+        "sha256": "0338a5001c389228d404e9eb86578468f8537b40a9840e8796e1223a95b66fd7"
+      },
+      "work/native-build/reference/tools.mod": {
+        "bytes": 13644,
+        "mode": 420,
+        "mtime_ns": 1788714743000000000,
+        "device": 56918434,
+        "inode": 198160013510949580,
+        "kind": "file",
+        "sha256": "cbfc18aa5425e49f37d1ca8d44b375fe9ac6f1818c22b3073d82455005c2ae18"
+      },
+      "work/native-build/replay_entry.f90": {
+        "bytes": 1191,
+        "mode": 420,
+        "mtime_ns": 1788714725000000000,
+        "device": 56918434,
+        "inode": 198160013510949507,
+        "kind": "file",
+        "sha256": "25683c9a0cce109fc223f87728ea56256baba0ad5bb001df9acdc7d078cbf916"
+      },
+      "work/native-build/replay_probe.f90": {
+        "bytes": 10614,
+        "mode": 420,
+        "mtime_ns": 1788714141000000000,
+        "device": 56918434,
+        "inode": 198160013510949506,
+        "kind": "file",
+        "sha256": "6330c69b25904123c0816302c03ee6a1c2f6088d2357ccd6d2c396520fdadef2"
+      },
+      "work/native-build/v3/analyze.mod": {
+        "bytes": 895,
+        "mode": 420,
+        "mtime_ns": 1788714752000000000,
+        "device": 56918434,
+        "inode": 198160013510949633,
+        "kind": "file",
+        "sha256": "0b8a3a17e45beddc01d1109acbb13685997e25f96ab6b44c0034320b6069a046"
+      },
+      "work/native-build/v3/bdmduplicaterules.mod": {
+        "bytes": 2239,
+        "mode": 420,
+        "mtime_ns": 1788714774000000000,
+        "device": 56918434,
+        "inode": 198160013510949643,
+        "kind": "file",
+        "sha256": "de471b3cb3d743ad1b90b28ac2dca7b57fa2c3474721f82f6ab96dbf9f94f358"
+      },
+      "work/native-build/v3/bdmreplaycontrol.mod": {
+        "bytes": 19644,
+        "mode": 420,
+        "mtime_ns": 1788714777000000000,
+        "device": 56918434,
+        "inode": 198160013510949648,
+        "kind": "file",
+        "sha256": "3fa91869a809c7dd2a94ffa5552748039ba74d423ff9aa40d155cba721c24683"
+      },
+      "work/native-build/v3/density.mod": {
+        "bytes": 8417,
+        "mode": 420,
+        "mtime_ns": 1788714747000000000,
+        "device": 56918434,
+        "inode": 198160013510949632,
+        "kind": "file",
+        "sha256": "af857218a8d2dc03dcd794e1b3460d5ea4d6d318cc6ec2eb38531244fcb86532"
+      },
+      "work/native-build/v3/extradofbackgrounddata.mod": {
+        "bytes": 5887,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949630,
+        "kind": "file",
+        "sha256": "09ff56039bfe1e0f8b96fdb4ed1a03ccb800adb4eed9f850e1f9a7915192750f"
+      },
+      "work/native-build/v3/fft5.mod": {
+        "bytes": 31680,
+        "mode": 420,
+        "mtime_ns": 1788714744000000000,
+        "device": 56918434,
+        "inode": 198160013510949634,
+        "kind": "file",
+        "sha256": "8c7e1f631ad523ffbf2ce58da4920cc558143f073d89e477dfd8f48fa97ea28d"
+      },
+      "work/native-build/v3/finder-original.f90": {
+        "bytes": 95367,
+        "mode": 420,
+        "mtime_ns": 1788714774000000000,
+        "device": 56918434,
+        "inode": 198160013510949638,
+        "kind": "file",
+        "sha256": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d"
+      },
+      "work/native-build/v3/finder.f90": {
+        "bytes": 99716,
+        "mode": 420,
+        "mtime_ns": 1788714774000000000,
+        "device": 56918434,
+        "inode": 198160013510949639,
+        "kind": "file",
+        "sha256": "038285b1189a95824f6944dc211859dea46982c65898ed1eac87a997bd776656"
+      },
+      "work/native-build/v3/finder.o": {
+        "bytes": 405944,
+        "mode": 420,
+        "mtime_ns": 1788714776000000000,
+        "device": 56918434,
+        "inode": 198160013510949646,
+        "kind": "file",
+        "sha256": "8d2e3ea371636e13a35fdb9d0d47c0c7e02dc06044fb0af80c981081e3fee42c"
+      },
+      "work/native-build/v3/linkerlist.mod": {
+        "bytes": 31948,
+        "mode": 420,
+        "mtime_ns": 1788714774000000000,
+        "device": 56918434,
+        "inode": 198160013510949645,
+        "kind": "file",
+        "sha256": "0776864af3e19a4c64f81795151825ccfdd70be5ab48c394a64229a0c0fa0f39"
+      },
+      "work/native-build/v3/luxury.mod": {
+        "bytes": 1605,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949631,
+        "kind": "file",
+        "sha256": "60ebaac9a0485b7c160883c1f537f0dbbb5034d7159df7ca8713748514e2efa9"
+      },
+      "work/native-build/v3/power.mod": {
+        "bytes": 6209,
+        "mode": 420,
+        "mtime_ns": 1788714748000000000,
+        "device": 56918434,
+        "inode": 198160013510949637,
+        "kind": "file",
+        "sha256": "4dc78d8220d453a1583f54c8371401ab89212d8fa30df67df37e3ef70d84ba4d"
+      },
+      "work/native-build/v3/publication-preflight.exe": {
+        "bytes": 1204888,
+        "mode": 493,
+        "mtime_ns": 1788714778000000000,
+        "device": 56918434,
+        "inode": 198160013510949654,
+        "kind": "file",
+        "sha256": "6bfa401b0384721290ad488afb903552fe02233e9c38b54c6ae272a9bac1934c"
+      },
+      "work/native-build/v3/publication_preflight.f90": {
+        "bytes": 2289,
+        "mode": 420,
+        "mtime_ns": 1788714614000000000,
+        "device": 56918434,
+        "inode": 198160013510949642,
+        "kind": "file",
+        "sha256": "711bd48a5733ef06e6ab296b4f1fcaaa4652c53479d05eef2fb1fa6284e218b0"
+      },
+      "work/native-build/v3/random.mod": {
+        "bytes": 12418,
+        "mode": 420,
+        "mtime_ns": 1788714746000000000,
+        "device": 56918434,
+        "inode": 198160013510949635,
+        "kind": "file",
+        "sha256": "6a9ddf9306b2f9996de294020527ad804d8dc58114ced7c68c29ecb653896ab4"
+      },
+      "work/native-build/v3/replay.exe": {
+        "bytes": 1198616,
+        "mode": 493,
+        "mtime_ns": 1788714777000000000,
+        "device": 56918434,
+        "inode": 198160013510949652,
+        "kind": "file",
+        "sha256": "e751d52d9f081f9488bb83a5f536cc91f616f08029d70685e630e94316906432"
+      },
+      "work/native-build/v3/replay_entry.f90": {
+        "bytes": 1191,
+        "mode": 420,
+        "mtime_ns": 1788714725000000000,
+        "device": 56918434,
+        "inode": 198160013510949641,
+        "kind": "file",
+        "sha256": "25683c9a0cce109fc223f87728ea56256baba0ad5bb001df9acdc7d078cbf916"
+      },
+      "work/native-build/v3/replay_entry.o": {
+        "bytes": 9032,
+        "mode": 420,
+        "mtime_ns": 1788714777000000000,
+        "device": 56918434,
+        "inode": 198160013510949650,
+        "kind": "file",
+        "sha256": "2fa81131249d2e803f5916df49b3d191e2e3e9b4138a7c86f3c0eda731bbf572"
+      },
+      "work/native-build/v3/replay_probe.f90": {
+        "bytes": 10614,
+        "mode": 420,
+        "mtime_ns": 1788714141000000000,
+        "device": 56918434,
+        "inode": 198160013510949640,
+        "kind": "file",
+        "sha256": "6330c69b25904123c0816302c03ee6a1c2f6088d2357ccd6d2c396520fdadef2"
+      },
+      "work/native-build/v3/replay_probe.o": {
+        "bytes": 70616,
+        "mode": 420,
+        "mtime_ns": 1788714777000000000,
+        "device": 56918434,
+        "inode": 198160013510949649,
+        "kind": "file",
+        "sha256": "7fe65d6a1741b0557d9e369f02010189596fa7849561683e09cc6cca89964683"
+      },
+      "work/native-build/v3/structures.mod": {
+        "bytes": 15062,
+        "mode": 420,
+        "mtime_ns": 1788714774000000000,
+        "device": 56918434,
+        "inode": 198160013510949644,
+        "kind": "file",
+        "sha256": "85122b55668c7f6eab7cb4a2117aa13bdcdc082f29d4831902620416a71c5a55"
+      },
+      "work/native-build/v3/tools.mod": {
+        "bytes": 13644,
+        "mode": 420,
+        "mtime_ns": 1788714743000000000,
+        "device": 56918434,
+        "inode": 198160013510949636,
+        "kind": "file",
+        "sha256": "cbfc18aa5425e49f37d1ca8d44b375fe9ac6f1818c22b3073d82455005c2ae18"
+      },
+      "work/native-t32-11949500.log": {
+        "bytes": 509,
+        "mode": 420,
+        "mtime_ns": 1788716685000000000,
+        "device": 56918434,
+        "inode": 198160015591211009,
+        "kind": "file",
+        "sha256": "b16207b8331be4690d5f1a33991ec2c379f8fc131779ddca283d6ddee8862839"
+      },
+      "work/native-t64-11949499.log": {
+        "bytes": 738,
+        "mode": 420,
+        "mtime_ns": 1788717448000000000,
+        "device": 56918434,
+        "inode": 198160015574433948,
+        "kind": "file",
+        "sha256": "02b56a3528437c1a120b92d2182e648d577b283055b340b83e6fbc8b3a0de900"
+      },
+      "work/replays-t32/z0-optimized-v2/BDM.config": {
+        "bytes": 193,
+        "mode": 420,
+        "mtime_ns": 1788715189000000000,
+        "device": 56918434,
+        "inode": 198160015591211013,
+        "kind": "file",
+        "sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df"
+      },
+      "work/replays-t32/z0-optimized-v2/CATALOGS/outputB.0158.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788715682000000000,
+        "device": 56918434,
+        "inode": 198160015591211022,
+        "kind": "file",
+        "sha256": "39be4e320d78a767fc41f97fa3eb7f36ca29d5b857b13a584482f8bf66df2357"
+      },
+      "work/replays-t32/z0-optimized-v2/PMcrd.0158.DAT": {
+        "bytes": 116,
+        "mode": 511,
+        "mtime_ns": 1788715189000000000,
+        "device": 56918434,
+        "inode": 198160015591211014,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrd.0158.DAT"
+      },
+      "work/replays-t32/z0-optimized-v2/PMcrs0.0158.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788715189000000000,
+        "device": 56918434,
+        "inode": 198160015591211015,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs0.0158.DAT"
+      },
+      "work/replays-t32/z0-optimized-v2/PMcrs1.0158.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788715189000000000,
+        "device": 56918434,
+        "inode": 198160015591211016,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs1.0158.DAT"
+      },
+      "work/replays-t32/z0-optimized-v2/fort.17": {
+        "bytes": 2341,
+        "mode": 420,
+        "mtime_ns": 1788715682000000000,
+        "device": 56918434,
+        "inode": 198160015591211021,
+        "kind": "file",
+        "sha256": "ab094a1ca6d67627a6b33f85b6ec169c45a580fab53d0e1ba5375a07c1d8fe4b"
+      },
+      "work/replays-t32/z0-optimized-v2/p1.DAT": {
+        "bytes": 41613528,
+        "mode": 420,
+        "mtime_ns": 1788715502000000000,
+        "device": 56918434,
+        "inode": 198160015591211023,
+        "kind": "file",
+        "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f"
+      },
+      "work/replays-t32/z0-optimized-v2/p2.DAT": {
+        "bytes": 41613528,
+        "mode": 420,
+        "mtime_ns": 1788715674000000000,
+        "device": 56918434,
+        "inode": 198160015591211024,
+        "kind": "file",
+        "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f"
+      },
+      "work/replays-t32/z0-optimized-v2/receipt.json": {
+        "bytes": 9093,
+        "mode": 420,
+        "mtime_ns": 1788715696000000000,
+        "device": 56918434,
+        "inode": 198160015591211028,
+        "kind": "file",
+        "sha256": "0dc7bc632424928c5da7eb505c299f7f23d070aa8bcdf71b79b5dec9d95134ee"
+      },
+      "work/replays-t32/z0-optimized-v2/replay.log": {
+        "bytes": 4948,
+        "mode": 420,
+        "mtime_ns": 1788715683000000000,
+        "device": 56918434,
+        "inode": 198160015591211018,
+        "kind": "file",
+        "sha256": "25073ae93fbd4d1a8f5a27757cebe22ff00b1ef547a34f2dc87f23fa153fffac"
+      },
+      "work/replays-t32/z0-optimized-v2/replay.time": {
+        "bytes": 33,
+        "mode": 420,
+        "mtime_ns": 1788715683000000000,
+        "device": 56918434,
+        "inode": 198160015591211019,
+        "kind": "file",
+        "sha256": "401641e89521c384059ddbbc9153a4a6edaab29f51aaf240f8195b6bb26d154c"
+      },
+      "work/replays-t32/z0-optimized-v2/unbinding.bin": {
+        "bytes": 22247968,
+        "mode": 420,
+        "mtime_ns": 1788715682000000000,
+        "device": 56918434,
+        "inode": 198160015591211026,
+        "kind": "file",
+        "sha256": "1ab36520fd1a4f2e5949032151e12190660b2346bce12d8149397e3f4cbc4358"
+      },
+      "work/replays-t32/z0-reference/BDM.config": {
+        "bytes": 193,
+        "mode": 420,
+        "mtime_ns": 1788715697000000000,
+        "device": 56918434,
+        "inode": 198160015591211032,
+        "kind": "file",
+        "sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df"
+      },
+      "work/replays-t32/z0-reference/CATALOGS/outputB.0158.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788716163000000000,
+        "device": 56918434,
+        "inode": 198160015591211041,
+        "kind": "file",
+        "sha256": "409cf4fd9aaa42998774726db86254089624b997df9b2d194f0efebbd0bebde6"
+      },
+      "work/replays-t32/z0-reference/PMcrd.0158.DAT": {
+        "bytes": 116,
+        "mode": 511,
+        "mtime_ns": 1788715697000000000,
+        "device": 56918434,
+        "inode": 198160015591211033,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrd.0158.DAT"
+      },
+      "work/replays-t32/z0-reference/PMcrs0.0158.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788715697000000000,
+        "device": 56918434,
+        "inode": 198160015591211034,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs0.0158.DAT"
+      },
+      "work/replays-t32/z0-reference/PMcrs1.0158.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788715697000000000,
+        "device": 56918434,
+        "inode": 198160015591211035,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs1.0158.DAT"
+      },
+      "work/replays-t32/z0-reference/fort.17": {
+        "bytes": 2167,
+        "mode": 420,
+        "mtime_ns": 1788716164000000000,
+        "device": 56918434,
+        "inode": 198160015591211040,
+        "kind": "file",
+        "sha256": "fa9ada049502c291349c9e75cbd3ced11c6c184f180477e9dccfce4f0ae98ddc"
+      },
+      "work/replays-t32/z0-reference/p1.DAT": {
+        "bytes": 41613528,
+        "mode": 420,
+        "mtime_ns": 1788715934000000000,
+        "device": 56918434,
+        "inode": 198160015591211042,
+        "kind": "file",
+        "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f"
+      },
+      "work/replays-t32/z0-reference/p2.DAT": {
+        "bytes": 41613528,
+        "mode": 420,
+        "mtime_ns": 1788716155000000000,
+        "device": 56918434,
+        "inode": 198160015591211043,
+        "kind": "file",
+        "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f"
+      },
+      "work/replays-t32/z0-reference/receipt.json": {
+        "bytes": 9055,
+        "mode": 420,
+        "mtime_ns": 1788716177000000000,
+        "device": 56918434,
+        "inode": 198160015591211047,
+        "kind": "file",
+        "sha256": "ba6188535a8442d350734cae4bfb8c7468b2a5c0c1f8cb477a6995fad463bca3"
+      },
+      "work/replays-t32/z0-reference/replay.log": {
+        "bytes": 4796,
+        "mode": 420,
+        "mtime_ns": 1788716164000000000,
+        "device": 56918434,
+        "inode": 198160015591211037,
+        "kind": "file",
+        "sha256": "f9a79d51391b59eb0fdce648d46ec9cc1bc6ee6224b5fbe8b1289780d5865e02"
+      },
+      "work/replays-t32/z0-reference/replay.time": {
+        "bytes": 33,
+        "mode": 420,
+        "mtime_ns": 1788716165000000000,
+        "device": 56918434,
+        "inode": 198160015591211038,
+        "kind": "file",
+        "sha256": "7a5330e53e531a243e29e9e976753a5cfbdd4d29d62d29436c8d3f6e88e5dc20"
+      },
+      "work/replays-t32/z0-reference/unbinding.bin": {
+        "bytes": 22247968,
+        "mode": 420,
+        "mtime_ns": 1788716163000000000,
+        "device": 56918434,
+        "inode": 198160015591211045,
+        "kind": "file",
+        "sha256": "1ab36520fd1a4f2e5949032151e12190660b2346bce12d8149397e3f4cbc4358"
+      },
+      "work/replays-t32/z0-v3/BDM.config": {
+        "bytes": 193,
+        "mode": 420,
+        "mtime_ns": 1788716178000000000,
+        "device": 56918434,
+        "inode": 198160015591211051,
+        "kind": "file",
+        "sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df"
+      },
+      "work/replays-t32/z0-v3/CATALOGS/outputB.0158.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788716626000000000,
+        "device": 56918434,
+        "inode": 198160015591211060,
+        "kind": "file",
+        "sha256": "19eebdc2e172193a5f6a25d753a3abeaeafbeb73106e7c695630c09ec3888ac9"
+      },
+      "work/replays-t32/z0-v3/PMcrd.0158.DAT": {
+        "bytes": 116,
+        "mode": 511,
+        "mtime_ns": 1788716178000000000,
+        "device": 56918434,
+        "inode": 198160015591211052,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrd.0158.DAT"
+      },
+      "work/replays-t32/z0-v3/PMcrs0.0158.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788716178000000000,
+        "device": 56918434,
+        "inode": 198160015591211053,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs0.0158.DAT"
+      },
+      "work/replays-t32/z0-v3/PMcrs1.0158.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788716178000000000,
+        "device": 56918434,
+        "inode": 198160015591211054,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs1.0158.DAT"
+      },
+      "work/replays-t32/z0-v3/fort.17": {
+        "bytes": 2341,
+        "mode": 420,
+        "mtime_ns": 1788716627000000000,
+        "device": 56918434,
+        "inode": 198160015591211059,
+        "kind": "file",
+        "sha256": "ab094a1ca6d67627a6b33f85b6ec169c45a580fab53d0e1ba5375a07c1d8fe4b"
+      },
+      "work/replays-t32/z0-v3/p1.DAT": {
+        "bytes": 41355715,
+        "mode": 420,
+        "mtime_ns": 1788716424000000000,
+        "device": 56918434,
+        "inode": 198160015591211061,
+        "kind": "file",
+        "sha256": "551ecfce20a73210e87b7ba1a376d97bba92630df12e8d85bced1e6578a666a5"
+      },
+      "work/replays-t32/z0-v3/p2.DAT": {
+        "bytes": 41355715,
+        "mode": 420,
+        "mtime_ns": 1788716617000000000,
+        "device": 56918434,
+        "inode": 198160015591211062,
+        "kind": "file",
+        "sha256": "551ecfce20a73210e87b7ba1a376d97bba92630df12e8d85bced1e6578a666a5"
+      },
+      "work/replays-t32/z0-v3/receipt.json": {
+        "bytes": 8943,
+        "mode": 420,
+        "mtime_ns": 1788716641000000000,
+        "device": 56918434,
+        "inode": 198160015591211066,
+        "kind": "file",
+        "sha256": "c94858e1d52e95e7c1ef05bd5e1363c82309d91a59eddfe9f4b377161e980347"
+      },
+      "work/replays-t32/z0-v3/replay.log": {
+        "bytes": 4948,
+        "mode": 420,
+        "mtime_ns": 1788716627000000000,
+        "device": 56918434,
+        "inode": 198160015591211056,
+        "kind": "file",
+        "sha256": "e83dbf799745084351517fc4a0fe61af227e2538556dede871d1ce4ccf9aaa04"
+      },
+      "work/replays-t32/z0-v3/replay.time": {
+        "bytes": 33,
+        "mode": 420,
+        "mtime_ns": 1788716628000000000,
+        "device": 56918434,
+        "inode": 198160015591211057,
+        "kind": "file",
+        "sha256": "8b89079917d930fb04f5c0e50867a34b1c8e0ca2aa6cbfc2af0fc2c217232bb6"
+      },
+      "work/replays-t32/z0-v3/unbinding.bin": {
+        "bytes": 22247968,
+        "mode": 420,
+        "mtime_ns": 1788716626000000000,
+        "device": 56918434,
+        "inode": 198160015591211064,
+        "kind": "file",
+        "sha256": "ad98dbb658c1690e7d0e9f1c77450d8a689ad9202039178d56b423ac6bfb1747"
+      },
+      "work/replays-t64/z0-optimized-v2/BDM.config": {
+        "bytes": 193,
+        "mode": 420,
+        "mtime_ns": 1788715628000000000,
+        "device": 56918434,
+        "inode": 198160015574433973,
+        "kind": "file",
+        "sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df"
+      },
+      "work/replays-t64/z0-optimized-v2/CATALOGS/outputB.0158.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788715955000000000,
+        "device": 56918434,
+        "inode": 198160015574433982,
+        "kind": "file",
+        "sha256": "673b56f0a75fbf9cfdb76d972879c30d1201da7c511d2923c82f61659edd2ee2"
+      },
+      "work/replays-t64/z0-optimized-v2/PMcrd.0158.DAT": {
+        "bytes": 116,
+        "mode": 511,
+        "mtime_ns": 1788715628000000000,
+        "device": 56918434,
+        "inode": 198160015574433974,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrd.0158.DAT"
+      },
+      "work/replays-t64/z0-optimized-v2/PMcrs0.0158.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788715628000000000,
+        "device": 56918434,
+        "inode": 198160015574433975,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs0.0158.DAT"
+      },
+      "work/replays-t64/z0-optimized-v2/PMcrs1.0158.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788715628000000000,
+        "device": 56918434,
+        "inode": 198160015574433976,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs1.0158.DAT"
+      },
+      "work/replays-t64/z0-optimized-v2/fort.17": {
+        "bytes": 2341,
+        "mode": 420,
+        "mtime_ns": 1788715955000000000,
+        "device": 56918434,
+        "inode": 198160015574433981,
+        "kind": "file",
+        "sha256": "ab094a1ca6d67627a6b33f85b6ec169c45a580fab53d0e1ba5375a07c1d8fe4b"
+      },
+      "work/replays-t64/z0-optimized-v2/p1.DAT": {
+        "bytes": 41613528,
+        "mode": 420,
+        "mtime_ns": 1788715822000000000,
+        "device": 56918434,
+        "inode": 198160015574433983,
+        "kind": "file",
+        "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f"
+      },
+      "work/replays-t64/z0-optimized-v2/p2.DAT": {
+        "bytes": 41613528,
+        "mode": 420,
+        "mtime_ns": 1788715946000000000,
+        "device": 56918434,
+        "inode": 198160015574433984,
+        "kind": "file",
+        "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f"
+      },
+      "work/replays-t64/z0-optimized-v2/receipt.json": {
+        "bytes": 9092,
+        "mode": 420,
+        "mtime_ns": 1788715969000000000,
+        "device": 56918434,
+        "inode": 198160015574433988,
+        "kind": "file",
+        "sha256": "f2dc2cfa887fcdc81c6a87a970d1880737498699b8a8c53195f7ff959500c180"
+      },
+      "work/replays-t64/z0-optimized-v2/replay.log": {
+        "bytes": 4948,
+        "mode": 420,
+        "mtime_ns": 1788715957000000000,
+        "device": 56918434,
+        "inode": 198160015574433978,
+        "kind": "file",
+        "sha256": "ba1c2a18da1cc09246a62c3bfd822e5397d52a1f0d29733e3fb48c88c9fd414c"
+      },
+      "work/replays-t64/z0-optimized-v2/replay.time": {
+        "bytes": 33,
+        "mode": 420,
+        "mtime_ns": 1788715957000000000,
+        "device": 56918434,
+        "inode": 198160015574433979,
+        "kind": "file",
+        "sha256": "63126bae212f2107ec795e7ec1d3549aa0077b9d5da8f9f77c3a47630acb75a0"
+      },
+      "work/replays-t64/z0-optimized-v2/unbinding.bin": {
+        "bytes": 22247968,
+        "mode": 420,
+        "mtime_ns": 1788715955000000000,
+        "device": 56918434,
+        "inode": 198160015574433986,
+        "kind": "file",
+        "sha256": "1ab36520fd1a4f2e5949032151e12190660b2346bce12d8149397e3f4cbc4358"
+      },
+      "work/replays-t64/z0-reference/BDM.config": {
+        "bytes": 193,
+        "mode": 420,
+        "mtime_ns": 1788715228000000000,
+        "device": 56918434,
+        "inode": 198160015574433952,
+        "kind": "file",
+        "sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df"
+      },
+      "work/replays-t64/z0-reference/CATALOGS/outputB.0158.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788715607000000000,
+        "device": 56918434,
+        "inode": 198160015574433961,
+        "kind": "file",
+        "sha256": "63a49bc2429b54ef07f64f97f41e3e3877f89828b4fd82c2e78f6ea3a356f6a4"
+      },
+      "work/replays-t64/z0-reference/PMcrd.0158.DAT": {
+        "bytes": 116,
+        "mode": 511,
+        "mtime_ns": 1788715228000000000,
+        "device": 56918434,
+        "inode": 198160015574433953,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrd.0158.DAT"
+      },
+      "work/replays-t64/z0-reference/PMcrs0.0158.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788715228000000000,
+        "device": 56918434,
+        "inode": 198160015574433954,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs0.0158.DAT"
+      },
+      "work/replays-t64/z0-reference/PMcrs1.0158.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788715228000000000,
+        "device": 56918434,
+        "inode": 198160015574433955,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs1.0158.DAT"
+      },
+      "work/replays-t64/z0-reference/fort.17": {
+        "bytes": 2167,
+        "mode": 420,
+        "mtime_ns": 1788715609000000000,
+        "device": 56918434,
+        "inode": 198160015574433960,
+        "kind": "file",
+        "sha256": "fa9ada049502c291349c9e75cbd3ced11c6c184f180477e9dccfce4f0ae98ddc"
+      },
+      "work/replays-t64/z0-reference/p1.DAT": {
+        "bytes": 41613528,
+        "mode": 420,
+        "mtime_ns": 1788715469000000000,
+        "device": 56918434,
+        "inode": 198160015574433962,
+        "kind": "file",
+        "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f"
+      },
+      "work/replays-t64/z0-reference/p2.DAT": {
+        "bytes": 41613528,
+        "mode": 420,
+        "mtime_ns": 1788715599000000000,
+        "device": 56918434,
+        "inode": 198160015574433965,
+        "kind": "file",
+        "sha256": "0fe6bfc02ffc4412fd0d0b6bc82a0c26001a6e31ff1d882072f09f1ba9ad719f"
+      },
+      "work/replays-t64/z0-reference/receipt.json": {
+        "bytes": 9057,
+        "mode": 420,
+        "mtime_ns": 1788715623000000000,
+        "device": 56918434,
+        "inode": 198160015574433969,
+        "kind": "file",
+        "sha256": "2a5efd4624840e7fd8ac02d27da520876b0da41f542fb4d836094b66723c5dfb"
+      },
+      "work/replays-t64/z0-reference/replay.log": {
+        "bytes": 4796,
+        "mode": 420,
+        "mtime_ns": 1788715610000000000,
+        "device": 56918434,
+        "inode": 198160015574433957,
+        "kind": "file",
+        "sha256": "28f858e3a3831103b456f86407d2e647116b9a23f5931c9110314e508dd7b349"
+      },
+      "work/replays-t64/z0-reference/replay.time": {
+        "bytes": 33,
+        "mode": 420,
+        "mtime_ns": 1788715611000000000,
+        "device": 56918434,
+        "inode": 198160015574433958,
+        "kind": "file",
+        "sha256": "637c12a2ed22e62dd876f7ca57684a19378fd25678464bc370a53adbb1e06840"
+      },
+      "work/replays-t64/z0-reference/unbinding.bin": {
+        "bytes": 22247968,
+        "mode": 420,
+        "mtime_ns": 1788715607000000000,
+        "device": 56918434,
+        "inode": 198160015574433967,
+        "kind": "file",
+        "sha256": "1ab36520fd1a4f2e5949032151e12190660b2346bce12d8149397e3f4cbc4358"
+      },
+      "work/replays-t64/z0-v3/BDM.config": {
+        "bytes": 193,
+        "mode": 420,
+        "mtime_ns": 1788715970000000000,
+        "device": 56918434,
+        "inode": 198160015574433992,
+        "kind": "file",
+        "sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df"
+      },
+      "work/replays-t64/z0-v3/CATALOGS/outputB.0158.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788716362000000000,
+        "device": 56918434,
+        "inode": 198160015574434001,
+        "kind": "file",
+        "sha256": "90f7600109d18dc2dca69bb9504f671a1f0b8f4ade02c63e888dd4e45677232f"
+      },
+      "work/replays-t64/z0-v3/PMcrd.0158.DAT": {
+        "bytes": 116,
+        "mode": 511,
+        "mtime_ns": 1788715970000000000,
+        "device": 56918434,
+        "inode": 198160015574433993,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrd.0158.DAT"
+      },
+      "work/replays-t64/z0-v3/PMcrs0.0158.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788715970000000000,
+        "device": 56918434,
+        "inode": 198160015574433994,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs0.0158.DAT"
+      },
+      "work/replays-t64/z0-v3/PMcrs1.0158.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788715970000000000,
+        "device": 56918434,
+        "inode": 198160015574433995,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs1.0158.DAT"
+      },
+      "work/replays-t64/z0-v3/fort.17": {
+        "bytes": 2341,
+        "mode": 420,
+        "mtime_ns": 1788716362000000000,
+        "device": 56918434,
+        "inode": 198160015574434000,
+        "kind": "file",
+        "sha256": "ab094a1ca6d67627a6b33f85b6ec169c45a580fab53d0e1ba5375a07c1d8fe4b"
+      },
+      "work/replays-t64/z0-v3/p1.DAT": {
+        "bytes": 41355715,
+        "mode": 420,
+        "mtime_ns": 1788716229000000000,
+        "device": 56918434,
+        "inode": 198160015574434002,
+        "kind": "file",
+        "sha256": "551ecfce20a73210e87b7ba1a376d97bba92630df12e8d85bced1e6578a666a5"
+      },
+      "work/replays-t64/z0-v3/p2.DAT": {
+        "bytes": 41355715,
+        "mode": 420,
+        "mtime_ns": 1788716353000000000,
+        "device": 56918434,
+        "inode": 198160015574434003,
+        "kind": "file",
+        "sha256": "551ecfce20a73210e87b7ba1a376d97bba92630df12e8d85bced1e6578a666a5"
+      },
+      "work/replays-t64/z0-v3/receipt.json": {
+        "bytes": 8940,
+        "mode": 420,
+        "mtime_ns": 1788716376000000000,
+        "device": 56918434,
+        "inode": 198160015574434007,
+        "kind": "file",
+        "sha256": "f7b04ffa3532cf11dc0795f9c62cede0136a8f425fc276e31f03a03188013088"
+      },
+      "work/replays-t64/z0-v3/replay.log": {
+        "bytes": 4948,
+        "mode": 420,
+        "mtime_ns": 1788716363000000000,
+        "device": 56918434,
+        "inode": 198160015574433997,
+        "kind": "file",
+        "sha256": "b023ce6ccd551b993dfa94a68bd431c30982965320ede68965aadd3c7a438ab7"
+      },
+      "work/replays-t64/z0-v3/replay.time": {
+        "bytes": 33,
+        "mode": 420,
+        "mtime_ns": 1788716364000000000,
+        "device": 56918434,
+        "inode": 198160015574433998,
+        "kind": "file",
+        "sha256": "6b50991b1d3b56a2244555d45e0c0ed53527a2e2a66d81f8c811aff90aa63cc8"
+      },
+      "work/replays-t64/z0-v3/unbinding.bin": {
+        "bytes": 22247968,
+        "mode": 420,
+        "mtime_ns": 1788716362000000000,
+        "device": 56918434,
+        "inode": 198160015574434005,
+        "kind": "file",
+        "sha256": "ad98dbb658c1690e7d0e9f1c77450d8a689ad9202039178d56b423ac6bfb1747"
+      },
+      "work/replays-t64/z1-reference/BDM.config": {
+        "bytes": 193,
+        "mode": 420,
+        "mtime_ns": 1788716797000000000,
+        "device": 56918434,
+        "inode": 198160015574434048,
+        "kind": "file",
+        "sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df"
+      },
+      "work/replays-t64/z1-reference/CATALOGS/outputB.0109.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788717017000000000,
+        "device": 56918434,
+        "inode": 198160015574434058,
+        "kind": "file",
+        "sha256": "07672497bfa3b4c23e356b33fa30a3d048879a4c46a7e6503e7b105f831a65f3"
+      },
+      "work/replays-t64/z1-reference/PMcrd.0109.DAT": {
+        "bytes": 116,
+        "mode": 511,
+        "mtime_ns": 1788716797000000000,
+        "device": 56918434,
+        "inode": 198160015574434049,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrd.0109.DAT"
+      },
+      "work/replays-t64/z1-reference/PMcrs0.0109.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788716797000000000,
+        "device": 56918434,
+        "inode": 198160015574434050,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs0.0109.DAT"
+      },
+      "work/replays-t64/z1-reference/PMcrs1.0109.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788716797000000000,
+        "device": 56918434,
+        "inode": 198160015574434051,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs1.0109.DAT"
+      },
+      "work/replays-t64/z1-reference/fort.17": {
+        "bytes": 1616,
+        "mode": 420,
+        "mtime_ns": 1788717019000000000,
+        "device": 56918434,
+        "inode": 198160015574434056,
+        "kind": "file",
+        "sha256": "912f35f4819190c1d692bf8a1b3dc458e713c21d09dd8f7cd5f5f3b2b16206d6"
+      },
+      "work/replays-t64/z1-reference/p1.DAT": {
+        "bytes": 33872346,
+        "mode": 420,
+        "mtime_ns": 1788717010000000000,
+        "device": 56918434,
+        "inode": 198160015574434059,
+        "kind": "file",
+        "sha256": "6464edf69b7a470886135e34fb68eacc4342fed3cd6e86090ebd06a6eff6e13d"
+      },
+      "work/replays-t64/z1-reference/receipt.json": {
+        "bytes": 8142,
+        "mode": 420,
+        "mtime_ns": 1788717056000000000,
+        "device": 56918434,
+        "inode": 198160015574434067,
+        "kind": "file",
+        "sha256": "08228ca31df7f0f19e225187b360243e22b3e737d6e9083f4093465490ab4129"
+      },
+      "work/replays-t64/z1-reference/replay.log": {
+        "bytes": 2612,
+        "mode": 420,
+        "mtime_ns": 1788717019000000000,
+        "device": 56918434,
+        "inode": 198160015574434053,
+        "kind": "file",
+        "sha256": "02c63945df0d14390179d322c720cff933a05dd2a5b410d70cecd946c8abd1bc"
+      },
+      "work/replays-t64/z1-reference/replay.time": {
+        "bytes": 32,
+        "mode": 420,
+        "mtime_ns": 1788717020000000000,
+        "device": 56918434,
+        "inode": 198160015574434054,
+        "kind": "file",
+        "sha256": "34e92090828019900754df5ac1d1e0f0823bd0ae1a336f8414c1882f174eda8c"
+      },
+      "work/replays-t64/z1-reference/unbinding.bin": {
+        "bytes": 34941936,
+        "mode": 420,
+        "mtime_ns": 1788717017000000000,
+        "device": 56918434,
+        "inode": 198160015574434063,
+        "kind": "file",
+        "sha256": "0fa353d711b86f58df3eb23cc0929a7c1b932be7d26e1d52d1ed17beee3da9cd"
+      },
+      "work/replays-t64/z1-v3/BDM.config": {
+        "bytes": 193,
+        "mode": 420,
+        "mtime_ns": 1788717057000000000,
+        "device": 56918434,
+        "inode": 198160015574434071,
+        "kind": "file",
+        "sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df"
+      },
+      "work/replays-t64/z1-v3/CATALOGS/outputB.0109.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788717232000000000,
+        "device": 56918434,
+        "inode": 198160015574434081,
+        "kind": "file",
+        "sha256": "72810b2a2f21b941255def487a6074c08859aad143aec7635e639e41026b3ee9"
+      },
+      "work/replays-t64/z1-v3/PMcrd.0109.DAT": {
+        "bytes": 116,
+        "mode": 511,
+        "mtime_ns": 1788717057000000000,
+        "device": 56918434,
+        "inode": 198160015574434072,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrd.0109.DAT"
+      },
+      "work/replays-t64/z1-v3/PMcrs0.0109.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788717057000000000,
+        "device": 56918434,
+        "inode": 198160015574434073,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs0.0109.DAT"
+      },
+      "work/replays-t64/z1-v3/PMcrs1.0109.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788717057000000000,
+        "device": 56918434,
+        "inode": 198160015574434074,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs1.0109.DAT"
+      },
+      "work/replays-t64/z1-v3/fort.17": {
+        "bytes": 1703,
+        "mode": 420,
+        "mtime_ns": 1788717232000000000,
+        "device": 56918434,
+        "inode": 198160015574434079,
+        "kind": "file",
+        "sha256": "e002e860b75843234e204cf8c0294ec380c54fbd7f37ea2b637a1f69f77c8696"
+      },
+      "work/replays-t64/z1-v3/p1.DAT": {
+        "bytes": 33617646,
+        "mode": 420,
+        "mtime_ns": 1788717225000000000,
+        "device": 56918434,
+        "inode": 198160015574434082,
+        "kind": "file",
+        "sha256": "9df4fe514c8387f6b9b27487aa9796bde72880c5f304dc0ffbc7aa0e8c531483"
+      },
+      "work/replays-t64/z1-v3/receipt.json": {
+        "bytes": 8108,
+        "mode": 420,
+        "mtime_ns": 1788717242000000000,
+        "device": 56918434,
+        "inode": 198160015574434086,
+        "kind": "file",
+        "sha256": "cf8c55ed29c68595121b1386e4fd49fd4bd884ac4b42803425cd06f2ecf55546"
+      },
+      "work/replays-t64/z1-v3/replay.log": {
+        "bytes": 2581,
+        "mode": 420,
+        "mtime_ns": 1788717233000000000,
+        "device": 56918434,
+        "inode": 198160015574434076,
+        "kind": "file",
+        "sha256": "d3b1c2b55149afecd16f099f5199ba85a5ed12d06e98cd1f755302261bfd32b3"
+      },
+      "work/replays-t64/z1-v3/replay.time": {
+        "bytes": 32,
+        "mode": 420,
+        "mtime_ns": 1788717234000000000,
+        "device": 56918434,
+        "inode": 198160015574434077,
+        "kind": "file",
+        "sha256": "35daa15ee251d6cf44bebc27b2156103bc2810bd86632e8a6ddcffd789ec8eee"
+      },
+      "work/replays-t64/z1-v3/unbinding.bin": {
+        "bytes": 34941936,
+        "mode": 420,
+        "mtime_ns": 1788717232000000000,
+        "device": 56918434,
+        "inode": 198160015574434084,
+        "kind": "file",
+        "sha256": "e72ec42ae0ce909261d23da758c6d38be6300417e242de79cc82161422626b5e"
+      },
+      "work/replays-t64/z2-reference/BDM.config": {
+        "bytes": 193,
+        "mode": 420,
+        "mtime_ns": 1788716377000000000,
+        "device": 56918434,
+        "inode": 198160015574434011,
+        "kind": "file",
+        "sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df"
+      },
+      "work/replays-t64/z2-reference/CATALOGS/outputB.0092.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788716593000000000,
+        "device": 56918434,
+        "inode": 198160015574434021,
+        "kind": "file",
+        "sha256": "e2ae90a6ed7a75201b7f33ad7fea996fd9a0dafeee55d8b8ef0c20cfa5302012"
+      },
+      "work/replays-t64/z2-reference/PMcrd.0092.DAT": {
+        "bytes": 116,
+        "mode": 511,
+        "mtime_ns": 1788716377000000000,
+        "device": 56918434,
+        "inode": 198160015574434012,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrd.0092.DAT"
+      },
+      "work/replays-t64/z2-reference/PMcrs0.0092.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788716377000000000,
+        "device": 56918434,
+        "inode": 198160015574434013,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs0.0092.DAT"
+      },
+      "work/replays-t64/z2-reference/PMcrs1.0092.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788716377000000000,
+        "device": 56918434,
+        "inode": 198160015574434014,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs1.0092.DAT"
+      },
+      "work/replays-t64/z2-reference/fort.17": {
+        "bytes": 1616,
+        "mode": 420,
+        "mtime_ns": 1788716594000000000,
+        "device": 56918434,
+        "inode": 198160015574434019,
+        "kind": "file",
+        "sha256": "9d286fafdbcca7a765e7d56adc710b44b133665afe7ded4f55c32c80c6b65dc2"
+      },
+      "work/replays-t64/z2-reference/p1.DAT": {
+        "bytes": 14821352,
+        "mode": 420,
+        "mtime_ns": 1788716583000000000,
+        "device": 56918434,
+        "inode": 198160015574434022,
+        "kind": "file",
+        "sha256": "c7ff7260a45abd4be2294141aa54905a67f12e62ad8a9a6a05246f36edd0262b"
+      },
+      "work/replays-t64/z2-reference/receipt.json": {
+        "bytes": 7803,
+        "mode": 420,
+        "mtime_ns": 1788716630000000000,
+        "device": 56918434,
+        "inode": 198160015574434026,
+        "kind": "file",
+        "sha256": "3ad0c8e042d7da28482e60a2766b2ddb282249c04366922b6fb081324ed71675"
+      },
+      "work/replays-t64/z2-reference/replay.log": {
+        "bytes": 2610,
+        "mode": 420,
+        "mtime_ns": 1788716596000000000,
+        "device": 56918434,
+        "inode": 198160015574434016,
+        "kind": "file",
+        "sha256": "6bf6bbcff53e6ea58a07dceb1780cc82400b6f47399c04675c449ce8bad12dbe"
+      },
+      "work/replays-t64/z2-reference/replay.time": {
+        "bytes": 32,
+        "mode": 420,
+        "mtime_ns": 1788716598000000000,
+        "device": 56918434,
+        "inode": 198160015574434017,
+        "kind": "file",
+        "sha256": "ce66df1aeaa5ad81a5e98b3ce388cae3dd0981c009e6da69546378dfa343d790"
+      },
+      "work/replays-t64/z2-reference/unbinding.bin": {
+        "bytes": 28685476,
+        "mode": 420,
+        "mtime_ns": 1788716593000000000,
+        "device": 56918434,
+        "inode": 198160015574434024,
+        "kind": "file",
+        "sha256": "b884cf6a90ea7641cdf875be5c36d05febc203c026ee2473bb846fcd5867df14"
+      },
+      "work/replays-t64/z2-v3/BDM.config": {
+        "bytes": 193,
+        "mode": 420,
+        "mtime_ns": 1788716632000000000,
+        "device": 56918434,
+        "inode": 198160015574434030,
+        "kind": "file",
+        "sha256": "cd4344b54696ff5c11131e91c8a61e50429d5682c3c61e6eedf584fbb6b6a9df"
+      },
+      "work/replays-t64/z2-v3/CATALOGS/outputB.0092.dat": {
+        "bytes": 978,
+        "mode": 420,
+        "mtime_ns": 1788716790000000000,
+        "device": 56918434,
+        "inode": 198160015574434039,
+        "kind": "file",
+        "sha256": "76948244fa8113566fbd471a27f5d5fb9fe8b72564b6d7d2631b55e11c261b05"
+      },
+      "work/replays-t64/z2-v3/PMcrd.0092.DAT": {
+        "bytes": 116,
+        "mode": 511,
+        "mtime_ns": 1788716632000000000,
+        "device": 56918434,
+        "inode": 198160015574434031,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrd.0092.DAT"
+      },
+      "work/replays-t64/z2-v3/PMcrs0.0092.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788716632000000000,
+        "device": 56918434,
+        "inode": 198160015574434032,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs0.0092.DAT"
+      },
+      "work/replays-t64/z2-v3/PMcrs1.0092.DAT": {
+        "bytes": 117,
+        "mode": 511,
+        "mtime_ns": 1788716632000000000,
+        "device": 56918434,
+        "inode": 198160015574434033,
+        "kind": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260906-n1024/work/main/Run1/PMcrs1.0092.DAT"
+      },
+      "work/replays-t64/z2-v3/fort.17": {
+        "bytes": 1703,
+        "mode": 420,
+        "mtime_ns": 1788716790000000000,
+        "device": 56918434,
+        "inode": 198160015574434038,
+        "kind": "file",
+        "sha256": "354573c024d0b3afe2cc81a98731ff2b663defd6556d1f5e6c0c777466290187"
+      },
+      "work/replays-t64/z2-v3/p1.DAT": {
+        "bytes": 14682399,
+        "mode": 420,
+        "mtime_ns": 1788716785000000000,
+        "device": 56918434,
+        "inode": 198160015574434040,
+        "kind": "file",
+        "sha256": "fa44903820a32a7bc4df5d8ffb067b987d8f76f8f8a8ed11d1a279b45ded63cf"
+      },
+      "work/replays-t64/z2-v3/receipt.json": {
+        "bytes": 7653,
+        "mode": 420,
+        "mtime_ns": 1788716796000000000,
+        "device": 56918434,
+        "inode": 198160015574434044,
+        "kind": "file",
+        "sha256": "2876725b1ef113dcb23844755f957c9ce068dea1e902016a5ac87a3a5500d7be"
+      },
+      "work/replays-t64/z2-v3/replay.log": {
+        "bytes": 2579,
+        "mode": 420,
+        "mtime_ns": 1788716791000000000,
+        "device": 56918434,
+        "inode": 198160015574434035,
+        "kind": "file",
+        "sha256": "ac77a475aadfbaafc93ad7c73723c9195dd8009b70343bb37c038305e984442a"
+      },
+      "work/replays-t64/z2-v3/replay.time": {
+        "bytes": 32,
+        "mode": 420,
+        "mtime_ns": 1788716792000000000,
+        "device": 56918434,
+        "inode": 198160015574434036,
+        "kind": "file",
+        "sha256": "3869a557fc7724752bf9a092da762a1fb5676c8d0ebac070ca30cf90b8066007"
+      },
+      "work/replays-t64/z2-v3/unbinding.bin": {
+        "bytes": 28685476,
+        "mode": 420,
+        "mtime_ns": 1788716790000000000,
+        "device": 56918434,
+        "inode": 198160015574434042,
+        "kind": "file",
+        "sha256": "7b41adcf096586ab1b867195a76c06bdc8b052b7a232d33d2185de789e878234"
+      }
+    },
+    "retained": {
+      "work/archive-11949711.log": {
+        "bytes": 107,
+        "mode": 420,
+        "mtime_ns": 1788717690000000000,
+        "device": 56918434,
+        "inode": 198160015188585877,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t32/z0-optimized-v2/repair-members.bin": {
+        "bytes": 1764605508,
+        "mode": 420,
+        "mtime_ns": 1788715680000000000,
+        "device": 56918434,
+        "inode": 198160015591211025,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t32/z0-optimized-v2/repair-members.index.npz": {
+        "bytes": 14785525,
+        "mode": 420,
+        "mtime_ns": 1788715692000000000,
+        "device": 56918434,
+        "inode": 198160015591211027,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t32/z0-reference/repair-members.bin": {
+        "bytes": 1764605508,
+        "mode": 420,
+        "mtime_ns": 1788716160000000000,
+        "device": 56918434,
+        "inode": 198160015591211044,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t32/z0-reference/repair-members.index.npz": {
+        "bytes": 14785525,
+        "mode": 420,
+        "mtime_ns": 1788716173000000000,
+        "device": 56918434,
+        "inode": 198160015591211046,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t32/z0-v3/repair-members.bin": {
+        "bytes": 1754499088,
+        "mode": 420,
+        "mtime_ns": 1788716623000000000,
+        "device": 56918434,
+        "inode": 198160015591211063,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t32/z0-v3/repair-members.index.npz": {
+        "bytes": 14693304,
+        "mode": 420,
+        "mtime_ns": 1788716638000000000,
+        "device": 56918434,
+        "inode": 198160015591211065,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z0-optimized-v2/repair-members.bin": {
+        "bytes": 1764605508,
+        "mode": 420,
+        "mtime_ns": 1788715952000000000,
+        "device": 56918434,
+        "inode": 198160015574433985,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z0-optimized-v2/repair-members.index.npz": {
+        "bytes": 14785525,
+        "mode": 420,
+        "mtime_ns": 1788715966000000000,
+        "device": 56918434,
+        "inode": 198160015574433987,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z0-reference/repair-members.bin": {
+        "bytes": 1764605508,
+        "mode": 420,
+        "mtime_ns": 1788715605000000000,
+        "device": 56918434,
+        "inode": 198160015574433966,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z0-reference/repair-members.index.npz": {
+        "bytes": 14785525,
+        "mode": 420,
+        "mtime_ns": 1788715620000000000,
+        "device": 56918434,
+        "inode": 198160015574433968,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z0-v3/repair-members.bin": {
+        "bytes": 1754499088,
+        "mode": 420,
+        "mtime_ns": 1788716359000000000,
+        "device": 56918434,
+        "inode": 198160015574434004,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z0-v3/repair-members.index.npz": {
+        "bytes": 14693304,
+        "mode": 420,
+        "mtime_ns": 1788716373000000000,
+        "device": 56918434,
+        "inode": 198160015574434006,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z1-reference/repair-members.bin": {
+        "bytes": 790546620,
+        "mode": 420,
+        "mtime_ns": 1788717014000000000,
+        "device": 56918434,
+        "inode": 198160015574434062,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z1-reference/repair-members.index.npz": {
+        "bytes": 11922850,
+        "mode": 420,
+        "mtime_ns": 1788717026000000000,
+        "device": 56918434,
+        "inode": 198160015574434064,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z1-v3/repair-members.bin": {
+        "bytes": 784560532,
+        "mode": 420,
+        "mtime_ns": 1788717228000000000,
+        "device": 56918434,
+        "inode": 198160015574434083,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z1-v3/repair-members.index.npz": {
+        "bytes": 11832063,
+        "mode": 420,
+        "mtime_ns": 1788717241000000000,
+        "device": 56918434,
+        "inode": 198160015574434085,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z1.density.bin": {
+        "bytes": 34359738388,
+        "mode": 420,
+        "mtime_ns": 1788716902000000000,
+        "device": 56918434,
+        "inode": 198160015574434057,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z2-reference/repair-members.bin": {
+        "bytes": 231772892,
+        "mode": 420,
+        "mtime_ns": 1788716585000000000,
+        "device": 56918434,
+        "inode": 198160015574434023,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z2-reference/repair-members.index.npz": {
+        "bytes": 5174301,
+        "mode": 420,
+        "mtime_ns": 1788716601000000000,
+        "device": 56918434,
+        "inode": 198160015574434025,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z2-v3/repair-members.bin": {
+        "bytes": 229536712,
+        "mode": 420,
+        "mtime_ns": 1788716787000000000,
+        "device": 56918434,
+        "inode": 198160015574434041,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z2-v3/repair-members.index.npz": {
+        "bytes": 5125748,
+        "mode": 420,
+        "mtime_ns": 1788716795000000000,
+        "device": 56918434,
+        "inode": 198160015574434043,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      },
+      "work/replays-t64/z2.density.bin": {
+        "bytes": 34359738388,
+        "mode": 420,
+        "mtime_ns": 1788716486000000000,
+        "device": 56918434,
+        "inode": 198160015574434020,
+        "kind": "file",
+        "reason": "Large retained data, associated header/index, or live archive-job log"
+      }
+    },
+    "comparison_sha256": "f24bbfd793486a6acbb450a313dd127c4d029fa5134e95908fa85d48f33ce697",
+    "accounting_sha256": "8f2ef616f43bf79aa81894b97c8fa8cb957353b48cfb206744ce9369099ae2ef"
+  },
+  "removed_files": [
+    "work/analysis-11949535.log",
+    "work/host-control-11949318.log",
+    "work/launch-analysis/analysis.sbatch",
+    "work/launch-analysis/analyze_replays.py",
+    "work/launch-analysis/run_replays.py",
+    "work/launch-archive/archive.sbatch",
+    "work/launch-archive/archive_work.py",
+    "work/launch-host-control/check_positive.py",
+    "work/launch-host-control/control.sbatch",
+    "work/launch-native/replays.sbatch",
+    "work/launch-native/run_replays.py",
+    "work/native-build/diagnostics.f90",
+    "work/native-build/optimized-v2/analyze.mod",
+    "work/native-build/optimized-v2/bdmduplicaterules.mod",
+    "work/native-build/optimized-v2/bdmreplaycontrol.mod",
+    "work/native-build/optimized-v2/density.mod",
+    "work/native-build/optimized-v2/extradofbackgrounddata.mod",
+    "work/native-build/optimized-v2/fft5.mod",
+    "work/native-build/optimized-v2/finder-original.f90",
+    "work/native-build/optimized-v2/finder.f90",
+    "work/native-build/optimized-v2/finder.o",
+    "work/native-build/optimized-v2/linkerlist.mod",
+    "work/native-build/optimized-v2/luxury.mod",
+    "work/native-build/optimized-v2/power.mod",
+    "work/native-build/optimized-v2/publication-preflight.exe",
+    "work/native-build/optimized-v2/publication_preflight.f90",
+    "work/native-build/optimized-v2/random.mod",
+    "work/native-build/optimized-v2/replay.exe",
+    "work/native-build/optimized-v2/replay_entry.f90",
+    "work/native-build/optimized-v2/replay_entry.o",
+    "work/native-build/optimized-v2/replay_probe.f90",
+    "work/native-build/optimized-v2/replay_probe.o",
+    "work/native-build/optimized-v2/structures.mod",
+    "work/native-build/optimized-v2/tools.mod",
+    "work/native-build/preflight/density-metadata/BDM.config",
+    "work/native-build/preflight/density-metadata/PMcrd.0001.DAT",
+    "work/native-build/preflight/density-metadata/PMcrs0.0001.DAT",
+    "work/native-build/preflight/density-metadata/fort.17",
+    "work/native-build/preflight/density-metadata/invalid-density.bin",
+    "work/native-build/preflight/density-path-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/empty.bin",
+    "work/native-build/preflight/density-path-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/fixed.bin",
+    "work/native-build/preflight/density-truncated/BDM.config",
+    "work/native-build/preflight/density-truncated/PMcrd.0001.DAT",
+    "work/native-build/preflight/density-truncated/PMcrs0.0001.DAT",
+    "work/native-build/preflight/density-truncated/fort.17",
+    "work/native-build/preflight/density-truncated/invalid-density.bin",
+    "work/native-build/preflight/header-step/BDM.config",
+    "work/native-build/preflight/header-step/PMcrd.0001.DAT",
+    "work/native-build/preflight/header-step/PMcrs0.0001.DAT",
+    "work/native-build/preflight/optimized-v2-bound/BDM.config",
+    "work/native-build/preflight/optimized-v2-bound/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/optimized-v2-bound/PMcrd.0001.DAT",
+    "work/native-build/preflight/optimized-v2-bound/PMcrs0.0001.DAT",
+    "work/native-build/preflight/optimized-v2-bound/fort.17",
+    "work/native-build/preflight/optimized-v2-bound/p1.DAT",
+    "work/native-build/preflight/optimized-v2-bound/p2.DAT",
+    "work/native-build/preflight/optimized-v2-bound/repair-members.bin",
+    "work/native-build/preflight/optimized-v2-bound/unbinding.bin",
+    "work/native-build/preflight/optimized-v2-empty/BDM.config",
+    "work/native-build/preflight/optimized-v2-empty/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/optimized-v2-empty/PMcrd.0001.DAT",
+    "work/native-build/preflight/optimized-v2-empty/PMcrs0.0001.DAT",
+    "work/native-build/preflight/optimized-v2-empty/fort.17",
+    "work/native-build/preflight/optimized-v2-empty/p1.DAT",
+    "work/native-build/preflight/optimized-v2-empty/p2.DAT",
+    "work/native-build/preflight/optimized-v2-empty/repair-members.bin",
+    "work/native-build/preflight/optimized-v2-empty/unbinding.bin",
+    "work/native-build/preflight/optimized-v2-publication-empty/BDM.config",
+    "work/native-build/preflight/optimized-v2-publication-empty/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/optimized-v2-publication-empty/PMcrd.0001.DAT",
+    "work/native-build/preflight/optimized-v2-publication-empty/PMcrs0.0001.DAT",
+    "work/native-build/preflight/optimized-v2-publication-empty/fort.17",
+    "work/native-build/preflight/optimized-v2-publication-empty/preserved.DAT",
+    "work/native-build/preflight/optimized-v2-publication-invalid/BDM.config",
+    "work/native-build/preflight/optimized-v2-publication-invalid/CATALOGS/.CatshortM.0001.0001.DAT.tmp.1465853.1788714782428993.0",
+    "work/native-build/preflight/optimized-v2-publication-invalid/CATALOGS/CatshortM.0001.0001.DAT",
+    "work/native-build/preflight/optimized-v2-publication-invalid/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/optimized-v2-publication-invalid/PMcrd.0001.DAT",
+    "work/native-build/preflight/optimized-v2-publication-invalid/PMcrs0.0001.DAT",
+    "work/native-build/preflight/optimized-v2-publication-invalid/fort.17",
+    "work/native-build/preflight/optimized-v2-publication-valid/BDM.config",
+    "work/native-build/preflight/optimized-v2-publication-valid/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/optimized-v2-publication-valid/PMcrd.0001.DAT",
+    "work/native-build/preflight/optimized-v2-publication-valid/PMcrs0.0001.DAT",
+    "work/native-build/preflight/optimized-v2-publication-valid/fort.17",
+    "work/native-build/preflight/optimized-v2-publication-valid/preserved.DAT",
+    "work/native-build/preflight/particle-limit/BDM.config",
+    "work/native-build/preflight/particle-limit/PMcrd.0001.DAT",
+    "work/native-build/preflight/particle-limit/PMcrs0.0001.DAT",
+    "work/native-build/preflight/production/BDM.config",
+    "work/native-build/preflight/production/CATALOGS/CatshortM.0001.0001.DAT",
+    "work/native-build/preflight/production/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/production/PMcrd.0001.DAT",
+    "work/native-build/preflight/production/PMcrs0.0001.DAT",
+    "work/native-build/preflight/production/fort.13",
+    "work/native-build/preflight/production/fort.17",
+    "work/native-build/preflight/reference-bound/BDM.config",
+    "work/native-build/preflight/reference-bound/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/reference-bound/PMcrd.0001.DAT",
+    "work/native-build/preflight/reference-bound/PMcrs0.0001.DAT",
+    "work/native-build/preflight/reference-bound/fort.17",
+    "work/native-build/preflight/reference-bound/p1.DAT",
+    "work/native-build/preflight/reference-bound/p2.DAT",
+    "work/native-build/preflight/reference-bound/repair-members.bin",
+    "work/native-build/preflight/reference-bound/unbinding.bin",
+    "work/native-build/preflight/reference-empty/BDM.config",
+    "work/native-build/preflight/reference-empty/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/reference-empty/PMcrd.0001.DAT",
+    "work/native-build/preflight/reference-empty/PMcrs0.0001.DAT",
+    "work/native-build/preflight/reference-empty/fort.17",
+    "work/native-build/preflight/reference-empty/p1.DAT",
+    "work/native-build/preflight/reference-empty/p2.DAT",
+    "work/native-build/preflight/reference-empty/repair-members.bin",
+    "work/native-build/preflight/reference-empty/unbinding.bin",
+    "work/native-build/preflight/reference-publication-empty/BDM.config",
+    "work/native-build/preflight/reference-publication-empty/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/reference-publication-empty/PMcrd.0001.DAT",
+    "work/native-build/preflight/reference-publication-empty/PMcrs0.0001.DAT",
+    "work/native-build/preflight/reference-publication-empty/fort.17",
+    "work/native-build/preflight/reference-publication-empty/preserved.DAT",
+    "work/native-build/preflight/reference-publication-invalid/BDM.config",
+    "work/native-build/preflight/reference-publication-invalid/CATALOGS/.CatshortM.0001.0001.DAT.tmp.1465717.1788714780631043.0",
+    "work/native-build/preflight/reference-publication-invalid/CATALOGS/CatshortM.0001.0001.DAT",
+    "work/native-build/preflight/reference-publication-invalid/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/reference-publication-invalid/PMcrd.0001.DAT",
+    "work/native-build/preflight/reference-publication-invalid/PMcrs0.0001.DAT",
+    "work/native-build/preflight/reference-publication-invalid/fort.17",
+    "work/native-build/preflight/reference-publication-valid/BDM.config",
+    "work/native-build/preflight/reference-publication-valid/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/reference-publication-valid/PMcrd.0001.DAT",
+    "work/native-build/preflight/reference-publication-valid/PMcrs0.0001.DAT",
+    "work/native-build/preflight/reference-publication-valid/fort.17",
+    "work/native-build/preflight/reference-publication-valid/preserved.DAT",
+    "work/native-build/preflight/snapshot/BDM.config",
+    "work/native-build/preflight/snapshot/PMcrd.0001.DAT",
+    "work/native-build/preflight/snapshot/PMcrs0.0001.DAT",
+    "work/native-build/preflight/v3-bound/BDM.config",
+    "work/native-build/preflight/v3-bound/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/v3-bound/PMcrd.0001.DAT",
+    "work/native-build/preflight/v3-bound/PMcrs0.0001.DAT",
+    "work/native-build/preflight/v3-bound/fort.17",
+    "work/native-build/preflight/v3-bound/p1.DAT",
+    "work/native-build/preflight/v3-bound/p2.DAT",
+    "work/native-build/preflight/v3-bound/repair-members.bin",
+    "work/native-build/preflight/v3-bound/unbinding.bin",
+    "work/native-build/preflight/v3-empty/BDM.config",
+    "work/native-build/preflight/v3-empty/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/v3-empty/PMcrd.0001.DAT",
+    "work/native-build/preflight/v3-empty/PMcrs0.0001.DAT",
+    "work/native-build/preflight/v3-empty/fort.17",
+    "work/native-build/preflight/v3-empty/p1.DAT",
+    "work/native-build/preflight/v3-empty/p2.DAT",
+    "work/native-build/preflight/v3-empty/repair-members.bin",
+    "work/native-build/preflight/v3-empty/unbinding.bin",
+    "work/native-build/preflight/v3-publication-empty/BDM.config",
+    "work/native-build/preflight/v3-publication-empty/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/v3-publication-empty/PMcrd.0001.DAT",
+    "work/native-build/preflight/v3-publication-empty/PMcrs0.0001.DAT",
+    "work/native-build/preflight/v3-publication-empty/fort.17",
+    "work/native-build/preflight/v3-publication-empty/preserved.DAT",
+    "work/native-build/preflight/v3-publication-invalid/BDM.config",
+    "work/native-build/preflight/v3-publication-invalid/CATALOGS/.CatshortM.0001.0001.DAT.tmp.1465976.1788714784532590.0",
+    "work/native-build/preflight/v3-publication-invalid/CATALOGS/CatshortM.0001.0001.DAT",
+    "work/native-build/preflight/v3-publication-invalid/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/v3-publication-invalid/PMcrd.0001.DAT",
+    "work/native-build/preflight/v3-publication-invalid/PMcrs0.0001.DAT",
+    "work/native-build/preflight/v3-publication-invalid/fort.17",
+    "work/native-build/preflight/v3-publication-valid/BDM.config",
+    "work/native-build/preflight/v3-publication-valid/CATALOGS/outputB.0001.dat",
+    "work/native-build/preflight/v3-publication-valid/PMcrd.0001.DAT",
+    "work/native-build/preflight/v3-publication-valid/PMcrs0.0001.DAT",
+    "work/native-build/preflight/v3-publication-valid/fort.17",
+    "work/native-build/preflight/v3-publication-valid/preserved.DAT",
+    "work/native-build/production/AverageBispectrum.f90",
+    "work/native-build/production/AveragePk.f90",
+    "work/native-build/production/Massfunction.f90",
+    "work/native-build/production/PMP2BDM.exe",
+    "work/native-build/production/PMP2MG_subroutines.f90",
+    "work/native-build/production/PMP2MG_subroutines.o",
+    "work/native-build/production/PMP2MG_subroutines.opt.yaml",
+    "work/native-build/production/PMP2MG_subroutines.optrpt",
+    "work/native-build/production/PMP2MGsolver_DGP.f90",
+    "work/native-build/production/PMP2MGsolver_DGP.o",
+    "work/native-build/production/PMP2MGsolver_DGP.opt.yaml",
+    "work/native-build/production/PMP2MGsolver_DGP.optrpt",
+    "work/native-build/production/PMP2MGsolver_csf.f90",
+    "work/native-build/production/PMP2MGsolver_csf.o",
+    "work/native-build/production/PMP2MGsolver_csf.opt.yaml",
+    "work/native-build/production/PMP2MGsolver_csf.optrpt",
+    "work/native-build/production/PMP2MGsolver_fR.f90",
+    "work/native-build/production/PMP2MGsolver_fR.o",
+    "work/native-build/production/PMP2MGsolver_fR.opt.yaml",
+    "work/native-build/production/PMP2MGsolver_fR.optrpt",
+    "work/native-build/production/PMP2MGsolver_kmf.f90",
+    "work/native-build/production/PMP2MGsolver_kmf.o",
+    "work/native-build/production/PMP2MGsolver_kmf.opt.yaml",
+    "work/native-build/production/PMP2MGsolver_kmf.optrpt",
+    "work/native-build/production/PMP2MGsolver_sym.f90",
+    "work/native-build/production/PMP2MGsolver_sym.o",
+    "work/native-build/production/PMP2MGsolver_sym.opt.yaml",
+    "work/native-build/production/PMP2MGsolver_sym.optrpt",
+    "work/native-build/production/PMP2analyze.f90",
+    "work/native-build/production/PMP2bdm.f90",
+    "work/native-build/production/PMP2bdm.o",
+    "work/native-build/production/PMP2bdm.opt.yaml",
+    "work/native-build/production/PMP2bdm.optrpt",
+    "work/native-build/production/PMP2catalReform.f90",
+    "work/native-build/production/PMP2catalogCorrect.f90",
+    "work/native-build/production/PMP2correlation.f90",
+    "work/native-build/production/PMP2density.f90",
+    "work/native-build/production/PMP2extradof.f90",
+    "work/native-build/production/PMP2extradof.o",
+    "work/native-build/production/PMP2extradof.opt.yaml",
+    "work/native-build/production/PMP2extradof.optrpt",
+    "work/native-build/production/PMP2formatFiles.f90",
+    "work/native-build/production/PMP2haloStat.f90",
+    "work/native-build/production/PMP2init.f90",
+    "work/native-build/production/PMP2linker.f90",
+    "work/native-build/production/PMP2linker.o",
+    "work/native-build/production/PMP2linker.opt.yaml",
+    "work/native-build/production/PMP2linker.optrpt",
+    "work/native-build/production/PMP2main.f90",
+    "work/native-build/production/PMP2mainMPI.f90",
+    "work/native-build/production/PMP2mod_MGbackground.f90",
+    "work/native-build/production/PMP2mod_MGbackground.o",
+    "work/native-build/production/PMP2mod_MGbackground.opt.yaml",
+    "work/native-build/production/PMP2mod_MGbackground.optrpt",
+    "work/native-build/production/PMP2mod_analyze.f90",
+    "work/native-build/production/PMP2mod_analyze.o",
+    "work/native-build/production/PMP2mod_analyze.opt.yaml",
+    "work/native-build/production/PMP2mod_analyze.optrpt",
+    "work/native-build/production/PMP2mod_density.f90",
+    "work/native-build/production/PMP2mod_density.o",
+    "work/native-build/production/PMP2mod_density.opt.yaml",
+    "work/native-build/production/PMP2mod_density.optrpt",
+    "work/native-build/production/PMP2mod_fft5.f90",
+    "work/native-build/production/PMP2mod_fft5.o",
+    "work/native-build/production/PMP2mod_fft5.opt.yaml",
+    "work/native-build/production/PMP2mod_fft5.optrpt",
+    "work/native-build/production/PMP2mod_power.f90",
+    "work/native-build/production/PMP2mod_power.o",
+    "work/native-build/production/PMP2mod_power.opt.yaml",
+    "work/native-build/production/PMP2mod_power.optrpt",
+    "work/native-build/production/PMP2mod_random.f90",
+    "work/native-build/production/PMP2mod_random.o",
+    "work/native-build/production/PMP2mod_random.opt.yaml",
+    "work/native-build/production/PMP2mod_random.optrpt",
+    "work/native-build/production/PMP2mod_tools.f90",
+    "work/native-build/production/PMP2mod_tools.o",
+    "work/native-build/production/PMP2mod_tools.opt.yaml",
+    "work/native-build/production/PMP2mod_tools.optrpt",
+    "work/native-build/production/PMP2power.f90",
+    "work/native-build/production/PMP2powerSSC.f90",
+    "work/native-build/production/PMP2readFiles.f90",
+    "work/native-build/production/PMP2spectrum.f90",
+    "work/native-build/production/PMP2start.f90",
+    "work/native-build/production/PMP2startMPI.f90",
+    "work/native-build/production/PMP2tunestepping.f90",
+    "work/native-build/production/PMPcovariance.f90",
+    "work/native-build/production/analyze.mod",
+    "work/native-build/production/bdmduplicaterules.mod",
+    "work/native-build/production/density.mod",
+    "work/native-build/production/extradofbackgrounddata.mod",
+    "work/native-build/production/fft5.mod",
+    "work/native-build/production/gadget2pm.f90",
+    "work/native-build/production/ic2pm.f90",
+    "work/native-build/production/linkerlist.mod",
+    "work/native-build/production/luxury.mod",
+    "work/native-build/production/luxuryp.h",
+    "work/native-build/production/makefile",
+    "work/native-build/production/power.mod",
+    "work/native-build/production/random.mod",
+    "work/native-build/production/structures.mod",
+    "work/native-build/production/testMemory.f90",
+    "work/native-build/production/testtOmp.f90",
+    "work/native-build/production/tools.mod",
+    "work/native-build/publication_preflight.f90",
+    "work/native-build/reference/analyze.mod",
+    "work/native-build/reference/bdmduplicaterules.mod",
+    "work/native-build/reference/bdmreplaycontrol.mod",
+    "work/native-build/reference/density.mod",
+    "work/native-build/reference/extradofbackgrounddata.mod",
+    "work/native-build/reference/fft5.mod",
+    "work/native-build/reference/finder-original.f90",
+    "work/native-build/reference/finder.f90",
+    "work/native-build/reference/finder.o",
+    "work/native-build/reference/linkerlist.mod",
+    "work/native-build/reference/luxury.mod",
+    "work/native-build/reference/power.mod",
+    "work/native-build/reference/publication-preflight.exe",
+    "work/native-build/reference/publication_preflight.f90",
+    "work/native-build/reference/random.mod",
+    "work/native-build/reference/replay.exe",
+    "work/native-build/reference/replay_entry.f90",
+    "work/native-build/reference/replay_entry.o",
+    "work/native-build/reference/replay_probe.f90",
+    "work/native-build/reference/replay_probe.o",
+    "work/native-build/reference/structures.mod",
+    "work/native-build/reference/tools.mod",
+    "work/native-build/replay_entry.f90",
+    "work/native-build/replay_probe.f90",
+    "work/native-build/v3/analyze.mod",
+    "work/native-build/v3/bdmduplicaterules.mod",
+    "work/native-build/v3/bdmreplaycontrol.mod",
+    "work/native-build/v3/density.mod",
+    "work/native-build/v3/extradofbackgrounddata.mod",
+    "work/native-build/v3/fft5.mod",
+    "work/native-build/v3/finder-original.f90",
+    "work/native-build/v3/finder.f90",
+    "work/native-build/v3/finder.o",
+    "work/native-build/v3/linkerlist.mod",
+    "work/native-build/v3/luxury.mod",
+    "work/native-build/v3/power.mod",
+    "work/native-build/v3/publication-preflight.exe",
+    "work/native-build/v3/publication_preflight.f90",
+    "work/native-build/v3/random.mod",
+    "work/native-build/v3/replay.exe",
+    "work/native-build/v3/replay_entry.f90",
+    "work/native-build/v3/replay_entry.o",
+    "work/native-build/v3/replay_probe.f90",
+    "work/native-build/v3/replay_probe.o",
+    "work/native-build/v3/structures.mod",
+    "work/native-build/v3/tools.mod",
+    "work/native-t32-11949500.log",
+    "work/native-t64-11949499.log",
+    "work/replays-t32/z0-optimized-v2/BDM.config",
+    "work/replays-t32/z0-optimized-v2/CATALOGS/outputB.0158.dat",
+    "work/replays-t32/z0-optimized-v2/PMcrd.0158.DAT",
+    "work/replays-t32/z0-optimized-v2/PMcrs0.0158.DAT",
+    "work/replays-t32/z0-optimized-v2/PMcrs1.0158.DAT",
+    "work/replays-t32/z0-optimized-v2/fort.17",
+    "work/replays-t32/z0-optimized-v2/p1.DAT",
+    "work/replays-t32/z0-optimized-v2/p2.DAT",
+    "work/replays-t32/z0-optimized-v2/receipt.json",
+    "work/replays-t32/z0-optimized-v2/replay.log",
+    "work/replays-t32/z0-optimized-v2/replay.time",
+    "work/replays-t32/z0-optimized-v2/unbinding.bin",
+    "work/replays-t32/z0-reference/BDM.config",
+    "work/replays-t32/z0-reference/CATALOGS/outputB.0158.dat",
+    "work/replays-t32/z0-reference/PMcrd.0158.DAT",
+    "work/replays-t32/z0-reference/PMcrs0.0158.DAT",
+    "work/replays-t32/z0-reference/PMcrs1.0158.DAT",
+    "work/replays-t32/z0-reference/fort.17",
+    "work/replays-t32/z0-reference/p1.DAT",
+    "work/replays-t32/z0-reference/p2.DAT",
+    "work/replays-t32/z0-reference/receipt.json",
+    "work/replays-t32/z0-reference/replay.log",
+    "work/replays-t32/z0-reference/replay.time",
+    "work/replays-t32/z0-reference/unbinding.bin",
+    "work/replays-t32/z0-v3/BDM.config",
+    "work/replays-t32/z0-v3/CATALOGS/outputB.0158.dat",
+    "work/replays-t32/z0-v3/PMcrd.0158.DAT",
+    "work/replays-t32/z0-v3/PMcrs0.0158.DAT",
+    "work/replays-t32/z0-v3/PMcrs1.0158.DAT",
+    "work/replays-t32/z0-v3/fort.17",
+    "work/replays-t32/z0-v3/p1.DAT",
+    "work/replays-t32/z0-v3/p2.DAT",
+    "work/replays-t32/z0-v3/receipt.json",
+    "work/replays-t32/z0-v3/replay.log",
+    "work/replays-t32/z0-v3/replay.time",
+    "work/replays-t32/z0-v3/unbinding.bin",
+    "work/replays-t64/z0-optimized-v2/BDM.config",
+    "work/replays-t64/z0-optimized-v2/CATALOGS/outputB.0158.dat",
+    "work/replays-t64/z0-optimized-v2/PMcrd.0158.DAT",
+    "work/replays-t64/z0-optimized-v2/PMcrs0.0158.DAT",
+    "work/replays-t64/z0-optimized-v2/PMcrs1.0158.DAT",
+    "work/replays-t64/z0-optimized-v2/fort.17",
+    "work/replays-t64/z0-optimized-v2/p1.DAT",
+    "work/replays-t64/z0-optimized-v2/p2.DAT",
+    "work/replays-t64/z0-optimized-v2/receipt.json",
+    "work/replays-t64/z0-optimized-v2/replay.log",
+    "work/replays-t64/z0-optimized-v2/replay.time",
+    "work/replays-t64/z0-optimized-v2/unbinding.bin",
+    "work/replays-t64/z0-reference/BDM.config",
+    "work/replays-t64/z0-reference/CATALOGS/outputB.0158.dat",
+    "work/replays-t64/z0-reference/PMcrd.0158.DAT",
+    "work/replays-t64/z0-reference/PMcrs0.0158.DAT",
+    "work/replays-t64/z0-reference/PMcrs1.0158.DAT",
+    "work/replays-t64/z0-reference/fort.17",
+    "work/replays-t64/z0-reference/p1.DAT",
+    "work/replays-t64/z0-reference/p2.DAT",
+    "work/replays-t64/z0-reference/receipt.json",
+    "work/replays-t64/z0-reference/replay.log",
+    "work/replays-t64/z0-reference/replay.time",
+    "work/replays-t64/z0-reference/unbinding.bin",
+    "work/replays-t64/z0-v3/BDM.config",
+    "work/replays-t64/z0-v3/CATALOGS/outputB.0158.dat",
+    "work/replays-t64/z0-v3/PMcrd.0158.DAT",
+    "work/replays-t64/z0-v3/PMcrs0.0158.DAT",
+    "work/replays-t64/z0-v3/PMcrs1.0158.DAT",
+    "work/replays-t64/z0-v3/fort.17",
+    "work/replays-t64/z0-v3/p1.DAT",
+    "work/replays-t64/z0-v3/p2.DAT",
+    "work/replays-t64/z0-v3/receipt.json",
+    "work/replays-t64/z0-v3/replay.log",
+    "work/replays-t64/z0-v3/replay.time",
+    "work/replays-t64/z0-v3/unbinding.bin",
+    "work/replays-t64/z1-reference/BDM.config",
+    "work/replays-t64/z1-reference/CATALOGS/outputB.0109.dat",
+    "work/replays-t64/z1-reference/PMcrd.0109.DAT",
+    "work/replays-t64/z1-reference/PMcrs0.0109.DAT",
+    "work/replays-t64/z1-reference/PMcrs1.0109.DAT",
+    "work/replays-t64/z1-reference/fort.17",
+    "work/replays-t64/z1-reference/p1.DAT",
+    "work/replays-t64/z1-reference/receipt.json",
+    "work/replays-t64/z1-reference/replay.log",
+    "work/replays-t64/z1-reference/replay.time",
+    "work/replays-t64/z1-reference/unbinding.bin",
+    "work/replays-t64/z1-v3/BDM.config",
+    "work/replays-t64/z1-v3/CATALOGS/outputB.0109.dat",
+    "work/replays-t64/z1-v3/PMcrd.0109.DAT",
+    "work/replays-t64/z1-v3/PMcrs0.0109.DAT",
+    "work/replays-t64/z1-v3/PMcrs1.0109.DAT",
+    "work/replays-t64/z1-v3/fort.17",
+    "work/replays-t64/z1-v3/p1.DAT",
+    "work/replays-t64/z1-v3/receipt.json",
+    "work/replays-t64/z1-v3/replay.log",
+    "work/replays-t64/z1-v3/replay.time",
+    "work/replays-t64/z1-v3/unbinding.bin",
+    "work/replays-t64/z2-reference/BDM.config",
+    "work/replays-t64/z2-reference/CATALOGS/outputB.0092.dat",
+    "work/replays-t64/z2-reference/PMcrd.0092.DAT",
+    "work/replays-t64/z2-reference/PMcrs0.0092.DAT",
+    "work/replays-t64/z2-reference/PMcrs1.0092.DAT",
+    "work/replays-t64/z2-reference/fort.17",
+    "work/replays-t64/z2-reference/p1.DAT",
+    "work/replays-t64/z2-reference/receipt.json",
+    "work/replays-t64/z2-reference/replay.log",
+    "work/replays-t64/z2-reference/replay.time",
+    "work/replays-t64/z2-reference/unbinding.bin",
+    "work/replays-t64/z2-v3/BDM.config",
+    "work/replays-t64/z2-v3/CATALOGS/outputB.0092.dat",
+    "work/replays-t64/z2-v3/PMcrd.0092.DAT",
+    "work/replays-t64/z2-v3/PMcrs0.0092.DAT",
+    "work/replays-t64/z2-v3/PMcrs1.0092.DAT",
+    "work/replays-t64/z2-v3/fort.17",
+    "work/replays-t64/z2-v3/p1.DAT",
+    "work/replays-t64/z2-v3/receipt.json",
+    "work/replays-t64/z2-v3/replay.log",
+    "work/replays-t64/z2-v3/replay.time",
+    "work/replays-t64/z2-v3/unbinding.bin"
+  ],
+  "removed_directories": [
+    "work/launch-host-control",
+    "work/launch-archive",
+    "work/replays-t64/z1-v3/CATALOGS",
+    "work/replays-t64/z0-reference/CATALOGS",
+    "work/replays-t64/z1-reference/CATALOGS",
+    "work/replays-t64/z2-reference/CATALOGS",
+    "work/replays-t64/z0-optimized-v2/CATALOGS",
+    "work/replays-t64/z0-v3/CATALOGS",
+    "work/replays-t64/z2-v3/CATALOGS",
+    "work/launch-native",
+    "work/replays-t32/z0-reference/CATALOGS",
+    "work/replays-t32/z0-optimized-v2/CATALOGS",
+    "work/replays-t32/z0-v3/CATALOGS",
+    "work/native-build/v3",
+    "work/native-build/production",
+    "work/native-build/reference",
+    "work/native-build/optimized-v2",
+    "work/native-build/preflight/optimized-v2-empty/CATALOGS",
+    "work/native-build/preflight/optimized-v2-empty",
+    "work/native-build/preflight/header-step/CATALOGS",
+    "work/native-build/preflight/header-step",
+    "work/native-build/preflight/v3-publication-invalid/CATALOGS",
+    "work/native-build/preflight/v3-publication-invalid",
+    "work/native-build/preflight/production/CATALOGS",
+    "work/native-build/preflight/production",
+    "work/native-build/preflight/v3-empty/CATALOGS",
+    "work/native-build/preflight/v3-empty",
+    "work/native-build/preflight/reference-publication-empty/CATALOGS",
+    "work/native-build/preflight/reference-publication-empty",
+    "work/native-build/preflight/density-path-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "work/native-build/preflight/density-truncated/CATALOGS",
+    "work/native-build/preflight/density-truncated",
+    "work/native-build/preflight/optimized-v2-publication-valid/CATALOGS",
+    "work/native-build/preflight/optimized-v2-publication-valid",
+    "work/native-build/preflight/snapshot/CATALOGS",
+    "work/native-build/preflight/snapshot",
+    "work/native-build/preflight/optimized-v2-bound/CATALOGS",
+    "work/native-build/preflight/optimized-v2-bound",
+    "work/native-build/preflight/reference-empty/CATALOGS",
+    "work/native-build/preflight/reference-empty",
+    "work/native-build/preflight/reference-bound/CATALOGS",
+    "work/native-build/preflight/reference-bound",
+    "work/native-build/preflight/v3-publication-empty/CATALOGS",
+    "work/native-build/preflight/v3-publication-empty",
+    "work/native-build/preflight/reference-publication-invalid/CATALOGS",
+    "work/native-build/preflight/reference-publication-invalid",
+    "work/native-build/preflight/density-metadata/CATALOGS",
+    "work/native-build/preflight/density-metadata",
+    "work/native-build/preflight/optimized-v2-publication-empty/CATALOGS",
+    "work/native-build/preflight/optimized-v2-publication-empty",
+    "work/native-build/preflight/v3-bound/CATALOGS",
+    "work/native-build/preflight/v3-bound",
+    "work/native-build/preflight/particle-limit/CATALOGS",
+    "work/native-build/preflight/particle-limit",
+    "work/native-build/preflight/optimized-v2-publication-invalid/CATALOGS",
+    "work/native-build/preflight/optimized-v2-publication-invalid",
+    "work/native-build/preflight/reference-publication-valid/CATALOGS",
+    "work/native-build/preflight/reference-publication-valid",
+    "work/native-build/preflight/leak-passes",
+    "work/native-build/preflight/leak-work",
+    "work/native-build/preflight/v3-publication-valid/CATALOGS",
+    "work/native-build/preflight/v3-publication-valid",
+    "work/native-build/preflight",
+    "work/native-build",
+    "work/launch-analysis",
+    "work/host-control"
+  ],
+  "archive_sha256": "37e35c6bcdd64fcddac9eb6ca0d271ef192033968b770e86d48062ba472a0247",
+  "archive_bytes": 234277483,
+  "archive_verified_before_removal": true,
+  "finished_at_utc": "2026-09-06T18:02:32.346178+00:00",
+  "archived_file_count": 441,
+  "retained_file_count": 23,
+  "removed_directory_count": 66
+}

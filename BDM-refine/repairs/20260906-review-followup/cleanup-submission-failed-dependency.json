@@ -1,0 +1,63 @@
+{
+  "prepared_at_utc": "2026-09-06T18:00:40.258027+00:00",
+  "command": [
+    "sbatch",
+    "--parsable",
+    "--partition=cosma8-serial",
+    "--account=dp004",
+    "--nodes=1",
+    "--ntasks=1",
+    "--cpus-per-task=1",
+    "--mem=4G",
+    "--time=00:10:00",
+    "--job-name=bdm-v3-archive",
+    "--dependency=afterok:11949499:11949500:11949535",
+    "--chdir=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM",
+    "--output=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/archive-%j.log",
+    "--error=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/archive-%j.log",
+    "--export=ALL,BDM_REVIEW_ROOT=/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-archive/archive.sbatch",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/repairs/20260906-review-followup/work/launch-archive/archive_work.py"
+  ],
+  "dependencies": [
+    "11949499",
+    "11949500",
+    "11949535"
+  ],
+  "submitter_sha256": "16dba7a4aab75c5a14c50e6af0aff45d9309a901a87a91a1a1227aa62ad2f6ef",
+  "script_sha256": {
+    "archive.sbatch": "ed1a22574990ebdbc4b8e796ce65243db2d07cb4c327bbac20c586c5f6ec315b",
+    "archive_work.py": "5c6a8541cfbee7c9810ceda8ef88b9e62ce766be997740d5e94094ea8e6ee57d"
+  },
+  "comparison_sha256": "f24bbfd793486a6acbb450a313dd127c4d029fa5134e95908fa85d48f33ce697",
+  "accounting_sha256": "8f2ef616f43bf79aa81894b97c8fa8cb957353b48cfb206744ce9369099ae2ef",
+  "pilot_command": [
+    "sacct",
+    "-j",
+    "11948648",
+    "--parsable2",
+    "--format=JobID,State,ElapsedRaw,TotalCPU,ReqTRES%100,AllocTRES%100,MaxRSS,ExitCode"
+  ],
+  "pilot_accounting": "JobID|State|ElapsedRaw|TotalCPU|ReqTRES|AllocTRES|MaxRSS|ExitCode\n11948648|COMPLETED|87|01:06.866|billing=1,cpu=1,mem=2G,node=1|billing=1,cpu=1,energy=29827,mem=2G,node=1||0:0\n11948648.batch|COMPLETED|87|01:06.866||cpu=1,mem=2G,node=1|1386244K|0:0\n11948648.extern|COMPLETED|87|00:00:00||billing=1,cpu=1,mem=2G,node=1||0:0\n",
+  "resources": {
+    "partition": "cosma8-serial",
+    "cpus": 1,
+    "mem": "4G",
+    "exclusive": false,
+    "expected_seconds_range": [
+      60,
+      240
+    ],
+    "expected_core_hours_range": [
+      0.016666666666666666,
+      0.06666666666666667
+    ],
+    "time_limit_seconds": 600,
+    "time_limit_core_hours": 0.16666666666666666,
+    "reason": "Earlier verified archive job 11948648 used 87 s, 66.866 CPU s, and 1386244 KiB batch MaxRSS on one shared core. Four GiB gives headroom for streaming compression/readback of the follow-up build and logs. Large science tapes remain unpacked."
+  },
+  "submitted_at_utc": "2026-09-06T18:00:40.332082+00:00",
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "sbatch: error: Batch job submission failed: Job dependency problem\n"
+}

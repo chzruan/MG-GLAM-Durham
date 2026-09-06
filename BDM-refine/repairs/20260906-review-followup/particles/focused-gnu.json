@@ -1,0 +1,3556 @@
+{
+  "baseline_commit": "54f53aae2aac6700d1ddb8490bebb0719f71165d",
+  "compiler": "gfortran",
+  "compiler_version": "GNU Fortran (GCC) 14.1.0",
+  "source_sha256": "8dfc0c21c0d73fc458ba8dfc17abb9db21f24db1b4c035aa66fe422294954da8",
+  "routine_sha256": {
+    "List": {
+      "baseline": "1636b9ed24070488066a9605ed7bda462b5d6786db50d8fe6d7404616eb25d51",
+      "updated": "5d1d1dbb487f847045e2da5595006960e9778180f9d10589b49797ac8cff8f14"
+    },
+    "AddBuffer": {
+      "baseline": "26f9d141f3ac81036d38a3fd02f480e2cbd6419c347c280ff3ecafc04691ee9c",
+      "updated": "2c00936925d05a8ad766235cdb488d599de3202faece68acbe9f197125f990d3"
+    }
+  },
+  "test_sha256": {
+    "run_checks.py": "5188b852d0e936c1a9095036368b07a8fbffb4fa1d1d74bb1df20ee129399c9f",
+    "cases.f90": "0d2fb55fbd4a7e76392ff0660dd3a6d6f3cb73c8bc7211118762763c566829a9"
+  },
+  "compilation": {
+    "checked-baseline": {
+      "command": [
+        "gfortran",
+        "-O0",
+        "-g",
+        "-fcheck=all",
+        "-ffpe-trap=invalid,zero,overflow",
+        "-ftrapv",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "cases.f90",
+        "-o",
+        "cases"
+      ],
+      "stderr": "",
+      "generated_sha256": "5aec680505552ca51441a9b8edc30b8c1b6ac38c832fe54909723435ba9a07ff"
+    },
+    "checked-updated": {
+      "command": [
+        "gfortran",
+        "-O0",
+        "-g",
+        "-fcheck=all",
+        "-ffpe-trap=invalid,zero,overflow",
+        "-ftrapv",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "cases.f90",
+        "-o",
+        "cases"
+      ],
+      "stderr": "",
+      "generated_sha256": "f676e75b469c60a833dd7a84d6e5350e9e60a5f3ee63a05bc5976441f7b0d91f"
+    },
+    "optimized-baseline": {
+      "command": [
+        "gfortran",
+        "-O3",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "cases.f90",
+        "-o",
+        "cases"
+      ],
+      "stderr": "",
+      "generated_sha256": "5aec680505552ca51441a9b8edc30b8c1b6ac38c832fe54909723435ba9a07ff"
+    },
+    "optimized-updated": {
+      "command": [
+        "gfortran",
+        "-O3",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "cases.f90",
+        "-o",
+        "cases"
+      ],
+      "stderr": "",
+      "generated_sha256": "f676e75b469c60a833dd7a84d6e5350e9e60a5f3ee63a05bc5976441f7b0d91f"
+    }
+  },
+  "experiments": [
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.031954821199178696,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.03203805792145431,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.058753631077706814,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.05463201110251248,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.12298639095388353,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.11992798489518464,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.12349814595654607,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.13134698197245598,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.132395087974146,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.1046744198538363,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.17410267400555313,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.16857321979478002,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.17372778803110123,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.1926709981635213,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.3178793778643012,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.2934404360130429,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.23293916112743318,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.23595355404540896,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.049258570885285735,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.04897088813595474,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.01895114593207836,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.019061424070969224,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.01702837087213993,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.06984476908110082,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.01890684198588133,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.017530738841742277,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.01732683414593339,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.018322390038520098,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.016543997917324305,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.01842187880538404,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_min",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.008964119013398886,
+      "output_sha256": "990bac3a0b7abad634c45ed118498c2e0851de2a57c2a11fb1e061b7a00fb21e",
+      "mode": "checked",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "list_i32_max",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.008942509070038795,
+      "output_sha256": "b00c86cd95dff2b4aed7dc6c420423e46e6cfcf28a54e8aa7c0c4c0b54f4972b",
+      "mode": "checked",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "invalid_negative",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.0459365900605917,
+      "expected_error": "[0,Box)",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_upper",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.04930228507146239,
+      "expected_error": "[0,Box)",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_nan",
+      "n": 10001,
+      "threads": 1,
+      "returncode": -8,
+      "elapsed_seconds": 0.3284885680768639,
+      "expected_error": [
+        "original analysis coordinates",
+        "SIGFPE",
+        "floating invalid"
+      ],
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_count",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.047514825128018856,
+      "expected_error": "count mismatch",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_active",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.046261331997811794,
+      "expected_error": "already active",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_capacity",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.04704012000001967,
+      "expected_error": "safe int64",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_negative_count",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.04634369700215757,
+      "expected_error": "safe int64",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cell",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.047624272061511874,
+      "expected_error": "Invalid BDM particle list geometry",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_bounds",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.04812807100825012,
+      "expected_error": "Invalid BDM particle list bounds",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_list_nan",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.04628689005039632,
+      "expected_error": "Nonfinite BDM particle cell coordinate",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.06228012405335903,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.06183586595579982,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.10049934289418161,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.05736755207180977,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.1279817190952599,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.12977724405936897,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.12735934602096677,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.13164394279010594,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.13098461087793112,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.12935637100599706,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.19500239100307226,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.27289577201008797,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.20208322093822062,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.23055156599730253,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.26307089789770544,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.30000305990688503,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.20237384899519384,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.1711821798235178,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.05039900308474898,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.08774762111715972,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.01939570903778076,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.018593396060168743,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.018187781097367406,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.01738225296139717,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.017759184120222926,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.01681195804849267,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.01662697782739997,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.01732098706997931,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.06205028994008899,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.01797775598242879,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_min",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.009699017042294145,
+      "output_sha256": "990bac3a0b7abad634c45ed118498c2e0851de2a57c2a11fb1e061b7a00fb21e",
+      "mode": "checked",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "list_i32_max",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.009132689097896218,
+      "output_sha256": "b00c86cd95dff2b4aed7dc6c420423e46e6cfcf28a54e8aa7c0c4c0b54f4972b",
+      "mode": "checked",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "invalid_negative",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.046961260959506035,
+      "expected_error": "[0,Box)",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_upper",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.047132674837484956,
+      "expected_error": "[0,Box)",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_nan",
+      "n": 10001,
+      "threads": 2,
+      "returncode": -8,
+      "elapsed_seconds": 0.34022778109647334,
+      "expected_error": [
+        "original analysis coordinates",
+        "SIGFPE",
+        "floating invalid"
+      ],
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_count",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.04604119714349508,
+      "expected_error": "count mismatch",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_active",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.047034790040925145,
+      "expected_error": "already active",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_capacity",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.04610843397676945,
+      "expected_error": "safe int64",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_negative_count",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.046266481978818774,
+      "expected_error": "safe int64",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cell",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.04670159216038883,
+      "expected_error": "Invalid BDM particle list geometry",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_bounds",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.0464298389852047,
+      "expected_error": "Invalid BDM particle list bounds",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_list_nan",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.04780770791694522,
+      "expected_error": "Nonfinite BDM particle cell coordinate",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cache_memory",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.046696652891114354,
+      "expected_error": "BDM z-cell cache exceeds",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.10423473594710231,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.06153947697021067,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.06439345795661211,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.03790841298177838,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.12512698699720204,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.12847901694476604,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.12392815598286688,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.12842943286523223,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.12415223894640803,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.12604505708441138,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.22116416692733765,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.15649907593615353,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.2477055978961289,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.28976143104955554,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.265575960977003,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.2987018271815032,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.19201995781622827,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.18398088100366294,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.04712612181901932,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.0808633309789002,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.019681548001244664,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.02075779694132507,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.017888486851006746,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.017450331011787057,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.016268433071672916,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.016879194881767035,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.016987086972221732,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.016290544997900724,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.016684897942468524,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.05375797604210675,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_min",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.010748995933681726,
+      "output_sha256": "990bac3a0b7abad634c45ed118498c2e0851de2a57c2a11fb1e061b7a00fb21e",
+      "mode": "checked",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "list_i32_max",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.00911454507149756,
+      "output_sha256": "b00c86cd95dff2b4aed7dc6c420423e46e6cfcf28a54e8aa7c0c4c0b54f4972b",
+      "mode": "checked",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "invalid_negative",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.04695449792779982,
+      "expected_error": "[0,Box)",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_upper",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.04703162400983274,
+      "expected_error": "[0,Box)",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_nan",
+      "n": 10001,
+      "threads": 4,
+      "returncode": -8,
+      "elapsed_seconds": 0.33219816093333066,
+      "expected_error": [
+        "original analysis coordinates",
+        "SIGFPE",
+        "floating invalid"
+      ],
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_count",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.04641167516820133,
+      "expected_error": "count mismatch",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_active",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.04677413799799979,
+      "expected_error": "already active",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_capacity",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.04620881308801472,
+      "expected_error": "safe int64",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_negative_count",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.047068644082173705,
+      "expected_error": "safe int64",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cell",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.04630891093984246,
+      "expected_error": "Invalid BDM particle list geometry",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_bounds",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.04687350615859032,
+      "expected_error": "Invalid BDM particle list bounds",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_list_nan",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.048972493037581444,
+      "expected_error": "Nonfinite BDM particle cell coordinate",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cache_memory",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.04675353993661702,
+      "expected_error": "BDM z-cell cache exceeds",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.033452752977609634,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.03316987887956202,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.09886370901949704,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.03449093014933169,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.2407656330615282,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.12465225113555789,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.09975347691215575,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.12645459896884859,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.09691977500915527,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.13457171409390867,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.2096916961017996,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.2340573149267584,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.18673723796382546,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.1794834709726274,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.3090968569740653,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.26232489198446274,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.23457042314112186,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.18819804186932743,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.04658266808837652,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.09494706499390304,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.01852757204324007,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.017074303003028035,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.016620987094938755,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.016166199930012226,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.03618540498428047,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.028838152065873146,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.017968788975849748,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.01893243589438498,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.01744684507139027,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "checked",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.017189559061080217,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_min",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.015205638948827982,
+      "output_sha256": "990bac3a0b7abad634c45ed118498c2e0851de2a57c2a11fb1e061b7a00fb21e",
+      "mode": "checked",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "list_i32_max",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.01006554695777595,
+      "output_sha256": "b00c86cd95dff2b4aed7dc6c420423e46e6cfcf28a54e8aa7c0c4c0b54f4972b",
+      "mode": "checked",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "invalid_negative",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04857932194136083,
+      "expected_error": "[0,Box)",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_upper",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04739421792328358,
+      "expected_error": "[0,Box)",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_nan",
+      "n": 10001,
+      "threads": 8,
+      "returncode": -8,
+      "elapsed_seconds": 0.3386092798318714,
+      "expected_error": [
+        "original analysis coordinates",
+        "SIGFPE",
+        "floating invalid"
+      ],
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_count",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04633435886353254,
+      "expected_error": "count mismatch",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_active",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04647074709646404,
+      "expected_error": "already active",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_capacity",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.046345651149749756,
+      "expected_error": "safe int64",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_negative_count",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04702839790843427,
+      "expected_error": "safe int64",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cell",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04618712211959064,
+      "expected_error": "Invalid BDM particle list geometry",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_bounds",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04637799202464521,
+      "expected_error": "Invalid BDM particle list bounds",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_list_nan",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04653227305971086,
+      "expected_error": "Nonfinite BDM particle cell coordinate",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cache_memory",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04615882900543511,
+      "expected_error": "BDM z-cell cache exceeds",
+      "mode": "checked",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.01671593706123531,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.01577439089305699,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.0708997449837625,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.05111379106529057,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.040009323973208666,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.07468600408174098,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.09709539613686502,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.09947372903116047,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.0857574581168592,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.0799537559505552,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.11485792486928403,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.07324141100980341,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.09294897690415382,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.0859966289717704,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.12216314882971346,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.08100233320146799,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.12273630895651877,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.11515917303040624,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.05743263498879969,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.14969256287440658,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.011074119014665484,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.03433263092301786,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.008417872013524175,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.012860297225415707,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.008810972794890404,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.00827761716209352,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.008173910900950432,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.008131360867992043,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.02214473206549883,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.00809573382139206,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_min",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.0059286379255354404,
+      "output_sha256": "990bac3a0b7abad634c45ed118498c2e0851de2a57c2a11fb1e061b7a00fb21e",
+      "mode": "optimized",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "list_i32_max",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.005942453863099217,
+      "output_sha256": "b00c86cd95dff2b4aed7dc6c420423e46e6cfcf28a54e8aa7c0c4c0b54f4972b",
+      "mode": "optimized",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "invalid_negative",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.044667646987363696,
+      "expected_error": "[0,Box)",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_upper",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.04495946690440178,
+      "expected_error": "[0,Box)",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_nan",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.0446873540058732,
+      "expected_error": [
+        "original analysis coordinates",
+        "SIGFPE",
+        "floating invalid"
+      ],
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_count",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.04472630796954036,
+      "expected_error": "count mismatch",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_active",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.04618849488906562,
+      "expected_error": "already active",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_capacity",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.045576621079817414,
+      "expected_error": "safe int64",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_negative_count",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.04496130091138184,
+      "expected_error": "safe int64",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cell",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.04491265909746289,
+      "expected_error": "Invalid BDM particle list geometry",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_bounds",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.04516215994954109,
+      "expected_error": "Invalid BDM particle list bounds",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_list_nan",
+      "n": 10001,
+      "threads": 1,
+      "returncode": 1,
+      "elapsed_seconds": 0.045561663107946515,
+      "expected_error": "Nonfinite BDM particle cell coordinate",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.04391676094383001,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.046497286995872855,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.05866245296783745,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.058018959825858474,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.061305537121370435,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.06942406296730042,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.12983072502538562,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.060337371192872524,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.06504769180901349,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.09193710912950337,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.041125178104266524,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.11122883297502995,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.08809636812657118,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.11813491396605968,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.04706265195272863,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.12854633294045925,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.11153429816477001,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.12079180311411619,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.10139045398682356,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.026771133998408914,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.033173845848068595,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.042075789999216795,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.010184161830693483,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.009268585126847029,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.008405398111790419,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.04410784202627838,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.009087634040042758,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.016406814102083445,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.00942718400619924,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.00872251600958407,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_min",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.00655345618724823,
+      "output_sha256": "990bac3a0b7abad634c45ed118498c2e0851de2a57c2a11fb1e061b7a00fb21e",
+      "mode": "optimized",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "list_i32_max",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.0059578928630799055,
+      "output_sha256": "b00c86cd95dff2b4aed7dc6c420423e46e6cfcf28a54e8aa7c0c4c0b54f4972b",
+      "mode": "optimized",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "invalid_negative",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.04532830300740898,
+      "expected_error": "[0,Box)",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_upper",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.0456592570990324,
+      "expected_error": "[0,Box)",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_nan",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.04547213390469551,
+      "expected_error": [
+        "original analysis coordinates",
+        "SIGFPE",
+        "floating invalid"
+      ],
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_count",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.04447935218922794,
+      "expected_error": "count mismatch",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_active",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.044801970943808556,
+      "expected_error": "already active",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_capacity",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.04480190994217992,
+      "expected_error": "safe int64",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_negative_count",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.04581929906271398,
+      "expected_error": "safe int64",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cell",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.045291373040527105,
+      "expected_error": "Invalid BDM particle list geometry",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_bounds",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.0476553610060364,
+      "expected_error": "Invalid BDM particle list bounds",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_list_nan",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.04617122211493552,
+      "expected_error": "Nonfinite BDM particle cell coordinate",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cache_memory",
+      "n": 10001,
+      "threads": 2,
+      "returncode": 1,
+      "elapsed_seconds": 0.044377860147506,
+      "expected_error": "BDM z-cell cache exceeds",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.019837722880765796,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.06907879188656807,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.05628762487322092,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.020907389000058174,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.26630269177258015,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.034061048878356814,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.04450070206075907,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.030877355951815844,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.05957978288643062,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.02874619816429913,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.12076587416231632,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.06423139316029847,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.13828680803999305,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.1050488909240812,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.1157932779751718,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.07075261790305376,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.12626498215831816,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.08847651514224708,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.03324756491929293,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.03646850818768144,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.019419023068621755,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.04437389294616878,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.010106544941663742,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.00849184999242425,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.03450633795000613,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.009960179217159748,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.02124314196407795,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.010485239094123244,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.009122709976509213,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.009122859919443727,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_min",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.006445632083341479,
+      "output_sha256": "990bac3a0b7abad634c45ed118498c2e0851de2a57c2a11fb1e061b7a00fb21e",
+      "mode": "optimized",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "list_i32_max",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.04694250621832907,
+      "output_sha256": "b00c86cd95dff2b4aed7dc6c420423e46e6cfcf28a54e8aa7c0c4c0b54f4972b",
+      "mode": "optimized",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "invalid_negative",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.045584375970065594,
+      "expected_error": "[0,Box)",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_upper",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.046019827015697956,
+      "expected_error": "[0,Box)",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_nan",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.046647970797494054,
+      "expected_error": [
+        "original analysis coordinates",
+        "SIGFPE",
+        "floating invalid"
+      ],
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_count",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.044352403143420815,
+      "expected_error": "count mismatch",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_active",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.044824713142588735,
+      "expected_error": "already active",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_capacity",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.046887742821127176,
+      "expected_error": "safe int64",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_negative_count",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.04485070309601724,
+      "expected_error": "safe int64",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cell",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.04506007698364556,
+      "expected_error": "Invalid BDM particle list geometry",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_bounds",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.04428626806475222,
+      "expected_error": "Invalid BDM particle list bounds",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_list_nan",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.046235141810029745,
+      "expected_error": "Nonfinite BDM particle cell coordinate",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cache_memory",
+      "n": 10001,
+      "threads": 4,
+      "returncode": 1,
+      "elapsed_seconds": 0.04464403307065368,
+      "expected_error": "BDM z-cell cache exceeds",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.020686381962150335,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 0,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.05305776605382562,
+      "output_sha256": "7c29ef8766b698e635f2cc48ab14323efca947c45546c4a4db6c241c4229667c",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.09658420109190047,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 1,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.020095156971365213,
+      "output_sha256": "8f791109e2a9544f207e05f1922f4eb1f64557d3e1ddb5d67e5e1995549b7d52",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.026569794863462448,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16383,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.12320878892205656,
+      "output_sha256": "9153b8b20ed57c8024e08280c6d9a9ce703e3804e904c02efea5de2c439f1084",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.02689840504899621,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16384,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.07671953784301877,
+      "output_sha256": "d479ba44f92ff2cf622025b08ef1b7d7e12bc66958a005575af8082a93b0825c",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.02754242904484272,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 16385,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.07798616588115692,
+      "output_sha256": "102661183d117a2cdef790e1f34abeebaeb934f48838c8b32c359e9dc61426ec",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.07857815315946937,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.07203225092962384,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.03460894199088216,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_fractional",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.0823670260142535,
+      "output_sha256": "08c73bc8a6432cbb466919e3e00cd097e18753509891a9b2b00591efd07a44b8",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.07444571098312736,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "buffer_halfbox",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.041856467025354505,
+      "output_sha256": "1313be0c4b21575634b3aa23389a81073845aecfe7f9317c389446c341fa5612",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.049283239990472794,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_periodic",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.08392452308908105,
+      "output_sha256": "21e90aaf8749ac5921a42e8a586694bb91f1897af4f135c6c9640e3630ecb25f",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.022806199034675956,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_range",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.024868587031960487,
+      "output_sha256": "04ecaac29aadfa23586fc2ff560155c9f431f329821dd0a4b0fdce1a5c963f07",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.010223414981737733,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_low",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.014196055009961128,
+      "output_sha256": "701531debb6dd5bea5ad5de1ff0958acb9fd579bdc640085433416768f56845e",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.008679393911734223,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i16_high",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.009498718893155456,
+      "output_sha256": "689a32c27b0198efb2d4547b60b00d008ec6d761ff89eb255871d1165db77ee3",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.009158898144960403,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_low",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.010313133941963315,
+      "output_sha256": "3def182fd60f181bfc14391454e4042361d8e900783e9127d2d7e0af150b1a0a",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.00844438117928803,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_i32_high",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.008776736911386251,
+      "output_sha256": "59c9169a43c36f45a1181e50331493ff85fd364c5950b319a9d0b30546a27349",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.009825624991208315,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "optimized",
+      "variant": "baseline"
+    },
+    {
+      "case": "list_empty_slabs",
+      "n": 32769,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.009369525127112865,
+      "output_sha256": "ba4454a46cdbd95396f6cc2e67fefd4251a78fc71ebd6a035951b54430881594",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "list_i32_min",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.007328576873987913,
+      "output_sha256": "990bac3a0b7abad634c45ed118498c2e0851de2a57c2a11fb1e061b7a00fb21e",
+      "mode": "optimized",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "list_i32_max",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.0069251470267772675,
+      "output_sha256": "b00c86cd95dff2b4aed7dc6c420423e46e6cfcf28a54e8aa7c0c4c0b54f4972b",
+      "mode": "optimized",
+      "variant": "updated",
+      "baseline_skipped": "Original default-integer loop/conversion is undefined at int32 extrema"
+    },
+    {
+      "case": "invalid_negative",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04434691299684346,
+      "expected_error": "[0,Box)",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_upper",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04713424690999091,
+      "expected_error": "[0,Box)",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_nan",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04633460007607937,
+      "expected_error": [
+        "original analysis coordinates",
+        "SIGFPE",
+        "floating invalid"
+      ],
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_count",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.044849680038169026,
+      "expected_error": "count mismatch",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_active",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04507806105539203,
+      "expected_error": "already active",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_capacity",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.045903065940365195,
+      "expected_error": "safe int64",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_negative_count",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.045202344888821244,
+      "expected_error": "safe int64",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cell",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04471085802651942,
+      "expected_error": "Invalid BDM particle list geometry",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_bounds",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04578331019729376,
+      "expected_error": "Invalid BDM particle list bounds",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_list_nan",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.04493402992375195,
+      "expected_error": "Nonfinite BDM particle cell coordinate",
+      "mode": "optimized",
+      "variant": "updated"
+    },
+    {
+      "case": "invalid_cache_memory",
+      "n": 10001,
+      "threads": 8,
+      "returncode": 1,
+      "elapsed_seconds": 0.045083289965987206,
+      "expected_error": "BDM z-cell cache exceeds",
+      "mode": "optimized",
+      "variant": "updated"
+    }
+  ],
+  "passed": 342,
+  "median_seconds": {},
+  "elapsed_seconds": 29.03451529284939,
+  "scope": "Small extracted kernels, independent cell/image oracles and bitwise cross-variant/thread comparison; no production finder-speedup claim"
+}

@@ -1,0 +1,35 @@
+{
+  "completed": true,
+  "records": [
+    {
+      "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-particles-review-followup-KvBzfH",
+      "head": "bda22a0a4eaebb4a6a4a8fd368512736a60a6de3",
+      "status_before": "clean including ignored files",
+      "merged_into_current_audit_branch": true,
+      "counts": {
+        "files": 464,
+        "symlinks": 0,
+        "directories": 39
+      },
+      "removed": true
+    },
+    {
+      "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/bdm-build-config-followup-20260906",
+      "head": "1b3a2ba55bdc89e2d07f14498794d47dc09e02d0",
+      "status_before": "clean including ignored files",
+      "merged_into_current_audit_branch": true,
+      "counts": {
+        "files": 482,
+        "symlinks": 0,
+        "directories": 42
+      },
+      "removed": true
+    }
+  ],
+  "prior_development_build_removed": {
+    "files": 265,
+    "symlinks": 32,
+    "directories": 45,
+    "source": "repair_peaks cleanup report; final root native artifacts verified unchanged"
+  }
+}

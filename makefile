@@ -6,8 +6,10 @@ FC = ifx
 FFLAGS =   -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian
 LDFLAGS =  -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian
 # The finder validates IEEE domains and uses reproducible diagnostic arithmetic.
-# Keep the simulator's flags while disabling unsafe FP assumptions in BDM.
-BDM_FFLAGS = $(subst -fp-model fast=1,-fp-model precise,$(FFLAGS))
+# Append the finder safety flags after overrides, including recursive bitmatch
+# builds. Intel resolves repeated FP-model options in favour of the last one.
+BDM_FFLAGS = $(FFLAGS)
+BDM_PRECISE_FLAGS = $(if $(filter gfortran%,$(notdir $(FC))),-fno-fast-math -ffp-contract=off,-fp-model precise)
 FMPI = mpiifort
 MPIFLAGS =  -O3 -lmpi -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian
 
@@ -34,7 +36,7 @@ PMP2BDM: $(OBJ) PMP2bdm.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
 
 PMP2linker.o: PMP2linker.f90 PMP2mod_tools.o PMP2mod_density.o
-	$(FC) $(BDM_FFLAGS) -c $<
+	$(FC) $(BDM_FFLAGS) $(BDM_PRECISE_FLAGS) -w -c $<
 
 # Gadget-2 -> MG-GLAM PM converter (reuses Tools/WriteDataPM).
 gadget2pm: PMP2mod_tools.o gadget2pm.o

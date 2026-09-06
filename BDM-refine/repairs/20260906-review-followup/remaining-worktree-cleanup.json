@@ -1,0 +1,13 @@
+{
+  "completed": true,
+  "path": "/tmp/bdm-so-normalization-20260906-B2INuMgT",
+  "head": "1b16a8394b69b6b752e6fa42cbcbe849913db18d",
+  "status_before": "clean including ignored files",
+  "merged_into_current_audit_branch": true,
+  "counts": {
+    "files": 480,
+    "symlinks": 0,
+    "directories": 42
+  },
+  "removed": true
+}

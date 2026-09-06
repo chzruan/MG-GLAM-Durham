@@ -157,7 +157,7 @@ def execute(build_dir, mode, case, threads, density=None, config=None, success=T
             assert len(catalogues) == 1, catalogues
             header = catalogues[0].read_text().splitlines()
             assert len(header) == 8, header
-            assert header[0].endswith('[BDM finder v2]'), header
+            assert header[0].endswith('[BDM finder v3]'), header
             omega_lambda = re.search(r'Omega_L=\s*([\d.]+)',header[3])
             assert omega_lambda and float(omega_lambda[1]) == .7, header[3]
             assert 'Mbound' in header[7] and 'MajorAxis' in header[7], header[7]

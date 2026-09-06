@@ -1,0 +1,52 @@
+{
+  "base_commit": "54f53aae2aac6700d1ddb8490bebb0719f71165d",
+  "integrated_commit": "14caede3a9cff2f37bb58b6709e8147826de20fb",
+  "source_sha256": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d",
+  "changed_subroutines": [
+    "addbuffer",
+    "bdmhalomembershipinit",
+    "gethalo",
+    "getprofiles",
+    "haloprofile",
+    "list",
+    "readparameters",
+    "releasemaxima",
+    "removeduplicatessimple",
+    "rescalecoords",
+    "setparameters",
+    "validateparameters",
+    "writefiles",
+    "writeprofiles"
+  ],
+  "unchanged_subroutines": [
+    "bdm",
+    "bdmhalogather",
+    "bdmhalosortids",
+    "bdmhalosortradii",
+    "bdmhalosphericalpotential",
+    "bdmparticleposition",
+    "begincataloguepublication",
+    "configurationerror",
+    "eigenvalues",
+    "finddistinctcandidates",
+    "findmaxima",
+    "initmaxima",
+    "limits",
+    "listmaxima",
+    "mergenumericalduplicates",
+    "parametersdistinct",
+    "prepareparticlesearch",
+    "publishcatalogue",
+    "removebuffer",
+    "removeduplicates",
+    "setoverdensity",
+    "sizelist",
+    "sizelistmaxima"
+  ],
+  "subroutine_names_unchanged": true,
+  "global_declaration_changes": "MaxMemory comment; added unbinding pass/work allocatable arrays. No other global declarations changed.",
+  "production_files_changed": [
+    "PMP2linker.f90",
+    "makefile"
+  ]
+}

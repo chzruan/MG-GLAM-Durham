@@ -40,7 +40,7 @@ Integer*4,  PARAMETER  ::                         &
 Real*4        ::                    & 
                      dLogR,         &         ! size of log binning for profiles
                      dLogP,         &         ! size of log binning for potential
-                     MaxMemory=500, &         ! limit on memory for the run
+                     MaxMemory=500, &         ! linked-list admission limit in GiB (BDM.config)
                      MassMin      , &         ! minimum halo mass
                      SlopeR       , &         ! slope for extra radius for resolution correction
                      Rext                     ! extra radius shift at M=1e15
@@ -78,6 +78,10 @@ integer, parameter :: HaloTooFewParticles=1, HaloSearchTruncated=2, &
                       HaloUnresolvedVmax=4, HaloNoBoundParticles=8, &
                       HaloSingularCentre=16
 integer, allocatable :: HaloStatus(:)
+! Per-candidate work diagnostics do not alter the converged bound population.
+! A pass counts one evaluation of the current potential, drift and energies.
+integer, allocatable :: HaloUnbindingPasses(:)
+integer*8, allocatable :: HaloUnbindingWork(:)
 Real*4    ::                     RadMax
 Real*4,        ALLOCATABLE,   DIMENSION(:) ::                        &    ! maxima of density
                                  Mvir,Rvir,Mtotal,VmaxM,RmaxM,       &
@@ -226,6 +230,14 @@ Contains
       DEALLOCATE(Xax,Yax,Zax,Axba,Axca)
       if(allocated(BoundParticleIds))deallocate(BoundParticleIds)
       if(allocated(HaloStatus))deallocate(HaloStatus)
+      if(allocated(HaloUnbindingPasses))then
+        released=Memory(-1_8*size(HaloUnbindingPasses,kind=8))
+        deallocate(HaloUnbindingPasses)
+      endif
+      if(allocated(HaloUnbindingWork))then
+        released=Memory(-2_8*size(HaloUnbindingWork,kind=8))
+        deallocate(HaloUnbindingWork)
+      endif
       released=Memory(-22_8*Nmaxima)
       end SUBROUTINE ReleaseMaxima
 
@@ -243,6 +255,7 @@ Contains
 
       NradP=30; iVirial=1; dLogR=0.02; dLogP=0.02
       dBuffer=5.; SlopeR=0.20; Rext=0.15; MassMin=2.5e12
+      MaxMemory=500.
       inquire(file='BDM.config',exist=FileExists)
       if (FileExists) then
          open(newunit=unit,file='BDM.config',status='old',action='read',iostat=io)
@@ -286,6 +299,8 @@ Contains
                read(value,*,iostat=io) SlopeR
             case('massmin','minmass')
                read(value,*,iostat=io) MassMin
+            case('maxmemory')
+               read(value,*,iostat=io) MaxMemory
             case('nne')
                ! This historical option never affected the active finder.
                read(value,*,iostat=io) nne_legacy
@@ -310,6 +325,7 @@ Contains
          write(unit,20) 'Rext',Rext,'! Extra radius shift at m=1e15'
          write(unit,20) 'SlopeR',SlopeR,'! Slope for extra radius shift'
          write(unit,20) 'MassMin',MassMin,'! Minimum halo mass'
+         write(unit,20) 'MaxMemory',MaxMemory,'! Linked-list admission limit in GiB'
          write(unit,20) 'dLogR',dLogR,'! Log bin size for potential'
          write(unit,20) 'dLogP',dLogP,'! Log bin size for profiles'
          close(unit)
@@ -320,6 +336,7 @@ Contains
       write(*,20) 'Rext',Rext,'! Extra radius shift at m=1e15'
       write(*,20) 'SlopeR',SlopeR,'! Slope for extra radius shift'
       write(*,20) 'MassMin',MassMin,'! Minimum halo mass'
+      write(*,20) 'MaxMemory',MaxMemory,'! Linked-list admission limit in GiB'
       write(*,20) 'dLogR',dLogR,'! Log bin size for potential'
       write(*,20) 'dLogP',dLogP,'! Log bin size for profiles'
 10    format(10x,a,T20,' = ',i6,T40,a)
@@ -434,12 +451,13 @@ Contains
       implicit none
       if (iVirial < 0.or.iVirial > 3) call ConfigurationError(0,'iVirial must be 0, 1, 2 or 3')
       if (NradP < 1) call ConfigurationError(0,'NradP must be positive')
-      if (.not.all(ieee_is_finite([dLogR,dLogP,MassMin,Rext,SlopeR,dBuffer]))) &
+      if (.not.all(ieee_is_finite([dLogR,dLogP,MassMin,Rext,SlopeR,dBuffer,MaxMemory]))) &
          call ConfigurationError(0,'all real parameters must be finite')
       if (dLogR <= 0..or.dLogP <= 0.) call ConfigurationError(0,'logarithmic bin widths must be positive')
       if (MassMin < 0.) call ConfigurationError(0,'MassMin must be nonnegative')
       if (Rext < 0..or.SlopeR < 0.) call ConfigurationError(0,'radius corrections must be nonnegative')
       if (dBuffer <= 0.) call ConfigurationError(0,'buffer width must be positive')
+      if (MaxMemory <= 0.) call ConfigurationError(0,'MaxMemory must be positive (GiB)')
       end SUBROUTINE ValidateParameters
 
       SUBROUTINE SetOverdensity
@@ -503,16 +521,12 @@ SUBROUTINE RescaleCoords(iFlag)
   use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
   implicit none
   integer, intent(in) :: iFlag
-  integer*8 :: ip,restoreCount
+  integer*8 :: ip
   real*8 :: Xscale,Vscale
   real :: memoryUsed
   logical :: invalid
 
-  if(iFlag/=1)then
-    restoreCount=BdmPMCount
-    call RemoveBuffer(restoreCount)
-    return
-  endif
+  if(iFlag/=1)error stop 'BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration'
   if(allocated(BdmPMX))error stop 'BDM particle workspace already active'
   if(Np/=Nparticles.or.Np<0_8)error stop 'BDM original particle count is inconsistent'
   if(NGRID<=0.or.Box<=0..or.AEXPN<=0.)error stop 'Invalid BDM coordinate scales'
@@ -563,6 +577,18 @@ SUBROUTINE WriteFiles
      write(*,'(a,5i10)') ' BDM status [few, SO cap, Vmax, no bound, singular centre]:', &
        count(btest(HaloStatus,0)),count(btest(HaloStatus,1)), &
        count(btest(HaloStatus,2)),count(btest(HaloStatus,3)),count(btest(HaloStatus,4))
+   endif
+   if(allocated(HaloUnbindingPasses).and.allocated(HaloUnbindingWork))then
+     if(size(HaloUnbindingPasses)>0)then
+       write(*,'(a,3i18)') ' BDM unbinding [candidates, max passes, active particle rows]:', &
+         count(HaloUnbindingPasses>0),maxval(HaloUnbindingPasses),sum(HaloUnbindingWork)
+       write(*,'(a,7i12)') ' BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:', &
+         count(HaloUnbindingPasses==1),count(HaloUnbindingPasses==2), &
+         count(HaloUnbindingPasses>=3.and.HaloUnbindingPasses<=4), &
+         count(HaloUnbindingPasses>=5.and.HaloUnbindingPasses<=8), &
+         count(HaloUnbindingPasses>=9.and.HaloUnbindingPasses<=16), &
+         count(HaloUnbindingPasses>=17.and.HaloUnbindingPasses<=32),count(HaloUnbindingPasses>32)
+     endif
    endif
    do ip=1,Nmaxima
      if(.not.all(ieee_is_finite([xMaxx(ip),yMaxx(ip),zMaxx(ip), &
@@ -615,220 +641,26 @@ end SUBROUTINE WriteFiles
 !                  
 !                  
       SUBROUTINE WriteProfiles
-integer*8 :: ic   
-      iHalo = 0
-      Do ip=1,Nmaxima
-         If(Mvir(ip)>10*MassOne)Then
-            iHalo = iHalo +1
-            x    = xMaxx(ip);       y =  yMaxx(ip);    z = zMaxx(ip)
-         If(Mvir(ip)>100.*MassOne)Then
-         Vrms = sqrt(EkinM(ip)/Mvir(ip)*2.)
-         Cvir = Concentration(Mvir(ip),1.e3*Rvir(ip),VmaxM(ip))
-         If(Cvir < 0.)Cvir = Rvir(ip)/RmaxM(ip)*2.15
-         iHalo= ih
-
-         iStart  = 0
-         Do i=-NradP+1,0
-            If(NbinH1(i,ih)>0.and.MassH1(i,ih)>5.*MassOne)Then
-               iStart = i ; exit
-            EndIf
-         EndDo
-         Nlines  = 0 ! total lines of profile
-         Do i=-NradP+1,0
-            If(NbinH1(i,ih)>0.and.MassH1(i,ih)>5.*MassOne)Then
-               Nlines = Nlines +1
-            EndIf
-         EndDo
-           write(20) &
-                    x,y,z,VxMaxx(ip),VyMaxx(ip),VzMaxx(ip), &
-                    Mvir(ip),Mtotal(ip),1.e3*Rvir(ip),Vrms, VmaxM(ip),   & 
-                    iHalo,Cvir,Mvir(ip)/MassOne,MaxIndex(ip),Xoff(ip), &
-                    2.*EkinM(ip)/EpotM(ip)-1.,LambdaM(ip),1.e3*RadRms(ip),                 &
-                    Axba(ip),Axca(ip),Xax(ip),Yax(ip),Zax(ip),Nlines
-          Radius = 2.*Rvir(ip)
-          Do i=iStart,0
-            R     = Radius*10.**(i*dLogP)
-            Rin   = Radius*10.**((i-1)*dLogP)
-            Vcirc1 = 6.582e-5*sqrt(MassH1(i,ih)/R)/sqrt(AEXPN)
-            Vcirc2 = 6.582e-5*sqrt(MassH2(i,ih)/R)/sqrt(AEXPN)
-            Volume =  4.1888*(R**3-Rin**3)
-            DensH1 = (MassH1(i,ih)-MassH1(i-1,ih))/Volume*1.e-9  !density Msunh/kpch**3 comoving
-            DensH2 = (MassH2(i,ih)-MassH2(i-1,ih))/Volume*1.e-9
-            If(NbinH1(i,ih)/= 0.and.MassH1(i,ih)>5.*MassOne)Then
- 
-              write(20) R*1.e3,            &
-                 NbinH1(i,ih),RadH1(i,ih),MassH1(i,ih),Vcirc1, &
-                 DensH1,VrmsH1(i,ih),VradH1(i,ih),VrmsrH1(i,ih), &
-                 NbinH2(i,ih),RadH2(i,ih),MassH2(i,ih),Vcirc2, &
-                 DensH2,VrmsH2(i,ih),VradH2(i,ih),VrmsrH2(i,ih)
-
-            End If
-         EndDo
-      End If
-    end If
-    end do
-
-      close (20)
-
-    end SUBROUTINE WriteProfiles
+      implicit none
+      error stop 'BDM WriteProfiles is unsupported: legacy profile workspace is not implemented'
+      end SUBROUTINE WriteProfiles
 
 !---------------------------------------------------------------------------
 !                  Find profile of each halo and subhalos
 !                  
       SUBROUTINE GetProfiles
-integer*8 :: ic,ip   
-      Nhalo = Nmaxima
-        write(13,*) ' GetProfiles. Nhalo=',Nhalo
-        iHalo = 0
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (i)
-        Do i=1,Nhalo
-           RadH1(:,i)  =0. ; MassH1(:,i)  =0. ; VrmsH1(:,i) =0.
-           VradH1(:,i) =0. ; VrmsrH1(:,i) =0. ; NbinH1(:,i) =0
-           RadH2(:,i)  =0. ; MassH2(:,i)  =0. ; VrmsH2(:,i) =0.
-           VradH2(:,i) =0. ; VrmsrH2(:,i) =0. ; NbinH2(:,i) =0
-        EndDo
-       
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (ih,ip,ic,x,y,z,aR) 
-      Do ip=1,Nmaxima
-             If(Mvir(ip)>100.*MassOne)Then
-                x    = xMaxx(ip);  y = yMaxx(ip);  z = zMaxx(ip)
-                aR   = Rvir(ip)
-                if(mod(ih,1000)==0) &
-                write(13,'(i8,5f9.4)') ip,x,y,z,aR
-                Call HaloProfile(x,y,z,aR,ip)
-             EndIf
-      EndDo         ! i
-    end SUBROUTINE GetProfiles
+      implicit none
+      error stop 'BDM GetProfiles is unsupported: legacy profile workspace is not implemented'
+      end SUBROUTINE GetProfiles
 
 !---------------------------------------------------------------------------
 !                   Get profile of a halo
       SUBROUTINE HaloProfile(x,y,z,aR,ip)
-!---------------------------------------------------------------------------
-      Real*4, PARAMETER ::      fiScale  =  4.333e-9
-      Real*4      :: Fi(-NradP:0)
-      Real*8      :: wx,wy,wz
-      integer*8   :: ic,ip,jp   
-      
-      Radius = 2.*aR
-      d0     = Radius**2           ! get final statistics of  particles
-      factorZ    = 100.*sqrt(Om0/AEXPN**3+(1.-Om0)) *AEXPN 
-      
-
-      wx = VxMaxx(ip) ; wy = VyMaxx(ip) ; wz = VzMaxx(ip) 
-      Call Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
-                                             ! Get mass profile
-      Do k3 =k1, k2
-      Do j3 =j1, j2
-      Do i3 =i1, i2
-         jp =Label(i3,j3,k3)
-        Do while (jp.ne.0)
-           dd =(x-Xpar(jp))**2+(y-Ypar(jp))**2+(z-Zpar(jp))**2
-           If(dd< d0) Then
-              r = sqrt(max(dd,1.e-20))
-              ii    = max(min(INT(log10(r/Radius)/dLogP),0),-NradP)
-              dx   = Xpar(jp) -x
-              dy   = Ypar(jp) -y
-              dz   = Zpar(jp) -z
-              dvx = VX(jp) - wx +factorZ*dx    ! true velocity
-              dvy = VY(jp) - wy +factorZ*dy
-              dvz = VZ(jp) - wz +factorZ*dz
-              vv =  dvx**2 + dvy**2 + dvz**2   ! kinetic energy
-              vr =  (dvx*dx+dvy*dy+dvz*dz)/r   ! radial velocity
-              MassH1(ii,ih)   = MassH1(ii,ih)  + MassOne
-              RadH1(ii,ih)    = RadH1(ii,ih)   + r/aR ! radius in virial units
-              VrmsH1(ii,ih)   = VrmsH1(ii,ih)  + vv
-              VradH1(ii,ih)   = VradH1(ii,ih)  + vr
-              VrmsrH1(ii,ih)  = VrmsrH1(ii,ih) + vr**2
-              NbinH1(ii,ih)   = NbinH1(ii,ih)  + 1
-           EndIf                        ! dd<d0                                 
-            jp =Lst(jp)
-        End Do                          !  jp/= 0
-      EndDo   ! i3
-      EndDo   ! j3
-      EndDo   ! k3
-
-      Do ii =-NradP+1,0
-             MassH1(ii,ih) = MassH1(ii,ih) + MassH1(ii-1,ih)
-      EndDo                         
-      Fi           = 0.            ! get potential
-      iR           = min(-INT(0.301/dLogP),0)   ! potential at R =aR
-      Rin          = Radius*10.**(iR*dLogP)
-      Fi(iR)       = fiScale*MassH1(iR,ih)/Rin
-      Do i =iR+1,0                         ! outer part of profile: only mass
-         Rin   = Radius*10.**(i*dLogP)     !  inside aR fi =GM(aR)/R
-         Fi(i) = fiScale*MassH1(iR,ih)/Rin
-      EndDo
-      Do i =iR-1,-NradP,-1                 ! integrate inner part 
-         Rin   = Radius*10.**(i*dLogP)
-         Rout  = Radius*10.**((i+1)*dLogP)
-         Fi(i) = Fi(i+1) + fiScale*(MassH1(i,ih)+MassH1(i+1,ih))*0.5 &
-                                                 *(Rout-Rin)/(Rout*Rin)
-      EndDo
-      Fi = Fi/AEXPN
-       !write(13,'(3g12.4)') (Fi(i),MassP(i),Radius*10.**(i*dLogR),i=-10,0)
-
-        Do k3 =k1, k2   ! ----------- get final statistics of bound particles
-        Do j3 =j1, j2
-        Do i3 =i1, i2
-          jp =Label(i3,j3,k3)
-          Do while (jp.ne.0)
-             dd =(x-Xpar(jp))**2+(y-Ypar(jp))**2+(z-Zpar(jp))**2
-             If(dd< d0) Then
-                r = sqrt(max(dd,1.e-20))
-                dx   = Xpar(jp) -x
-                dy   = Ypar(jp) -y
-                dz   = Zpar(jp) -z
-                dvx = VX(jp) - wx +factorZ*dx    ! true velocity
-                dvy = VY(jp) - wy +factorZ*dy
-                dvz = VZ(jp) - wz +factorZ*dz
-                ii    = max(min(INT(log10(r/Radius)/dLogP),0),-NradP)
-                vv =  dvx**2 + dvy**2 + dvz**2   ! kinetic energy
-                 ee = -Fi(ii) + 0.5*vv
-              if(ee <= 0.)Then                          
-                 vr =  (dvx*dx+dvy*dy+dvz*dz)/r   ! radial velocity
-                 MassH2(ii,ih)   = MassH2(ii,ih)  + MassOne
-                 RadH2(ii,ih)    = RadH2(ii,ih)   + r/aR ! radius in virial units
-                 VrmsH2(ii,ih)   = VrmsH2(ii,ih)  + vv
-                 VradH2(ii,ih)   = VradH2(ii,ih)  + vr
-                 VrmsrH2(ii,ih)  = VrmsrH2(ii,ih) + vr**2
-                 NbinH2(ii,ih)   = NbinH2(ii,ih)  + 1 
-              end if                      ! ee<0
-             EndIf                        ! dd<d0                                 
-            jp =Lst(jp)
-          End Do                          !  jp/= 0
-        EndDo   ! i3
-        EndDo   ! j3
-        EndDo   ! k3
-
-        !Do ii =-NradP+1,0
-        ! write(13,'(2i8,g12.4)') ii,NbinH2(ii,ih),MassH2(ii,ih)
-        !EndDo
-        Do ii =-NradP+1,0
-                 MassH2(ii,ih) = MassH2(ii,ih) + MassH2(ii-1,ih)
-        EndDo
-        
-        Do ii = -NradP+1,0
-          If(NbinH1(ii,ih) /= 0)Then
-            RadH1(ii,ih) = RadH1(ii,ih)/NbinH1(ii,ih)
-            VrmsH1(ii,ih) = sqrt(VrmsH1(ii,ih)/NbinH1(ii,ih))
-            VradH1(ii,ih) = VradH1(ii,ih)/NbinH1(ii,ih)
-            VrmsrH1(ii,ih) = sqrt(VrmsrH1(ii,ih)/NbinH1(ii,ih))
-          end If
-          If(NbinH2(ii,ih) /= 0)Then
-            RadH2(ii,ih)   = RadH2(ii,ih)/NbinH2(ii,ih)
-            VrmsH2(ii,ih)  = sqrt(VrmsH2(ii,ih)/NbinH2(ii,ih))
-            VradH2(ii,ih)  = VradH2(ii,ih)/NbinH2(ii,ih)
-            VrmsrH2(ii,ih) = sqrt(VrmsrH2(ii,ih)/NbinH2(ii,ih))
-          end If
-       End Do
-       !Do ii =-NradP+1,0
-       ! write(13,'(2i8,8g12.4)') ii,NbinH1(ii,ih),MassH1(ii,ih), &
-       !          RadH1(ii,ih),VrmsH1(ii,ih),VrmsrH1(ii,ih)
-       !EndDo
-
-             end SUBROUTINE HaloProfile
+      implicit none
+      real*4, intent(in) :: x,y,z,aR
+      integer*8, intent(in) :: ip
+      error stop 'BDM HaloProfile is unsupported: legacy profile workspace is not implemented'
+      end SUBROUTINE HaloProfile
 
 !---------------------------------------------------------------------------
 !                 Initialize arrays for halo structure
@@ -1036,31 +868,9 @@ integer*8 :: ic,ip
 !                   
 !
       SUBROUTINE RemoveDuplicatesSimple
-!---------------------------------------------------------------------------
-        integer*8 :: ic,ip,i
-        real*4 :: m
-      tstart = seconds()
-!  --------------------------- 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (ip,x,y,z,m,ic,D2) 
-      Do ip=1,Nmaxima
-         If(Mvir(ip)>MassOne)Then
-            x   = xMaxx(ip);   y = yMaxx(ip);    z = zMaxx(ip)
-            m   = Mvir(ip)
-            do ic =1,Nmaxima
-               If(ic/=ip)Then
-                  D2 = (xMaxx(ic) -x)**2 +(yMaxx(ic) -y)**2 +(zMaxx(ic) -z)**2
-                  If(D2.lt.Rvir(ic)**2.and.m.lt.Mvir(ic))Then
-                     Mvir(ip) = 0.
-                  End If
-               end If
-            end do
-         end If
-       End Do         ! ip
-       tfinish = seconds()
-      write(*,'(10x,a,T50,2f10.2)') ' time for RemoveDuplicates =',tfinish-tstart,tfinish-t0
-
-    end SUBROUTINE RemoveDuplicatesSimple
+      implicit none
+      error stop 'BDM RemoveDuplicatesSimple is unsupported: use RemoveDuplicates with exact bound IDs'
+      end SUBROUTINE RemoveDuplicatesSimple
 !---------------------------------------------------------------------------
 !                  Find parameters of distinct halos 
 !
@@ -1087,6 +897,7 @@ integer*8 :: ic,ip,i
       SUBROUTINE GetHalo(x,y,z,xv,yv,zv,ip)
 !---------------------------------------------------------------------------
 ! SO uses the outermost crossing of the discrete enclosed-particle profile.
+! Catalogue v3 normalizes overdensity to the stored particle mass and box mean.
 ! The legacy Rext correction still defines the reported aperture and Mtotal.
 ! Mvir, drift, kinetic energy, shape, spin, and Vmax use only the converged bound
 ! population inside the unextended SO sphere. Binding uses the isolated,
@@ -1095,7 +906,7 @@ integer*8 :: ic,ip,i
         implicit none
         real*4, intent(in) :: x,y,z,xv,yv,zv
         integer*8, intent(in) :: ip
-        real*8, parameter :: gravity=4.333d-9
+        real*8, parameter :: gravity=4.333d-9, sphere_volume=4.d0*acos(-1.d0)/3.d0
         integer*8, allocatable :: rows(:)
         real*8, allocatable :: radii(:),potential(:)
         real*8 :: search_cap,aperture_cap,rso,aperture,grid_size
@@ -1109,10 +920,13 @@ integer*8 :: ic,ip,i
 
         ! ParametersDistinct allocates before entering its parallel loop. The
         ! guarded path also supports direct, sequential calls used by tests.
-        if(.not.allocated(BoundParticleIds)) call BdmHaloMembershipInit
+        if(.not.allocated(BoundParticleIds).or..not.allocated(HaloUnbindingPasses).or. &
+           .not.allocated(HaloUnbindingWork)) call BdmHaloMembershipInit
         if(size(BoundParticleIds)/=Nmaxima) error stop 'BDM membership size mismatch'
         if(allocated(BoundParticleIds(ip)%ids)) deallocate(BoundParticleIds(ip)%ids)
         HaloStatus(ip)=0
+        HaloUnbindingPasses(ip)=0
+        HaloUnbindingWork(ip)=0_8
         Mvir(ip)=0.; Mtotal(ip)=0.; Rvir(ip)=0.
         VmaxM(ip)=0.; RmaxM(ip)=0.; EkinM(ip)=0.; EpotM(ip)=0.
         VxMaxx(ip)=0.; VyMaxx(ip)=0.; VzMaxx(ip)=0.
@@ -1120,10 +934,12 @@ integer*8 :: ic,ip,i
         Axba(ip)=0.; Axca(ip)=0.; Xax(ip)=0.; Yax(ip)=0.; Zax(ip)=0.
         if(.not.all(ieee_is_finite([x,y,z,Cell,Box,MassOne,Om0,Ovdens,AEXPN]))) &
              error stop 'Non-finite input to BDM GetHalo'
-        if(min(Cell,Box,MassOne,Om0,Ovdens,AEXPN)<=0..or.NGRID<=0) &
+        if(min(Cell,Box,MassOne,Om0,Ovdens,AEXPN)<=0..or.NGRID<=0.or.NROW<=0) &
              error stop 'Non-positive scale in BDM GetHalo'
         mass=dble(MassOne)
-        threshold=1.150d12*dble(Om0)*dble(Ovdens)
+        ! Ovdens is relative to mean matter density. Use the same stored mass
+        ! as the enclosed-particle sum, in comoving Msun/h per (Mpc/h)**3.
+        threshold=sphere_volume*dble(Ovdens)*mass*(dble(NROW)/dble(Box))**3
         grid_size=dble(Box)/NGRID
         hubble_a=100.d0*sqrt(dble(Om0)/dble(AEXPN)**3+1.d0-dble(Om0))*dble(AEXPN)
         search_cap=min(15.d0*dble(Cell),dble(nearest(.5*Box,-1.)))
@@ -1208,6 +1024,8 @@ integer*8 :: ic,ip,i
         ! No removed particle contributes to the next potential or drift.
         do iteration=1,n+1
           if(n==0) exit
+          HaloUnbindingPasses(ip)=iteration
+          HaloUnbindingWork(ip)=HaloUnbindingWork(ip)+int(n,kind=8)
           bulk=0.d0
           do q=1,n
             bulk=bulk+[dble(VX(rows(q))),dble(VY(rows(q))),dble(VZ(rows(q)))]
@@ -1514,12 +1332,25 @@ integer*8 :: ic,ip,i
 
       SUBROUTINE BdmHaloMembershipInit
         implicit none
+        real :: memoryUsed
         ! Called before the production parallel loop, or from a direct fixture.
 !$OMP CRITICAL (bdm_halo_membership_init)
         if(allocated(BoundParticleIds)) deallocate(BoundParticleIds)
         if(allocated(HaloStatus)) deallocate(HaloStatus)
+        if(allocated(HaloUnbindingPasses))then
+          memoryUsed=Memory(-1_8*size(HaloUnbindingPasses,kind=8))
+          deallocate(HaloUnbindingPasses)
+        endif
+        if(allocated(HaloUnbindingWork))then
+          memoryUsed=Memory(-2_8*size(HaloUnbindingWork,kind=8))
+          deallocate(HaloUnbindingWork)
+        endif
         allocate(BoundParticleIds(Nmaxima),HaloStatus(Nmaxima))
+        allocate(HaloUnbindingPasses(Nmaxima),HaloUnbindingWork(Nmaxima))
+        memoryUsed=Memory(3_8*Nmaxima)
         HaloStatus=0
+        HaloUnbindingPasses=0
+        HaloUnbindingWork=0_8
 !$OMP END CRITICAL (bdm_halo_membership_init)
       end SUBROUTINE BdmHaloMembershipInit
 
@@ -1771,35 +1602,80 @@ end SUBROUTINE SizeList
 
 SUBROUTINE List
   use omp_lib, only: omp_get_max_threads,omp_get_num_threads,omp_get_thread_num
+  use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
   implicit none
-  integer*8 :: jp,planeCount
-  integer :: i,j,k,thread,threads,lo,hi
-  real :: timeStart,timeFinish
+  integer*2, allocatable :: zCell16(:)
+  integer*4, allocatable :: zCell32(:)
+  integer*8 :: jp,planeCount,i,j,k,lo,hi,cacheWords
+  integer :: thread,threads
+  real :: timeStart,timeFinish,memoryUsed
+  logical :: compactZ,bufferedCoordinates
 
   timeStart=seconds()
+  if(.not.ieee_is_finite(Cell).or.Cell<=0..or.Np<0_8)error stop 'Invalid BDM particle list geometry'
+  if(Nmx>Nbx.or.Nmy>Nby.or.Nmz>Nbz)error stop 'Invalid BDM particle list bounds'
+  ! AddBuffer validates originals and restricts image shifts to -1..1. This
+  ! box/cell bound therefore proves the original fast integer conversion safe.
+  ! Direct unbuffered tests/callers use the guarded clamp below instead.
+  bufferedCoordinates=allocated(OriginalParticleId).and.ieee_is_finite(Box)
+  if(bufferedCoordinates)bufferedCoordinates=Box>0..and. &
+    2.d0*dble(Box)<dble(huge(0.)).and.2.d0*dble(Box)/dble(Cell)<dble(huge(0))
   if(omp_get_max_threads()==1.or.Np<10000_8)then
     Label=0_8
     do jp=1,Np
-      i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)
-      j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)
-      k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)
+      if(bufferedCoordinates)then
+        i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)
+        j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)
+        k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)
+      else
+        i=ClampedCell(BdmParticleCoordinate(jp,1)/dble(Cell),Nmx,Nbx)
+        j=ClampedCell(BdmParticleCoordinate(jp,2)/dble(Cell),Nmy,Nby)
+        k=ClampedCell(BdmParticleCoordinate(jp,3)/dble(Cell),Nmz,Nbz)
+      endif
       Lst(jp)=Label(i,j,k)
       Label(i,j,k)=jp
     enddo
   else
-    planeCount=Nbz-Nmz+1_8
+    planeCount=int(Nbz,8)-int(Nmz,8)+1_8
+    compactZ=Nmz>=-int(huge(0_2),4)-1.and.Nbz<=int(huge(0_2),4)
+    cacheWords=Np
+    if(compactZ)cacheWords=Np/2_8+mod(Np,2_8)
+    if(4.d0*dble(cacheWords)/1024.d0**3+dble(Memory(0_8))>dble(MaxMemory)) &
+      error stop 'BDM z-cell cache exceeds configured memory limit'
+    if(compactZ)then
+      allocate(zCell16(Np))
+    else
+      allocate(zCell32(Np))
+    endif
+    memoryUsed=Memory(cacheWords)
 !$OMP PARALLEL DEFAULT(SHARED) PRIVATE(thread,threads,lo,hi,jp,i,j,k)
     thread=omp_get_thread_num()
     threads=omp_get_num_threads()
-    ! Partition the z bounds, not the x bounds. Each cell has one writer, and
-    ! ascending particle traversal gives identical descending row-ID links at
-    ! every thread count. Thread counts are local, avoiding a shared write race.
-    lo=Nmz+int(planeCount*thread/threads)
-    hi=Nmz+int(planeCount*(thread+1_8)/threads)-1
+    ! Convert each exact periodic z coordinate once. Signed int16 is sufficient
+    ! for ordinary grids; the int32 fallback covers every declared list bound.
+!$OMP DO SCHEDULE(STATIC)
+    do jp=1,Np
+      if(bufferedCoordinates)then
+        k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)
+      else
+        k=ClampedCell(BdmParticleCoordinate(jp,3)/dble(Cell),Nmz,Nbz)
+      endif
+      if(compactZ)then
+        zCell16(jp)=int(k,2)
+      else
+        zCell32(jp)=int(k,4)
+      endif
+    enddo
+!$OMP END DO
+    ! Each cell has one writer. The slab scans keep ascending particle order,
+    ! hence identical descending row-ID links, while reading only cached z cells.
+    ! Int64 bounds also represent empty slabs below the minimum int32 cell.
+    lo=int(Nmz,8)+planeCount*int(thread,8)/int(threads,8)
+    hi=int(Nmz,8)+planeCount*(int(thread,8)+1_8)/int(threads,8)-1_8
 !$OMP DO COLLAPSE(3)
-    do k=Nmz,Nbz
-    do j=Nmy,Nby
-    do i=Nmx,Nbx
+    do k=int(Nmz,8),int(Nbz,8)
+    do j=int(Nmy,8),int(Nby,8)
+    do i=int(Nmx,8),int(Nbx,8)
       Label(i,j,k)=0_8
     enddo
     enddo
@@ -1807,20 +1683,45 @@ SUBROUTINE List
 !$OMP END DO
     if(lo<=hi)then
       do jp=1,Np
-        k=min(max(Nmz,ceiling(BdmParticleCoordinate(jp,3)/dble(Cell))-1),Nbz)
+        if(compactZ)then
+          k=zCell16(jp)
+        else
+          k=zCell32(jp)
+        endif
         if(k<lo.or.k>hi)cycle
-        ! The complete z scan remains O(T*Np). Compute the other two indices
-        ! only for this slab, avoiding repeated x/y reads and cell arithmetic.
-        i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)
-        j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)
+        if(bufferedCoordinates)then
+          i=min(max(Nmx,ceiling(BdmParticleCoordinate(jp,1)/dble(Cell))-1),Nbx)
+          j=min(max(Nmy,ceiling(BdmParticleCoordinate(jp,2)/dble(Cell))-1),Nby)
+        else
+          i=ClampedCell(BdmParticleCoordinate(jp,1)/dble(Cell),Nmx,Nbx)
+          j=ClampedCell(BdmParticleCoordinate(jp,2)/dble(Cell),Nmy,Nby)
+        endif
         Lst(jp)=Label(i,j,k)
         Label(i,j,k)=jp
       enddo
     endif
 !$OMP END PARALLEL
+    if(allocated(zCell16))deallocate(zCell16)
+    if(allocated(zCell32))deallocate(zCell32)
+    memoryUsed=Memory(-cacheWords)
   endif
   timeFinish=seconds()
   write(*,*) ' time to make list =',timeFinish-timeStart
+contains
+  integer*8 function ClampedCell(scaled,lower,upper) result(index)
+    real*8, intent(in) :: scaled
+    integer*4, intent(in) :: lower,upper
+    if(.not.ieee_is_finite(scaled))error stop 'Nonfinite BDM particle cell coordinate'
+    ! In an interior cell lower+1 < scaled <= upper proves that the ordinary
+    ! ceiling and subtraction fit int32, even at the declared bound extrema.
+    if(scaled<=dble(lower)+1.d0)then
+      index=int(lower,8)
+    else if(scaled>dble(upper))then
+      index=int(upper,8)
+    else
+      index=int(ceiling(scaled)-1,8)
+    endif
+  end function ClampedCell
 end SUBROUTINE List
 !--------------------------------------------------------------
 !                          Make linker lists of maxima in each cell
@@ -2062,7 +1963,7 @@ end SUBROUTINE List
                  Txt6 ='  b/a  c/a MajorAxis:  x      y      z'   
                  WRITE (kfile) txt1,txt2b,txt3,txt4,txt5,txt6
                Else
-                 WRITE (kfile,'(a)') trim(HEADER)//' [BDM finder v2]'
+                 WRITE (kfile,'(a)') trim(HEADER)//' [BDM finder v3]'
                       sxt1 =' A    ='
                       sxt2 =' Step ='
                  WRITE (kfile,'(2(a,f8.5))') sxt1,AEXPN,sxt2,ASTEP 
@@ -2128,8 +2029,10 @@ SUBROUTINE AddBuffer
   use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
   implicit none
   real, allocatable :: Xbb(:),Ybb(:),Zbb(:),VXbb(:),VYbb(:),VZbb(:)
-  integer*8, allocatable :: imageEnd(:)
-  integer*8 :: ic,ip,originalCount,imageCount,iPartMax,nx,ny,nz
+  integer*1, allocatable :: imageCounts(:)
+  integer*8, allocatable :: blockEnd(:)
+  integer*8, parameter :: blockRows=16384_8
+  integer*8 :: ic,ip,originalCount,iPartMax,nx,ny,nz,block,blockCount,first,last,localImages,expectedEnd,scratchWords
   integer :: ilo,ihi,jlo,jhi,klo,khi,i,j,k
   real :: memoryUsed
   real*8 :: xx,yy,zz,box64,width64
@@ -2141,63 +2044,86 @@ SUBROUTINE AddBuffer
     error stop 'BDM buffer width must be finite and between zero and Box'
   originalCount=Np
   if(Np/=Nparticles)error stop 'BDM periodic buffer original count mismatch'
+  if(originalCount<0_8.or.originalCount>huge(0_8)/8_8) &
+    error stop 'BDM periodic particle count exceeds safe int64 range'
   box64=dble(Box); width64=dble(dBuffer)
-  ! Count exactly, including images of x=0 at x=Box. A row is an original
-  ! only when its shift is (0,0,0); the primary domain is [0,Box).
-  allocate(imageEnd(originalCount))
-  memoryUsed=Memory(2_8*originalCount)
+  ! Below half a box each axis contributes at most two images, hence 0..7
+  ! ghosts per original row. Retain byte counts and only one int64 end per block.
+  blockCount=originalCount/blockRows
+  if(mod(originalCount,blockRows)/=0_8)blockCount=blockCount+1_8
+  scratchWords=originalCount/4_8+2_8*(blockCount+1_8)
+  if(mod(originalCount,4_8)/=0_8)scratchWords=scratchWords+1_8
+  allocate(imageCounts(originalCount),blockEnd(0:blockCount))
+  memoryUsed=Memory(scratchWords)
   invalid=.false.
-!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(ic,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,nx,ny,nz) REDUCTION(.or.:invalid)
-  do ic=1,originalCount
-    xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
-    if(.not.all(ieee_is_finite([xx,yy,zz])).or.min(xx,yy,zz)<0.d0.or.max(xx,yy,zz)>=box64)then
-      invalid=.true.
-      imageEnd(ic)=0_8
-      cycle
-    endif
-    ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
-    jlo=ceiling((-width64-yy)/box64); jhi=floor((box64+width64-yy)/box64)
-    klo=ceiling((-width64-zz)/box64); khi=floor((box64+width64-zz)/box64)
-    nx=ihi-ilo+1_8; ny=jhi-jlo+1_8; nz=khi-klo+1_8
-    imageEnd(ic)=nx*ny*nz-1_8
+!$OMP PARALLEL DO DEFAULT(SHARED) SCHEDULE(STATIC) &
+!$OMP PRIVATE(block,ic,first,last,localImages,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,nx,ny,nz) REDUCTION(.or.:invalid)
+  do block=1,blockCount
+    first=(block-1_8)*blockRows+1_8; last=min(first+blockRows-1_8,originalCount)
+    localImages=0_8
+    do ic=first,last
+      xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
+      if(.not.all(ieee_is_finite([xx,yy,zz])).or.min(xx,yy,zz)<0.d0.or.max(xx,yy,zz)>=box64)then
+        invalid=.true.
+        imageCounts(ic)=0_1
+        cycle
+      endif
+      ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
+      jlo=ceiling((-width64-yy)/box64); jhi=floor((box64+width64-yy)/box64)
+      klo=ceiling((-width64-zz)/box64); khi=floor((box64+width64-zz)/box64)
+      nx=ihi-ilo+1_8; ny=jhi-jlo+1_8; nz=khi-klo+1_8
+      if(min(nx,ny,nz)<1_8.or.max(nx,ny,nz)>2_8) &
+        error stop 'BDM periodic image count outside supported half-box range'
+      imageCounts(ic)=int(nx*ny*nz-1_8,1)
+      localImages=localImages+int(imageCounts(ic),8)
+    enddo
+    blockEnd(block)=localImages
   enddo
   if(invalid)error stop 'BDM original analysis coordinates must lie in [0,Box)'
-  imageCount=originalCount
-  do ic=1,originalCount
-    imageCount=imageCount+imageEnd(ic)
-    imageEnd(ic)=imageCount
+  blockEnd(0)=originalCount
+  ! Prefix only the block totals. Independent blocks retain original row order
+  ! during filling, including the existing k/j/i periodic-image order per row.
+  do block=1,blockCount
+    if(blockEnd(block)>huge(0_8)-blockEnd(block-1_8))error stop 'BDM periodic prefix exceeds int64 range'
+    blockEnd(block)=blockEnd(block-1_8)+blockEnd(block)
   enddo
-  iPartMax=imageCount
+  iPartMax=blockEnd(blockCount)
+  if(iPartMax>huge(0_8)/8_8)error stop 'BDM periodic allocation accounting exceeds int64 range'
   write(*,*) ' Allocate exact periodic particle buffer: ',originalCount,iPartMax
   allocate(Xbb(iPartMax),Ybb(iPartMax),Zbb(iPartMax),VXbb(iPartMax),VYbb(iPartMax),VZbb(iPartMax))
   allocate(OriginalParticleId(iPartMax))
   memoryUsed=Memory(8_8*iPartMax) ! six float32 fields and one int64 identity
-!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(ic,ip,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,i,j,k)
-  do ic=1,originalCount
-    xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
-    Xbb(ic)=Xpar(ic); Ybb(ic)=Ypar(ic); Zbb(ic)=Zpar(ic)
-    VXbb(ic)=VX(ic); VYbb(ic)=VY(ic); VZbb(ic)=VZ(ic)
-    OriginalParticleId(ic)=ic
-    ip=originalCount
-    if(ic>1_8)ip=imageEnd(ic-1_8)
-    ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
-    jlo=ceiling((-width64-yy)/box64); jhi=floor((box64+width64-yy)/box64)
-    klo=ceiling((-width64-zz)/box64); khi=floor((box64+width64-zz)/box64)
-    do k=klo,khi
-    do j=jlo,jhi
-    do i=ilo,ihi
-      if(i==0.and.j==0.and.k==0)cycle
-      ip=ip+1_8
-      Xbb(ip)=real(xx+dble(i)*box64); Ybb(ip)=real(yy+dble(j)*box64); Zbb(ip)=real(zz+dble(k)*box64)
-      VXbb(ip)=VX(ic); VYbb(ip)=VY(ic); VZbb(ip)=VZ(ic)
-      OriginalParticleId(ip)=ic
+!$OMP PARALLEL DO DEFAULT(SHARED) SCHEDULE(STATIC) &
+!$OMP PRIVATE(block,ic,first,last,ip,expectedEnd,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,i,j,k)
+  do block=1,blockCount
+    first=(block-1_8)*blockRows+1_8; last=min(first+blockRows-1_8,originalCount)
+    ip=blockEnd(block-1_8)
+    do ic=first,last
+      xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
+      Xbb(ic)=Xpar(ic); Ybb(ic)=Ypar(ic); Zbb(ic)=Zpar(ic)
+      VXbb(ic)=VX(ic); VYbb(ic)=VY(ic); VZbb(ic)=VZ(ic)
+      OriginalParticleId(ic)=ic
+      expectedEnd=ip+int(imageCounts(ic),8)
+      ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
+      jlo=ceiling((-width64-yy)/box64); jhi=floor((box64+width64-yy)/box64)
+      klo=ceiling((-width64-zz)/box64); khi=floor((box64+width64-zz)/box64)
+      do k=klo,khi
+      do j=jlo,jhi
+      do i=ilo,ihi
+        if(i==0.and.j==0.and.k==0)cycle
+        ip=ip+1_8
+        Xbb(ip)=real(xx+dble(i)*box64); Ybb(ip)=real(yy+dble(j)*box64); Zbb(ip)=real(zz+dble(k)*box64)
+        VXbb(ip)=VX(ic); VYbb(ip)=VY(ic); VZbb(ip)=VZ(ic)
+        OriginalParticleId(ip)=ic
+      enddo
+      enddo
+      enddo
+      if(ip/=expectedEnd)error stop 'BDM periodic count/fill mismatch'
     enddo
-    enddo
-    enddo
-    if(ip/=imageEnd(ic))error stop 'BDM periodic count/fill mismatch'
+    if(ip/=blockEnd(block))error stop 'BDM periodic block count/fill mismatch'
   enddo
-  deallocate(imageEnd)
-  memoryUsed=Memory(-2_8*originalCount)
+  deallocate(imageCounts,blockEnd)
+  memoryUsed=Memory(-scratchWords)
   deallocate(Xpar,Ypar,Zpar,VX,VY,VZ)
   memoryUsed=Memory(-6_8*originalCount)
   call move_alloc(Xbb,Xpar); call move_alloc(Ybb,Ypar); call move_alloc(Zbb,Zpar)

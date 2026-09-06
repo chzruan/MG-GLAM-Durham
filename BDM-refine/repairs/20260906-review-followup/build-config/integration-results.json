@@ -1,0 +1,1933 @@
+{
+  "started_at_utc": "2026-09-06T16:57:20.088176+00:00",
+  "completed": true,
+  "base_commit": "54f53aa",
+  "source_sha256": {
+    "PMP2linker.f90": "fb03edc9bbb62ec30aac6b109785bc579570ffd2a69bf1df8adde4479712f64a",
+    "makefile": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74"
+  },
+  "driver_sha256": "6b2994fd6067965dd7787ad908588df6679531d08c7b741b66e3dfdc13dd733a",
+  "native_runtime_libraries": "/cosma/local/intel/oneAPI_2024.2.0/tbb/2021.13/lib:/cosma/local/intel/oneAPI_2024.2.0/compiler/2024.2/opt/compiler/lib:/cosma/local/intel/oneAPI_2024.2.0/compiler/2024.2/lib",
+  "production_call_graph": {
+    "before": [
+      {
+        "file": "PMP2linker.f90",
+        "line": 156,
+        "code": "Call RescaleCoords(1)"
+      },
+      {
+        "file": "PMP2linker.f90",
+        "line": 700,
+        "code": "Call HaloProfile(x,y,z,aR,ip)"
+      }
+    ],
+    "after": [
+      {
+        "file": "PMP2linker.f90",
+        "line": 160,
+        "code": "Call RescaleCoords(1)"
+      }
+    ],
+    "source_sha256": {
+      "AverageBispectrum.f90": "119c00b67d1ab507e21533508ec946841886635f11d4a3f2b6df140b0318d2fc",
+      "AveragePk.f90": "f92fb983583fc79c5d9eada9f448784a58004a7641f07d8bbca7d31b6f7334b4",
+      "Massfunction.f90": "8b1c30f459e6da82f3bb274b9045b7ff4a567d41e243d45a415063b021abe77d",
+      "PMP2MG_subroutines.f90": "128e0f3f17885a90baf42f90fb8e79a152354c5b476fd56ee7f1637bf15a1dbc",
+      "PMP2MGsolver_DGP.f90": "985ad50a2a754bbf23358244c1880c707ae45a8ca38ac9aac27a16d7ade9734d",
+      "PMP2MGsolver_csf.f90": "31e7c8f561ea135944abd07c4d578967a86405e7dba719e44b9a26466cca6a88",
+      "PMP2MGsolver_fR.f90": "e64c83a8a8ea404d106a7be02b2f62d334a5bd15ca34a55edf7d5d516c6cca20",
+      "PMP2MGsolver_kmf.f90": "f46433a9ee2bc2689381beb32931c8015f0243f147c0e3cfd86de322a6b60967",
+      "PMP2MGsolver_sym.f90": "84bcec5eaaf1054b72db7147b842b3b83952bdf72e9cb80523431e08cbedaf6c",
+      "PMP2analyze.f90": "ee116ae532dfdadb41e07b8017bcb4c655e52ce22a8c86d0d3c5039e43911cce",
+      "PMP2bdm.f90": "99fe4f521881aaf462ca650e0990a44fcd82ce113b8204931eff684baffcd766",
+      "PMP2catalReform.f90": "ebb857911929711fc1cfc3a42f4a65f4ed73933891d03b2d14b38a6080a89e29",
+      "PMP2catalogCorrect.f90": "1df9edb128f0561efce0d10139f5674b933246bc28d8db4f3df28a14e79248b4",
+      "PMP2correlation.f90": "774249be21ed3a2bc11479d64d92e4dfb45e0d130bd193cea2085fe023e337ae",
+      "PMP2density.f90": "c3cb79f5d4f1d5315ecb4edc94120674f9df1eda563e8bdc48bf79b47594682f",
+      "PMP2extradof.f90": "d741567059e23c36fcc37762ed3b323145bd5e770b379adfa1368639b15af87d",
+      "PMP2formatFiles.f90": "e7f26617ead8f8db4d323458b3a0a7ebb6f6507b954a96c87612b4cc17389f44",
+      "PMP2haloStat.f90": "6fcc2c14aababa6a8288a5c8a9f3da8aaaffe127414eb28af016fafdd5957b7a",
+      "PMP2init.f90": "5978546b1ba8efdaae512c22c31d764fb852dc0117d78e42950917870fa0a111",
+      "PMP2linker.f90": "fb03edc9bbb62ec30aac6b109785bc579570ffd2a69bf1df8adde4479712f64a",
+      "PMP2main.f90": "487f9835ae1a73a41c84e31c138e356c2700aeb3a798304f53e7610594b2f0bb",
+      "PMP2mainMPI.f90": "edc0c750b4c9f02c07881b87455f111b638f0b47ef7d62c1ff7b3bebc0bb689d",
+      "PMP2mod_MGbackground.f90": "cd4b9fc2f9dca17c06c1be53ca9739437a4c9731eebeec34c6b429cacd763860",
+      "PMP2mod_analyze.f90": "444918cac15c7486718dcf6a7cf65e3fe21ad06b9bd9d0653dea0d83d6ae42fb",
+      "PMP2mod_density.f90": "199ad91667f32c068bab5882c08046c24970ca3caa0321d277cfc7d704e88ed3",
+      "PMP2mod_fft5.f90": "1cf32f6d5271c55ef282ce9299a9235d2de673b32b0d83bfd9ca409ea13c08c9",
+      "PMP2mod_power.f90": "3bb942f8a7ed217e79057e9d523728ac5a56328c89c01c01075a82ed89d4f7e0",
+      "PMP2mod_random.f90": "3b8eca39991da447d868c9c7ca1407e53d9ab6f0075789270d0e244c6a6258e8",
+      "PMP2mod_tools.f90": "c40db0bcdf20413878e2fc91262293f47dc322d9ab846ea146fe2b7d12e1e0fb",
+      "PMP2power.f90": "cf6c0c99d5e6819648626cae23381a4be7858985e0adf77048cfe280c527a3b7",
+      "PMP2powerSSC.f90": "e5a555dd9e602ff93460b4b3f90bce9e3f7a4186626bc53f9d576075159eefe3",
+      "PMP2readFiles.f90": "18ec7c4e5acd8f3cb00f422572f033dafeb7b33662b4210dd84c36352668c27b",
+      "PMP2spectrum.f90": "318594381c772eaf76fce54c4b872219ef9e432a5d65de794ab682943104059f",
+      "PMP2start.f90": "cf60bcf92c5620b3fd8428cbeaae2a56dc0177afb872f997df32c0280a8ecc4a",
+      "PMP2startMPI.f90": "63a16fb3b7964fb6a2adc40abd21e9aab9db9adfe960baac28e5cb26bce2bb20",
+      "PMP2tunestepping.f90": "99d9b9162bcab93e9494923d24bc2b681ae22b1c8274cc9dfc5b0ba90d5105e3",
+      "PMPcovariance.f90": "878aaf616bd579eb5097e0bb4761c4d52e67062ffb958b9a2f4adeadf566dc52",
+      "gadget2pm.f90": "7b6156f94ebe88e3623572c1d82eed466164b5c9d002fbc622f15889700116ee",
+      "ic2pm.f90": "b7c19a0393b38d85db09bd878e082a27c7513a5f62a3e0c69b0d14bcdfd5c96e",
+      "testMemory.f90": "4ec069a4b41fa5ea19f9ca82bcafe05eb7b5693e4c66b6ebc0763d905f9a23c3",
+      "testtOmp.f90": "a35dbb2e8b7ccc866377c40d60b795b0d0c29d91aa83ab8321cdae838e98d4c1"
+    }
+  },
+  "compiler_versions": [
+    {
+      "command": [
+        "ifx",
+        "--version"
+      ],
+      "stdin": "",
+      "returncode": 0,
+      "stdout": "ifx (IFX) 2024.2.0 20240602\nCopyright (C) 1985-2024 Intel Corporation. All rights reserved.\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gfortran",
+        "--version"
+      ],
+      "stdin": "",
+      "returncode": 0,
+      "stdout": "GNU Fortran (GCC) 11.1.0\nCopyright (C) 2021 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "stderr": ""
+    }
+  ],
+  "configuration_and_entrypoints": {
+    "extracted_source_sha256": "00380245c20a804618f29d3af7748ccacbc6af2dd6fbf5bdc5202a0cb120c925",
+    "variants": [
+      {
+        "compiler": "gfortran",
+        "mode": "checked",
+        "compilation": {
+          "command": [
+            "gfortran",
+            "-O0",
+            "-g",
+            "-fcheck=all",
+            "-fopenmp",
+            "/tmp/bdm-build-config-e23ooezn/config.f90",
+            "-o",
+            "/tmp/bdm-build-config-e23ooezn/gfortran-checked"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "binary_sha256": "410f5ba51e8723e68db6b4172771214fb2a6eaf8f8fa43b4fb83e145e785b39d",
+        "results": [
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   500.000000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": null,
+            "generated_config": "! BDM configuration; whitespace and trailing ! comments are optional\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   1.25           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   1.25000000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "mAxMeMoRy = 1.25 ! GiB\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   512.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   512.500000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "MAXMEMORY=512.5\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   288.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   288.000000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "MaxMemory=2.88D2\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =  0.500           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=  0.500000000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "MaxMemory=0.5\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "reset"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   1.25           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "reset",
+            "config": "MaxMemory=1.25\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: MaxMemory must be positive (GiB)\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x14a750a238a0 in ???\n#1  0x14a750a243f9 in ???\n#2  0x14a750a25b62 in ???\n#3  0x405ba4 in __linkerlist_MOD_configurationerror\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:232\n#4  0x405e54 in __linkerlist_MOD_validateparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:223\n#5  0x40729b in __linkerlist_MOD_readparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:166\n#6  0x408511 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:435\n#7  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "config",
+            "config": "MaxMemory=0\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: MaxMemory must be positive (GiB)\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x1516f06238a0 in ???\n#1  0x1516f06243f9 in ???\n#2  0x1516f0625b62 in ???\n#3  0x405ba4 in __linkerlist_MOD_configurationerror\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:232\n#4  0x405e54 in __linkerlist_MOD_validateparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:223\n#5  0x40729b in __linkerlist_MOD_readparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:166\n#6  0x408511 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:435\n#7  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "config",
+            "config": "MaxMemory=-1\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x14b9a60238a0 in ???\n#1  0x14b9a60243f9 in ???\n#2  0x14b9a6025b62 in ???\n#3  0x405ba4 in __linkerlist_MOD_configurationerror\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:232\n#4  0x405d5d in __linkerlist_MOD_validateparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:218\n#5  0x40729b in __linkerlist_MOD_readparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:166\n#6  0x408511 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:435\n#7  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "config",
+            "config": "MaxMemory=NaN\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x147683c238a0 in ???\n#1  0x147683c243f9 in ???\n#2  0x147683c25b62 in ???\n#3  0x405ba4 in __linkerlist_MOD_configurationerror\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:232\n#4  0x405d5d in __linkerlist_MOD_validateparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:218\n#5  0x40729b in __linkerlist_MOD_readparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:166\n#6  0x408511 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:435\n#7  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "config",
+            "config": "MaxMemory=Inf\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x146c5bc238a0 in ???\n#1  0x146c5bc243f9 in ???\n#2  0x146c5bc25b62 in ???\n#3  0x405ba4 in __linkerlist_MOD_configurationerror\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:232\n#4  0x405d5d in __linkerlist_MOD_validateparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:218\n#5  0x40729b in __linkerlist_MOD_readparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:166\n#6  0x408511 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:435\n#7  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "config",
+            "config": "MaxMemory=-Inf\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x14de76c238a0 in ???\n#1  0x14de76c243f9 in ???\n#2  0x14de76c25b62 in ???\n#3  0x405ba4 in __linkerlist_MOD_configurationerror\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:232\n#4  0x405d5d in __linkerlist_MOD_validateparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:218\n#5  0x40729b in __linkerlist_MOD_readparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:166\n#6  0x408511 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:435\n#7  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "config",
+            "config": "MaxMemory=1.e100\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: invalid value for maxmemory\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x149ba4c238a0 in ???\n#1  0x149ba4c243f9 in ???\n#2  0x149ba4c25b62 in ???\n#3  0x405ba4 in __linkerlist_MOD_configurationerror\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:232\n#4  0x407248 in __linkerlist_MOD_readparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:162\n#5  0x408511 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:435\n#6  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "config",
+            "config": "MaxMemory=garbage\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: expected one scalar value\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x14d94be238a0 in ???\n#1  0x14d94be243f9 in ???\n#2  0x14d94be25b62 in ???\n#3  0x405ba4 in __linkerlist_MOD_configurationerror\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:232\n#4  0x406729 in __linkerlist_MOD_readparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:131\n#5  0x408511 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:435\n#6  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "config",
+            "config": "MaxMemory=1 2\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: expected one scalar value\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x148001c238a0 in ???\n#1  0x148001c243f9 in ???\n#2  0x148001c25b62 in ???\n#3  0x405ba4 in __linkerlist_MOD_configurationerror\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:232\n#4  0x406729 in __linkerlist_MOD_readparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:131\n#5  0x408511 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:435\n#6  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "config",
+            "config": "MaxMemory=1,2\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: missing value\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x14784f0238a0 in ???\n#1  0x14784f0243f9 in ???\n#2  0x14784f025b62 in ???\n#3  0x405ba4 in __linkerlist_MOD_configurationerror\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:232\n#4  0x40669e in __linkerlist_MOD_readparameters\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:128\n#5  0x408511 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:435\n#6  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "config",
+            "config": "MaxMemory=\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "size_list"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   1.00           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   1.00000000      CELL=  0.250000000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "size_list",
+            "config": "MaxMemory=1\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "size_list"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =  0.500           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n",
+            "stderr": "ERROR STOP BDM linked-list allocation exceeds configured memory limit\n\nError termination. Backtrace:\n#0  0x14add2a238a0 in ???\n#1  0x14add2a243f9 in ???\n#2  0x14add2a25af7 in ???\n#3  0x40470a in __linkerlist_MOD_sizelist\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:341\n#4  0x40875b in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:453\n#5  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "size_list",
+            "config": "MaxMemory=0.5\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "GetProfiles"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM GetProfiles is unsupported: legacy profile workspace is not implemented\n\nError termination. Backtrace:\n#0  0x14c639a238a0 in ???\n#1  0x14c639a243f9 in ???\n#2  0x14c639a25af7 in ???\n#3  0x402d4c in __linkerlist_MOD_getprofiles\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:408\n#4  0x408843 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:458\n#5  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "GetProfiles",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "WriteProfiles"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM WriteProfiles is unsupported: legacy profile workspace is not implemented\n\nError termination. Backtrace:\n#0  0x146dfd0238a0 in ???\n#1  0x146dfd0243f9 in ???\n#2  0x146dfd025af7 in ???\n#3  0x402d34 in __linkerlist_MOD_writeprofiles\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:412\n#4  0x40884d in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:460\n#5  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "WriteProfiles",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "HaloProfile"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM HaloProfile is unsupported: legacy profile workspace is not implemented\n\nError termination. Backtrace:\n#0  0x1455722238a0 in ???\n#1  0x1455722243f9 in ???\n#2  0x145572225af7 in ???\n#3  0x402d1c in __linkerlist_MOD_haloprofile\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:418\n#4  0x40887b in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:463\n#5  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "HaloProfile",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "RemoveDuplicatesSimple"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM RemoveDuplicatesSimple is unsupported: use RemoveDuplicates with exact bound IDs\n\nError termination. Backtrace:\n#0  0x14a7d70238a0 in ???\n#1  0x14a7d70243f9 in ???\n#2  0x14a7d7025af7 in ???\n#3  0x402cec in __linkerlist_MOD_removeduplicatessimple\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:422\n#4  0x408885 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:465\n#5  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "RemoveDuplicatesSimple",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "rescale_zero"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration\n\nError termination. Backtrace:\n#0  0x14824fa238a0 in ???\n#1  0x14824fa243f9 in ???\n#2  0x14824fa25af7 in ???\n#3  0x403480 in __linkerlist_MOD_rescalecoords\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:355\n#4  0x4088e9 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:470\n#5  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "rescale_zero",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "rescale_negative"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration\n\nError termination. Backtrace:\n#0  0x1519bb4238a0 in ???\n#1  0x1519bb4243f9 in ???\n#2  0x1519bb425af7 in ???\n#3  0x403480 in __linkerlist_MOD_rescalecoords\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:355\n#4  0x4088e9 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:470\n#5  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "rescale_negative",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "rescale_two"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration\n\nError termination. Backtrace:\n#0  0x151b244238a0 in ???\n#1  0x151b244243f9 in ???\n#2  0x151b24425af7 in ???\n#3  0x403480 in __linkerlist_MOD_rescalecoords\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:355\n#4  0x4088e9 in config_cases\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:470\n#5  0x40b443 in main\n\tat /tmp/bdm-build-config-e23ooezn/config.f90:426\n",
+            "case": "rescale_two",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-checked",
+              "rescale_active"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": " BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "rescale_active",
+            "config": null
+          }
+        ]
+      },
+      {
+        "compiler": "gfortran",
+        "mode": "optimized",
+        "compilation": {
+          "command": [
+            "gfortran",
+            "-O3",
+            "-fopenmp",
+            "-fno-fast-math",
+            "-ffp-contract=off",
+            "/tmp/bdm-build-config-e23ooezn/config.f90",
+            "-o",
+            "/tmp/bdm-build-config-e23ooezn/gfortran-optimized"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "binary_sha256": "5498428207bca12393435504355d41a6ba635d3bf1d726f8493f6dc83ca43011",
+        "results": [
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   500.000000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": null,
+            "generated_config": "! BDM configuration; whitespace and trailing ! comments are optional\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   1.25           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   1.25000000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "mAxMeMoRy = 1.25 ! GiB\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   512.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   512.500000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "MAXMEMORY=512.5\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   288.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   288.000000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "MaxMemory=2.88D2\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =  0.500           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=  0.500000000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "MaxMemory=0.5\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "reset"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   1.25           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "reset",
+            "config": "MaxMemory=1.25\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: MaxMemory must be positive (GiB)\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x14b9476238a0 in ???\n#1  0x14b9476243f9 in ???\n#2  0x14b947625b62 in ???\n#3  0x404b00 in ???\n#4  0x404c5d in ???\n#5  0x404deb in ???\n#6  0x4069d3 in ???\n#7  0x4022fc in ???\n#8  0x14b94722a60f in ???\n#9  0x14b94722a6bf in ???\n#10  0x402334 in ???\n#11  0xffffffffffffffff in ???\n",
+            "case": "config",
+            "config": "MaxMemory=0\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: MaxMemory must be positive (GiB)\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x14c8c44238a0 in ???\n#1  0x14c8c44243f9 in ???\n#2  0x14c8c4425b62 in ???\n#3  0x404b00 in ???\n#4  0x404c5d in ???\n#5  0x404deb in ???\n#6  0x4069d3 in ???\n#7  0x4022fc in ???\n#8  0x14c8c402a60f in ???\n#9  0x14c8c402a6bf in ???\n#10  0x402334 in ???\n#11  0xffffffffffffffff in ???\n",
+            "case": "config",
+            "config": "MaxMemory=-1\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x14aaf7c238a0 in ???\n#1  0x14aaf7c243f9 in ???\n#2  0x14aaf7c25b62 in ???\n#3  0x404b00 in ???\n#4  0x404cc1 in ???\n#5  0x404deb in ???\n#6  0x4069d3 in ???\n#7  0x4022fc in ???\n#8  0x14aaf782a60f in ???\n#9  0x14aaf782a6bf in ???\n#10  0x402334 in ???\n#11  0xffffffffffffffff in ???\n",
+            "case": "config",
+            "config": "MaxMemory=NaN\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x1547ca2238a0 in ???\n#1  0x1547ca2243f9 in ???\n#2  0x1547ca225b62 in ???\n#3  0x404b00 in ???\n#4  0x404cc1 in ???\n#5  0x404deb in ???\n#6  0x4069d3 in ???\n#7  0x4022fc in ???\n#8  0x1547c9e2a60f in ???\n#9  0x1547c9e2a6bf in ???\n#10  0x402334 in ???\n#11  0xffffffffffffffff in ???\n",
+            "case": "config",
+            "config": "MaxMemory=Inf\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x14e841a238a0 in ???\n#1  0x14e841a243f9 in ???\n#2  0x14e841a25b62 in ???\n#3  0x404b00 in ???\n#4  0x404cc1 in ???\n#5  0x404deb in ???\n#6  0x4069d3 in ???\n#7  0x4022fc in ???\n#8  0x14e84162a60f in ???\n#9  0x14e84162a6bf in ???\n#10  0x402334 in ???\n#11  0xffffffffffffffff in ???\n",
+            "case": "config",
+            "config": "MaxMemory=-Inf\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x151b4d6238a0 in ???\n#1  0x151b4d6243f9 in ???\n#2  0x151b4d625b62 in ???\n#3  0x404b00 in ???\n#4  0x404cc1 in ???\n#5  0x404deb in ???\n#6  0x4069d3 in ???\n#7  0x4022fc in ???\n#8  0x151b4d22a60f in ???\n#9  0x151b4d22a6bf in ???\n#10  0x402334 in ???\n#11  0xffffffffffffffff in ???\n",
+            "case": "config",
+            "config": "MaxMemory=1.e100\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: invalid value for maxmemory\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x1526dc4238a0 in ???\n#1  0x1526dc4243f9 in ???\n#2  0x1526dc425b62 in ???\n#3  0x404b00 in ???\n#4  0x406074 in ???\n#5  0x4069d3 in ???\n#6  0x4022fc in ???\n#7  0x1526dc02a60f in ???\n#8  0x1526dc02a6bf in ???\n#9  0x402334 in ???\n#10  0xffffffffffffffff in ???\n",
+            "case": "config",
+            "config": "MaxMemory=garbage\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: expected one scalar value\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x153561c238a0 in ???\n#1  0x153561c243f9 in ???\n#2  0x153561c25b62 in ???\n#3  0x404b00 in ???\n#4  0x406616 in ???\n#5  0x4069d3 in ???\n#6  0x4022fc in ???\n#7  0x15356182a60f in ???\n#8  0x15356182a6bf in ???\n#9  0x402334 in ???\n#10  0xffffffffffffffff in ???\n",
+            "case": "config",
+            "config": "MaxMemory=1 2\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: expected one scalar value\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x15153d4238a0 in ???\n#1  0x15153d4243f9 in ???\n#2  0x15153d425b62 in ???\n#3  0x404b00 in ???\n#4  0x406616 in ???\n#5  0x4069d3 in ???\n#6  0x4022fc in ???\n#7  0x15153d02a60f in ???\n#8  0x15153d02a6bf in ???\n#9  0x402334 in ???\n#10  0xffffffffffffffff in ???\n",
+            "case": "config",
+            "config": "MaxMemory=1,2\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: missing value\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x1509046238a0 in ???\n#1  0x1509046243f9 in ???\n#2  0x150904625b62 in ???\n#3  0x404b00 in ???\n#4  0x406602 in ???\n#5  0x4069d3 in ???\n#6  0x4022fc in ???\n#7  0x15090422a60f in ???\n#8  0x15090422a6bf in ???\n#9  0x402334 in ???\n#10  0xffffffffffffffff in ???\n",
+            "case": "config",
+            "config": "MaxMemory=\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "size_list"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   1.00           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   1.00000000      CELL=  0.250000000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "size_list",
+            "config": "MaxMemory=1\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "size_list"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =  0.500           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n",
+            "stderr": "ERROR STOP BDM linked-list allocation exceeds configured memory limit\n\nError termination. Backtrace:\n#0  0x152f4d8238a0 in ???\n#1  0x152f4d8243f9 in ???\n#2  0x152f4d825af7 in ???\n#3  0x403cb3 in ???\n#4  0x40691b in ???\n#5  0x4022fc in ???\n#6  0x152f4d42a60f in ???\n#7  0x152f4d42a6bf in ???\n#8  0x402334 in ???\n#9  0xffffffffffffffff in ???\n",
+            "case": "size_list",
+            "config": "MaxMemory=0.5\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "GetProfiles"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM GetProfiles is unsupported: legacy profile workspace is not implemented\n\nError termination. Backtrace:\n#0  0x14bbb06238a0 in ???\n#1  0x14bbb06243f9 in ???\n#2  0x14bbb0625af7 in ???\n#3  0x402e04 in ???\n#4  0x40727f in ???\n#5  0x4022fc in ???\n#6  0x14bbb022a60f in ???\n#7  0x14bbb022a6bf in ???\n#8  0x402334 in ???\n#9  0xffffffffffffffff in ???\n",
+            "case": "GetProfiles",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "WriteProfiles"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM WriteProfiles is unsupported: legacy profile workspace is not implemented\n\nError termination. Backtrace:\n#0  0x147e2f6238a0 in ???\n#1  0x147e2f6243f9 in ???\n#2  0x147e2f625af7 in ???\n#3  0x402de4 in ???\n#4  0x407284 in ???\n#5  0x4022fc in ???\n#6  0x147e2f22a60f in ???\n#7  0x147e2f22a6bf in ???\n#8  0x402334 in ???\n#9  0xffffffffffffffff in ???\n",
+            "case": "WriteProfiles",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "HaloProfile"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM HaloProfile is unsupported: legacy profile workspace is not implemented\n\nError termination. Backtrace:\n#0  0x152f4e4238a0 in ???\n#1  0x152f4e4243f9 in ???\n#2  0x152f4e425af7 in ???\n#3  0x4072a4 in ???\n#4  0x4022fc in ???\n#5  0x152f4e02a60f in ???\n#6  0x152f4e02a6bf in ???\n#7  0x402334 in ???\n#8  0xffffffffffffffff in ???\n",
+            "case": "HaloProfile",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "RemoveDuplicatesSimple"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM RemoveDuplicatesSimple is unsupported: use RemoveDuplicates with exact bound IDs\n\nError termination. Backtrace:\n#0  0x14d3012238a0 in ???\n#1  0x14d3012243f9 in ???\n#2  0x14d301225af7 in ???\n#3  0x402da4 in ???\n#4  0x407289 in ???\n#5  0x4022fc in ???\n#6  0x14d300e2a60f in ???\n#7  0x14d300e2a6bf in ???\n#8  0x402334 in ???\n#9  0xffffffffffffffff in ???\n",
+            "case": "RemoveDuplicatesSimple",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "rescale_zero"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration\n\nError termination. Backtrace:\n#0  0x1550912238a0 in ???\n#1  0x1550912243f9 in ???\n#2  0x155091225af7 in ???\n#3  0x403886 in ???\n#4  0x40675d in ???\n#5  0x4022fc in ???\n#6  0x155090e2a60f in ???\n#7  0x155090e2a6bf in ???\n#8  0x402334 in ???\n#9  0xffffffffffffffff in ???\n",
+            "case": "rescale_zero",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "rescale_negative"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration\n\nError termination. Backtrace:\n#0  0x15354da238a0 in ???\n#1  0x15354da243f9 in ???\n#2  0x15354da25af7 in ???\n#3  0x403886 in ???\n#4  0x40675d in ???\n#5  0x4022fc in ???\n#6  0x15354d62a60f in ???\n#7  0x15354d62a6bf in ???\n#8  0x402334 in ???\n#9  0xffffffffffffffff in ???\n",
+            "case": "rescale_negative",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "rescale_two"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": "ERROR STOP BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration\n\nError termination. Backtrace:\n#0  0x151cd54238a0 in ???\n#1  0x151cd54243f9 in ???\n#2  0x151cd5425af7 in ???\n#3  0x403886 in ???\n#4  0x40675d in ???\n#5  0x4022fc in ???\n#6  0x151cd502a60f in ???\n#7  0x151cd502a6bf in ???\n#8  0x402334 in ???\n#9  0xffffffffffffffff in ???\n",
+            "case": "rescale_two",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/gfortran-optimized",
+              "rescale_active"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": " BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "rescale_active",
+            "config": null
+          }
+        ]
+      },
+      {
+        "compiler": "ifx",
+        "mode": "checked",
+        "compilation": {
+          "command": [
+            "ifx",
+            "-O0",
+            "-g",
+            "-check",
+            "bounds",
+            "-check",
+            "pointers",
+            "-qopenmp",
+            "-fp-model",
+            "precise",
+            "/tmp/bdm-build-config-e23ooezn/config.f90",
+            "-o",
+            "/tmp/bdm-build-config-e23ooezn/ifx-checked"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "binary_sha256": "1cf05b1798fabec12435538c7ab90684b77a1caed0d3239063bebc7e3260962d",
+        "results": [
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   500.0000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": null,
+            "generated_config": "! BDM configuration; whitespace and trailing ! comments are optional\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   1.25           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   1.250000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "mAxMeMoRy = 1.25 ! GiB\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   512.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   512.5000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "MAXMEMORY=512.5\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   288.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   288.0000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "MaxMemory=2.88D2\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =  0.500           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=  0.5000000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "MaxMemory=0.5\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "reset"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   1.25           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "reset",
+            "config": "MaxMemory=1.25\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: MaxMemory must be positive (GiB)\n1\n",
+            "case": "config",
+            "config": "MaxMemory=0\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: MaxMemory must be positive (GiB)\n1\n",
+            "case": "config",
+            "config": "MaxMemory=-1\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\n1\n",
+            "case": "config",
+            "config": "MaxMemory=NaN\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\n1\n",
+            "case": "config",
+            "config": "MaxMemory=Inf\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\n1\n",
+            "case": "config",
+            "config": "MaxMemory=-Inf\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: invalid value for maxmemory\n1\n",
+            "case": "config",
+            "config": "MaxMemory=1.e100\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: invalid value for maxmemory\n1\n",
+            "case": "config",
+            "config": "MaxMemory=garbage\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: expected one scalar value\n1\n",
+            "case": "config",
+            "config": "MaxMemory=1 2\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: expected one scalar value\n1\n",
+            "case": "config",
+            "config": "MaxMemory=1,2\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: missing value\n1\n",
+            "case": "config",
+            "config": "MaxMemory=\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "size_list"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   1.00           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   1.000000      CELL=  0.2500000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "size_list",
+            "config": "MaxMemory=1\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "size_list"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =  0.500           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n",
+            "stderr": "BDM linked-list allocation exceeds configured memory limit\n",
+            "case": "size_list",
+            "config": "MaxMemory=0.5\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "GetProfiles"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM GetProfiles is unsupported: legacy profile workspace is not implemented\n",
+            "case": "GetProfiles",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "WriteProfiles"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM WriteProfiles is unsupported: legacy profile workspace is not implemented\n",
+            "case": "WriteProfiles",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "HaloProfile"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM HaloProfile is unsupported: legacy profile workspace is not implemented\n",
+            "case": "HaloProfile",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "RemoveDuplicatesSimple"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM RemoveDuplicatesSimple is unsupported: use RemoveDuplicates with exact bound IDs\n",
+            "case": "RemoveDuplicatesSimple",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "rescale_zero"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration\n",
+            "case": "rescale_zero",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "rescale_negative"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration\n",
+            "case": "rescale_negative",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "rescale_two"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration\n",
+            "case": "rescale_two",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-checked",
+              "rescale_active"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": " BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "rescale_active",
+            "config": null
+          }
+        ]
+      },
+      {
+        "compiler": "ifx",
+        "mode": "optimized",
+        "compilation": {
+          "command": [
+            "ifx",
+            "-O3",
+            "-qopenmp",
+            "-march=core-avx2",
+            "-mfma",
+            "-fp-model",
+            "precise",
+            "/tmp/bdm-build-config-e23ooezn/config.f90",
+            "-o",
+            "/tmp/bdm-build-config-e23ooezn/ifx-optimized"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "binary_sha256": "6426b85d0efe65eaba7f40aca8377fd580cc91e914c4e680a23a1319b3eee2b3",
+        "results": [
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   500.0000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": null,
+            "generated_config": "! BDM configuration; whitespace and trailing ! comments are optional\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   1.25           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   1.250000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "mAxMeMoRy = 1.25 ! GiB\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   512.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   512.5000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "MAXMEMORY=512.5\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   288.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   288.0000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "MaxMemory=2.88D2\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =  0.500           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=  0.5000000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "config",
+            "config": "MaxMemory=0.5\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "reset"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   1.25           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "reset",
+            "config": "MaxMemory=1.25\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: MaxMemory must be positive (GiB)\n1\n",
+            "case": "config",
+            "config": "MaxMemory=0\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: MaxMemory must be positive (GiB)\n1\n",
+            "case": "config",
+            "config": "MaxMemory=-1\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\n1\n",
+            "case": "config",
+            "config": "MaxMemory=NaN\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\n1\n",
+            "case": "config",
+            "config": "MaxMemory=Inf\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 0: all real parameters must be finite\n1\n",
+            "case": "config",
+            "config": "MaxMemory=-Inf\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: invalid value for maxmemory\n1\n",
+            "case": "config",
+            "config": "MaxMemory=1.e100\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: invalid value for maxmemory\n1\n",
+            "case": "config",
+            "config": "MaxMemory=garbage\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: expected one scalar value\n1\n",
+            "case": "config",
+            "config": "MaxMemory=1 2\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: expected one scalar value\n1\n",
+            "case": "config",
+            "config": "MaxMemory=1,2\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "config"
+            ],
+            "stdin": "",
+            "returncode": 1,
+            "stdout": "",
+            "stderr": " BDM configuration error, line 1: missing value\n1\n",
+            "case": "config",
+            "config": "MaxMemory=\n",
+            "existing_outputs_untouched": true
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "size_list"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =   1.00           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n MAXMEMORY=   1.000000      CELL=  0.2500000    \n BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "size_list",
+            "config": "MaxMemory=1\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "size_list"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          MaxMemory =  0.500           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n",
+            "stderr": "BDM linked-list allocation exceeds configured memory limit\n",
+            "case": "size_list",
+            "config": "MaxMemory=0.5\n"
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "GetProfiles"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM GetProfiles is unsupported: legacy profile workspace is not implemented\n",
+            "case": "GetProfiles",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "WriteProfiles"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM WriteProfiles is unsupported: legacy profile workspace is not implemented\n",
+            "case": "WriteProfiles",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "HaloProfile"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM HaloProfile is unsupported: legacy profile workspace is not implemented\n",
+            "case": "HaloProfile",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "RemoveDuplicatesSimple"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM RemoveDuplicatesSimple is unsupported: use RemoveDuplicates with exact bound IDs\n",
+            "case": "RemoveDuplicatesSimple",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "rescale_zero"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration\n",
+            "case": "rescale_zero",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "rescale_negative"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration\n",
+            "case": "rescale_negative",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "rescale_two"
+            ],
+            "stdin": "",
+            "returncode": 128,
+            "stdout": "",
+            "stderr": "BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration\n",
+            "case": "rescale_two",
+            "config": null
+          },
+          {
+            "command": [
+              "/tmp/bdm-build-config-e23ooezn/ifx-optimized",
+              "rescale_active"
+            ],
+            "stdin": "",
+            "returncode": 0,
+            "stdout": " BUILD CONFIG TEST PASSED\n",
+            "stderr": "",
+            "case": "rescale_active",
+            "config": null
+          }
+        ]
+      }
+    ],
+    "passed": 104
+  },
+  "floating_point_flags": {
+    "probe_source_sha256": "22dbfb816d0cbaf9a12431dd99489ba99f25fc8f87ab9f4089c05a980b041c4c",
+    "direct_compiler_controls": [
+      {
+        "label": "fast",
+        "compilation": {
+          "command": [
+            "ifx",
+            "-O3",
+            "-march=core-avx2",
+            "-mfma",
+            "-fp-model",
+            "fast=1",
+            "probe.f90",
+            "-o",
+            "probe"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/fast/probe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "A8800000  -1.421085471520200E-14\n",
+          "stderr": ""
+        },
+        "binary_sha256": "5096c2d0a56d01ca3522436027ec669d8e03370f1aa30c5a84ba74105fa75bb3"
+      },
+      {
+        "label": "precise",
+        "compilation": {
+          "command": [
+            "ifx",
+            "-O3",
+            "-march=core-avx2",
+            "-mfma",
+            "-fp-model",
+            "precise",
+            "probe.f90",
+            "-o",
+            "probe"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/precise/probe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "00000000   0.000000000000000E+00\n",
+          "stderr": ""
+        },
+        "binary_sha256": "84f62449c37bc406cb9dcc528591ee0312a4f5b72236e2c89d28849a486b3067"
+      },
+      {
+        "label": "fast_then_precise",
+        "compilation": {
+          "command": [
+            "ifx",
+            "-O3",
+            "-march=core-avx2",
+            "-mfma",
+            "-fp-model",
+            "fast=1",
+            "-fp-model",
+            "precise",
+            "probe.f90",
+            "-o",
+            "probe"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": "ifx: command line warning #10121: overriding '-fp-model fast=1' with '-fp-model precise'\n"
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/fast_then_precise/probe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "00000000   0.000000000000000E+00\n",
+          "stderr": ""
+        },
+        "binary_sha256": "84f62449c37bc406cb9dcc528591ee0312a4f5b72236e2c89d28849a486b3067"
+      },
+      {
+        "label": "precise_then_fast",
+        "compilation": {
+          "command": [
+            "ifx",
+            "-O3",
+            "-march=core-avx2",
+            "-mfma",
+            "-fp-model",
+            "precise",
+            "-fp-model",
+            "fast=1",
+            "probe.f90",
+            "-o",
+            "probe"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": "ifx: command line warning #10121: overriding '-fp-model precise' with '-fp-model fast=1'\n"
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/precise_then_fast/probe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "A8800000  -1.421085471520200E-14\n",
+          "stderr": ""
+        },
+        "binary_sha256": "5096c2d0a56d01ca3522436027ec669d8e03370f1aa30c5a84ba74105fa75bb3"
+      },
+      {
+        "label": "ofast_then_precise",
+        "compilation": {
+          "command": [
+            "ifx",
+            "-O3",
+            "-march=core-avx2",
+            "-mfma",
+            "-Ofast",
+            "-fp-model",
+            "precise",
+            "probe.f90",
+            "-o",
+            "probe"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/ofast_then_precise/probe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "00000000   0.000000000000000E+00\n",
+          "stderr": ""
+        },
+        "binary_sha256": "84f62449c37bc406cb9dcc528591ee0312a4f5b72236e2c89d28849a486b3067"
+      },
+      {
+        "label": "fastmath_then_precise",
+        "compilation": {
+          "command": [
+            "ifx",
+            "-O3",
+            "-march=core-avx2",
+            "-mfma",
+            "-ffast-math",
+            "-fp-model",
+            "precise",
+            "probe.f90",
+            "-o",
+            "probe"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": "ifx: command line warning #10121: overriding '-ffast-math' with '-fp-model precise'\n"
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/fastmath_then_precise/probe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "00000000   0.000000000000000E+00\n",
+          "stderr": ""
+        },
+        "binary_sha256": "84f62449c37bc406cb9dcc528591ee0312a4f5b72236e2c89d28849a486b3067"
+      }
+    ],
+    "actual_make_builds": [
+      {
+        "label": "old_override_reproducer",
+        "makefile_sha256": "1e9d3fede25513954e7be16cf89d4fc5dfe75364916a5c8f9e8b8d29e54dff60",
+        "compilation": {
+          "command": [
+            "make",
+            "-j1",
+            "FFLAGS=-O3 -march=core-avx2 -mfma",
+            "PMP2main"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "ifx -O3 -march=core-avx2 -mfma -w -c PMP2mod_tools.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2mod_fft5.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2mod_random.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2mod_density.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2mod_power.f90\nifx -O3 -march=core-avx2 -mfma -c PMP2linker.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2mod_analyze.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2MG_subroutines.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2mod_MGbackground.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2MGsolver_fR.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2extradof.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2MGsolver_DGP.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2MGsolver_sym.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2MGsolver_kmf.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2MGsolver_csf.f90\nifx -O3 -march=core-avx2 -mfma -w -c PMP2main.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian -o PMP2main.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o PMP2extradof.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o PMP2main.o\n",
+          "stderr": ""
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/make-old_override_reproducer/PMP2main.exe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "A8800000  -1.421085471520200E-14\n",
+          "stderr": ""
+        },
+        "binary_sha256": "37b8a239168e2fe0b0759f4603021645f2474be4411bfcd405276a4664e26b91",
+        "finder_command": "ifx -O3 -march=core-avx2 -mfma -c PMP2linker.f90"
+      },
+      {
+        "label": "default",
+        "makefile_sha256": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74",
+        "compilation": {
+          "command": [
+            "make",
+            "-j1",
+            "PMP2main"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "ifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_tools.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_fft5.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_random.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_density.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_power.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -fp-model precise -w -c PMP2linker.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_analyze.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MG_subroutines.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_MGbackground.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_fR.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2extradof.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_DGP.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_sym.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_kmf.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_csf.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2main.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian -o PMP2main.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o PMP2extradof.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o PMP2main.o\n",
+          "stderr": ""
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/make-default/PMP2main.exe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "00000000   0.000000000000000E+00\n",
+          "stderr": ""
+        },
+        "binary_sha256": "2d2d6959790de4a2c2dc238d8c4b5b85b87044ffb4ad28212009936559070454",
+        "finder_command": "ifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -fp-model precise -w -c PMP2linker.f90"
+      },
+      {
+        "label": "override_without_model",
+        "makefile_sha256": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74",
+        "compilation": {
+          "command": [
+            "make",
+            "-j1",
+            "FFLAGS=-O2 -g -qopenmp -march=core-avx2 -mfma",
+            "PMP2main"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "ifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_tools.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_fft5.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_random.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_density.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_power.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -fp-model precise -w -c PMP2linker.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_analyze.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2MG_subroutines.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_MGbackground.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2MGsolver_fR.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2extradof.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2MGsolver_DGP.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2MGsolver_sym.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2MGsolver_kmf.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2MGsolver_csf.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2main.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian -o PMP2main.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o PMP2extradof.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o PMP2main.o\n",
+          "stderr": ""
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/make-override_without_model/PMP2main.exe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "00000000   0.000000000000000E+00\n",
+          "stderr": ""
+        },
+        "binary_sha256": "67c74cbe6550db6278ca3927caed693c851cb6fea2d4933fe7d0e68cc5685f88",
+        "finder_command": "ifx -O2 -g -qopenmp -march=core-avx2 -mfma -fp-model precise -w -c PMP2linker.f90"
+      },
+      {
+        "label": "override_conflicting_model",
+        "makefile_sha256": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74",
+        "compilation": {
+          "command": [
+            "make",
+            "-j1",
+            "FFLAGS=-O3 -march=core-avx2 -mfma -fp-model fast=2",
+            "PMP2main"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "ifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2mod_tools.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2mod_fft5.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2mod_random.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2mod_density.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2mod_power.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -fp-model precise -w -c PMP2linker.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2mod_analyze.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2MG_subroutines.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2mod_MGbackground.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2MGsolver_fR.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2extradof.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2MGsolver_DGP.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2MGsolver_sym.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2MGsolver_kmf.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2MGsolver_csf.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -w -c PMP2main.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian -o PMP2main.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o PMP2extradof.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o PMP2main.o\n",
+          "stderr": ""
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/make-override_conflicting_model/PMP2main.exe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "00000000   0.000000000000000E+00\n",
+          "stderr": ""
+        },
+        "binary_sha256": "4ead01e03eb9f03de08c8d83773dbf4120075169d3688fe77e6ebd7af883d856",
+        "finder_command": "ifx -O3 -march=core-avx2 -mfma -fp-model fast=2 -fp-model precise -w -c PMP2linker.f90"
+      },
+      {
+        "label": "override_bdm_flags",
+        "makefile_sha256": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74",
+        "compilation": {
+          "command": [
+            "make",
+            "-j1",
+            "BDM_FFLAGS=-O3 -march=core-avx2 -mfma -fp-model fast=1",
+            "PMP2main"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "ifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_tools.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_fft5.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_random.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_density.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_power.f90\nifx -O3 -march=core-avx2 -mfma -fp-model fast=1 -fp-model precise -w -c PMP2linker.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_analyze.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MG_subroutines.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_MGbackground.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_fR.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2extradof.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_DGP.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_sym.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_kmf.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_csf.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2main.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian -o PMP2main.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o PMP2extradof.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o PMP2main.o\n",
+          "stderr": ""
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/make-override_bdm_flags/PMP2main.exe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "00000000   0.000000000000000E+00\n",
+          "stderr": ""
+        },
+        "binary_sha256": "a17aae8424054aebb6e09f1ebe142168ec5bb485cf1a853adcc0896244ce76e0",
+        "finder_command": "ifx -O3 -march=core-avx2 -mfma -fp-model fast=1 -fp-model precise -w -c PMP2linker.f90"
+      },
+      {
+        "label": "bitmatch",
+        "makefile_sha256": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74",
+        "compilation": {
+          "command": [
+            "make",
+            "-j1",
+            "PMP2main-bitmatch"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "Building PMP2main-bitmatch.exe with pre-Pass-4 flags (-O2, no AVX2/FMA/fast=1)...\nrm -f *.o *.mod\nmake -j1 FFLAGS=\"-O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian\" LDFLAGS=\"-O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian\" PMP2mod_tools.o\nmake[1]: Entering directory '/tmp/bdm-build-config-e23ooezn/make-bitmatch'\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_tools.f90\nmake[1]: Leaving directory '/tmp/bdm-build-config-e23ooezn/make-bitmatch'\nmake -j1 FFLAGS=\"-O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian\" LDFLAGS=\"-O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian\" PMP2mod_MGbackground.o\nmake[1]: Entering directory '/tmp/bdm-build-config-e23ooezn/make-bitmatch'\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_MGbackground.f90\nmake[1]: Leaving directory '/tmp/bdm-build-config-e23ooezn/make-bitmatch'\nmake -j1 FFLAGS=\"-O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian\" LDFLAGS=\"-O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian\" PMP2main\nmake[1]: Entering directory '/tmp/bdm-build-config-e23ooezn/make-bitmatch'\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_fft5.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_random.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_density.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_power.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -fp-model precise -w -c PMP2linker.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_analyze.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MG_subroutines.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_fR.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2extradof.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_DGP.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_sym.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_kmf.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_csf.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2main.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -o PMP2main.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o PMP2extradof.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o PMP2main.o\nmake[1]: Leaving directory '/tmp/bdm-build-config-e23ooezn/make-bitmatch'\nmv PMP2main.exe PMP2main-bitmatch.exe\nrm -f *.o *.mod\n",
+          "stderr": ""
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/make-bitmatch/PMP2main-bitmatch.exe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "00000000   0.000000000000000E+00\n",
+          "stderr": ""
+        },
+        "binary_sha256": "b62b9159e7aebd96b5e48e854712c67901c6a3732c2670755a5846aebf4f06c3",
+        "finder_command": "ifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -fp-model precise -w -c PMP2linker.f90"
+      },
+      {
+        "label": "bitmatch_fma_sensitive",
+        "makefile_sha256": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74",
+        "compilation": {
+          "command": [
+            "make",
+            "-j1",
+            "FFLAGS_BITMATCH=-O2 -g -qopenmp -march=core-avx2 -mfma",
+            "PMP2main-bitmatch"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "Building PMP2main-bitmatch.exe with pre-Pass-4 flags (-O2, no AVX2/FMA/fast=1)...\nrm -f *.o *.mod\nmake -j1 FFLAGS=\"-O2 -g -qopenmp -march=core-avx2 -mfma\" LDFLAGS=\"-O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian\" PMP2mod_tools.o\nmake[1]: Entering directory '/tmp/bdm-build-config-e23ooezn/make-bitmatch_fma_sensitive'\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_tools.f90\nmake[1]: Leaving directory '/tmp/bdm-build-config-e23ooezn/make-bitmatch_fma_sensitive'\nmake -j1 FFLAGS=\"-O2 -g -qopenmp -march=core-avx2 -mfma\" LDFLAGS=\"-O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian\" PMP2mod_MGbackground.o\nmake[1]: Entering directory '/tmp/bdm-build-config-e23ooezn/make-bitmatch_fma_sensitive'\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_MGbackground.f90\nmake[1]: Leaving directory '/tmp/bdm-build-config-e23ooezn/make-bitmatch_fma_sensitive'\nmake -j1 FFLAGS=\"-O2 -g -qopenmp -march=core-avx2 -mfma\" LDFLAGS=\"-O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian\" PMP2main\nmake[1]: Entering directory '/tmp/bdm-build-config-e23ooezn/make-bitmatch_fma_sensitive'\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_fft5.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_random.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_density.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_power.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -fp-model precise -w -c PMP2linker.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2mod_analyze.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2MG_subroutines.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2MGsolver_fR.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2extradof.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2MGsolver_DGP.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2MGsolver_sym.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2MGsolver_kmf.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2MGsolver_csf.f90\nifx -O2 -g -qopenmp -march=core-avx2 -mfma -w -c PMP2main.f90\nifx -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmodel=medium -convert big_endian -o PMP2main.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o PMP2extradof.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o PMP2main.o\nmake[1]: Leaving directory '/tmp/bdm-build-config-e23ooezn/make-bitmatch_fma_sensitive'\nmv PMP2main.exe PMP2main-bitmatch.exe\nrm -f *.o *.mod\n",
+          "stderr": ""
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/make-bitmatch_fma_sensitive/PMP2main-bitmatch.exe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "00000000   0.000000000000000E+00\n",
+          "stderr": ""
+        },
+        "binary_sha256": "f0810f389cd9375bd1ae4b43a723533adc432ce80b7136dfcf6385a035d3ac28",
+        "finder_command": "ifx -O2 -g -qopenmp -march=core-avx2 -mfma -fp-model precise -w -c PMP2linker.f90"
+      },
+      {
+        "label": "gnu_override",
+        "makefile_sha256": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74",
+        "compilation": {
+          "command": [
+            "make",
+            "-j1",
+            "FC=gfortran",
+            "FFLAGS=-O3 -march=core-avx2 -mfma -ffast-math",
+            "LDFLAGS=-fopenmp",
+            "PMP2main"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "gfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_tools.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_fft5.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_random.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_density.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_power.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -fno-fast-math -ffp-contract=off -w -c PMP2linker.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_analyze.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2MG_subroutines.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_MGbackground.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2MGsolver_fR.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2extradof.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2MGsolver_DGP.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2MGsolver_sym.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2MGsolver_kmf.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2MGsolver_csf.f90\ngfortran -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2main.f90\ngfortran -fopenmp -o PMP2main.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o PMP2extradof.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o PMP2main.o\n",
+          "stderr": ""
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/make-gnu_override/PMP2main.exe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "00000000   0.000000000000000E+00\n",
+          "stderr": ""
+        },
+        "binary_sha256": "3f697de51089bcb2590939b496d8a471b66cbd579ec029173d21b6bc8e0814bf",
+        "finder_command": "gfortran -O3 -march=core-avx2 -mfma -ffast-math -fno-fast-math -ffp-contract=off -w -c PMP2linker.f90"
+      },
+      {
+        "label": "gnu_compiler_option",
+        "makefile_sha256": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74",
+        "compilation": {
+          "command": [
+            "make",
+            "-j1",
+            "FC=gfortran -m64",
+            "FFLAGS=-O3 -march=core-avx2 -mfma -ffast-math",
+            "LDFLAGS=-fopenmp",
+            "PMP2main"
+          ],
+          "stdin": "",
+          "returncode": 0,
+          "stdout": "gfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_tools.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_fft5.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_random.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_density.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_power.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -fno-fast-math -ffp-contract=off -w -c PMP2linker.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_analyze.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2MG_subroutines.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2mod_MGbackground.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2MGsolver_fR.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2extradof.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2MGsolver_DGP.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2MGsolver_sym.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2MGsolver_kmf.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2MGsolver_csf.f90\ngfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -w -c PMP2main.f90\ngfortran -m64 -fopenmp -o PMP2main.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o PMP2extradof.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o PMP2main.o\n",
+          "stderr": ""
+        },
+        "runtime": {
+          "command": [
+            "/tmp/bdm-build-config-e23ooezn/make-gnu_compiler_option/PMP2main.exe"
+          ],
+          "stdin": "1.00000011920928955078125 0.99999988079071044921875 -1\n",
+          "returncode": 0,
+          "stdout": "00000000   0.000000000000000E+00\n",
+          "stderr": ""
+        },
+        "binary_sha256": "3f697de51089bcb2590939b496d8a471b66cbd579ec029173d21b6bc8e0814bf",
+        "finder_command": "gfortran -m64 -O3 -march=core-avx2 -mfma -ffast-math -fno-fast-math -ffp-contract=off -w -c PMP2linker.f90"
+      }
+    ]
+  },
+  "finished_at_utc": "2026-09-06T16:57:33.193492+00:00"
+}

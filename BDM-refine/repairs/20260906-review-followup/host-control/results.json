@@ -1,0 +1,159 @@
+{
+  "completed": true,
+  "pilot": false,
+  "job_id": "11949318",
+  "started_at_utc": "2026-09-06T16:47:21.831013+00:00",
+  "checker_module_sha256": "7a84c1dc7444b9bfdf0a99763ecfe6fc005657ec17baae840fa9fb7d53b6e81c",
+  "checker_function_sha256": "fdb5ae27c59c3a310292a2b422464d6972ce7b65f88f3c02863d3245acae7f4e",
+  "driver_sha256": "4ccb6cb130fddcfa95e25a7cc6150309565664b588015910e324511e19c690fd",
+  "simulation_receipt_sha256": "79ccdfed596fc230474dcefa6450af80c184f8b73a904c2dca6faaab68fff744",
+  "validation_receipt_sha256": "be8d44c8c62bac3ba8b1fb0235c6d50d934da7b7bb2dbac59e3c630fb0348931",
+  "catalogue_arrays_sha256": "82d0814b5f258f1827cf1a8c46e0821e2753678d2dfdf3a589c86b950ce23980",
+  "checker_change": "Only returned path base set to repository root; original checker function unmodified",
+  "records": [
+    {
+      "z": 2,
+      "selected": 52370,
+      "baseline": {
+        "selected": 52370,
+        "candidates": 1024481,
+        "mass_one": 10711107584.0,
+        "exact_duplicate_member_sets": 0,
+        "repeated_original_ids": 0,
+        "mass_count_mismatches": 0,
+        "host_exclusion_violations": 0,
+        "higher_priority_neighbours_examined": 0,
+        "ordered_candidate_ids": true,
+        "catalogue_columns_linked_to_raw": 23,
+        "particle_mass_checked_against_snapshot": true,
+        "raw_sha256": "997085e9f44ae7529467f29a7f08fe006a333621574341f684c43b5d6cc391f8",
+        "retained_raw": "BDM-refine/validation/20260906-n1024/work/main/replay-z2-members-t64/repair-members.bin",
+        "total_memberships": 28316984,
+        "index_sha256": "c5314f527ce9726884e2d43ec7650cfab72dcbedcbf900f966c886b591a167de"
+      },
+      "injection": {
+        "expected_host_and_lower_priority_candidate": [
+          54781,
+          2954
+        ],
+        "host_row_zero_based": 2700,
+        "moved_row_zero_based": 133,
+        "property_byte_offset": 595896,
+        "original_coordinate_bytes_hex": "43991aef41eec4093fd3add1",
+        "injected_coordinate_bytes_hex": "43c3025543a02b3641de97d3",
+        "host_mass": 141054577737728.0,
+        "moved_mass": 2506399154176.0,
+        "host_radius_mpc_h": 1.315436601638794,
+        "separation_mpc_h": 0.0,
+        "detected_pairs": [
+          [
+            54781,
+            2954
+          ]
+        ],
+        "expected_host_assertion_failed": true
+      },
+      "original_raw": "BDM-refine/validation/20260906-n1024/work/main/replay-z2-members-t64/repair-members.bin",
+      "original_raw_sha256": "997085e9f44ae7529467f29a7f08fe006a333621574341f684c43b5d6cc391f8",
+      "original_index_sha256": "c5314f527ce9726884e2d43ec7650cfab72dcbedcbf900f966c886b591a167de"
+    },
+    {
+      "z": 1,
+      "selected": 119688,
+      "baseline": {
+        "selected": 119688,
+        "candidates": 1247926,
+        "mass_one": 10711107584.0,
+        "exact_duplicate_member_sets": 0,
+        "repeated_original_ids": 0,
+        "mass_count_mismatches": 0,
+        "host_exclusion_violations": 0,
+        "higher_priority_neighbours_examined": 0,
+        "ordered_candidate_ids": true,
+        "catalogue_columns_linked_to_raw": 23,
+        "particle_mass_checked_against_snapshot": true,
+        "raw_sha256": "0eb5fa0c8da4e53222c747f77174b26eceb46bd21446233bbe819fd498560367",
+        "retained_raw": "BDM-refine/validation/20260906-n1024/work/main/replay-z1-members-t64/repair-members.bin",
+        "total_memberships": 97322225,
+        "index_sha256": "d0045630e865fca51fe1b21fea83053b0e95a06271b666f8bd23dd75426733e5"
+      },
+      "injection": {
+        "expected_host_and_lower_priority_candidate": [
+          476963,
+          3291
+        ],
+        "host_row_zero_based": 45629,
+        "moved_row_zero_based": 287,
+        "property_byte_offset": 1737456,
+        "original_coordinate_bytes_hex": "43e58c2a439daa553fa2a820",
+        "injected_coordinate_bytes_hex": "43eeb41243c7b8b0433e614c",
+        "host_mass": 404022976577536.0,
+        "moved_mass": 2506399154176.0,
+        "host_radius_mpc_h": 1.8290283679962158,
+        "separation_mpc_h": 0.0,
+        "detected_pairs": [
+          [
+            476963,
+            3291
+          ]
+        ],
+        "expected_host_assertion_failed": true
+      },
+      "original_raw": "BDM-refine/validation/20260906-n1024/work/main/replay-z1-members-t64/repair-members.bin",
+      "original_raw_sha256": "0eb5fa0c8da4e53222c747f77174b26eceb46bd21446233bbe819fd498560367",
+      "original_index_sha256": "d0045630e865fca51fe1b21fea83053b0e95a06271b666f8bd23dd75426733e5"
+    },
+    {
+      "z": 0,
+      "selected": 147042,
+      "baseline": {
+        "selected": 147042,
+        "candidates": 794570,
+        "mass_one": 10711107584.0,
+        "exact_duplicate_member_sets": 0,
+        "repeated_original_ids": 0,
+        "mass_count_mismatches": 0,
+        "host_exclusion_violations": 0,
+        "higher_priority_neighbours_examined": 0,
+        "ordered_candidate_ids": true,
+        "catalogue_columns_linked_to_raw": 23,
+        "particle_mass_checked_against_snapshot": true,
+        "raw_sha256": "218913338fbff4c470c3714864ef43482a5d78323a94654573ee515475f35f8d",
+        "retained_raw": "BDM-refine/validation/20260906-n1024/work/main/replay-z0-members-t64/repair-members.bin",
+        "total_memberships": 218737661,
+        "index_sha256": "002744821fb19dcde2abe0b4d83472092b211b664684eb627b9bc0472b6916d0"
+      },
+      "injection": {
+        "expected_host_and_lower_priority_candidate": [
+          661214,
+          1508
+        ],
+        "host_row_zero_based": 122150,
+        "moved_row_zero_based": 270,
+        "property_byte_offset": 3140988,
+        "original_coordinate_bytes_hex": "43466b9642e97e853f863204",
+        "injected_coordinate_bytes_hex": "434b2e0c439fb57743d20e66",
+        "host_mass": 1967855364997120.0,
+        "moved_mass": 2506399154176.0,
+        "host_radius_mpc_h": 2.577669143676758,
+        "separation_mpc_h": 0.0,
+        "detected_pairs": [
+          [
+            661214,
+            1508
+          ]
+        ],
+        "expected_host_assertion_failed": true
+      },
+      "original_raw": "BDM-refine/validation/20260906-n1024/work/main/replay-z0-members-t64/repair-members.bin",
+      "original_raw_sha256": "218913338fbff4c470c3714864ef43482a5d78323a94654573ee515475f35f8d",
+      "original_index_sha256": "002744821fb19dcde2abe0b4d83472092b211b664684eb627b9bc0472b6916d0"
+    }
+  ],
+  "original_data_and_indexes_unchanged": true,
+  "temporary_copies_removed": true,
+  "finished_at_utc": "2026-09-06T16:48:31.326244+00:00",
+  "elapsed_seconds": 69.49590350902872,
+  "total_cpu_seconds": 61.83416,
+  "maxrss_kib": 455556
+}
