@@ -32,24 +32,33 @@ def main():
     pilot = subprocess.check_output(pilot_command, text=True)
     assert '11948648|COMPLETED|' in pilot
     launch = ROOT / 'work/launch-archive'
-    launch.mkdir(exist_ok=False)
-    shutil.copy2(ROOT / 'archive_work.py', launch / 'archive_work.py')
-    batch = launch / 'archive.sbatch'
-    batch.write_text('''#!/bin/bash
+    batch_text = '''#!/bin/bash
 set -euo pipefail
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
 ulimit -c 0
 micromamba run -n cosemu python3 -B "$1"
-''')
+'''
+    batch = launch / 'archive.sbatch'
+    if launch.exists():
+        # A rejected sbatch call may leave the already-frozen launch intact.
+        assert (launch / 'archive_work.py').read_bytes() == (ROOT / 'archive_work.py').read_bytes()
+        assert batch.read_text() == batch_text
+    else:
+        launch.mkdir()
+        shutil.copy2(ROOT / 'archive_work.py', launch / 'archive_work.py')
+        batch.write_text(batch_text)
     command = ['sbatch', '--parsable', '--partition=cosma8-serial', '--account=dp004',
                '--nodes=1', '--ntasks=1', '--cpus-per-task=1', '--mem=4G',
                '--time=00:10:00', '--job-name=bdm-v3-archive',
-               '--dependency=afterok:' + ':'.join(jobs), '--chdir=' + str(REPO),
+               '--chdir=' + str(REPO),
                f'--output={ROOT}/work/archive-%j.log', f'--error={ROOT}/work/archive-%j.log',
                '--export=ALL,BDM_REVIEW_ROOT=' + str(ROOT),
                str(batch), str(launch / 'archive_work.py')]
     record = dict(prepared_at_utc=datetime.now(timezone.utc).isoformat(), command=command,
-                  dependencies=jobs, submitter_sha256=sha(__file__),
+                  dependencies=[], completed_prerequisites=jobs,
+                  prerequisite_check='All parent jobs already completed successfully in the immutable accounting receipt; '
+                                     'no live Slurm dependency on jobs that may have expired from controller memory.',
+                  submitter_sha256=sha(__file__),
                   script_sha256={p.name: sha(p) for p in launch.iterdir()},
                   comparison_sha256=sha(comparison), accounting_sha256=sha(accounting),
                   pilot_command=pilot_command, pilot_accounting=pilot,
