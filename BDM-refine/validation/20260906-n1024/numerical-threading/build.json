@@ -1,5 +1,5 @@
 {
-  "started_at_utc": "2026-09-06T12:28:05.745384+00:00",
+  "started_at_utc": "2026-09-06T12:35:48.139514+00:00",
   "completed": true,
   "source_commit": "32087c8841dfd393cef42986c07fed5c74714918",
   "source_sha256": {
@@ -48,7 +48,7 @@
     "makefile": "1e9d3fede25513954e7be16cf89d4fc5dfe75364916a5c8f9e8b8d29e54dff60"
   },
   "native_build_receipt_sha256": "3d868486db83f6d7b23012835c59279910702aa6aa3e40d6cae5da06ba026f22",
-  "builder_sha256": "e62f948b48a6dd0a0857976986a2f81db38f970b38651358195bafc3ad708b8e",
+  "builder_sha256": "451b65486311753b1c4ecfec6e6ad00bba598104bc0d6dce0e72811bc38adfc4",
   "commands": [
     {
       "command": [
@@ -138,6 +138,44 @@
       "returncode": 0,
       "stdout": "",
       "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-g",
+        "-traceback",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-O2",
+        "-o",
+        "publication-preflight.exe",
+        "PMP2mod_tools.o",
+        "PMP2mod_fft5.o",
+        "PMP2mod_random.o",
+        "PMP2mod_density.o",
+        "PMP2mod_power.o",
+        "PMP2mod_analyze.o",
+        "PMP2MG_subroutines.o",
+        "PMP2mod_MGbackground.o",
+        "PMP2MGsolver_fR.o",
+        "PMP2extradof.o",
+        "PMP2MGsolver_DGP.o",
+        "PMP2MGsolver_sym.o",
+        "PMP2MGsolver_kmf.o",
+        "PMP2MGsolver_csf.o",
+        "PMP2linker.o",
+        "thread_probe.o",
+        "publication_preflight.f90"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
     }
   ],
   "archive_sha256": "62a4e2cd1b7363c4a029d570801252c324fb871ec1739625a64242bc8fed134c",
@@ -174,8 +212,14 @@
   },
   "probe_source_sha256": {
     "thread_probe_entry.f90": "118a3b86a5212d8c973fd4d97757f2d4240b0c69982f461fdd60d9dcd291af02",
-    "thread_probe.f90": "06a57504b09c96bd62ff593e405987d19ae16cd39163563e4eba5297f9454b55"
+    "thread_probe.f90": "f74e1309f11849244b6d8c5bde7ba36f37d42048aa8934245df4d7d4af7cf476",
+    "publication_preflight.f90": "50190da54fc15daccc981ee6b5f26e486b09cc5861961a77be08c1baac88e1cf"
   },
-  "binary_sha256": "8b8b5dd8317f7333b7c2f1830758b9c0e8584a9ded937b0f2ce30375e1fb9efd",
-  "finished_at_utc": "2026-09-06T12:28:13.887245+00:00"
+  "publication_preflight": {
+    "returncode": 0,
+    "stdout": "\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =  0.150           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =  2.500E+12       ! Minimum halo mass\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n PUBLICATION PREFLIGHT PASSED\n",
+    "stderr": ""
+  },
+  "binary_sha256": "3b0eb7c9c2823022856d5910ea8885a8ddc9611f8e202388a758819d5fa3f04d",
+  "finished_at_utc": "2026-09-06T12:35:50.979763+00:00"
 }

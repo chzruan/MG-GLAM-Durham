@@ -12,6 +12,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import tarfile
+import tempfile
 
 ROOT = Path(__file__).resolve().parent
 OBJECTS = ['PMP2mod_tools', 'PMP2mod_fft5', 'PMP2mod_random', 'PMP2mod_density',
@@ -68,7 +69,7 @@ def main():
                     if path.name in native_receipt['source_sha256']:
                         assert hashlib.sha256(tar.extractfile(member).read()).hexdigest() == native_receipt['source_sha256'][path.name]
         report['linked_input_sha256'] = {p.name: sha(p) for p in sorted(build.iterdir())}
-        for name in ['thread_probe.f90', 'thread_probe_entry.f90']:
+        for name in ['thread_probe.f90', 'thread_probe_entry.f90', 'publication_preflight.f90']:
             shutil.copy2(ROOT / name, build / name)
         report['probe_source_sha256'] = {p.name: sha(p) for p in build.glob('*.f90')}
         flags = ['-g', '-traceback', '-qopenmp', '-march=core-avx2', '-shared-intel',
@@ -79,12 +80,20 @@ def main():
                         ['ifx', *flags, '-c', 'thread_probe.f90'],
                         ['ifx', *flags, '-c', 'thread_probe_entry.f90'],
                         ['ifx', *flags, '-o', 'BDM-thread-probe.exe',
-                         *[name + '.o' for name in OBJECTS], 'thread_probe.o', 'thread_probe_entry.o']]:
+                         *[name + '.o' for name in OBJECTS], 'thread_probe.o', 'thread_probe_entry.o'],
+                        ['ifx', *flags, '-o', 'publication-preflight.exe',
+                         *[name + '.o' for name in OBJECTS], 'thread_probe.o', 'publication_preflight.f90']]:
             process = subprocess.run(command, cwd=build, env=env, capture_output=True, text=True)
             report['commands'].append(dict(command=command, returncode=process.returncode,
                                            stdout=process.stdout, stderr=process.stderr))
             if process.returncode:
                 raise RuntimeError(process.stdout + process.stderr)
+        with tempfile.TemporaryDirectory(prefix='bdm-publication-preflight-') as tmp:
+            (Path(tmp) / 'CATALOGS').mkdir()
+            process = subprocess.run([str(build / 'publication-preflight.exe')], cwd=tmp,
+                                     env=dict(env, OMP_NUM_THREADS='1'), capture_output=True, text=True)
+            report['publication_preflight'] = dict(returncode=process.returncode, stdout=process.stdout, stderr=process.stderr)
+            assert process.returncode == 0 and 'PUBLICATION PREFLIGHT PASSED' in process.stdout
         report.update(completed=True, binary_sha256=sha(build / 'BDM-thread-probe.exe'),
                       finished_at_utc=datetime.now(timezone.utc).isoformat())
     finally:

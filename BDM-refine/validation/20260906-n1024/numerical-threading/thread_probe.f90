@@ -113,7 +113,9 @@ contains
         if(.not.restored)error stop 'BDM changed original particle bits'
         if(allocated(OriginalParticleId).or.allocated(BoundParticleIds).or.allocated(HaloStatus)) &
           error stop 'BDM retained its particle or halo workspace'
-        call MoveThreadOutput(trim(CatalogueFinalPath),trim(tag)//'.DAT')
+        ! Publication clears CatalogueFinalPath after its successful rename;
+        ! outputName retains the published name set by ReadParameters.
+        call MoveThreadOutput(trim(outputName),trim(tag)//'.DAT')
         print *, 'PROBE PARTICLE RESTORATION VERIFIED ',trim(tag)
       enddo
     enddo
