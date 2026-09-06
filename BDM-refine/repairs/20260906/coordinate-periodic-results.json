@@ -1,0 +1,527 @@
+{
+  "validated_at_utc": "2026-09-06T10:09:38.990266+00:00",
+  "source_sha256": "76bc0f411eef9e042ea3aa7f233bc376df41e1d64e716b60346c682313552d1b",
+  "existing_oracle_driver_sha256": "e401e994933c22264dbf2db46f60a944951b9ff7f41b9f71e057e4cf18aafe44",
+  "compilation": {
+    "gfortran": {
+      "checked": {
+        "command": [
+          "gfortran",
+          "-O0",
+          "-g",
+          "-fcheck=all",
+          "-ffpe-trap=invalid,zero,overflow",
+          "-fopenmp",
+          "-ffree-line-length-none",
+          "source.f90",
+          "-o",
+          "checked"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "optimized": {
+        "command": [
+          "gfortran",
+          "-O3",
+          "-fno-fast-math",
+          "-fopenmp",
+          "-ffree-line-length-none",
+          "source.f90",
+          "-o",
+          "optimized"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    "ifx": {
+      "checked": {
+        "command": [
+          "ifx",
+          "-O0",
+          "-check",
+          "bounds",
+          "-fpe0",
+          "-fp-model",
+          "precise",
+          "-qopenmp",
+          "source.f90",
+          "-o",
+          "checked"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "optimized": {
+        "command": [
+          "ifx",
+          "-O3",
+          "-fp-model",
+          "precise",
+          "-qopenmp",
+          "source.f90",
+          "-o",
+          "optimized"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    }
+  },
+  "passed": 20,
+  "results": [
+    {
+      "compiler": "gfortran",
+      "mode": "checked",
+      "threads": 1,
+      "case": "coverage",
+      "particle_count": 224,
+      "query_count": 126,
+      "image_count": 1012,
+      "max_extra_float32_ghost_error": 1.9073486328125e-06,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere"
+      ]
+    },
+    {
+      "compiler": "gfortran",
+      "mode": "checked",
+      "threads": 1,
+      "case": "parallel_list",
+      "particle_count": 14336,
+      "query_count": 5,
+      "image_count": 64768,
+      "max_extra_float32_ghost_error": 1.9073486328125e-06,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere"
+      ]
+    },
+    {
+      "compiler": "gfortran",
+      "mode": "checked",
+      "threads": 1,
+      "case": "half_box",
+      "particle_count": 224,
+      "query_count": 4,
+      "image_count": 1612,
+      "max_extra_float32_ghost_error": 1.9073486328125e-06,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere"
+      ]
+    },
+    {
+      "compiler": "gfortran",
+      "mode": "checked",
+      "threads": 1,
+      "case": "face",
+      "particle_count": 64,
+      "query_count": 1,
+      "image_count": 128,
+      "max_extra_float32_ghost_error": 0.0,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere",
+        "negative mean wraps into canonical domain on every centring pass",
+        "periodic GetHalo membership, Hubble kinetic energy and RMS radius"
+      ],
+      "canonical_centre": [
+        31.99609375,
+        15.99609375,
+        15.99609375
+      ],
+      "halo_properties": [
+        640000000000.0,
+        640000000000.0,
+        0.21010850369930267,
+        602783219712.0,
+        6.771811799583949e+16,
+        0.015128841623663902
+      ],
+      "halo_status": 4
+    },
+    {
+      "compiler": "gfortran",
+      "mode": "checked",
+      "threads": 1,
+      "case": "corner",
+      "particle_count": 64,
+      "query_count": 1,
+      "image_count": 512,
+      "max_extra_float32_ghost_error": 0.0,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere",
+        "negative mean wraps into canonical domain on every centring pass",
+        "periodic GetHalo membership, Hubble kinetic energy and RMS radius"
+      ],
+      "canonical_centre": [
+        31.99609375,
+        31.99609375,
+        31.99609375
+      ],
+      "halo_properties": [
+        640000000000.0,
+        640000000000.0,
+        0.21010850369930267,
+        602783219712.0,
+        6.771811799583949e+16,
+        0.015128841623663902
+      ],
+      "halo_status": 4
+    },
+    {
+      "compiler": "gfortran",
+      "mode": "optimized",
+      "threads": 1,
+      "case": "coverage",
+      "particle_count": 224,
+      "query_count": 126,
+      "image_count": 1012,
+      "max_extra_float32_ghost_error": 1.9073486328125e-06,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere"
+      ]
+    },
+    {
+      "compiler": "gfortran",
+      "mode": "optimized",
+      "threads": 1,
+      "case": "parallel_list",
+      "particle_count": 14336,
+      "query_count": 5,
+      "image_count": 64768,
+      "max_extra_float32_ghost_error": 1.9073486328125e-06,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere"
+      ]
+    },
+    {
+      "compiler": "gfortran",
+      "mode": "optimized",
+      "threads": 1,
+      "case": "half_box",
+      "particle_count": 224,
+      "query_count": 4,
+      "image_count": 1612,
+      "max_extra_float32_ghost_error": 1.9073486328125e-06,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere"
+      ]
+    },
+    {
+      "compiler": "gfortran",
+      "mode": "optimized",
+      "threads": 1,
+      "case": "face",
+      "particle_count": 64,
+      "query_count": 1,
+      "image_count": 128,
+      "max_extra_float32_ghost_error": 0.0,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere",
+        "negative mean wraps into canonical domain on every centring pass",
+        "periodic GetHalo membership, Hubble kinetic energy and RMS radius"
+      ],
+      "canonical_centre": [
+        31.99609375,
+        15.99609375,
+        15.99609375
+      ],
+      "halo_properties": [
+        640000000000.0,
+        640000000000.0,
+        0.21010850369930267,
+        602783219712.0,
+        6.771811799583949e+16,
+        0.015128841623663902
+      ],
+      "halo_status": 4
+    },
+    {
+      "compiler": "gfortran",
+      "mode": "optimized",
+      "threads": 1,
+      "case": "corner",
+      "particle_count": 64,
+      "query_count": 1,
+      "image_count": 512,
+      "max_extra_float32_ghost_error": 0.0,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere",
+        "negative mean wraps into canonical domain on every centring pass",
+        "periodic GetHalo membership, Hubble kinetic energy and RMS radius"
+      ],
+      "canonical_centre": [
+        31.99609375,
+        31.99609375,
+        31.99609375
+      ],
+      "halo_properties": [
+        640000000000.0,
+        640000000000.0,
+        0.21010850369930267,
+        602783219712.0,
+        6.771811799583949e+16,
+        0.015128841623663902
+      ],
+      "halo_status": 4
+    },
+    {
+      "compiler": "ifx",
+      "mode": "checked",
+      "threads": 1,
+      "case": "coverage",
+      "particle_count": 224,
+      "query_count": 126,
+      "image_count": 1012,
+      "max_extra_float32_ghost_error": 1.9073486328125e-06,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere"
+      ]
+    },
+    {
+      "compiler": "ifx",
+      "mode": "checked",
+      "threads": 1,
+      "case": "parallel_list",
+      "particle_count": 14336,
+      "query_count": 5,
+      "image_count": 64768,
+      "max_extra_float32_ghost_error": 1.9073486328125e-06,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere"
+      ]
+    },
+    {
+      "compiler": "ifx",
+      "mode": "checked",
+      "threads": 1,
+      "case": "half_box",
+      "particle_count": 224,
+      "query_count": 4,
+      "image_count": 1612,
+      "max_extra_float32_ghost_error": 1.9073486328125e-06,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere"
+      ]
+    },
+    {
+      "compiler": "ifx",
+      "mode": "checked",
+      "threads": 1,
+      "case": "face",
+      "particle_count": 64,
+      "query_count": 1,
+      "image_count": 128,
+      "max_extra_float32_ghost_error": 0.0,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere",
+        "negative mean wraps into canonical domain on every centring pass",
+        "periodic GetHalo membership, Hubble kinetic energy and RMS radius"
+      ],
+      "canonical_centre": [
+        31.99609375,
+        15.99609375,
+        15.99609375
+      ],
+      "halo_properties": [
+        640000000000.0,
+        640000000000.0,
+        0.21010850369930267,
+        602783219712.0,
+        6.771811799583949e+16,
+        0.015128841623663902
+      ],
+      "halo_status": 4
+    },
+    {
+      "compiler": "ifx",
+      "mode": "checked",
+      "threads": 1,
+      "case": "corner",
+      "particle_count": 64,
+      "query_count": 1,
+      "image_count": 512,
+      "max_extra_float32_ghost_error": 0.0,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere",
+        "negative mean wraps into canonical domain on every centring pass",
+        "periodic GetHalo membership, Hubble kinetic energy and RMS radius"
+      ],
+      "canonical_centre": [
+        31.99609375,
+        31.99609375,
+        31.99609375
+      ],
+      "halo_properties": [
+        640000000000.0,
+        640000000000.0,
+        0.21010850369930267,
+        602783219712.0,
+        6.771811799583949e+16,
+        0.015128841623663902
+      ],
+      "halo_status": 4
+    },
+    {
+      "compiler": "ifx",
+      "mode": "optimized",
+      "threads": 1,
+      "case": "coverage",
+      "particle_count": 224,
+      "query_count": 126,
+      "image_count": 1012,
+      "max_extra_float32_ghost_error": 1.9073486328125e-06,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere"
+      ]
+    },
+    {
+      "compiler": "ifx",
+      "mode": "optimized",
+      "threads": 1,
+      "case": "parallel_list",
+      "particle_count": 14336,
+      "query_count": 5,
+      "image_count": 64768,
+      "max_extra_float32_ghost_error": 1.9073486328125e-06,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere"
+      ]
+    },
+    {
+      "compiler": "ifx",
+      "mode": "optimized",
+      "threads": 1,
+      "case": "half_box",
+      "particle_count": 224,
+      "query_count": 4,
+      "image_count": 1612,
+      "max_extra_float32_ghost_error": 1.9073486328125e-06,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere"
+      ]
+    },
+    {
+      "compiler": "ifx",
+      "mode": "optimized",
+      "threads": 1,
+      "case": "face",
+      "particle_count": 64,
+      "query_count": 1,
+      "image_count": 128,
+      "max_extra_float32_ghost_error": 0.0,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere",
+        "negative mean wraps into canonical domain on every centring pass",
+        "periodic GetHalo membership, Hubble kinetic energy and RMS radius"
+      ],
+      "canonical_centre": [
+        31.99609375,
+        15.99609375,
+        15.99609375
+      ],
+      "halo_properties": [
+        640000000000.0,
+        640000000000.0,
+        0.21010850369930267,
+        602783219712.0,
+        6.771811799583949e+16,
+        0.015128841623663902
+      ],
+      "halo_status": 4
+    },
+    {
+      "compiler": "ifx",
+      "mode": "optimized",
+      "threads": 1,
+      "case": "corner",
+      "particle_count": 64,
+      "query_count": 1,
+      "image_count": 512,
+      "max_extra_float32_ghost_error": 0.0,
+      "checks": [
+        "exact image coordinates from stored original rows",
+        "original-ID minimum-image membership oracle",
+        "face/corner/list-boundary cutoffs",
+        "no duplicate images in a supported sphere",
+        "negative mean wraps into canonical domain on every centring pass",
+        "periodic GetHalo membership, Hubble kinetic energy and RMS radius"
+      ],
+      "canonical_centre": [
+        31.99609375,
+        31.99609375,
+        31.99609375
+      ],
+      "halo_properties": [
+        640000000000.0,
+        640000000000.0,
+        0.21010850369930267,
+        602783219712.0,
+        6.771811799583949e+16,
+        0.015128841623663902
+      ],
+      "halo_status": 4
+    }
+  ]
+}
