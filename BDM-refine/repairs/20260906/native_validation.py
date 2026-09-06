@@ -207,8 +207,9 @@ def main():
                 report['checked_optimized_agreement']=catalogue_agreement(arrays[f'baseline_0_t{args.threads}'],arrays[f'bounds_0_t{args.threads}'])
             else:
                 assert len({r['canonical_sha256'] for r in records})==1,'cross-thread/repeatability failure'
-                report['cross_thread_byte_identical']=True
+                report['cross_thread_physical_columns_identical']=True
                 report['catalogue_sha256_count']=len({r['catalogue_sha256'] for r in records})
+                report['full_catalogues_byte_identical']=report['catalogue_sha256_count']==1
             report['completed']=True
     except BaseException:
         report['failure_traceback']=traceback.format_exc()
