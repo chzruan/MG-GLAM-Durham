@@ -46,7 +46,9 @@ def program(text, measured):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--output', type=Path, default=HERE/'diagnostics-results.json')
-    parser.add_argument('--baseline', default='54f53aa')
+    # The uninstrumented SO-v3 commit is the like-for-like arithmetic control.
+    # The first retained receipt explicitly records its earlier v2 baseline.
+    parser.add_argument('--baseline', default='e2a327a5fdb5de5c8dc7e0fe30c700fb147f2df4')
     args = parser.parse_args()
     source = (REPO/'PMP2linker.f90').read_text()
     before = subprocess.check_output(['git', 'show', args.baseline+':PMP2linker.f90'], cwd=REPO, text=True)

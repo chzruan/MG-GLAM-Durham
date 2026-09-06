@@ -72,6 +72,7 @@ def main():
               source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=r.REPO,text=True).strip(),
               driver_sha256=r.sha(here/'run_replays.py'),submitter_sha256=r.sha(__file__),
               batch_sha256=r.sha(here/'replays.sbatch'),spec=spec,snapshots=snapshots,groups=groups,
+              historical_z0_d64_catalogue_sha256=threading['fixed_density_comparisons'][0]['first_sha256'],
               resources=resources,checker_function_sha256=hashlib.sha256(inspect.getsource(v.check_memberships).encode()).hexdigest(),
               evidence_sha256={str(path):r.sha(path) for path in
                   [simulation_path,thread_path,r.VALIDATION/'run_validation.py']},

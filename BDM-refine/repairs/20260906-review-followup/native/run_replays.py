@@ -172,7 +172,9 @@ def run_stage(case, build, plan, spec, v, threads, runroot, density_cache):
         timings=re.findall(r'REPLAY FINDER pass=\s*(\d+) seconds=\s*([0-9.Ee+-]+)',output)
         assert len(timings)==case['passes'],timings
         record['finder_seconds']=[float(seconds) for _,seconds in timings]
-        record['stage_seconds']={key:list(map(float,re.findall(r'time for '+key+r'\s*=\s*([0-9.]+)',output)))
+        # BDM's outer-stage labels have two spaces before '='. The routine
+        # ParametersDistinct also prints an internal one-space timing label.
+        record['stage_seconds']={key:list(map(float,re.findall(r'time for '+key+r'  =\s*([0-9.]+)',output)))
                                  for key in ['AddBuffer','List','ParametersDistinct','WriteFiles']}
         assert all(len(vals)==case['passes'] for vals in record['stage_seconds'].values())
         catalogues=[folder/f'p{i}.DAT' for i in range(1,case['passes']+1)]
@@ -249,6 +251,9 @@ def main():
             write_json(result_path,record)
         by_label={s['case']['label']:s for s in record['stages']}
         before,optimized=by_label['z0-reference'],by_label['z0-optimized-v2']
+        record['reference_matches_historical_fixed_density_catalogue']=(
+            before['catalogue']['sha256']==plan['historical_z0_d64_catalogue_sha256'])
+        assert record['reference_matches_historical_fixed_density_catalogue']
         assert before['catalogue']['sha256']==optimized['catalogue']['sha256']
         assert before['membership']['raw_sha256']==optimized['membership']['raw_sha256']
         assert before['unbinding']['sha256']==optimized['unbinding']['sha256']

@@ -1,10 +1,12 @@
 {
   "completed": true,
-  "driver_sha256": "2c8e0066a49c24a87a71c2461590696dc1f4f257b485052ec4a7dd45c6740089",
+  "driver_sha256": "0f15830014835bc20555dd0501a87fb96f2602458c91201f82930dfafcc7987d",
+  "test_sha256": "2ad3604555d4cfc1e4298e0da9ff85e3aece5194076714330e2ba99db2501b24",
   "checks": [
     "big-endian diagnostic layout/histogram/work/selection decode",
     "density dimensions and initial hash",
-    "mandatory uncached final hash rejects changed same-size density"
+    "mandatory uncached final hash rejects changed same-size density",
+    "outer timing excludes the duplicate internal ParametersDistinct label"
   ],
   "metadata_cache_limitation": "Timestamp metadata alone can miss rapid same-size changes; the final uncached hash is required.",
   "diagnostic_fixture": {

@@ -26,3 +26,11 @@ source/compiler/test hashes and commands. Python must be invoked through
 The quadratic worst case is real. A limit that silently accepts an unfinished
 population or drops an otherwise converging halo would alter the scientific
 sample. Production pass distributions will inform the follow-up limit policy.
+
+`integration-results.json` repeats the 12 comparisons on SO-v3 against the
+normalization-only commit `e2a327a`, which has the same physics and no counters.
+The test now defaults to that baseline; the initial v2 receipt still records
+its own source and baseline hashes. Both runs preserve properties and IDs.
+The extracted counter fixture does not exercise `ReleaseMaxima`; the separate
+full native two-call preflight and snapshot wrapper explicitly assert release
+of the diagnostic arrays and the original particle workspace.
