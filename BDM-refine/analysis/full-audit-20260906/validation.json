@@ -1,0 +1,1146 @@
+{
+  "validated_at_utc": "2026-09-06T08:31:24.036287+00:00",
+  "audited_commit": "a8c771501990e3c272abe2bb618b06146d6edc27",
+  "branch": "audit/bdm-physics-numerics-20260905",
+  "cz_commit": "a8c771501990e3c272abe2bb618b06146d6edc27",
+  "checks": {
+    "production_source_unchanged": true,
+    "unit_experiments_recorded": 46,
+    "original_source_and_unit_driver_hashes_match": true,
+    "native_variant_source_and_binary_hashes_match": true,
+    "simulation_input_and_snapshot_hashes_match": true,
+    "gzip_streams_and_npz_crc_valid": true,
+    "retained_catalogue_values_finite": true,
+    "python_ast_and_bash_syntax_valid": true,
+    "git_diff_check_passed": true,
+    "note": "Integrity checks passed; the physics/numerical audit verdict is changes_required.",
+    "offline_summary_reproduces_recorded_results_without_slurm": true
+  },
+  "jobs_final_states": {
+    "11946517": "FAILED",
+    "11946524": "COMPLETED",
+    "11946543": "COMPLETED",
+    "11946554": "COMPLETED",
+    "11946652": "COMPLETED"
+  },
+  "cleanup": {
+    "state": "complete",
+    "scope": "Audit-owned scratch and redundant audit logs only",
+    "archive": "work-artifacts.tar.gz",
+    "archive_sha256": "b39e39ea17aaf65a53f42a2058986717b89d8ff1513cb02fe65e14294ff9a9c9",
+    "archive_bytes": 107786491,
+    "archived_entries": 188,
+    "scratch_filesystem_entries": 182,
+    "removed_filesystem_entries": 185,
+    "removed_distinct_inodes": 185,
+    "replacement_inodes": 2,
+    "net_cleanup_inode_reduction": 183,
+    "additional_input_copies": "Three external IC inputs retained inside archive without additional loose files",
+    "verification": "Every regular-file SHA-256, directory type/mode and symlink target/mode matched before removal",
+    "inventory": {
+      "work": {
+        "mode": 1517,
+        "type": "directory"
+      },
+      "work/cases-build": {
+        "mode": 1517,
+        "type": "directory"
+      },
+      "work/full-build": {
+        "mode": 1517,
+        "type": "directory"
+      },
+      "work/gr-n128": {
+        "mode": 1517,
+        "type": "directory"
+      },
+      "work/gr-n64": {
+        "mode": 1517,
+        "type": "directory"
+      },
+      "work/pilot-11946517.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 869,
+        "sha256": "72a82c6819213dd1b9263383af2b42f96aedf1d3dde70f9c48e6a883968a9de2"
+      },
+      "work/pilot-11946524.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 336,
+        "sha256": "a673830c7295772545ad7675752db2213e55555149e6cbb40eb09df21141191d"
+      },
+      "work/pilot-11946543.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 405,
+        "sha256": "c682b7a5bd521d6ff5e5cee7a68a48a9cb8ebda482e99dff6cdce71d3e52b53d"
+      },
+      "work/replays-11946554.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 451,
+        "sha256": "c655360edf026fcab0119f32543f5750a3b6145aae064611cf2362a3b1ec8e22"
+      },
+      "work/replays-11946652.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 334,
+        "sha256": "000270d3366ffe0f1b3e6655e12dad6c782fa94951ae68e9cca50f41e4042085"
+      },
+      "work/cases-build/bdmduplicaterules.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 653,
+        "sha256": "dc84cb17a251f013c50ae896615c6609807823335e9cec5e6811068430f64f8f"
+      },
+      "work/cases-build/build.json": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 554,
+        "sha256": "5deb32adf593139ff0f1166c691a630e10318b5e689e7676297d24ca87712e7a"
+      },
+      "work/cases-build/checked": {
+        "mode": 493,
+        "type": "file",
+        "bytes": 338968,
+        "sha256": "2e683126d74f28ad9339ffd4e2682e2ce21687f5b122a797e7ad029508ca7709"
+      },
+      "work/cases-build/linkerlist.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 3276,
+        "sha256": "172beb806a18dad166f94cc4fc1bd578b9e2cca0dd7e18c878e5ce3b5eb9032b"
+      },
+      "work/cases-build/optimized": {
+        "mode": 493,
+        "type": "file",
+        "bytes": 121944,
+        "sha256": "35dddf42a31bafc6adae29204cdc200542aba21f1a80d93db1af161cde4b2391"
+      },
+      "work/cases-build/source_cases.f90": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 67851,
+        "sha256": "eb01d8d15308dda675c18920cbf2e6c18142f02d3dd25e1e638838276ce1fda4"
+      },
+      "work/cases-build/structures.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 1594,
+        "sha256": "bb2fb37071f40174af086ab1f82dbef51a41c4fc3133caa520a9beaa4bf9f945"
+      },
+      "work/cases-build/tools.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 760,
+        "sha256": "31952b8b734e372d773ae77dd996232db3689477956d583b5cfa6377bc9fe5c0"
+      },
+      "work/full-build/AverageBispectrum.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/AverageBispectrum.f90"
+      },
+      "work/full-build/AveragePk.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/AveragePk.f90"
+      },
+      "work/full-build/Massfunction.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/Massfunction.f90"
+      },
+      "work/full-build/PMP2BDM.bounds.exe": {
+        "mode": 493,
+        "type": "file",
+        "bytes": 1582232,
+        "sha256": "9025e69bd98e8509a2a7aff67ac04d376795f5f06bc1513a944fae6ae5d2de27"
+      },
+      "work/full-build/PMP2BDM.checked.exe": {
+        "mode": 493,
+        "type": "file",
+        "bytes": 4747920,
+        "sha256": "e12fd43f8f3f1f95cb029245518c7331a3a857962da2787dbea2dde16c5f3c34"
+      },
+      "work/full-build/PMP2BDM.configured.exe": {
+        "mode": 493,
+        "type": "file",
+        "bytes": 1141512,
+        "sha256": "c14174bf45d9c5409f398b16f0cb488d901045d58f44082965d23b3d11be8b8a"
+      },
+      "work/full-build/PMP2BDM.exe": {
+        "mode": 493,
+        "type": "file",
+        "bytes": 1135184,
+        "sha256": "34256c1e64e974a8d4a75f6ac17e383fde382651ae3d01a04a32ef0f2fcaa3f8"
+      },
+      "work/full-build/PMP2BDM.members.exe": {
+        "mode": 493,
+        "type": "file",
+        "bytes": 1146552,
+        "sha256": "06fc7d21076e5a9070e05fb3689cd5ea653e616224d502b5d8cf5d5cf4161ab9"
+      },
+      "work/full-build/PMP2BDM.prefiltered.exe": {
+        "mode": 493,
+        "type": "file",
+        "bytes": 1141744,
+        "sha256": "577ea9d0e6c8bda124de0c9962747ac5f9da9db0257c2756125ec6965b72f032"
+      },
+      "work/full-build/PMP2MG_subroutines.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2MG_subroutines.f90"
+      },
+      "work/full-build/PMP2MG_subroutines.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 25144,
+        "sha256": "85fe6e21f6be13ecf0a8f466d5db5a1ceb94a39ae8c5faa037492bfccc74e00b"
+      },
+      "work/full-build/PMP2MG_subroutines.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 343787,
+        "sha256": "62419c28cf791c243831ab5d4b7d529d65d05ae506f9163b580ff11e864962f1"
+      },
+      "work/full-build/PMP2MG_subroutines.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 19719,
+        "sha256": "b46e8ca8715b5ade70e34f48afc677927ecdf822495f59d43ba2bbb1194cca2f"
+      },
+      "work/full-build/PMP2MGsolver_DGP.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2MGsolver_DGP.f90"
+      },
+      "work/full-build/PMP2MGsolver_DGP.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 59720,
+        "sha256": "2590654305b4ed17fb64b6870f81ac6d452a13d5ee541c1b569a91b6ff9dba19"
+      },
+      "work/full-build/PMP2MGsolver_DGP.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 395641,
+        "sha256": "b0747f31a2f6aecfca974e4b71c59e280c61c2d021675400f3e1395dec36c4ec"
+      },
+      "work/full-build/PMP2MGsolver_DGP.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 34985,
+        "sha256": "beb250e4e3fee3d39a8820dfafecf3add77f9c21a20ca0431697d60f83c06e50"
+      },
+      "work/full-build/PMP2MGsolver_csf.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2MGsolver_csf.f90"
+      },
+      "work/full-build/PMP2MGsolver_csf.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 61856,
+        "sha256": "a45760bd56ed806b12c9771ea3cca3f057b4b2b2a36436749d98f00c15167dc3"
+      },
+      "work/full-build/PMP2MGsolver_csf.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 619239,
+        "sha256": "797cf6fd9df2cc785670b7cc989ee3cbe602322248c21481418bf8d999055484"
+      },
+      "work/full-build/PMP2MGsolver_csf.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 96962,
+        "sha256": "aac1b116c335c4f1e7041b99c2223a37d53c95818e5d1ddd6ae49259fcc116cd"
+      },
+      "work/full-build/PMP2MGsolver_fR.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2MGsolver_fR.f90"
+      },
+      "work/full-build/PMP2MGsolver_fR.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 155688,
+        "sha256": "98ecfbf8a1802aac7d6a1f9ce6b9252d54f24f964dcd1f51dc4998937cc42ce9"
+      },
+      "work/full-build/PMP2MGsolver_fR.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 1360923,
+        "sha256": "2d0af2395cbfd7f3851b4c84fd0d36fdd378cdeb4bccc7854e625e8342fb4f1f"
+      },
+      "work/full-build/PMP2MGsolver_fR.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 52375,
+        "sha256": "9961579918719da1c3281d5d89611fd7bb818b09554af4706a5b24c0b97c5e70"
+      },
+      "work/full-build/PMP2MGsolver_kmf.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2MGsolver_kmf.f90"
+      },
+      "work/full-build/PMP2MGsolver_kmf.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 90376,
+        "sha256": "e41f5fc34151f70ce8f50444b9a044b56815edc0330a91e9231794d224b69dd1"
+      },
+      "work/full-build/PMP2MGsolver_kmf.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 573554,
+        "sha256": "b0d33e5f583f9b19b048c4e77f84414238d19c5f4455417623bc977fe7e02cc8"
+      },
+      "work/full-build/PMP2MGsolver_kmf.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 65929,
+        "sha256": "f0212d745dd3bf00f2a155dafe85596a6b7d993f4d8600cdd2aa38b7f2094838"
+      },
+      "work/full-build/PMP2MGsolver_sym.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2MGsolver_sym.f90"
+      },
+      "work/full-build/PMP2MGsolver_sym.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 51416,
+        "sha256": "9c8e51587c5ceed7ab4d2755742c3273da05c493e5cbffae80c7641253dbf1dc"
+      },
+      "work/full-build/PMP2MGsolver_sym.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 405304,
+        "sha256": "b548a5434c6f87b3957f4eee28413e51fe362ce7597bcee39093b0e644558d8e"
+      },
+      "work/full-build/PMP2MGsolver_sym.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 38013,
+        "sha256": "5f8ccc0d75fb603ddde82d176d8ed8dfe617ee6c00e28b9918957925a04de374"
+      },
+      "work/full-build/PMP2analyze.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2analyze.f90"
+      },
+      "work/full-build/PMP2bdm.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2bdm.f90"
+      },
+      "work/full-build/PMP2bdm.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 8824,
+        "sha256": "b9e31ae721e0f04a8507907c6a757396bd5b71b047138595a5dfd69a70135c35"
+      },
+      "work/full-build/PMP2bdm.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 31391,
+        "sha256": "06217cf9b289a62eca917c8f5abea13d84294a6344023859092bc8fb7628172a"
+      },
+      "work/full-build/PMP2bdm.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 698,
+        "sha256": "e93b7e86b6573f0aaba58fc214e77255edcb0cdc7e8da02f5eb952ea342ce6d3"
+      },
+      "work/full-build/PMP2catalReform.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2catalReform.f90"
+      },
+      "work/full-build/PMP2catalogCorrect.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2catalogCorrect.f90"
+      },
+      "work/full-build/PMP2correlation.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2correlation.f90"
+      },
+      "work/full-build/PMP2density.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2density.f90"
+      },
+      "work/full-build/PMP2extradof.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2extradof.f90"
+      },
+      "work/full-build/PMP2extradof.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 152472,
+        "sha256": "1c9c12441789ec0b0c68e6361f9d6fc6184cee9c3bcc5a3577fdeb9ad4665249"
+      },
+      "work/full-build/PMP2extradof.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 2123440,
+        "sha256": "b07b8d91138de12196f6d3f092910f7902304b44f808bacf23ad3ac0b9749025"
+      },
+      "work/full-build/PMP2extradof.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 74023,
+        "sha256": "633b7a0533652bf6e6d1f0bb4f788a58092d84ab69f8dea9fdf0bd7a2522e02b"
+      },
+      "work/full-build/PMP2formatFiles.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2formatFiles.f90"
+      },
+      "work/full-build/PMP2haloStat.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2haloStat.f90"
+      },
+      "work/full-build/PMP2init.exe": {
+        "mode": 493,
+        "type": "file",
+        "bytes": 122048,
+        "sha256": "a5b4d833c21dc9d817cf8627342dc453c44b72951907fc351cd4565b786511e0"
+      },
+      "work/full-build/PMP2init.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2init.f90"
+      },
+      "work/full-build/PMP2init.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 171408,
+        "sha256": "8059e2d8ed76d1b30f16641b0102a244ec9c7047045be218f64d4714687c69b2"
+      },
+      "work/full-build/PMP2init.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 1101780,
+        "sha256": "1f413a7b69716cbe6bb467011399c2d38fe1d36afcadaad4b9f5c35bcdcca54d"
+      },
+      "work/full-build/PMP2init.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 27881,
+        "sha256": "87897d869c3cff568c6848389d127414c521665320b45f7760e6ca79f0b2197d"
+      },
+      "work/full-build/PMP2linker.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2linker.f90"
+      },
+      "work/full-build/PMP2linker.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 384944,
+        "sha256": "296a279d1523ba3a06a2b6b565819733664974816661d41e6841a8a9570e75a7"
+      },
+      "work/full-build/PMP2linker.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 7385751,
+        "sha256": "6f889ccf5d8e0e388d2d76459d430c40580000c8f1d1a1f9765696b891c9cac8"
+      },
+      "work/full-build/PMP2linker.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 131757,
+        "sha256": "0a772b6f27ee5f9591239b51e24ef95d255d4e5a4f6dcdc202380ad87407dddf"
+      },
+      "work/full-build/PMP2main.exe": {
+        "mode": 493,
+        "type": "file",
+        "bytes": 1237056,
+        "sha256": "56ec38a14ed5ba08f71ea15e3a3fbd262adb0dfc007fe5a06a1513cb84309a79"
+      },
+      "work/full-build/PMP2main.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2main.f90"
+      },
+      "work/full-build/PMP2main.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 161984,
+        "sha256": "27fdb6e8a78d6d61556486e2af67c46f6f92376237778ab0735c3c9228d81829"
+      },
+      "work/full-build/PMP2main.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 2508922,
+        "sha256": "5504a6dbed81159ee15dff54a716ccbb9d704dc2850a660851cfd234a8ebb6e9"
+      },
+      "work/full-build/PMP2main.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 39466,
+        "sha256": "4c801b00bb3796c8fe5ef073ef13ab91d7f91321014679e87a27296a6957e53e"
+      },
+      "work/full-build/PMP2mainMPI.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2mainMPI.f90"
+      },
+      "work/full-build/PMP2mod_MGbackground.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2mod_MGbackground.f90"
+      },
+      "work/full-build/PMP2mod_MGbackground.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 55272,
+        "sha256": "3af2366add432e9c4cf1bd44645ae0c82c2bbab1816912b26dd63993efc40c68"
+      },
+      "work/full-build/PMP2mod_MGbackground.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 409722,
+        "sha256": "f0b4575e25b1387ab96777d74de5de081db2bcf9e5df2440338d682e190e6942"
+      },
+      "work/full-build/PMP2mod_MGbackground.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 13716,
+        "sha256": "2920701eecd9dc9e93341554cd9a1978ddde819fdbcb0f8d33838e0be0b95478"
+      },
+      "work/full-build/PMP2mod_analyze.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2mod_analyze.f90"
+      },
+      "work/full-build/PMP2mod_analyze.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 64216,
+        "sha256": "ca7e1ebd66c97961af287f47862c8f5c7829454578f1de74c29f0a7ad2654419"
+      },
+      "work/full-build/PMP2mod_analyze.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 1215819,
+        "sha256": "9555edbf26d54694c0f3754c89cf7ec479c6ac8fc987cc2df4ed575dd05efa7a"
+      },
+      "work/full-build/PMP2mod_analyze.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 7767,
+        "sha256": "b4383cfe843f46a7709e07845e449d5186dc68081534a795fb7ceb8594d755f0"
+      },
+      "work/full-build/PMP2mod_density.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2mod_density.f90"
+      },
+      "work/full-build/PMP2mod_density.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 195912,
+        "sha256": "da12b707a39d5b65eb8b9244070678314e094f4dde3b56eaa2971e2b4e6aaa41"
+      },
+      "work/full-build/PMP2mod_density.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 4545201,
+        "sha256": "6647935f6a147d6fbc6e9f82ad48b8ded006d83159538dabfb4c78e57a34f5d9"
+      },
+      "work/full-build/PMP2mod_density.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 48009,
+        "sha256": "98975c24d0115f6d9cb8660206808e58707ae041ceece4eda5cd8215f6038e80"
+      },
+      "work/full-build/PMP2mod_fft5.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2mod_fft5.f90"
+      },
+      "work/full-build/PMP2mod_fft5.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 158440,
+        "sha256": "9902e631ba8917256ee0fa3e1e5eadc8b34b63c37006b2fbe4a23f451250a5ec"
+      },
+      "work/full-build/PMP2mod_fft5.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 962032,
+        "sha256": "6eff2765ab46882e532b36a91ed6804131b5b9726dd288fc9fc4f17d83b9aa2d"
+      },
+      "work/full-build/PMP2mod_fft5.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 52010,
+        "sha256": "04e02883bec31d10858ad3ae0d1fb5c7c1cf10626b6097003f52f41f12dd4d7f"
+      },
+      "work/full-build/PMP2mod_power.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2mod_power.f90"
+      },
+      "work/full-build/PMP2mod_power.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 109112,
+        "sha256": "8b1ca8d9a13bdbd0228dca6d9a43685cb151fda609408aa75bbdf25c909f9f4d"
+      },
+      "work/full-build/PMP2mod_power.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 2756794,
+        "sha256": "dee5c103f064980c190d5ea54f4dc83a7121e7f9cea4bef414749ca6064b017f"
+      },
+      "work/full-build/PMP2mod_power.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 42193,
+        "sha256": "8cfb3aab8e3c0723b1f7234ee8b6de5289250eef89d442a1a18e12e1a9c4525d"
+      },
+      "work/full-build/PMP2mod_random.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2mod_random.f90"
+      },
+      "work/full-build/PMP2mod_random.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 38816,
+        "sha256": "c2677b19172905f3df49d3f766eddc2043af04f49fae087c17459e4208e9868c"
+      },
+      "work/full-build/PMP2mod_random.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 157595,
+        "sha256": "371e4373ce69928c8ae68c8355b3faca3f496cc166222a3f3bcb15ac6aa5f8d1"
+      },
+      "work/full-build/PMP2mod_random.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 17561,
+        "sha256": "cbe95562a9e0c1536eb3722a15665049a12ffab711d73ff22bffa1d7c03a325d"
+      },
+      "work/full-build/PMP2mod_tools.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2mod_tools.f90"
+      },
+      "work/full-build/PMP2mod_tools.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 111136,
+        "sha256": "323a84ef894e4311bd840de6eaf725d5af17ea0eed7238bb0d1aef3290a93e2b"
+      },
+      "work/full-build/PMP2mod_tools.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 1934265,
+        "sha256": "bca40327ae4393f70fc0a39aaa0d7c3e73b90e06a7f81c8f9553ad1e04a50425"
+      },
+      "work/full-build/PMP2mod_tools.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 17719,
+        "sha256": "75b203717c0dbcb1bad8ea91dab30308c8a26ebfe9c2c82ab1c25162643b0d23"
+      },
+      "work/full-build/PMP2power.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2power.f90"
+      },
+      "work/full-build/PMP2powerSSC.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2powerSSC.f90"
+      },
+      "work/full-build/PMP2readFiles.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2readFiles.f90"
+      },
+      "work/full-build/PMP2spectrum.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2spectrum.f90"
+      },
+      "work/full-build/PMP2start.exe": {
+        "mode": 493,
+        "type": "file",
+        "bytes": 577856,
+        "sha256": "a12330ac1a1c8d43208656067eb8e0fbd1185b1932a31f866e0faab2c3f0df72"
+      },
+      "work/full-build/PMP2start.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2start.f90"
+      },
+      "work/full-build/PMP2start.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 165696,
+        "sha256": "dbdd7f3b7c652eef67888df05330eb8433e32fcc9a3a4370564e22df24a2cca2"
+      },
+      "work/full-build/PMP2start.opt.yaml": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 3125721,
+        "sha256": "87fe107c16dc2aff865a2bb648cb8ceb3f34469f263ac333629aa7a8d15018a1"
+      },
+      "work/full-build/PMP2start.optrpt": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 48632,
+        "sha256": "62530a572b6dbc61ad616164e6e691c2cbd94fe8acfd143e9ace1d418b5213c1"
+      },
+      "work/full-build/PMP2startMPI.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2startMPI.f90"
+      },
+      "work/full-build/PMP2tunestepping.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMP2tunestepping.f90"
+      },
+      "work/full-build/PMPcovariance.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/PMPcovariance.f90"
+      },
+      "work/full-build/analyze.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 895,
+        "sha256": "3665d5b9e5f039c152f4b7721cd11740d1240f3ca42a98998d36d5fe09a2b11d"
+      },
+      "work/full-build/bdmduplicaterules.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 2357,
+        "sha256": "952a4d7569ee63b0510796eca02f08006d1e368a9fa3d206388452878c47acc1"
+      },
+      "work/full-build/density.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 8417,
+        "sha256": "d1e787a3635f899e23ce18587ca424dcbaec29bf5960d898b18d541384565682"
+      },
+      "work/full-build/extradofbackgrounddata.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 5887,
+        "sha256": "b06bad8fc6fe551173a2127447ee93cf771e73937085bd8e1b2d6b384670c6b1"
+      },
+      "work/full-build/fft5.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 31680,
+        "sha256": "1f3e1f38ebc3ec13ea3ffb83f78633fbbcb519247f716c9527c557bb4acebada"
+      },
+      "work/full-build/finder-bounds.f90": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 82003,
+        "sha256": "05c8d604977175568ca9e3b85d90e323c69a313781d4b2696e1d75bfc232fb5c"
+      },
+      "work/full-build/finder-bounds.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 964480,
+        "sha256": "f79558fac0f7b0160fd859c86fde7b57b2e8b85214aabb667d2af6b124a157c6"
+      },
+      "work/full-build/finder-checked.f90": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 82003,
+        "sha256": "05c8d604977175568ca9e3b85d90e323c69a313781d4b2696e1d75bfc232fb5c"
+      },
+      "work/full-build/finder-checked.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 3801096,
+        "sha256": "61aa169f28354eecdae21cc7229aeb16026e1810af4738e0196f524102d9b9f2"
+      },
+      "work/full-build/finder-configured.f90": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 82003,
+        "sha256": "91558cbc602a8a451361977253722c0bd5304081f771660f37decfb7829b767d"
+      },
+      "work/full-build/finder-configured.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 391344,
+        "sha256": "205e8c4d025b3f48b0e540e53ba7ad69de02dd957524cf1598bdda1acf412e79"
+      },
+      "work/full-build/finder-members.f90": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 82787,
+        "sha256": "c8a97da889bcebd662648e3fbd4a3aa042b2c63540b2c1c245c217d1b807bfe1"
+      },
+      "work/full-build/finder-members.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 395976,
+        "sha256": "98f4743be1156f506b1e7d5bd3527390118b2ddbcc9e89cc3019dcc051cbd726"
+      },
+      "work/full-build/finder-prefiltered.f90": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 82049,
+        "sha256": "84dc60e5c0427ac472ce1d61649615896377dcdb48faa6a295d4ad83656fb19c"
+      },
+      "work/full-build/finder-prefiltered.o": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 391576,
+        "sha256": "69b57c37b38c82630ff6cd3c49596a60b480bbdec9b4095e026b120599668e02"
+      },
+      "work/full-build/gadget2pm.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/gadget2pm.f90"
+      },
+      "work/full-build/ic2pm.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/ic2pm.f90"
+      },
+      "work/full-build/linkerlist.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 22511,
+        "sha256": "3f8b7ad707418eae39be7bc99a9729eada6a2ff89b57d598fe8355f9bb944035"
+      },
+      "work/full-build/localdata.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 1358,
+        "sha256": "9527e4ef9d542a8fe34411e4e6e2dda387b4873e9a9ca8496e3ffca673420a23"
+      },
+      "work/full-build/luxury.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 1605,
+        "sha256": "e2063432e47f745373a73f47e8a23977222980ffa03ce6f2e192a1a7c77e097b"
+      },
+      "work/full-build/luxuryp.h": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/luxuryp.h"
+      },
+      "work/full-build/param.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 8785,
+        "sha256": "216a572b8832209cb8aa1129d206623769ea8137e1086dcd4c42244bd13fc43e"
+      },
+      "work/full-build/power.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 6209,
+        "sha256": "3d20cfe2833e609f40552d02663576b40e75d2e0d881709bb9d0dcd85f2883a9"
+      },
+      "work/full-build/random.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 12418,
+        "sha256": "b02994d1363a53351ef9b32172e61665ed7abc7f6e0502344498793103d478bd"
+      },
+      "work/full-build/setinitialconditions.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 19885,
+        "sha256": "50437973f659867d35fc7c9ab183a78f2ff8b4e6ad15d87ff0899f494ae31795"
+      },
+      "work/full-build/structures.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 11361,
+        "sha256": "3f7c67f1f834087c5996a3d8afcfb9897b49ae3be3016139854df319389063fd"
+      },
+      "work/full-build/testMemory.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/testMemory.f90"
+      },
+      "work/full-build/testtOmp.f90": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/testtOmp.f90"
+      },
+      "work/full-build/tools.mod": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 13644,
+        "sha256": "b446eaac42d5f7631bc6c939371e1dfbaf60824b444bd6c6b30991cf5137f6fa"
+      },
+      "work/gr-n64/Init.dat": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 1990,
+        "sha256": "c6951204c99b38b717be492cded9c6b54f6445a111ee11a6bfbeebfad00bbe2f"
+      },
+      "work/gr-n64/PkTable.dat": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/test/PkTable.dat"
+      },
+      "work/gr-n64/Run1": {
+        "mode": 1517,
+        "type": "directory"
+      },
+      "work/gr-n64/Setup.dat": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 3087,
+        "sha256": "0ea58a3e2986fb0cebbafd02b95d6de3040cd3c26b984141ec652aae8b48febd"
+      },
+      "work/gr-n64/TableSeeds.dat": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/test/TableSeeds.dat"
+      },
+      "work/gr-n64/lcdm.dat": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 3101,
+        "sha256": "407d78dfe15d954834c128d059026da1c203d51c53efb23954a44ed7d243b9c9"
+      },
+      "work/gr-n64/Run1/CATALOGS": {
+        "mode": 1517,
+        "type": "directory"
+      },
+      "work/gr-n64/Run1/PMcrd.0157.DAT": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 537,
+        "sha256": "48e5ac05a5505ae2d332615c1323329f37d38b0a41729ae1519f991269e1c46b"
+      },
+      "work/gr-n64/Run1/PMcrd.DAT": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 537,
+        "sha256": "f59f6b08e1a58a8825f556da3171f5a6d0370ce82111062fcb30c67b198a56b2"
+      },
+      "work/gr-n64/Run1/PMcrs0.0157.DAT": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 25165824,
+        "sha256": "6517c8ce2426fa0042fedf113aade950111344ceef2bac414bb910bdda13fbed"
+      },
+      "work/gr-n64/Run1/PMcrs0.DAT": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 25165824,
+        "sha256": "d3413c48782b11afde3dca550ffa80d16350d60338f8dfc3e3846d5496db86d2"
+      },
+      "work/gr-n64/Run1/Results.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 100,
+        "sha256": "ee5952f85074a7626a78d0ac15323f940ff146732d9284f55774e0262fd978c0"
+      },
+      "work/gr-n64/Run1/Run.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 7404,
+        "sha256": "645802852f02ae4139dcedf95aad8ec8a912092cf6de54685fdc51ac0c214a8e"
+      },
+      "work/gr-n64/Run1/fort.17": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 29,
+        "sha256": "0201ef2a6888e221972df6ef1b813cc7db8e2c0cf33f4c2fc3bc772bdaa25781"
+      },
+      "work/gr-n64/Run1/pt.dat": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 12,
+        "sha256": "a4bdddfe99b36286da7046ac901cf18a8ee500d7ccf00dff61c9d9fae9be8cd6"
+      },
+      "work/gr-n64/Run1/timing.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 19491,
+        "sha256": "39cc00294e468569cd7f1d269e310660a592015e78e7cb97c5c1e546f89e37a9"
+      },
+      "work/gr-n128/Init.dat": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 1992,
+        "sha256": "ef766e4a12af09e6e9447e9fa03b7f53092ed538b96821ca4956b31f975ba4d2"
+      },
+      "work/gr-n128/PkTable.dat": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/test/PkTable.dat"
+      },
+      "work/gr-n128/Run1": {
+        "mode": 1517,
+        "type": "directory"
+      },
+      "work/gr-n128/Setup.dat": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 3087,
+        "sha256": "d3c79d3fc8951debe0c80c244cf24d79d59340226df60dd6067f79a0cbf530de"
+      },
+      "work/gr-n128/TableSeeds.dat": {
+        "mode": 511,
+        "type": "symlink",
+        "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/test/TableSeeds.dat"
+      },
+      "work/gr-n128/lcdm.dat": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 3101,
+        "sha256": "8a103e1978f3ffbdb44ada2156aede7f1ea765607cd9dd7c74e2285e255a0567"
+      },
+      "work/gr-n128/Run1/CATALOGS": {
+        "mode": 1517,
+        "type": "directory"
+      },
+      "work/gr-n128/Run1/PMcrd.0157.DAT": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 537,
+        "sha256": "d3c6a6eebf55725c7560c3f44a1362229da9a7e1bbcafae7eff7e976408f0a9b"
+      },
+      "work/gr-n128/Run1/PMcrd.DAT": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 537,
+        "sha256": "e7f96b284a7e8fd79b452593588505cea4b460e8eb63a4f269e82a0401221da3"
+      },
+      "work/gr-n128/Run1/PMcrs0.0157.DAT": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 50331648,
+        "sha256": "8d4ff9cd52e4e9ed83f60ec01dbf2ceaed0bbf12e3cf5c156c3d5197a9bf4acb"
+      },
+      "work/gr-n128/Run1/PMcrs0.DAT": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 50331648,
+        "sha256": "a90a710813407baf5c1ef33b95c6fe8305a1d4b5319c55ecae847b1012ca7f9a"
+      },
+      "work/gr-n128/Run1/Results.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 100,
+        "sha256": "230117767b8b9d923a674180a61a7dc428d8caaaaee995ed66b990b2544488f1"
+      },
+      "work/gr-n128/Run1/Run.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 7014,
+        "sha256": "7944a4b9db338a1a5f4f546d2b9d357be93c1e0b7b0ab014751a24a9d0b55899"
+      },
+      "work/gr-n128/Run1/fort.17": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 29,
+        "sha256": "15bc86e05df92339b159fa59d3612ed358549a6e94c3e88f4211d283839837cf"
+      },
+      "work/gr-n128/Run1/pt.dat": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 12,
+        "sha256": "a4bdddfe99b36286da7046ac901cf18a8ee500d7ccf00dff61c9d9fae9be8cd6"
+      },
+      "work/gr-n128/Run1/timing.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 19491,
+        "sha256": "37018d9b1669b68e7e179702ae78e093b89ab85c54907b4e3c0d1d7e1861660d"
+      },
+      "redundant-logs/diagnostic-build.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "redundant-logs/unit-run.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 493,
+        "sha256": "4dfcca1318586a4ba3f4cb44822ac1c3c759d680f337d72150c6bbc85155de46"
+      },
+      "redundant-logs/summary-run.log": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 5939,
+        "sha256": "5059a343345ad4e7da9652d6a0eef53b00a997c2d01b9e1b3013ff315f0c2932"
+      },
+      "reference-inputs/Init.dat": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 2176,
+        "sha256": "dca7d3a245d36c22306b4d2060d1a4ec05b708b7f24c8c093db0bc35c8953e92"
+      },
+      "reference-inputs/PkTable.dat": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 13252,
+        "sha256": "b90b23d14a403544045ec93533402a70db8b5bc3381a3694547dfd742e0476f2"
+      },
+      "reference-inputs/TableSeeds.dat": {
+        "mode": 420,
+        "type": "file",
+        "bytes": 125057,
+        "sha256": "31e0ae21219dadc93da86c6cfe8cd1972e406f7bbf80c2a1046bafe5ab506e4d"
+      }
+    },
+    "completed_at_utc": "2026-09-06T08:31:24.352604+00:00"
+  },
+  "artifact_sha256": {
+    ".gitignore": "ccb1521610b8357d46aa425a3569a2d06b67e1b6336cc432142a45fcb0b5fe26",
+    "AUDIT.md": "93a8951f311611f3dde8e8387a123d43d1f105d8dd197a5185fa3eae15a57de8",
+    "README.md": "2a8c8d644659354e44de3fc77c2230385a6df1f384a3ebb7fb8f6ae2bb383c8c",
+    "audit_cases.f90": "ed82f2b24cae391569bc14adf22fd101dc7d557b180940ae071fa3be8025fa6b",
+    "bounds-catalogues.npz": "0b7f34893f89b64099912214440a687914546a30339161cb08fbc721c63fc0b5",
+    "bounds-results.json": "7448b8f0442b1ab77ee42d64663d5cf0e2ccee2f78a67412178c675d111e3872",
+    "bounds.log.gz": "f0e084e5e5b929b5497cbc52cd2cd28563658b86f98712a26ed8eebe664dbadb",
+    "build.log.gz": "c05a0f1a2750e5c6ad12883bfc214916a54406f5357b39c981e3d3fe29272751",
+    "build_diagnostics.py": "b56bc74bf34ddb592d9ec0c9cf977abfc04a561715ed2b0ccad226314e4e0daa",
+    "build_full.sh": "001c45abe05460af3e3662c7b8e043e5b21838a994b6451e0201fe8a96afa7fe",
+    "catalogues-n128.npz": "b54d03b1c0fdcefc5c9b4c103e26b8795d43d21eb7428ce185402788a549a74a",
+    "catalogues-n64.npz": "f5681fdb0b7a5cdf80fded37781df64de7faa9cdc4e789977a838a233fa53ee9",
+    "diagnostic-build.json": "e04ebcfed4197cbbb1a22c36399d2c9699d2f6dcec282b79dadec1cb42ce0c24",
+    "jobs.json": "30ff91256e61da93b56627f4c667f44a547976eb4cda2dfa651c9dc6c4e277c8",
+    "pilot.sbatch": "1abd4195a7bfaef1ce68def2e9dde21b171dea5e924deb6f2ebb1880ec87a719",
+    "replay-catalogues.npz": "cf6534c34973c98a6f7fe51b154c48b652008569a9968602d3bd546579c3bc8d",
+    "replay-results.json": "4e047ab547aa04dfebd2f9f7e43d9802fcd456e16740ced9e0923f07787b0fd0",
+    "replays.log.gz": "e23b6205ffd5dbd57a20547efe385f3d86ad61b06d9f2603d4e33496b2e6afb1",
+    "replays.sbatch": "45f7b8e6720ac956745dcdd094f392ecde8b79bf095345b2a2660e471811f720",
+    "run_audit.py": "e7c2093755acaac93ece1f713da5393a83c800b13e36f3f57f104dcadaa85f41",
+    "run_replays.py": "487301094c0d5915fcacdbdac0c1a3ba7c89663b7e0b6c134586dd23b60e1c0f",
+    "run_simulation.py": "289403426d09d80cc0be23fbd2955724d8bee9548bcfa2bea3fc4fbdb55761b5",
+    "simulation-n128.json": "49acdb855253fc314b0e6cb9f403febf9b3cced433eb372b4e0341dcb7c49fc8",
+    "simulation-n128.log.gz": "39511969a26fe3e9f060b8fc83720f1fc7c2b53032419894d446b21f9241193d",
+    "simulation-n64.json": "1d61ec921a0bd24a1f0a328c6e88a50bf65b26b5b19c2a31fb113390f1b7266b",
+    "simulation-n64.log.gz": "54d8eb70614543d2897043a3a01547cc05fbdaedcdf3762c41929023551168eb",
+    "summarize_audit.py": "acea27710b4d8fca580d88aab0941ebeeb70497d160db64187fb343633b4b56f",
+    "summary.json": "01537d3ebe306cb062fd3e48e38310742a4ef4318170d0d93f525525b68f5625",
+    "unit-results.json": "1f2a005bc00e65583acf777c58aa6217d422cd2170dfedbdad0629384bea9b68"
+  },
+  "build_log_consolidation": {
+    "original": "build.log",
+    "original_sha256": "fe313baa98e75b9c377597acfa636e7562f2b30e516fea83cb3894e548298d96",
+    "original_bytes": 5454,
+    "compressed": "build.log.gz",
+    "verified_decompressed_bytes_identical": true
+  }
+}

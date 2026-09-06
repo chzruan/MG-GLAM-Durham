@@ -1,0 +1,307 @@
+{
+  "completed_at_utc": "2026-09-06T08:32:12.519927+00:00",
+  "audited_commit": "a8c771501990e3c272abe2bb618b06146d6edc27",
+  "audited_branch": "audit/bdm-physics-numerics-20260905",
+  "verdict": "changes_required",
+  "finding_groups": [
+    {
+      "id": "F01",
+      "priority": "P1",
+      "priority_scope": "",
+      "title": "configuration is applied after peak selection",
+      "stage": 1
+    },
+    {
+      "id": "F02",
+      "priority": "P1",
+      "priority_scope": "",
+      "title": "float32 centroid sums can put a centre outside its particles",
+      "stage": 1
+    },
+    {
+      "id": "F03",
+      "priority": "P1",
+      "priority_scope": "",
+      "title": "peak selection reads a density field that it also modifies",
+      "stage": 1
+    },
+    {
+      "id": "F04",
+      "priority": "P1",
+      "priority_scope": "for general low-mass use",
+      "title": "the fixed duplicate rule can merge disjoint hosts",
+      "stage": 1
+    },
+    {
+      "id": "F05",
+      "priority": "P2",
+      "priority_scope": "",
+      "title": "the SO interpolation associates cumulative masses with shifted radii",
+      "stage": 1
+    },
+    {
+      "id": "F06",
+      "priority": "P2",
+      "priority_scope": "",
+      "title": "one-pass unbinding does not establish a self-bound survivor set",
+      "stage": 1
+    },
+    {
+      "id": "F07",
+      "priority": "P2",
+      "priority_scope": "",
+      "title": "reported velocity dispersion mixes two particle populations",
+      "stage": 1
+    },
+    {
+      "id": "F08",
+      "priority": "P2",
+      "priority_scope": "",
+      "title": "coarse-shell potential energy overcounts shell self-interaction",
+      "stage": 1
+    },
+    {
+      "id": "F09",
+      "priority": "P2",
+      "priority_scope": "",
+      "title": "periodic particle coverage is incomplete in valid boundary cases",
+      "stage": 1
+    },
+    {
+      "id": "F10",
+      "priority": "P2",
+      "priority_scope": "",
+      "title": "inline halo finding perturbs simulation particle arrays",
+      "stage": 1
+    },
+    {
+      "id": "F11",
+      "priority": "P1",
+      "priority_scope": "",
+      "title": "peak-buffer allocation is unsafe; zero peaks exits successfully",
+      "stage": 2
+    },
+    {
+      "id": "F12",
+      "priority": "P2",
+      "priority_scope": "",
+      "title": "float32 peak marking can lose already-counted candidates",
+      "stage": 2
+    },
+    {
+      "id": "F13",
+      "priority": "P1",
+      "priority_scope": "",
+      "title": "central particles and unresolved radii cause exceptions/NaNs",
+      "stage": 2
+    },
+    {
+      "id": "F14",
+      "priority": "P2",
+      "priority_scope": "",
+      "title": "the shape eigensolver can return the wrong major direction",
+      "stage": 2
+    },
+    {
+      "id": "F15",
+      "priority": "P2",
+      "priority_scope": "",
+      "title": "configuration dispatch, validation and metadata are inconsistent",
+      "stage": 2
+    },
+    {
+      "id": "F16",
+      "priority": "P2",
+      "priority_scope": "",
+      "title": "buffer capacity is estimated from a uniform distribution",
+      "stage": 2
+    }
+  ],
+  "source_changes_to_finder": false,
+  "unit_experiments": 46,
+  "maximum_simulated_particles": 2097152,
+  "particle_limit_exclusive": 1728000000,
+  "accounting": {
+    "billed_core_hours": 0.11611111111111111,
+    "cpu_core_hours": 0.07272638888888888,
+    "time_limit_core_hours": 1.883333333333333
+  },
+  "scaling": [
+    {
+      "threads": 1,
+      "finder_median_seconds": 0.8445152170024812,
+      "finder_median_cpu_seconds": 0.76,
+      "list_median_seconds": 0.013117971899919211,
+      "repeats": 3,
+      "distinct_canonical_catalogues": 1,
+      "finder_speedup": 1.0,
+      "finder_parallel_efficiency": 1.0,
+      "finder_reserved_core_seconds": 0.8445152170024812,
+      "list_speedup": 1.0
+    },
+    {
+      "threads": 2,
+      "finder_median_seconds": 0.5802346079726703,
+      "finder_median_cpu_seconds": 0.9099999999999999,
+      "list_median_seconds": 0.010094372800085693,
+      "repeats": 3,
+      "distinct_canonical_catalogues": 1,
+      "finder_speedup": 1.455471985639055,
+      "finder_parallel_efficiency": 0.7277359928195275,
+      "finder_reserved_core_seconds": 1.1604692159453407,
+      "list_speedup": 1.2995331319453398
+    },
+    {
+      "threads": 4,
+      "finder_median_seconds": 0.428279857034795,
+      "finder_median_cpu_seconds": 1.19,
+      "list_median_seconds": 0.008706010394962504,
+      "repeats": 3,
+      "distinct_canonical_catalogues": 1,
+      "finder_speedup": 1.9718770405162198,
+      "finder_parallel_efficiency": 0.49296926012905495,
+      "finder_reserved_core_seconds": 1.71311942813918,
+      "list_speedup": 1.5067719086930529
+    },
+    {
+      "threads": 8,
+      "finder_median_seconds": 0.31290583696682006,
+      "finder_median_cpu_seconds": 1.87,
+      "list_median_seconds": 0.007961507502477616,
+      "repeats": 3,
+      "distinct_canonical_catalogues": 1,
+      "finder_speedup": 2.698943634893049,
+      "finder_parallel_efficiency": 0.33736795436163114,
+      "finder_reserved_core_seconds": 2.5032466957345605,
+      "list_speedup": 1.6476743752156116
+    }
+  ],
+  "prefilter_trial": {
+    "baseline": {
+      "median_seconds": 1.1335926729952917,
+      "median_cpu_seconds": 0.81,
+      "canonical_sha256": [
+        "289123fb60c360b5704bc1100a2753433c95fae5e84f2dcdd181d7f4c6d4e775"
+      ]
+    },
+    "prefiltered": {
+      "median_seconds": 0.8767691879766062,
+      "median_cpu_seconds": 0.6300000000000001,
+      "canonical_sha256": [
+        "289123fb60c360b5704bc1100a2753433c95fae5e84f2dcdd181d7f4c6d4e775"
+      ]
+    },
+    "speedup": 1.292920290243523
+  },
+  "plateau_distinct_peak_sets": 3,
+  "simulations": {
+    "64": {
+      "baseline_rows": 94,
+      "configured_rows": 139,
+      "configuration_order_trial_increase_fraction": 0.47872340425531923,
+      "instrumented_catalogue_byte_identical": true,
+      "membership": {
+        "candidates": 110,
+        "selected": 94,
+        "mass_one": 85688860672.0,
+        "exact_duplicate_member_sets": [],
+        "repeated_original_ids_in_halos": [],
+        "mass_count_mismatches": [],
+        "nearby_overlapping_sets": [],
+        "original_id_range": [
+          36,
+          262122
+        ],
+        "selected_membership_sha256": "af5e38fd726ff8dc7e0d770a9826eb24c9d173a6d8bc8e59b163a705ae3c3af9"
+      }
+    },
+    "128": {
+      "baseline_rows": 757,
+      "configured_rows": 1088,
+      "configuration_order_trial_increase_fraction": 0.43725231175693535,
+      "instrumented_catalogue_byte_identical": true,
+      "membership": {
+        "candidates": 864,
+        "selected": 757,
+        "mass_one": 85688860672.0,
+        "exact_duplicate_member_sets": [],
+        "repeated_original_ids_in_halos": [],
+        "mass_count_mismatches": [],
+        "nearby_overlapping_sets": [],
+        "original_id_range": [
+          4,
+          2097104
+        ],
+        "selected_membership_sha256": "5c931fa0db8e5e0227a36c2a80f99afbdf6d5dd16ce2159477ed20be66ee9e1c"
+      }
+    }
+  },
+  "native_bounds_comparisons": {
+    "64": {
+      "reciprocal_matches": 94,
+      "left_unmatched": 0,
+      "right_unmatched": 0,
+      "matching_radius_mpc_h": 0.01,
+      "max_matched_displacement_mpc_h": 0.00010000000000331966,
+      "fields": {
+        "Mbound": {
+          "changed_rows": 0,
+          "max_relative_difference": 0.0
+        },
+        "Mtot": {
+          "changed_rows": 0,
+          "max_relative_difference": 0.0
+        },
+        "Rvir": {
+          "changed_rows": 0,
+          "max_relative_difference": 0.0
+        },
+        "Vrms": {
+          "changed_rows": 0,
+          "max_relative_difference": 0.0
+        },
+        "Vmax": {
+          "changed_rows": 0,
+          "max_relative_difference": 0.0
+        },
+        "concentration": {
+          "changed_rows": 0,
+          "max_relative_difference": 0.0
+        }
+      }
+    },
+    "128": {
+      "reciprocal_matches": 757,
+      "left_unmatched": 0,
+      "right_unmatched": 0,
+      "matching_radius_mpc_h": 0.01,
+      "max_matched_displacement_mpc_h": 0.00010000000000331966,
+      "fields": {
+        "Mbound": {
+          "changed_rows": 1,
+          "max_relative_difference": 0.0020440662657761344
+        },
+        "Mtot": {
+          "changed_rows": 1,
+          "max_relative_difference": 0.0003198336864831397
+        },
+        "Rvir": {
+          "changed_rows": 3,
+          "max_relative_difference": 2.3971617604923168e-05
+        },
+        "Vrms": {
+          "changed_rows": 1,
+          "max_relative_difference": 0.0009189065012635833
+        },
+        "Vmax": {
+          "changed_rows": 1,
+          "max_relative_difference": 0.0009412650602409478
+        },
+        "concentration": {
+          "changed_rows": 3,
+          "max_relative_difference": 0.00016217969510212704
+        }
+      }
+    }
+  }
+}
