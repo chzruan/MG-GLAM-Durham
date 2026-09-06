@@ -117,10 +117,12 @@ mass-consistent rows. Both publish `[20,21,25,26,64]` at requested floor 0 or
 
 Earlier `halo_*` fixtures which independently chose `MassOne`, `Box` and
 `NROW`, or built their radius from `1.150e12`, describe the old normalization.
-They must not be used unchanged as v3 SO oracles. This new complete-box suite
-is the normalization-aware replacement; earlier JSON receipts remain evidence
-only for their recorded source. The current peaks test changes only its
-expected header suffix to v3; its earlier results are retained.
+They must not be used unchanged as v3 SO oracles. The complete-box suite checks
+the normalization itself; the executable [v3 algorithm adapter](#current-source-algorithm-regressions)
+below retains their algorithm tests against current source. Earlier JSON
+receipts remain evidence only for their recorded source. The current peaks
+test changes only its expected header suffix to v3; its earlier results are
+retained.
 
 The retained receipts record **110 successful cases for each compiler**:
 [GNU](normalization-gnu.json) and [Intel](normalization-ifx.json), each split
@@ -140,3 +142,71 @@ with `--compiler ifx`; pass the native runtime library path through
 `BDM_AUDIT_NATIVE_LIBS` when the Python environment overrides it. No simulations
 or Slurm jobs are launched by this suite. Native production replay remains a
 separate integration requirement.
+
+## Current-source algorithm regressions
+
+`halo_v3_regression.py` supplies normalization-aware fixtures and Python SO
+oracles for the existing `halo_regression`, `halo_followup`, `halo_review`, and
+`halo_gaps` tests. Production routines are extracted **verbatim** from the
+current `PMP2linker.f90`: no production coefficient replacement or threshold
+instrumentation is used. Historical scripts, Fortran fixtures, review notes,
+and JSON receipts remain byte-for-byte unchanged. The wrapper records their
+hashes, the adapted Python AST hashes, the generated fixture source hashes,
+compiler commands, and the current production source hash.
+
+The direct `GetHalo` fixtures provide local excerpts of a hypothetical full
+periodic box. The unprovided particles are outside the tested query apertures;
+these tests do not exercise snapshot loading or periodic buffer generation.
+`Box=32`, `NROW=16`, `Om0=0.3` give the actual stored particle mass of about
+`6.6576e11` solar masses/h through the existing real32 constructor. The 100,000
+row radial-profile cases use `NROW=128`, preserving a nontrivial crossing
+inside their radial range. The independent analytic profile radius and the
+sorted-interval SO oracle both use that declared mean density. Shell-fixture
+velocities are rescaled by `sqrt(new_mass/old_mass)` to retain meaningful
+cold/hot/mixed classifications; all statistics are then checked against the
+actual float32 phase data. The separate 110-case suite supplies the complete
+small-box check of the global normalization.
+
+The adapter accounts for these cases in checked and precise optimized modes:
+
+| Preserved suite | Cases | Assertions retained or added |
+|---|---:|---|
+| `halo_gaps` | 166 | All 144 exact-membership cases at 1/8 threads, four energy ladders, and 18 equal-companion scans |
+| `halo_followup` | 26 | Outermost crossings, sorted fallback after slow contraction, bound-only statistics, small populations, heap-index width and exact int64 sorting |
+| `halo_regression` | 36 | Discrete SO/bin-spacing controls, `Rext`, central/singular/unresolved/capped cases, independent pair energy and unbinding, kinetic/spin/bulk statistics, and parallel candidates |
+| Remaining `halo_review` controls | 14 | A single central survivor and all six isolated spherical-potential domain/pair controls in both modes |
+
+The retained [GNU](halo-v3-gnu.json) and [Intel](halo-v3-ifx.json) receipts each
+pass all **242 cases** against the combined source with the particle-list and
+buffer follow-up integrated. The exact tested source hash and worktree commit
+are recorded in each receipt. These are new v3 results, not relabelled historical
+receipts.
+
+The ladder reference still gives 91 and 191 passes for 200 and 400 initial
+rows, respectively. Production diagnostics must equal those pass counts and
+the independent arithmetic-series work totals, 10,010 and 40,110 active
+particle rows. The surviving identities must be the final ten antipodal pairs.
+The original cold cases retain 64 or 1,000 rows, the mixed/bulk shell cases
+retain 900, and the deliberately hot shell loses all rows; the energy controls
+cannot pass merely by deleting every halo. The central-survivor probe also
+checks that a subsequent empty call clears both diagnostics.
+
+The equal-companion scan remains a constructed fixture, not a survey of
+cosmological bridging. Its rescaled absolute radii must not be interpreted as
+the isolated production effect of the SO normalization repair: the old fixture
+also chose a particle mass inconsistent with its `NROW`/`Box` metadata.
+
+Run the complete current-source suite with a new receipt path:
+
+```sh
+micromamba run -n cosemu python3 -B BDM-refine/repairs/20260906-review-followup/physics/halo_v3_regression.py --compiler gfortran --output BDM-refine/repairs/20260906-review-followup/physics/halo-v3-gnu.json
+```
+
+For Intel, load the same runtime modules described above and use
+`--compiler ifx`. To inspect another Git worktree without editing it, pass
+`--source /absolute/worktree/PMP2linker.f90`; all compiled routine extraction,
+heap-declaration checks and source hashes then use that file. The wrapper
+rejects a source change during the run. The 100,000-row SO controls use sorting
+and linear statistics;
+they do not execute the quadratic all-pairs oracle. All compiler/run products
+are temporary, and only the requested new receipt is written.
