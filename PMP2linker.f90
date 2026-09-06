@@ -56,6 +56,12 @@ Character*120 ::     CatshortName,CatalogName,    &                ! names of ha
 Real*4     ::        Om0,Ovdens      ! cosmology
 Real*4     ::        MassOne                                 !  current simulation
 Integer*8 ::         Np                                          ! Number of particles in domain
+! Analysis owns a separate particle workspace. These arrays retain the exact
+! simulation state until RemoveBuffer moves it back without inverse arithmetic.
+Real*4, allocatable :: BdmPMX(:),BdmPMY(:),BdmPMZ(:),BdmPMVX(:),BdmPMVY(:),BdmPMVZ(:)
+Integer*8 :: BdmPMCount=0_8
+Integer*8, allocatable :: OriginalParticleId(:) ! snapshot row; shared by periodic images
+Real*4 :: HaloSearchRadius=0.,ParticleSearchRadius=0. ! maximum SO / aperture radii
                      ! -------------------------  Maxima ----------------------
 Integer*4 ::                     Nmaxima
 ! Exact final bound membership is retained until the duplicate pass. IDs refer
@@ -411,43 +417,52 @@ Contains
 !----------------------------------------------------------
 !                      
 !                    
-SUBROUTINE RescaleCoords(iFlag)
-!----------------------------------------------------------
-Integer*8 :: ip
 
-           Xscale = Box/NGRID                 ! Scale for comoving coordinates
-           Vscale = 100.*Xscale/AEXPN          ! Scale for velocities
-           !Dscale = 2.774e+11*(Box/NROW)**3    ! mass scale
-           !MassOne= Om0*Dscale                ! mass of the smallest particle
-           write(*,*) ' Inside rescale coords:', Xscale,Vscale
-If(iFlag==1)Then                   ! scale to Mpc and Msun
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ip)
-           Do ip =1,Np             
-                Xpar(ip) = (Xpar(ip)-1.)*Xscale 
-                Ypar(ip) = (Ypar(ip)-1.)*Xscale 
-                Zpar(ip) = (Zpar(ip)-1.)*Xscale 
-               VX(ip) =  VX(ip)*Vscale 
-               VY(ip) =  VY(ip)*Vscale 
-               VZ(ip) =  VZ(ip)*Vscale
-            end Do
-         else
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ip)
-           Do ip =1,Np             
-                Xpar(ip) = Xpar(ip)/Xscale+1. 
-                Ypar(ip) = Ypar(ip)/Xscale+1. 
-                Zpar(ip) = Zpar(ip)/Xscale+1. 
-                If(Xpar(ip).ge.NGRID)Xpar(ip) =Xpar(ip)-NGRID
-                If(Xpar(ip).lt.1)    Xpar(ip) =Xpar(ip)+NGRID
-                If(Ypar(ip).ge.NGRID)Ypar(ip) =Ypar(ip)-NGRID
-                If(Ypar(ip).lt.1)    Ypar(ip) =Ypar(ip)+NGRID
-                If(Zpar(ip).ge.NGRID)Zpar(ip) =Zpar(ip)-NGRID
-                If(Zpar(ip).lt.1)    Zpar(ip) =Zpar(ip)+NGRID
-               VX(ip) =  VX(ip)/Vscale 
-               VY(ip) =  VY(ip)/Vscale 
-               VZ(ip) =  VZ(ip)/Vscale
-            end Do
-end If
-      end SUBROUTINE RescaleCoords
+SUBROUTINE RescaleCoords(iFlag)
+  use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+  implicit none
+  integer, intent(in) :: iFlag
+  integer*8 :: ip,restoreCount
+  real*8 :: Xscale,Vscale
+  real :: memoryUsed
+  logical :: invalid
+
+  if(iFlag/=1)then
+    restoreCount=BdmPMCount
+    call RemoveBuffer(restoreCount)
+    return
+  endif
+  if(allocated(BdmPMX))error stop 'BDM particle workspace already active'
+  if(Np/=Nparticles.or.Np<0_8)error stop 'BDM original particle count is inconsistent'
+  if(NGRID<=0.or.Box<=0..or.AEXPN<=0.)error stop 'Invalid BDM coordinate scales'
+  Xscale=dble(Box)/dble(NGRID)
+  Vscale=100.d0*Xscale/dble(AEXPN)
+  BdmPMCount=Nparticles
+  call move_alloc(Xpar,BdmPMX); call move_alloc(Ypar,BdmPMY); call move_alloc(Zpar,BdmPMZ)
+  call move_alloc(VX,BdmPMVX); call move_alloc(VY,BdmPMVY); call move_alloc(VZ,BdmPMVZ)
+  if(size(BdmPMX,kind=8)/=Np.or.size(BdmPMY,kind=8)/=Np.or.size(BdmPMZ,kind=8)/=Np.or. &
+     size(BdmPMVX,kind=8)/=Np.or.size(BdmPMVY,kind=8)/=Np.or.size(BdmPMVZ,kind=8)/=Np) &
+       error stop 'BDM original particle array size mismatch'
+  allocate(Xpar(Np),Ypar(Np),Zpar(Np),VX(Np),VY(Np),VZ(Np))
+  memoryUsed=Memory(6_8*Np)
+  invalid=.false.
+!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(ip) REDUCTION(.or.:invalid)
+  do ip=1,Np
+    invalid=invalid.or..not.all(ieee_is_finite([BdmPMX(ip),BdmPMY(ip),BdmPMZ(ip), &
+                                             BdmPMVX(ip),BdmPMVY(ip),BdmPMVZ(ip)]))
+    Xpar(ip)=real(modulo((dble(BdmPMX(ip))-1.d0)*Xscale,dble(Box)))
+    Ypar(ip)=real(modulo((dble(BdmPMY(ip))-1.d0)*Xscale,dble(Box)))
+    Zpar(ip)=real(modulo((dble(BdmPMZ(ip))-1.d0)*Xscale,dble(Box)))
+    ! Conversion to the storage precision can round a value up to Box.
+    if(Xpar(ip)>=Box)Xpar(ip)=0.
+    if(Ypar(ip)>=Box)Ypar(ip)=0.
+    if(Zpar(ip)>=Box)Zpar(ip)=0.
+    VX(ip)=real(dble(BdmPMVX(ip))*Vscale)
+    VY(ip)=real(dble(BdmPMVY(ip))*Vscale)
+    VZ(ip)=real(dble(BdmPMVZ(ip))*Vscale)
+  enddo
+  if(invalid)error stop 'Non-finite simulation particle supplied to BDM'
+end SUBROUTINE RescaleCoords
 !---------------------------------------------------------------------------
 !                  
 !                  
@@ -1343,86 +1358,66 @@ integer*8 :: ic,ip,i
 !                   get centers and velocities of maxima
 !
 !
-      SUBROUTINE FindDistinctCandidates
-!---------------------------------------------------------------------------
-      integer*8 :: ic,ip,i,jp 
-      tstart = seconds()
 
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (i)
-     Do i =1, Nmaxima
-        Mvir(i)   = 0.
-        Rvir(i)   = 0.
-        VxMaxx(i) = 0.
-        VyMaxx(i) = 0.
-        VzMaxx(i) = 0.
-     EndDo
-                              ! --- improve halo positions and halo velocities   
-      Do iter =1,4
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (im,x,y,z,xc,yc,zc,xv,yv,zv,nn,i3,j3,k3,i1,i2,j1,j2,k1,k2,jp,dd,Radius,d0) 
-         Do im =1, Nmaxima
-            x = xMaxx(im)
-            y = yMaxx(im)
-            z = zMaxx(im)
-            xc = 0.
-            yc = 0.
-            zc = 0.
-            xv = 0.
-            yv = 0.
-            zv = 0.
-            nn = 0
-            Radius  = Cell*max(0.5,min(2.,log10(Xoff(im)+10.)/2.))
-            d0      = Radius**2
-            Call Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
-            Do k3 =k1, k2
-            Do j3 =j1, j2
-            Do i3 =i1, i2
-               jp =Label(i3,j3,k3)
-              Do while (jp.ne.0)
-                 dd = (x-Xpar(jp))**2+(y-Ypar(jp))**2+(z-Zpar(jp))**2
-                     If(dd< d0) Then
-                        xc = xc + Xpar(jp)
-                        yc = yc + Ypar(jp)
-                        zc = zc + Zpar(jp)
-                        xv = xv + VX(jp)
-                        yv = yv + VY(jp)
-                        zv = zv + VZ(jp)
-                        nn = nn + 1
-                     end If
-                jp =Lst(jp)
-              End Do                          !  jp/= 0
-            EndDo   ! i3
-            EndDo   ! j3
-         EndDo   ! k3
-         if(nn.le.1)write(18,'(a,i9,3f9.4,3i9,g12.4)') '  no particles: ',im,x,y,z,nn,k1,k2,Xoff(im)
-         !write(18,'(i9,3f9.4,6i9)') im,x,y,z,nn,k1,k2
-         If(nn>1)Then
-            xMaxx(im) = xc/nn
-            yMaxx(im) = yc/nn
-            zMaxx(im) = zc/nn
-            If(xMaxx(im).lt.0.) xMaxx(im) = xMaxx(im)+Box
-            If(xMaxx(im).ge.Box)xMaxx(im) = xMaxx(im)-Box
-            If(yMaxx(im).lt.0.) yMaxx(im) = yMaxx(im)+Box
-            If(yMaxx(im).ge.Box)yMaxx(im) = yMaxx(im)-Box
-            If(zMaxx(im).lt.0.) zMaxx(im) = zMaxx(im)+Box
-            If(zMaxx(im).ge.Box)zMaxx(im) = zMaxx(im)-Box
-            VxMaxx(im) = xv/nn
-            VyMaxx(im) = yv/nn
-            VzMaxx(im) = zv/nn
-            Mvir(im)   = nn*MassOne
-            Rvir(im)   = Radius
-         end If
-      End Do
-!      write(18,*) ' Iter = ',iter
-!     Do im=1,Nmaxima
-!        write(18,'(i9,16f10.4)') im,xMaxx(im),yMaxx(im),zMaxx(im),VxMaxx(im),VyMaxx(im),VzMaxx(im), Xoff(im)
-!     end Do
-     End Do         ! iter
-10      tfinish = seconds()
-      write(13,'(10x,a,T50,2f10.2)') ' time for FindDistinctCandidates (secs) =',tfinish-tstart,tfinish-t0
+SUBROUTINE FindDistinctCandidates
+  implicit none
+  integer*8 :: jp,nn
+  integer :: im,iter,i1,i2,j1,j2,k1,k2,i3,j3,k3
+  real :: x,y,z,Radius,timeStart,timeFinish
+  real*8 :: xc,yc,zc,xv,yv,zv,dx,dy,dz,d0
 
-    end SUBROUTINE FindDistinctCandidates
+  timeStart=seconds()
+  Mvir=0.; Rvir=0.; VxMaxx=0.; VyMaxx=0.; VzMaxx=0.
+  do iter=1,4
+!$OMP PARALLEL DO DEFAULT(SHARED) &
+!$OMP PRIVATE(im,x,y,z,xc,yc,zc,xv,yv,zv,nn,i3,j3,k3,i1,i2,j1,j2,k1,k2,jp,dx,dy,dz,Radius,d0)
+    do im=1,Nmaxima
+      x=xMaxx(im); y=yMaxx(im); z=zMaxx(im)
+      xc=0.d0; yc=0.d0; zc=0.d0
+      xv=0.d0; yv=0.d0; zv=0.d0; nn=0_8
+      Radius=min(Cell*max(0.5,min(2.,log10(max(Xoff(im),0.)+10.)/2.)),nearest(0.5*Box,-1.))
+      d0=dble(Radius)**2
+      call Limits(x,y,z,Radius,i1,i2,j1,j2,k1,k2)
+      do k3=k1,k2
+      do j3=j1,j2
+      do i3=i1,i2
+        jp=Label(i3,j3,k3)
+        do while(jp/=0_8)
+          dx=dble(Xpar(jp))-dble(x)
+          dy=dble(Ypar(jp))-dble(y)
+          dz=dble(Zpar(jp))-dble(z)
+          if(dx*dx+dy*dy+dz*dz<d0)then
+            ! Sum local displacements: the centre must remain in its cloud,
+            ! independently of the absolute box location or particle count.
+            xc=xc+dx; yc=yc+dy; zc=zc+dz
+            xv=xv+dble(VX(jp)); yv=yv+dble(VY(jp)); zv=zv+dble(VZ(jp))
+            nn=nn+1_8
+          endif
+          jp=Lst(jp)
+        enddo
+      enddo
+      enddo
+      enddo
+      if(nn>0_8)then
+        xMaxx(im)=real(modulo(dble(x)+xc/dble(nn),dble(Box)))
+        yMaxx(im)=real(modulo(dble(y)+yc/dble(nn),dble(Box)))
+        zMaxx(im)=real(modulo(dble(z)+zc/dble(nn),dble(Box)))
+        if(xMaxx(im)>=Box)xMaxx(im)=0.
+        if(yMaxx(im)>=Box)yMaxx(im)=0.
+        if(zMaxx(im)>=Box)zMaxx(im)=0.
+        VxMaxx(im)=real(xv/dble(nn)); VyMaxx(im)=real(yv/dble(nn)); VzMaxx(im)=real(zv/dble(nn))
+        Mvir(im)=real(dble(nn)*dble(MassOne)); Rvir(im)=Radius
+      else
+        ! An empty recentering aperture is not a valid mass estimate. Retain
+        ! the last position, but clear derived values instead of stale mass.
+        Mvir(im)=0.; Rvir(im)=0.
+        VxMaxx(im)=0.; VyMaxx(im)=0.; VzMaxx(im)=0.
+      endif
+    enddo
+  enddo
+  timeFinish=seconds()
+  write(13,'(10x,a,T50,2f10.2)') ' time for FindDistinctCandidates (secs) =',timeFinish-timeStart,timeFinish-t0
+end SUBROUTINE FindDistinctCandidates
 
 !---------------------------------------------------------------------------
 !                  
@@ -1565,90 +1560,97 @@ integer*8 :: ic,ip,i
     end SUBROUTINE SizeListMaxima
 !---------------------------------------------------------------------------
 !                     Define size and boundaries of linked-list
-      SUBROUTINE SizeList
-!---------------------------------------------------------------------------
-      Real*4 ::  MemList,MemMaxList,  &
-                       fractionMemory  = 0.90  ! fraction of memory allocated to Lists
 
-      !Roptimal         = (Nne*MassOne/(Om0*Ovdens))**(1./3.)*9.50e-5  ! Mpch inits
-      !Roptimal         = max(Roptimal,Box/NROW) * 1.2
+SUBROUTINE PrepareParticleSearch
+  implicit none
+  real :: halfBox
+  if(Box<=0..or.NGRID<=0)error stop 'Invalid BDM periodic box or mesh'
+  ! Cell controls physical searches as well as the list geometry. It must not
+  ! change after periodic images have been prepared to cover those searches.
+  Cell=2.*(Box/NGRID)
+  halfBox=nearest(0.5*Box,-1.)
+  HaloSearchRadius=min(15.*Cell,halfBox)
+  ParticleSearchRadius=min(HaloSearchRadius+0.75*(Box/NGRID),halfBox)
+  ! No supported spherical query needs a wider ghost layer than half a box.
+  ! This also makes the legacy five-Mpc default valid in very small boxes.
+  dBuffer=min(max(dBuffer,ParticleSearchRadius),halfBox)
+  Xleft=0.; Xright=Box; Yleft=0.; Yright=Box; Zleft=0.; Zright=Box
+end SUBROUTINE PrepareParticleSearch
 
-      MemMaxList  = (MaxMemory - TotalMemory-12.*Np/1024.**3)*fractionMemory
-      If(MemMaxList<0.1)Then
-
-              STOP ' Stop: Not enough memory !!!'
-      End If
-      Cell                  = (Box/NGRID*2.)  !Roptimal
-      k    = 0
-      write(13,'(2(a,g12.4))') '    SizeList: Roptimal=',Cell,' Allowed Memory=',MemMaxList
-      Do  
-         Nmx         = (Xleft  -dBuffer)/Cell - 1
-         Nmy         = (Yleft  -dBuffer)/Cell - 1
-         Nmz         = (Zleft  -dBuffer)/Cell - 1
-         Nbx         = (Xright +dBuffer)/Cell + 1
-         Nby         = (Yright +dBuffer)/Cell + 1
-         Nbz         = (Zright +dBuffer)/Cell + 1
-         MemList  =  (3.*4.*float(Nbx-Nmx+1)*float(Nby-Nmy+1)*float(Nbz-Nmz+1))/1024.**3
-         If(MemList < MemMaxList)Exit
-         k = k+1
-         Cell  = Cell *1.1
-         If(k > 100)STOP ' Stop: too many iterations in SizeList'
-      EndDo
-      write(13,'(a,g12.3,a,6i6)') '     Size List:  Cell=',Cell, &
-                          ' Limits=',Nmx,Nbx,Nmy,Nby,Nmz,Nbz
-
-    end SUBROUTINE SizeList
+SUBROUTINE SizeList
+  implicit none
+  integer*8 :: cellCount,listBytes
+  real*8 :: requiredGiB
+  call PrepareParticleSearch
+  Nmx=floor((Xleft-dBuffer)/Cell)-1; Nbx=ceiling((Xright+dBuffer)/Cell)+1
+  Nmy=floor((Yleft-dBuffer)/Cell)-1; Nby=ceiling((Yright+dBuffer)/Cell)+1
+  Nmz=floor((Zleft-dBuffer)/Cell)-1; Nbz=ceiling((Zright+dBuffer)/Cell)+1
+  cellCount=(Nbx-Nmx+1_8)*(Nby-Nmy+1_8)*(Nbz-Nmz+1_8)
+  listBytes=8_8*(Np+cellCount)
+  requiredGiB=dble(listBytes)/1024.d0**3
+  ! Exact int64 storage estimate. Do not coarsen physical Cell to satisfy an
+  ! unrelated allocation estimate; reject insufficient memory explicitly.
+  if(requiredGiB+dble(Memory(0_8))>dble(MaxMemory)) &
+    error stop 'BDM linked-list allocation exceeds configured memory limit'
+  write(13,'(a,g12.3,a,6i6,a,f10.4)') ' Size List: Cell=',Cell, &
+       ' Limits=',Nmx,Nbx,Nmy,Nby,Nmz,Nbz,' int64 storage GiB=',requiredGiB
+end SUBROUTINE SizeList
 !--------------------------------------------------------------
 !                          Make linker lists of particles in each cell
-      SUBROUTINE List
-!--------------------------------------------------------------
-        Integer*8 :: Nm,N0,N1,N2,N3,iMax,jp
-        Integer*4  :: Ndiv(0:1000)
-        Integer*4 :: OMP_GET_NUM_THREADS, OMP_GET_THREAD_NUM,Nthreads
 
-!$OMP PARALLEL
-        Nthreads =OMP_GET_NUM_THREADS()
-!$OMP end parallel
-        Nsplit = Nthreads  
-        d = (Nbx-Nmx)/float(Nsplit)    !--- parallelization setup
-        Do i=0,Nsplit
-           Ndiv(i) =  Floor(d*i+Nmx+0.5)
-        End Do
-        Ndiv(Nsplit) = Nbx+1
-        t0 =seconds()
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (i)
-             Do jp=1,Np
-                Lst(jp)=-1
-             EndDo
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (i,j,k)
-             Do k=Nmz,Nbz
-             Do j=Nmy,Nby
-             Do i=Nmx,Nbx
-                Label(i,j,k)=0
-             EndDo
-             EndDo
-          EndDo
-!$OMP PARALLEL DO DEFAULT(SHARED) &
-!$OMP PRIVATE (jp,i,j,k,Isplit)
-    Do Isplit =1,Nsplit
-      Do jp=1,Np
-         i=Ceiling(Xpar(jp)/Cell)-1
-         j=Ceiling(Ypar(jp)/Cell)-1
-         k=Ceiling(Zpar(jp)/Cell)-1
-         i=MIN(MAX(Nmx,i),Nbx)
-         j=MIN(MAX(Nmy,j),Nby)
-         k=MIN(MAX(Nmz,k),Nbz)
-         If(k.ge.Ndiv(Isplit-1).and.k.lt.Ndiv(Isplit))Then
-            Lst(jp)      = Label(i,j,k)
-            Label(i,j,k) = jp
-         End If
-      EndDo
-   end Do
-      t1 = seconds()
-      write(*,*) ' time to make list  =',t1-t0
-    end SUBROUTINE List
+SUBROUTINE List
+  use omp_lib, only: omp_get_max_threads,omp_get_num_threads,omp_get_thread_num
+  implicit none
+  integer*8 :: jp,planeCount
+  integer :: i,j,k,thread,threads,lo,hi
+  real :: timeStart,timeFinish
+
+  timeStart=seconds()
+  if(omp_get_max_threads()==1.or.Np<10000_8)then
+    Label=0_8
+    do jp=1,Np
+      i=min(max(Nmx,ceiling(Xpar(jp)/Cell)-1),Nbx)
+      j=min(max(Nmy,ceiling(Ypar(jp)/Cell)-1),Nby)
+      k=min(max(Nmz,ceiling(Zpar(jp)/Cell)-1),Nbz)
+      Lst(jp)=Label(i,j,k)
+      Label(i,j,k)=jp
+    enddo
+  else
+    planeCount=Nbz-Nmz+1_8
+!$OMP PARALLEL DEFAULT(SHARED) PRIVATE(thread,threads,lo,hi,jp,i,j,k)
+    thread=omp_get_thread_num()
+    threads=omp_get_num_threads()
+    ! Partition the z bounds, not the x bounds. Each cell has one writer, and
+    ! ascending particle traversal gives identical descending row-ID links at
+    ! every thread count. Thread counts are local, avoiding a shared write race.
+    lo=Nmz+int(planeCount*thread/threads)
+    hi=Nmz+int(planeCount*(thread+1_8)/threads)-1
+!$OMP DO COLLAPSE(3)
+    do k=Nmz,Nbz
+    do j=Nmy,Nby
+    do i=Nmx,Nbx
+      Label(i,j,k)=0_8
+    enddo
+    enddo
+    enddo
+!$OMP END DO
+    if(lo<=hi)then
+      do jp=1,Np
+        k=min(max(Nmz,ceiling(Zpar(jp)/Cell)-1),Nbz)
+        if(k<lo.or.k>hi)cycle
+        ! The complete z scan remains O(T*Np). Compute the other two indices
+        ! only for this slab, avoiding repeated x/y reads and cell arithmetic.
+        i=min(max(Nmx,ceiling(Xpar(jp)/Cell)-1),Nbx)
+        j=min(max(Nmy,ceiling(Ypar(jp)/Cell)-1),Nby)
+        Lst(jp)=Label(i,j,k)
+        Label(i,j,k)=jp
+      enddo
+    endif
+!$OMP END PARALLEL
+  endif
+  timeFinish=seconds()
+  write(*,*) ' time to make list =',timeFinish-timeStart
+end SUBROUTINE List
 !--------------------------------------------------------------
 !                          Make linker lists of maxima in each cell
       SUBROUTINE ListMaxima
@@ -1950,200 +1952,108 @@ integer*8 :: ic,ip,i
 !           -- 
 !           -- 
 !           -- move coordinates to new arrays
-    
-    Subroutine AddBuffer
 
-     Integer*4          :: jstep
-     Integer            :: FileList(3)=(/12,20,30/)
-     Real*4,       ALLOCATABLE,   DIMENSION(:) ::               &
-                     Xbb,   Ybb,  Zbb,       &   !   coords
-                     VXbb, VYbb, Vzbb            !    velocities
-     Integer*8 :: idummy,ic,ip,iPartMax,i
+SUBROUTINE AddBuffer
+  use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
+  implicit none
+  real, allocatable :: Xbb(:),Ybb(:),Zbb(:),VXbb(:),VYbb(:),VZbb(:)
+  integer*8, allocatable :: imageEnd(:)
+  integer*8 :: ic,ip,originalCount,imageCount,iPartMax,nx,ny,nz
+  integer :: ilo,ihi,jlo,jhi,klo,khi,i,j,k
+  real :: memoryUsed
+  real*8 :: xx,yy,zz,box64,width64
+  logical :: invalid
 
-     Factor   = (1.+4.*dBuffer/Box)**3
-     iPartMax = Factor*Np               ! reserve extra space for total N particles
-     Nparticles  = Np                   ! old number of particles
-     write(*,*) ' Allocate buffers for particles. N=',iPartMax
-     myMemory= Memory(6_8*iPartMax)
-       ALLOCATE(Xbb(iPartMax),Ybb(iPartMax),Zbb(iPartMax))
-       ALLOCATE(VXbb(iPartMax),VYbb(iPartMax),VZbb(iPartMax))
-           Xleft = 0. ; Xright = Box
-           Yleft = 0. ; Yright = Box
-           Zleft = 0. ; Zright = Box
-
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic)
-       Do ic=1,iPartMax
-          VXbb(ic)= 0.
-          VYbb(ic)= 0.
-          VZbb(ic)= 0.
-          Xbb(ic)= 0.
-          Ybb(ic)= 0.
-          Zbb(ic)= 0.          
-       End Do
-       
-       ip = 0
-       Xl = Xleft  -dBuffer ; Xr = Xright +dBuffer
-       Yl = Yleft  -dBuffer ; Yr = Yright +dBuffer
-       Zl = Zleft  -dBuffer ; Zr = Zright +dBuffer
-       write(*,*) '    Replicate coordinates'
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic,xx,yy,zz)
-       Do ic=1,Np
-          !xx = Xp(ic) ; yy =Yp(ic) ; zz =Zp(ic)
-          !Xb(ic)  =xx ; Yb(ic) = yy ; Zb(ic) = zz
-          Xbb(ic)= Xpar(ic)
-          Ybb(ic)= Ypar(ic)
-          Zbb(ic)= Zpar(ic)
-       End Do
-       write(*,*) '    Replicate velocities'
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic,xx,yy,zz)
-       Do ic=1,Np
-          VXbb(ic)= VX(ic)
-          VYbb(ic)= VY(ic)
-          VZbb(ic)= VZ(ic)
-       End Do
-              write(*,*) '    add buffer'
-
-       ip = Np
-!!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic,xx,yy,zz,x,y,z,k,j,i)       
-       Do ic=1,Np
-          xx = Xpar(ic) ; yy =Ypar(ic) ; zz =Zpar(ic)
-          do k = -1,1
-             z = zz+k*Box
-             if(z<Zl.or.z>Zr)cycle
-               do j = -1,1
-                 y = yy+j*Box
-                 if(y<Yl.or.y>Yr)cycle
-                   do i = -1,1
-                      x = xx+i*Box
-                      if(x<Xl.or.x>Xr)cycle
-                      if((x<Xleft.or.x>Xright) .or.    &
-                           (y<Yleft.or.y>Yright) .or.    &
-                           (z<Zleft.or.z>Zright))Then
-                      ip = ip +1
-                      If(ip>iPartMax)Stop ' Too many buffer particles. Increase Factor in AddBuffer'
-                      Xbb(ip) = x
-                      Ybb(ip) = y
-                      Zbb(ip) = z 
-                      VXbb(ip)= VX(ic)
-                      VYbb(ip)= VY(ic)
-                      VZbb(ip)= VZ(ic)
-                   end if
-                  end do
-              end do
-           end do
-        end Do
-      write(*,*) ' New number of particles = ',ip
-      myMemory=Memory(-6_8*Np)  
-      DEALLOCATE(Xpar,Ypar,Zpar)  
-      DEALLOCATE(VX,VY,VZ)
-      Np = ip
-      Nparticles = Np
-      myMemory=Memory(6_8*Np)  
-      ALLOCATE(Xpar(Np),Ypar(Np),Zpar(Np))  
-      ALLOCATE(VX(Np),VY(Np),VZ(Np))  
-
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ip)
-      Do ip =1,Np
-         Xpar(ip) = Xbb(ip) ; Ypar(ip) = Ybb(ip) ; Zpar(ip) = Zbb(ip)
-         VX(ip)= VXbb(ip); VY(ip)= VYbb(ip); VZ(ip)= VZbb(ip)
-      EndDo
-      myMemory= Memory(-6_8*iPartMax)  
-      DEALLOCATE(Xbb,Ybb,Zbb)  
-      DEALLOCATE(VXbb,VYbb,VZbb)
-
-
-      xmin = 1.e12; xmax = -1.e12
-      ymin = 1.e12; ymax = -1.e12
-      zmin = 1.e12; zmax = -1.e12
-
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ip)  &
-!$OMP REDUCTION(MAX:xmax,ymax,zmax) REDUCTION(MIN:xmin,ymin,zmin) 
-           Do ip =1,Np
-              xmin =MIN(xmin,Xpar(ip))
-              ymin =MIN(ymin,Ypar(ip))
-              zmin =MIN(zmin,Zpar(ip))
-              xmax =MAX(xmax,Xpar(ip))
-              ymax =MAX(ymax,Ypar(ip))
-              zmax =MAX(zmax,Zpar(ip))
-              
-              If(Xpar(ip).lt.Xl.or.Ypar(ip).lt.Yl.or.Zpar(ip).lt.Zl)&
-                write(*,'(a,i10,1p,3g14.5)')' Error coord: ',i,Xpar(i),Ypar(i),Zpar(i)
-           EndDo
-!     write(*,'(a,20es13.5)') ' X= ',(Xpar(i),i=1,10)    
-!     write(*,'(a,20es13.5)') ' Y= ',(Ypar(i),i=1,10)    
-!     write(*,'(a,20es13.5)') ' Z= ',(Zpar(i),i=1,10)
-!     write(*,'(a,20es13.5)') ' X= ',(Xpar(i),i=Np-9,Np)    
-!     write(*,'(a,20es13.5)') ' Y= ',(Ypar(i),i=Np-9,Np)    
-!     write(*,'(a,20es13.5)') ' Z= ',(Zpar(i),i=Np-9,Np)
-     
-     write(*,'(a,2es13.5)') ' X range= ',xmin,xmax
-     write(*,'(a,2es13.5)') ' Y range= ',ymin,ymax
-     write(*,'(a,2es13.5)') ' Z range= ',zmin,zmax
-    end Subroutine AddBuffer
+  if(allocated(OriginalParticleId))error stop 'BDM periodic buffer already active'
+  call PrepareParticleSearch
+  if(.not.ieee_is_finite(dBuffer).or.dBuffer<0..or.dBuffer>Box) &
+    error stop 'BDM buffer width must be finite and between zero and Box'
+  originalCount=Np
+  if(Np/=Nparticles)error stop 'BDM periodic buffer original count mismatch'
+  box64=dble(Box); width64=dble(dBuffer)
+  ! Count exactly, including images of x=0 at x=Box. A row is an original
+  ! only when its shift is (0,0,0); the primary domain is [0,Box).
+  allocate(imageEnd(originalCount))
+  memoryUsed=Memory(2_8*originalCount)
+  invalid=.false.
+!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(ic,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,nx,ny,nz) REDUCTION(.or.:invalid)
+  do ic=1,originalCount
+    xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
+    if(.not.all(ieee_is_finite([xx,yy,zz])).or.min(xx,yy,zz)<0.d0.or.max(xx,yy,zz)>=box64)then
+      invalid=.true.
+      imageEnd(ic)=0_8
+      cycle
+    endif
+    ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
+    jlo=ceiling((-width64-yy)/box64); jhi=floor((box64+width64-yy)/box64)
+    klo=ceiling((-width64-zz)/box64); khi=floor((box64+width64-zz)/box64)
+    nx=ihi-ilo+1_8; ny=jhi-jlo+1_8; nz=khi-klo+1_8
+    imageEnd(ic)=nx*ny*nz-1_8
+  enddo
+  if(invalid)error stop 'BDM original analysis coordinates must lie in [0,Box)'
+  imageCount=originalCount
+  do ic=1,originalCount
+    imageCount=imageCount+imageEnd(ic)
+    imageEnd(ic)=imageCount
+  enddo
+  iPartMax=imageCount
+  write(*,*) ' Allocate exact periodic particle buffer: ',originalCount,iPartMax
+  allocate(Xbb(iPartMax),Ybb(iPartMax),Zbb(iPartMax),VXbb(iPartMax),VYbb(iPartMax),VZbb(iPartMax))
+  allocate(OriginalParticleId(iPartMax))
+  memoryUsed=Memory(8_8*iPartMax) ! six float32 fields and one int64 identity
+!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(ic,ip,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,i,j,k)
+  do ic=1,originalCount
+    xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
+    Xbb(ic)=Xpar(ic); Ybb(ic)=Ypar(ic); Zbb(ic)=Zpar(ic)
+    VXbb(ic)=VX(ic); VYbb(ic)=VY(ic); VZbb(ic)=VZ(ic)
+    OriginalParticleId(ic)=ic
+    ip=originalCount
+    if(ic>1_8)ip=imageEnd(ic-1_8)
+    ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
+    jlo=ceiling((-width64-yy)/box64); jhi=floor((box64+width64-yy)/box64)
+    klo=ceiling((-width64-zz)/box64); khi=floor((box64+width64-zz)/box64)
+    do k=klo,khi
+    do j=jlo,jhi
+    do i=ilo,ihi
+      if(i==0.and.j==0.and.k==0)cycle
+      ip=ip+1_8
+      Xbb(ip)=real(xx+dble(i)*box64); Ybb(ip)=real(yy+dble(j)*box64); Zbb(ip)=real(zz+dble(k)*box64)
+      VXbb(ip)=VX(ic); VYbb(ip)=VY(ic); VZbb(ip)=VZ(ic)
+      OriginalParticleId(ip)=ic
+    enddo
+    enddo
+    enddo
+    if(ip/=imageEnd(ic))error stop 'BDM periodic count/fill mismatch'
+  enddo
+  deallocate(imageEnd)
+  memoryUsed=Memory(-2_8*originalCount)
+  deallocate(Xpar,Ypar,Zpar,VX,VY,VZ)
+  memoryUsed=Memory(-6_8*originalCount)
+  call move_alloc(Xbb,Xpar); call move_alloc(Ybb,Ypar); call move_alloc(Zbb,Zpar)
+  call move_alloc(VXbb,VX); call move_alloc(VYbb,VY); call move_alloc(VZbb,VZ)
+  Np=iPartMax; Nparticles=Np
+end SUBROUTINE AddBuffer
 !---------------------------------------------------------------------------- 
 !         Remove buffer around the computational box
 !
 !
-    Subroutine RemoveBuffer(NpPM)
-     Real*4,       ALLOCATABLE,   DIMENSION(:) ::               &
-                     Xbb,   Ybb,  Zbb,       &   !   coords
-                     VXbb, VYbb, Vzbb            !    velocities
-     Integer*8 :: NpPM,ic
 
-           Xscale = Box/NGRID                 ! Scale for comoving coordinates
-           Vscale = 100.*Xscale/AEXPN          ! Scale for velocities
-     
-     myMemory= Memory(6_8*Nparticles)
-       ALLOCATE(Xbb(Nparticles),Ybb(Nparticles),Zbb(Nparticles))
-       ALLOCATE(VXbb(Nparticles),VYbb(Nparticles),VZbb(Nparticles))
-       !--- copy data to buffers
-       write(*,*) ' Copy to new buffer ',NpPM,Xscale
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic)
-       Do ic=1,NpPM
-          Xbb(ic)= Xpar(ic)
-          Ybb(ic)= Ypar(ic)
-          Zbb(ic)= Zpar(ic)
-          VXbb(ic)= VX(ic)
-          VYbb(ic)= VY(ic)
-          VZbb(ic)= VZ(ic)          
-       End Do
-     myMemory= Memory(-6_8*Nparticles)
-     DEALLOCATE(Xpar,Ypar,Zpar,VX,VY,VZ)
-     
-                               !--- restore data structur, rescale Coords and Veloc
-     myMemory= Memory(6_8*NpPM)
-     ALLOCATE(Xpar(NpPM),Ypar(NpPM),Zpar(NpPM),VX(NpPM),VY(NpPM),VZ(NpPM))
-       write(*,*) ' Copy to  old arrays ',Xscale,Vscale
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic)
-       Do ic=1,NpPM
-          Xpar(ic) =Xbb(ic) 
-          Ypar(ic) =Ybb(ic) 
-          Zpar(ic) =Zbb(ic) 
-           VX(ic)  =VXbb(ic)
-           VY(ic)  =VYbb(ic)
-           VZ(ic)  =VZbb(ic)         
-        End Do
-       DEALLOCATE(Xbb,Ybb,Zbb)
-       DEALLOCATE(VXbb,VYbb,VZbb)        
-       myMemory= Memory(-6_8*Nparticles)
-       Nparticles = NpPM
-       Np         = Nparticles
-        write(*,*) ' Rescale ',Nparticles
-!$OMP PARALLEL DO DEFAULT(SHARED)  PRIVATE (ic)
-       Do ic=1,Nparticles      
-           Xpar(ic) = Xpar(ic)/Xscale+1. 
-           Ypar(ic) = Ypar(ic)/Xscale+1. 
-           Zpar(ic) = Zpar(ic)/Xscale+1. 
-           If(Xpar(ic).ge.NGRID)Xpar(ic) =Xpar(ic)-NGRID
-           If(Xpar(ic).lt.1)    Xpar(ic) =Xpar(ic)+NGRID
-           If(Ypar(ic).ge.NGRID)Ypar(ic) =Ypar(ic)-NGRID
-           If(Ypar(ic).lt.1)    Ypar(ic) =Ypar(ic)+NGRID
-           If(Zpar(ic).ge.NGRID)Zpar(ic) =Zpar(ic)-NGRID
-           If(Zpar(ic).lt.1)    Zpar(ic) =Zpar(ic)+NGRID
-           VX(ic) =  VX(ic)/Vscale 
-           VY(ic) =  VY(ic)/Vscale 
-           VZ(ic) =  VZ(ic)/Vscale
-        End Do
-       
-end Subroutine RemoveBuffer
+SUBROUTINE RemoveBuffer(NpPM)
+  implicit none
+  integer*8, intent(in) :: NpPM
+  real :: memoryUsed
+  if(.not.allocated(BdmPMX))error stop 'BDM has no retained simulation state to restore'
+  if(NpPM/=BdmPMCount)error stop 'BDM restoration particle count mismatch'
+  memoryUsed=Memory(-6_8*size(Xpar,kind=8))
+  deallocate(Xpar,Ypar,Zpar,VX,VY,VZ)
+  if(allocated(OriginalParticleId))then
+    memoryUsed=Memory(-2_8*size(OriginalParticleId,kind=8))
+    deallocate(OriginalParticleId)
+  endif
+  call move_alloc(BdmPMX,Xpar); call move_alloc(BdmPMY,Ypar); call move_alloc(BdmPMZ,Zpar)
+  call move_alloc(BdmPMVX,VX); call move_alloc(BdmPMVY,VY); call move_alloc(BdmPMVZ,VZ)
+  Nparticles=BdmPMCount; Np=Nparticles
+  BdmPMCount=0_8
+  HaloSearchRadius=0.; ParticleSearchRadius=0.
+end SUBROUTINE RemoveBuffer
 end Module LinkerList

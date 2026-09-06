@@ -1,0 +1,254 @@
+{
+  "particles": 2097152,
+  "rebuilds_per_sample": 10,
+  "samples_per_variant": 3,
+  "source_sha256": "ca3da4ef6d4f74e220505c314e3ec4812a80be534e9cf125dce38a527b1b4bda",
+  "old_list_sha256": "52960c6102f555f5e85fdbe770e14c93b02c74eff4283bde448810b96e35696a",
+  "benchmark_sha256": "c3f3fdc140dca07e8a29798cd44542dcce7c1a8014faa4d1d675638aa6a966dd",
+  "compilation": {
+    "baseline": {
+      "command": [
+        "gfortran",
+        "-O3",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "particle_cases.f90",
+        "-o",
+        "optimized"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    "prefilter": {
+      "command": [
+        "gfortran",
+        "-O3",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "particle_cases.f90",
+        "-o",
+        "optimized"
+      ],
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "median_seconds": {
+    "1": {
+      "baseline": 0.018889904022216797,
+      "prefilter": 0.017551207542419435,
+      "baseline_over_prefilter_speedup": 1.076273753618483
+    },
+    "2": {
+      "baseline": 0.014640712738037109,
+      "prefilter": 0.013349008560180665,
+      "baseline_over_prefilter_speedup": 1.096764053452593
+    },
+    "4": {
+      "baseline": 0.012969398498535156,
+      "prefilter": 0.010238385200500489,
+      "baseline_over_prefilter_speedup": 1.266742581427896
+    },
+    "8": {
+      "baseline": 0.01962130069732666,
+      "prefilter": 0.010604500770568848,
+      "baseline_over_prefilter_speedup": 1.8502804725878794
+    }
+  },
+  "samples": [
+    {
+      "variant": "baseline",
+      "threads": 1,
+      "repeat": 0,
+      "seconds_per_build": 0.01891000270843506,
+      "stdout": "  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n LIST_SECONDS_COUNT   1.8910002708435059E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "prefilter",
+      "threads": 1,
+      "repeat": 0,
+      "seconds_per_build": 0.018822503089904786,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   1.8822503089904786E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "prefilter",
+      "threads": 1,
+      "repeat": 1,
+      "seconds_per_build": 0.017551207542419435,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   1.7551207542419435E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "baseline",
+      "threads": 1,
+      "repeat": 1,
+      "seconds_per_build": 0.018889904022216797,
+      "stdout": "  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n LIST_SECONDS_COUNT   1.8889904022216797E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "baseline",
+      "threads": 1,
+      "repeat": 2,
+      "seconds_per_build": 0.0188507080078125,
+      "stdout": "  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n LIST_SECONDS_COUNT   1.8850708007812501E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "prefilter",
+      "threads": 1,
+      "repeat": 2,
+      "seconds_per_build": 0.01737241744995117,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   1.7372417449951171E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "baseline",
+      "threads": 2,
+      "repeat": 0,
+      "seconds_per_build": 0.014640712738037109,
+      "stdout": "  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n LIST_SECONDS_COUNT   1.4640712738037109E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "prefilter",
+      "threads": 2,
+      "repeat": 0,
+      "seconds_per_build": 0.013349008560180665,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   1.3349008560180665E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "prefilter",
+      "threads": 2,
+      "repeat": 1,
+      "seconds_per_build": 0.012905693054199219,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   1.2905693054199219E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "baseline",
+      "threads": 2,
+      "repeat": 1,
+      "seconds_per_build": 0.014663791656494141,
+      "stdout": "  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n LIST_SECONDS_COUNT   1.4663791656494141E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "baseline",
+      "threads": 2,
+      "repeat": 2,
+      "seconds_per_build": 0.014453601837158204,
+      "stdout": "  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n LIST_SECONDS_COUNT   1.4453601837158204E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "prefilter",
+      "threads": 2,
+      "repeat": 2,
+      "seconds_per_build": 0.013374590873718261,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   1.3374590873718261E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "baseline",
+      "threads": 4,
+      "repeat": 0,
+      "seconds_per_build": 0.012497305870056152,
+      "stdout": "  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n LIST_SECONDS_COUNT   1.2497305870056152E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "prefilter",
+      "threads": 4,
+      "repeat": 0,
+      "seconds_per_build": 0.010238385200500489,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   1.0238385200500489E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "prefilter",
+      "threads": 4,
+      "repeat": 1,
+      "seconds_per_build": 0.011649584770202637,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   1.1649584770202637E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "baseline",
+      "threads": 4,
+      "repeat": 1,
+      "seconds_per_build": 0.012969398498535156,
+      "stdout": "  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n LIST_SECONDS_COUNT   1.2969398498535156E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "baseline",
+      "threads": 4,
+      "repeat": 2,
+      "seconds_per_build": 0.016100597381591798,
+      "stdout": "  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n LIST_SECONDS_COUNT   1.6100597381591798E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "prefilter",
+      "threads": 4,
+      "repeat": 2,
+      "seconds_per_build": 0.009893202781677246,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   9.8932027816772457E-003              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "baseline",
+      "threads": 8,
+      "repeat": 0,
+      "seconds_per_build": 0.02063591480255127,
+      "stdout": "  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n LIST_SECONDS_COUNT   2.0635914802551270E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "prefilter",
+      "threads": 8,
+      "repeat": 0,
+      "seconds_per_build": 0.010604500770568848,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   1.0604500770568848E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "prefilter",
+      "threads": 8,
+      "repeat": 1,
+      "seconds_per_build": 0.010572385787963868,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   1.0572385787963868E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "baseline",
+      "threads": 8,
+      "repeat": 1,
+      "seconds_per_build": 0.01962130069732666,
+      "stdout": "  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n LIST_SECONDS_COUNT   1.9621300697326659E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "baseline",
+      "threads": 8,
+      "repeat": 2,
+      "seconds_per_build": 0.013173198699951172,
+      "stdout": "  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n  time to make list  =   0.00000000    \n LIST_SECONDS_COUNT   1.3173198699951172E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    },
+    {
+      "variant": "prefilter",
+      "threads": 8,
+      "repeat": 2,
+      "seconds_per_build": 0.014058589935302734,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   1.4058589935302734E-002              2097152              2097152\n PARTICLES_TEST_PASSlist_benchmark\n",
+      "stderr": ""
+    }
+  ],
+  "correctness": "Every link and cell head equals an independent serial row-order oracle; every row reachable exactly once",
+  "limitations": "Small kernel timing on the current host; shared resource, allocation and cache noise; not a production finder benchmark"
+}

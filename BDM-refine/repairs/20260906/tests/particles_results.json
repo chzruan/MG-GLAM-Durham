@@ -1,0 +1,978 @@
+{
+  "compiler": "gfortran",
+  "source_sha256": "ca3da4ef6d4f74e220505c314e3ec4812a80be534e9cf125dce38a527b1b4bda",
+  "test_sha256": {
+    "particles_tests.py": "05e186f389ac92ff48f8dab62eea4a6b15e00bbb4db8a59f589e08811f3a0443",
+    "particles_cases.f90": "0a0b145f824a352de186e51ae6c225350995c4e45332e8651ba601da00e1e383"
+  },
+  "compilation": {
+    "checked": {
+      "command": [
+        "gfortran",
+        "-O0",
+        "-g",
+        "-fcheck=all",
+        "-ffpe-trap=invalid,zero,overflow",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "particle_cases.f90",
+        "-o",
+        "checked"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    "optimized": {
+      "command": [
+        "gfortran",
+        "-O3",
+        "-fopenmp",
+        "-ffree-line-length-none",
+        "particle_cases.f90",
+        "-o",
+        "optimized"
+      ],
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "experiments": [
+    {
+      "case": "centering_near",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.05029416177421808,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_near\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_far",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.050417955964803696,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_far\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_one",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.024062040960416198,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_one\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_empty",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.03677799296565354,
+      "stdout": "  time to make list =   0.00000000    \n PARTICLES_TEST_PASScentering_empty\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_face",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.028488466050475836,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_face\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_corner",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.025830685161054134,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                 1024\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                 1024   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_corner\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_search",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.030873070936650038,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_search\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_query",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.02769449888728559,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                13299\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                13299   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_query\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_halfbox",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.027320633875206113,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   7.99999952       7.99999952    \n PARTICLES_TEST_PASSbuffer_halfbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_smallbox",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.041740017011761665,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   1.99999988       1.99999988    \n PARTICLES_TEST_PASSbuffer_smallbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_roundtrip",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.029471939895302057,
+      "stdout": " RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_roundtrip\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_buffered",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.02448247279971838,
+      "stdout": "  Allocate exact periodic particle buffer:                  1000                 1694\n  Allocate exact periodic particle buffer:                  1000                 1694\n RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_buffered\n",
+      "stderr": ""
+    },
+    {
+      "case": "list_check",
+      "mode": "checked",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.03704363293945789,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   2.5329828262329102E-003                32768                32768\n PARTICLES_TEST_PASSlist_check\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_near",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.04721873509697616,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_near\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_far",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.04634201293811202,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_far\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_one",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.022828635992482305,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_one\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_empty",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.033395125064998865,
+      "stdout": "  time to make list =   0.00000000    \n PARTICLES_TEST_PASScentering_empty\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_face",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.05630400194786489,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_face\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_corner",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.028722346061840653,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                 1024\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                 1024   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_corner\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_search",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.02667344408109784,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_search\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_query",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.032706335885450244,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                13299\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                13299   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_query\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_halfbox",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.027138489997014403,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   7.99999952       7.99999952    \n PARTICLES_TEST_PASSbuffer_halfbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_smallbox",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.02474020910449326,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   1.99999988       1.99999988    \n PARTICLES_TEST_PASSbuffer_smallbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_roundtrip",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.022163901943713427,
+      "stdout": " RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_roundtrip\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_buffered",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.032517640851438046,
+      "stdout": "  Allocate exact periodic particle buffer:                  1000                 1694\n  Allocate exact periodic particle buffer:                  1000                 1694\n RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_buffered\n",
+      "stderr": ""
+    },
+    {
+      "case": "list_check",
+      "mode": "checked",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.03648726409301162,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   2.3536205291748045E-003                32768                32768\n PARTICLES_TEST_PASSlist_check\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_near",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.045855433912947774,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_near\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_far",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.05417044018395245,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_far\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_one",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.020222623134031892,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_one\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_empty",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.062054081819951534,
+      "stdout": "  time to make list =   0.00000000    \n PARTICLES_TEST_PASScentering_empty\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_face",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.027748841093853116,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_face\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_corner",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.04440118302591145,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                 1024\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                 1024   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_corner\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_search",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.027118273079395294,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_search\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_query",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.02782983402721584,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                13299\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                13299   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_query\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_halfbox",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.024419014109298587,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   7.99999952       7.99999952    \n PARTICLES_TEST_PASSbuffer_halfbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_smallbox",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.024615304078906775,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   1.99999988       1.99999988    \n PARTICLES_TEST_PASSbuffer_smallbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_roundtrip",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.019874606980010867,
+      "stdout": " RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_roundtrip\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_buffered",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.027244179975241423,
+      "stdout": "  Allocate exact periodic particle buffer:                  1000                 1694\n  Allocate exact periodic particle buffer:                  1000                 1694\n RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_buffered\n",
+      "stderr": ""
+    },
+    {
+      "case": "list_check",
+      "mode": "checked",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.03519401699304581,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   2.3408889770507812E-003                32768                32768\n PARTICLES_TEST_PASSlist_check\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_near",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.04527798597700894,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_near\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_far",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.04593165894038975,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_far\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_one",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.02310317289084196,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_one\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_empty",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.03151547210291028,
+      "stdout": "  time to make list =   0.00000000    \n PARTICLES_TEST_PASScentering_empty\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_face",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.029958385974168777,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_face\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_corner",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.031079398933798075,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                 1024\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                 1024   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_corner\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_search",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.028638919116929173,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_search\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_query",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.0340298421215266,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                13299\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                13299   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_query\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_halfbox",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.02676508598960936,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   7.99999952       7.99999952    \n PARTICLES_TEST_PASSbuffer_halfbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_smallbox",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.022479658015072346,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   1.99999988       1.99999988    \n PARTICLES_TEST_PASSbuffer_smallbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_roundtrip",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.019482587929815054,
+      "stdout": " RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_roundtrip\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_buffered",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.04226750181987882,
+      "stdout": "  Allocate exact periodic particle buffer:                  1000                 1694\n  Allocate exact periodic particle buffer:                  1000                 1694\n RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_buffered\n",
+      "stderr": ""
+    },
+    {
+      "case": "list_check",
+      "mode": "checked",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.04051770316436887,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   3.0351877212524414E-003                32768                32768\n PARTICLES_TEST_PASSlist_check\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_near",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.03383520501665771,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_near\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_far",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.032391673885285854,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_far\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_one",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.020784121938049793,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_one\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_empty",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.03148788004182279,
+      "stdout": "  time to make list =   0.00000000    \n PARTICLES_TEST_PASScentering_empty\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_face",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.026826933957636356,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_face\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_corner",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.024896984919905663,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                 1024\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                 1024   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_corner\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_search",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.02407442405819893,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_search\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_query",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.02748839999549091,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                13299\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                13299   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_query\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_halfbox",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.040499488124623895,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   7.99999952       7.99999952    \n PARTICLES_TEST_PASSbuffer_halfbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_smallbox",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.027589269913733006,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   1.99999988       1.99999988    \n PARTICLES_TEST_PASSbuffer_smallbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_roundtrip",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.030146250035613775,
+      "stdout": " RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_roundtrip\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_buffered",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.03918766509741545,
+      "stdout": "  Allocate exact periodic particle buffer:                  1000                 1694\n  Allocate exact periodic particle buffer:                  1000                 1694\n RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_buffered\n",
+      "stderr": ""
+    },
+    {
+      "case": "list_check",
+      "mode": "optimized",
+      "threads": 1,
+      "returncode": 0,
+      "elapsed_seconds": 0.042487005004659295,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   3.3359050750732420E-003                32768                32768\n PARTICLES_TEST_PASSlist_check\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_near",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.031935412902384996,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_near\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_far",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.03410620498470962,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_far\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_one",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.021223949966952205,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_one\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_empty",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.02933321800082922,
+      "stdout": "  time to make list =   0.00000000    \n PARTICLES_TEST_PASScentering_empty\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_face",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.026069253915920854,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_face\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_corner",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.025802772026509047,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                 1024\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                 1024   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_corner\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_search",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.04271691804751754,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_search\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_query",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.02822582982480526,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                13299\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                13299   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_query\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_halfbox",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.022290070075541735,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   7.99999952       7.99999952    \n PARTICLES_TEST_PASSbuffer_halfbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_smallbox",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.02415043697692454,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   1.99999988       1.99999988    \n PARTICLES_TEST_PASSbuffer_smallbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_roundtrip",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.027813963824883103,
+      "stdout": " RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_roundtrip\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_buffered",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.026886054780334234,
+      "stdout": "  Allocate exact periodic particle buffer:                  1000                 1694\n  Allocate exact periodic particle buffer:                  1000                 1694\n RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_buffered\n",
+      "stderr": ""
+    },
+    {
+      "case": "list_check",
+      "mode": "optimized",
+      "threads": 2,
+      "returncode": 0,
+      "elapsed_seconds": 0.03169001103378832,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   2.1509885787963866E-003                32768                32768\n PARTICLES_TEST_PASSlist_check\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_near",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.04077860387042165,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_near\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_far",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.03308177390135825,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_far\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_one",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.01987479696981609,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_one\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_empty",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.030328985070809722,
+      "stdout": "  time to make list =   0.00000000    \n PARTICLES_TEST_PASScentering_empty\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_face",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.02422996796667576,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_face\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_corner",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.02710671117529273,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                 1024\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                 1024   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_corner\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_search",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.024082719814032316,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_search\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_query",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.02768110390752554,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                13299\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                13299   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_query\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_halfbox",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.024406549986451864,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   7.99999952       7.99999952    \n PARTICLES_TEST_PASSbuffer_halfbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_smallbox",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.02446367801167071,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   1.99999988       1.99999988    \n PARTICLES_TEST_PASSbuffer_smallbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_roundtrip",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.02222745306789875,
+      "stdout": " RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_roundtrip\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_buffered",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.0238247939851135,
+      "stdout": "  Allocate exact periodic particle buffer:                  1000                 1694\n  Allocate exact periodic particle buffer:                  1000                 1694\n RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_buffered\n",
+      "stderr": ""
+    },
+    {
+      "case": "list_check",
+      "mode": "optimized",
+      "threads": 4,
+      "returncode": 0,
+      "elapsed_seconds": 0.03054410987533629,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   2.1030187606811525E-003                32768                32768\n PARTICLES_TEST_PASSlist_check\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_near",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.033623084891587496,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_near\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_far",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.03135386691428721,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_far\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_one",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.024873550049960613,
+      "stdout": "  time to make list =   0.00000000    \n CENTRE_DISPLACEMENT_VELOCITY_ERROR   0.0000000000000000        0.0000000000000000     \n PARTICLES_TEST_PASScentering_one\n",
+      "stderr": ""
+    },
+    {
+      "case": "centering_empty",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.026450925040990114,
+      "stdout": "  time to make list =   0.00000000    \n PARTICLES_TEST_PASScentering_empty\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_face",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.03851311304606497,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_face\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_corner",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.02713766903616488,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                 1024\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                 1024   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_corner\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_search",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.04302406799979508,
+      "stdout": "  Allocate exact periodic particle buffer:                   128                  256\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY         128                  256   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_search\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_query",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.020807014079764485,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                13299\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                13299   7.50000000       7.68750000    \n PARTICLES_TEST_PASSbuffer_query\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_halfbox",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.02754442603327334,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   7.99999952       7.99999952    \n PARTICLES_TEST_PASSbuffer_halfbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "buffer_smallbox",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.028196966042742133,
+      "stdout": "  Allocate exact periodic particle buffer:                  4096                32761\n  time to make list =   0.00000000    \n EXACT_BUFFER_QUERY        4096                32761   1.99999988       1.99999988    \n PARTICLES_TEST_PASSbuffer_smallbox\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_roundtrip",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.020912052830681205,
+      "stdout": " RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_roundtrip\n",
+      "stderr": ""
+    },
+    {
+      "case": "restore_buffered",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.024356025038287044,
+      "stdout": "  Allocate exact periodic particle buffer:                  1000                 1694\n  Allocate exact periodic particle buffer:                  1000                 1694\n RESTORED_EXACTLY        1000           2\n PARTICLES_TEST_PASSrestore_buffered\n",
+      "stderr": ""
+    },
+    {
+      "case": "list_check",
+      "mode": "optimized",
+      "threads": 8,
+      "returncode": 0,
+      "elapsed_seconds": 0.032275964971631765,
+      "stdout": "  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n  time to make list =   0.00000000    \n LIST_SECONDS_COUNT   2.4211168289184569E-003                32768                32768\n PARTICLES_TEST_PASSlist_check\n",
+      "stderr": ""
+    }
+  ],
+  "passed": 104
+}
