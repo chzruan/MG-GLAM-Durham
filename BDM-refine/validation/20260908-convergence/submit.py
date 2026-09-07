@@ -10,7 +10,7 @@ from common import REPO, ROOT, WORK, git, now, sha, write_json
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('phase',choices=['ic','evolve','replay','analysis'])
+    parser.add_argument('phase',choices=['ic','evolve'])
     parser.add_argument('case')
     parser.add_argument('--cores',type=int,required=True)
     parser.add_argument('--memory-gib',type=int,required=True)

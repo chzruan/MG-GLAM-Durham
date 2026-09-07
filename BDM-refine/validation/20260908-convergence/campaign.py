@@ -148,7 +148,7 @@ def initial_conditions(name,threads):
     if name!='E':inputs.extend([master/'matched_ic_receipt.txt',master/'matched_ic_inputs.json'])
     receipt=run_native(BIN/'PMP2start.matched.exe',run,'ic',threads,inputs,
                        lambda:[run/'PMcrd.DAT',*initial_particles(run),
-                               run/'matched_ic_receipt.txt',run/'matched_modes.bin'],stdin='1\n')
+                               run/'matched_ic_receipt.txt',run/'matched_modes.bin',run/'pt.dat'],stdin='1\n')
     header=checker().read_header(run/'PMcrd.DAT')
     assert header['nrow']==spec['nrow'] and header['ngrid']==spec['ngrid']
     assert header['particles']==spec['nrow']**3<1200**3

@@ -1,0 +1,95 @@
+{
+  "compiler": "ifx",
+  "compiler_version": "ifx (IFX) 2024.2.0 20240602\nCopyright (C) 1985-2024 Intel Corporation. All rights reserved.\n\n",
+  "flags": [
+    "-O2",
+    "-qopenmp",
+    "-fp-model",
+    "precise",
+    "-convert",
+    "big_endian",
+    "-assume",
+    "byterecl"
+  ],
+  "checked": false,
+  "commands": [
+    [
+      "ifx",
+      "-O2",
+      "-qopenmp",
+      "-fp-model",
+      "precise",
+      "-convert",
+      "big_endian",
+      "-assume",
+      "byterecl",
+      "-c",
+      "PMP2mod_tools.f90"
+    ],
+    [
+      "ifx",
+      "-O2",
+      "-qopenmp",
+      "-fp-model",
+      "precise",
+      "-convert",
+      "big_endian",
+      "-assume",
+      "byterecl",
+      "-c",
+      "PMP2mod_random.f90"
+    ],
+    [
+      "ifx",
+      "-O2",
+      "-qopenmp",
+      "-fp-model",
+      "precise",
+      "-convert",
+      "big_endian",
+      "-assume",
+      "byterecl",
+      "-c",
+      "PMP2mod_fft5.f90"
+    ],
+    [
+      "ifx",
+      "-O2",
+      "-qopenmp",
+      "-fp-model",
+      "precise",
+      "-convert",
+      "big_endian",
+      "-assume",
+      "byterecl",
+      "-c",
+      "PMP2start.matched.f90"
+    ],
+    [
+      "ifx",
+      "-O2",
+      "-qopenmp",
+      "-fp-model",
+      "precise",
+      "-convert",
+      "big_endian",
+      "-assume",
+      "byterecl",
+      "-o",
+      "PMP2start.matched.exe",
+      "PMP2mod_tools.o",
+      "PMP2mod_random.o",
+      "PMP2mod_fft5.o",
+      "PMP2start.matched.o"
+    ]
+  ],
+  "binary_sha256": "0971fca65c274382b65dc2e2f254a2360d2e7e5ae7a6fcd0f0e59a06d0de2f34",
+  "generated_sha256": "49ed4701ee3263c5890d0c89ab9b583c881652cfbcd1415d132367cf5ba8412b",
+  "source_sha256": {
+    "PMP2mod_tools.f90": "c40db0bcdf20413878e2fc91262293f47dc322d9ab846ea146fe2b7d12e1e0fb",
+    "PMP2mod_random.f90": "3b8eca39991da447d868c9c7ca1407e53d9ab6f0075789270d0e244c6a6258e8",
+    "PMP2mod_fft5.f90": "1cf32f6d5271c55ef282ce9299a9235d2de673b32b0d83bfd9ca409ea13c08c9",
+    "PMP2start.f90": "cf60bcf92c5620b3fd8428cbeaae2a56dc0177afb872f997df32c0280a8ecc4a",
+    "luxuryp.h": "ca26e590488d836593d330385e4f2e872932dd29966f78c83c1bc96b3b107836"
+  }
+}
