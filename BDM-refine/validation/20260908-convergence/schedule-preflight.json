@@ -1,0 +1,53 @@
+{
+  "completed": true,
+  "completed_at_utc": "2026-09-07T23:49:58.448878+00:00",
+  "controls": [
+    {
+      "normal_step": 92,
+      "half_step": 184,
+      "native_table_headers_bit_identical": true,
+      "all_native_table_particle_words_bit_identical": true,
+      "exact_half_output_epoch": true
+    },
+    {
+      "normal_step": 109,
+      "half_step": 218,
+      "native_table_headers_bit_identical": true,
+      "all_native_table_particle_words_bit_identical": true,
+      "exact_half_output_epoch": true
+    },
+    {
+      "normal_step": 158,
+      "half_step": 316,
+      "native_table_headers_bit_identical": true,
+      "all_native_table_particle_words_bit_identical": true,
+      "exact_half_output_epoch": true
+    }
+  ],
+  "half_initial_positions_identical": true,
+  "half_initial_velocities_differ": true,
+  "simulation_scope": "16^3 particles, 32^3 mesh, one thread; all three requested epochs",
+  "evidence": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/schedule-preflight/native/Run1/ic.json": {
+      "sha256": "be1aadc8c6c01be197c6eedf0ad6b7da978b53c80f54fda60cc427717899687e",
+      "bytes": 2738
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/schedule-preflight/native/Run1/main.json": {
+      "sha256": "79357b8b778f91a40658427f041c1636b185ab9484d292af44ef8e553354b4da",
+      "bytes": 4120
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/schedule-preflight/table/Run1/main.json": {
+      "sha256": "adfe8fa08d4a8defee3d91be40a872c2ccb08963a6facc2e2438cf53027a7ada",
+      "bytes": 4111
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/schedule-preflight/half/Run1/ic.json": {
+      "sha256": "8cb3e1e50aa35a5b240bb153c4e0adc6a69d21e60c31383fbd03463b7f7bd1c6",
+      "bytes": 2726
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/schedule-preflight/half/Run1/main.json": {
+      "sha256": "d5de97557009d0e30d4c6ef0bb4a1dcef8f3600a6b162f8942076bd3f2ff590e",
+      "bytes": 4097
+    }
+  },
+  "padding_excluded": "Unused direct-record rows are excluded; all populated particle words are checked."
+}

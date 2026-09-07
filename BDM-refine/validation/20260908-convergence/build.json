@@ -1,0 +1,288 @@
+{
+  "started_at_utc": "2026-09-07T23:44:28.487536+00:00",
+  "base": "e289c3f7ea28d38390a1663e50bb2784b85abc84",
+  "build_commit": "e289c3f7ea28d38390a1663e50bb2784b85abc84",
+  "commands": [
+    {
+      "command": [
+        "make",
+        "-j1",
+        "PMP2mod_tools.o",
+        "PMP2mod_MGbackground.o"
+      ],
+      "returncode": 0,
+      "stdout": "ifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_tools.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_MGbackground.f90\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "make",
+        "-j1",
+        "PMP2init",
+        "PMP2start",
+        "PMP2main",
+        "PMP2BDM"
+      ],
+      "returncode": 0,
+      "stdout": "ifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2init.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian  -o PMP2init.exe PMP2init.o\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_fft5.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_random.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MG_subroutines.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_density.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_power.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2start.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian -o PMP2start.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2mod_density.o PMP2mod_power.o PMP2start.o\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -fp-model precise -w -c PMP2linker.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2mod_analyze.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_fR.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2extradof.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_DGP.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_sym.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_kmf.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2MGsolver_csf.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2main.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian -o PMP2main.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o PMP2extradof.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o PMP2main.o\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian -w -c PMP2bdm.f90\nifx -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian -o PMP2BDM.exe PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o PMP2extradof.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o PMP2bdm.o\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-fp-model",
+        "fast=1",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/timetable/PMP2main.schedule.f90",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_fft5.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MG_subroutines.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_tools.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_random.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_density.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_kmf.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_csf.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_analyze.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2linker.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2extradof.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_fR.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_power.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_DGP.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_MGbackground.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_sym.o",
+        "-o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2main.schedule.exe"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/timetable/PMP2main.schedule.f90(144): warning #8043: The extra characters in the format specification will be ignored.   ['(a,T20,a,T30,i12,T45,a,i4))']\n    write (*, '(a,T20,a,T30,i12,T45,a,i4))') ' Start running: ', &\n-----------------------------------------^\n"
+    }
+  ],
+  "sources": {
+    "AverageBispectrum.f90": "119c00b67d1ab507e21533508ec946841886635f11d4a3f2b6df140b0318d2fc",
+    "AveragePk.f90": "f92fb983583fc79c5d9eada9f448784a58004a7641f07d8bbca7d31b6f7334b4",
+    "Massfunction.f90": "8b1c30f459e6da82f3bb274b9045b7ff4a567d41e243d45a415063b021abe77d",
+    "PMP2MG_subroutines.f90": "128e0f3f17885a90baf42f90fb8e79a152354c5b476fd56ee7f1637bf15a1dbc",
+    "PMP2MGsolver_DGP.f90": "985ad50a2a754bbf23358244c1880c707ae45a8ca38ac9aac27a16d7ade9734d",
+    "PMP2MGsolver_csf.f90": "31e7c8f561ea135944abd07c4d578967a86405e7dba719e44b9a26466cca6a88",
+    "PMP2MGsolver_fR.f90": "e64c83a8a8ea404d106a7be02b2f62d334a5bd15ca34a55edf7d5d516c6cca20",
+    "PMP2MGsolver_kmf.f90": "f46433a9ee2bc2689381beb32931c8015f0243f147c0e3cfd86de322a6b60967",
+    "PMP2MGsolver_sym.f90": "84bcec5eaaf1054b72db7147b842b3b83952bdf72e9cb80523431e08cbedaf6c",
+    "PMP2analyze.f90": "ee116ae532dfdadb41e07b8017bcb4c655e52ce22a8c86d0d3c5039e43911cce",
+    "PMP2bdm.f90": "99fe4f521881aaf462ca650e0990a44fcd82ce113b8204931eff684baffcd766",
+    "PMP2catalReform.f90": "ebb857911929711fc1cfc3a42f4a65f4ed73933891d03b2d14b38a6080a89e29",
+    "PMP2catalogCorrect.f90": "1df9edb128f0561efce0d10139f5674b933246bc28d8db4f3df28a14e79248b4",
+    "PMP2correlation.f90": "774249be21ed3a2bc11479d64d92e4dfb45e0d130bd193cea2085fe023e337ae",
+    "PMP2density.f90": "c3cb79f5d4f1d5315ecb4edc94120674f9df1eda563e8bdc48bf79b47594682f",
+    "PMP2extradof.f90": "d741567059e23c36fcc37762ed3b323145bd5e770b379adfa1368639b15af87d",
+    "PMP2formatFiles.f90": "e7f26617ead8f8db4d323458b3a0a7ebb6f6507b954a96c87612b4cc17389f44",
+    "PMP2haloStat.f90": "6fcc2c14aababa6a8288a5c8a9f3da8aaaffe127414eb28af016fafdd5957b7a",
+    "PMP2init.f90": "5978546b1ba8efdaae512c22c31d764fb852dc0117d78e42950917870fa0a111",
+    "PMP2linker.f90": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d",
+    "PMP2main.f90": "487f9835ae1a73a41c84e31c138e356c2700aeb3a798304f53e7610594b2f0bb",
+    "PMP2mainMPI.f90": "edc0c750b4c9f02c07881b87455f111b638f0b47ef7d62c1ff7b3bebc0bb689d",
+    "PMP2mod_MGbackground.f90": "cd4b9fc2f9dca17c06c1be53ca9739437a4c9731eebeec34c6b429cacd763860",
+    "PMP2mod_analyze.f90": "444918cac15c7486718dcf6a7cf65e3fe21ad06b9bd9d0653dea0d83d6ae42fb",
+    "PMP2mod_density.f90": "199ad91667f32c068bab5882c08046c24970ca3caa0321d277cfc7d704e88ed3",
+    "PMP2mod_fft5.f90": "1cf32f6d5271c55ef282ce9299a9235d2de673b32b0d83bfd9ca409ea13c08c9",
+    "PMP2mod_power.f90": "3bb942f8a7ed217e79057e9d523728ac5a56328c89c01c01075a82ed89d4f7e0",
+    "PMP2mod_random.f90": "3b8eca39991da447d868c9c7ca1407e53d9ab6f0075789270d0e244c6a6258e8",
+    "PMP2mod_tools.f90": "c40db0bcdf20413878e2fc91262293f47dc322d9ab846ea146fe2b7d12e1e0fb",
+    "PMP2power.f90": "cf6c0c99d5e6819648626cae23381a4be7858985e0adf77048cfe280c527a3b7",
+    "PMP2powerSSC.f90": "e5a555dd9e602ff93460b4b3f90bce9e3f7a4186626bc53f9d576075159eefe3",
+    "PMP2readFiles.f90": "18ec7c4e5acd8f3cb00f422572f033dafeb7b33662b4210dd84c36352668c27b",
+    "PMP2spectrum.f90": "318594381c772eaf76fce54c4b872219ef9e432a5d65de794ab682943104059f",
+    "PMP2start.f90": "cf60bcf92c5620b3fd8428cbeaae2a56dc0177afb872f997df32c0280a8ecc4a",
+    "PMP2startMPI.f90": "63a16fb3b7964fb6a2adc40abd21e9aab9db9adfe960baac28e5cb26bce2bb20",
+    "PMP2tunestepping.f90": "99d9b9162bcab93e9494923d24bc2b681ae22b1c8274cc9dfc5b0ba90d5105e3",
+    "PMPcovariance.f90": "878aaf616bd579eb5097e0bb4761c4d52e67062ffb958b9a2f4adeadf566dc52",
+    "gadget2pm.f90": "7b6156f94ebe88e3623572c1d82eed466164b5c9d002fbc622f15889700116ee",
+    "ic2pm.f90": "b7c19a0393b38d85db09bd878e082a27c7513a5f62a3e0c69b0d14bcdfd5c96e",
+    "testMemory.f90": "4ec069a4b41fa5ea19f9ca82bcafe05eb7b5693e4c66b6ebc0763d905f9a23c3",
+    "testtOmp.f90": "a35dbb2e8b7ccc866377c40d60b795b0d0c29d91aa83ab8321cdae838e98d4c1",
+    "luxuryp.h": "ca26e590488d836593d330385e4f2e872932dd29966f78c83c1bc96b3b107836",
+    "makefile": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74"
+  },
+  "completed_at_utc": "2026-09-07T23:46:52.652256+00:00",
+  "completed": true,
+  "frozen_files": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2init.native.exe": {
+      "sha256": "36425f022e6ba14cf117167b8a735c5cb16e30f612b66badd2f8f4ea1ddebd14",
+      "bytes": 122064
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2BDM.native.exe": {
+      "sha256": "8db8f233f0c381a06d0c5fc9749c687fa2fb08c9da7de968ff80af0a0b6a1d98",
+      "bytes": 1143848
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2main.native.exe": {
+      "sha256": "8572a762f67cf9bb1f5f6ac1adae11b9b793aadc307dde8817c3e3458839592e",
+      "bytes": 1246168
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2main.schedule.exe": {
+      "sha256": "ba091225cbb67b3833ddba3b72ed6511866c48a6518904622aad5dc34328d5e8",
+      "bytes": 1251504
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2start.native.exe": {
+      "sha256": "529ee12f75a03624ee38da5876cb15ab7c00a1afeb954ca80e77741dd03a473e",
+      "bytes": 579424
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/TableSeeds.dat": {
+      "sha256": "31e0ae21219dadc93da86c6cfe8cd1972e406f7bbf80c2a1046bafe5ab506e4d",
+      "bytes": 125057
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/PkTable.dat": {
+      "sha256": "b90b23d14a403544045ec93533402a70db8b5bc3381a3694547dfd742e0476f2",
+      "bytes": 13252
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/Init.dat": {
+      "sha256": "dca7d3a245d36c22306b4d2060d1a4ec05b708b7f24c8c093db0bc35c8953e92",
+      "bytes": 2176
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/PMP2linker.legacy.f90": {
+      "sha256": "05c8d604977175568ca9e3b85d90e323c69a313781d4b2696e1d75bfc232fb5c",
+      "bytes": 82003
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_fft5.o": {
+      "sha256": "87be103d195d9edbeba41cc5f655d89ea2aab08e98b723273df0fa7a53cce5ef",
+      "bytes": 158456
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2bdm.o": {
+      "sha256": "00a1004e17338f911fc3d7a9902d6d300f23b1fcf4e3e9eb43b59ffb7939257d",
+      "bytes": 8728
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MG_subroutines.o": {
+      "sha256": "d491d3fe734348f3a0922d1e7ef0e0fde31f3347f3816e68e3bb995894c0505b",
+      "bytes": 25160
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_tools.o": {
+      "sha256": "dfd4d89d6ac64583b8f2940c5c382b0db5222674b08bcbb9940e786cf4ebe05d",
+      "bytes": 111216
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_random.o": {
+      "sha256": "87f6253c510ec3cb169e9949b2f19ad8e941b46fd98b7c06849f5ee1bd07ce23",
+      "bytes": 38832
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_density.o": {
+      "sha256": "a8eca6f9e775df14c7d835b27b3d7a09d7552a7e9f5b6f9d8c187d7946181e3c",
+      "bytes": 196568
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_kmf.o": {
+      "sha256": "d944bf269119578a65c3856c66178b0ab87afca7495e8e43e2a80a068d347b84",
+      "bytes": 90584
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_csf.o": {
+      "sha256": "8a0c8c2d07c3327a7e4e94ec61aa51868fedc7e329d01a4350f19c35b09a1063",
+      "bytes": 62064
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_analyze.o": {
+      "sha256": "3f7c8d84f5e82542ad0b301a703973e4b99e0be0038d3ae54e089baa6f046769",
+      "bytes": 64144
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2linker.o": {
+      "sha256": "5d539cd9870ac0a8456a91ce3419fd045e505f64a8114e0e4e3d05a88d8dc8aa",
+      "bytes": 388432
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2extradof.o": {
+      "sha256": "45ff5e75399a9d37e4ce7820d9a4e41e80a7e531aadcd6875fe0b85fffc14645",
+      "bytes": 152904
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_fR.o": {
+      "sha256": "f9b9025b7d97fcc8bf9c90d8332591f9ec711f047a238f9ca0dff5d211af0eea",
+      "bytes": 156312
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_power.o": {
+      "sha256": "2fb0579f0f9f60dfaf793bb169da14997ab84a37b1e6c5c389d7c395ced7757c",
+      "bytes": 109384
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_DGP.o": {
+      "sha256": "618dc313b6ce7a4633a63479d63c1db8a8eb66c85ff5ae5d6f0ae79f65b49157",
+      "bytes": 59928
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_MGbackground.o": {
+      "sha256": "a309b76b56b98fdc3f2594895e65e702187e32e7e362acb4f3756db2b91fb5ce",
+      "bytes": 55288
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2init.o": {
+      "sha256": "0b6ef2547e1c4bef5b0233ffb14ca0a2caf675e1276d2b11ff3ef563c91a85dd",
+      "bytes": 171424
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2start.o": {
+      "sha256": "319da04da53121743916f41175c05245dbe828693d1947bd6ec33060a6a8824a",
+      "bytes": 166288
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2main.o": {
+      "sha256": "576da87e745169d3558db5d83d86a5f96ce25d312035c664d22c9672817912be",
+      "bytes": 162400
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_sym.o": {
+      "sha256": "b708aff01eeccdeb74e813e34f311137b77358eb3d644bc5d8016b3b695b58f1",
+      "bytes": 51624
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/structures.mod": {
+      "sha256": "cbc1f691d021de43dde8cc385b36388c4dd8e77d719d4f0f4bc56533c9b063b4",
+      "bytes": 14958
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/extradofbackgrounddata.mod": {
+      "sha256": "f5c17e4840d09235d94687c05d15c0186fcf32e5adfcc65d802eef1028a31c20",
+      "bytes": 5887
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/luxury.mod": {
+      "sha256": "3fbc483b8342f3cabde4a254cdea80a5a6c8fab65d1adf54c9f9a06af0d7176c",
+      "bytes": 1605
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/bdmduplicaterules.mod": {
+      "sha256": "7dc46c768b2ad49659e3eafa84f313187295dcac0805c79ff83457ea33d9247f",
+      "bytes": 2243
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/density.mod": {
+      "sha256": "496d896133a812006cc46e322ef161269e081e6ab8a5fec7921d377fca01adcb",
+      "bytes": 8417
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/analyze.mod": {
+      "sha256": "da43b24d52ccfdec19c3a1143796a7c3a8cdc6e40241f87d124484d8c74c625e",
+      "bytes": 895
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/fft5.mod": {
+      "sha256": "d8c1c0d9e1654d0319a895e62fa6c4997c614def562853a0b584fd206ca54368",
+      "bytes": 31680
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/setinitialconditions.mod": {
+      "sha256": "45172d0d155beee6bd26ee2a519b22ed14f0050407470fb0d5b0e9681997feee",
+      "bytes": 19885
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/random.mod": {
+      "sha256": "4a399cb06c7a99d52c46f51990f376f6afab7dbbd9550a4691775d8aae08baa0",
+      "bytes": 12418
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/localdata.mod": {
+      "sha256": "638c01745aaa94a9d44cb8a7c667c50a54fb06c9de45ba21ec1a386a3b04822c",
+      "bytes": 1475
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/linkerlist.mod": {
+      "sha256": "7b203d33d2d947d3fb5d7b28982376c3f9c55126d65fe2a11af043a85afbc523",
+      "bytes": 30954
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/tools.mod": {
+      "sha256": "d52aca9c65319ff30cbd1146fc1be728b96e6c504aa7adf9852f65d27ca7a2e0",
+      "bytes": 13644
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/param.mod": {
+      "sha256": "b318e2b0ab74ba1d1543cc704a6bd1a3d9628d13af517c24e0441d4833b6e19a",
+      "bytes": 8785
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/power.mod": {
+      "sha256": "c304f4144ebb063f154ce8c9a4b24a0e73c4353fe74956818d7eb7f6aae34290",
+      "bytes": 6209
+    }
+  }
+}

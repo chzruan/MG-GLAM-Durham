@@ -1,0 +1,36 @@
+{
+  "production_main_sha256": "487f9835ae1a73a41c84e31c138e356c2700aeb3a798304f53e7610594b2f0bb",
+  "generated_main_sha256": "8c0ffca38d2b4260d2bf005869ab3aebdc11f43fc46cdb29bfc515bf5c1d5c4d",
+  "generator_sha256": "f304bec2cf1275913282690501210de88eec25b72a0c105c3c05d97b740f8c1b",
+  "command": [
+    "ifx",
+    "-O3",
+    "-fp-model",
+    "fast=1",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/timetable/export_schedule.f90",
+    "-o",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/timetable/export_schedule.exe"
+  ],
+  "compiler_stdout": "",
+  "generator_stdout": "  Exact-z outputs:    3 moments scheduled (see list below)\n",
+  "normal_steps": 158,
+  "half_steps": 316,
+  "normal_outputs": [
+    92,
+    109,
+    158
+  ],
+  "half_outputs": [
+    184,
+    218,
+    316
+  ],
+  "normal_initial_step": 0.00039999998989515007,
+  "half_initial_step": 0.0002000005915760994,
+  "every_normal_endpoint_preserved": true,
+  "every_output_flag_preserved": true,
+  "hashes": {
+    "native-schedule.dat": "430ae3a5f8ffd67291947c46477904b726fdf02387cafc42b930e2937a89a1ba",
+    "half-schedule.dat": "c3b5d459c9dbbfb80e7baae60f1b3911b0d5cf55ba3d4e8371d11842f6bf8274"
+  }
+}

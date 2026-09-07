@@ -1,0 +1,7 @@
+work/
+work-artifacts.tar.gz
+root-compiler-artifacts.tar.gz
+__pycache__/
+*.pyc
+slides/
+figures/

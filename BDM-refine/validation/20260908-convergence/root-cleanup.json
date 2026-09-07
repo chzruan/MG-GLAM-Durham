@@ -1,0 +1,173 @@
+{
+  "started_at_utc": "2026-09-07T23:49:50.227508+00:00",
+  "archive": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/root-compiler-artifacts.tar.gz",
+  "archive_sha256": "ad69037230e266f754491cb7028ff459fc1c777ca6502de4ab4744ffc740e1be",
+  "archive_verified_member_by_member": true,
+  "manifest": {
+    "PMP2MG_subroutines.opt.yaml": {
+      "bytes": 343787,
+      "sha256": "62419c28cf791c243831ab5d4b7d529d65d05ae506f9163b580ff11e864962f1",
+      "mode": 420,
+      "mtime_ns": 1788259861000000000,
+      "inode": 198159957474936387
+    },
+    "PMP2MGsolver_DGP.opt.yaml": {
+      "bytes": 395641,
+      "sha256": "b0747f31a2f6aecfca974e4b71c59e280c61c2d021675400f3e1395dec36c4ec",
+      "mode": 420,
+      "mtime_ns": 1788259867000000000,
+      "inode": 198159957474936360
+    },
+    "PMP2MGsolver_csf.opt.yaml": {
+      "bytes": 619239,
+      "sha256": "797cf6fd9df2cc785670b7cc989ee3cbe602322248c21481418bf8d999055484",
+      "mode": 420,
+      "mtime_ns": 1788259869000000000,
+      "inode": 198159957474936366
+    },
+    "PMP2MGsolver_fR.opt.yaml": {
+      "bytes": 1360923,
+      "sha256": "2d0af2395cbfd7f3851b4c84fd0d36fdd378cdeb4bccc7854e625e8342fb4f1f",
+      "mode": 420,
+      "mtime_ns": 1788259864000000000,
+      "inode": 198159957474936356
+    },
+    "PMP2MGsolver_kmf.opt.yaml": {
+      "bytes": 573554,
+      "sha256": "b0d33e5f583f9b19b048c4e77f84414238d19c5f4455417623bc977fe7e02cc8",
+      "mode": 420,
+      "mtime_ns": 1788259869000000000,
+      "inode": 198159957474936364
+    },
+    "PMP2MGsolver_sym.opt.yaml": {
+      "bytes": 405304,
+      "sha256": "b548a5434c6f87b3957f4eee28413e51fe362ce7597bcee39093b0e644558d8e",
+      "mode": 420,
+      "mtime_ns": 1788259867000000000,
+      "inode": 198159957474936362
+    },
+    "PMP2analyze.opt.yaml": {
+      "bytes": 25305,
+      "sha256": "7fc892fa4313a9597828bfa9ed70417af2f470800354ff29feb51d7b87a197d4",
+      "mode": 420,
+      "mtime_ns": 1788259890000000000,
+      "inode": 198160013510931322
+    },
+    "PMP2bdm.opt.yaml": {
+      "bytes": 31391,
+      "sha256": "06217cf9b289a62eca917c8f5abea13d84294a6344023859092bc8fb7628172a",
+      "mode": 420,
+      "mtime_ns": 1788259869000000000,
+      "inode": 198160009517867349
+    },
+    "PMP2bdm_validated_core.opt.yaml": {
+      "bytes": 2288508,
+      "sha256": "59d572759c8523492ad5ad34e7dd4394a5aa77a4c805d4afd2c0ae9a5269d1c8",
+      "mode": 420,
+      "mtime_ns": 1788259853000000000,
+      "inode": 198160013510931236
+    },
+    "PMP2extradof.opt.yaml": {
+      "bytes": 2123440,
+      "sha256": "07a62d3c5f316e08340efa8a25b13fd66a7d545e84bc3c46fcf5b1f9498122bf",
+      "mode": 420,
+      "mtime_ns": 1788259865000000000,
+      "inode": 198159957474936358
+    },
+    "PMP2init.opt.yaml": {
+      "bytes": 1101780,
+      "sha256": "7cc849b8278caef32830b265d24ef38b0e2eebfb75d6ccdff8367186be0fad64",
+      "mode": 420,
+      "mtime_ns": 1785788374000000000,
+      "inode": 198159957474936369
+    },
+    "PMP2linker.opt.yaml": {
+      "bytes": 16141363,
+      "sha256": "ae1306540f617b1cc67dce65260083b72c228b4bef56c9ded82999ff3a456f33",
+      "mode": 420,
+      "mtime_ns": 1788259860000000000,
+      "inode": 198159957474936407
+    },
+    "PMP2main.opt.yaml": {
+      "bytes": 2508922,
+      "sha256": "f26a6ea0892efee33c3a5a25a79617edbca0043d5584900ab41dd0b37641a9e3",
+      "mode": 420,
+      "mtime_ns": 1788259889000000000,
+      "inode": 198159957474936422
+    },
+    "PMP2mod_MGbackground.opt.yaml": {
+      "bytes": 409722,
+      "sha256": "f0b4575e25b1387ab96777d74de5de081db2bcf9e5df2440338d682e190e6942",
+      "mode": 420,
+      "mtime_ns": 1788259848000000000,
+      "inode": 198159957474936390
+    },
+    "PMP2mod_analyze.opt.yaml": {
+      "bytes": 1215819,
+      "sha256": "9555edbf26d54694c0f3754c89cf7ec479c6ac8fc987cc2df4ed575dd05efa7a",
+      "mode": 420,
+      "mtime_ns": 1788259860000000000,
+      "inode": 198159957474936412
+    },
+    "PMP2mod_density.opt.yaml": {
+      "bytes": 4250498,
+      "sha256": "d0fa1b33b8933b4a7596c1e6863f6c2ee727aa7da322e419e52e6aa8f84470ee",
+      "mode": 420,
+      "mtime_ns": 1788259849000000000,
+      "inode": 198159957474936394
+    },
+    "PMP2mod_fft5.opt.yaml": {
+      "bytes": 962032,
+      "sha256": "6eff2765ab46882e532b36a91ed6804131b5b9726dd288fc9fc4f17d83b9aa2d",
+      "mode": 420,
+      "mtime_ns": 1788259847000000000,
+      "inode": 198159957474936378
+    },
+    "PMP2mod_power.opt.yaml": {
+      "bytes": 2756794,
+      "sha256": "566c15590fdfad4d00983e0e16d4a3f7f1985565eaacb81d4466a231e2f7ec93",
+      "mode": 420,
+      "mtime_ns": 1788259851000000000,
+      "inode": 198159957474936398
+    },
+    "PMP2mod_random.opt.yaml": {
+      "bytes": 157595,
+      "sha256": "371e4373ce69928c8ae68c8355b3faca3f496cc166222a3f3bcb15ac6aa5f8d1",
+      "mode": 420,
+      "mtime_ns": 1788259847000000000,
+      "inode": 198159957474936382
+    },
+    "PMP2mod_tools.opt.yaml": {
+      "bytes": 1935893,
+      "sha256": "912c45071884a353b4c56454aadb1b33c6421aee51b3703561f09a8fbf694f8b",
+      "mode": 420,
+      "mtime_ns": 1788259845000000000,
+      "inode": 198159957474936374
+    },
+    "PMP2start.opt.yaml": {
+      "bytes": 3125721,
+      "sha256": "215695a42fd3193fa9bb51de98d22d1a2d5d07730cc33081140b67e68844b02f",
+      "mode": 420,
+      "mtime_ns": 1785783229000000000,
+      "inode": 198159957474936402
+    },
+    "gadget2pm.opt.yaml": {
+      "bytes": 352882,
+      "sha256": "641762ee6b9192a89fc24a3a3b3a12e134634b702d11a3ad04f9699a58b9ffd1",
+      "mode": 420,
+      "mtime_ns": 1785783266000000000,
+      "inode": 198160009517867354
+    },
+    "ic2pm.opt.yaml": {
+      "bytes": 495638,
+      "sha256": "5fda649a22facdf36db1c1b02c0e6e786d3431226fafbec6c9adb077a9d0d387",
+      "mode": 420,
+      "mtime_ns": 1785783265000000000,
+      "inode": 198159996901399769
+    }
+  },
+  "files_removed": 23,
+  "completed_at_utc": "2026-09-07T23:49:50.916275+00:00",
+  "net_files_reduced": 21,
+  "preserved": "Executables, source, tracked files, simulation data and all unrelated directories"
+}
