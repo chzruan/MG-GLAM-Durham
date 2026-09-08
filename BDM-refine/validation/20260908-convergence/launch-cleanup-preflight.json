@@ -1,0 +1,14 @@
+{
+  "completed": true,
+  "completed_at_utc": "2026-09-08T05:09:19.073344+00:00",
+  "source_sha256": "cd7051e9f5169f8958ba495402f6e74a3de6cf28331ec553459ca1485e2ecc80",
+  "scope": "Temporary-directory controls; no real job or scientific output modified; scratch removed",
+  "checks": [
+    "Only terminal, registered, inactive job files selected; running, unknown, controller-active and unregistered files preserved",
+    "Changed frozen script rejected before archiving",
+    "Archive member readback and idempotent completed-cleanup resume passed",
+    "Injected interruption after partial removal resumed from verified archive/receipt; prior archived launch paths accepted",
+    "Final cleanup rejected incomplete convergence before creating archive",
+    "Corrupt archive rejected; all retained original files remained unchanged"
+  ]
+}

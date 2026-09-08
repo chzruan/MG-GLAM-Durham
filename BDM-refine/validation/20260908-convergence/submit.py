@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--finder',choices=['pair','v3'],default='pair')
     parser.add_argument('--analysis-ngrid',type=int,default=2048)
     parser.add_argument('--allow-partial',action='store_true')
-    parser.add_argument('--cleanup-kind',choices=['builds','controls'],default='builds')
+    parser.add_argument('--cleanup-kind',choices=['builds','controls','launches','final-launches'],default='builds')
     parser.add_argument('--dependency')
     parser.add_argument('--reason',required=True)
     args=parser.parse_args()
@@ -44,6 +44,8 @@ def main():
         archive.write(ROOT/'campaign.py','campaign.py')
         archive.write(ROOT/'replays.py','replays.py')
         if args.phase=='analysis':archive.write(ROOT/'assess.py','assess.py')
+        if args.phase=='cleanup' and args.cleanup_kind in ['launches','final-launches']:
+            archive.write(ROOT/'accounting.py','accounting.py')
         if args.phase=='render':
             archive.write(ROOT/'accounting.py','accounting.py')
             for name in ['plots/plot_convergence.py','plots/house_style.py','plots/chz-paper.mplstyle',
@@ -58,6 +60,9 @@ def main():
         if args.phase!='analysis':raise ValueError('--allow-partial applies only to analysis')
         command.append('--allow-partial')
     if args.phase=='cleanup' and args.cleanup_kind=='controls':command.append('--controls')
+    if args.phase=='cleanup' and args.cleanup_kind in ['launches','final-launches']:
+        command+=['--launches',args.case]
+        if args.cleanup_kind=='final-launches':command.append('--require-finished')
     if args.pilot_steps:command+=['--pilot-steps',str(args.pilot_steps)]
     if args.phase=='replay':
         command+=['--finder',args.finder,'--analysis-ngrid',str(args.analysis_ngrid)]

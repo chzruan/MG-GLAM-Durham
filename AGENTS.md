@@ -22,3 +22,12 @@
   [20260908 BDM convergence campaign](BDM-refine/validation/20260908-convergence/README.md)
   uses a frozen native first-order variant and is an exception, not a template
   for the default IC choice in new campaigns.
+
+## Cleanup and file quota
+
+- At the end of work, reduce unnecessary file and directory counts. Consolidate
+  completed build/test scratch and finished-job launch files when they are no
+  longer needed unpacked; verify archived contents before removing originals.
+- Preserve scientific outputs, input configurations, provenance and everything
+  required by running or queued jobs. Untracked files are not automatically
+  disposable. Record what was removed and how retained archives can be restored.
