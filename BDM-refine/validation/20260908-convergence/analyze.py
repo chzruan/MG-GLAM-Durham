@@ -68,6 +68,10 @@ def read_ids(stream,sample,index):
     return np.frombuffer(stream.read(int(sample['counts'][index])*8),dtype='>i8').astype(np.int64)
 
 
+def bound_masses(sample):
+    return sample['counts'].astype(np.float64)*sample['report']['variants']['v3']['membership']['mass_one']
+
+
 def match(left,right):
     nleft=left['report']['spec']['nrow'];nright=right['report']['spec']['nrow']
     assert nleft<=nright and nright%nleft==0
@@ -112,10 +116,11 @@ def match(left,right):
 
 def abundance(sample):
     p=sample['properties'];box=sample['report']['spec']['box_mpc_h']
+    masses=bound_masses(sample)
     octant=np.floor((p[:,:3]%box)/(box/2)).astype(int)
     octant=octant[:,0]+2*octant[:,1]+4*octant[:,2]
-    counts=np.histogram(np.log10(p[:,6]),EDGES)[0]
-    octants=np.array([np.histogram(np.log10(p[octant==j,6]),EDGES)[0] for j in range(8)])
+    counts=np.histogram(np.log10(masses),EDGES)[0]
+    octants=np.array([np.histogram(np.log10(masses[octant==j]),EDGES)[0] for j in range(8)])
     complete=10**EDGES[:-1]>=PUBLICATION_MASS_MIN
     density=counts/(box**3*np.diff(EDGES))
     density[~complete]=np.nan
@@ -141,11 +146,13 @@ def compare(left,right,pairs,description,floor=300):
     jk=np.sqrt(7/8*np.sum((ratios-np.mean(ratios,axis=0))**2,axis=0))
     ii=pairs[:,0].astype(int);jj=pairs[:,1].astype(int)
     a=left['properties'][ii];b=right['properties'][jj]
+    masses_left=bound_masses(left);masses_right=bound_masses(right)
     resolved=(left['counts'][ii]>=floor)&(right['counts'][jj]>=floor)
-    x=np.log10(b[:,6])
+    x=np.log10(masses_right[jj])
     stats={}
     for label,column in [('bound_mass',6),('aperture_total_mass',7),('aperture_radius',8),('vmax',11),('axis_ba',16),('axis_ca',17)]:
-        value=100*np.divide(a[:,column]-b[:,column],b[:,column],out=np.full(len(a),np.nan),where=b[:,column]>0)
+        av,bv=(masses_left[ii],masses_right[jj]) if label=='bound_mass' else (a[:,column],b[:,column])
+        value=100*np.divide(av-bv,bv,out=np.full(len(a),np.nan),where=bv>0)
         usable=resolved.copy()
         if label=='vmax':usable&=(a[:,column]>0)&(b[:,column]>0)
         stats[label]=quantiles(x,value,usable)
@@ -154,13 +161,13 @@ def compare(left,right,pairs,description,floor=300):
     mass_floor=max(PUBLICATION_MASS_MIN,floor*max(aa['mass_one'],bb['mass_one']))
     valid_bins=10**EDGES[:-1]>=mass_floor
     ratio[~valid_bins]=np.nan;jk[~valid_bins]=np.nan
-    eligible=right['properties'][:,6]>=mass_floor
-    reference_counts=np.histogram(np.log10(right['properties'][eligible,6]),EDGES)[0]
+    eligible=masses_right>=mass_floor
+    reference_counts=np.histogram(np.log10(masses_right[eligible]),EDGES)[0]
     selected_counts=np.histogram(x[resolved&eligible[jj]],EDGES)[0]
     completeness=np.divide(selected_counts,reference_counts,out=np.full(len(EDGES)-1,np.nan),where=reference_counts>0)
     left_eligible=left['counts']>=floor
-    left_counts=np.histogram(np.log10(left['properties'][left_eligible,6]),EDGES)[0]
-    matched_left=np.histogram(np.log10(a[resolved,6]),EDGES)[0]
+    left_counts=np.histogram(np.log10(masses_left[left_eligible]),EDGES)[0]
+    matched_left=np.histogram(np.log10(masses_left[ii[resolved]]),EDGES)[0]
     purity=np.divide(matched_left,left_counts,out=np.full(len(EDGES)-1,np.nan),where=left_counts>0)
     vmax_resolution=[]
     for lo,hi in zip(EDGES[:-1],EDGES[1:]):
@@ -183,7 +190,7 @@ def compare(left,right,pairs,description,floor=300):
                     aperture_total_mass='All particles in empirical Rext-expanded aperture; not unextended SO mass',
                     aperture_radius='Reported Rvir, including empirical Rext expansion',
                     vmax='Positive resolved values in both members; zero sentinels excluded and counted separately'),
-                catalogue_edge='Abundance uses raw audited membership masses, avoiding ASCII rounding at bin edges')
+                catalogue_edge='Bound masses are float64 original-member count times stored particle mass; no ASCII/float32 mass arithmetic at bin edges')
 
 
 def main():
@@ -199,9 +206,18 @@ def main():
             else:samples[name,z]=sample
     if missing and not args.allow_partial:raise RuntimeError('Missing verified catalogues: '+', '.join(missing))
     result=dict(completed=not missing,created_at_utc=now(),missing=missing,log10_mass_edges=EDGES,
-                particle_floors=[100,300,1000],abundances={},comparisons=[],
+                analysis_source_sha256=source_sha256(),particle_floors=[100,300,1000],
+                inputs={},abundances={},comparisons=[],
                 caveat='Finest is a comparison reference, not ground truth; convergence range is empirical.')
-    for (name,z),sample in samples.items():result['abundances'][f'{name}/z{z}']=abundance(sample)
+    for (name,z),sample in samples.items():
+        key=f'{name}/z{z}';evidence=sample['report']['variants']['v3']['membership']
+        result['abundances'][key]=abundance(sample)
+        result['inputs'][key]=dict(receipt=str(sample['receipt']),receipt_sha256=sample['receipt_sha256'],
+            raw_sha256=evidence['raw_sha256'],index_sha256=evidence['index_sha256'],
+            density_sha256=sample['report']['density']['sha256'],spec=sample['report']['spec'],
+            membership_checks={k:evidence[k] for k in ['selected','candidates','exact_duplicate_member_sets',
+                'repeated_original_ids','mass_count_mismatches','host_exclusion_violations',
+                'higher_priority_neighbours_examined']})
     for z in [2,1,0]:
         for lhs,rhs,kind in PAIRS:
             if (lhs,z) not in samples or (rhs,z) not in samples:continue
@@ -226,6 +242,8 @@ def main():
                 result['comparisons'].append(row)
             print(lhs,rhs,'z=',z,description['matches'],'mutual membership matches',flush=True)
     write_json(ROOT/'convergence.json',finite_json(result))
+    from assess import assess
+    assess(ROOT/'convergence.json')
     print('Convergence measurements written; completed=',not missing)
 
 

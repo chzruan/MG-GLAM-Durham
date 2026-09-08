@@ -1,6 +1,6 @@
 {
   "completed": true,
-  "completed_at_utc": "2026-09-08T00:31:01.510819+00:00",
+  "completed_at_utc": "2026-09-08T00:42:01.103493+00:00",
   "matching": {
     "nested_lattice_corner": true,
     "full_fine_lattice_projects_exactly": true,
@@ -15,6 +15,6 @@
     "either_unresolved_vmax_excluded_and_counted": true,
     "known_resolved_vmax_shift_preserved": true
   },
-  "analysis_source_sha256": "b2b259fb5615491e52336d1368e0e3b75046d3b2f265596ec6aff1fb1e03f59e",
-  "controls_source_sha256": "a0ae052e5d5aec0f2f567cacc17d98c929ba87f8148201ebb3f235e30c3179aa"
+  "analysis_source_sha256": "c1fdbb62ea771527d9a0e3b9a67e6e4c53c34c0c25899c6b3a8ffdf40398ff68",
+  "controls_source_sha256": "39ed3739fb550e4c8207d76332447fc6c941871c190035a815522c69d775b7e6"
 }

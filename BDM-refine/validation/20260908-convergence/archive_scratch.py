@@ -4,6 +4,7 @@ Executables, active simulations, replay evidence, launch bundles, reference
 inputs and timestep tables remain in place. Every archived byte and symlink
 is verified before removal; interrupted cleanup can resume from its receipt.
 """
+import argparse
 import hashlib
 import io
 import json
@@ -54,7 +55,10 @@ def verify_archive(archive,manifest):
 
 
 def main():
-    archive=ROOT/'work-artifacts.tar.gz';receipt=ROOT/'scratch-cleanup.json'
+    parser=argparse.ArgumentParser();parser.add_argument('--controls',action='store_true');args=parser.parse_args()
+    prefixes=['work/driver-controls','work/driver-resume-controls-20260908'] if args.controls else PREFIXES
+    archive=ROOT/('work-controls.tar.gz' if args.controls else 'work-artifacts.tar.gz')
+    receipt=ROOT/('controls-cleanup.json' if args.controls else 'scratch-cleanup.json')
     if receipt.exists():
         record=json.loads(receipt.read_text());assert sha(archive)==record['archive_sha256']
         manifest=record['manifest']
@@ -68,10 +72,13 @@ def main():
             assert evidence.get('completed',evidence.get('all_passed',False)),name
         frozen=json.loads((ROOT/'executables.json').read_text())
         verify_manifest(frozen['binaries']);verify_manifest(frozen['build_receipts'])
-        for pilot in (WORK/'pilots').iterdir():
-            assert json.loads((pilot/'Run1/evolve.json').read_text())['completed'],str(pilot)
+        if args.controls:
+            assert json.loads((ROOT/'replay-resume-controls.json').read_text())['completed']
+        else:
+            for pilot in (WORK/'pilots').iterdir():
+                assert json.loads((pilot/'Run1/evolve.json').read_text())['completed'],str(pilot)
         manifest={}
-        for prefix in PREFIXES:
+        for prefix in prefixes:
             base=ROOT/prefix;assert base.is_dir() and not base.is_symlink(),str(base)
             for directory,dirs,files in os.walk(base,followlinks=False):
                 links=[name for name in dirs if (Path(directory)/name).is_symlink()]
@@ -96,20 +103,20 @@ def main():
         staged.replace(archive)
         record=dict(completed=False,started_at_utc=now(),archive=str(archive),archive_sha256=sha(archive),
                     archive_bytes=archive.stat().st_size,archive_verified_member_by_member=True,
-                    prefixes=PREFIXES,manifest=manifest,files_removed=0)
+                    prefixes=prefixes,manifest=manifest,files_removed=0)
         write_json(receipt,record)
     present=[name for name in manifest if (ROOT/name).exists() or (ROOT/name).is_symlink()]
     for name in present:verify_original(ROOT/name,manifest[name])
     for name in present:
         verify_original(ROOT/name,manifest[name]);(ROOT/name).unlink()
-    for prefix in PREFIXES:
+    for prefix in prefixes:
         for directory,dirs,files in os.walk(ROOT/prefix,topdown=False):
             path=Path(directory)
             if not any(path.iterdir()):path.rmdir()
     record.update(completed=True,completed_at_utc=now(),files_removed=len(manifest),
                   net_files_reduced=len(manifest)-2,
                   retained='work/bin, scientific IC/snapshots/replays, bundles/logs, reference inputs and timestep tables',
-                  restore='tar -xzf work-artifacts.tar.gz -C . (run in the campaign directory; restore only if needed)')
+                  restore=f'tar -xzf {archive.name} -C . (run in the campaign directory; restore only if needed)')
     write_json(receipt,record)
     print(f'Archived, verified and removed {len(manifest)} finished scratch files/links')
 

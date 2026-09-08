@@ -1,0 +1,207 @@
+{
+  "completed": true,
+  "scope": "pair",
+  "requested_scope": "pair",
+  "pair_completed": true,
+  "spec": {
+    "case": "B",
+    "nrow": 512,
+    "ngrid": 2048,
+    "box_mpc_h": 256.0,
+    "epochs": [
+      2,
+      1,
+      0
+    ],
+    "half_steps": false,
+    "cosmology": {
+      "Omega_m": 0.3089,
+      "Omega_Lambda": 0.6911,
+      "h": 0.6774,
+      "sigma8": 0.8159
+    },
+    "shape_repair_commit": "c68c22d",
+    "analysis_ngrid": 2048,
+    "evolution_ngrid": 1024
+  },
+  "redshift": 1,
+  "step": 109,
+  "membership_checker_sha256": "7a84c1dc7444b9bfdf0a99763ecfe6fc005657ec17baae840fa9fb7d53b6e81c",
+  "threads": 32,
+  "science_files": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/catalogues-pair.npz": {
+      "sha256": "1d44b8be7f5361068996d77df3fa32476ec347d9bf11b83cd9cf704c33df6940",
+      "bytes": 3356505
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/v3/finder.json": {
+      "sha256": "4f1a97fb32d36a7da865e9508487558a74f0661c935a46a3e9a68ebe3fc1ff7d",
+      "bytes": 3197
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/v3/finder.log": {
+      "sha256": "cefc15196940271d64525459b625573ca5d96f7accb4f87e52f077d411e2aadf",
+      "bytes": 3095
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/v3/finder.time": {
+      "sha256": "41a5dd12b12bd4f76c584403cf00b3d24a63d5f692bd809871b7a21c042754c9",
+      "bytes": 29
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/v3/CATALOGS/CatshortV.0109.0001.DAT": {
+      "sha256": "bf9d3e9f60abfefa7fa580cde3d761ef89b8b66592eea2f122e5102c058c85bb",
+      "bytes": 4705800
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/v3/repair-members.bin": {
+      "sha256": "de3884f49018d0c891abb62f45c88d298290312f44014c09b8c6cd580c3b38e4",
+      "bytes": 104832108
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/v3/repair-members.index.npz": {
+      "sha256": "5d42070a65d0aaecd750cb199edbbb3c54ff55f4a7e101cd75dc97eaf20e699b",
+      "bytes": 1670353
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/legacy/finder.json": {
+      "sha256": "673140ad51ea413843e5bccd8c826d07cc90f4bc12b7ce5c58359a9772650af3",
+      "bytes": 2963
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/legacy/finder.log": {
+      "sha256": "fab8d61000cd1fca69244bfc54cf02ae1c7752384797cbd1e6fa69f4d582b10e",
+      "bytes": 3284
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/legacy/finder.time": {
+      "sha256": "58a18ddae23650cb3ffbf97d0ce90daccb4c88d8c61c09ae4fa6edfd9bd919dd",
+      "bytes": 28
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/legacy/CATALOGS/CatshortV.0109.0001.DAT": {
+      "sha256": "efd0bccc4ad3eaa2a6f977ca104aaafdf9bb5f551628c0ff3a07a763731c2e4b",
+      "bytes": 4615513
+    }
+  },
+  "density": {
+    "path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/density.bin",
+    "sha256": "f47867155be012aaf209aa796c73fbbe8a97f11f04c4517d8998a46d968e2fb6",
+    "bytes": 34359738396,
+    "retained": true,
+    "shared_bit_identical_density": true
+  },
+  "variants": {
+    "v3": {
+      "catalogue": {
+        "path": "BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/v3/CATALOGS/CatshortV.0109.0001.DAT",
+        "sha256": "bf9d3e9f60abfefa7fa580cde3d761ef89b8b66592eea2f122e5102c058c85bb",
+        "rows": 16626,
+        "nonfinite_by_column": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "stage_receipt": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/v3/finder.json",
+      "elapsed_seconds": 92.69080919300904,
+      "maxrss_kib": 36753500,
+      "diagnostics": {
+        "actual_configuration": {
+          "iVirial": [
+            1.0
+          ],
+          "Rext": [
+            0.15
+          ],
+          "MassMin": [
+            2500000000000.0
+          ]
+        },
+        "candidate_status_counts": [
+          [
+            1685978,
+            0,
+            1610,
+            6231,
+            0
+          ]
+        ],
+        "status_order": [
+          "few",
+          "SO cap",
+          "Vmax unresolved",
+          "no bound",
+          "singular centre"
+        ]
+      },
+      "membership": {
+        "selected": 16626,
+        "candidates": 2066514,
+        "mass_one": 10711107584.0,
+        "exact_duplicate_member_sets": 0,
+        "repeated_original_ids": 0,
+        "mass_count_mismatches": 0,
+        "host_exclusion_violations": 0,
+        "higher_priority_neighbours_examined": 0,
+        "ordered_candidate_ids": true,
+        "catalogue_columns_linked_to_raw": 23,
+        "particle_mass_checked_against_snapshot": true,
+        "raw_sha256": "de3884f49018d0c891abb62f45c88d298290312f44014c09b8c6cd580c3b38e4",
+        "retained_raw": "BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/v3/repair-members.bin",
+        "total_memberships": 12896186,
+        "index_sha256": "5d42070a65d0aaecd750cb199edbbb3c54ff55f4a7e101cd75dc97eaf20e699b"
+      }
+    },
+    "legacy": {
+      "catalogue": {
+        "path": "BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/legacy/CATALOGS/CatshortV.0109.0001.DAT",
+        "sha256": "efd0bccc4ad3eaa2a6f977ca104aaafdf9bb5f551628c0ff3a07a763731c2e4b",
+        "rows": 16307,
+        "nonfinite_by_column": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "stage_receipt": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/legacy/finder.json",
+      "elapsed_seconds": 19.161467664001975,
+      "maxrss_kib": 36820112
+    }
+  },
+  "catalogue_arrays": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/B-z1-ng2048/catalogues-pair.npz",
+  "catalogue_arrays_sha256": "1d44b8be7f5361068996d77df3fa32476ec347d9bf11b83cd9cf704c33df6940",
+  "completed_at_utc": "2026-09-08T00:34:05.321556+00:00"
+}

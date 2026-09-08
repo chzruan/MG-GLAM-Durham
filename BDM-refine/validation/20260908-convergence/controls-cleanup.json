@@ -1,0 +1,1036 @@
+{
+  "completed": true,
+  "started_at_utc": "2026-09-08T00:43:40.218044+00:00",
+  "archive": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work-controls.tar.gz",
+  "archive_sha256": "3c6b1307281edd3827caf47a88505987751af0ae85e397faeec8e136e3934c67",
+  "archive_bytes": 87935,
+  "archive_verified_member_by_member": true,
+  "prefixes": [
+    "work/driver-controls",
+    "work/driver-resume-controls-20260908"
+  ],
+  "manifest": {
+    "work/driver-controls/left.bin": {
+      "bytes": 512,
+      "mode": 420,
+      "mtime_ns": 1788826626000000000,
+      "device": 56918434,
+      "inode": 198160013510951418,
+      "kind": "file",
+      "sha256": "1de944410b300e1e7c9d4844de9c36f91ee99bc63fd64a75c6f7011fed551917"
+    },
+    "work/driver-controls/legacy-stop.sh": {
+      "bytes": 92,
+      "mode": 493,
+      "mtime_ns": 1788826656000000000,
+      "device": 56918434,
+      "inode": 198160013510951468,
+      "kind": "file",
+      "sha256": "b82a3c10386e0b99dd61240a6eac3708e2b2f8f0f9998a5b34c1e46e77b568e2"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/catalogues-pair.npz": {
+      "bytes": 542,
+      "mode": 420,
+      "mtime_ns": 1788826653000000000,
+      "device": 56918434,
+      "inode": 198160013510951466,
+      "kind": "file",
+      "sha256": "130ce766344d2055193518dca7dcdc7fa5bad31d9bd7ba815c8ef14b8d1ce8f8"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/catalogues-v3.npz": {
+      "bytes": 268,
+      "mode": 420,
+      "mtime_ns": 1788826645000000000,
+      "device": 56918434,
+      "inode": 198160013510951449,
+      "kind": "file",
+      "sha256": "faa47c060d309b84bac156ce5738ecf97898c000778cc1f0a158d9539cad57c2"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/density.bin": {
+      "bytes": 16412,
+      "mode": 420,
+      "mtime_ns": 1788826656000000000,
+      "device": 56918434,
+      "inode": 198160013510951440,
+      "kind": "file",
+      "sha256": "1dc7c31e33797e925259850bf6ee653d9e20f1ad95b99178b09feb233813103d"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/legacy/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788826645000000000,
+      "device": 56918434,
+      "inode": 198160013510951454,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/legacy/CATALOGS/CatshortV.0001.0001.DAT": {
+      "bytes": 915,
+      "mode": 420,
+      "mtime_ns": 1788826651000000000,
+      "device": 56918434,
+      "inode": 198160013510951464,
+      "kind": "file",
+      "sha256": "344332df3f1a5a7ef516611d2134cf8aff5798822f7ebd929fdea864ed359860"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/legacy/CATALOGS/outputB.0001.dat": {
+      "bytes": 954,
+      "mode": 420,
+      "mtime_ns": 1788826651000000000,
+      "device": 56918434,
+      "inode": 198160013510951463,
+      "kind": "file",
+      "sha256": "383cf9c2b17ca46d16ff5b9e7164442d49475c2dfc19191483ea537d62253eb4"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/legacy/PMcrd.0001.DAT": {
+      "bytes": 137,
+      "mode": 511,
+      "mtime_ns": 1788826645000000000,
+      "device": 56918434,
+      "inode": 198160013510951455,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls/snapshot/PMcrd.0001.DAT"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/legacy/PMcrs0.0001.DAT": {
+      "bytes": 138,
+      "mode": 511,
+      "mtime_ns": 1788826645000000000,
+      "device": 56918434,
+      "inode": 198160013510951456,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls/snapshot/PMcrs0.0001.DAT"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/legacy/finder.json": {
+      "bytes": 3097,
+      "mode": 420,
+      "mtime_ns": 1788826651000000000,
+      "device": 56918434,
+      "inode": 198160013510951465,
+      "kind": "file",
+      "sha256": "418c7244b7596b514167d9abb319223e6844b39188f7f7967284a37dceadd918"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/legacy/finder.log": {
+      "bytes": 3277,
+      "mode": 420,
+      "mtime_ns": 1788826651000000000,
+      "device": 56918434,
+      "inode": 198160013510951458,
+      "kind": "file",
+      "sha256": "f2765b3608ac84afd9c3b3be7935274194012791c58e92088afa41c7d1e442fd"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/legacy/finder.time": {
+      "bytes": 21,
+      "mode": 420,
+      "mtime_ns": 1788826651000000000,
+      "device": 56918434,
+      "inode": 198160013510951459,
+      "kind": "file",
+      "sha256": "303cd3b3df07d3beccffd153ff574c89f3e514391ea1909f87778f2015a13784"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/legacy/fort.13": {
+      "bytes": 70,
+      "mode": 420,
+      "mtime_ns": 1788826649000000000,
+      "device": 56918434,
+      "inode": 198160013510951462,
+      "kind": "file",
+      "sha256": "ffb15843ed9222cb5dc0bf8a4ab51f80719b7b30a246b1d028a9ed1f541f9f7a"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/legacy/fort.17": {
+      "bytes": 1264,
+      "mode": 420,
+      "mtime_ns": 1788826651000000000,
+      "device": 56918434,
+      "inode": 198160013510951461,
+      "kind": "file",
+      "sha256": "540cd4e06a7206c6b7a4b865303296d831ac068f0e16fef5c45f609f39cbccff"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/v3/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788826629000000000,
+      "device": 56918434,
+      "inode": 198160013510951432,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/v3/CATALOGS/CatshortV.0001.0001.DAT": {
+      "bytes": 912,
+      "mode": 420,
+      "mtime_ns": 1788826636000000000,
+      "device": 56918434,
+      "inode": 198160013510951442,
+      "kind": "file",
+      "sha256": "cacbdcf752c69e94da16e6d4d85f923bc7f0ce96c81914bf94bcece646daf0e1"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/v3/CATALOGS/outputB.0001.dat": {
+      "bytes": 978,
+      "mode": 420,
+      "mtime_ns": 1788826637000000000,
+      "device": 56918434,
+      "inode": 198160013510951441,
+      "kind": "file",
+      "sha256": "013e8a837081842f1c14dc9ecfd5b679f18b83c4548b781c9b8eb768f057df6e"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/v3/PMcrd.0001.DAT": {
+      "bytes": 137,
+      "mode": 511,
+      "mtime_ns": 1788826629000000000,
+      "device": 56918434,
+      "inode": 198160013510951433,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls/snapshot/PMcrd.0001.DAT"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/v3/PMcrs0.0001.DAT": {
+      "bytes": 138,
+      "mode": 511,
+      "mtime_ns": 1788826629000000000,
+      "device": 56918434,
+      "inode": 198160013510951434,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls/snapshot/PMcrs0.0001.DAT"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/v3/finder.json": {
+      "bytes": 3345,
+      "mode": 420,
+      "mtime_ns": 1788826638000000000,
+      "device": 56918434,
+      "inode": 198160013510951444,
+      "kind": "file",
+      "sha256": "4dd80471ea2f4834bf7ff3fd6fbabc2542acae0dfc0d8e5eb545dea29b622964"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/v3/finder.log": {
+      "bytes": 3055,
+      "mode": 420,
+      "mtime_ns": 1788826637000000000,
+      "device": 56918434,
+      "inode": 198160013510951436,
+      "kind": "file",
+      "sha256": "258567903ab68fc82d6fc47a1b1f7b36884a6f8a03d684531176a5febb3df903"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/v3/finder.time": {
+      "bytes": 21,
+      "mode": 420,
+      "mtime_ns": 1788826638000000000,
+      "device": 56918434,
+      "inode": 198160013510951437,
+      "kind": "file",
+      "sha256": "52302b535ec5724a9d829412fab213771419770c734993cb54106d3a9edb2b75"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/v3/fort.17": {
+      "bytes": 1003,
+      "mode": 420,
+      "mtime_ns": 1788826637000000000,
+      "device": 56918434,
+      "inode": 198160013510951439,
+      "kind": "file",
+      "sha256": "2e28a99f7a2f5e7f9aa195c5dc33328b0976fdb5f298f266648862f31ef0ff9e"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/v3/repair-members.bin": {
+      "bytes": 632,
+      "mode": 420,
+      "mtime_ns": 1788826637000000000,
+      "device": 56918434,
+      "inode": 198160013510951443,
+      "kind": "file",
+      "sha256": "460ca3dd7174eebda059bb360549162ae79b711911b1b6e757b5453750d7721b"
+    },
+    "work/driver-controls/replays/fixture-z0-ng16/v3/repair-members.index.npz": {
+      "bytes": 850,
+      "mode": 420,
+      "mtime_ns": 1788826638000000000,
+      "device": 56918434,
+      "inode": 198160013510951445,
+      "kind": "file",
+      "sha256": "978c3eb893a65ba6dfd402d4832bab20bdf1ba6d5ca8e2404777427e3993783b"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/catalogues-v3.npz": {
+      "bytes": 268,
+      "mode": 420,
+      "mtime_ns": 1788826683000000000,
+      "device": 56918434,
+      "inode": 198160013510951500,
+      "kind": "file",
+      "sha256": "faa47c060d309b84bac156ce5738ecf97898c000778cc1f0a158d9539cad57c2"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/density.bin": {
+      "bytes": 16412,
+      "mode": 420,
+      "mtime_ns": 1788826659000000000,
+      "device": 56918434,
+      "inode": 198160013510951481,
+      "kind": "file",
+      "sha256": "1dc7c31e33797e925259850bf6ee653d9e20f1ad95b99178b09feb233813103d"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/legacy/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788826674000000000,
+      "device": 56918434,
+      "inode": 198160013510951492,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/legacy/CATALOGS/Catshort.partial.DAT": {
+      "bytes": 32,
+      "mode": 420,
+      "mtime_ns": 1788826678000000000,
+      "device": 56918434,
+      "inode": 198160013510951498,
+      "kind": "file",
+      "sha256": "d9136760ec8533072556c33d3d522bea69947cb3eb499661c6984accf21477ad"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/legacy/PMcrd.0001.DAT": {
+      "bytes": 137,
+      "mode": 511,
+      "mtime_ns": 1788826674000000000,
+      "device": 56918434,
+      "inode": 198160013510951493,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls/snapshot/PMcrd.0001.DAT"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/legacy/PMcrs0.0001.DAT": {
+      "bytes": 138,
+      "mode": 511,
+      "mtime_ns": 1788826674000000000,
+      "device": 56918434,
+      "inode": 198160013510951494,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls/snapshot/PMcrs0.0001.DAT"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/legacy/finder.json": {
+      "bytes": 3092,
+      "mode": 420,
+      "mtime_ns": 1788826681000000000,
+      "device": 56918434,
+      "inode": 198160013510951499,
+      "kind": "file",
+      "sha256": "aa1372daa808ed49f414fb97f7326cf2e152355196aceab60ed20b222cff97b7"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/legacy/finder.log": {
+      "bytes": 0,
+      "mode": 420,
+      "mtime_ns": 1788826675000000000,
+      "device": 56918434,
+      "inode": 198160013510951496,
+      "kind": "file",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/legacy/finder.time": {
+      "bytes": 20,
+      "mode": 420,
+      "mtime_ns": 1788826679000000000,
+      "device": 56918434,
+      "inode": 198160013510951497,
+      "kind": "file",
+      "sha256": "132542edaed872c54e7053d45d11dcc87045f00e9f456d8f63b6d8715412eebc"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/v3/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788826657000000000,
+      "device": 56918434,
+      "inode": 198160013510951473,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/v3/CATALOGS/CatshortV.0001.0001.DAT": {
+      "bytes": 912,
+      "mode": 420,
+      "mtime_ns": 1788826662000000000,
+      "device": 56918434,
+      "inode": 198160013510951483,
+      "kind": "file",
+      "sha256": "cacbdcf752c69e94da16e6d4d85f923bc7f0ce96c81914bf94bcece646daf0e1"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/v3/CATALOGS/outputB.0001.dat": {
+      "bytes": 978,
+      "mode": 420,
+      "mtime_ns": 1788826662000000000,
+      "device": 56918434,
+      "inode": 198160013510951482,
+      "kind": "file",
+      "sha256": "66dc8b7c3c32b6ae1a077d828876f0af4467f7cab9eaecca77cbe919ad656b61"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/v3/PMcrd.0001.DAT": {
+      "bytes": 137,
+      "mode": 511,
+      "mtime_ns": 1788826657000000000,
+      "device": 56918434,
+      "inode": 198160013510951474,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls/snapshot/PMcrd.0001.DAT"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/v3/PMcrs0.0001.DAT": {
+      "bytes": 138,
+      "mode": 511,
+      "mtime_ns": 1788826657000000000,
+      "device": 56918434,
+      "inode": 198160013510951475,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls/snapshot/PMcrs0.0001.DAT"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/v3/finder.json": {
+      "bytes": 3345,
+      "mode": 420,
+      "mtime_ns": 1788826665000000000,
+      "device": 56918434,
+      "inode": 198160013510951485,
+      "kind": "file",
+      "sha256": "a7cd109576a3b854809d77e4956664330311bdec96e0f6b684a6b31b5c8a5415"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/v3/finder.log": {
+      "bytes": 3055,
+      "mode": 420,
+      "mtime_ns": 1788826662000000000,
+      "device": 56918434,
+      "inode": 198160013510951477,
+      "kind": "file",
+      "sha256": "77f7ba7dc2389529d479858ec77c85908928e97e06a48869902e3b430448d90b"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/v3/finder.time": {
+      "bytes": 21,
+      "mode": 420,
+      "mtime_ns": 1788826664000000000,
+      "device": 56918434,
+      "inode": 198160013510951478,
+      "kind": "file",
+      "sha256": "88e8ec826dfad23059580967de01f35848b74e6cb1a1bf71c8167658199f70a2"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/v3/fort.17": {
+      "bytes": 1003,
+      "mode": 420,
+      "mtime_ns": 1788826662000000000,
+      "device": 56918434,
+      "inode": 198160013510951480,
+      "kind": "file",
+      "sha256": "2e28a99f7a2f5e7f9aa195c5dc33328b0976fdb5f298f266648862f31ef0ff9e"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/v3/repair-members.bin": {
+      "bytes": 632,
+      "mode": 420,
+      "mtime_ns": 1788826662000000000,
+      "device": 56918434,
+      "inode": 198160013510951484,
+      "kind": "file",
+      "sha256": "460ca3dd7174eebda059bb360549162ae79b711911b1b6e757b5453750d7721b"
+    },
+    "work/driver-controls/replays/stopped-z0-ng16/v3/repair-members.index.npz": {
+      "bytes": 850,
+      "mode": 420,
+      "mtime_ns": 1788826666000000000,
+      "device": 56918434,
+      "inode": 198160013510951486,
+      "kind": "file",
+      "sha256": "978c3eb893a65ba6dfd402d4832bab20bdf1ba6d5ca8e2404777427e3993783b"
+    },
+    "work/driver-controls/reports/fixture-simulation.json": {
+      "bytes": 1268,
+      "mode": 420,
+      "mtime_ns": 1788826628000000000,
+      "device": 56918434,
+      "inode": 198160013510951427,
+      "kind": "file",
+      "sha256": "e87c0f00f9a31a42cd6cb54de5825e65e615ace212792c60e11c02714f939731"
+    },
+    "work/driver-controls/reports/replay-fixture-z0-ng16.json": {
+      "bytes": 7479,
+      "mode": 420,
+      "mtime_ns": 1788826655000000000,
+      "device": 56918434,
+      "inode": 198160013510951467,
+      "kind": "file",
+      "sha256": "56c6374a638539cea9159e2fefce6ffcb1af347d33ff2e128784980933af45aa"
+    },
+    "work/driver-controls/reports/replay-stopped-z0-ng16.json": {
+      "bytes": 5739,
+      "mode": 420,
+      "mtime_ns": 1788826687000000000,
+      "device": 56918434,
+      "inode": 198160013510951501,
+      "kind": "file",
+      "sha256": "22f45c7f03ee89e8a237965fb110514c4e69f8767c8c0ce2ac09c9e3332c3778"
+    },
+    "work/driver-controls/reports/stopped-simulation.json": {
+      "bytes": 1268,
+      "mode": 420,
+      "mtime_ns": 1788826656000000000,
+      "device": 56918434,
+      "inode": 198160013510951469,
+      "kind": "file",
+      "sha256": "e87c0f00f9a31a42cd6cb54de5825e65e615ace212792c60e11c02714f939731"
+    },
+    "work/driver-controls/reports/v3-validation-fixture-z0-ng16.json": {
+      "bytes": 5438,
+      "mode": 420,
+      "mtime_ns": 1788826645000000000,
+      "device": 56918434,
+      "inode": 198160013510951451,
+      "kind": "file",
+      "sha256": "32204ac5f8c3d31a20c59183beeb035f4bb58a2020656ee2d62c17571c5e4b22"
+    },
+    "work/driver-controls/reports/v3-validation-stopped-z0-ng16.json": {
+      "bytes": 5739,
+      "mode": 420,
+      "mtime_ns": 1788826694000000000,
+      "device": 56918434,
+      "inode": 198160013510951502,
+      "kind": "file",
+      "sha256": "22f45c7f03ee89e8a237965fb110514c4e69f8767c8c0ce2ac09c9e3332c3778"
+    },
+    "work/driver-controls/right.bin": {
+      "bytes": 4096,
+      "mode": 420,
+      "mtime_ns": 1788826626000000000,
+      "device": 56918434,
+      "inode": 198160013510951419,
+      "kind": "file",
+      "sha256": "b4921c0390adf22fc0983da5cb1ac5071d8874e10b873df113cae22dfaa836d2"
+    },
+    "work/driver-controls/snapshot/BDM.config": {
+      "bytes": 171,
+      "mode": 420,
+      "mtime_ns": 1788826627000000000,
+      "device": 56918434,
+      "inode": 198160013510951422,
+      "kind": "file",
+      "sha256": "70f5a2443e8be33d6f0ab0079fcac8a801077ee6310e5c3e0f85bb47f1c3e499"
+    },
+    "work/driver-controls/snapshot/PMcrd.0001.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788826627000000000,
+      "device": 56918434,
+      "inode": 198160013510951423,
+      "kind": "file",
+      "sha256": "761d556e78f1959c30191e1486f2bf0367812fc470958040dd12f110e13c455c"
+    },
+    "work/driver-controls/snapshot/PMcrs0.0001.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788826628000000000,
+      "device": 56918434,
+      "inode": 198160013510951424,
+      "kind": "file",
+      "sha256": "62880f96021fa4fb550a2c9567a985428ab70bc02e8cc431da3ea78a58538eb7"
+    },
+    "work/driver-resume-controls-20260908/changed-bin/PMP2replay.legacy.exe": {
+      "bytes": 123,
+      "mode": 511,
+      "mtime_ns": 1788827648000000000,
+      "device": 56918434,
+      "inode": 198160013510951658,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2replay.legacy.exe"
+    },
+    "work/driver-resume-controls-20260908/changed-bin/PMP2replay.v3.exe": {
+      "bytes": 119,
+      "mode": 511,
+      "mtime_ns": 1788827648000000000,
+      "device": 56918434,
+      "inode": 198160013510951656,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2replay.v3.exe"
+    },
+    "work/driver-resume-controls-20260908/legacy-stop.sh": {
+      "bytes": 92,
+      "mode": 493,
+      "mtime_ns": 1788827648000000000,
+      "device": 56918434,
+      "inode": 198160013510951659,
+      "kind": "file",
+      "sha256": "b82a3c10386e0b99dd61240a6eac3708e2b2f8f0f9998a5b34c1e46e77b568e2"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/catalogues-pair.npz": {
+      "bytes": 542,
+      "mode": 420,
+      "mtime_ns": 1788827646000000000,
+      "device": 56918434,
+      "inode": 198160013510951648,
+      "kind": "file",
+      "sha256": "130ce766344d2055193518dca7dcdc7fa5bad31d9bd7ba815c8ef14b8d1ce8f8"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/catalogues-v3.npz": {
+      "bytes": 268,
+      "mode": 420,
+      "mtime_ns": 1788827645000000000,
+      "device": 56918434,
+      "inode": 198160013510951631,
+      "kind": "file",
+      "sha256": "faa47c060d309b84bac156ce5738ecf97898c000778cc1f0a158d9539cad57c2"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/density.bin": {
+      "bytes": 16412,
+      "mode": 420,
+      "mtime_ns": 1788827647000000000,
+      "device": 56918434,
+      "inode": 198160013510951622,
+      "kind": "file",
+      "sha256": "1dc7c31e33797e925259850bf6ee653d9e20f1ad95b99178b09feb233813103d"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/legacy/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788827647000000000,
+      "device": 56918434,
+      "inode": 198160013510951636,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/legacy/CATALOGS/CatshortV.0001.0001.DAT": {
+      "bytes": 915,
+      "mode": 420,
+      "mtime_ns": 1788827646000000000,
+      "device": 56918434,
+      "inode": 198160013510951646,
+      "kind": "file",
+      "sha256": "344332df3f1a5a7ef516611d2134cf8aff5798822f7ebd929fdea864ed359860"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/legacy/CATALOGS/outputB.0001.dat": {
+      "bytes": 954,
+      "mode": 420,
+      "mtime_ns": 1788827646000000000,
+      "device": 56918434,
+      "inode": 198160013510951645,
+      "kind": "file",
+      "sha256": "e9ca0a01a7d7a2a44e2ff61944c95ac3ee65ed82341cf25cd0d65266988262fc"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/legacy/PMcrd.0001.DAT": {
+      "bytes": 153,
+      "mode": 511,
+      "mtime_ns": 1788827646000000000,
+      "device": 56918434,
+      "inode": 198160013510951637,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/snapshot/PMcrd.0001.DAT"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/legacy/PMcrs0.0001.DAT": {
+      "bytes": 154,
+      "mode": 511,
+      "mtime_ns": 1788827646000000000,
+      "device": 56918434,
+      "inode": 198160013510951638,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/snapshot/PMcrs0.0001.DAT"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/legacy/finder.json": {
+      "bytes": 3242,
+      "mode": 420,
+      "mtime_ns": 1788827646000000000,
+      "device": 56918434,
+      "inode": 198160013510951647,
+      "kind": "file",
+      "sha256": "a26a3c3ac3de7ef6e5937b396cb9c446ccb54516e6a9d8e9db755e4ed9ef62de"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/legacy/finder.log": {
+      "bytes": 3277,
+      "mode": 420,
+      "mtime_ns": 1788827646000000000,
+      "device": 56918434,
+      "inode": 198160013510951640,
+      "kind": "file",
+      "sha256": "e70ee3e42ddb2dd2da1cbe745ac8bfe008de2913eb905ed755ffdf557596023d"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/legacy/finder.time": {
+      "bytes": 21,
+      "mode": 420,
+      "mtime_ns": 1788827646000000000,
+      "device": 56918434,
+      "inode": 198160013510951641,
+      "kind": "file",
+      "sha256": "01c643921ddad818740da3019852bffab010dc82846471cdb98495468c1bea5d"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/legacy/fort.13": {
+      "bytes": 70,
+      "mode": 420,
+      "mtime_ns": 1788827646000000000,
+      "device": 56918434,
+      "inode": 198160013510951644,
+      "kind": "file",
+      "sha256": "04822a657c56f63ea54702308d575bfc09fef67d1dff178f5aba1eb1096d91e2"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/legacy/fort.17": {
+      "bytes": 1264,
+      "mode": 420,
+      "mtime_ns": 1788827646000000000,
+      "device": 56918434,
+      "inode": 198160013510951643,
+      "kind": "file",
+      "sha256": "540cd4e06a7206c6b7a4b865303296d831ac068f0e16fef5c45f609f39cbccff"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788827643000000000,
+      "device": 56918434,
+      "inode": 198160013510951614,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/CATALOGS/CatshortV.0001.0001.DAT": {
+      "bytes": 912,
+      "mode": 420,
+      "mtime_ns": 1788827644000000000,
+      "device": 56918434,
+      "inode": 198160013510951624,
+      "kind": "file",
+      "sha256": "cacbdcf752c69e94da16e6d4d85f923bc7f0ce96c81914bf94bcece646daf0e1"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/CATALOGS/outputB.0001.dat": {
+      "bytes": 978,
+      "mode": 420,
+      "mtime_ns": 1788827644000000000,
+      "device": 56918434,
+      "inode": 198160013510951623,
+      "kind": "file",
+      "sha256": "c85ea31a5bd734fbc4e83e69c440480a9af67137aa01a383d89c839fcd198474"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/PMcrd.0001.DAT": {
+      "bytes": 153,
+      "mode": 511,
+      "mtime_ns": 1788827643000000000,
+      "device": 56918434,
+      "inode": 198160013510951615,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/snapshot/PMcrd.0001.DAT"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/PMcrs0.0001.DAT": {
+      "bytes": 154,
+      "mode": 511,
+      "mtime_ns": 1788827643000000000,
+      "device": 56918434,
+      "inode": 198160013510951616,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/snapshot/PMcrs0.0001.DAT"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/finder.json": {
+      "bytes": 3507,
+      "mode": 420,
+      "mtime_ns": 1788827644000000000,
+      "device": 56918434,
+      "inode": 198160013510951626,
+      "kind": "file",
+      "sha256": "d30b2e166f0927e88bf8fd271322e71e798645ceb2c5b440c7f75489a2d8997f"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/finder.log": {
+      "bytes": 3055,
+      "mode": 420,
+      "mtime_ns": 1788827644000000000,
+      "device": 56918434,
+      "inode": 198160013510951618,
+      "kind": "file",
+      "sha256": "c28f491f1f50c01766ca1fd6bc4fe80babb3d768717743c76b6a6a3ef360f08a"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/finder.time": {
+      "bytes": 21,
+      "mode": 420,
+      "mtime_ns": 1788827644000000000,
+      "device": 56918434,
+      "inode": 198160013510951619,
+      "kind": "file",
+      "sha256": "a93166893d10e4096c892480bf1c7e2259548ca05a5f72b29c802799692b6a47"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/fort.17": {
+      "bytes": 1003,
+      "mode": 420,
+      "mtime_ns": 1788827644000000000,
+      "device": 56918434,
+      "inode": 198160013510951621,
+      "kind": "file",
+      "sha256": "2e28a99f7a2f5e7f9aa195c5dc33328b0976fdb5f298f266648862f31ef0ff9e"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/repair-members.bin": {
+      "bytes": 632,
+      "mode": 420,
+      "mtime_ns": 1788827644000000000,
+      "device": 56918434,
+      "inode": 198160013510951625,
+      "kind": "file",
+      "sha256": "460ca3dd7174eebda059bb360549162ae79b711911b1b6e757b5453750d7721b"
+    },
+    "work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/repair-members.index.npz": {
+      "bytes": 850,
+      "mode": 420,
+      "mtime_ns": 1788827644000000000,
+      "device": 56918434,
+      "inode": 198160013510951627,
+      "kind": "file",
+      "sha256": "978c3eb893a65ba6dfd402d4832bab20bdf1ba6d5ca8e2404777427e3993783b"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/catalogues-v3.npz": {
+      "bytes": 268,
+      "mode": 420,
+      "mtime_ns": 1788827651000000000,
+      "device": 56918434,
+      "inode": 198160013510951691,
+      "kind": "file",
+      "sha256": "faa47c060d309b84bac156ce5738ecf97898c000778cc1f0a158d9539cad57c2"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/density.bin": {
+      "bytes": 16412,
+      "mode": 420,
+      "mtime_ns": 1788827649000000000,
+      "device": 56918434,
+      "inode": 198160013510951672,
+      "kind": "file",
+      "sha256": "1dc7c31e33797e925259850bf6ee653d9e20f1ad95b99178b09feb233813103d"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/legacy/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788827650000000000,
+      "device": 56918434,
+      "inode": 198160013510951683,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/legacy/CATALOGS/Catshort.partial.DAT": {
+      "bytes": 32,
+      "mode": 420,
+      "mtime_ns": 1788827650000000000,
+      "device": 56918434,
+      "inode": 198160013510951689,
+      "kind": "file",
+      "sha256": "d9136760ec8533072556c33d3d522bea69947cb3eb499661c6984accf21477ad"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/legacy/PMcrd.0001.DAT": {
+      "bytes": 153,
+      "mode": 511,
+      "mtime_ns": 1788827650000000000,
+      "device": 56918434,
+      "inode": 198160013510951684,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/snapshot/PMcrd.0001.DAT"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/legacy/PMcrs0.0001.DAT": {
+      "bytes": 154,
+      "mode": 511,
+      "mtime_ns": 1788827650000000000,
+      "device": 56918434,
+      "inode": 198160013510951685,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/snapshot/PMcrs0.0001.DAT"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/legacy/finder.json": {
+      "bytes": 3256,
+      "mode": 420,
+      "mtime_ns": 1788827650000000000,
+      "device": 56918434,
+      "inode": 198160013510951690,
+      "kind": "file",
+      "sha256": "fd432f971ee1089ecbc185a3ba9e3ef89be93e3597f6138b62412c3c40b331cd"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/legacy/finder.log": {
+      "bytes": 0,
+      "mode": 420,
+      "mtime_ns": 1788827650000000000,
+      "device": 56918434,
+      "inode": 198160013510951687,
+      "kind": "file",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/legacy/finder.time": {
+      "bytes": 20,
+      "mode": 420,
+      "mtime_ns": 1788827650000000000,
+      "device": 56918434,
+      "inode": 198160013510951688,
+      "kind": "file",
+      "sha256": "2b46f56a17db4ae1b8d9e0238382ac8c6b8fdd79ca04b7594a91116c12740610"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/v3/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788827649000000000,
+      "device": 56918434,
+      "inode": 198160013510951664,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/v3/CATALOGS/CatshortV.0001.0001.DAT": {
+      "bytes": 912,
+      "mode": 420,
+      "mtime_ns": 1788827649000000000,
+      "device": 56918434,
+      "inode": 198160013510951674,
+      "kind": "file",
+      "sha256": "cacbdcf752c69e94da16e6d4d85f923bc7f0ce96c81914bf94bcece646daf0e1"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/v3/CATALOGS/outputB.0001.dat": {
+      "bytes": 978,
+      "mode": 420,
+      "mtime_ns": 1788827649000000000,
+      "device": 56918434,
+      "inode": 198160013510951673,
+      "kind": "file",
+      "sha256": "0035af77d4f6bd2484e3dc4c66b701a83bca56e7d5d0436afa001be8eee89d08"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/v3/PMcrd.0001.DAT": {
+      "bytes": 153,
+      "mode": 511,
+      "mtime_ns": 1788827649000000000,
+      "device": 56918434,
+      "inode": 198160013510951665,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/snapshot/PMcrd.0001.DAT"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/v3/PMcrs0.0001.DAT": {
+      "bytes": 154,
+      "mode": 511,
+      "mtime_ns": 1788827649000000000,
+      "device": 56918434,
+      "inode": 198160013510951666,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/snapshot/PMcrs0.0001.DAT"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/v3/finder.json": {
+      "bytes": 3506,
+      "mode": 420,
+      "mtime_ns": 1788827649000000000,
+      "device": 56918434,
+      "inode": 198160013510951676,
+      "kind": "file",
+      "sha256": "3d30eaf6ca061aec57cc0ac645bee043c64706a676c0d8809dc67fd185c778f5"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/v3/finder.log": {
+      "bytes": 3055,
+      "mode": 420,
+      "mtime_ns": 1788827649000000000,
+      "device": 56918434,
+      "inode": 198160013510951668,
+      "kind": "file",
+      "sha256": "5156573d6c46120b077b16b918835d55ba32fbced5255d219f38b1e6c4fa4ab7"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/v3/finder.time": {
+      "bytes": 21,
+      "mode": 420,
+      "mtime_ns": 1788827649000000000,
+      "device": 56918434,
+      "inode": 198160013510951669,
+      "kind": "file",
+      "sha256": "67e175298c611318669a3da001a45ea667d0ff40d4c9c0d2510a811052c66050"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/v3/fort.17": {
+      "bytes": 1003,
+      "mode": 420,
+      "mtime_ns": 1788827649000000000,
+      "device": 56918434,
+      "inode": 198160013510951671,
+      "kind": "file",
+      "sha256": "2e28a99f7a2f5e7f9aa195c5dc33328b0976fdb5f298f266648862f31ef0ff9e"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/v3/repair-members.bin": {
+      "bytes": 632,
+      "mode": 420,
+      "mtime_ns": 1788827649000000000,
+      "device": 56918434,
+      "inode": 198160013510951675,
+      "kind": "file",
+      "sha256": "460ca3dd7174eebda059bb360549162ae79b711911b1b6e757b5453750d7721b"
+    },
+    "work/driver-resume-controls-20260908/replays/stopped-z0-ng16/v3/repair-members.index.npz": {
+      "bytes": 850,
+      "mode": 420,
+      "mtime_ns": 1788827650000000000,
+      "device": 56918434,
+      "inode": 198160013510951677,
+      "kind": "file",
+      "sha256": "978c3eb893a65ba6dfd402d4832bab20bdf1ba6d5ca8e2404777427e3993783b"
+    },
+    "work/driver-resume-controls-20260908/reports/fixture-simulation.json": {
+      "bytes": 1332,
+      "mode": 420,
+      "mtime_ns": 1788827647000000000,
+      "device": 56918434,
+      "inode": 198160013510951651,
+      "kind": "file",
+      "sha256": "fd75b458dc19ce6b9b62be32ec20e5cffa260084c766d539da6b7245dd89cae5"
+    },
+    "work/driver-resume-controls-20260908/reports/replay-fixture-z0-ng16.json": {
+      "bytes": 7769,
+      "mode": 420,
+      "mtime_ns": 1788827646000000000,
+      "device": 56918434,
+      "inode": 198160013510951649,
+      "kind": "file",
+      "sha256": "b2912d8ab6f428c01d723adabd7bd7c02136a4e5a4a138d2eeb70782ae6f3885"
+    },
+    "work/driver-resume-controls-20260908/reports/replay-stopped-z0-ng16.json": {
+      "bytes": 5948,
+      "mode": 420,
+      "mtime_ns": 1788827651000000000,
+      "device": 56918434,
+      "inode": 198160013510951692,
+      "kind": "file",
+      "sha256": "8f1fbe49e7169c07bb00d44cd313a66c72e6369043b09bd9101993eacc9a7438"
+    },
+    "work/driver-resume-controls-20260908/reports/stopped-simulation.json": {
+      "bytes": 1332,
+      "mode": 420,
+      "mtime_ns": 1788827648000000000,
+      "device": 56918434,
+      "inode": 198160013510951660,
+      "kind": "file",
+      "sha256": "fd75b458dc19ce6b9b62be32ec20e5cffa260084c766d539da6b7245dd89cae5"
+    },
+    "work/driver-resume-controls-20260908/reports/v3-validation-fixture-z0-ng16.json": {
+      "bytes": 5632,
+      "mode": 420,
+      "mtime_ns": 1788827646000000000,
+      "device": 56918434,
+      "inode": 198160013510951633,
+      "kind": "file",
+      "sha256": "84bd3a196f4e431002b545fbf5e535d6019965cde3f3c9293bc449906472553a"
+    },
+    "work/driver-resume-controls-20260908/reports/v3-validation-stopped-z0-ng16.json": {
+      "bytes": 5948,
+      "mode": 420,
+      "mtime_ns": 1788827652000000000,
+      "device": 56918434,
+      "inode": 198160013510951693,
+      "kind": "file",
+      "sha256": "8f1fbe49e7169c07bb00d44cd313a66c72e6369043b09bd9101993eacc9a7438"
+    },
+    "work/driver-resume-controls-20260908/resume-controls.json": {
+      "bytes": 2363,
+      "mode": 420,
+      "mtime_ns": 1788827652000000000,
+      "device": 56918434,
+      "inode": 198160013510951694,
+      "kind": "file",
+      "sha256": "846e0038d0e96ceed251ad75c808152667f704ede7a1a6393b7fd07b156a3385"
+    },
+    "work/driver-resume-controls-20260908/snapshot/BDM.config": {
+      "bytes": 171,
+      "mode": 420,
+      "mtime_ns": 1788827642000000000,
+      "device": 56918434,
+      "inode": 198160013510951604,
+      "kind": "file",
+      "sha256": "70f5a2443e8be33d6f0ab0079fcac8a801077ee6310e5c3e0f85bb47f1c3e499"
+    },
+    "work/driver-resume-controls-20260908/snapshot/PMcrd.0001.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788827642000000000,
+      "device": 56918434,
+      "inode": 198160013510951605,
+      "kind": "file",
+      "sha256": "761d556e78f1959c30191e1486f2bf0367812fc470958040dd12f110e13c455c"
+    },
+    "work/driver-resume-controls-20260908/snapshot/PMcrs0.0001.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788827647000000000,
+      "device": 56918434,
+      "inode": 198160013510951606,
+      "kind": "file",
+      "sha256": "62880f96021fa4fb550a2c9567a985428ab70bc02e8cc431da3ea78a58538eb7"
+    }
+  },
+  "files_removed": 113,
+  "completed_at_utc": "2026-09-08T00:43:40.765854+00:00",
+  "net_files_reduced": 111,
+  "retained": "work/bin, scientific IC/snapshots/replays, bundles/logs, reference inputs and timestep tables",
+  "restore": "tar -xzf work-controls.tar.gz -C . (run in the campaign directory; restore only if needed)"
+}

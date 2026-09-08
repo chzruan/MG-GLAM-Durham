@@ -89,6 +89,47 @@ The 21 common-analysis density tapes occupy about 672 GiB but only 21 files;
 retain them for exact replay/resume. Inode cleanup targets verified compiler,
 fixture and agent-worktree artifacts, not these scientific controls.
 
+Completed cleanup consolidated 465 files/links into three verified archives:
+23 root compiler outputs, 329 completed build/pilot fixtures, and 113 replay
+driver fixtures. The three receipts record every original hash and each
+archive hash. Executables, active data and queued-job bundles remain in place.
+To restore old build or fixture paths for rerunning controls, extract the
+corresponding `work-artifacts.tar.gz` or `work-controls.tar.gz` in this directory.
+No rebuild is needed to execute the frozen campaign.
+
+## Analysis and continuation
+
+`jobs.json` records every job, frozen bundle, dependencies, expected and
+time-limit core-hours, plus any resource amendment. Paired B replays measured
+94.5 GiB batch MaxRSS (native finder processes peaked at 35.2 GiB); pending C/D
+paired replays were increased from 96 to 128 GiB through recorded `scontrol`
+updates. The original submitted scripts remain immutable. The final
+expected campaign cost is approximately 2400 billed core-hours, with the
+3000-hour planning allowance retained. Wall limits provide additional margin
+and their summed maximum is larger than expected usage.
+
+`analyze.py` reads independently validated v3 memberships. It matches shared
+initial-lattice IDs, records both overlap fractions, and compares bound masses
+as float64 member counts times stored particle masses. Reported total aperture
+mass and radius are labelled separately from the SO definition. A zero Vmax
+is an unresolved sentinel, excluded from shifts and counted separately.
+Entire mass bins must lie above the publication/common particle-count floor.
+The analysis records 100/300/1000-particle floors, paired eight-octant abundance
+uncertainty, matched scatter, completeness and source/input hashes.
+
+`assess.py` writes `CONVERGENCE.md` and `convergence-assessment.json`. Its
+adjustable working screen requires 30 objects per bin, abundance and median
+bound mass within 5%, resolved median Vmax within 2%, reference completeness
+of at least 90%, and abundance jackknife sigma no greater than 5%. These are
+descriptive comparisons; they do not certify absolute physical accuracy.
+
+`render.py` runs frozen plotting and local Beamer sources after analysis.
+One multipage vector figure PDF contains the main and additional diagnostics;
+the Beamer deck shows the design, membership checks and measured ranges.
+Partially completed measurements are labelled explicitly. Both plot and
+presentation receipts distinguish automated checks from visual review.
+Presentation source, themes, PDF, figures and launch bundles are ignored by Git.
+
 Run every Python command through `micromamba run -n cosemu python3 -B`.
 Receipts and the final report distinguish preparation, successful process
 completion, scientific validation and actual convergence; a submitted job

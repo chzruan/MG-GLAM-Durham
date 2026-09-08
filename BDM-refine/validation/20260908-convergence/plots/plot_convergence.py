@@ -89,7 +89,7 @@ def figure(rows,edges,kind,z,floor,minimum,supplement=False,partial=False):
         handles.append(handle);labels.append(f"{row['coarse']}/{row['reference']}")
     for ax in axes[3:]:ax.set_xlabel(r'$\log_{10}(M_{\rm bound}/[h^{-1}M_\odot])$')
     fig.legend(handles,labels,loc='upper right',bbox_to_anchor=(.97,1.0),ncol=3,fontsize=11)
-    context=f'{KINDS[kind]}, $z={z}$; $N_{{\rm bound}}\geq {floor}$ in both matched haloes'
+    context=rf'{KINDS[kind]}, $z={z}$; $N_{{\rm bound}}\geq {floor}$ in both matched haloes'
     if partial:context='INCOMPLETE CAMPAIGN: '+context
     fig.text(.085,.965,context,fontsize=11,ha='left')
     fig.text(.085,.025,
@@ -111,7 +111,8 @@ def main():
     selected=[r for r in data['comparisons'] if r['particle_floor']==args.floor]
     if not selected:raise RuntimeError('No measured comparison is available to plot')
     pages=[]
-    with PdfPages(output) as pdf:
+    staged=output.with_name(output.stem+'.tmp.pdf')
+    with PdfPages(staged) as pdf:
         for z in [2,1,0]:
             for kind in KINDS:
                 rows=[r for r in selected if r['redshift']==z and r['kind']==kind]
@@ -122,6 +123,7 @@ def main():
                     pdf.savefig(fig);plt.close(fig)
                     pages.append(dict(page=len(pages)+1,redshift=z,kind=kind,supplement=supplement,
                                       pairs=[r['coarse']+'/'+r['reference'] for r in rows]))
+    staged.replace(output)
     report=dict(completed=True,complete_campaign=data['completed'],created_at_utc=now(),
                 input=str(args.input),input_sha256=sha(args.input),script_sha256=sha(__file__),
                 particle_floor=args.floor,minimum_count=args.minimum_count,

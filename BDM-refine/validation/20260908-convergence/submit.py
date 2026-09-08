@@ -10,7 +10,7 @@ from common import REPO, ROOT, WORK, git, now, sha, write_json
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('phase',choices=['ic','evolve','replay','analysis','ic-check','cleanup'])
+    parser.add_argument('phase',choices=['ic','evolve','replay','analysis','ic-check','cleanup','render'])
     parser.add_argument('case')
     parser.add_argument('--cores',type=int,required=True)
     parser.add_argument('--memory-gib',type=int,required=True)
@@ -20,6 +20,8 @@ def main():
     parser.add_argument('--epoch',type=int,choices=[0,1,2])
     parser.add_argument('--finder',choices=['pair','v3'],default='pair')
     parser.add_argument('--analysis-ngrid',type=int,default=2048)
+    parser.add_argument('--allow-partial',action='store_true')
+    parser.add_argument('--cleanup-kind',choices=['builds','controls'],default='builds')
     parser.add_argument('--dependency')
     parser.add_argument('--reason',required=True)
     args=parser.parse_args()
@@ -35,15 +37,26 @@ def main():
     # and uses fewer inodes than copying a package tree for every submission.
     bundle=path/(tag+'.pyz')
     with zipfile.ZipFile(bundle,'x',compression=zipfile.ZIP_DEFLATED) as archive:
-        entry=ROOT/({'analysis':'analyze.py','ic-check':'ic_validate.py','cleanup':'archive_scratch.py'}.get(args.phase,'campaign.py'))
+        entry=ROOT/({'analysis':'analyze.py','ic-check':'ic_validate.py','cleanup':'archive_scratch.py',
+                    'render':'render.py'}.get(args.phase,'campaign.py'))
         archive.write(entry,'__main__.py')
         archive.write(ROOT/'common.py','common.py')
         archive.write(ROOT/'campaign.py','campaign.py')
         archive.write(ROOT/'replays.py','replays.py')
+        if args.phase=='analysis':archive.write(ROOT/'assess.py','assess.py')
+        if args.phase=='render':
+            for name in ['plots/plot_convergence.py','plots/house_style.py','plots/chz-paper.mplstyle',
+                         'slides/make_slides.py','slides/beamerthemeStanford.sty',
+                         'slides/beamercolorthemestanford.sty','slides/beamerouterthemesimplefooter.sty','slides/durham_logo.png']:
+                archive.write(ROOT/name,name)
         for p in sorted((ROOT/'ic').glob('*.py')):archive.write(p,'ic/'+p.name)
         archive.writestr('ic/__init__.py','')
     command=['micromamba','run','-n','cosemu','python3','-B',str(bundle)]
-    if args.phase not in ['analysis','ic-check','cleanup']:command += [args.phase,args.case,'--threads',str(args.cores)]
+    if args.phase not in ['analysis','ic-check','cleanup','render']:command += [args.phase,args.case,'--threads',str(args.cores)]
+    if args.allow_partial:
+        if args.phase!='analysis':raise ValueError('--allow-partial applies only to analysis')
+        command.append('--allow-partial')
+    if args.phase=='cleanup' and args.cleanup_kind=='controls':command.append('--controls')
     if args.pilot_steps:command+=['--pilot-steps',str(args.pilot_steps)]
     if args.phase=='replay':
         command+=['--finder',args.finder,'--analysis-ngrid',str(args.analysis_ngrid)]

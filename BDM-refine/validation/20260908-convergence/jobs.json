@@ -511,7 +511,7 @@
     "submitted_at_utc": "2026-09-08T00:28:17.398530+00:00",
     "partition": "cosma8-serial",
     "cores": 32,
-    "memory_gib": 96,
+    "memory_gib": 128,
     "wall_minutes": 65,
     "expected_minutes": 15.0,
     "expected_core_hours": 8.0,
@@ -528,6 +528,20 @@
       "--parsable",
       "--dependency=afterok:11955892",
       "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/replay-C-t32-ng2048-pair.sh"
+    ],
+    "resource_amendments": [
+      {
+        "time_utc": "2026-09-08T00:41:59.732547+00:00",
+        "command": [
+          "scontrol",
+          "update",
+          "JobId=11955925",
+          "MinMemoryNode=131072"
+        ],
+        "from_memory_gib": 96,
+        "to_memory_gib": 128,
+        "reason": "Completed three-epoch B paired replay measured 94.5 GiB Slurm batch MaxRSS despite 35.2 GiB native RSS. Increase pending C/D to 128 GiB for measured batch peak plus headroom; preserve immutable original scripts and completed outputs."
+      }
     ]
   },
   {
@@ -577,6 +591,119 @@
       "sbatch",
       "--parsable",
       "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/cleanup-finished-builds-t1.sh"
+    ]
+  },
+  {
+    "tag": "replay-D-t32-ng2048-pair",
+    "job_id": "11955978",
+    "submitted_at_utc": "2026-09-08T00:35:53.378690+00:00",
+    "partition": "cosma8-serial",
+    "cores": 32,
+    "memory_gib": 128,
+    "wall_minutes": 65,
+    "expected_minutes": 15.0,
+    "expected_core_hours": 8.0,
+    "time_limit_core_hours": 34.666666666666664,
+    "reason": "Primary replay uses common analysis Ng2048, not the 4096 evolution mesh; same particle/grid sizes as measured B pilot at 67.3 GiB MaxRSS. Request 32 cores, 96 GiB; all three epochs, independently validated v3 plus legacy on the identical retained density. Frozen driver includes negative-tested request identity checks.",
+    "dependency": "11955919",
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/replay-D-t32-ng2048-pair.sh",
+    "script_sha256": "c395f50ba1118692dbacf4dbc7517b26a862a490e0a949b6da70be526a636245",
+    "driver_sha256": "bc723f5c4435504d65c49cdb04a5d6b8edbd49fdf5b244c833f7043248cef4d8",
+    "bundle_sha256": "fe86d2e5dd41eab2ac3792ca2368e64475f1f9987cd6ba1a4987dcdbf8cf2e3f",
+    "git_commit": "29efd89c4834a1c9142486c62481d64452b5ee93",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "--dependency=afterok:11955919",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/replay-D-t32-ng2048-pair.sh"
+    ],
+    "resource_amendments": [
+      {
+        "time_utc": "2026-09-08T00:42:00.173737+00:00",
+        "command": [
+          "scontrol",
+          "update",
+          "JobId=11955978",
+          "MinMemoryNode=131072"
+        ],
+        "from_memory_gib": 96,
+        "to_memory_gib": 128,
+        "reason": "Completed three-epoch B paired replay measured 94.5 GiB Slurm batch MaxRSS despite 35.2 GiB native RSS. Increase pending C/D to 128 GiB for measured batch peak plus headroom; preserve immutable original scripts and completed outputs."
+      }
+    ]
+  },
+  {
+    "tag": "analysis-pilot-t1",
+    "job_id": "11956140",
+    "submitted_at_utc": "2026-09-08T00:41:36.549033+00:00",
+    "partition": "cosma8-serial",
+    "cores": 1,
+    "memory_gib": 8,
+    "wall_minutes": 45,
+    "expected_minutes": 4.0,
+    "expected_core_hours": 0.06666666666666667,
+    "time_limit_core_hours": 0.75,
+    "reason": "Small shared pilot of original-particle membership matching after the completed A z0 and C/B catalogues. Matching memory is bounded by catalogue metadata and individual member sets; measure actual batch MaxRSS, I/O and elapsed time before final analysis. Missing D/E/F/T explicitly marks the result partial.",
+    "dependency": "11955924:11955925",
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/analysis-pilot-t1.sh",
+    "script_sha256": "c3e4b7a035b55fb3b7d7df416798aaa6ea61c312a519ad25b14d649089903d0f",
+    "driver_sha256": "c1fdbb62ea771527d9a0e3b9a67e6e4c53c34c0c25899c6b3a8ffdf40398ff68",
+    "bundle_sha256": "126b9d8e4a5ae387432ba429f47d543ef78334f1c4003f813b33dcf8033fe918",
+    "git_commit": "29efd89c4834a1c9142486c62481d64452b5ee93",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "--dependency=afterok:11955924:11955925",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/analysis-pilot-t1.sh"
+    ]
+  },
+  {
+    "tag": "cleanup-finished-controls-t1",
+    "job_id": "11956142",
+    "submitted_at_utc": "2026-09-08T00:43:01.897929+00:00",
+    "partition": "cosma8-serial",
+    "cores": 1,
+    "memory_gib": 1,
+    "wall_minutes": 10,
+    "expected_minutes": 0.5,
+    "expected_core_hours": 0.008333333333333333,
+    "time_limit_core_hours": 0.16666666666666666,
+    "reason": "Consolidate completed original and new replay-identity fixtures, about 128 files/links and 48 MiB logical. Previous 307-MiB cleanup measured only 0.38 GiB MaxRSS and six CPU seconds. Use one shared core, 1 GiB, verify every archived file before removal; preserve root test receipts and production science.",
+    "dependency": null,
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/cleanup-finished-controls-t1.sh",
+    "script_sha256": "4d26ad56fdb2a409f33e69c294b8f92aab5ff2c012424b0d282eda5a53ebfd00",
+    "driver_sha256": "eca0b7deb4ce50cb3d8a92a712b02c99b4d58249204b94a9f1c8d8edc9cfe2a9",
+    "bundle_sha256": "1d21562057d11b32ede740b9fd18c0c5fadd1dfe9a2dbf0a7f8174b600d10dd1",
+    "git_commit": "29efd89c4834a1c9142486c62481d64452b5ee93",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/cleanup-finished-controls-t1.sh"
+    ]
+  },
+  {
+    "tag": "render-pilot-t1",
+    "job_id": "11956144",
+    "submitted_at_utc": "2026-09-08T00:44:10.321265+00:00",
+    "partition": "cosma8-serial",
+    "cores": 1,
+    "memory_gib": 4,
+    "wall_minutes": 15,
+    "expected_minutes": 2.0,
+    "expected_core_hours": 0.03333333333333333,
+    "time_limit_core_hours": 0.25,
+    "reason": "Lightweight plots and Beamer build from the partial analysis pilot. Sources and theme assets frozen in one bundle; 4 GiB covers single-process Matplotlib and XeLaTeX. Partial campaign status is printed on every plot and the title slide. No simulations or new measurements occur here.",
+    "dependency": "11956140",
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-pilot-t1.sh",
+    "script_sha256": "904a581c0dc1acaa674a137ceea7dfa5f6abc0acaaaebff9520e684033ab5051",
+    "driver_sha256": "393dd31156eeebaa9dddba539736e02a63c36e22d534bf18a72983e525126135",
+    "bundle_sha256": "98014ca36bd08fdfc4a67eb0111bafddcf6b065fa7e8935d72fb3c16e4a20135",
+    "git_commit": "29efd89c4834a1c9142486c62481d64452b5ee93",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "--dependency=afterok:11956140",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-pilot-t1.sh"
     ]
   }
 ]
