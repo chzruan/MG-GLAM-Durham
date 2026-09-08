@@ -1,0 +1,38 @@
+{
+  "completed": true,
+  "spec": {
+    "case": "E",
+    "nrow": 1024,
+    "ngrid": 2048,
+    "box_mpc_h": 256.0,
+    "epochs": [
+      2,
+      1,
+      0
+    ],
+    "half_steps": false,
+    "cosmology": {
+      "Omega_m": 0.3089,
+      "Omega_Lambda": 0.6911,
+      "h": 0.6774,
+      "sigma8": 0.8159
+    },
+    "shape_repair_commit": "c68c22d",
+    "analysis_ngrid": 2048
+  },
+  "pilot_steps": 4,
+  "threads": 64,
+  "snapshots": [],
+  "stage_receipt": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/pilots/E-t64-s4/Run1/evolve.json",
+  "outputs": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/pilots/E-t64-s4/Run1/timing.log": {
+      "sha256": "c0c01f812ab4e882aed0dbab360b7ecce4b3146cae75cfea38955189626fc377",
+      "bytes": 672
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/pilots/E-t64-s4/Run1/Run.log": {
+      "sha256": "59dbe71a8d25b3bdcd40cb8e5eeff2a7b5168c4c3d320bfec75166c070002375",
+      "bytes": 1329
+    }
+  },
+  "completed_at_utc": "2026-09-07T23:59:26.989233+00:00"
+}

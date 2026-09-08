@@ -63,7 +63,36 @@ def main():
         write_json(ROOT/'build.json',report);write_json(receipt,report)
         print('Frozen common objects and controlled main ready',flush=True)
     else:
-        raise NotImplementedError('Adapters are integrated after independent preflight')
+        assert receipt.exists(), 'Build the frozen common objects first'
+        verify_manifest(json.loads(receipt.read_text())['frozen_files'])
+        ic=WORK/'ic-build';replay=WORK/'replay-build'
+        commands=[]
+        if not (ic/'build.json').exists():
+            commands.append(['micromamba','run','-n','cosemu','python3','-B',str(ROOT/'ic/build.py'),
+                             '--repo',str(production),'--work',str(ic),'--compiler','ifx'])
+        if not (replay/'build.json').exists():
+            commands.append(['micromamba','run','-n','cosemu','python3','-B',str(ROOT/'replay/build_adapter.py'),
+                             '--common-dir',str(production),'--v3-source',str(production/'PMP2linker.f90'),
+                             '--legacy-source',str(build/'PMP2linker.legacy.f90'),'--output-dir',str(replay)])
+        for command in commands:
+            subprocess.run(command,cwd=REPO,env=native_env(1),check=True)
+        ic_report=json.loads((ic/'build.json').read_text())
+        replay_report=json.loads((replay/'build.json').read_text())
+        assert replay_report['completed']
+        sources={ic/'PMP2start.matched.exe':(BIN/'PMP2start.matched.exe',ic_report['binary_sha256'])}
+        for variant,item in replay_report['variants'].items():
+            sources[Path(item['binary_path'])]=(BIN/f'PMP2replay.{variant}.exe',item['binary_sha256'])
+        for source,(destination,expected) in sources.items():
+            assert sha(source)==expected
+            if destination.exists():assert sha(destination)==expected
+            else:shutil.copy2(source,destination)
+        shutil.copy2(ic/'build.json',ROOT/'ic-build.json')
+        shutil.copy2(replay/'build.json',ROOT/'replay-build.json')
+        write_json(ROOT/'executables.json',dict(completed=True,prepared_at_utc=now(),
+                    binaries=file_manifest(sorted(BIN.glob('*.exe'))),
+                    production_finder_sha256=FINDER_SHA,
+                    build_receipts=file_manifest([ROOT/'build.json',ROOT/'ic-build.json',ROOT/'replay-build.json'])))
+        print('Verified frozen campaign executables and adapter receipts')
 
 
 if __name__=='__main__':main()

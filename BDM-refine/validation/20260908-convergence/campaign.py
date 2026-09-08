@@ -75,7 +75,8 @@ def setup_directory(case,spec,save=True):
     return run
 
 
-def run_native(binary,cwd,tag,threads,inputs,outputs,stdin='',arguments=(),allow_login=False,finalize=None):
+def run_native(binary,cwd,tag,threads,inputs,outputs,stdin='',arguments=(),allow_login=False,finalize=None,
+               timeout_seconds=None):
     if not allow_login and 'SLURM_JOB_ID' not in os.environ:
         raise RuntimeError('Large campaign stages must run inside Slurm')
     binary=Path(binary).resolve()
@@ -98,7 +99,7 @@ def run_native(binary,cwd,tag,threads,inputs,outputs,stdin='',arguments=(),allow
             process=subprocess.Popen(['/usr/bin/time','-f','%e %U %S %M','-o',str(timing),str(binary),*map(str,arguments)],
                                      cwd=cwd,env=native_env(threads),stdin=subprocess.PIPE,
                                      stdout=stream,stderr=subprocess.STDOUT,start_new_session=True)
-            process.communicate(stdin.encode())
+            process.communicate(stdin.encode(),timeout=timeout_seconds)
         report.update(returncode=process.returncode,elapsed_seconds=time.monotonic()-start,finished_at_utc=now())
         values=timing.read_text().splitlines()[-1].split()
         report.update(cpu_user_seconds=float(values[1]),cpu_system_seconds=float(values[2]),maxrss_kib=int(values[3]))
@@ -111,6 +112,8 @@ def run_native(binary,cwd,tag,threads,inputs,outputs,stdin='',arguments=(),allow
         if process is not None and process.poll() is None:
             os.killpg(process.pid,signal.SIGKILL);process.wait()
         report['failure_traceback']=traceback.format_exc()
+        report['elapsed_seconds']=time.monotonic()-start
+        report['finished_at_utc']=now()
         raise
     finally:write_json(receipt,report)
     print(f'{tag}: {report["elapsed_seconds"]:.1f} s; RSS {report["maxrss_kib"]/1024**2:.2f} GiB',flush=True)
@@ -154,7 +157,10 @@ def initial_conditions(name,threads):
     assert header['particles']==spec['nrow']**3<1200**3
     assert abs(header['scale_factor']-1/101)<1.e-8
     assert sum(p.stat().st_size for p in initial_particles(run))==24*spec['nrow']**3
+    if name!='E':
+        assert sha(run/'matched_modes.bin')==sha(master/'matched_modes.bin'), 'Shared production mode sample differs'
     write_json(ROOT/f'{name}-ic.json',dict(completed=True,spec=spec,header=header,stage_receipt=str(run/'ic.json'),
+                                        sampled_modes_sha256=sha(run/'matched_modes.bin'),
                                         outputs=receipt['outputs']))
 
 
@@ -196,13 +202,19 @@ def evolve(name,threads,pilot_steps=0):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('phase',choices=['ic','evolve'])
+    parser.add_argument('phase',choices=['ic','evolve','replay'])
     parser.add_argument('case',choices=list(MATRIX))
     parser.add_argument('--threads',type=int,default=int(os.environ.get('SLURM_CPUS_PER_TASK','1')))
     parser.add_argument('--pilot-steps',type=int,default=0)
+    parser.add_argument('--epoch',type=int,choices=[0,1,2])
+    parser.add_argument('--finder',choices=['pair','v3'],default='pair')
+    parser.add_argument('--analysis-ngrid',type=int,default=2048)
     args=parser.parse_args()
     if args.phase=='ic':initial_conditions(args.case,args.threads)
-    else:evolve(args.case,args.threads,args.pilot_steps)
+    elif args.phase=='evolve':evolve(args.case,args.threads,args.pilot_steps)
+    else:
+        from replays import replay
+        replay(args.case,args.threads,args.epoch,args.finder,args.analysis_ngrid)
 
 
 if __name__=='__main__':main()

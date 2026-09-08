@@ -10,13 +10,16 @@ from common import REPO, ROOT, WORK, git, now, sha, write_json
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('phase',choices=['ic','evolve'])
+    parser.add_argument('phase',choices=['ic','evolve','replay','analysis','ic-check'])
     parser.add_argument('case')
     parser.add_argument('--cores',type=int,required=True)
     parser.add_argument('--memory-gib',type=int,required=True)
     parser.add_argument('--minutes',type=int,required=True)
     parser.add_argument('--expected-minutes',type=float,required=True)
     parser.add_argument('--pilot-steps',type=int,default=0)
+    parser.add_argument('--epoch',type=int,choices=[0,1,2])
+    parser.add_argument('--finder',choices=['pair','v3'],default='pair')
+    parser.add_argument('--analysis-ngrid',type=int,default=2048)
     parser.add_argument('--dependency')
     parser.add_argument('--reason',required=True)
     args=parser.parse_args()
@@ -24,6 +27,7 @@ def main():
     if args.minutes<args.expected_minutes:raise ValueError('Wall limit below expected runtime')
     jobs=ROOT/'jobs.json';records=json.loads(jobs.read_text()) if jobs.exists() else []
     tag=f'{args.phase}-{args.case}-t{args.cores}'+(f'-s{args.pilot_steps}' if args.pilot_steps else '')
+    if args.phase=='replay':tag+=f'-ng{args.analysis_ngrid}-{args.finder}'+(f'-z{args.epoch}' if args.epoch is not None else '')
     if any(r['tag']==tag for r in records):raise ValueError('Submission already recorded; inspect before retry')
     path=WORK/'slurm';path.mkdir(parents=True,exist_ok=True)
     script=path/(tag+'.sh')
@@ -31,12 +35,19 @@ def main():
     # and uses fewer inodes than copying a package tree for every submission.
     bundle=path/(tag+'.pyz')
     with zipfile.ZipFile(bundle,'x',compression=zipfile.ZIP_DEFLATED) as archive:
-        archive.write(ROOT/'campaign.py','__main__.py')
+        entry=ROOT/({'analysis':'analyze.py','ic-check':'ic_validate.py'}.get(args.phase,'campaign.py'))
+        archive.write(entry,'__main__.py')
         archive.write(ROOT/'common.py','common.py')
+        archive.write(ROOT/'campaign.py','campaign.py')
+        archive.write(ROOT/'replays.py','replays.py')
         for p in sorted((ROOT/'ic').glob('*.py')):archive.write(p,'ic/'+p.name)
         archive.writestr('ic/__init__.py','')
-    command=['micromamba','run','-n','cosemu','python3','-B',str(bundle),args.phase,args.case,'--threads',str(args.cores)]
+    command=['micromamba','run','-n','cosemu','python3','-B',str(bundle)]
+    if args.phase not in ['analysis','ic-check']:command += [args.phase,args.case,'--threads',str(args.cores)]
     if args.pilot_steps:command+=['--pilot-steps',str(args.pilot_steps)]
+    if args.phase=='replay':
+        command+=['--finder',args.finder,'--analysis-ngrid',str(args.analysis_ngrid)]
+        if args.epoch is not None:command+=['--epoch',str(args.epoch)]
     text=f'''#!/bin/bash
 #SBATCH --job-name=bdmconv-{tag}
 #SBATCH --account=dp004
@@ -74,7 +85,7 @@ scontrol show job "$SLURM_JOB_ID"
                         expected_minutes=args.expected_minutes,expected_core_hours=args.cores*args.expected_minutes/60,
                         time_limit_core_hours=args.cores*args.minutes/60,reason=args.reason,
                         dependency=args.dependency,script=str(script),script_sha256=sha(script),
-                        driver_sha256=sha(ROOT/'campaign.py'),bundle_sha256=sha(bundle),git_commit=git('rev-parse','HEAD'),
+                        driver_sha256=sha(entry),bundle_sha256=sha(bundle),git_commit=git('rev-parse','HEAD'),
                         submit_command=command))
     write_json(jobs,records)
     print(job,tag,flush=True)

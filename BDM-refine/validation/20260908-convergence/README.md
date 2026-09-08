@@ -12,6 +12,16 @@ h=0.6774, sigma8=0.8159, z_init=100, and exact outputs z=2,1,0.
 initial Fourier modes are shared across particle resolutions; extra resolved
 short modes are allowed in finer runs. The origin and Fourier conventions
 are controlled explicitly; using the same native random seed is insufficient.
+Initial PM coordinates retain the native periodic upper-edge guard, which
+subtracts 1e-3 mesh units when a coordinate rounds to Ngrid+1. Its physical
+size changes with mesh spacing. This is distinct from unmatched Fourier
+modes: all-row checks measure its incidence, size and boundary locality,
+alongside ordinary float32 rounding. The exact source-derived E/F bound is
+1.8310546875e-4 Mpc/h (rounding plus the possible differential edge clamp),
+and the B/D bound is 3.0517578125e-4 Mpc/h. These are numerical coordinate
+effects included in the mesh comparison; do not claim bit-identical physical
+positions across evolution meshes. F/T uses the same mesh and must have
+identical initial position words and correctly different staggered velocities.
 
 | ID | Particle count | Evolution mesh | Comparison |
 |---|---:|---:|---|
@@ -63,6 +73,9 @@ Starting user quota: 241104 files / 400000 soft / 440000 hard; space
 input set, small receipts, and scientific snapshots. Verify archives before
 deleting owned build/fixture scratch. Preserve unrelated working directories.
 Figures, Beamer source and PDFs are local artifacts, excluded from Git.
+The 21 common-analysis density tapes occupy about 672 GiB but only 21 files;
+retain them for exact replay/resume. Inode cleanup targets verified compiler,
+fixture and agent-worktree artifacts, not these scientific controls.
 
 Run every Python command through `micromamba run -n cosemu python3 -B`.
 Receipts and the final report distinguish preparation, successful process

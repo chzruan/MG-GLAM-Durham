@@ -1,0 +1,18 @@
+{
+  "completed": true,
+  "started_at_utc": "2026-09-08T00:17:06.859929+00:00",
+  "matching": {
+    "nested_lattice_corner": true,
+    "full_fine_lattice_projects_exactly": true,
+    "permuted_halo_ids_matched_by_membership": true,
+    "periodic_boundary_pair": true,
+    "empty_statistical_bins_json_safe": true
+  },
+  "replay": {
+    "real_native_pair": true,
+    "completed_pair_preserved_on_both_resume_modes": true,
+    "changed_retained_density_rejected": true,
+    "legacy_exit_zero_partial_catalogue_preserves_v3": true
+  },
+  "completed_at_utc": "2026-09-08T00:18:14.434908+00:00"
+}

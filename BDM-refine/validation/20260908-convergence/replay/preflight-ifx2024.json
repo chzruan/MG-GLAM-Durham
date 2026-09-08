@@ -1,0 +1,635 @@
+{
+  "completed": true,
+  "script_sha256": "f401819ec485c66edbb6fdcf8ee34f26e5f870685b0bef80117c417acf5113e3",
+  "build_sha256": "a4d3608f53e811076b9244eebdd0bdf162653b2e1b0d29bebdd79b71f1352225",
+  "commands": [
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-o",
+        "grid-test.exe",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_tools.o",
+        "common_grid.f90",
+        "grid_test.f90"
+      ],
+      "returncode": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "8",
+        "8"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=       8       8 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   1                   1                   1                   0                   0                   0\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "8",
+        "4"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=       8       4 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   7.629394531250000E-06   7.629394531250000E-06   7.629394531250000E-06   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   7                   7                   7                   8                   0                   8\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "8",
+        "16"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=       8      16 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   7                   7                   7                   8                   0                   8\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "16",
+        "16"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=      16      16 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   1                   1                   1                   0                   0                   0\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "16",
+        "8"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=      16       8 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   3.814697265625000E-06   3.814697265625000E-06   3.814697265625000E-06   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   7                   7                   7                   8                   0                   8\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "16",
+        "32"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=      16      32 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   7                   7                   7                   8                   0                   8\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "32",
+        "32"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=      32      32 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   1                   1                   1                   0                   0                   0\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "32",
+        "16"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=      32      16 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   1.907348632812500E-06   1.907348632812500E-06   1.907348632812500E-06   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   7                   7                   7                   8                   0                   8\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "32",
+        "64"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=      32      64 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   7                   7                   7                   8                   0                   8\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "1024",
+        "1024"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=    1024    1024 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   1                   1                   1                   0                   0                   0\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "1024",
+        "512"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=    1024     512 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   5.960464477539062E-08   5.960464477539062E-08   5.960464477539062E-08   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   7                   7                   7                   8                   0                   8\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "1024",
+        "2048"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=    1024    2048 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   7                   7                   7                   8                   0                   8\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "2048",
+        "2048"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=    2048    2048 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   1                   1                   1                   0                   0                   0\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "2048",
+        "1024"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=    2048    1024 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   2.980232238769531E-08   2.980232238769531E-08   2.980232238769531E-08   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   7                   7                   7                   8                   0                   8\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "2048",
+        "4096"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=    2048    4096 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   7                   7                   7                   8                   0                   8\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "4096",
+        "4096"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=    4096    4096 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   1                   1                   1                   0                   0                   0\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "4096",
+        "2048"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=    4096    2048 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   1.490116119384766E-08   1.490116119384766E-08   1.490116119384766E-08   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   7                   7                   7                   8                   0                   8\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "4096",
+        "8192"
+      ],
+      "returncode": 0,
+      "output": "REPLAY GRID source/analysis=    4096    8192 particles=8\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.051757812500000E-05\nREPLAY GRID changed storage values=                   7                   7                   7                   8                   0                   8\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "16",
+        "16"
+      ],
+      "returncode": 128,
+      "output": "Invalid or overflowing replay particle coordinate/velocity\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/grid-test.exe",
+        "16",
+        "3"
+      ],
+      "returncode": 128,
+      "output": "Replay supports only power-of-two source and analysis grids\n"
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-o",
+        "original.exe",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_tools.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_fft5.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_random.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_density.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_power.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_analyze.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MG_subroutines.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_MGbackground.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_fR.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2extradof.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_DGP.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_sym.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_kmf.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_csf.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replay-build/legacy/finder.o",
+        "original_entry.f90"
+      ],
+      "returncode": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-c",
+        "finder.f90"
+      ],
+      "returncode": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "ifx",
+        "-O3",
+        "-g",
+        "-traceback",
+        "-ftz",
+        "-unroll",
+        "-qopenmp",
+        "-march=core-avx2",
+        "-mfma",
+        "-shared-intel",
+        "-mcmodel=medium",
+        "-convert",
+        "big_endian",
+        "-fp-model",
+        "precise",
+        "-o",
+        "original.exe",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_tools.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_fft5.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_random.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_density.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_power.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_analyze.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MG_subroutines.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2mod_MGbackground.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_fR.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2extradof.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_DGP.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_sym.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_kmf.o",
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/native-build/production/PMP2MGsolver_csf.o",
+        "/tmp/bdm-common-grid-controls-673il6gq/original-v3/finder.o",
+        "original_entry.f90"
+      ],
+      "returncode": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replay-build/v3/replay.exe",
+        "1",
+        "16",
+        "1",
+        "write",
+        "/tmp/bdm-common-grid-controls-673il6gq/shared-fi.bin"
+      ],
+      "returncode": 0,
+      "output": "Convergence replay control                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\nREPLAY GRID source/analysis=      16      16 particles=64\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.814697265625000E-06\nREPLAY GRID changed storage values=                   0                   0                   0                   0                   0                   0\n  init finished:           16  1.9999999E-05\n  finishing density   4.8000002E-05\nREPLAY DENSITY mode=write\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   1.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    338.3000\n Maximum density=   511.000    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.000     0.000\n Go to RescaleCoords    :          64\n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.00      0.00\n  Allocate exact periodic particle buffer:                     64\n                   512\n           time for AddBuffer  =                       0.00      0.00\n  time to make list =  4.6000001E-05\n           time for List  =                            0.00      0.00\n  Go to FindDistinctCandidates:                    512\n Go to ParametersDistinct :         512\n           time for ParametersDistinct =               0.00      0.00\n           time for ParametersDistinct  =              0.00      0.00\n  goto RemoveCloseMaxima\n  time to make list Max  =  3.4000026E-05\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                    512\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 1                64\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           1           0           0           0           0           0           0\nREPLAY MEMBERSHIP candidates=1 selected=1\n           time for WriteFiles  =                      0.00      0.00\nREPLAY CATALOGUE CATALOGS/CatshortV.0001.0001.DAT\nREPLAY COMPLETE\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replay-build/legacy/replay.exe",
+        "1",
+        "16",
+        "1",
+        "read",
+        "/tmp/bdm-common-grid-controls-673il6gq/shared-fi.bin"
+      ],
+      "returncode": 0,
+      "output": "Convergence replay control                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\nREPLAY GRID source/analysis=      16      16 particles=64\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.814697265625000E-06\nREPLAY GRID changed storage values=                   0                   0                   0                   0                   0                   0\nREPLAY DENSITY mode=read\n Number of threads      =   1\n mDENSIT                =   0\n  Number of threads =           1\n Inside FindMaxima. Nparticles=                 64 666.6666   0.3000\n  Maximum density =   511.0000    \n  time for Dmax  =  2.3999999E-05\n  time for Find Max    =  5.1000003E-05\n  FindMaxima: 1 finished: Nmaxima=            1\n  Elements on all buffers =           1           1\n  time for List Max    =  4.9000002E-05\n Number of maxima:       1\n Above Overdensity =        0 Above: 300 =       1 400 =       1 500 =       1 600 =       0 700 =       0\n           time for FindMaxima(secs) =                 0.00      0.00\n Go to RescaleCoords    :          64\n\n  ------ current set of parameters:\n!                   These are main parameters:\n          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! extr radius shift at m=1e15\n          SlopeR    =  0.200           ! slope for extr radius shift\n          MassMin   =   1.00           ! Minimum halo mass\n          dLogR     =  2.000E-02       ! size of log binning for potential\n          dLogP     =  2.000E-02       ! size of log binning for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n  Inside rescale coords:   2.000000       200.0000    \n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.00      0.00\n  Allocate buffers for particles. N=                   274\n     Replicate coordinates\n     Replicate velocities\n     add buffer\n  New number of particles =                     64\n X range=   8.50000E+00  1.15000E+01\n Y range=   8.50000E+00  1.15000E+01\n Z range=   8.50000E+00  1.15000E+01\n           time for AddBuffer  =                       0.00      0.00\n  time to make list  =  1.9999570E-06\n           time for List  =                            0.00      0.00\n  Go to FindDistinctCandidates:                     64\n Go to ParametersDistinct :          64\n           time for ParametersDistinct =               0.00      0.00\n           time for ParametersDistinct  =              0.00      0.00\n  goto RemoveCloseMaxima\n  time to make list Max  =  2.0000152E-06\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                     64\n           time for WriteFiles  =                      0.00      0.00\n  Copy to new buffer                     64   2.000000    \n  Copy to  old arrays    2.000000       200.0000    \n  Rescale                     64\nREPLAY CATALOGUE CATALOGS/CatshortV.0001.0001.DAT\nREPLAY COMPLETE\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replay-build/v3/replay.exe",
+        "1",
+        "16",
+        "1",
+        "read",
+        "/tmp/bdm-common-grid-controls-673il6gq/shared-fi.bin"
+      ],
+      "returncode": 0,
+      "output": "Convergence replay control                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=      8\nREPLAY GRID source/analysis=       8      16 particles=64\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.814697265625000E-06\nREPLAY GRID changed storage values=                  64                  64                  64                  64                  64                  64\nREPLAY DENSITY mode=read\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   1.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    338.3000\n Maximum density=   511.000    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.000     0.000\n Go to RescaleCoords    :          64\n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.00      0.00\n  Allocate exact periodic particle buffer:                     64\n                   512\n           time for AddBuffer  =                       0.00      0.00\n  time to make list =  4.6000001E-05\n           time for List  =                            0.00      0.00\n  Go to FindDistinctCandidates:                    512\n Go to ParametersDistinct :         512\n           time for ParametersDistinct =               0.00      0.00\n           time for ParametersDistinct  =              0.00      0.00\n  goto RemoveCloseMaxima\n  time to make list Max  =  3.4999975E-05\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                    512\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 1                64\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           1           0           0           0           0           0           0\nREPLAY MEMBERSHIP candidates=1 selected=1\n           time for WriteFiles  =                      0.00      0.00\nREPLAY CATALOGUE CATALOGS/CatshortV.0001.0001.DAT\nREPLAY COMPLETE\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replay-build/legacy/replay.exe",
+        "1",
+        "16",
+        "1",
+        "read",
+        "/tmp/bdm-common-grid-controls-673il6gq/shared-fi.bin"
+      ],
+      "returncode": 0,
+      "output": "Convergence replay control                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=      8\nREPLAY GRID source/analysis=       8      16 particles=64\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.814697265625000E-06\nREPLAY GRID changed storage values=                  64                  64                  64                  64                  64                  64\nREPLAY DENSITY mode=read\n Number of threads      =   1\n mDENSIT                =   0\n  Number of threads =           1\n Inside FindMaxima. Nparticles=                 64 666.6666   0.3000\n  Maximum density =   511.0000    \n  time for Dmax  =  2.3999999E-05\n  time for Find Max    =  5.0000002E-05\n  FindMaxima: 1 finished: Nmaxima=            1\n  Elements on all buffers =           1           1\n  time for List Max    =  4.9999995E-05\n Number of maxima:       1\n Above Overdensity =        0 Above: 300 =       1 400 =       1 500 =       1 600 =       0 700 =       0\n           time for FindMaxima(secs) =                 0.00      0.00\n Go to RescaleCoords    :          64\n\n  ------ current set of parameters:\n!                   These are main parameters:\n          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! extr radius shift at m=1e15\n          SlopeR    =  0.200           ! slope for extr radius shift\n          MassMin   =   1.00           ! Minimum halo mass\n          dLogR     =  2.000E-02       ! size of log binning for potential\n          dLogP     =  2.000E-02       ! size of log binning for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n  Inside rescale coords:   2.000000       200.0000    \n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.00      0.00\n  Allocate buffers for particles. N=                   274\n     Replicate coordinates\n     Replicate velocities\n     add buffer\n  New number of particles =                     64\n X range=   8.50000E+00  1.15000E+01\n Y range=   8.50000E+00  1.15000E+01\n Z range=   8.50000E+00  1.15000E+01\n           time for AddBuffer  =                       0.00      0.00\n  time to make list  =  2.9999064E-06\n           time for List  =                            0.00      0.00\n  Go to FindDistinctCandidates:                     64\n Go to ParametersDistinct :          64\n           time for ParametersDistinct =               0.00      0.00\n           time for ParametersDistinct  =              0.00      0.00\n  goto RemoveCloseMaxima\n  time to make list Max  =  2.9999064E-06\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                     64\n           time for WriteFiles  =                      0.00      0.00\n  Copy to new buffer                     64   2.000000    \n  Copy to  old arrays    2.000000       200.0000    \n  Rescale                     64\nREPLAY CATALOGUE CATALOGS/CatshortV.0001.0001.DAT\nREPLAY COMPLETE\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replay-build/v3/replay.exe",
+        "1",
+        "16",
+        "1",
+        "read",
+        "/tmp/bdm-common-grid-controls-673il6gq/shared-fi.bin"
+      ],
+      "returncode": 0,
+      "output": "Convergence replay control                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     32\nREPLAY GRID source/analysis=      32      16 particles=64\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.814697265625000E-06\nREPLAY GRID changed storage values=                  64                  64                  64                  64                  64                  64\nREPLAY DENSITY mode=read\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   1.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    338.3000\n Maximum density=   511.000    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.000     0.000\n Go to RescaleCoords    :          64\n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.00      0.00\n  Allocate exact periodic particle buffer:                     64\n                   512\n           time for AddBuffer  =                       0.00      0.00\n  time to make list =  5.1000039E-05\n           time for List  =                            0.00      0.00\n  Go to FindDistinctCandidates:                    512\n Go to ParametersDistinct :         512\n           time for ParametersDistinct =               0.00      0.00\n           time for ParametersDistinct  =              0.00      0.00\n  goto RemoveCloseMaxima\n  time to make list Max  =  3.9999955E-05\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                    512\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 1                64\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           1           0           0           0           0           0           0\nREPLAY MEMBERSHIP candidates=1 selected=1\n           time for WriteFiles  =                      0.00      0.00\nREPLAY CATALOGUE CATALOGS/CatshortV.0001.0001.DAT\nREPLAY COMPLETE\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replay-build/legacy/replay.exe",
+        "1",
+        "16",
+        "1",
+        "read",
+        "/tmp/bdm-common-grid-controls-673il6gq/shared-fi.bin"
+      ],
+      "returncode": 0,
+      "output": "Convergence replay control                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     32\nREPLAY GRID source/analysis=      32      16 particles=64\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.814697265625000E-06\nREPLAY GRID changed storage values=                  64                  64                  64                  64                  64                  64\nREPLAY DENSITY mode=read\n Number of threads      =   1\n mDENSIT                =   0\n  Number of threads =           1\n Inside FindMaxima. Nparticles=                 64 666.6666   0.3000\n  Maximum density =   511.0000    \n  time for Dmax  =  2.3999999E-05\n  time for Find Max    =  5.1000003E-05\n  FindMaxima: 1 finished: Nmaxima=            1\n  Elements on all buffers =           1           1\n  time for List Max    =  4.8999995E-05\n Number of maxima:       1\n Above Overdensity =        0 Above: 300 =       1 400 =       1 500 =       1 600 =       0 700 =       0\n           time for FindMaxima(secs) =                 0.00      0.00\n Go to RescaleCoords    :          64\n\n  ------ current set of parameters:\n!                   These are main parameters:\n          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! extr radius shift at m=1e15\n          SlopeR    =  0.200           ! slope for extr radius shift\n          MassMin   =   1.00           ! Minimum halo mass\n          dLogR     =  2.000E-02       ! size of log binning for potential\n          dLogP     =  2.000E-02       ! size of log binning for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n  Inside rescale coords:   2.000000       200.0000    \n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.00      0.00\n  Allocate buffers for particles. N=                   274\n     Replicate coordinates\n     Replicate velocities\n     add buffer\n  New number of particles =                     64\n X range=   8.50000E+00  1.15000E+01\n Y range=   8.50000E+00  1.15000E+01\n Z range=   8.50000E+00  1.15000E+01\n           time for AddBuffer  =                       0.00      0.00\n  time to make list  =  3.0000228E-06\n           time for List  =                            0.00      0.00\n  Go to FindDistinctCandidates:                     64\n Go to ParametersDistinct :          64\n           time for ParametersDistinct =               0.00      0.00\n           time for ParametersDistinct  =              0.00      0.00\n  goto RemoveCloseMaxima\n  time to make list Max  =  3.0000228E-06\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                     64\n           time for WriteFiles  =                      0.00      0.00\n  Copy to new buffer                     64   2.000000    \n  Copy to  old arrays    2.000000       200.0000    \n  Rescale                     64\nREPLAY CATALOGUE CATALOGS/CatshortV.0001.0001.DAT\nREPLAY COMPLETE\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/original-legacy/original.exe"
+      ],
+      "returncode": 0,
+      "output": " Number of threads      =   1\n  Enter snapshot number =   Go to ReadDataPM      =   1\nConvergence replay control                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\n           time for Reading  =                         0.05      0.07\n Number of threads      =   1\n mDENSIT                =   1\n  init finished:           16  7.1268998E-02\n  finishing density   7.1286000E-02\n  Number of threads =           1\n Inside FindMaxima. Nparticles=                 64 666.6666   0.3000\n  Maximum density =   511.0000    \n  time for Dmax  =  1.3001263E-05\n  time for Find Max    =  4.6998262E-05\n  FindMaxima: 1 finished: Nmaxima=            1\n  Elements on all buffers =           1           1\n  time for List Max    =  4.8004091E-05\n Number of maxima:       1\n Above Overdensity =        0 Above: 300 =       1 400 =       1 500 =       1 600 =       0 700 =       0\n           time for FindMaxima(secs) =                 0.00      0.00\n Go to RescaleCoords    :          64\n\n  ------ current set of parameters:\n!                   These are main parameters:\n          iVirial   =      1           ! switch: 1 =Virial,  0=200 overdensity\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! extr radius shift at m=1e15\n          SlopeR    =  0.200           ! slope for extr radius shift\n          MassMin   =   1.00           ! Minimum halo mass\n          dLogR     =  2.000E-02       ! size of log binning for potential\n          dLogP     =  2.000E-02       ! size of log binning for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n  Inside rescale coords:   2.000000       200.0000    \n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.00      0.00\n  Allocate buffers for particles. N=                   274\n     Replicate coordinates\n     Replicate velocities\n     add buffer\n  New number of particles =                     64\n X range=   8.50000E+00  1.15000E+01\n Y range=   8.50000E+00  1.15000E+01\n Z range=   8.50000E+00  1.15000E+01\n           time for AddBuffer  =                       0.00      0.00\n  time to make list  =  1.9967556E-06\n           time for List  =                            0.00      0.00\n  Go to FindDistinctCandidates:                     64\n Go to ParametersDistinct :          64\n           time for ParametersDistinct =               0.00      0.00\n           time for ParametersDistinct  =              0.00      0.00\n  goto RemoveCloseMaxima\n  time to make list Max  =  2.9951334E-06\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                     64\n           time for WriteFiles  =                      0.00      0.00\n  Copy to new buffer                     64   2.000000    \n  Copy to  old arrays    2.000000       200.0000    \n  Rescale                     64\n"
+    },
+    {
+      "command": [
+        "/tmp/bdm-common-grid-controls-673il6gq/original-v3/original.exe"
+      ],
+      "returncode": 0,
+      "output": " Number of threads      =   1\n  Enter snapshot number =   Go to ReadDataPM      =   1\nConvergence replay control                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\n           time for Reading  =                         0.05      0.06\n Number of threads      =   1\n mDENSIT                =   1\n\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   1.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n  init finished:           16  6.3992999E-02\n  finishing density   6.4015001E-02\n FindMaxima: particles=64, overdensity=    338.3000\n Maximum density=   511.000    , number of maxima=1\n Maxima above overdensity=1, maxima above 300=1\n          time for FindMaxima: count/list =     0.000     0.000\n Go to RescaleCoords    :          64\n Go to AddBuffer        :          64\n           time for Dens+Maxima  =                     0.00      0.00\n  Allocate exact periodic particle buffer:                     64\n                   512\n           time for AddBuffer  =                       0.00      0.00\n  time to make list =  3.7997961E-05\n           time for List  =                            0.00      0.00\n  Go to FindDistinctCandidates:                    512\n Go to ParametersDistinct :         512\n           time for ParametersDistinct =               0.00      0.00\n           time for ParametersDistinct  =              0.00      0.00\n  goto RemoveCloseMaxima\n  time to make list Max  =  2.7000904E-05\n           time for RemoveDuplicates =                 0.00      0.00\n  Go to Write Catshort:                    512\n BDM status [few, SO cap, Vmax, no bound, singular centre]:         0         0         0         0         0\n BDM unbinding [candidates, max passes, active particle rows]:                 1                 1                64\n BDM unbinding passes [1, 2, 3-4, 5-8, 9-16, 17-32, >32]:           1           0           0           0           0           0           0\n           time for WriteFiles  =                      0.00      0.00\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replay-build/v3/replay.exe",
+        "1",
+        "16",
+        "1",
+        "read",
+        "/tmp/bdm-common-grid-controls-673il6gq/empty-fi.bin"
+      ],
+      "returncode": 0,
+      "output": "Convergence replay control                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\nREPLAY GRID source/analysis=      16      16 particles=64\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.814697265625000E-06\nREPLAY GRID changed storage values=                   0                   0                   0                   0                   0                   0\nREPLAY DENSITY mode=read\n Number of threads      =   1\n mDENSIT                =   0\n\n ------ current set of parameters:\n          iVirial   =      1           ! 0=200 critical, 1=virial, 2=200 matter, 3=Abacus\n          NradP     =     30           ! Number of shells for halo profiles\n          Rext      =   0.00           ! Extra radius shift at m=1e15\n          SlopeR    =  0.200           ! Slope for extra radius shift\n          MassMin   =   1.00           ! Minimum halo mass\n          MaxMemory =   500.           ! Linked-list admission limit in GiB\n          dLogR     =  2.000E-02       ! Log bin size for potential\n          dLogP     =  2.000E-02       ! Log bin size for profiles\n  Scales=   2.000000       200.0000    \n  Np     =                     64                    64\n FindMaxima: particles=64, overdensity=    338.3000\n Maximum density=   0.00000    , number of maxima=0\n Maxima above overdensity=0, maxima above 300=0\n          time for FindMaxima: count/list =     0.000     0.000\nREPLAY MEMBERSHIP candidates=0 selected=0\nREPLAY CATALOGUE CATALOGS/CatshortV.0001.0001.DAT\nREPLAY COMPLETE\n"
+    },
+    {
+      "command": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replay-build/v3/replay.exe",
+        "1",
+        "16",
+        "1",
+        "read",
+        "/tmp/bdm-common-grid-controls-673il6gq/invalid-fi.bin"
+      ],
+      "returncode": 128,
+      "output": "Convergence replay control                   \n           a=  1.0000 step=       1 Nrow=       4 Ngrid=     16\nREPLAY GRID source/analysis=      16      16 particles=64\nREPLAY GRID physical errors xyz Mpc/h, velocity km/s=   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00   0.000000000000000E+00\nREPLAY GRID position error bound Mpc/h=   3.814697265625000E-06\nREPLAY GRID changed storage values=                   0                   0                   0                   0                   0                   0\nFixed density byte count mismatch\n"
+    }
+  ],
+  "grid_controls": [
+    {
+      "source": 8,
+      "target": 8,
+      "max_position_error_mpc_h": 0.0,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 8,
+      "target": 4,
+      "max_position_error_mpc_h": 7.62939453125e-06,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 8,
+      "target": 16,
+      "max_position_error_mpc_h": 0.0,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 16,
+      "target": 16,
+      "max_position_error_mpc_h": 0.0,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 16,
+      "target": 8,
+      "max_position_error_mpc_h": 3.814697265625e-06,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 16,
+      "target": 32,
+      "max_position_error_mpc_h": 0.0,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 32,
+      "target": 32,
+      "max_position_error_mpc_h": 0.0,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 32,
+      "target": 16,
+      "max_position_error_mpc_h": 1.9073486328125e-06,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 32,
+      "target": 64,
+      "max_position_error_mpc_h": 0.0,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 1024,
+      "target": 1024,
+      "max_position_error_mpc_h": 0.0,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 1024,
+      "target": 512,
+      "max_position_error_mpc_h": 5.960464477539063e-08,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 1024,
+      "target": 2048,
+      "max_position_error_mpc_h": 0.0,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 2048,
+      "target": 2048,
+      "max_position_error_mpc_h": 0.0,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 2048,
+      "target": 1024,
+      "max_position_error_mpc_h": 2.9802322387695312e-08,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 2048,
+      "target": 4096,
+      "max_position_error_mpc_h": 0.0,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 4096,
+      "target": 4096,
+      "max_position_error_mpc_h": 0.0,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 4096,
+      "target": 2048,
+      "max_position_error_mpc_h": 1.4901161193847656e-08,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    },
+    {
+      "source": 4096,
+      "target": 8192,
+      "max_position_error_mpc_h": 0.0,
+      "bound_mpc_h": 3.0517578125e-05,
+      "physical_velocity_bitwise_equal": true,
+      "canonical_boundary": true
+    }
+  ],
+  "fixture_controls": [
+    {
+      "variant": "v3",
+      "source_grid": 16,
+      "analysis_grid": 16,
+      "rows": 1,
+      "catalogue_sha256": "c568a1f08f20cd0ad2c73505e2aae57515c6e3f66b60cb9b581699fc22576e72",
+      "snapshot_unchanged": true,
+      "same_physical_input_same_variant_byte_identical": true
+    },
+    {
+      "variant": "legacy",
+      "source_grid": 16,
+      "analysis_grid": 16,
+      "rows": 1,
+      "catalogue_sha256": "7d7731e1eefaf6c927c430cfb19c0ba10f8b3c03a4dbe55a71185ea4ac119e58",
+      "snapshot_unchanged": true,
+      "same_physical_input_same_variant_byte_identical": true
+    },
+    {
+      "variant": "v3",
+      "source_grid": 8,
+      "analysis_grid": 16,
+      "rows": 1,
+      "catalogue_sha256": "c568a1f08f20cd0ad2c73505e2aae57515c6e3f66b60cb9b581699fc22576e72",
+      "snapshot_unchanged": true,
+      "same_physical_input_same_variant_byte_identical": true
+    },
+    {
+      "variant": "legacy",
+      "source_grid": 8,
+      "analysis_grid": 16,
+      "rows": 1,
+      "catalogue_sha256": "7d7731e1eefaf6c927c430cfb19c0ba10f8b3c03a4dbe55a71185ea4ac119e58",
+      "snapshot_unchanged": true,
+      "same_physical_input_same_variant_byte_identical": true
+    },
+    {
+      "variant": "v3",
+      "source_grid": 32,
+      "analysis_grid": 16,
+      "rows": 1,
+      "catalogue_sha256": "c568a1f08f20cd0ad2c73505e2aae57515c6e3f66b60cb9b581699fc22576e72",
+      "snapshot_unchanged": true,
+      "same_physical_input_same_variant_byte_identical": true
+    },
+    {
+      "variant": "legacy",
+      "source_grid": 32,
+      "analysis_grid": 16,
+      "rows": 1,
+      "catalogue_sha256": "7d7731e1eefaf6c927c430cfb19c0ba10f8b3c03a4dbe55a71185ea4ac119e58",
+      "snapshot_unchanged": true,
+      "same_physical_input_same_variant_byte_identical": true
+    }
+  ],
+  "scratch": "/tmp/bdm-common-grid-controls-673il6gq",
+  "original_standalone_matches": [
+    "legacy",
+    "v3"
+  ],
+  "fixed_density_sha256": "1dc7c31e33797e925259850bf6ee653d9e20f1ad95b99178b09feb233813103d",
+  "fixed_density_size": 16412,
+  "empty_catalogue_hook_passed": true,
+  "incomplete_density_rejected_before_finder": true
+}

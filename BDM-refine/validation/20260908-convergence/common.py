@@ -13,6 +13,7 @@ WORK = ROOT / 'work'
 BIN = WORK / 'bin'
 BASE = 'e289c3f7ea28d38390a1663e50bb2784b85abc84'
 FINDER_SHA = '39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d'
+CHECKER_SHA = '7a84c1dc7444b9bfdf0a99763ecfe6fc005657ec17baae840fa9fb7d53b6e81c'
 MATRIX = {'A': (256, 2048), 'B': (512, 1024), 'C': (512, 2048),
           'D': (512, 4096), 'E': (1024, 2048), 'F': (1024, 4096),
           'T': (1024, 4096)}
@@ -63,7 +64,9 @@ def load_module(name, path):
 
 
 def checker():
-    module = load_module('bdm_prior_checker', REPO / 'BDM-refine/validation/20260906-n1024/run_validation.py')
+    path=REPO/'BDM-refine/validation/20260906-n1024/run_validation.py'
+    if sha(path)!=CHECKER_SHA:raise ValueError('Independent membership checker changed since campaign freeze')
+    module = load_module('bdm_prior_checker',path)
     module.ROOT = REPO
     return module
 

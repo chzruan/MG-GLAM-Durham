@@ -1,0 +1,65 @@
+{
+  "completed": true,
+  "spec": {
+    "case": "F",
+    "nrow": 1024,
+    "ngrid": 4096,
+    "box_mpc_h": 256.0,
+    "epochs": [
+      2,
+      1,
+      0
+    ],
+    "half_steps": false,
+    "cosmology": {
+      "Omega_m": 0.3089,
+      "Omega_Lambda": 0.6911,
+      "h": 0.6774,
+      "sigma8": 0.8159
+    },
+    "shape_repair_commit": "c68c22d",
+    "analysis_ngrid": 2048
+  },
+  "header": {
+    "scale_factor": 0.009900989942252636,
+    "step": 0,
+    "nrow": 1024,
+    "ngrid": 4096,
+    "particles": 1073741824
+  },
+  "stage_receipt": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/ic.json",
+  "outputs": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrd.DAT": {
+      "sha256": "adcc40fcebe4c5f96b767194758c75d1a2ff0c729d39e9fd364c3ef725cdf8f7",
+      "bytes": 537
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrs0.DAT": {
+      "sha256": "2040be2afcdabd8db7882ebba89288b59dc20264ed7c643a40b6648928364097",
+      "bytes": 6442450944
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrs1.DAT": {
+      "sha256": "955ad8f8f87e7890f65428894e53433aa65b205f2c46806a6befe6d99c540f2b",
+      "bytes": 6442450944
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrs2.DAT": {
+      "sha256": "c42cbad0e3066cfe6ab5e978ff4bd1c1b9b6d059d36b7a6daff760adad4aec7f",
+      "bytes": 6442450944
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrs3.DAT": {
+      "sha256": "2d645bd386992840eec2cb0cf2d4eb4d7510cee8c0547cead31fcd821042861c",
+      "bytes": 6442450944
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/matched_ic_receipt.txt": {
+      "sha256": "6e01d48e4b3d4194d7423ee76a13dd6d81a1a11a05aa5289ef993495d0a4fbe5",
+      "bytes": 638
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/matched_modes.bin": {
+      "sha256": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071",
+      "bytes": 431248
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/pt.dat": {
+      "sha256": "a4bdddfe99b36286da7046ac901cf18a8ee500d7ccf00dff61c9d9fae9be8cd6",
+      "bytes": 12
+    }
+  }
+}
