@@ -1,0 +1,31 @@
+{
+  "completed": true,
+  "completed_at_utc": "2026-09-08T01:15:20.110179+00:00",
+  "command": [
+    "git",
+    "-c",
+    "pack.threads=1",
+    "repack",
+    "-d"
+  ],
+  "head": "afc8328b0f95b761cc938deadf9b1177f44f35c9",
+  "refs_before_and_after_sha256": "36c9f1f468e1d8fb27a4d90c1c7962ad23a221510e1b93872aed084c48a9cc84",
+  "refs_identical": true,
+  "before": {
+    "files": 224,
+    "directories": 157,
+    "count_objects": "count: 218\nsize: 1848\nin-pack: 3435\npacks: 2\nsize-pack: 232733\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+  },
+  "after": {
+    "files": 27,
+    "directories": 21,
+    "count_objects": "count: 19\nsize: 842\nin-pack: 3634\npacks: 3\nsize-pack: 232963\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+  },
+  "net_object_files_removed": 197,
+  "new_packs_verified": [
+    ".git/objects/pack/pack-3fbbf55627cf385ed89212b3b6f6d719ac06494d.idx"
+  ],
+  "policy": "Incremental repack of loose reachable objects; no history expiration, no reflog expiration, no pruning of unreachable objects.",
+  "stdout": "",
+  "stderr": ""
+}

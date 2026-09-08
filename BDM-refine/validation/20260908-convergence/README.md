@@ -131,6 +131,11 @@ Completed cleanup consolidated 465 files/links into three verified archives:
 23 root compiler outputs, 329 completed build/pilot fixtures, and 113 replay
 driver fixtures. The three receipts record every original hash and each
 archive hash. Executables, active data and queued-job bundles remain in place.
+An incremental Git repack removed another 197 object files and 136 empty
+object directories. The new pack was verified and every Git ref remained
+identical; `git-cleanup.json` records the before/after inventory. No history
+or unreachable objects were expired. Six temporary slide/plot inspection
+images were removed after the PDFs passed visual review.
 To restore old build or fixture paths for rerunning controls, extract the
 corresponding `work-artifacts.tar.gz` or `work-controls.tar.gz` in this directory.
 No rebuild is needed to execute the frozen campaign.
