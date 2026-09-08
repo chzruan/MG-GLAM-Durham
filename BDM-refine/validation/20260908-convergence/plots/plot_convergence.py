@@ -12,7 +12,7 @@ import numpy as np
 
 from house_style import PALETTE, use_house_style
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from common import ROOT, now, sha, write_json
+from common import ROOT, now, read_json_snapshot, sha, verify_json_snapshot, write_json
 
 LABELS={
     'bound_mass':r'$\Delta M_{\rm bound}\ [\%]$',
@@ -44,7 +44,7 @@ def statistic(ax,x,row,key,color,minimum):
 
 
 def figure(rows,edges,kind,z,floor,minimum,supplement=False,partial=False):
-    fig,axes=plt.subplots(2,3,figsize=(11.8,6.3),sharex=True)
+    fig,axes=plt.subplots(2,3,figsize=(11.8,4.6),sharex=True)
     axes=axes.ravel();x=(edges[:-1]+edges[1:])/2
     keys=(['aperture_total_mass','axis_ba','bulk_velocity_km_s','centre_distance_mpc_h','unresolved','left_fraction']
           if supplement else ['abundance','bound_mass','vmax','aperture_radius','axis_ca','completeness'])
@@ -57,7 +57,7 @@ def figure(rows,edges,kind,z,floor,minimum,supplement=False,partial=False):
                 ax.axhline(0,color='k',lw=.7)
             else:ax.set_ylim(bottom=0)
         elif key=='abundance':
-            ax.set_ylabel(r'$100(n_{\rm left}/n_{\rm ref}-1)\ [\%]$')
+            ax.set_ylabel(r'$\Delta n\ [\%]$')
             ax.axhspan(-5,5,color='.9',zorder=0);ax.axhline(0,color='k',lw=.7)
         elif key=='unresolved':ax.set_ylabel(r'Unresolved $V_{\max}$ [\%]');ax.set_ylim(-2,102)
         else:
@@ -93,11 +93,11 @@ def figure(rows,edges,kind,z,floor,minimum,supplement=False,partial=False):
     if partial:context='INCOMPLETE CAMPAIGN: '+context
     fig.text(.085,.965,context,fontsize=11,ha='left')
     fig.text(.085,.025,
-        f'Only entire mass bins above both resolution cuts; at least {minimum} objects per plotted statistic. '
-        'Shifts are left/reference minus one.\n'
-        'Shading: matched 16--84 percentile scatter; abundance errors: paired eight-octant jackknife. '
-        'Grey bands are reference scales, not certified accuracy.',fontsize=8.2)
-    fig.subplots_adjust(left=.085,right=.98,bottom=.14,top=.9,wspace=.33,hspace=.12)
+        f'Whole bins above common resolution cuts; at least {minimum} objects/statistic. Percent shifts: '
+        r'$100(\mathrm{left}/\mathrm{reference}-1)$. Matched bins use reference mass.'+'\n'
+        'Colour shading: 16--84 percentile scatter; abundance errors: paired eight-octant jackknife. '
+        'Grey bands mark reference scales, not accuracy guarantees.',fontsize=8.2)
+    fig.subplots_adjust(left=.085,right=.98,bottom=.21,top=.9,wspace=.33,hspace=.12)
     return fig
 
 
@@ -105,7 +105,7 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--input',type=Path,default=ROOT/'convergence.json')
     parser.add_argument('--floor',type=int,choices=[100,300,1000],default=300)
     parser.add_argument('--minimum-count',type=int,default=30)
-    args=parser.parse_args();data=json.loads(args.input.read_text())
+    args=parser.parse_args();data,input_sha=read_json_snapshot(args.input)
     use_house_style();plt.rcParams.update({'font.size':10,'axes.labelsize':11,'xtick.labelsize':9,'ytick.labelsize':9})
     output=ROOT/'figures'/f'bdm_convergence_n{args.floor}.pdf';output.parent.mkdir(exist_ok=True)
     selected=[r for r in data['comparisons'] if r['particle_floor']==args.floor]
@@ -123,9 +123,10 @@ def main():
                     pdf.savefig(fig);plt.close(fig)
                     pages.append(dict(page=len(pages)+1,redshift=z,kind=kind,supplement=supplement,
                                       pairs=[r['coarse']+'/'+r['reference'] for r in rows]))
+    verify_json_snapshot(args.input,input_sha)
     staged.replace(output)
     report=dict(completed=True,complete_campaign=data['completed'],created_at_utc=now(),
-                input=str(args.input),input_sha256=sha(args.input),script_sha256=sha(__file__),
+                input=str(args.input),input_sha256=input_sha,script_sha256=sha(__file__),
                 particle_floor=args.floor,minimum_count=args.minimum_count,
                 pdf=str(output),pdf_sha256=sha(output),pages=pages,
                 interpretation='Reference bands illustrate 5% mass/shape/abundance and 2% radius/Vmax scales; they do not establish physical accuracy.')

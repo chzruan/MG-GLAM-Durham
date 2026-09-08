@@ -45,6 +45,7 @@ def main():
         archive.write(ROOT/'replays.py','replays.py')
         if args.phase=='analysis':archive.write(ROOT/'assess.py','assess.py')
         if args.phase=='render':
+            archive.write(ROOT/'accounting.py','accounting.py')
             for name in ['plots/plot_convergence.py','plots/house_style.py','plots/chz-paper.mplstyle',
                          'slides/make_slides.py','slides/beamerthemeStanford.sty',
                          'slides/beamercolorthemestanford.sty','slides/beamerouterthemesimplefooter.sty','slides/durham_logo.png']:
@@ -61,6 +62,7 @@ def main():
     if args.phase=='replay':
         command+=['--finder',args.finder,'--analysis-ngrid',str(args.analysis_ngrid)]
         if args.epoch is not None:command+=['--epoch',str(args.epoch)]
+    rendering_environment='module load texlive/20181109\n' if args.phase=='render' else ''
     text=f'''#!/bin/bash
 #SBATCH --job-name=bdmconv-{tag}
 #SBATCH --account=dp004
@@ -76,7 +78,7 @@ export LINES=40 COLUMNS=120
 module purge
 module load intel_comp/2024.2.0
 module load compiler-rt tbb compiler
-export BDM_AUDIT_NATIVE_LIBS="$LD_LIBRARY_PATH"
+{rendering_environment}export BDM_AUDIT_NATIVE_LIBS="$LD_LIBRARY_PATH"
 export BDM_CONVERGENCE_ROOT={shlex.quote(str(ROOT))}
 export OMP_NUM_THREADS="$SLURM_CPUS_PER_TASK"
 export OMP_DYNAMIC=FALSE OMP_PROC_BIND=close OMP_PLACES=cores OMP_STACKSIZE=128M

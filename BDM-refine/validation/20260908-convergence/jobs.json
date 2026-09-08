@@ -599,7 +599,7 @@
     "submitted_at_utc": "2026-09-08T00:35:53.378690+00:00",
     "partition": "cosma8-serial",
     "cores": 32,
-    "memory_gib": 128,
+    "memory_gib": 160,
     "wall_minutes": 65,
     "expected_minutes": 15.0,
     "expected_core_hours": 8.0,
@@ -629,6 +629,18 @@
         "from_memory_gib": 96,
         "to_memory_gib": 128,
         "reason": "Completed three-epoch B paired replay measured 94.5 GiB Slurm batch MaxRSS despite 35.2 GiB native RSS. Increase pending C/D to 128 GiB for measured batch peak plus headroom; preserve immutable original scripts and completed outputs."
+      },
+      {
+        "time_utc": "2026-09-08T01:12:50.027922+00:00",
+        "command": [
+          "scontrol",
+          "update",
+          "JobId=11955978",
+          "MinMemoryNode=163840"
+        ],
+        "from_memory_gib": 128,
+        "to_memory_gib": 160,
+        "reason": "Completed C paired replay measured 122.15 GiB batch MaxRSS. Increase still-pending D to 160 GiB for 31% headroom, preserving completed outputs and the original immutable script."
       }
     ]
   },
@@ -704,6 +716,160 @@
       "--parsable",
       "--dependency=afterok:11956140",
       "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-pilot-t1.sh"
+    ],
+    "cancelled_before_start": {
+      "time_utc": "2026-09-08T00:52:53.869508+00:00",
+      "command": [
+        "scancel",
+        "11956144"
+      ],
+      "reason": "Preflight review found a collision with Beamer built-in note command in the immutable generator bundle. Rename local helper to slidenote and resubmit corrected render; no output or billed work discarded."
+    }
+  },
+  {
+    "tag": "replay-A-t32-ng2048-pair",
+    "job_id": "11956146",
+    "submitted_at_utc": "2026-09-08T00:47:22.730312+00:00",
+    "partition": "cosma8-serial",
+    "cores": 32,
+    "memory_gib": 128,
+    "wall_minutes": 65,
+    "expected_minutes": 15.0,
+    "expected_core_hours": 8.0,
+    "time_limit_core_hours": 34.666666666666664,
+    "reason": "A z0 pilot completed: 7.97 million candidates, 24,898 published haloes, 207 native s and 65.2 GiB batch MaxRSS. Three-epoch B pair reached 94.5 GiB batch MaxRSS, so use 128 GiB with headroom. Reuse independent A z0 v3 evidence; new frozen driver keeps its receipt stable while adding legacy comparison. Same 32 threads throughout.",
+    "dependency": null,
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/replay-A-t32-ng2048-pair.sh",
+    "script_sha256": "9051087d69b73fa2f46d2da9837afab3a7e2c00457218611fda04145fdbfa458",
+    "driver_sha256": "bc723f5c4435504d65c49cdb04a5d6b8edbd49fdf5b244c833f7043248cef4d8",
+    "bundle_sha256": "e5bf72fc2c5fc59491db2c67e268b84b124234c57b14ca43ec54b7b76042c5f2",
+    "git_commit": "1f449e807f4941c49727839fcdc4894e8a71892e",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/replay-A-t32-ng2048-pair.sh"
+    ]
+  },
+  {
+    "tag": "render-pilot-v2-t1",
+    "job_id": "11956152",
+    "submitted_at_utc": "2026-09-08T00:52:54.518148+00:00",
+    "partition": "cosma8-serial",
+    "cores": 1,
+    "memory_gib": 4,
+    "wall_minutes": 15,
+    "expected_minutes": 2.0,
+    "expected_core_hours": 0.03333333333333333,
+    "time_limit_core_hours": 0.25,
+    "reason": "Corrected frozen Beamer generator after read-only review found built-in note command collision; original pending render 11956144 cancelled before start. Plot/LaTeX from the partial analysis only; 1 shared core and 4 GiB. Sources and theme assets frozen in the replacement bundle.",
+    "dependency": "11956140",
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-pilot-v2-t1.sh",
+    "script_sha256": "2dd0f7905831f4f4fd12834798155dff08d672030e1b0bfb00c24aa1a4ad7f7e",
+    "driver_sha256": "393dd31156eeebaa9dddba539736e02a63c36e22d534bf18a72983e525126135",
+    "bundle_sha256": "c1118f77145563be3f9f695dd258a6406270d84ca9e454ea2c9122e3bcaa82f6",
+    "git_commit": "1f449e807f4941c49727839fcdc4894e8a71892e",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "--dependency=afterok:11956140",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-pilot-v2-t1.sh"
+    ]
+  },
+  {
+    "tag": "render-pilot-v3-t1",
+    "job_id": "11956157",
+    "submitted_at_utc": "2026-09-08T00:56:14.572542+00:00",
+    "partition": "cosma8-serial",
+    "cores": 1,
+    "memory_gib": 4,
+    "wall_minutes": 15,
+    "expected_minutes": 2.0,
+    "expected_core_hours": 0.03333333333333333,
+    "time_limit_core_hours": 0.25,
+    "reason": "Render pilot v2 found compute nodes need explicit texlive/20181109 module after module purge. Replacement adds tool-path checks and exact parsed-input hash binding; science analysis already passed in 22 s at 0.96 GiB MaxRSS. No measurement is rerun.",
+    "dependency": "11956140",
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-pilot-v3-t1.sh",
+    "script_sha256": "01a2a02ca97f5c0301ab42cbb3038539d9f09342efb6c6d0d90e55266fd508db",
+    "driver_sha256": "79b9e8a2f18baac27e6589d47b09ca8c018327e2dace9787fd00492412c6bb28",
+    "bundle_sha256": "bcca7463dd2181379c2e49d9a75075c5b80fabf23d584f2e085a3c63f8784778",
+    "git_commit": "1f449e807f4941c49727839fcdc4894e8a71892e",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "--dependency=afterok:11956140",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-pilot-v3-t1.sh"
+    ]
+  },
+  {
+    "tag": "render-pilot-v4-t1",
+    "job_id": "11956159",
+    "submitted_at_utc": "2026-09-08T00:58:27.790562+00:00",
+    "partition": "cosma8-serial",
+    "cores": 1,
+    "memory_gib": 4,
+    "wall_minutes": 15,
+    "expected_minutes": 2.0,
+    "expected_core_hours": 0.03333333333333333,
+    "time_limit_core_hours": 0.25,
+    "reason": "Analysis pilot 11956140 completed and verified. Compute nodes have no system pdfinfo; use completed XeLaTeX page count as fallback, verify against frame count, then visually inspect on login. Check fontconfig inside cosemu (where installed), with explicit texlive module. Replaces failed environment-only pilot v3; no science rerun.",
+    "dependency": null,
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-pilot-v4-t1.sh",
+    "script_sha256": "c4c664951726f9278b5d02585d85f0974e8fcacdb482f01320efa8c2949f82f0",
+    "driver_sha256": "1bd937ae9187adaa9477902884e8122057ee879abbaf23d2b19219f699387c23",
+    "bundle_sha256": "1f4015baf05e4f787bde73c97453271fa07b2f73be0e42dd9776cb78ddbd94d2",
+    "git_commit": "1f449e807f4941c49727839fcdc4894e8a71892e",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-pilot-v4-t1.sh"
+    ]
+  },
+  {
+    "tag": "render-presentation-layout-t1",
+    "job_id": "11956179",
+    "submitted_at_utc": "2026-09-08T01:01:44.477149+00:00",
+    "partition": "cosma8-serial",
+    "cores": 1,
+    "memory_gib": 1,
+    "wall_minutes": 10,
+    "expected_minutes": 1.0,
+    "expected_core_hours": 0.016666666666666666,
+    "time_limit_core_hours": 0.16666666666666666,
+    "reason": "Pilot rendering passed: 55 job seconds, 30.6 CPU seconds and 0.273 GiB batch MaxRSS. Visual inspection found the six-panel figure left unused slide width; use a wider, shorter canvas to enlarge the slide labels. Re-render only, with measured 1-core/1-GiB sizing and frozen source/parsed-input identity.",
+    "dependency": null,
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-presentation-layout-t1.sh",
+    "script_sha256": "ce9e87e8f5b499d09aae8ee78dde8bb8e0f52d57b76c57e32069668f92a09257",
+    "driver_sha256": "1bd937ae9187adaa9477902884e8122057ee879abbaf23d2b19219f699387c23",
+    "bundle_sha256": "0275bc2cb4cfa0042ab514d51cb4d6552c3725428ad1663d0ca5daadf8b463d5",
+    "git_commit": "1f449e807f4941c49727839fcdc4894e8a71892e",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-presentation-layout-t1.sh"
+    ]
+  },
+  {
+    "tag": "render-presentation-final-layout-t1",
+    "job_id": "11956187",
+    "submitted_at_utc": "2026-09-08T01:05:33.653013+00:00",
+    "partition": "cosma8-serial",
+    "cores": 1,
+    "memory_gib": 1,
+    "wall_minutes": 10,
+    "expected_minutes": 1.0,
+    "expected_core_hours": 0.016666666666666666,
+    "time_limit_core_hours": 0.16666666666666666,
+    "reason": "Visual inspection of the wider canvas found footer and x-axis labels touching. Increase bottom spacing and shorten the abundance axis label with an explicit percent-shift definition. Re-render only; previous run measured 0.326 GiB MaxRSS and 23.6 CPU seconds.",
+    "dependency": null,
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-presentation-final-layout-t1.sh",
+    "script_sha256": "7e6b4f931c1fca26de64b726d945bc5c7391cba7eb2c53f82907b5e32f94db76",
+    "driver_sha256": "1bd937ae9187adaa9477902884e8122057ee879abbaf23d2b19219f699387c23",
+    "bundle_sha256": "07141b96a5ec0f5956e998425d1eaea20cfa89bd682948b6ac443c9d6890bea1",
+    "git_commit": "1f449e807f4941c49727839fcdc4894e8a71892e",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-presentation-final-layout-t1.sh"
     ]
   }
 ]

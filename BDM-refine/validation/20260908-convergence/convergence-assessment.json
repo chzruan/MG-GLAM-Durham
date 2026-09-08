@@ -1,0 +1,2745 @@
+{
+  "completed": false,
+  "created_at_utc": "2026-09-08T00:53:55.074966+00:00",
+  "input": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/convergence.json",
+  "input_sha256": "377d9204dc2ed8128001dc73783661dc47825f2a27b470176ce710c83ad189d7",
+  "criteria": {
+    "minimum_bin_count": 30,
+    "abundance_difference_percent": 5.0,
+    "maximum_abundance_jackknife_sigma_percent": 5.0,
+    "median_bound_mass_difference_percent": 5.0,
+    "median_resolved_vmax_difference_percent": 2.0,
+    "reference_completeness": 0.9
+  },
+  "comparisons": [
+    {
+      "coarse": "A",
+      "reference": "C",
+      "kind": "particle",
+      "redshift": 2,
+      "particle_floor": 100,
+      "mass_floor_msun_h": 8568886067200.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 7046,
+        "member_sets_examined": 7046,
+        "matches": 6736,
+        "coarse_rows": 8198,
+        "reference_rows": 8395,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 3,
+      "meets_working_criteria_log10_mass_intervals": [
+        [
+          13.0,
+          13.25
+        ]
+      ],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": false,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": false,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "A",
+      "reference": "C",
+      "kind": "particle",
+      "redshift": 2,
+      "particle_floor": 300,
+      "mass_floor_msun_h": 25706658201600.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 7046,
+        "member_sets_examined": 7046,
+        "matches": 6736,
+        "coarse_rows": 8198,
+        "reference_rows": 8395,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 1,
+      "meets_working_criteria_log10_mass_intervals": [],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": false,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "A",
+      "reference": "C",
+      "kind": "particle",
+      "redshift": 2,
+      "particle_floor": 1000,
+      "mass_floor_msun_h": 85688860672000.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 7046,
+        "member_sets_examined": 7046,
+        "matches": 6736,
+        "coarse_rows": 8198,
+        "reference_rows": 8395,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 0,
+      "meets_working_criteria_log10_mass_intervals": [],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "B",
+      "reference": "C",
+      "kind": "force",
+      "redshift": 2,
+      "particle_floor": 100,
+      "mass_floor_msun_h": 2500000000000.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 7346,
+        "member_sets_examined": 7346,
+        "matches": 7250,
+        "coarse_rows": 7420,
+        "reference_rows": 8395,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 5,
+      "meets_working_criteria_log10_mass_intervals": [
+        [
+          13.25,
+          13.5
+        ]
+      ],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": false,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "B",
+      "reference": "C",
+      "kind": "force",
+      "redshift": 2,
+      "particle_floor": 300,
+      "mass_floor_msun_h": 3213332275200.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 7346,
+        "member_sets_examined": 7346,
+        "matches": 7250,
+        "coarse_rows": 7420,
+        "reference_rows": 8395,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 4,
+      "meets_working_criteria_log10_mass_intervals": [
+        [
+          13.25,
+          13.5
+        ]
+      ],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": false,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "B",
+      "reference": "C",
+      "kind": "force",
+      "redshift": 2,
+      "particle_floor": 1000,
+      "mass_floor_msun_h": 10711107584000.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 7346,
+        "member_sets_examined": 7346,
+        "matches": 7250,
+        "coarse_rows": 7420,
+        "reference_rows": 8395,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 2,
+      "meets_working_criteria_log10_mass_intervals": [
+        [
+          13.25,
+          13.5
+        ]
+      ],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": false,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "B",
+      "reference": "C",
+      "kind": "force",
+      "redshift": 1,
+      "particle_floor": 100,
+      "mass_floor_msun_h": 2500000000000.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 16650,
+        "member_sets_examined": 16650,
+        "matches": 16250,
+        "coarse_rows": 16626,
+        "reference_rows": 19480,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 7,
+      "meets_working_criteria_log10_mass_intervals": [
+        [
+          13.75,
+          14.0
+        ]
+      ],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": false,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "B",
+      "reference": "C",
+      "kind": "force",
+      "redshift": 1,
+      "particle_floor": 300,
+      "mass_floor_msun_h": 3213332275200.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 16650,
+        "member_sets_examined": 16650,
+        "matches": 16250,
+        "coarse_rows": 16626,
+        "reference_rows": 19480,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 6,
+      "meets_working_criteria_log10_mass_intervals": [
+        [
+          13.75,
+          14.0
+        ]
+      ],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": false,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "B",
+      "reference": "C",
+      "kind": "force",
+      "redshift": 1,
+      "particle_floor": 1000,
+      "mass_floor_msun_h": 10711107584000.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 16650,
+        "member_sets_examined": 16650,
+        "matches": 16250,
+        "coarse_rows": 16626,
+        "reference_rows": 19480,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 4,
+      "meets_working_criteria_log10_mass_intervals": [
+        [
+          13.75,
+          14.0
+        ]
+      ],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": false,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "A",
+      "reference": "C",
+      "kind": "particle",
+      "redshift": 0,
+      "particle_floor": 100,
+      "mass_floor_msun_h": 8568886067200.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 22042,
+        "member_sets_examined": 22042,
+        "matches": 20535,
+        "coarse_rows": 24898,
+        "reference_rows": 25811,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 7,
+      "meets_working_criteria_log10_mass_intervals": [
+        [
+          13.0,
+          14.0
+        ],
+        [
+          14.25,
+          14.5
+        ]
+      ],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": false,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "A",
+      "reference": "C",
+      "kind": "particle",
+      "redshift": 0,
+      "particle_floor": 300,
+      "mass_floor_msun_h": 25706658201600.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 22042,
+        "member_sets_examined": 22042,
+        "matches": 20535,
+        "coarse_rows": 24898,
+        "reference_rows": 25811,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 5,
+      "meets_working_criteria_log10_mass_intervals": [
+        [
+          13.5,
+          14.0
+        ],
+        [
+          14.25,
+          14.5
+        ]
+      ],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": false,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "A",
+      "reference": "C",
+      "kind": "particle",
+      "redshift": 0,
+      "particle_floor": 1000,
+      "mass_floor_msun_h": 85688860672000.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 22042,
+        "member_sets_examined": 22042,
+        "matches": 20535,
+        "coarse_rows": 24898,
+        "reference_rows": 25811,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 3,
+      "meets_working_criteria_log10_mass_intervals": [
+        [
+          14.25,
+          14.5
+        ]
+      ],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": true
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": false,
+            "bound_mass": true,
+            "resolved_vmax": true,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "B",
+      "reference": "C",
+      "kind": "force",
+      "redshift": 0,
+      "particle_floor": 100,
+      "mass_floor_msun_h": 2500000000000.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 20822,
+        "member_sets_examined": 20822,
+        "matches": 20041,
+        "coarse_rows": 20793,
+        "reference_rows": 25811,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 9,
+      "meets_working_criteria_log10_mass_intervals": [],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": false
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "B",
+      "reference": "C",
+      "kind": "force",
+      "redshift": 0,
+      "particle_floor": 300,
+      "mass_floor_msun_h": 3213332275200.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 20822,
+        "member_sets_examined": 20822,
+        "matches": 20041,
+        "coarse_rows": 20793,
+        "reference_rows": 25811,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 8,
+      "meets_working_criteria_log10_mass_intervals": [],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    },
+    {
+      "coarse": "B",
+      "reference": "C",
+      "kind": "force",
+      "redshift": 0,
+      "particle_floor": 1000,
+      "mass_floor_msun_h": 10711107584000.0,
+      "matching": {
+        "method": "mutual best shared-lattice membership overlap",
+        "minimum_fraction_each": 0.5,
+        "spatial_radius": "max(R_left,R_right)+one common analysis cell",
+        "physical_cell_mpc_h": 0.125,
+        "spatial_candidates": 20822,
+        "member_sets_examined": 20822,
+        "matches": 20041,
+        "coarse_rows": 20793,
+        "reference_rows": 25811,
+        "identity": "Original PM IDs mapped to nested initial lattice; no present-day nearest-particle IDs"
+      },
+      "eligible_bins": 6,
+      "meets_working_criteria_log10_mass_intervals": [],
+      "bins": [
+        {
+          "log10_mass_interval": [
+            12.25,
+            12.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.5,
+            12.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            12.75,
+            13.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.0,
+            13.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.25,
+            13.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.5,
+            13.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            13.75,
+            14.0
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": false,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.0,
+            14.25
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.25,
+            14.5
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": false,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.5,
+            14.75
+          ],
+          "eligible": true,
+          "checks": {
+            "abundance": true,
+            "abundance_uncertainty": true,
+            "bound_mass": true,
+            "resolved_vmax": false,
+            "completeness": true
+          },
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            14.75,
+            15.0
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.0,
+            15.25
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.25,
+            15.5
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        },
+        {
+          "log10_mass_interval": [
+            15.5,
+            15.75
+          ],
+          "eligible": false,
+          "checks": {},
+          "meets_working_criteria": false
+        }
+      ]
+    }
+  ],
+  "interpretation": "Descriptive working tolerances, not a formal confidence interval or proof of absolute accuracy. The highest resolution is a reference. One realization and eight spatial octants cannot establish volume convergence."
+}

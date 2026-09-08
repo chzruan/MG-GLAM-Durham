@@ -1,0 +1,105 @@
+{
+  "completed": true,
+  "complete_campaign": false,
+  "created_at_utc": "2026-09-08T01:06:18.839816+00:00",
+  "input": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/convergence.json",
+  "input_sha256": "377d9204dc2ed8128001dc73783661dc47825f2a27b470176ce710c83ad189d7",
+  "script_sha256": "c8697cc993f269ad349a7f94fb585e2ec27ec6e9e41ca92e82a7e4437220eda3",
+  "particle_floor": 300,
+  "minimum_count": 30,
+  "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+  "pdf_sha256": "cb9ac5e6b4127bf8294e5fbd13541b2fc93666974ce418dd25cecca068d2f77a",
+  "pages": [
+    {
+      "page": 1,
+      "redshift": 2,
+      "kind": "particle",
+      "supplement": false,
+      "pairs": [
+        "A/C"
+      ]
+    },
+    {
+      "page": 2,
+      "redshift": 2,
+      "kind": "particle",
+      "supplement": true,
+      "pairs": [
+        "A/C"
+      ]
+    },
+    {
+      "page": 3,
+      "redshift": 2,
+      "kind": "force",
+      "supplement": false,
+      "pairs": [
+        "B/C"
+      ]
+    },
+    {
+      "page": 4,
+      "redshift": 2,
+      "kind": "force",
+      "supplement": true,
+      "pairs": [
+        "B/C"
+      ]
+    },
+    {
+      "page": 5,
+      "redshift": 1,
+      "kind": "force",
+      "supplement": false,
+      "pairs": [
+        "B/C"
+      ]
+    },
+    {
+      "page": 6,
+      "redshift": 1,
+      "kind": "force",
+      "supplement": true,
+      "pairs": [
+        "B/C"
+      ]
+    },
+    {
+      "page": 7,
+      "redshift": 0,
+      "kind": "particle",
+      "supplement": false,
+      "pairs": [
+        "A/C"
+      ]
+    },
+    {
+      "page": 8,
+      "redshift": 0,
+      "kind": "particle",
+      "supplement": true,
+      "pairs": [
+        "A/C"
+      ]
+    },
+    {
+      "page": 9,
+      "redshift": 0,
+      "kind": "force",
+      "supplement": false,
+      "pairs": [
+        "B/C"
+      ]
+    },
+    {
+      "page": 10,
+      "redshift": 0,
+      "kind": "force",
+      "supplement": true,
+      "pairs": [
+        "B/C"
+      ]
+    }
+  ],
+  "interpretation": "Reference bands illustrate 5% mass/shape/abundance and 2% radius/Vmax scales; they do not establish physical accuracy."
+}

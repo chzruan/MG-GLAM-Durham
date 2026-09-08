@@ -4,7 +4,7 @@ from pathlib import Path
 
 import numpy as np
 
-from common import ROOT, now, sha, write_json
+from common import ROOT, now, read_json_snapshot, sha, verify_json_snapshot, write_json
 
 CRITERIA=dict(minimum_bin_count=30,abundance_difference_percent=5.,
               maximum_abundance_jackknife_sigma_percent=5.,median_bound_mass_difference_percent=5.,
@@ -51,12 +51,13 @@ def evaluate(row,edges):
 
 
 def assess(path):
-    data=json.loads(Path(path).read_text());edges=data['log10_mass_edges']
+    data,input_sha=read_json_snapshot(path);edges=data['log10_mass_edges']
     comparisons=[evaluate(row,edges) for row in data['comparisons']]
-    result=dict(completed=bool(data['completed']),created_at_utc=now(),input=str(path),input_sha256=sha(path),
+    result=dict(completed=bool(data['completed']),created_at_utc=now(),input=str(path),input_sha256=input_sha,
                 criteria=CRITERIA,comparisons=comparisons,
                 interpretation='Descriptive working tolerances, not a formal confidence interval or proof of absolute accuracy. '
                     'The highest resolution is a reference. One realization and eight spatial octants cannot establish volume convergence.')
+    verify_json_snapshot(path,input_sha)
     write_json(ROOT/'convergence-assessment.json',result)
     lines=['# BDM convergence measurements','',
         '**Complete seven-run measurement.**' if data['completed'] else '**Partial campaign: conclusions await the missing runs.**','',

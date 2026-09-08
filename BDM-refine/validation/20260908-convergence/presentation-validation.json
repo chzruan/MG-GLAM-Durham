@@ -1,0 +1,16 @@
+{
+  "completed": true,
+  "complete_campaign": false,
+  "created_at_utc": "2026-09-08T01:06:24.319705+00:00",
+  "input_sha256": "377d9204dc2ed8128001dc73783661dc47825f2a27b470176ce710c83ad189d7",
+  "plot_pdf_sha256": "cb9ac5e6b4127bf8294e5fbd13541b2fc93666974ce418dd25cecca068d2f77a",
+  "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+  "source_sha256": "2325c35b209793393266b2a9e4f222ab2c251285af9e69bd9429a0f0b8a45175",
+  "generator_sha256": "fff9cafabd4bf9376e785a6483576a052bac6bf40f7763ea5ea94088a6b89545",
+  "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+  "pdf_sha256": "7e6c4dff5091c1bc4f929d17911ee7759391cb1c0cbf8f168e00ad47d12f32be",
+  "pages": 18,
+  "page_count_source": "Completed XeLaTeX output before successful PDF conversion",
+  "warnings": [],
+  "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+}

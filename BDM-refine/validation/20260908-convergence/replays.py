@@ -96,7 +96,17 @@ def replay(name,threads,epoch=None,finder='pair',analysis_ngrid=2048):
                         density=density_evidence,variants=reports,
                         catalogue_arrays=str(packed),catalogue_arrays_sha256=sha(packed),completed_at_utc=now())
             write_json(aggregate,report)
-            if scope=='v3':write_json(ROOT/f'v3-validation-{tag}.json',report)
+            if scope=='v3':
+                independent=ROOT/f'v3-validation-{tag}.json'
+                if independent.exists():
+                    prior=json.loads(independent.read_text())
+                    # Pair upgrades and legacy failures must not change the
+                    # independently published v3 receipt used by analysis.
+                    for key in ['spec','redshift','step','membership_checker_sha256','threads','science_files']:
+                        if prior[key]!=report[key]:raise ValueError('Changed published v3 evidence: '+key)
+                    if prior['density']['sha256']!=report['density']['sha256']:
+                        raise ValueError('Changed published v3 density')
+                else:write_json(independent,report)
         for variant in ['v3','legacy']:
             if finder=='v3' and variant=='legacy':continue
             folder=parent/variant;folder.mkdir(exist_ok=True);(folder/'CATALOGS').mkdir(exist_ok=True)

@@ -35,6 +35,15 @@ def sha(path):
     return digest.hexdigest()
 
 
+def read_json_snapshot(path):
+    payload=Path(path).read_bytes()
+    return json.loads(payload),hashlib.sha256(payload).hexdigest()
+
+
+def verify_json_snapshot(path,expected):
+    if sha(path)!=expected:raise ValueError(f'Input changed during reporting: {path}')
+
+
 def write_json(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)

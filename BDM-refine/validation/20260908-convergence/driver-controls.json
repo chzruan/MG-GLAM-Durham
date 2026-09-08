@@ -1,6 +1,6 @@
 {
   "completed": true,
-  "started_at_utc": "2026-09-08T00:17:06.859929+00:00",
+  "started_at_utc": "2026-09-08T00:47:57.240585+00:00",
   "matching": {
     "nested_lattice_corner": true,
     "full_fine_lattice_projects_exactly": true,
@@ -8,11 +8,34 @@
     "periodic_boundary_pair": true,
     "empty_statistical_bins_json_safe": true
   },
+  "statistics": {
+    "partial_publication_bin_excluded": true,
+    "common_mass_floor_explicit": true,
+    "aperture_mass_not_mislabeled_so": true,
+    "either_unresolved_vmax_excluded_and_counted": true,
+    "known_resolved_vmax_shift_preserved": true
+  },
   "replay": {
     "real_native_pair": true,
+    "completed_v3_preserved_on_resume": true,
     "completed_pair_preserved_on_both_resume_modes": true,
     "changed_retained_density_rejected": true,
-    "legacy_exit_zero_partial_catalogue_preserves_v3": true
+    "resume_identity_negative_controls": {
+      "retained_density": "Changed or missing frozen file: /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls-mk6hgbol/replays/fixture-z0-ng16/density.bin",
+      "new_valid_snapshot_same_spec": "Changed completed finder stage identity: /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls-mk6hgbol/replays/fixture-z0-ng16/v3/finder.json",
+      "requested_configuration": "Changed requested finder configuration: /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls-mk6hgbol/replays/fixture-z0-ng16/v3/BDM.config",
+      "frozen_legacy_configuration": "Changed requested finder configuration: /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls-mk6hgbol/replays/fixture-z0-ng16/legacy/BDM.config",
+      "v3_binary": "Changed completed finder stage identity: /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls-mk6hgbol/replays/fixture-z0-ng16/v3/finder.json",
+      "legacy_binary": "Changed completed finder stage identity: /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-controls-mk6hgbol/replays/fixture-z0-ng16/legacy/finder.json"
+    },
+    "restored_inputs_preserve_completed_pair": true,
+    "legacy_exit_zero_partial_catalogue_preserves_v3": true,
+    "valid_v3_resume_ignores_failed_legacy_stage": true,
+    "independent_v3_receipt_preserved_on_pair_upgrade": true
   },
-  "completed_at_utc": "2026-09-08T00:18:14.434908+00:00"
+  "control_source_sha256": "ebd4db8988c995ef8876e3934f5e53774a31e7e75098265523a1a7c189abbe93",
+  "replay_source_sha256": "c3234b2167f932cb5d82e2998bda19b9d1daacb5c0e0ef664920622fdbd511a1",
+  "analysis_source_sha256": "c1fdbb62ea771527d9a0e3b9a67e6e4c53c34c0c25899c6b3a8ffdf40398ff68",
+  "scratch_removed": true,
+  "completed_at_utc": "2026-09-08T00:48:22.719863+00:00"
 }

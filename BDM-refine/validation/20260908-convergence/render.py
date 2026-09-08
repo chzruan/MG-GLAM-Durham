@@ -8,11 +8,13 @@ import sys
 import tempfile
 import zipfile
 
-from common import ROOT, WORK, now, sha, write_json
+from common import ROOT, WORK, now, read_json_snapshot, sha, verify_json_snapshot, write_json
 
 
 def main():
-    data=json.loads((ROOT/'convergence.json').read_text())
+    for program in ['latex','xelatex','latexmk','fc-match']:
+        if not shutil.which(program):raise RuntimeError('Missing rendering program inside cosemu: '+program)
+    data,input_sha=read_json_snapshot(ROOT/'convergence.json')
     if not data['comparisons']:raise RuntimeError('No measured comparison to render')
     started=now();bundle=Path(sys.argv[0])
     with tempfile.TemporaryDirectory(prefix='render-',dir=WORK) as folder:
@@ -33,12 +35,18 @@ def main():
             subprocess.run(command,env=env,check=True)
     plots=json.loads((ROOT/'plot-manifest-n300.json').read_text())
     presentation=json.loads((ROOT/'presentation-validation.json').read_text())
+    verify_json_snapshot(ROOT/'convergence.json',input_sha)
+    assert plots['input_sha256']==presentation['input_sha256']==input_sha
     write_json(ROOT/'render-validation.json',dict(completed=True,complete_campaign=data['completed'],
         started_at_utc=started,completed_at_utc=now(),source_sha256=sources,
+        input_sha256=input_sha,
         plot_manifest_sha256=sha(ROOT/'plot-manifest-n300.json'),
         presentation_manifest_sha256=sha(ROOT/'presentation-validation.json'),
         figure_pdf=plots['pdf'],presentation_pdf=presentation['pdf'],
         visual_review='Automated build and text/layout-log checks only; newly completed results still need visual scientific review.'))
+    # The rendering job itself is still running at this accounting timestamp.
+    import accounting
+    accounting.main()
 
 
 if __name__=='__main__':main()

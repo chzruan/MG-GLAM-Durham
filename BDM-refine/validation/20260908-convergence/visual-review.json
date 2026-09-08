@@ -1,0 +1,24 @@
+{
+  "reviewed_at_utc": "2026-09-08T01:12:22.763015+00:00",
+  "scope": "Preliminary 8-catalogue analysis only; a later full render requires a new visual review.",
+  "presentation_pdf_sha256": "7e6c4dff5091c1bc4f929d17911ee7759391cb1c0cbf8f168e00ad47d12f32be",
+  "figure_pdf_sha256": "cb9ac5e6b4127bf8294e5fbd13541b2fc93666974ce418dd25cecca068d2f77a",
+  "input_sha256": "377d9204dc2ed8128001dc73783661dc47825f2a27b470176ce710c83ad189d7",
+  "slide_pages_inspected": [
+    1,
+    3,
+    7,
+    9,
+    10
+  ],
+  "figure_pages_inspected": [
+    9
+  ],
+  "findings": [
+    "Title and matrix are readable and identify the incomplete campaign.",
+    "Scientific panels, tick labels, legends and footers are readable without overlap or clipping after spacing corrections.",
+    "Particle floors, unresolved Vmax and the reference convention are stated.",
+    "Working ranges are descriptive and limitations remain explicit."
+  ],
+  "passed": true
+}

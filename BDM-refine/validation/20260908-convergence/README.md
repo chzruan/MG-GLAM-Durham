@@ -103,7 +103,12 @@ No rebuild is needed to execute the frozen campaign.
 time-limit core-hours, plus any resource amendment. Paired B replays measured
 94.5 GiB batch MaxRSS (native finder processes peaked at 35.2 GiB); pending C/D
 paired replays were increased from 96 to 128 GiB through recorded `scontrol`
-updates. The original submitted scripts remain immutable. The final
+updates. Completed C subsequently measured 122.15 GiB, so still-pending D
+was increased to 160 GiB. The E z=0 v3 pilot completed in 544 s including
+validation (457.77 s inside the native finder), with 122.90 GiB batch MaxRSS.
+Remaining E/F/T pairs use 192 GiB at 32 cores, allowing additional headroom
+for the finer-force density fields. The original submitted scripts remain
+immutable. The final
 expected campaign cost is approximately 2400 billed core-hours, with the
 3000-hour planning allowance retained. Wall limits provide additional margin
 and their summed maximum is larger than expected usage.
@@ -129,6 +134,9 @@ the Beamer deck shows the design, membership checks and measured ranges.
 Partially completed measurements are labelled explicitly. Both plot and
 presentation receipts distinguish automated checks from visual review.
 Presentation source, themes, PDF, figures and launch bundles are ignored by Git.
+The full render also refreshes Slurm accounting; its own few remaining seconds
+are not yet included at that timestamp. `visual-review.json` binds the inspected
+preliminary PDFs by hash and does not certify later automatic renders.
 
 Run every Python command through `micromamba run -n cosemu python3 -B`.
 Receipts and the final report distinguish preparation, successful process

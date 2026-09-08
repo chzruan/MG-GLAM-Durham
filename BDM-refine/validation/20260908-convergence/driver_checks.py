@@ -1,7 +1,10 @@
 """Small membership-matching and real replay publication/resume controls."""
+import argparse
+from contextlib import nullcontext
 import json
 from pathlib import Path
 import sys
+import tempfile
 
 import numpy as np
 
@@ -90,7 +93,9 @@ def replay_publication(root):
         v3_before=sha(receipt)
         replays.replay('fixture',1,epoch=0,finder='v3',analysis_ngrid=16)
         assert sha(receipt)==v3_before,'Completed v3 validation was rewritten'
+        independent=replays.ROOT/'v3-validation-fixture-z0-ng16.json';independent_before=sha(independent)
         replays.replay('fixture',1,epoch=0,finder='pair',analysis_ngrid=16)
+        assert sha(independent)==independent_before,'Pair upgrade rewrote independently published v3 receipt'
         assert json.loads(receipt.read_text())['pair_completed']
         before=sha(receipt)
         replays.replay('fixture',1,epoch=0,finder='v3',analysis_ngrid=16)
@@ -174,9 +179,17 @@ def replay_publication(root):
 
 
 def main():
-    root=WORK/'driver-controls';root.mkdir(parents=True,exist_ok=False)
-    result=dict(completed=False,started_at_utc=now(),matching=matching(root),statistics=statistics())
-    result['replay']=replay_publication(root)
+    parser=argparse.ArgumentParser();parser.add_argument('--temporary',action='store_true');args=parser.parse_args()
+    directory=(tempfile.TemporaryDirectory(prefix='driver-controls-',dir=WORK) if args.temporary
+               else nullcontext(str(WORK/'driver-controls')))
+    with directory as folder:
+        root=Path(folder)
+        if not args.temporary:root.mkdir(parents=True,exist_ok=False)
+        result=dict(completed=False,started_at_utc=now(),matching=matching(root),statistics=statistics())
+        result['replay']=replay_publication(root)
+        result['replay']['independent_v3_receipt_preserved_on_pair_upgrade']=True
+        result.update(control_source_sha256=sha(__file__),replay_source_sha256=sha(ROOT/'replays.py'),
+                      analysis_source_sha256=sha(ROOT/'analyze.py'),scratch_removed=args.temporary)
     result.update(completed=True,completed_at_utc=now())
     write_json(ROOT/'driver-controls.json',result)
     print('Membership matching and replay driver controls passed',flush=True)
