@@ -31,6 +31,11 @@ five pair/redshift comparisons, frozen before later replays arrived.
 | E paired replay | 11956204 | Running; retains the completed z=0 v3 pilot |
 | Full convergence analysis | 11956207 | All five remaining replay jobs above |
 | Final plots and Beamer | 11956208 | Full analysis |
+| Final launch-file cleanup | 11956701 | Successful full plots and Beamer |
+
+Cleanup-time update (05:13 UTC): A/E paired replays have also completed at all
+three redshifts. Twelve of 21 independent v3 catalogues are now published; the
+saved preliminary analysis still uses its original eight inputs.
 
 Controller dependencies, requested cores/memory, frozen script/bundle hashes,
 shell syntax and bundled Python syntax have been checked. B/C replays already
@@ -50,6 +55,8 @@ plots/slides before drawing conclusions. Record a new PDF-hash-bound visual
 review and commit the completed measurement receipts on this branch. The
 queued jobs do not commit or merge automatically. If an upstream job fails,
 inspect its frozen log and receipt before resuming; preserve successful stages.
+Completed launch files may have been consolidated as described below; restore
+the relevant archive when the original script, bundle or log path is needed.
 
 All runs use GR, L=256 Mpc/h, Omega_m=0.3089, Omega_Lambda=0.6911,
 h=0.6774, sigma8=0.8159, z_init=100, and exact outputs z=2,1,0.
@@ -143,8 +150,26 @@ object directories. The new pack was verified and every Git ref remained
 identical; `git-cleanup.json` records the before/after inventory. No history
 or unreachable objects were expired. Six temporary slide/plot inspection
 images were removed after the PDFs passed visual review.
+On 8 September, cleanup job 11956691 consolidated another 92 completed-job
+scripts, bundles and logs into `launches-finished-launches.tar.gz`, a net
+reduction of 90 files after its archive and receipt. Every archive member was
+read back and hashed before any original was removed. Scientific products,
+executables, configurations and active/unknown launch files remain unpacked.
+The job used 6 s, 1.191 CPU s and 42,620 KiB Slurm batch MaxRSS. Final cleanup
+job 11956701 is queued after render job 11956208 on one shared core and
+256 MiB (5-minute limit; 15-second expectation). It requires complete analysis
+and matching PDF/manifest hashes, then archives newly finished launch files.
+`launch-cleanup-preflight.json` records controls for active/unknown jobs,
+changed originals, corrupt archives and interrupted-deletion recovery.
+The workspace inventory counted about 12,564 files/directories before this
+pass; the account quota also includes files outside this repository. Existing
+catalogue products account for 3093 entries under the strict-v1 products tree
+and are retained as scientific results.
 To restore old build or fixture paths for rerunning controls, extract the
 corresponding `work-artifacts.tar.gz` or `work-controls.tar.gz` in this directory.
+Restore launch paths with `tar -xzf launches-finished-launches.tar.gz -C .`
+here, or use the corresponding post-render archive once it exists. Archive
+receipts retain original paths and hashes even while those paths are packed.
 No rebuild is needed to execute the frozen campaign.
 
 ## Analysis and continuation

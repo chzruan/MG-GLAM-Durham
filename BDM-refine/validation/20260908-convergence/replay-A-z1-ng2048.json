@@ -1,8 +1,8 @@
 {
   "completed": true,
-  "scope": "v3",
+  "scope": "pair",
   "requested_scope": "pair",
-  "pair_completed": false,
+  "pair_completed": true,
   "spec": {
     "case": "A",
     "nrow": 256,
@@ -29,9 +29,9 @@
   "membership_checker_sha256": "7a84c1dc7444b9bfdf0a99763ecfe6fc005657ec17baae840fa9fb7d53b6e81c",
   "threads": 32,
   "science_files": {
-    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/A-z1-ng2048/catalogues-v3.npz": {
-      "sha256": "4d76c62cdea4ad51b0fb087bbe521a7219a033fa246a16711233fc8cd9ba252d",
-      "bytes": 1800674
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/A-z1-ng2048/catalogues-pair.npz": {
+      "sha256": "9380156d1a2482b83ed83c731a65cc387c25c5b10759a4908ca789b6b71dc9a1",
+      "bytes": 3939241
     },
     "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/A-z1-ng2048/v3/finder.json": {
       "sha256": "625fa0be4029ef428d87ea082a49c1d344f6f1425c33910db60a8c59e083c66e",
@@ -56,6 +56,22 @@
     "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/A-z1-ng2048/v3/repair-members.index.npz": {
       "sha256": "1d3447c652ff2d3ee907086aeca0f4c81e7f51fe2d17b3d7ce064ad2acef4c07",
       "bytes": 1835206
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/A-z1-ng2048/legacy/finder.json": {
+      "sha256": "dddbce63c9e4a3fe42b551c226f562ac4807af4784037355e8373ef206e52d49",
+      "bytes": 2962
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/A-z1-ng2048/legacy/finder.log": {
+      "sha256": "a6bac443a056b67141810f5e43a7020bd2b845e434111437916b3f973af513ec",
+      "bytes": 3283
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/A-z1-ng2048/legacy/finder.time": {
+      "sha256": "099bfe03c213b8b9992f006e57e3827e93cde8aa07d26176da16e9d6a1da2d6e",
+      "bytes": 30
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/A-z1-ng2048/legacy/CATALOGS/CatshortV.0109.0001.DAT": {
+      "sha256": "e0aff60ebd0a57dc1ffb85808edc31bb2f213ffb67405ebf33d797ce4a5f0a59",
+      "bytes": 6392470
     }
   },
   "density": {
@@ -63,7 +79,7 @@
     "sha256": "535d11a9969f253ca29889df7c0b00bfb6c8843857a60df5e0bd97e505cd5467",
     "bytes": 34359738396,
     "retained": true,
-    "shared_bit_identical_density": false
+    "shared_bit_identical_density": true
   },
   "variants": {
     "v3": {
@@ -147,9 +163,45 @@
         "total_memberships": 1785640,
         "index_sha256": "1d3447c652ff2d3ee907086aeca0f4c81e7f51fe2d17b3d7ce064ad2acef4c07"
       }
+    },
+    "legacy": {
+      "catalogue": {
+        "path": "BDM-refine/validation/20260908-convergence/work/replays/A-z1-ng2048/legacy/CATALOGS/CatshortV.0109.0001.DAT",
+        "sha256": "e0aff60ebd0a57dc1ffb85808edc31bb2f213ffb67405ebf33d797ce4a5f0a59",
+        "rows": 22586,
+        "nonfinite_by_column": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "stage_receipt": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/A-z1-ng2048/legacy/finder.json",
+      "elapsed_seconds": 449.5810253059608,
+      "maxrss_kib": 34568296
     }
   },
-  "catalogue_arrays": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/A-z1-ng2048/catalogues-v3.npz",
-  "catalogue_arrays_sha256": "4d76c62cdea4ad51b0fb087bbe521a7219a033fa246a16711233fc8cd9ba252d",
-  "completed_at_utc": "2026-09-08T01:04:34.059035+00:00"
+  "catalogue_arrays": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/replays/A-z1-ng2048/catalogues-pair.npz",
+  "catalogue_arrays_sha256": "9380156d1a2482b83ed83c731a65cc387c25c5b10759a4908ca789b6b71dc9a1",
+  "completed_at_utc": "2026-09-08T01:12:58.299837+00:00"
 }

@@ -995,5 +995,68 @@
       "--dependency=afterok:11956207",
       "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/render-full-t1.sh"
     ]
+  },
+  {
+    "tag": "cleanup-finished-launches-t1",
+    "job_id": "11956691",
+    "submitted_at_utc": "2026-09-08T05:10:31.345689+00:00",
+    "partition": "cosma8-serial",
+    "cores": 1,
+    "memory_gib": 1,
+    "wall_minutes": 5,
+    "expected_minutes": 1.0,
+    "expected_core_hours": 0.016666666666666666,
+    "time_limit_core_hours": 0.08333333333333333,
+    "reason": "Consolidate only registered terminal-job scripts, frozen bundles and closed logs; 92 files totaling 3.63 MiB in the preflight inventory. Existing cleanup pilot 11955933 used one shared core, 29 s and 0.381 GiB MaxRSS for 329 files. Request one core/1 GiB, verify every archive member and unchanged original, check active Slurm jobs again before deletion, and preserve all science data and queued bundles. Temporary controls passed live/unknown exclusions, changed inputs, corruption rejection and interrupted-removal recovery.",
+    "dependency": null,
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/cleanup-finished-launches-t1.sh",
+    "script_sha256": "7bf5be4aa61aa6b708174b9257c218b4d1c4bb9f8807e9be5ce7b029b9248a7c",
+    "driver_sha256": "cd7051e9f5169f8958ba495402f6e74a3de6cf28331ec553459ca1485e2ecc80",
+    "bundle_sha256": "65732585fd69647ec42b31968ce0012e4946cf2deea4f97ce01a33bf45fd3040",
+    "git_commit": "a87005e166db0ff701e42b6947fad66cae5e8eda",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/cleanup-finished-launches-t1.sh"
+    ]
+  },
+  {
+    "tag": "cleanup-post-render-launches-t1",
+    "job_id": "11956701",
+    "submitted_at_utc": "2026-09-08T05:12:42.035708+00:00",
+    "partition": "cosma8-serial",
+    "cores": 1,
+    "memory_gib": 0.25,
+    "wall_minutes": 5,
+    "expected_minutes": 0.25,
+    "expected_core_hours": 0.004166666666666667,
+    "time_limit_core_hours": 0.08333333333333333,
+    "reason": "Final file-count cleanup waits for the completed full render and verifies complete 21-input analysis plus PDF/manifest hashes. Initial finished-launch cleanup 11956691 completed in 6 s, 1.191 CPU s, 42,620 KiB batch MaxRSS at one shared core. Consolidate only newly terminal registered launch files, preserving all science outputs, configurations, provenance receipts and active/unknown jobs. Frozen script is initially 1 GiB; amend pending memory to 256 MiB (6x measured MaxRSS) and record the effective request. Expected 15 s, wall limit 5 min.",
+    "dependency": "11956208",
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/cleanup-post-render-launches-t1.sh",
+    "script_sha256": "11d9bd444a0624466d4d7725ec363f2c5dee50aa3bad630d2e31d298fe7d7758",
+    "driver_sha256": "cd7051e9f5169f8958ba495402f6e74a3de6cf28331ec553459ca1485e2ecc80",
+    "bundle_sha256": "aa61502c183485164521448867f8c503bef9fad5225e98e95757859fb9beed9d",
+    "git_commit": "a87005e166db0ff701e42b6947fad66cae5e8eda",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "--dependency=afterok:11956208",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/cleanup-post-render-launches-t1.sh"
+    ],
+    "resource_amendments": [
+      {
+        "time_utc": "2026-09-08T05:13:28.979952+00:00",
+        "command": [
+          "scontrol",
+          "update",
+          "JobId=11956701",
+          "MinMemoryNode=256"
+        ],
+        "from_memory_gib": 1,
+        "to_memory_gib": 0.25,
+        "reason": "Pilot 11956691 measured 42,620 KiB batch MaxRSS. Request 256 MiB for sixfold measured headroom; preserve immutable original submitted script."
+      }
+    ]
   }
 ]
