@@ -27,5 +27,37 @@
   ],
   "policy": "Incremental repack of loose reachable objects; no history expiration, no reflog expiration, no pruning of unreachable objects.",
   "stdout": "",
-  "stderr": ""
+  "stderr": "",
+  "subsequent_passes": [
+    {
+      "completed": true,
+      "completed_at_utc": "2026-09-08T05:16:10.211950+00:00",
+      "command": [
+        "git",
+        "-c",
+        "pack.threads=1",
+        "repack",
+        "-d"
+      ],
+      "head": "680640c21e7048ed3934133fbdbad187f12dff2c",
+      "refs_identical": true,
+      "refs_before_and_after_sha256": "eead65535fce67db57863a233bff9a70bd3d250f67ab6f4d7aa0f9cef1c63b24",
+      "before": {
+        "files": 71,
+        "directories": 56,
+        "count_objects": "count: 63\nsize: 1386\nin-pack: 3634\npacks: 3\nsize-pack: 232963\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+      },
+      "after": {
+        "files": 29,
+        "directories": 21,
+        "count_objects": "count: 19\nsize: 842\nin-pack: 3678\npacks: 4\nsize-pack: 233022\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+      },
+      "net_object_files_removed": 42,
+      "net_object_directories_removed": 35,
+      "new_packs_verified": [
+        ".git/objects/pack/pack-9f8baba714e5a29e3e5849a7902f080015b83a09.idx"
+      ],
+      "policy": "Incremental repack only; no history/reflog expiration or unreachable-object pruning"
+    }
+  ]
 }
