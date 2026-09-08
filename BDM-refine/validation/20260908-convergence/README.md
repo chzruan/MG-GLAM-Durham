@@ -6,6 +6,44 @@ campaign, simulations below 1200^3 particles, and removal/consolidation of
 unnecessary working artifacts. Production finder source is frozen. This is a
 convergence measurement, not an assumption that the finest run is exact.
 
+## Launch status, 8 September 2026, 01:15 UTC
+
+All seven initial conditions are complete and their shared-mode checks passed,
+including the full 1024^3-row comparison. Simulations A, B, C and E completed
+all three snapshots. D, F and T are running. Independent v3 catalogue checks
+have passed for every completed replay; this is not yet a completed convergence
+result. The preliminary report and slides currently use eight catalogues and
+five pair/redshift comparisons, frozen before later replays arrived.
+
+| Remaining stage | Slurm job | Dependency |
+|---|---:|---|
+| D simulation → paired replay | 11955919 → 11955978 | Replay waits for simulation |
+| F simulation → paired replay | 11955920 → 11956205 | Replay waits for simulation |
+| T simulation → paired replay | 11955921 → 11956206 | Replay waits for simulation |
+| A paired replay | 11956146 | Running; legacy is slower on this coarse particle load |
+| E paired replay | 11956204 | Running; retains the completed z=0 v3 pilot |
+| Full convergence analysis | 11956207 | All five remaining replay jobs above |
+| Final plots and Beamer | 11956208 | Full analysis |
+
+Controller dependencies, requested cores/memory, frozen script/bundle hashes,
+shell syntax and bundled Python syntax have been checked. B/C replays already
+completed and are verified through their receipts. Full analysis refuses
+missing v3 catalogues; legacy failures or its 900-s per-stage time cap are
+reported independently and do not discard validated v3 measurements.
+
+At 01:14 UTC, accounting recorded 339 billed core-hours so far. Replacing
+finished-job estimates with actual usage gives about 2400 core-hours for the
+campaign. Summed submitted time limits allow 3889 core-hours; that ceiling is
+not the expected charge. T remains the critical path, projected at roughly
+16-17 hours of evolution plus replay and analysis; queue delays are additional.
+
+On continuation, inspect jobs 11956207/11956208 and `accounting.json`, confirm
+`convergence.json` has `completed: true` and 21 inputs, and inspect the final
+plots/slides before drawing conclusions. Record a new PDF-hash-bound visual
+review and commit the completed measurement receipts on this branch. The
+queued jobs do not commit or merge automatically. If an upstream job fails,
+inspect its frozen log and receipt before resuming; preserve successful stages.
+
 All runs use GR, L=256 Mpc/h, Omega_m=0.3089, Omega_Lambda=0.6911,
 h=0.6774, sigma8=0.8159, z_init=100, and exact outputs z=2,1,0.
 `MG_flag=0` and `MG_model=3` are retained together. The master-normalized
