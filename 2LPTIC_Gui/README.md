@@ -1,5 +1,18 @@
 # 2LPTIC (FML LPT) IC generator — Intel build for MG-GLAM
 
+## Default IC workflow
+
+**2LPTIC is the project default for new production, validation and convergence
+simulations.** Use the corrected FML build described here with `lpt_order = 2`,
+then convert its Gadget-format output with [`ic2pm`](../ic2pm.f90) before GLAM
+evolution. Agent instructions are in the root [`AGENTS.md`](../AGENTS.md).
+GLAM's native first-order `PMP2start` remains available for explicit legacy
+reproduction or IC-method controls; existing campaigns retain their recorded
+IC method. See [VALIDATION.md](VALIDATION.md) for the checked conventions and
+end-to-end comparisons.
+
+## Generator identity
+
 Gui Brando's "2LPTic" IC generator (email thread: `Gmail - Fw_ 2LPTic.html`)
 is Hans Winther's **FML** library LPT example (C++ + Lua parameter file),
 not Scoccimarro's classic 2LPTic. It uses the same GSL `ranlxd1` random

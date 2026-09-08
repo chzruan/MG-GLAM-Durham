@@ -5,6 +5,13 @@ This is a **campaign-only, first-order (Zel'dovich) IC variant** generated from
 legacy and audited finder replays must consume the resulting identical PM
 snapshots; this IC change is not attributed to BDM refinement.
 
+**Scope:** the project default for new simulations is
+[2LPTIC](../../../../2LPTIC_Gui/README.md), as specified in the root
+[agent instructions](../../../../AGENTS.md). This native first-order variant
+is retained to resume the already launched campaign with its frozen IC choice.
+Use the default 2LPTIC workflow when preparing new campaigns unless another IC
+method is explicitly required by the task.
+
 ## Why the same native seed is insufficient
 
 Native `SPECTR` gives each packed Fourier k plane its own luxury RNG state, but

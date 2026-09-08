@@ -6,6 +6,13 @@ campaign, simulations below 1200^3 particles, and removal/consolidation of
 unnecessary working artifacts. Production finder source is frozen. This is a
 convergence measurement, not an assumption that the finest run is exact.
 
+**IC choice:** this already launched campaign uses a frozen native GLAM
+first-order (Zel'dovich) generator at z_init=100. It is an existing-run exception
+to the project's [default 2LPTIC workflow](../../../AGENTS.md) for new
+simulations. Resume it with its recorded ICs; its convergence measurements
+describe this first-order suite and do not establish convergence of a 2LPTIC
+suite.
+
 ## Launch status, 8 September 2026, 01:15 UTC
 
 All seven initial conditions are complete and their shared-mode checks passed,
