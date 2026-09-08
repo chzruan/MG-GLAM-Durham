@@ -9,6 +9,47 @@ from common import BIN, CHECKER_SHA, CONFIG, ROOT, WORK, checker, file_manifest,
 from campaign import fixed_text, link, run_native
 
 
+def _verify_aggregate(saved,spec,threads,snapshot,source_manifest,parent,analysis_ngrid):
+    """Reuse old aggregate receipts only when their native stage identities still apply."""
+    if (saved['spec']!=spec or saved['threads']!=threads or
+        saved['membership_checker_sha256']!=CHECKER_SHA or
+        saved['redshift']!=snapshot['redshift'] or saved['step']!=snapshot['header']['step']):
+        raise ValueError(f'Changed replay request: {parent}')
+    verify_manifest(saved['science_files'])
+    density=parent/'density.bin'
+    if Path(saved['density']['path']).resolve()!=density.resolve():
+        raise ValueError(f'Changed shared density path: {parent}')
+    density_manifest={key:saved['density'][key] for key in ['sha256','bytes']}
+    verify_manifest({str(density):density_manifest})
+    verified_files=dict(saved['science_files'])
+    verified_files[str(density.resolve())]=density_manifest
+    variants=['v3','legacy'] if saved.get('pair_completed') else ['v3']
+    for variant in variants:
+        folder=parent/variant;receipt=folder/'finder.json';config=folder/'BDM.config'
+        if (str(receipt.resolve()) not in saved['science_files'] or
+            Path(saved['variants'][variant]['stage_receipt']).resolve()!=receipt.resolve()):
+            raise ValueError(f'Unverified finder stage receipt: {receipt}')
+        stage=json.loads(receipt.read_text())
+        # The requested text matters even if the previously frozen file is intact.
+        if not config.is_file() or config.read_text()!=CONFIG:
+            raise ValueError(f'Changed requested finder configuration: {config}')
+        inputs=dict(source_manifest);inputs.update(file_manifest([config]))
+        if variant=='legacy':inputs[str(density.resolve())]=density_manifest
+        identity=dict(binary_sha256=sha(BIN/f'PMP2replay.{variant}.exe'),threads=threads,stdin='',
+                      arguments=list(map(str,[snapshot['header']['step'],analysis_ngrid,threads,
+                                              'write' if variant=='v3' else 'read',density])),inputs=inputs)
+        if not stage.get('completed') or stage['identity']!=identity:
+            raise ValueError(f'Changed completed finder stage identity: {receipt}')
+        # Reconcile already verified hashes without rereading the large particle
+        # and density files for each variant. No aggregate format change is needed.
+        for kind in ['outputs','evidence']:
+            for path,expected in stage[kind].items():
+                if verified_files.get(path)!=expected:
+                    raise ValueError(f'Finder stage differs from aggregate evidence: {path}')
+        if variant=='v3' and stage['outputs'].get(str(density.resolve()))!=density_manifest:
+            raise ValueError(f'Shared density is not the verified v3 output: {density}')
+
+
 def replay(name,threads,epoch=None,finder='pair',analysis_ngrid=2048):
     simulation=json.loads((ROOT/f'{name}-simulation.json').read_text())
     assert simulation['completed']
@@ -20,18 +61,18 @@ def replay(name,threads,epoch=None,finder='pair',analysis_ngrid=2048):
         tag=f'{name}-z{z}-ng{analysis_ngrid}'
         parent=WORK/'replays'/tag;parent.mkdir(parents=True,exist_ok=True)
         source=[Path(snapshot['header_path']),*map(Path,snapshot['data_paths'])]
+        source_manifest={}
         for p in source:
-            verify_manifest({str(p):simulation['outputs'][str(p)]})
+            expected=simulation['outputs'][str(p)]
+            verify_manifest({str(p):expected})
+            source_manifest[str(p.resolve())]=expected
         density=parent/'density.bin'
         step=snapshot['header']['step']
         aggregate=ROOT/f'replay-{tag}.json'
         if aggregate.exists():
             saved=json.loads(aggregate.read_text())
             if saved.get('completed') and (saved.get('pair_completed') or finder=='v3'):
-                assert saved['spec']==spec and saved['threads']==threads
-                assert saved['membership_checker_sha256']==CHECKER_SHA
-                verify_manifest(saved['science_files'])
-                verify_manifest({saved['density']['path']:{key:saved['density'][key] for key in ['sha256','bytes']}})
+                _verify_aggregate(saved,spec,threads,snapshot,source_manifest,parent,analysis_ngrid)
                 print(f'Verified completed {tag}; preserving its full comparison',flush=True)
                 continue
         reports={};arrays={}

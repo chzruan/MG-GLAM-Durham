@@ -1,0 +1,20 @@
+{
+  "completed": true,
+  "completed_at_utc": "2026-09-08T00:31:01.510819+00:00",
+  "matching": {
+    "nested_lattice_corner": true,
+    "full_fine_lattice_projects_exactly": true,
+    "permuted_halo_ids_matched_by_membership": true,
+    "periodic_boundary_pair": true,
+    "empty_statistical_bins_json_safe": true
+  },
+  "statistics": {
+    "partial_publication_bin_excluded": true,
+    "common_mass_floor_explicit": true,
+    "aperture_mass_not_mislabeled_so": true,
+    "either_unresolved_vmax_excluded_and_counted": true,
+    "known_resolved_vmax_shift_preserved": true
+  },
+  "analysis_source_sha256": "b2b259fb5615491e52336d1368e0e3b75046d3b2f265596ec6aff1fb1e03f59e",
+  "controls_source_sha256": "a0ae052e5d5aec0f2f567cacc17d98c929ba87f8148201ebb3f235e30c3179aa"
+}

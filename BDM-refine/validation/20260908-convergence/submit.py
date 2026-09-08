@@ -10,7 +10,7 @@ from common import REPO, ROOT, WORK, git, now, sha, write_json
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('phase',choices=['ic','evolve','replay','analysis','ic-check'])
+    parser.add_argument('phase',choices=['ic','evolve','replay','analysis','ic-check','cleanup'])
     parser.add_argument('case')
     parser.add_argument('--cores',type=int,required=True)
     parser.add_argument('--memory-gib',type=int,required=True)
@@ -35,7 +35,7 @@ def main():
     # and uses fewer inodes than copying a package tree for every submission.
     bundle=path/(tag+'.pyz')
     with zipfile.ZipFile(bundle,'x',compression=zipfile.ZIP_DEFLATED) as archive:
-        entry=ROOT/({'analysis':'analyze.py','ic-check':'ic_validate.py'}.get(args.phase,'campaign.py'))
+        entry=ROOT/({'analysis':'analyze.py','ic-check':'ic_validate.py','cleanup':'archive_scratch.py'}.get(args.phase,'campaign.py'))
         archive.write(entry,'__main__.py')
         archive.write(ROOT/'common.py','common.py')
         archive.write(ROOT/'campaign.py','campaign.py')
@@ -43,7 +43,7 @@ def main():
         for p in sorted((ROOT/'ic').glob('*.py')):archive.write(p,'ic/'+p.name)
         archive.writestr('ic/__init__.py','')
     command=['micromamba','run','-n','cosemu','python3','-B',str(bundle)]
-    if args.phase not in ['analysis','ic-check']:command += [args.phase,args.case,'--threads',str(args.cores)]
+    if args.phase not in ['analysis','ic-check','cleanup']:command += [args.phase,args.case,'--threads',str(args.cores)]
     if args.pilot_steps:command+=['--pilot-steps',str(args.pilot_steps)]
     if args.phase=='replay':
         command+=['--finder',args.finder,'--analysis-ngrid',str(args.analysis_ngrid)]
@@ -77,7 +77,12 @@ scontrol show job "$SLURM_JOB_ID"
     command=['sbatch','--parsable']
     if args.dependency:command.append('--dependency=afterok:'+args.dependency)
     command.append(str(script))
-    result=subprocess.run(command,capture_output=True,text=True,check=True)
+    result=subprocess.run(command,capture_output=True,text=True)
+    if result.returncode:
+        write_json(path/(tag+'.submission-failed.json'),dict(command=command,
+                   returncode=result.returncode,stdout=result.stdout,stderr=result.stderr,
+                   recorded_at_utc=now(),script_sha256=sha(script),bundle_sha256=sha(bundle)))
+        raise RuntimeError('sbatch failed: '+result.stderr.strip())
     job=result.stdout.strip().split(';')[0]
     if not job.isdigit():raise RuntimeError(result.stdout)
     records.append(dict(tag=tag,job_id=job,submitted_at_utc=now(),partition='cosma8-serial',

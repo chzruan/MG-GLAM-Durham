@@ -15,8 +15,10 @@ are controlled explicitly; using the same native random seed is insufficient.
 Initial PM coordinates retain the native periodic upper-edge guard, which
 subtracts 1e-3 mesh units when a coordinate rounds to Ngrid+1. Its physical
 size changes with mesh spacing. This is distinct from unmatched Fourier
-modes: all-row checks measure its incidence, size and boundary locality,
-alongside ordinary float32 rounding. The exact source-derived E/F bound is
+modes. The completed all-row E/F check measured a maximum periodic physical
+position difference of 6.103515625e-5 Mpc/h and identical physical velocities;
+it did not record edge-clamp incidence or RMS differences. The conservative
+source-derived E/F bound, including the native guard, is
 1.8310546875e-4 Mpc/h (rounding plus the possible differential edge clamp),
 and the B/D bound is 3.0517578125e-4 Mpc/h. These are numerical coordinate
 effects included in the mesh comparison; do not claim bit-identical physical
@@ -62,6 +64,16 @@ The initial seven-run estimate was 1600-2800 billed core-hours including
 replays and pilots; the planning allowance is 3000. This is not measured
 4096-grid performance. New pilot accounting determines final allocations.
 Both expected and wall-limit core-hours are recorded before submissions.
+
+Measured four-step N1024/Ng4096 pilots used 720.06 s at 64 cores and
+408.81 s at 128 cores inside the simulation. Doubling the cores was 1.76
+times faster but used 13.5% more simulation core-hours (22.6% more when
+including the fixed job overhead). All three full 4096-mesh runs therefore
+use 64 shared cores. Their 384-GiB requests cover the measured 289.7-GiB
+Slurm MaxRSS with headroom; two such tasks fit concurrently on one 1-TB,
+128-core node. Expected runtimes are 480, 500 and 1000 minutes for D, F and
+T; wall limits are 720, 720 and 1440 minutes. These are projections from
+early steps, with margin for late-time density work and snapshot I/O.
 
 Use `cosma8-serial`, actual thread counts and explicit memory. A 4096^3
 float32 field alone occupies 256 GiB; a saved-density double-mesh replay

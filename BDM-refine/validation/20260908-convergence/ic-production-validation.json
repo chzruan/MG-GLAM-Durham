@@ -1,0 +1,24 @@
+{
+  "completed": true,
+  "completed_at_utc": "2026-09-08T00:20:01.269923+00:00",
+  "all_seven_mode_samples_identical": true,
+  "mode_sample_sha256": {
+    "A": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071",
+    "B": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071",
+    "C": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071",
+    "D": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071",
+    "E": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071",
+    "F": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071",
+    "T": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071"
+  },
+  "shared_alpha": "8.7497865024488419E-06",
+  "fine_rows_examined": 1073741824,
+  "F_T_initial_positions_all_identical": true,
+  "E_F_initial_physical_velocities_all_identical": true,
+  "E_F_max_position_difference_mpc_h": 6.103515625e-05,
+  "E_F_float32_position_bound_mpc_h": 6.103515625e-05,
+  "F_T_staggered_velocity_ratio": 1.015502013189782,
+  "F_T_max_relative_velocity_rounding_error": 1.1757310493860065e-07,
+  "scope": "Every fine-particle row for grid and timestep controls; common packed-mode sample across all seven runs",
+  "mode_matching_basis": "Fixed master row RNG stride, per-plane seeds, master alpha and common physical origin; GNU/Intel full small-field controls"
+}

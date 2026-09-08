@@ -5,9 +5,11 @@ Slurm allocation for the full campaign; memory is bounded by halo counts and
 the largest two member sets, not by the full particle cube.
 """
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import sys
+import zipfile
 
 import numpy as np
 from scipy.spatial import cKDTree
@@ -17,6 +19,16 @@ from common import MATRIX, REPO, ROOT, WORK, now, sha, verify_manifest, write_js
 PAIRS=[('A','C','particle'),('C','E','particle'),('A','E','particle'),
        ('B','C','force'),('C','D','force'),('E','F','force'),('F','T','time')]
 EDGES=np.arange(12.25,15.76,.25)
+PUBLICATION_MASS_MIN=2.5e12
+
+
+def source_sha256():
+    """Ignore zip timestamps and unrelated bundled modules when reusing matches."""
+    path=Path(sys.argv[0])
+    if path.is_file() and zipfile.is_zipfile(path):
+        with zipfile.ZipFile(path) as archive:payload=archive.read('__main__.py')
+    else:payload=Path(__file__).read_bytes()
+    return hashlib.sha256(payload).hexdigest()
 
 
 def finite_json(value):
@@ -104,7 +116,11 @@ def abundance(sample):
     octant=octant[:,0]+2*octant[:,1]+4*octant[:,2]
     counts=np.histogram(np.log10(p[:,6]),EDGES)[0]
     octants=np.array([np.histogram(np.log10(p[octant==j,6]),EDGES)[0] for j in range(8)])
-    return dict(counts=counts,octant_counts=octants,dn_dlog10m=counts/(box**3*np.diff(EDGES)),
+    complete=10**EDGES[:-1]>=PUBLICATION_MASS_MIN
+    density=counts/(box**3*np.diff(EDGES))
+    density[~complete]=np.nan
+    return dict(counts=counts,octant_counts=octants,dn_dlog10m=density,
+                publication_complete_bins=complete,publication_mass_min=PUBLICATION_MASS_MIN,
                 mass_one=sample['report']['variants']['v3']['membership']['mass_one'],rows=len(p))
 
 
@@ -128,12 +144,16 @@ def compare(left,right,pairs,description,floor=300):
     resolved=(left['counts'][ii]>=floor)&(right['counts'][jj]>=floor)
     x=np.log10(b[:,6])
     stats={}
-    for label,column in [('bound_mass',6),('so_mass',7),('radius',8),('vmax',11),('axis_ba',16),('axis_ca',17)]:
+    for label,column in [('bound_mass',6),('aperture_total_mass',7),('aperture_radius',8),('vmax',11),('axis_ba',16),('axis_ca',17)]:
         value=100*np.divide(a[:,column]-b[:,column],b[:,column],out=np.full(len(a),np.nan),where=b[:,column]>0)
-        stats[label]=quantiles(x,value,resolved)
+        usable=resolved.copy()
+        if label=='vmax':usable&=(a[:,column]>0)&(b[:,column]>0)
+        stats[label]=quantiles(x,value,usable)
     stats['bulk_velocity_km_s']=quantiles(x,np.linalg.norm(a[:,3:6]-b[:,3:6],axis=1),resolved)
     stats['centre_distance_mpc_h']=quantiles(x,pairs[:,6],resolved)
-    mass_floor=max(2.5e12,floor*max(aa['mass_one'],bb['mass_one']))
+    mass_floor=max(PUBLICATION_MASS_MIN,floor*max(aa['mass_one'],bb['mass_one']))
+    valid_bins=10**EDGES[:-1]>=mass_floor
+    ratio[~valid_bins]=np.nan;jk[~valid_bins]=np.nan
     eligible=right['properties'][:,6]>=mass_floor
     reference_counts=np.histogram(np.log10(right['properties'][eligible,6]),EDGES)[0]
     selected_counts=np.histogram(x[resolved&eligible[jj]],EDGES)[0]
@@ -142,14 +162,27 @@ def compare(left,right,pairs,description,floor=300):
     left_counts=np.histogram(np.log10(left['properties'][left_eligible,6]),EDGES)[0]
     matched_left=np.histogram(np.log10(a[resolved,6]),EDGES)[0]
     purity=np.divide(matched_left,left_counts,out=np.full(len(EDGES)-1,np.nan),where=left_counts>0)
+    vmax_resolution=[]
+    for lo,hi in zip(EDGES[:-1],EDGES[1:]):
+        chosen=resolved&(x>=lo)&(x<hi);n=int(np.sum(chosen))
+        vmax_resolution.append(dict(matched_count=n,
+            left_unresolved_count=int(np.sum(chosen&(a[:,11]<=0))),
+            right_unresolved_count=int(np.sum(chosen&(b[:,11]<=0))),
+            either_unresolved_count=int(np.sum(chosen&((a[:,11]<=0)|(b[:,11]<=0))))))
     return dict(kind=description,coarse=left['name'],reference=right['name'],redshift=left['z'],
                 particle_floor=floor,mass_floor_msun_h=mass_floor,
+                valid_mass_bins=valid_bins,valid_bin_rule='Entire bin above publication and common particle-count mass floors',
                 left_counts=aa['counts'],right_counts=bb['counts'],abundance_ratio=ratio,
                 abundance_ratio_jackknife8_sigma=jk,matched_statistics=stats,
+                vmax_resolution=vmax_resolution,
                 reference_eligible_counts=reference_counts,reference_completeness=completeness,
                 left_eligible_counts=left_counts,left_matched_fraction=purity,
                 uncertainty='Eight spatial delete-one octants, paired ratio; correlated and limited-volume estimate',
                 shifts='100*(coarse/reference-1); velocity and centre distances are absolute',
+                property_definitions=dict(bound_mass='Bound population within unextended SO sphere',
+                    aperture_total_mass='All particles in empirical Rext-expanded aperture; not unextended SO mass',
+                    aperture_radius='Reported Rvir, including empirical Rext expansion',
+                    vmax='Positive resolved values in both members; zero sentinels excluded and counted separately'),
                 catalogue_edge='Abundance uses raw audited membership masses, avoiding ASCII rounding at bin edges')
 
 
@@ -177,7 +210,8 @@ def main():
             identity=dict(left_membership=left['report']['variants']['v3']['membership']['raw_sha256'],
                           right_membership=right['report']['variants']['v3']['membership']['raw_sha256'],
                           left_nrow=left['report']['spec']['nrow'],right_nrow=right['report']['spec']['nrow'],
-                          analysis_sha256=sha(sys.argv[0]))
+                          box_mpc_h=left['report']['spec']['box_mpc_h'],analysis_ngrid=2048,
+                          analysis_source_sha256=source_sha256())
             if receipt.exists():
                 saved=json.loads(receipt.read_text());assert saved['identity']==identity
                 assert sha(path)==saved['sha256']

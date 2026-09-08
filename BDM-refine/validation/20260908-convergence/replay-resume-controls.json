@@ -1,0 +1,27 @@
+{
+  "completed": true,
+  "started_at_utc": "2026-09-08T00:34:02.866472+00:00",
+  "fixture_directory": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908",
+  "source_sha256": {
+    "replays.py": "914213a80e80ca9625e103f91690da023cdaad234689d7da293cd4773e2b2793",
+    "driver_checks.py": "39ed3739fb550e4c8207d76332447fc6c941871c190035a815522c69d775b7e6"
+  },
+  "replay": {
+    "real_native_pair": true,
+    "completed_v3_preserved_on_resume": true,
+    "completed_pair_preserved_on_both_resume_modes": true,
+    "changed_retained_density_rejected": true,
+    "resume_identity_negative_controls": {
+      "retained_density": "Changed or missing frozen file: /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/replays/fixture-z0-ng16/density.bin",
+      "new_valid_snapshot_same_spec": "Changed completed finder stage identity: /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/finder.json",
+      "requested_configuration": "Changed requested finder configuration: /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/BDM.config",
+      "frozen_legacy_configuration": "Changed requested finder configuration: /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/replays/fixture-z0-ng16/legacy/BDM.config",
+      "v3_binary": "Changed completed finder stage identity: /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/replays/fixture-z0-ng16/v3/finder.json",
+      "legacy_binary": "Changed completed finder stage identity: /cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/driver-resume-controls-20260908/replays/fixture-z0-ng16/legacy/finder.json"
+    },
+    "restored_inputs_preserve_completed_pair": true,
+    "legacy_exit_zero_partial_catalogue_preserves_v3": true,
+    "valid_v3_resume_ignores_failed_legacy_stage": true
+  },
+  "completed_at_utc": "2026-09-08T00:34:12.632421+00:00"
+}
