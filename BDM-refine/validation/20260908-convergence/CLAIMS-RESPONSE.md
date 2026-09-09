@@ -116,3 +116,36 @@ this affects bookmark metadata, not the rendered scientific text or layout.
 The final verification records the render, retained hashes and owned temporary
 file cleanup. Earlier `review-followup.json` is historical evidence for the
 Prompt-1 repair at `ceb7e8c`; its recorded artifact hashes refer to that version.
+
+## Follow-up on the appended review erratum
+
+The review's §7 adds 139 lines to its version at `78bb887`, preserving every
+original byte and finding identifier. Its corrections and withdrawal of N-7
+agree with the response above. The original review input recorded in
+`claims-response.json` remains available at that commit; `final-review.json`
+records the appended version and this follow-up separately.
+
+The additional measurements reproduce: abundance and median resolved Vmax
+change sign between z=2 and z=0 in seven of the eight E/F and C/D cases at
+log10 mass 12.75–13.75. The exception is E/F 12.75–13.00. All eight cases pass
+the full screen at z=1 and fail it at z=0; four fail it at z=2. This supports
+the redshift-dependent caution using the statistics that actually constrain
+the intervals, without locating a continuous zero crossing or identifying
+its cause.
+
+One sentence in the erratum remains too broad: mass does **not** pass at every
+epoch in all four mass bins. At z=0, E/F 12.75–13.00 has median mass shift
+−5.5282%, and C/D has −5.1799%; both fail the 5% mass condition as well as
+abundance and Vmax. Mass passes at all three epochs for the six cases in the
+three higher bins (13.00–13.75), including the two examples highlighted in
+this response. At z=2, the two 13.50–13.75 cases additionally fail the
+abundance-uncertainty condition. The recorded per-condition decisions remain
+the authoritative interpretation.
+
+Across all seven pairs' eligible z=0 bins, the largest completeness loss is
+2.8961% at B/C 12.75–13.00 (5,352 reference haloes); that bin fails the screen.
+Across passing bins the maximum is 2.7245% at A/E 13.50–13.75 (991 reference
+haloes), consistent with the response's rounded 2.72%. These are missing
+fractions under the frozen completeness definition, not percentage bounds on
+property errors. All 63 assessments and criteria remain unchanged. The existing
+slides retain correctly scoped values and require no change for this erratum.

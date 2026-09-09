@@ -368,3 +368,142 @@ when this review's controls ran. The earlier review directory
 archives, figures, slides, LaTeX sources, retained density tapes, snapshots and
 membership tapes are untouched. No repair was applied, no merge performed, and
 no simulation launched.
+
+---
+
+## 7. Erratum, added 9 September 2026 after `CLAIMS-RESPONSE.md`
+
+Appended after the campaign response at `78bb887`. **Nothing above this line has
+been altered**; the report stands as it was reviewed, and the finding
+identifiers (C-1, N-1 … N-7) are kept so the response's cross-references still
+resolve. Four errors in §1–§5 are confirmed. All four are mine; none of them
+changes a campaign measurement or any of the 63 acceptance decisions. Each was
+re-verified against `convergence.json` and `convergence-assessment.json` before
+being recorded here.
+
+### E-1. §2 N-4 — legacy win counting, and an over-claimed conclusion
+
+*As published:* "114 comparable bins: v3 has the smaller absolute shift in 68,
+legacy in 46", under the heading "**No convergence advantage of v3 over legacy
+exists in abundance** (stronger than 'is not established')".
+
+*Correct:* **68 v3 / 43 legacy / 3 exact ties.** `claims_checks.py`
+`stage_legacy` computes `legacy_smaller_absolute_shift = len(allbins) - wins`
+from a strict `abs(v3) < abs(legacy)` test, so the three ties were silently
+credited to legacy. The ties are degenerate integer-ratio bins: (13.75,
+0.0/0.0), (14.50, 0.0/0.0), (14.50, 1.887/1.887). Median absolute shifts are
+unaffected (2.7820 % v3, 3.2130 % legacy).
+
+*The heading is withdrawn.* Asserting that no advantage **exists** is an
+assertion of the null. Correlated bins from a single realization, with no power
+analysis, support neither superiority nor equivalence. The defensible statement
+is the one already in the "precise limit" column and in `CLAIMS-RESPONSE.md`:
+**no advantage is established, in either direction**, on abundance only. The
+corrected split is slightly more favourable to v3 than the published one, which
+does not change that.
+
+### E-2. §1.1 C-1 and §2 N-1 — mass-bin populations, not tracked haloes; and the mass shift is not the binding condition
+
+*As published:* "Two of them (E/F and C/D at 13.00–13.25) agree to better than
+0.2 % at z=1 while **the same haloes** disagree by 1.9–2.4 % at z=2 and
+3.8–4.1 % at z=0."
+
+*Correct, first point:* these are separately matched populations occupying the
+same mass bin at each epoch, **not the same objects followed through time**. No
+merger-tree or progenitor measurement was made, and haloes change mass bin
+between z=2 and z=0. The phrase "the same haloes" is wrong and should be read as
+"the catalogue statistic in the same mass bin".
+
+*Correct, second point:* in all four example bins the `bound_mass` condition is
+**True at every epoch**. The z=0 failures are `abundance` and `resolved_vmax`.
+The median-mass sign transition therefore cannot by itself explain the width of
+the passing intervals, as `CLAIMS-RESPONSE.md` states.
+
+*What survives, on the correct statistic.* Re-running the test on the conditions
+that actually bind, the abundance ratio and the median resolved Vmax **also**
+change sign between z=2 and z=0 in **7 of the 8** bins — and those are precisely
+the conditions that fail at z=2 (abundance) and at z=0 (Vmax):
+
+| Pair | log10 M | Δn % (z2/z1/z0) | median ΔVmax % (z2/z1/z0) |
+|---|---:|---|---|
+| E/F | 13.00 | +0.90 / −2.81 / −6.43 | +0.57 / −0.96 / −5.19 |
+| E/F | 13.25 | +7.41 / +0.74 / −4.48 | +0.93 / −0.23 / −4.15 |
+| E/F | 13.50 | +14.63 / +1.05 / −2.84 | +1.47 / +0.43 / −3.13 |
+| C/D | 12.75 | +0.68 / −3.00 / −6.89 | +0.13 / −1.54 / −6.14 |
+| C/D | 13.00 | +4.67 / −2.95 / −5.82 | +0.72 / −0.79 / −4.92 |
+| C/D | 13.25 | +6.88 / −0.21 / −3.97 | +1.19 / −0.07 / −3.99 |
+| C/D | 13.50 | +9.52 / +2.34 / −2.18 | +1.55 / +0.46 / −3.07 |
+
+The single exception is E/F 12.75, where abundance and Vmax worsen monotonically
+and z=1 has simply not yet crossed tolerance. So the substantive caution — that
+the wider z=1 force-mesh intervals reflect a sign transition in the population
+response rather than stability across epochs, and that no interpolation in
+redshift is safe — holds, but it must be argued from abundance and Vmax rather
+than from median mass. Three outputs do not locate a continuous zero crossing or
+identify its cause.
+
+*§4 inherits this.* The sentence "the wider z = 1 intervals reflect a zero
+crossing rather than convergence and z = 0 is the binding epoch" should read:
+the wider z = 1 intervals reflect a sign transition in the binned abundance and
+Vmax response, and z = 0 is the **more restrictive** epoch for the lower-mass
+force comparison — not the binding epoch for every property, and not for the
+timestep comparison, whose error decays monotonically.
+
+### E-3. §2 N-5 — the scatter/median ratio mixes bins
+
+*As published:* the 16–84 half-width is "**9–25× the median shift** for the
+particle comparisons".
+
+*Correct:* `claims_checks.py` `stage_tails` reports
+`max(half_width) / max(|median|)` over the passing bins, so numerator and
+denominator may come from **different bins**. The per-bin ratios for C/E z=0 are
+2.7, 9.0, 10.3, 13.7, 14.4, 18.7, 28.0 — and one degenerate bin at 14.00–14.25
+whose median is −0.001 % gives a meaningless 2236. The published range is an
+artefact of the aggregate. The qualitative claim survives on per-bin values:
+halo-to-halo scatter exceeds the median shift by roughly one order of magnitude
+for particle refinement (C/E z=0, 12.75–13.00: percentiles −8.303 / −0.524 /
++6.737 %, half-width 7.520 %) and by ≈1× for F/T. Per-bin values, not the
+aggregate ratio, should be quoted.
+
+### E-4. §2 N-6 — pooled unmatched fractions understate the worst bin, and the median inference does not follow
+
+*As published:* "unmatched eligible reference haloes are 1.47 % (C/E), 0.77 %
+(E/F), 0.14 % (F/T), 1.57 % (A/E) … at ≤1.6 % of the sample it cannot move a bin
+median by more than a few tenths of a percent."
+
+*Correct, first point:* those are **pooled** fractions over all used bins. Under
+the frozen completeness definition — which applies the particle floor to **both**
+matched haloes — the largest single-bin z=0 loss among those four pairs is A/E
+13.50–13.75 at ≈2.73 % (`CLAIMS-RESPONSE.md` quotes 2.72 %), and across all seven
+pairs it reaches **2.90 %** at B/C 12.75–13.00 (n = 5352). Per-bin losses, not
+pooled ones, are the relevant bound.
+
+*Correct, second point:* the inference "≤1.6 % … cannot move a bin median by more
+than a few tenths of a percent" does not follow. A small lost fraction bounds
+**ranks**, not a median expressed in percentage units; with a gap in the
+distribution, removing one object from 101 can move the median arbitrarily far.
+The response's counterexample is valid. What N-6 does establish is that the loss
+is small and rank-bounded, that the lost objects have lower Vmax **and** lower
+mass (so −15 % is not an isolated Vmax bias at fixed mass), and that a 6× wider
+candidate search reproduced the matches exactly in one E/F z=0 subvolume.
+
+### Separately withdrawn: §2 N-7
+
+N-7 argued that E/F cannot be chaotic amplification of its IC seed because F/T
+begins from a "1.55 % coherent velocity difference" and ends smaller. That
+1.55 % is a difference in **stored** velocities arising from different leapfrog
+half-step output epochs, not a perturbation of the same physical state at the
+same time, so its amplitude cannot be set against E/F's position difference. The
+argument does not stand and is withdrawn. The accompanying observation is
+unaffected and remains the useful part: **no pair in this suite differs by
+numerical noise alone, so the irreducible noise floor of the pipeline is
+unmeasured**, and §5 item 6 remains the way to measure it.
+
+### Not affected
+
+The 63 acceptance decisions and their criteria (re-derived twice, 0 mismatches);
+the preservation checks; N-2 separability (independently reconfirmed: C/D vs E/F
+median differences of 0.3483 pp in mass and 0.2726 pp in Vmax over eight common
+z=0 bins, 0.7240 and 0.3334 pp across all epochs); N-3 finder-mesh candidate
+counts; the §1.2 audit of the Prompt-1 review; and the §5 follow-up design as
+amended by `CLAIMS-RESPONSE.md`'s resource corrections.

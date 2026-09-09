@@ -305,9 +305,9 @@
       ]
     }
   ],
-  "completed_at_utc": "2026-09-09T03:52:44.890763+00:00",
-  "branch": "fix/bdm-convergence-claims-20260909",
-  "head_before_result_commit": "ceb7e8c182f9f0395d1876ebab15f1f2be6724e6",
+  "completed_at_utc": "2026-09-09T04:12:05.463777+00:00",
+  "branch": "docs/bdm-convergence-erratum-20260909",
+  "head_before_result_commit": "78bb887b67cdfca69d76457e0c261474119a7cb9",
   "main_cz_unchanged": "e289c3f7ea28d38390a1663e50bb2784b85abc84",
   "counts": {
     "simulations": 7,
@@ -417,8 +417,8 @@
     "launches-cleanup-review-20260909.json": "6c2d6703bdce55ae808a5a90eef35e2e661ff9a4b198c580bdad0c10f860c678",
     "claims_response.py": "4975c8c3ff2ede22a3aa1e961e2c6493cb377821afa27df38f1950533b5d2b5c",
     "claims-response.json": "7b6cebac0031730c9bc18e09921e1822740cf58d4b87bf2443bc44af49ec244b",
-    "CLAIMS-RESPONSE.md": "bab88872eb250c6936c347fc472a4082cee2574d9d7f9b130e6e6b0e6681a59e",
-    "../../analysis/review-20260909-convergence-claims/CLAIMS-REVIEW.md": "7162f4e50160b30e1d0983066774c45de337eb3465a3303dc20a4c87ec92540a",
+    "CLAIMS-RESPONSE.md": "92335d698074c75568d04e26285bf4aa83a17c8f8291951f7a96767991d93e71",
+    "../../analysis/review-20260909-convergence-claims/CLAIMS-REVIEW.md": "9b0f677e281b16d90dc0be2248be2633d2409737ee8e94a33713c877b955d4b0",
     "../../analysis/review-20260909-convergence-claims/claims_checks.py": "2d6056fd8800aa88dbc9d88fab1fead0a832c6019eef61eebc74a8a3d265edfd",
     "../../analysis/review-20260909-convergence-claims/claims_results.json": "80b2fbb641db953259c186eb53c461cb57c7b628914f1b0a49d641332c5a56df"
   },
@@ -715,5 +715,498 @@
       "sha256": "4f659bd51b002cb8d3ef24d81878a277f1a988fb486bbfe162e2b7ac4bcafcf5"
     },
     "historical_prompt1_followup": "review-followup.json records the artifact versions at ceb7e8c; its historical final-review hash is retained at that commit."
+  },
+  "erratum_followup": {
+    "completed": true,
+    "verified_at_utc": "2026-09-09T04:12:05.454707+00:00",
+    "baseline_commit": "78bb887b67cdfca69d76457e0c261474119a7cb9",
+    "review_path": "BDM-refine/analysis/review-20260909-convergence-claims/CLAIMS-REVIEW.md",
+    "original_review_sha256": "7162f4e50160b30e1d0983066774c45de337eb3465a3303dc20a4c87ec92540a",
+    "appended_review_sha256": "9b0f677e281b16d90dc0be2248be2633d2409737ee8e94a33713c877b955d4b0",
+    "original_prefix_bytes": 28098,
+    "added_lines": 139,
+    "removed_lines": 0,
+    "original_prefix_unchanged": true,
+    "review_input_history": "The original claims-response.json records the review before this append. Its source hash matches the immutable prefix and the file at baseline_commit.",
+    "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+    "assessment_sha256": "b1fd08422e72133202253121b22c336bede7330e42423f22c2f931f73945edbe",
+    "unchanged_assessments": 63,
+    "unchanged_criteria": true,
+    "frozen_production_and_analysis_files_verified": 60,
+    "nominal_particle_floor": 300,
+    "redshift_populations": [
+      {
+        "pair": "E/F",
+        "log10_mass_interval": [
+          12.75,
+          13.0
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": -1.106770833333337,
+            "median_mass_shift_percent": 0.6932129614702564,
+            "median_vmax_shift_percent": -0.2047399442786191,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": -4.893410852713176,
+            "median_mass_shift_percent": -1.4953011317628548,
+            "median_vmax_shift_percent": -1.816629557470713,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -7.505105513955068,
+            "median_mass_shift_percent": -5.528226750995549,
+            "median_vmax_shift_percent": -6.255568851596443,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": true,
+              "bound_mass": false,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": false,
+          "median_vmax_shift_percent": false
+        }
+      },
+      {
+        "pair": "E/F",
+        "log10_mass_interval": [
+          13.0,
+          13.25
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 0.902527075812265,
+            "median_mass_shift_percent": 1.8510452447095833,
+            "median_vmax_shift_percent": 0.5650949158221474,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": -2.811860940695299,
+            "median_mass_shift_percent": -0.16636957813428402,
+            "median_vmax_shift_percent": -0.9569230317727674,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -6.4306784660767,
+            "median_mass_shift_percent": -4.071533335143121,
+            "median_vmax_shift_percent": -5.191305011309383,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      },
+      {
+        "pair": "E/F",
+        "log10_mass_interval": [
+          13.25,
+          13.5
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 7.407407407407418,
+            "median_mass_shift_percent": 2.2535412791529548,
+            "median_vmax_shift_percent": 0.9333528405107354,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": 0.7376185458377149,
+            "median_mass_shift_percent": 0.8954214309701078,
+            "median_vmax_shift_percent": -0.22993930657942163,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -4.4768349817803195,
+            "median_mass_shift_percent": -2.830071921652231,
+            "median_vmax_shift_percent": -4.147239654548179,
+            "passes": false,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      },
+      {
+        "pair": "E/F",
+        "log10_mass_interval": [
+          13.5,
+          13.75
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 14.634146341463406,
+            "median_mass_shift_percent": 2.7038321701700863,
+            "median_vmax_shift_percent": 1.4707587547806589,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": false,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": 1.049868766404205,
+            "median_mass_shift_percent": 1.322670985592334,
+            "median_vmax_shift_percent": 0.430445148962162,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -2.843137254901962,
+            "median_mass_shift_percent": -1.8833029434748634,
+            "median_vmax_shift_percent": -3.133867404594782,
+            "passes": false,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      },
+      {
+        "pair": "C/D",
+        "log10_mass_interval": [
+          12.75,
+          13.0
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 0.677048070413,
+            "median_mass_shift_percent": 1.4171844599259398,
+            "median_vmax_shift_percent": 0.1286502310325265,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": -2.9995042141794714,
+            "median_mass_shift_percent": -0.8902077151335311,
+            "median_vmax_shift_percent": -1.5351324112182807,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -6.8893528183716075,
+            "median_mass_shift_percent": -5.17990831024411,
+            "median_vmax_shift_percent": -6.13943368708456,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": true,
+              "bound_mass": false,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      },
+      {
+        "pair": "C/D",
+        "log10_mass_interval": [
+          13.0,
+          13.25
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 4.672897196261672,
+            "median_mass_shift_percent": 2.3628691983122363,
+            "median_vmax_shift_percent": 0.7214286905851117,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": -2.9472595656670153,
+            "median_mass_shift_percent": 0.0765696784073507,
+            "median_vmax_shift_percent": -0.7947501722431275,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -5.824955647545826,
+            "median_mass_shift_percent": -3.8046129374337223,
+            "median_vmax_shift_percent": -4.918738926052666,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      },
+      {
+        "pair": "C/D",
+        "log10_mass_interval": [
+          13.25,
+          13.5
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 6.8783068783068835,
+            "median_mass_shift_percent": 2.6359143327841847,
+            "median_vmax_shift_percent": 1.1899081435997616,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": -0.21299254526091493,
+            "median_mass_shift_percent": 0.997506234413965,
+            "median_vmax_shift_percent": -0.07282859672575129,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -3.970354685018529,
+            "median_mass_shift_percent": -2.5508170585890793,
+            "median_vmax_shift_percent": -3.987725232180334,
+            "passes": false,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      },
+      {
+        "pair": "C/D",
+        "log10_mass_interval": [
+          13.5,
+          13.75
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 9.523809523809534,
+            "median_mass_shift_percent": 2.9931620696896806,
+            "median_vmax_shift_percent": 1.5493684477776966,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": false,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": 2.34375,
+            "median_mass_shift_percent": 1.6230366492146597,
+            "median_vmax_shift_percent": 0.45735367432310464,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -2.17821782178218,
+            "median_mass_shift_percent": -1.7199003504807249,
+            "median_vmax_shift_percent": -3.07266515775945,
+            "passes": false,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      }
+    ],
+    "full_screen_passes_by_redshift": {
+      "2": 4,
+      "1": 8,
+      "0": 0
+    },
+    "abundance_and_vmax_sign_change_cases": 7,
+    "mass_passes_all_three_epochs_cases": 6,
+    "all_seven_pairs_z0_eligible_bins": 52,
+    "maximum_eligible_bin_loss": {
+      "pair": "B/C",
+      "log10_mass_interval": [
+        12.75,
+        13.0
+      ],
+      "loss_percent": 2.8961136023916256,
+      "reference_count": 5352,
+      "passes": false
+    },
+    "maximum_passing_bin_loss": {
+      "pair": "A/E",
+      "log10_mass_interval": [
+        13.5,
+        13.75
+      ],
+      "loss_percent": 2.72452068617558,
+      "reference_count": 991,
+      "passes": true
+    },
+    "remaining_erratum_qualification": "Both 12.75-13.00 mass bins fail bound_mass at z=0. Both 13.50-13.75 bins additionally fail abundance_uncertainty at z=2.",
+    "slides": "Unchanged: existing 35-slide deck states the correct scopes. No figure or LaTeX rebuild needed.",
+    "new_slurm_jobs": 0,
+    "new_files_created": 0
   }
 }
