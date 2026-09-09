@@ -97,6 +97,36 @@
       },
       "stdout": "",
       "stderr": ""
+    },
+    {
+      "completed": true,
+      "completed_at_utc": "2026-09-09T02:55:43.608073+00:00",
+      "command": [
+        "git",
+        "-c",
+        "pack.threads=1",
+        "repack",
+        "-d"
+      ],
+      "head": "9625a51eaf9a385aabb09bc7eefb9f3eba5a92b1",
+      "refs_identical": true,
+      "refs_before_and_after_sha256": "dfa0ac2e49e2d3423f0a70ec806e1d7a571f08ca7ef3b23f30e54617918de2c7",
+      "before": {
+        "files": 77,
+        "directories": 61,
+        "count_objects": "count: 65\nsize: 1231\nin-pack: 3725\npacks: 5\nsize-pack: 233190\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+      },
+      "after": {
+        "files": 33,
+        "directories": 21,
+        "count_objects": "count: 19\nsize: 842\nin-pack: 3771\npacks: 6\nsize-pack: 233324\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+      },
+      "net_object_files_removed": 44,
+      "net_object_directories_removed": 40,
+      "new_packs_verified": [
+        ".git/objects/pack/pack-64d925cdaf0d7e0be946c07a09ca754f79e25f49.idx"
+      ],
+      "policy": "Incremental repack only; no history/reflog expiration or unreachable-object pruning"
     }
   ]
 }
