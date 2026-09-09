@@ -1,5 +1,5 @@
 {
-  "completed": false,
+  "completed": true,
   "base_commit": "d485bc7cc9c43842c6bc7f685b5be0c0213d6ad5",
   "review_input_sha256": {
     "REVIEW.md": "09a33da1cb77d2c5df1b92d6149a8ad57920148fcdd9157e6b7d32c9e113088c",
@@ -319,5 +319,202 @@
       "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
       "ic/configure.py": "c895b3d43904e5a7c3e160d4f1e5062c3a0506c8c5b2a27232c51505277f95aa"
     }
-  }
+  },
+  "presentation_render_attempts": [
+    {
+      "render": {
+        "completed": true,
+        "complete_campaign": true,
+        "started_at_utc": "2026-09-09T02:44:07.169455+00:00",
+        "completed_at_utc": "2026-09-09T02:45:07.629678+00:00",
+        "source_sha256": {
+          "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+          "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+          "plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+          "plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992",
+          "slides/make_slides.py": "33c057c9d3f626ec1883d26915b4f2240d68fb43e7274a3e1b23507582dd276f",
+          "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+          "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+          "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+          "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc"
+        },
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "plot_manifest_sha256": "87729344a48cfbeb1a653cb04c5d0aee00ac320f5762dcf18e21ba6c2f7ed096",
+        "presentation_manifest_sha256": "442c8985f010612d8fece9ee32f9afe2288c6853465fad4d818173467bc7d751",
+        "figure_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+        "presentation_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "visual_review": "Automated build and text/layout-log checks only; newly completed results still need visual scientific review."
+      },
+      "presentation": {
+        "completed": true,
+        "complete_campaign": true,
+        "created_at_utc": "2026-09-09T02:45:07.330109+00:00",
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "assessment_input_sha256": "0b35a83983cfd2c823a95593dfa2bebd05e414577a2af9b2062f38c40ef47f9f",
+        "ic_validation_input_sha256": "1dd5c3ef1c916e558a25035a9185d8adee6807f22e7f17a37b67582d008c9beb",
+        "accounting_input_sha256": "7fff4757b0a2b83396dc1f54eed748be2078533ba6077e13c7bd412323295799",
+        "plot_pdf_sha256": "57db71fb758a366b53fecbf92ae4a2a7fc3e0a6f5e5dd3ef092035c1eefd0b7b",
+        "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+        "source_sha256": "d58c7715fc811aa5ef07efafa4de768a4f9b2a256c3420470ddbac01e83b9bac",
+        "generator_sha256": "33c057c9d3f626ec1883d26915b4f2240d68fb43e7274a3e1b23507582dd276f",
+        "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "pdf_sha256": "0bd6e2bc1e94f6a116eb851b5115afd8384ecc5e49c752b57f1bf9ff3472edaf",
+        "pages": 31,
+        "page_count_source": "pdfinfo",
+        "warnings": [],
+        "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+      },
+      "resources": "elapsed_seconds=61.40 user_seconds=29.66 system_seconds=4.95 maxrss_kib=202812",
+      "status": "Superseded by table-spacing refinement after visual inspection",
+      "slide_pages_inspected": [
+        1,
+        4,
+        5,
+        6,
+        8,
+        10,
+        11,
+        12,
+        13,
+        15,
+        31
+      ]
+    },
+    {
+      "render": {
+        "completed": true,
+        "complete_campaign": true,
+        "started_at_utc": "2026-09-09T02:48:46.265833+00:00",
+        "completed_at_utc": "2026-09-09T02:49:44.065344+00:00",
+        "source_sha256": {
+          "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+          "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+          "plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+          "plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992",
+          "slides/make_slides.py": "81076a5642bc58c44aff55212a800b578d63b339ed3aacc24db0088a871745e4",
+          "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+          "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+          "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+          "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc"
+        },
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "plot_manifest_sha256": "322c7be51b1510237bd849277545f706cc30aa123f583f47f837d29892e24908",
+        "presentation_manifest_sha256": "286b4685d30d65f81a7411b3930b678b3413e6802de426d4ae7a3e68de7743ac",
+        "figure_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+        "presentation_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "visual_review": "Automated build and text/layout-log checks only; newly completed results still need visual scientific review."
+      },
+      "presentation": {
+        "completed": true,
+        "complete_campaign": true,
+        "created_at_utc": "2026-09-09T02:49:43.531161+00:00",
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "assessment_input_sha256": "0b35a83983cfd2c823a95593dfa2bebd05e414577a2af9b2062f38c40ef47f9f",
+        "ic_validation_input_sha256": "1dd5c3ef1c916e558a25035a9185d8adee6807f22e7f17a37b67582d008c9beb",
+        "accounting_input_sha256": "94fdb9da33d00c3b3ca2cafa8db0a2aaf035b529151d8ca82d0c029d28a1c8a6",
+        "plot_pdf_sha256": "e0f2f0d0e6238825b5e835f77843d5453c18626b460b8108e84fb0f64906ec11",
+        "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+        "source_sha256": "c09e3be9e048a778a2e329bc72316d749357d3a8bf182eef412b57c95265a065",
+        "generator_sha256": "81076a5642bc58c44aff55212a800b578d63b339ed3aacc24db0088a871745e4",
+        "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "pdf_sha256": "ef9c7a572c6d3705ca02c62b285901f9b181b6739a4b32f06cb39b0c3572801d",
+        "pages": 31,
+        "page_count_source": "pdfinfo",
+        "warnings": [],
+        "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+      },
+      "resources": "elapsed_seconds=58.32 user_seconds=29.88 system_seconds=4.89 maxrss_kib=202808",
+      "status": "Final table layout and prior unchanged narrative/science pages visually reviewed",
+      "retained_log": "work/review-followup-render.log",
+      "retained_log_sha256": "4f76cf180726bd31b8581f0ec5f7ad7550c940a3fab420866fe69c6044220484"
+    }
+  ],
+  "completed_at_utc": "2026-09-09T02:53:43.674638+00:00",
+  "ic_validation_job": {
+    "job_id": "11960736",
+    "tag": "ic-check-review-20260909-t1",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed_seconds": 604,
+    "billing_cores": 1,
+    "billed_core_hours": 0.16777777777777778,
+    "cpu_hours": 0.09357472222222223,
+    "cpu_efficiency": 0.5577301324503312,
+    "maxrss_gib": 15.988292694091797,
+    "request": "billing=1,cpu=1,mem=16777216K,node=1",
+    "allocation": "billing=1,cpu=1,energy=196469,mem=16777216K,node=1",
+    "time_limit_core_hours": 0.5
+  },
+  "ic_validation_sha256": "1dd5c3ef1c916e558a25035a9185d8adee6807f22e7f17a37b67582d008c9beb",
+  "final_review_sha256": "4f659bd51b002cb8d3ef24d81878a277f1a988fb486bbfe162e2b7ac4bcafcf5",
+  "response_sha256": "628655ac7c17d57a2fc098599e0ad8c10bbcc299d38d447994c949b0aed0068f",
+  "controls_sha256": "56992141d03b9b9bfec645817204f1517b6511e566bb9ee37a36888c29adbff7",
+  "visual_review_sha256": "16b0aa4ac2aa50be63204e84da54c4bed6189ce61ebbe7b696fb257f090fb04d",
+  "launch_cleanup_sha256": "6c2d6703bdce55ae808a5a90eef35e2e661ff9a4b198c580bdad0c10f860c678",
+  "temporary_preview_files_removed": [
+    {
+      "path": "work/review-followup-slide-1.png",
+      "bytes": 74250
+    },
+    {
+      "path": "work/review-followup-slide-4.png",
+      "bytes": 165148
+    },
+    {
+      "path": "work/review-followup-slide-5.png",
+      "bytes": 167697
+    },
+    {
+      "path": "work/review-followup-slide-6.png",
+      "bytes": 125073
+    },
+    {
+      "path": "work/review-followup-slide-8.png",
+      "bytes": 128250
+    },
+    {
+      "path": "work/review-followup-slide-10.png",
+      "bytes": 141760
+    },
+    {
+      "path": "work/review-followup-slide-11.png",
+      "bytes": 123740
+    },
+    {
+      "path": "work/review-followup-slide-12.png",
+      "bytes": 169618
+    },
+    {
+      "path": "work/review-followup-slide-13.png",
+      "bytes": 158296
+    },
+    {
+      "path": "work/review-followup-slide-14.png",
+      "bytes": 131010
+    },
+    {
+      "path": "work/review-followup-slide-15.png",
+      "bytes": 180817
+    },
+    {
+      "path": "work/review-followup-slide-31.png",
+      "bytes": 105364
+    }
+  ],
+  "numerical_results_and_63_acceptance_decisions_unchanged": true,
+  "production_finder_and_frozen_checker_unchanged": true,
+  "slides_and_latex_remain_uncommitted": true,
+  "completed_repairs": [
+    "Quantified unscreened shapes and effective particle cuts",
+    "Explained paired covariance and independent-count benchmark",
+    "Source-bound current production IC check",
+    "Priority-aperture and overlapping-membership interpretation",
+    "Measured memory guidance and assessment source identity"
+  ],
+  "deferred_items": [
+    "General concurrent same-path writers",
+    "Missing-key rejection for future Init.dat templates",
+    "Redundant matching counters",
+    "Finder-mesh/2LPTIC/legacy convergence follow-up experiments"
+  ]
 }

@@ -8,9 +8,9 @@ All primary catalogues use the same 2048^3 analysis mesh. The simulation box is 
 
 Bound mass is the original-member count times the stored particle mass, evaluated in float64. Reported aperture mass and radius include the empirical Rext expansion. Positive Vmax values are compared only when both haloes resolve them; unresolved values are counted separately. Halo matches require mutual best shared-lattice membership overlap, with at least 50% in each object.
 
-The table applies a descriptive working screen: at least 30 objects in each required bin; abundance within 5% with jackknife sigma at most 5%; median bound mass within 5%; median resolved Vmax within 2%; reference completeness at least 90%. These choices are adjustable. They do not certify those absolute accuracies. Scatter, individual criteria and 100/300/1000-particle floors are retained in the JSON results.
+The table applies a descriptive working screen **only to abundance, median bound mass, median resolved Vmax and reference completeness**: at least 30 objects in each required bin; abundance within 5% with paired octant sigma at most 5%; median bound mass within 5%; median resolved Vmax within 2%; reference completeness at least 90%. These choices are adjustable. They do not certify those absolute accuracies. Scatter, individual criteria and 100/300/1000-particle floors are retained in the JSON results.
 
-| Comparison | z | Particle floor | Eligible bins | log10 mass intervals meeting working criteria |
+| Comparison | z | Nominal particle floor | Eligible bins | log10 mass intervals meeting the stated screen |
 |---|---:|---:|---:|---|
 | A/C (particle) | 2 | 300 | 1 | None |
 | C/E (particle) | 2 | 300 | 4 | 12.75–13.75 |
@@ -34,9 +34,66 @@ The table applies a descriptive working screen: at least 30 objects in each requ
 | E/F (force) | 0 | 300 | 9 | 14.00–14.75 |
 | F/T (time) | 0 | 300 | 9 | 12.50–14.75 |
 
+## Shape shifts inside the passing intervals
+
+The screen does not test shape. The following are maximum absolute bin-median percentage shifts **inside its passing intervals**, with at least 30 objects for the shape statistic. They are not halo-to-halo scatter or shape acceptance limits. Both reported axis ratios include the inherited concentration-dependent empirical correction and transverse-axis reordering (PMP2linker.f90:1105–1117); they are not the uncorrected tensor ratios.
+
+| Pair | z | max abs median delta(b/a), % | max abs median delta(c/a), % |
+|---|---:|---:|---:|
+| A/C | 2 | Unmeasured | Unmeasured |
+| C/E | 2 | 1.25 | 1.94 |
+| A/E | 2 | Unmeasured | Unmeasured |
+| B/C | 2 | 1.10 | 0.15 |
+| C/D | 2 | 1.62 | 3.49 |
+| E/F | 2 | 1.30 | 1.67 |
+| F/T | 2 | 2.53 | 5.42 |
+| A/C | 1 | 2.56 | 8.11 |
+| C/E | 1 | 1.67 | 1.19 |
+| A/E | 1 | 2.52 | 8.92 |
+| B/C | 1 | 3.12 | 5.08 |
+| C/D | 1 | 1.89 | 4.87 |
+| E/F | 1 | 2.11 | 5.45 |
+| F/T | 1 | 1.94 | 4.70 |
+| A/C | 0 | 2.09 | 6.24 |
+| C/E | 0 | 1.31 | 1.59 |
+| A/E | 0 | 2.71 | 6.12 |
+| B/C | 0 | Unmeasured | Unmeasured |
+| C/D | 0 | 3.91 | 5.97 |
+| E/F | 0 | 4.11 | 5.86 |
+| F/T | 0 | 2.92 | 4.91 |
+
+In the completed suite, E/F at z=0 reaches 5.86% in median c/a inside its mass/Vmax passing interval. F/T reaches 4.70–5.42% across the three outputs; the coarser A/C particle comparison reaches 6.24% at z=0. Shape, velocity, tails and scatter require their own criteria.
+
+## Effective particle and publication cuts
+
+The common mass cut is max(2.5e12 Msun/h, nominal_floor × max(m_particle)). Only whole bins above that cut are used. The table below uses the nominal 300-particle floor; the values do not depend on redshift in this campaign.
+
+| Pair | Common mass cut, Msun/h | Minimum bound particles, left / reference | First whole-bin lower log10 mass |
+|---|---:|---:|---:|
+| A/C | 2.570666e+13 | 300 / 2400 | 13.50 |
+| C/E | 3.213332e+12 | 300 / 2400 | 12.75 |
+| A/E | 2.570666e+13 | 300 / 19200 | 13.50 |
+| B/C | 3.213332e+12 | 300 / 300 | 12.75 |
+| C/D | 3.213332e+12 | 300 / 300 | 12.75 |
+| E/F | 2.5e+12 | 1868 / 1868 | 12.50 |
+| F/T | 2.5e+12 | 1868 / 1868 | 12.50 |
+
+For E/F and F/T, the publication mass cut corresponds to 1867.22 particle masses, hence at least **1868 bound particles**. Their first whole bin begins at log10 mass 12.50, requiring at least **2362 particles**. Nominal floors of 100, 300 and 1000 therefore give the same results for these pairs; they do not constitute three independent resolution tests.
+
+## What the abundance diagnostic measures
+
+The paired delete-one-octant jackknife measures variation of the abundance ratio across spatial omissions in this realization. It can legitimately be zero when both catalogues have identical octant counts. This does not establish zero ensemble uncertainty. The screen uses measured shifts and this diagnostic; it is not a confidence statement that the true abundance shift is below 5%.
+
+For comparison, supplemental_diagnostics in convergence-assessment.json reports sqrt(1/Nleft + 1/Nright) as a **hypothetical independent-count relative scale**, and also that scale multiplied by the absolute ratio for comparison with delta n. The actual catalogues are paired and correlated, so their covariance must be included for a sampling-error interpretation. The independent-count scale is not used to replace the jackknife, bound the actual uncertainty, or change the acceptance decisions.
+
+C/E at z=1, log10 mass 14.00–14.25 has identical octant counts [10,9,7,5,2,6,4,4]: 47 objects in each catalogue, paired sigma 0, and independent-count relative scale 20.63%. This is one unique bin repeated at three nominal floors. At floor 300, 21 bins meet the abundance-difference cut while paired sigma exceeds 2.5%; that count includes bins failing other parts of the full screen. High-mass abundance agreement has limited statistical discrimination.
+
+
 ## Membership checks
 
-| Catalogue | Published haloes | Exact duplicate sets | Repeated particle IDs | Mass/count mismatches | Host violations | Higher-priority neighbours examined |
+The frozen checker applies the production **priority-ordered extended-aperture rule**: a lower-priority centre must lie outside the higher-priority halo's reported aperture. Priority is bound mass, then stable candidate index. This is the rule in PMP2linker.f90:696–750; it is not symmetric centre exclusion or a test using unextended SO radii. The zero fields are assertions that passed; the examined count counts neighbours already inside the queried aperture and is not a broad coverage measure.
+
+| Catalogue | Published haloes | Exact duplicate sets | Repeated IDs within a halo | Mass/count mismatches | Priority-aperture violations | In-aperture priority pairs examined |
 |---|---:|---:|---:|---:|---:|---:|
 | A/z2 | 8198 | 0 | 0 | 0 | 0 | 0 |
 | B/z2 | 7420 | 0 | 0 | 0 | 0 | 0 |
@@ -60,7 +117,9 @@ The table applies a descriptive working screen: at least 30 objects in each requ
 | F/z0 | 28226 | 0 | 0 | 0 | 0 | 0 |
 | T/z0 | 28224 | 0 | 0 | 0 | 0 | 0 |
 
-A zero host-violation count is not a production positive control when no eligible higher-priority neighbours were examined. The independent small fixtures exercise the failure branch.
+The independent review found four reverse-orientation centre-in-aperture pairs: the higher-priority centre lies inside the lower-priority aperture. This orientation is allowed by the production rule. All four separations exceed both unextended SO radii. They are not host-rule failures. The production data provide no positive control of the violation branch; fixtures remain necessary.
+
+Exact member-set uniqueness does not require disjoint memberships. The review measured excess memberships (occurrences after the first appearance of a particle ID) at 0.06–0.13% of total memberships. This global rate does not bound the fractional mass error of an individual halo. See [the independent review](../../analysis/review-20260909-convergence/REVIEW.md) for the full scan.
 
 ## Limits of the measurement
 

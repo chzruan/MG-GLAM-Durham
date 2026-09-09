@@ -1,14 +1,14 @@
 {
   "completed": true,
   "complete_campaign": true,
-  "created_at_utc": "2026-09-09T00:12:23.887051+00:00",
+  "created_at_utc": "2026-09-09T02:49:36.602657+00:00",
   "input": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/convergence.json",
   "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
   "script_sha256": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
   "particle_floor": 300,
   "minimum_count": 30,
   "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
-  "pdf_sha256": "5c56ab1e7ff9f4cfa289c9b859c7b2d866b7189b016dd10b2640eb6777878e90",
+  "pdf_sha256": "e0f2f0d0e6238825b5e835f77843d5453c18626b460b8108e84fb0f64906ec11",
   "pages": [
     {
       "page": 1,

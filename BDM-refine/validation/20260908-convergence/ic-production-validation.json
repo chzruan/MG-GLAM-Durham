@@ -1,6 +1,22 @@
 {
   "completed": true,
-  "completed_at_utc": "2026-09-08T00:20:01.269923+00:00",
+  "started_at_utc": "2026-09-09T02:31:07.774130+00:00",
+  "completed_at_utc": "2026-09-09T02:41:09.334971+00:00",
+  "source_sha256": "dce0e7a9ab76edff08b19a57e1333abcfbc7d0a2db8f23e19484dd5558e78a89",
+  "support_source_sha256": {
+    "ic_validate.py": "dce0e7a9ab76edff08b19a57e1333abcfbc7d0a2db8f23e19484dd5558e78a89",
+    "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+    "ic/configure.py": "c895b3d43904e5a7c3e160d4f1e5062c3a0506c8c5b2a27232c51505277f95aa"
+  },
+  "input_receipt_sha256": {
+    "A": "22dd542363c1719d6c4a5cce166eff6c0282d83c950fad56af413286677c6b11",
+    "B": "8392d6567198169178bf7c53eebf9559ece3cda01745b9045404b9c6177f3979",
+    "C": "c4e5d7b23d37ce4744d723e00b0f09219f9cf48fb91f1a36343dbea8a72dd1b4",
+    "D": "8fbca6998cdaf08e03dfe3e82928b5a566be1e973bd9dc8ec6e8aff83bf6e386",
+    "E": "9b38f63b2d08af32740a26fdf3dbe9e52fbeb5ed5cf31ce7c98d2a6a173ec099",
+    "F": "b93ba9736a503b71d0fec8d313ec0edd91a8c08f1a90feea01ea89bbe91d763b",
+    "T": "432dcd106a60589d71e123fd600922729146d047dfc3dccf88fa32ae1d0245a8"
+  },
   "all_seven_mode_samples_identical": true,
   "mode_sample_sha256": {
     "A": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071",
@@ -16,9 +32,17 @@
   "F_T_initial_positions_all_identical": true,
   "E_F_initial_physical_velocities_all_identical": true,
   "E_F_max_position_difference_mpc_h": 6.103515625e-05,
-  "E_F_float32_position_bound_mpc_h": 6.103515625e-05,
+  "E_F_pure_float32_position_bound_mpc_h": 6.103515625e-05,
+  "E_F_native_periodic_mapper_bound_mpc_h": 0.00018310546875,
+  "E_F_position_component_rms_mpc_h": 2.3834971611433514e-07,
+  "E_F_components_exceeding_pure_roundoff_bound": 0,
+  "E_F_nonedge_excess_components": 0,
+  "E_F_excess_without_exact_clamp_sentinel": 0,
+  "max_inferred_displacement_mpc_h": 0.34850568142395566,
   "F_T_staggered_velocity_ratio": 1.015502013189782,
   "F_T_max_relative_velocity_rounding_error": 1.1757310493860065e-07,
   "scope": "Every fine-particle row for grid and timestep controls; common packed-mode sample across all seven runs",
-  "mode_matching_basis": "Fixed master row RNG stride, per-plane seeds, master alpha and common physical origin; GNU/Intel full small-field controls"
+  "mode_matching_basis": "Fixed master row RNG stride, per-plane seeds, master alpha and common physical origin; GNU/Intel full small-field controls",
+  "coordinate_caveat": "Native BLOCKS upper-edge guard subtracts 1e-3 mesh units. This is an explicitly bounded periodic serialization effect, distinct from unmatched Fourier modes or pure float32 rounding.",
+  "boundary_source": "PMP2start.f90:408-421; generated matched source retains the same guard"
 }

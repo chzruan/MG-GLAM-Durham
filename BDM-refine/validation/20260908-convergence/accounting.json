@@ -1,9 +1,9 @@
 {
-  "recorded_at_utc": "2026-09-09T00:12:37.502052+00:00",
+  "recorded_at_utc": "2026-09-09T02:51:11.620543+00:00",
   "command": [
     "sacct",
     "-j",
-    "11955829,11955871,11955872,11955883,11955884,11955885,11955888,11955889,11955891,11955892,11955893,11955894,11955895,11955898,11955899,11955911,11955919,11955920,11955921,11955922,11955924,11955925,11955926,11955933,11955978,11956140,11956142,11956144,11956146,11956152,11956157,11956159,11956179,11956187,11956204,11956205,11956206,11956207,11956208,11956691,11956701",
+    "11955829,11955871,11955872,11955883,11955884,11955885,11955888,11955889,11955891,11955892,11955893,11955894,11955895,11955898,11955899,11955911,11955919,11955920,11955921,11955922,11955924,11955925,11955926,11955933,11955978,11956140,11956142,11956144,11956146,11956152,11956157,11956159,11956179,11956187,11956204,11956205,11956206,11956207,11956208,11956691,11956701,11960736",
     "-P",
     "-n",
     "--units=K",
@@ -624,6 +624,21 @@
       "request": "billing=1,cpu=1,mem=262144K,node=1",
       "allocation": "billing=1,cpu=1,energy=7287,mem=262144K,node=1",
       "time_limit_core_hours": 0.08333333333333333
+    },
+    {
+      "job_id": "11960736",
+      "tag": "ic-check-review-20260909-t1",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed_seconds": 604,
+      "billing_cores": 1,
+      "billed_core_hours": 0.16777777777777778,
+      "cpu_hours": 0.09357472222222223,
+      "cpu_efficiency": 0.5577301324503312,
+      "maxrss_gib": 15.988292694091797,
+      "request": "billing=1,cpu=1,mem=16777216K,node=1",
+      "allocation": "billing=1,cpu=1,energy=196469,mem=16777216K,node=1",
+      "time_limit_core_hours": 0.5
     }
   ],
   "raw_rows": [
@@ -2441,9 +2456,54 @@
       "AllocTRES": "billing=1,cpu=1,mem=262144K,node=1",
       "TimelimitRaw": "",
       "NodeList": "m8426"
+    },
+    {
+      "JobIDRaw": "11960736",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "ElapsedRaw": "604",
+      "TotalCPU": "05:36.869",
+      "MaxRSS": "",
+      "ReqCPUS": "1",
+      "AllocCPUS": "1",
+      "ReqMem": "16777216K",
+      "ReqTRES": "billing=1,cpu=1,mem=16777216K,node=1",
+      "AllocTRES": "billing=1,cpu=1,energy=196469,mem=16777216K,node=1",
+      "TimelimitRaw": "30",
+      "NodeList": "m8426"
+    },
+    {
+      "JobIDRaw": "11960736.batch",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "ElapsedRaw": "604",
+      "TotalCPU": "05:36.869",
+      "MaxRSS": "16764940K",
+      "ReqCPUS": "1",
+      "AllocCPUS": "1",
+      "ReqMem": "",
+      "ReqTRES": "",
+      "AllocTRES": "cpu=1,mem=16777216K,node=1",
+      "TimelimitRaw": "",
+      "NodeList": "m8426"
+    },
+    {
+      "JobIDRaw": "11960736.extern",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "ElapsedRaw": "604",
+      "TotalCPU": "00:00:00",
+      "MaxRSS": "",
+      "ReqCPUS": "1",
+      "AllocCPUS": "1",
+      "ReqMem": "",
+      "ReqTRES": "",
+      "AllocTRES": "billing=1,cpu=1,mem=16777216K,node=1",
+      "TimelimitRaw": "",
+      "NodeList": "m8426"
     }
   ],
-  "billed_core_hours_so_far": 2133.4772222222223,
-  "submitted_expected_core_hours": 2393.979166666667,
-  "submitted_time_limit_core_hours": 3888.75
+  "billed_core_hours_so_far": 2133.645,
+  "submitted_expected_core_hours": 2394.229166666667,
+  "submitted_time_limit_core_hours": 3889.25
 }

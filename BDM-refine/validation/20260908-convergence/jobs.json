@@ -1058,5 +1058,29 @@
         "reason": "Pilot 11956691 measured 42,620 KiB batch MaxRSS. Request 256 MiB for sixfold measured headroom; preserve immutable original submitted script."
       }
     ]
+  },
+  {
+    "tag": "ic-check-review-20260909-t1",
+    "job_id": "11960736",
+    "submitted_at_utc": "2026-09-09T02:30:45.150080+00:00",
+    "partition": "cosma8-serial",
+    "cores": 1,
+    "memory_gib": 16,
+    "wall_minutes": 30,
+    "expected_minutes": 15.0,
+    "expected_core_hours": 0.25,
+    "time_limit_core_hours": 0.5,
+    "reason": "Review P2-2: rerun current IC checks with source/input identity; prior job 11955899 used 594 s and 11.99 GiB, so request 16 GiB with headroom. No new simulation.",
+    "dependency": null,
+    "script": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/ic-check-review-20260909-t1.sh",
+    "script_sha256": "bee0b2244c75d6714a1da0aea9c1da47b55513135a9693243b37852918182581",
+    "driver_sha256": "dce0e7a9ab76edff08b19a57e1333abcfbc7d0a2db8f23e19484dd5558e78a89",
+    "bundle_sha256": "0144e21777b9f2ef44b658d18e264a7f647c12491e5539db847e8510c788cc75",
+    "git_commit": "b8e5a8e260443259464e218e104261e1a1bb1460",
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/slurm/ic-check-review-20260909-t1.sh"
+    ]
   }
 ]

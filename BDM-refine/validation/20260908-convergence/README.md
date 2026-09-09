@@ -20,13 +20,20 @@ the dependent presentation/cleanup stages completed successfully. Initial-mode
 controls passed, including the full 1024^3-row comparison. Each of the 21 v3
 catalogues passed the independent membership checks: 377,475 published rows
 in total, zero exact duplicate member sets, repeated IDs within a halo,
-mass/count mismatches or host-exclusion violations. No eligible higher-priority
-neighbours were examined in production; the zero host-violation count still
-requires the independent positive controls for its interpretation.
+mass/count mismatches or priority-ordered host-exclusion violations. The host
+rule uses the higher-priority halo's extended aperture. The checker's examined
+count counts neighbours already inside that aperture, so zero is expected on
+these passing production catalogues and does not demonstrate test coverage.
+The independent review found four reverse-orientation centre-in-aperture pairs,
+all outside both unextended SO radii; they are allowed by this priority rule.
+It also measured excess memberships of 0.06–0.13%: exact member sets are unique,
+but different haloes can share particles. That global rate is not a bound on
+individual-halo errors.
 
 The full results contain seven comparison pairs at three redshifts, each
 assessed with 100/300/1000-particle floors (63 assessments). At z=0, the
-300-particle screen gives:
+screen with a nominal 300-particle floor gives the following results for
+**abundance, median bound mass, median resolved Vmax and completeness**:
 
 | Comparison | Fixed setting | Passing log10 mass interval, Msun/h |
 |---|---|---|
@@ -39,6 +46,37 @@ Vmax within 2%, at least 90% reference completeness, abundance jackknife sigma
 at most 5%, and at least 30 objects per required statistic. These are chosen
 relative-stability criteria, not absolute-accuracy guarantees.
 
+The passing intervals do not certify shape. At z=0, the maximum absolute
+bin-median shape shifts **inside those intervals** are:
+
+| Pair | delta(b/a), % | delta(c/a), % |
+|---|---:|---:|
+| C/E | 1.31 | 1.59 |
+| E/F | 4.11 | 5.86 |
+| F/T | 2.92 | 4.91 |
+
+F/T's median c/a shifts reach 4.70–5.42% across the three redshifts; the coarser
+A/C particle comparison reaches 6.24% at z=0. All pair/redshift shape summaries
+are in `CONVERGENCE.md`, and all floors in `convergence-assessment.json`.
+These are the reported empirically corrected axis ratios, not raw tensor
+ratios. Shape, velocity, scatter and tails need separate acceptance criteria.
+
+The effective cut is `max(2.5e12, nominal_floor * max(particle_mass))`, followed
+by the whole-bin cut. For E/F and F/T, the publication limit requires **1868
+bound particles** (1867.22 particle masses), and the first whole bin requires
+**2362 particles**. Nominal floors 100, 300 and 1000 therefore give identical
+results for those pairs. This identifies the force sensitivity in a sample
+already containing more than 2000 particles per halo.
+
+The paired octant jackknife measures spatial resampling variation in this
+realization; it can legitimately be zero for identical octant counts. It is
+not a confidence interval or evidence of zero ensemble uncertainty. The report
+now provides `sqrt(1/N_left + 1/N_right)` as a hypothetical independent-count
+relative scale alongside it. Correlated catalogue counts require a covariance
+term, so this benchmark does not replace or bound the paired-ratio uncertainty.
+High-mass abundance agreement has limited statistical discrimination even when
+the measured medians satisfy the screen. The acceptance decisions are unchanged.
+
 Force resolution limits the tested lower-mass z=0 sample. In the E/F bin
 12.50 <= log10(M/[Msun/h]) < 12.75, the 2048^3-mesh run has 9.2% fewer haloes;
 matched median mass and Vmax are both about 7.3% lower. In contrast, C/E
@@ -48,6 +86,14 @@ F/T passes only over log10 mass 12.50–13.00 at z=2 and 12.50–13.50 at z=1.
 Full tables, scatter and individual criteria are in [CONVERGENCE.md](CONVERGENCE.md)
 and `convergence-assessment.json`. No finder-mesh, box-size or 2LPTIC
 convergence claim follows from this suite.
+
+The independent [review](../../analysis/review-20260909-convergence/REVIEW.md)
+reproduced all 63 comparisons and decisions. [REVIEW-RESPONSE.md](REVIEW-RESPONSE.md)
+records the repairs and clarifies the paired uncertainty and host-rule
+interpretations. This campaign establishes conditional stability of v3; it
+does not establish a convergence advantage over legacy. Legacy catalogues are
+retained, but equivalent membership-based legacy matching would require legacy
+member lists that the current replay receipts do not contain.
 
 | Completed stage | Slurm job |
 |---|---:|
@@ -59,10 +105,13 @@ convergence claim follows from this suite.
 | Full plots and Beamer | 11956208 |
 | Final launch-file cleanup | 11956701 |
 
-Final Slurm accounting is **2133.48 billed core-hours** and **1891.57 consumed
-CPU-hours**, including pilots, replays, initial presentation attempts and
-cleanup. The estimate was about 2400 core-hours; summed submitted wall limits
-were 3888.75 core-hours. D/F/T elapsed times were 7.46/7.96/13.76 hours on
+Original-campaign Slurm accounting is **2133.48 billed core-hours** and
+**1891.57 consumed CPU-hours**, including pilots, replays, initial presentation
+attempts and cleanup. Review IC check 11960736 adds 0.1678 billed and 0.0936
+consumed CPU-hours, bringing the recorded totals to **2133.65 / 1891.66**.
+The original estimate was about 2400 core-hours; original submitted wall limits
+summed to 3888.75 core-hours, with another 0.5 for the review check.
+D/F/T elapsed times were 7.46/7.96/13.76 hours on
 64 cores each. The final analysis took 152 s on one core. The final narrative
 and visual review use the completed measurements; large simulations and
 membership matching were not repeated. The lightweight review render is
@@ -83,8 +132,12 @@ Initial PM coordinates retain the native periodic upper-edge guard, which
 subtracts 1e-3 mesh units when a coordinate rounds to Ngrid+1. Its physical
 size changes with mesh spacing. This is distinct from unmatched Fourier
 modes. The completed all-row E/F check measured a maximum periodic physical
-position difference of 6.103515625e-5 Mpc/h and identical physical velocities;
-it did not record edge-clamp incidence or RMS differences. The conservative
+position difference of 6.103515625e-5 Mpc/h and identical physical velocities.
+Review job 11960736 reran the current source-bound validator: coordinate-component
+RMS is 2.3835e-7 Mpc/h; no component exceeds the pure-roundoff bound and none
+has nonlocal or unexplained excess. Maximum inferred displacement is 0.34851
+Mpc/h. The receipt tests excess over the roundoff bound for a local, exact-clamp
+explanation; it does not measure total clamp incidence. The conservative
 source-derived E/F bound, including the native guard, is
 1.8310546875e-4 Mpc/h (rounding plus the possible differential edge clamp),
 and the B/D bound is 3.0517578125e-4 Mpc/h. These are numerical coordinate
@@ -177,6 +230,11 @@ analysis and matching PDF/manifest hashes. It used 10 s and 55,552 KiB MaxRSS
 on one shared core with 256 MiB requested. Across the five scratch/launch
 archives, 584 files/links were consolidated, a net reduction of 574 files
 after archives and receipts. Git object packing is counted separately.
+After the review, `launches-review-20260909.tar.gz` consolidates six more
+completed launch files (the prior final-cleanup job and the IC recheck), with
+member-by-member verification before removal. The six archives now hold 590
+files/links, a net reduction of 578 after archives and receipts. Restore this
+additional batch with `tar -xzf launches-review-20260909.tar.gz -C .` here.
 `launch-cleanup-preflight.json` records controls for active/unknown jobs,
 changed originals, corrupt archives and interrupted-deletion recovery.
 The workspace inventory counted about 12,564 files/directories before this
@@ -203,6 +261,11 @@ E/F/T pairs used 192 GiB at 32 cores. F's completed batch peak reached
 191.99 GiB, and full analysis reached 7.83 GiB of its 8-GiB request. For future
 equivalent full reruns, allow at least 256 GiB for high-resolution paired
 replays and 16 GiB for analysis, using those completed peaks plus headroom.
+For an E-equivalent 1024^3-particle/2048^3-mesh evolution, request at least
+128 GiB: the original 96-GiB allocation reached 95.99 GiB MaxRSS. The original
+IC-check job reached 11.99 GiB; its completed review rerun reports 15.99 GiB
+against a 16-GiB request. Allow 24 GiB for an equivalent future check until
+process RSS and charged file cache have been measured separately.
 The original submitted scripts and allocation amendments remain recorded.
 
 `analyze.py` reads independently validated v3 memberships. It matches shared

@@ -1,0 +1,77 @@
+{
+  "completed": true,
+  "completed_at_utc": "2026-09-09T02:42:14.913354+00:00",
+  "source_sha256": "01665dd42f806cc9ab08e5e4022feccf906ac7a6560311aba17c2f042fb1b4c5",
+  "assessment_source_sha256": "f1c0d85c85316db597b9badd1809c803746665e79c7e5ac9edb820ee3fb267e5",
+  "numerical_input_unchanged": true,
+  "all_63_original_decisions_and_criteria_unchanged": true,
+  "independent_reassessment": {
+    "reproduced": 63,
+    "mismatches": [],
+    "reviewer_source_sha256": "2142dad1a3a9d11d930e41b5da78c0f6c9f69e61b260794edd0da6f31e8fab65"
+  },
+  "plain_and_zipapp_source_hashes_match": true,
+  "host_checker_sha256": "7a84c1dc7444b9bfdf0a99763ecfe6fc005657ec17baae840fa9fb7d53b6e81c",
+  "host_block_controls": [
+    {
+      "case": "separated",
+      "rejected": false,
+      "examined": 0,
+      "violations": []
+    },
+    {
+      "case": "lower_priority_inside_higher_aperture",
+      "rejected": true,
+      "examined": 1,
+      "violations": [
+        [
+          1,
+          2
+        ]
+      ]
+    },
+    {
+      "case": "allowed_reverse_orientation",
+      "rejected": false,
+      "examined": 0,
+      "violations": []
+    },
+    {
+      "case": "stable_index_breaks_mass_tie",
+      "rejected": true,
+      "examined": 1,
+      "violations": [
+        [
+          1,
+          2
+        ]
+      ]
+    },
+    {
+      "case": "periodic_violation",
+      "rejected": true,
+      "examined": 1,
+      "violations": [
+        [
+          1,
+          2
+        ]
+      ]
+    },
+    {
+      "case": "exact_aperture_boundary",
+      "rejected": false,
+      "examined": 1,
+      "violations": []
+    }
+  ],
+  "paired_identical_counts_example": {
+    "count_each": 47,
+    "paired_octant_sigma": 0.0,
+    "hypothetical_independent_count_relative_scale": 0.20628424925175867,
+    "meaning": "Independent-count scale omits paired covariance; not the uncertainty of this paired ratio."
+  },
+  "effective_particle_cuts_checked": true,
+  "shape_summaries_match_independent_review": true,
+  "legacy_membership_receipts_available": []
+}
