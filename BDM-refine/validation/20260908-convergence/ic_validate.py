@@ -1,15 +1,34 @@
 """Production IC mode matching and all-row fine-mesh/timestep controls."""
+import hashlib
 import json
 from pathlib import Path
+import sys
+import zipfile
 
 import numpy as np
 
-from common import MATRIX, ROOT, WORK, now, sha, verify_manifest, write_json
+from common import (MATRIX, ROOT, WORK, now, read_json_snapshot, sha,
+                    verify_json_snapshot, verify_manifest, write_json)
 from ic.configure import read_receipt
 
 
+def source_identity(entry=None):
+    """Identify the code actually executed, including frozen Slurm zipapps."""
+    entry=Path(sys.argv[0] if entry is None else entry)
+    names={'ic_validate.py':'__main__.py','common.py':'common.py',
+           'ic/configure.py':'ic/configure.py'}
+    if entry.is_file() and zipfile.is_zipfile(entry):
+        with zipfile.ZipFile(entry) as archive:
+            return {name:hashlib.sha256(archive.read(member)).hexdigest()
+                    for name,member in names.items()}
+    folder=Path(__file__).resolve().parent
+    return {name:sha(folder/name) for name in names}
+
+
 def main():
-    reports={name:json.loads((ROOT/f'{name}-ic.json').read_text()) for name in MATRIX}
+    started=now();sources=source_identity()
+    snapshots={name:read_json_snapshot(ROOT/f'{name}-ic.json') for name in MATRIX}
+    reports={name:payload for name,(payload,digest) in snapshots.items()}
     modes={};receipts={}
     for name,report in reports.items():
         assert report['completed'] and report['header']['particles']==MATRIX[name][0]**3<1200**3
@@ -64,7 +83,12 @@ def main():
             assert not fs.read(1) and not ts.read(1)
     assert count==1024**3
     valid=max_position<=native_tolerance and nonlocal_excess==0 and unexplained_excess==0 and max_displacement<256
-    write_json(ROOT/'ic-production-validation.json',dict(completed=valid,completed_at_utc=now(),
+    for name,(payload,digest) in snapshots.items():
+        verify_json_snapshot(ROOT/f'{name}-ic.json',digest)
+    assert source_identity()==sources, 'Validator source changed during the check'
+    write_json(ROOT/'ic-production-validation.json',dict(completed=valid,started_at_utc=started,completed_at_utc=now(),
+        source_sha256=sources['ic_validate.py'],support_source_sha256=sources,
+        input_receipt_sha256={name:digest for name,(payload,digest) in snapshots.items()},
         all_seven_mode_samples_identical=True,mode_sample_sha256=modes,shared_alpha=receipts['E']['alpha'],
         fine_rows_examined=count,F_T_initial_positions_all_identical=True,
         E_F_initial_physical_velocities_all_identical=True,E_F_max_position_difference_mpc_h=max_position,
