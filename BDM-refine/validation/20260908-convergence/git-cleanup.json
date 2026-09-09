@@ -58,6 +58,45 @@
         ".git/objects/pack/pack-9f8baba714e5a29e3e5849a7902f080015b83a09.idx"
       ],
       "policy": "Incremental repack only; no history/reflog expiration or unreachable-object pruning"
+    },
+    {
+      "completed": true,
+      "completed_at_utc": "2026-09-09T00:21:30.416844+00:00",
+      "command": [
+        "git",
+        "-c",
+        "pack.threads=1",
+        "repack",
+        "-d"
+      ],
+      "head": "e08b5bcc62dac17a90183521736d5423b7cbcc5a",
+      "refs_identical": true,
+      "refs_before_and_after_sha256": "a4ca2c96fb6426c70159bed2e0c0e036a9f00185e14b9736c0c0a4aee7404c5d",
+      "before": {
+        "files": 76,
+        "directories": 58,
+        "count_objects": "count: 66\nsize: 1058\nin-pack: 3678\npacks: 4\nsize-pack: 233022\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+      },
+      "after": {
+        "files": 31,
+        "directories": 21,
+        "count_objects": "count: 19\nsize: 842\nin-pack: 3725\npacks: 5\nsize-pack: 233190\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+      },
+      "net_object_files_removed": 45,
+      "net_object_directories_removed": 37,
+      "new_packs_verified": [
+        ".git/objects/pack/pack-d36ccdf1e54e720d27f93649ce7933ea784b876f.idx"
+      ],
+      "policy": "Incremental repack only; no history/reflog expiration or unreachable-object pruning",
+      "quota_before_this_pass": {
+        "filesystem": "/cosma8/data",
+        "user": "dc-ruan1",
+        "files": 244828,
+        "soft_file_quota": 400000,
+        "hard_file_limit": 440000
+      },
+      "stdout": "",
+      "stderr": ""
     }
   ]
 }
