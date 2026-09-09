@@ -157,6 +157,36 @@
         ".git/objects/pack/pack-440ac7d39dc60726d7da926aef9c34e3c3e93f14.idx"
       ],
       "policy": "Incremental repack only; no history/reflog expiration or unreachable-object pruning"
+    },
+    {
+      "completed": true,
+      "completed_at_utc": "2026-09-09T04:12:41.249964+00:00",
+      "command": [
+        "git",
+        "-c",
+        "pack.threads=1",
+        "repack",
+        "-d"
+      ],
+      "head": "d773cb9acdbc897a8f8b1518cf6fd5db9e4f8e4c",
+      "refs_identical": true,
+      "refs_before_and_after_sha256": "24e8c647fe63d633c21fe4234809e8d1de5e6b53aaffbf83ae99db26bff10b84",
+      "before": {
+        "files": 51,
+        "directories": 36,
+        "count_objects": "count: 35\nsize: 850\nin-pack: 3800\npacks: 7\nsize-pack: 233457\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+      },
+      "after": {
+        "files": 37,
+        "directories": 21,
+        "count_objects": "count: 19\nsize: 842\nin-pack: 3816\npacks: 8\nsize-pack: 233497\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+      },
+      "net_object_files_removed": 14,
+      "net_object_directories_removed": 15,
+      "new_packs_verified": [
+        ".git/objects/pack/pack-44325b737f59b5fbf62bb7bb2ef9051fa654a40e.idx"
+      ],
+      "policy": "Incremental repack only; no history/reflog expiration or unreachable-object pruning"
     }
   ]
 }
