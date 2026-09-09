@@ -1,0 +1,280 @@
+{
+  "completed": true,
+  "started_at_utc": "2026-09-09T00:11:30.296951+00:00",
+  "local_render_attempts": [
+    {
+      "resource_record": "elapsed_seconds=67.12 user_seconds=27.93 system_seconds=4.54 maxrss_kib=201532",
+      "render": {
+        "completed": true,
+        "complete_campaign": true,
+        "started_at_utc": "2026-09-09T00:03:21.731027+00:00",
+        "completed_at_utc": "2026-09-09T00:04:28.206101+00:00",
+        "source_sha256": {
+          "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+          "plots/plot_convergence.py": "c8697cc993f269ad349a7f94fb585e2ec27ec6e9e41ca92e82a7e4437220eda3",
+          "plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+          "plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992",
+          "slides/make_slides.py": "472e4abe9371666cbe468c1c6800604f9ee4aa15b32dca079facfafe4eb27188",
+          "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+          "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+          "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+          "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc"
+        },
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "plot_manifest_sha256": "a82287863f7730122e01c095929d04a4adfb1dd8dc0525cfb62ba1988ba28703",
+        "presentation_manifest_sha256": "f0d55c3d1f3b0c026b7b17b09f44cf39bc70a6e5bdaf6977ad9857af3c94a3a6",
+        "figure_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+        "presentation_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "visual_review": "Automated build and text/layout-log checks only; newly completed results still need visual scientific review."
+      },
+      "presentation": {
+        "completed": true,
+        "complete_campaign": true,
+        "created_at_utc": "2026-09-09T00:04:22.169745+00:00",
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "accounting_input_sha256": "5f652352ce891d60ea6e0545d110b6b90c1f4ce16faf860225da8cac6f2b7f66",
+        "plot_pdf_sha256": "ffe2c666fdfe8f2e85f50f8cb0a44c53e7290da5af45972e8736a4ae135f3c7b",
+        "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+        "source_sha256": "5e2c1b7c96d9e7a80b72044f9a7ca06d4590b4d761e4ab6ad4434682ad44becd",
+        "generator_sha256": "472e4abe9371666cbe468c1c6800604f9ee4aa15b32dca079facfafe4eb27188",
+        "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "pdf_sha256": "318f01ab3b9e78705358ca85deef8c1376b5740731acf33b9a6dada38cccfd39",
+        "pages": 29,
+        "page_count_source": "pdfinfo",
+        "warnings": [],
+        "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+      },
+      "status": "Superseded after visual review found absolute-difference axes fixed at an upper limit of 1"
+    },
+    {
+      "resource_record": "elapsed_seconds=66.59 user_seconds=29.62 system_seconds=4.98 maxrss_kib=202808",
+      "render": {
+        "completed": true,
+        "complete_campaign": true,
+        "started_at_utc": "2026-09-09T00:11:31.261779+00:00",
+        "completed_at_utc": "2026-09-09T00:12:36.515173+00:00",
+        "source_sha256": {
+          "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+          "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+          "plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+          "plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992",
+          "slides/make_slides.py": "588736ea65172a9d1297548d028c659e53e6469166e77970386ebc57baf3e127",
+          "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+          "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+          "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+          "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc"
+        },
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "plot_manifest_sha256": "70ff3b55efbc732d2572df42f153305ad95b3f45783e913d501d1085ab9f9992",
+        "presentation_manifest_sha256": "915c25ce489f7ea3d13d5cc4246e5b73036e56e14c0b1ef9b1b754f4299247d2",
+        "figure_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+        "presentation_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "visual_review": "Automated build and text/layout-log checks only; newly completed results still need visual scientific review."
+      },
+      "presentation": {
+        "completed": true,
+        "complete_campaign": true,
+        "created_at_utc": "2026-09-09T00:12:36.249938+00:00",
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "accounting_input_sha256": "9de73b0e87b323b5901ab31744e951020134648376af714354fc60e1920ed8f0",
+        "plot_pdf_sha256": "5c56ab1e7ff9f4cfa289c9b859c7b2d866b7189b016dd10b2640eb6777878e90",
+        "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+        "source_sha256": "6bcec58b2ec648f185012cbba05c17e3dc6d5b609b83d1ab5d75497813f42ad0",
+        "generator_sha256": "588736ea65172a9d1297548d028c659e53e6469166e77970386ebc57baf3e127",
+        "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "pdf_sha256": "58ebad4132ae817b5c7a2e0bd8a56a852acce674f35454bfad4a3d7712635a0f",
+        "pages": 29,
+        "page_count_source": "pdfinfo",
+        "warnings": [],
+        "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+      },
+      "status": "Passed automated checks and representative final visual review",
+      "execution": "Idle login node, one requested OpenMP/BLAS thread; no simulations or membership matching repeated",
+      "retained_log": "work/review-render.log",
+      "retained_log_sha256": "f45a0f8a8f81417bf7ed92c5196558b75ab35969fbf9e58b6576a7c56b8a3070"
+    }
+  ],
+  "completed_at_utc": "2026-09-09T00:19:58.343708+00:00",
+  "branch": "validation/bdm-convergence-20260908",
+  "head_before_result_commit": "9dede902215a976032da716e90f2f7f79eceac57",
+  "main_cz_unchanged": "e289c3f7ea28d38390a1663e50bb2784b85abc84",
+  "counts": {
+    "simulations": 7,
+    "paired_replays": 21,
+    "v3_catalogues": 21,
+    "assessments": 63,
+    "presentation_pages": 29,
+    "figure_pages": 18,
+    "selected": 377475,
+    "exact_duplicate_member_sets": 0,
+    "repeated_original_ids": 0,
+    "mass_count_mismatches": 0,
+    "host_exclusion_violations": 0,
+    "higher_priority_neighbours_examined": 0
+  },
+  "initial_conditions": {
+    "lpt_order": 1,
+    "z_init": 100,
+    "generator": "Native GLAM matched campaign variant",
+    "scope": "Existing-run exception; not a test of the default 2LPTIC workflow"
+  },
+  "verification": {
+    "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+    "input_unchanged_by_reporting_fixes": true,
+    "all_63_assessments_and_criteria_unchanged_by_reporting_fixes": true,
+    "small_science_files_sha256_checked": true,
+    "small_file_threshold_bytes": 16777216,
+    "all_recorded_science_paths_and_sizes_checked": true,
+    "large_raw_files": "Full hashes verified by successful analysis job 11956207; final review checked receipt links and sizes without repeating large raw-file reads.",
+    "completed_launch_archives": "Both final launch archives rechecked member by member during final review.",
+    "artifact_and_source_hash_chains_verified": true,
+    "affected_plot_axes_checked": 18,
+    "host_check_caveat": "Zero eligible higher-priority neighbours examined in production; independent fixture positive controls remain necessary."
+  },
+  "simulation_and_pair_receipt_sha256": {
+    "A-simulation.json": "7795997e4db16ab8350b976da3c9f820b14769877efda6feae1d791cc0b856c9",
+    "replay-A-z2-ng2048.json": "5ba82bd27da5a9d5999f9448af1da328da569c1d481d8f69f431ccc5f4f23516",
+    "replay-A-z1-ng2048.json": "3575b0ef94f089536287b5e22c8a65aaed705ed5b911effb18465ca531f246fc",
+    "replay-A-z0-ng2048.json": "933bb829216eb78ba0d6e8cd3c920dbac88e8bcebb4c7124b6550d400b57c5aa",
+    "B-simulation.json": "8adcfbf0b5e56354d025208835ae3d09fb796411e0decaea0e2f70fc1b71e383",
+    "replay-B-z2-ng2048.json": "2b2f71b8e953a4ee03a8db461fa10aa177ecd443ab0e6b000cecfa19b969712f",
+    "replay-B-z1-ng2048.json": "5738a8369c724c17a0332d532c1a26c513caa3e85809244575163552be7fb331",
+    "replay-B-z0-ng2048.json": "e866c1e9fa0828803a8655d28befb42db7eed49ef656fe544c3db2ebace45666",
+    "C-simulation.json": "4af113fd8f6585318299df9762d8d19f7a9a85e77ab39725ce7675b0a1817eb8",
+    "replay-C-z2-ng2048.json": "42bb42d205f80fe533792a5b58fe0583baccc1e36d7f8eccc12df75c569472db",
+    "replay-C-z1-ng2048.json": "68b6b22867ec55303eff5267d0ca9106a1e81a14863047be30e8590f8e41dd11",
+    "replay-C-z0-ng2048.json": "4867a44965e2033fdbb3ef45a261a940284d7a0196d1945236992e5a7acb454d",
+    "D-simulation.json": "d2e7030bbb9a3f0e5e6a6d4e0cc179baef93f3ee0a87ad16e515f7717842d3a1",
+    "replay-D-z2-ng2048.json": "97efb08663e002a0f478e9636e7b43a053a6fb594a8cca777b59baae95bca377",
+    "replay-D-z1-ng2048.json": "6fc214f94370bd15a3b9730968fb99646f07cf5585b728c1677042090b82d693",
+    "replay-D-z0-ng2048.json": "9149e2da3c3a495e29a860e87ae00f2683ff6ee7b20b366b7ecd6bf2c6262aa6",
+    "E-simulation.json": "4704715b883e96ae0dbcc83e462895e1dca33fd68f2726b340e30190affc6ae5",
+    "replay-E-z2-ng2048.json": "23018c05193833bfa497f8a2a8d20e616d0513686c6b552860057505239d1442",
+    "replay-E-z1-ng2048.json": "ca31a88262b9c1aa12ae18ff6550c6b2662b3e07c60145c8984a734395d4ad5b",
+    "replay-E-z0-ng2048.json": "e1e8326fdb489797249a28f2489d8ae77c60b77170b4298e94981437603dad7a",
+    "F-simulation.json": "910ddb787f72bfa00efea16cae0b31db61f844fd35edcb5a7f0ed42e3d6b288c",
+    "replay-F-z2-ng2048.json": "b59d6f86a4b4b2bc38f74bdb8655b5c3cefca7c9fd2b18b070c58c55b5a36854",
+    "replay-F-z1-ng2048.json": "a3e527a6686fe8fc0438e26ccb15460a83443b3410a2e74e2fc4a06184ad93b1",
+    "replay-F-z0-ng2048.json": "55f991e4b6dfe3a1e81f51c758ef0eaa83d48c8ea66cf4765e44b435fcf1a8d8",
+    "T-simulation.json": "703c00421152a791d7a5f2bd50989d9d74eaf9707382c2aa8f698ad9c8687738",
+    "replay-T-z2-ng2048.json": "e6c3f4f24ceee8c5078511c1973e2766b108bcdb27362ea77ae386fc626e0b43",
+    "replay-T-z1-ng2048.json": "cfc4d8e9e547a576ca3fee9d87f010517e84b53dc76d09419855bf3a5d3a4961",
+    "replay-T-z0-ng2048.json": "5e3d2928b6d412c571b60e1f4045540382495f8ab15b2c0e593aadeb14c6bb30"
+  },
+  "artifact_sha256": {
+    "analyze.py": "c1fdbb62ea771527d9a0e3b9a67e6e4c53c34c0c25899c6b3a8ffdf40398ff68",
+    "assess.py": "d3935dc68a31fd2811c923b1b484a201fe866963997351444b2db26d4aebcb07",
+    "convergence.json": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+    "convergence-assessment.json": "4a82be317093e8aa4f660ef5e1f4efeeef3ab375fc1d93ef5d2e2db3aa5d2380",
+    "CONVERGENCE.md": "eb130302bf6d884917a85ff2b04de6dff29ec9e7b575b042aa19b0cf9b6b688e",
+    "README.md": "823d4c0aadf0901f492daa4519be06af67610e98d57fca5f08f8aa1166cc377b",
+    "accounting.json": "f3593337ed06722e5b1f08d2c1be276e0a8768e70f425f9c1dac457c208d6128",
+    "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+    "plot-controls.json": "1495c4972843cfa2958544e111c5d52ba0040af90dedc93cce04a30f4beac17d",
+    "plot-manifest-n300.json": "70ff3b55efbc732d2572df42f153305ad95b3f45783e913d501d1085ab9f9992",
+    "presentation-validation.json": "915c25ce489f7ea3d13d5cc4246e5b73036e56e14c0b1ef9b1b754f4299247d2",
+    "render-validation.json": "cbecfd58c10c199371ad08a803e1511a14c4579686309ba1f7c0513d7f1273f8",
+    "visual-review.json": "5327caf992a9b881e8e607917bdc2d99d037930bf1e87980a6fbee928844c566"
+  },
+  "cost": {
+    "slurm_billed_core_hours": 2133.4772222222223,
+    "slurm_consumed_cpu_hours": 1891.5668986111111,
+    "submitted_expected_core_hours": 2393.979166666667,
+    "submitted_time_limit_core_hours": 3888.75,
+    "note": "Includes superseded Slurm render attempts. Local review renders are recorded separately. The slide accounting input predates the final refresh but all jobs were terminal and its numerical totals are unchanged."
+  },
+  "cleanup": {
+    "campaign_archives": 5,
+    "archived_files_and_links": 584,
+    "net_files_reduced_by_archives_and_receipts": 574,
+    "temporary_preview_files_removed": [
+      {
+        "path": "work/final-review-slide-1.png",
+        "bytes": 74250
+      },
+      {
+        "path": "work/final-review-slide-3.png",
+        "bytes": 140958
+      },
+      {
+        "path": "work/final-review-slide-4.png",
+        "bytes": 156877
+      },
+      {
+        "path": "work/final-review-slide-7.png",
+        "bytes": 124309
+      },
+      {
+        "path": "work/final-review-slide-8.png",
+        "bytes": 128484
+      },
+      {
+        "path": "work/final-review-slide-9.png",
+        "bytes": 103765
+      },
+      {
+        "path": "work/final-review-slide-10.png",
+        "bytes": 139037
+      },
+      {
+        "path": "work/final-review-slide-11.png",
+        "bytes": 153189
+      },
+      {
+        "path": "work/final-review-slide-12.png",
+        "bytes": 132224
+      },
+      {
+        "path": "work/final-review-slide-13.png",
+        "bytes": 158646
+      },
+      {
+        "path": "work/final-review-slide-14.png",
+        "bytes": 122332
+      },
+      {
+        "path": "work/final-review-slide-29.png",
+        "bytes": 105795
+      },
+      {
+        "path": "work/final-review-plot-5.png",
+        "bytes": 99984
+      },
+      {
+        "path": "work/final-review-plot-13.png",
+        "bytes": 131507
+      },
+      {
+        "path": "work/final-review-plot-14.png",
+        "bytes": 120342
+      },
+      {
+        "path": "work/final-review-plot-15.png",
+        "bytes": 136943
+      },
+      {
+        "path": "work/final-review-plot-16.png",
+        "bytes": 129063
+      },
+      {
+        "path": "work/final-review-plot-18.png",
+        "bytes": 107970
+      },
+      {
+        "path": "work/equation-review-05.png",
+        "bytes": 169663
+      },
+      {
+        "path": "work/equation-review-06.png",
+        "bytes": 120317
+      }
+    ],
+    "scientific_data_retained": true,
+    "git_object_cleanup_record": "git-cleanup.json"
+  },
+  "publication": {
+    "results": "Commit code, measurements and receipts on the validation branch",
+    "presentation": "Keep figures, slides and LaTeX local and Git-ignored as requested",
+    "merge_to_cz": false
+  }
+}

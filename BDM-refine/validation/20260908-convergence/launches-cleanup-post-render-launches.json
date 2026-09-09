@@ -1,0 +1,274 @@
+{
+  "completed": true,
+  "started_at_utc": "2026-09-08T15:00:56.233677+00:00",
+  "archive": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/launches-post-render-launches.tar.gz",
+  "archive_sha256": "b7b24b07ea1003d38e4f78c6a9c5052746752315cfca0ced872e76d065e1e6bd",
+  "archive_bytes": 652412,
+  "archive_verified_member_by_member": true,
+  "manifest": {
+    "work/slurm/analysis-full-t1-11956207.log": {
+      "bytes": 2931,
+      "mode": 420,
+      "mtime_ns": 1788879527000000000,
+      "device": 56918434,
+      "inode": 198160015926762859,
+      "kind": "file",
+      "sha256": "05ad441d9afd0f60188da642c5a7c6484bbb85add349b25554be0ce1508790a1"
+    },
+    "work/slurm/analysis-full-t1.pyz": {
+      "bytes": 27984,
+      "mode": 420,
+      "mtime_ns": 1788830001000000000,
+      "device": 56918434,
+      "inode": 198160013510952020,
+      "kind": "file",
+      "sha256": "a95fc28787f32fba92393d1db570587808784d951715a5eeb84c45ad9ca892f1"
+    },
+    "work/slurm/analysis-full-t1.sh": {
+      "bytes": 1089,
+      "mode": 420,
+      "mtime_ns": 1788830001000000000,
+      "device": 56918434,
+      "inode": 198160013510952021,
+      "kind": "file",
+      "sha256": "8d878f85ae170c5b00d4d606e89ca7d9e689a211c2f0f03ad80aeec398a970bc"
+    },
+    "work/slurm/cleanup-finished-launches-t1-11956691.log": {
+      "bytes": 18685,
+      "mode": 420,
+      "mtime_ns": 1788844255000000000,
+      "device": 56918434,
+      "inode": 198160015859646558,
+      "kind": "file",
+      "sha256": "ff0cb5a4e8871d42c8c1aa8a8debb422dc457afc35074abb10aeecae3457b651"
+    },
+    "work/slurm/cleanup-finished-launches-t1.pyz": {
+      "bytes": 25133,
+      "mode": 420,
+      "mtime_ns": 1788844231000000000,
+      "device": 56918434,
+      "inode": 198160013510952152,
+      "kind": "file",
+      "sha256": "65732585fd69647ec42b31968ce0012e4946cf2deea4f97ce01a33bf45fd3040"
+    },
+    "work/slurm/cleanup-finished-launches-t1.sh": {
+      "bytes": 1153,
+      "mode": 420,
+      "mtime_ns": 1788844231000000000,
+      "device": 56918434,
+      "inode": 198160013510952153,
+      "kind": "file",
+      "sha256": "7bf5be4aa61aa6b708174b9257c218b4d1c4bb9f8807e9be5ce7b029b9248a7c"
+    },
+    "work/slurm/evolve-D-t64-11955919.log": {
+      "bytes": 1993,
+      "mode": 420,
+      "mtime_ns": 1788854120000000000,
+      "device": 56918434,
+      "inode": 198160015842869438,
+      "kind": "file",
+      "sha256": "e244926b6df31775370f07d22f0a21ed69eb7b9b5b1901a3ea0348d39adb77e1"
+    },
+    "work/slurm/evolve-D-t64.pyz": {
+      "bytes": 23241,
+      "mode": 420,
+      "mtime_ns": 1788827241000000000,
+      "device": 56918434,
+      "inode": 198160013510951568,
+      "kind": "file",
+      "sha256": "db19a3db0f25980670cf4ddcf1cb33b46ac3eeb4a1af611acba85b93d168f643"
+    },
+    "work/slurm/evolve-D-t64.sh": {
+      "bytes": 1103,
+      "mode": 420,
+      "mtime_ns": 1788827241000000000,
+      "device": 56918434,
+      "inode": 198160013510951569,
+      "kind": "file",
+      "sha256": "9a018aa85af6d1754ed1eb4dd6cc1216b56fbc42f2128c1e736cb93ca6f4d52e"
+    },
+    "work/slurm/evolve-F-t64-11955920.log": {
+      "bytes": 1993,
+      "mode": 420,
+      "mtime_ns": 1788856602000000000,
+      "device": 56918434,
+      "inode": 198160015943532545,
+      "kind": "file",
+      "sha256": "37107d7bde1633d7a83d5674a6ca79005aaee07bb8f604a0a7bcea57348a0e1c"
+    },
+    "work/slurm/evolve-F-t64.pyz": {
+      "bytes": 23241,
+      "mode": 420,
+      "mtime_ns": 1788827251000000000,
+      "device": 56918434,
+      "inode": 198160013510951571,
+      "kind": "file",
+      "sha256": "3bd38e711aaf61b43f92c5aff76b16af43215dc39f981f131b5f07433bce21a9"
+    },
+    "work/slurm/evolve-F-t64.sh": {
+      "bytes": 1103,
+      "mode": 420,
+      "mtime_ns": 1788827251000000000,
+      "device": 56918434,
+      "inode": 198160013510951572,
+      "kind": "file",
+      "sha256": "7abd04c320f479e83f1987ee10c62a004aced1d0bde9171e79b539d4b1de0a4f"
+    },
+    "work/slurm/evolve-T-t64-11955921.log": {
+      "bytes": 1995,
+      "mode": 420,
+      "mtime_ns": 1788877474000000000,
+      "device": 56918434,
+      "inode": 198160015926755329,
+      "kind": "file",
+      "sha256": "22bdb361edb07dc7150697a4d12c6b4b800c73a43fd0b7dcb40f39d72b5fbb5b"
+    },
+    "work/slurm/evolve-T-t64.pyz": {
+      "bytes": 23241,
+      "mode": 420,
+      "mtime_ns": 1788827260000000000,
+      "device": 56918434,
+      "inode": 198160013510951574,
+      "kind": "file",
+      "sha256": "458ad6104aa87eb2b87dd71204cea7a8d4005295a07695d9beba8ca97eddadf0"
+    },
+    "work/slurm/evolve-T-t64.sh": {
+      "bytes": 1104,
+      "mode": 420,
+      "mtime_ns": 1788827260000000000,
+      "device": 56918434,
+      "inode": 198160013510951575,
+      "kind": "file",
+      "sha256": "2252e58d24f0fdedebe4920c60173eccf3ec469e1611aced9436f94e5f94cce0"
+    },
+    "work/slurm/render-full-t1-11956208.log": {
+      "bytes": 19958,
+      "mode": 420,
+      "mtime_ns": 1788879623000000000,
+      "device": 56918434,
+      "inode": 198160015926763078,
+      "kind": "file",
+      "sha256": "170710a8d0614b490e9224596afcca1c99c87bc3e83d9d7d4272869fe85d5246"
+    },
+    "work/slurm/render-full-t1.pyz": {
+      "bytes": 522591,
+      "mode": 420,
+      "mtime_ns": 1788830002000000000,
+      "device": 56918434,
+      "inode": 198160013510952023,
+      "kind": "file",
+      "sha256": "7008657c716cef7e81270f804cd97a8d34b7e5c3a4446c0f4a1ffb47fe47e510"
+    },
+    "work/slurm/render-full-t1.sh": {
+      "bytes": 1112,
+      "mode": 420,
+      "mtime_ns": 1788830002000000000,
+      "device": 56918434,
+      "inode": 198160013510952024,
+      "kind": "file",
+      "sha256": "07846553dbc12f3557d365dff00be8b94318412fc740c4afc819c3623df29c87"
+    },
+    "work/slurm/replay-D-t32-ng2048-pair-11955978.log": {
+      "bytes": 2398,
+      "mode": 420,
+      "mtime_ns": 1788854941000000000,
+      "device": 56918434,
+      "inode": 198160015876423731,
+      "kind": "file",
+      "sha256": "0d26a32cfb5a4c6671061954504b900dd9ed1cc05e214c1569b82e4489124800"
+    },
+    "work/slurm/replay-D-t32-ng2048-pair.pyz": {
+      "bytes": 23956,
+      "mode": 420,
+      "mtime_ns": 1788827753000000000,
+      "device": 56918434,
+      "inode": 198160013510951735,
+      "kind": "file",
+      "sha256": "fe86d2e5dd41eab2ac3792ca2368e64475f1f9987cd6ba1a4987dcdbf8cf2e3f"
+    },
+    "work/slurm/replay-D-t32-ng2048-pair.sh": {
+      "bytes": 1173,
+      "mode": 420,
+      "mtime_ns": 1788827753000000000,
+      "device": 56918434,
+      "inode": 198160013510951736,
+      "kind": "file",
+      "sha256": "c395f50ba1118692dbacf4dbc7517b26a862a490e0a949b6da70be526a636245"
+    },
+    "work/slurm/replay-F-t32-ng2048-pair-11956205.log": {
+      "bytes": 2399,
+      "mode": 420,
+      "mtime_ns": 1788858566000000000,
+      "device": 56918434,
+      "inode": 198160015876423840,
+      "kind": "file",
+      "sha256": "98124dbc5e35059195350168099b94d319890f8030d3bca151a95344546ec925"
+    },
+    "work/slurm/replay-F-t32-ng2048-pair.pyz": {
+      "bytes": 24185,
+      "mode": 420,
+      "mtime_ns": 1788829988000000000,
+      "device": 56918434,
+      "inode": 198160013510952014,
+      "kind": "file",
+      "sha256": "ab3539fcd63ce604fa455b83ae20f68a2f17d3e64a4241abb4c60bee547fd6ed"
+    },
+    "work/slurm/replay-F-t32-ng2048-pair.sh": {
+      "bytes": 1175,
+      "mode": 420,
+      "mtime_ns": 1788829988000000000,
+      "device": 56918434,
+      "inode": 198160013510952015,
+      "kind": "file",
+      "sha256": "717db02bc9d15cdc644a300c7b60b3266bdc9f7692da487531c01ae619527e25"
+    },
+    "work/slurm/replay-T-t32-ng2048-pair-11956206.log": {
+      "bytes": 2399,
+      "mode": 420,
+      "mtime_ns": 1788879345000000000,
+      "device": 56918434,
+      "inode": 198160015926762744,
+      "kind": "file",
+      "sha256": "5038c941aa1b07d54132ca18f64e2d08eac0b5c16b0aaedb3262d6ed899abb81"
+    },
+    "work/slurm/replay-T-t32-ng2048-pair.pyz": {
+      "bytes": 24185,
+      "mode": 420,
+      "mtime_ns": 1788829989000000000,
+      "device": 56918434,
+      "inode": 198160013510952017,
+      "kind": "file",
+      "sha256": "ab3539fcd63ce604fa455b83ae20f68a2f17d3e64a4241abb4c60bee547fd6ed"
+    },
+    "work/slurm/replay-T-t32-ng2048-pair.sh": {
+      "bytes": 1175,
+      "mode": 420,
+      "mtime_ns": 1788829989000000000,
+      "device": 56918434,
+      "inode": 198160013510952018,
+      "kind": "file",
+      "sha256": "f59fcd0b4a15813bc1669eee14916c49509b512f57b9cfc3629ea2795351e63e"
+    }
+  },
+  "selected_terminal_jobs": {
+    "11955919": "COMPLETED",
+    "11955920": "COMPLETED",
+    "11955921": "COMPLETED",
+    "11955978": "COMPLETED",
+    "11956205": "COMPLETED",
+    "11956206": "COMPLETED",
+    "11956207": "COMPLETED",
+    "11956208": "COMPLETED",
+    "11956691": "COMPLETED"
+  },
+  "prior_archive_receipts": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/launches-cleanup-finished-launches.json": "fee983b817f1777ba64b136a627a5b4e7eea8bbe2e9cf67a85033dd19c192b26"
+  },
+  "accounting_sha256": "cf8341aab83ecd7bf85a96512fef685601648988051210a7961f3595dfa63ec9",
+  "files_removed": 27,
+  "require_finished": true,
+  "completed_at_utc": "2026-09-08T15:00:56.810469+00:00",
+  "net_files_reduced": 25,
+  "retained": "All scientific inputs/outputs, executables, configurations, and active/unknown launch files",
+  "restore": "tar -xzf launches-post-render-launches.tar.gz -C . (run in the campaign directory; restore only if needed)"
+}

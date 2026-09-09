@@ -53,8 +53,30 @@ def evaluate(row,edges):
 def assess(path):
     data,input_sha=read_json_snapshot(path);edges=data['log10_mass_edges']
     comparisons=[evaluate(row,edges) for row in data['comparisons']]
+    overview=[]
+    for left,right in [('C','E'),('E','F'),('F','T')]:
+        rows=[row for row in data['comparisons'] if (row['coarse'],row['reference'])==(left,right)
+              and row['redshift']==0 and row['particle_floor']==300]
+        if not rows:continue
+        row=rows[0];verdict=evaluate(row,edges)
+        eligible=[i for i,b in enumerate(verdict['bins']) if b['eligible']]
+        if not eligible:continue
+        first=eligible[0]
+        overview.append(dict(pair=left+'/'+right,particle_floor=300,
+            log10_mass_intervals=verdict['meets_working_criteria_log10_mass_intervals'],
+            maximum_absolute_eligible_bin_shifts_percent=dict(
+                abundance=max(abs(100*(row['abundance_ratio'][i]-1)) for i in eligible),
+                median_bound_mass=max(abs(row['matched_statistics']['bound_mass'][i]['q16_median_q84'][1]) for i in eligible),
+                median_vmax=max(abs(row['matched_statistics']['vmax'][i]['q16_median_q84'][1]) for i in eligible)),
+            lowest_eligible_bin=dict(log10_mass_interval=[edges[first],edges[first+1]],
+                abundance_shift_percent=100*(row['abundance_ratio'][first]-1),
+                median_bound_mass_shift_percent=row['matched_statistics']['bound_mass'][first]['q16_median_q84'][1],
+                median_vmax_shift_percent=row['matched_statistics']['vmax'][first]['q16_median_q84'][1])))
     result=dict(completed=bool(data['completed']),created_at_utc=now(),input=str(path),input_sha256=input_sha,
-                criteria=CRITERIA,comparisons=comparisons,
+                criteria=CRITERIA,comparisons=comparisons,z0_overview=overview,
+                initial_conditions=dict(generator='PMP2start.matched.exe, campaign variant of native GLAM',
+                    lpt_order=1,z_init=100,
+                    scope='Existing first-order campaign; not a convergence test of the default 2LPTIC workflow.'),
                 interpretation='Descriptive working tolerances, not a formal confidence interval or proof of absolute accuracy. '
                     'The highest resolution is a reference. One realization and eight spatial octants cannot establish volume convergence.')
     verify_json_snapshot(path,input_sha)
@@ -63,6 +85,9 @@ def assess(path):
         '**Complete seven-run measurement.**' if data['completed'] else '**Partial campaign: conclusions await the missing runs.**','',
         'All primary catalogues use the same 2048^3 analysis mesh. The simulation box is 256 Mpc/h; outputs are z=2,1,0. '
         'Particle resolution, evolved force resolution and timestep size are compared separately.','',
+        '**IC scope:** all seven runs use native GLAM first-order (Zel\'dovich) initial conditions at z_init=100. '
+        'This completed suite is an existing-run exception to the default 2LPTIC workflow for new simulations; '
+        'it does not establish convergence with 2LPTIC initial conditions.','',
         'Bound mass is the original-member count times the stored particle mass, evaluated in float64. '
         'Reported aperture mass and radius include the empirical Rext expansion. Positive Vmax values are compared only when both haloes resolve them; '
         'unresolved values are counted separately. Halo matches require mutual best shared-lattice membership overlap, with at least 50% in each object.','',
@@ -88,6 +113,9 @@ def assess(path):
         '## Limits of the measurement','',
         '- The finest simulation is a comparison reference, not an independent physical truth.',
         '- One matched realization isolates numerical changes but does not measure box-size or cosmology dependence.',
+        '- At z=0, particle refinement C/E and timestep refinement F/T meet the working screen over broader mass ranges than force refinement E/F. '
+          'The force mesh is the limiting tested setting for lower-mass z=0 haloes in this suite.',
+        '- The z=0 timestep result does not extend to all higher-redshift masses; inspect the separate z=1 and z=2 ranges.',
         '- The initial E/F positions differ by at most 6.103515625e-5 Mpc/h; physical velocities match exactly. '
           'The native periodic edge guard is retained. F/T initial positions match exactly.',
         '- Native output velocities are staggered by half a timestep. The F/T velocity difference includes this output-time effect.',

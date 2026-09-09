@@ -55,7 +55,6 @@ def figure(rows,edges,kind,z,floor,minimum,supplement=False,partial=False):
                 band=2 if key in ['vmax','aperture_radius'] else 5
                 ax.axhspan(-band,band,color='.9',zorder=0)
                 ax.axhline(0,color='k',lw=.7)
-            else:ax.set_ylim(bottom=0)
         elif key=='abundance':
             ax.set_ylabel(r'$\Delta n\ [\%]$')
             ax.axhspan(-5,5,color='.9',zorder=0);ax.axhline(0,color='k',lw=.7)
@@ -87,6 +86,12 @@ def figure(rows,edges,kind,z,floor,minimum,supplement=False,partial=False):
                 points(ax,x,y,color)
         handle,=axes[0].plot([],[],color=color,marker='o',ms=3.2,mec='k',mew=.35)
         handles.append(handle);labels.append(f"{row['coarse']}/{row['reference']}")
+    # Setting a lower limit before plotting disables autoscaling and leaves
+    # the default upper limit at 1, hiding velocities and flattening offsets.
+    for ax,key in zip(axes,keys):
+        if key in ['bulk_velocity_km_s','centre_distance_mpc_h']:
+            ax.autoscale(enable=True,axis='y')
+            ax.set_ylim(bottom=0)
     for ax in axes[3:]:ax.set_xlabel(r'$\log_{10}(M_{\rm bound}/[h^{-1}M_\odot])$')
     fig.legend(handles,labels,loc='upper right',bbox_to_anchor=(.97,1.0),ncol=3,fontsize=11)
     context=rf'{KINDS[kind]}, $z={z}$; $N_{{\rm bound}}\geq {floor}$ in both matched haloes'

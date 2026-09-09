@@ -1,14 +1,14 @@
 {
   "completed": true,
-  "complete_campaign": false,
-  "created_at_utc": "2026-09-08T01:06:18.839816+00:00",
+  "complete_campaign": true,
+  "created_at_utc": "2026-09-09T00:12:23.887051+00:00",
   "input": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/convergence.json",
-  "input_sha256": "377d9204dc2ed8128001dc73783661dc47825f2a27b470176ce710c83ad189d7",
-  "script_sha256": "c8697cc993f269ad349a7f94fb585e2ec27ec6e9e41ca92e82a7e4437220eda3",
+  "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+  "script_sha256": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
   "particle_floor": 300,
   "minimum_count": 30,
   "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
-  "pdf_sha256": "cb9ac5e6b4127bf8294e5fbd13541b2fc93666974ce418dd25cecca068d2f77a",
+  "pdf_sha256": "5c56ab1e7ff9f4cfa289c9b859c7b2d866b7189b016dd10b2640eb6777878e90",
   "pages": [
     {
       "page": 1,
@@ -16,7 +16,9 @@
       "kind": "particle",
       "supplement": false,
       "pairs": [
-        "A/C"
+        "A/C",
+        "C/E",
+        "A/E"
       ]
     },
     {
@@ -25,7 +27,9 @@
       "kind": "particle",
       "supplement": true,
       "pairs": [
-        "A/C"
+        "A/C",
+        "C/E",
+        "A/E"
       ]
     },
     {
@@ -34,7 +38,9 @@
       "kind": "force",
       "supplement": false,
       "pairs": [
-        "B/C"
+        "B/C",
+        "C/D",
+        "E/F"
       ]
     },
     {
@@ -43,61 +49,151 @@
       "kind": "force",
       "supplement": true,
       "pairs": [
-        "B/C"
+        "B/C",
+        "C/D",
+        "E/F"
       ]
     },
     {
       "page": 5,
-      "redshift": 1,
-      "kind": "force",
+      "redshift": 2,
+      "kind": "time",
       "supplement": false,
       "pairs": [
-        "B/C"
+        "F/T"
       ]
     },
     {
       "page": 6,
-      "redshift": 1,
-      "kind": "force",
+      "redshift": 2,
+      "kind": "time",
       "supplement": true,
       "pairs": [
-        "B/C"
+        "F/T"
       ]
     },
     {
       "page": 7,
-      "redshift": 0,
+      "redshift": 1,
       "kind": "particle",
       "supplement": false,
       "pairs": [
-        "A/C"
+        "A/C",
+        "C/E",
+        "A/E"
       ]
     },
     {
       "page": 8,
-      "redshift": 0,
+      "redshift": 1,
       "kind": "particle",
       "supplement": true,
       "pairs": [
-        "A/C"
+        "A/C",
+        "C/E",
+        "A/E"
       ]
     },
     {
       "page": 9,
-      "redshift": 0,
+      "redshift": 1,
       "kind": "force",
       "supplement": false,
       "pairs": [
-        "B/C"
+        "B/C",
+        "C/D",
+        "E/F"
       ]
     },
     {
       "page": 10,
+      "redshift": 1,
+      "kind": "force",
+      "supplement": true,
+      "pairs": [
+        "B/C",
+        "C/D",
+        "E/F"
+      ]
+    },
+    {
+      "page": 11,
+      "redshift": 1,
+      "kind": "time",
+      "supplement": false,
+      "pairs": [
+        "F/T"
+      ]
+    },
+    {
+      "page": 12,
+      "redshift": 1,
+      "kind": "time",
+      "supplement": true,
+      "pairs": [
+        "F/T"
+      ]
+    },
+    {
+      "page": 13,
+      "redshift": 0,
+      "kind": "particle",
+      "supplement": false,
+      "pairs": [
+        "A/C",
+        "C/E",
+        "A/E"
+      ]
+    },
+    {
+      "page": 14,
+      "redshift": 0,
+      "kind": "particle",
+      "supplement": true,
+      "pairs": [
+        "A/C",
+        "C/E",
+        "A/E"
+      ]
+    },
+    {
+      "page": 15,
+      "redshift": 0,
+      "kind": "force",
+      "supplement": false,
+      "pairs": [
+        "B/C",
+        "C/D",
+        "E/F"
+      ]
+    },
+    {
+      "page": 16,
       "redshift": 0,
       "kind": "force",
       "supplement": true,
       "pairs": [
-        "B/C"
+        "B/C",
+        "C/D",
+        "E/F"
+      ]
+    },
+    {
+      "page": 17,
+      "redshift": 0,
+      "kind": "time",
+      "supplement": false,
+      "pairs": [
+        "F/T"
+      ]
+    },
+    {
+      "page": 18,
+      "redshift": 0,
+      "kind": "time",
+      "supplement": true,
+      "pairs": [
+        "F/T"
       ]
     }
   ],

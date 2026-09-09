@@ -13,50 +13,65 @@ simulations. Resume it with its recorded ICs; its convergence measurements
 describe this first-order suite and do not establish convergence of a 2LPTIC
 suite.
 
-## Launch status, 8 September 2026, 01:15 UTC
+## Completed results, reviewed 9 September 2026
 
-All seven initial conditions are complete and their shared-mode checks passed,
-including the full 1024^3-row comparison. Simulations A, B, C and E completed
-all three snapshots. D, F and T are running. Independent v3 catalogue checks
-have passed for every completed replay; this is not yet a completed convergence
-result. The preliminary report and slides currently use eight catalogues and
-five pair/redshift comparisons, frozen before later replays arrived.
+All seven simulations, all 21 legacy/v3 replay pairs, the full analysis and
+the dependent presentation/cleanup stages completed successfully. Initial-mode
+controls passed, including the full 1024^3-row comparison. Each of the 21 v3
+catalogues passed the independent membership checks: 377,475 published rows
+in total, zero exact duplicate member sets, repeated IDs within a halo,
+mass/count mismatches or host-exclusion violations. No eligible higher-priority
+neighbours were examined in production; the zero host-violation count still
+requires the independent positive controls for its interpretation.
 
-| Remaining stage | Slurm job | Dependency |
-|---|---:|---|
-| D simulation → paired replay | 11955919 → 11955978 | Replay waits for simulation |
-| F simulation → paired replay | 11955920 → 11956205 | Replay waits for simulation |
-| T simulation → paired replay | 11955921 → 11956206 | Replay waits for simulation |
-| A paired replay | 11956146 | Running; legacy is slower on this coarse particle load |
-| E paired replay | 11956204 | Running; retains the completed z=0 v3 pilot |
-| Full convergence analysis | 11956207 | All five remaining replay jobs above |
-| Final plots and Beamer | 11956208 | Full analysis |
-| Final launch-file cleanup | 11956701 | Successful full plots and Beamer |
+The full results contain seven comparison pairs at three redshifts, each
+assessed with 100/300/1000-particle floors (63 assessments). At z=0, the
+300-particle screen gives:
 
-Cleanup-time update (05:13 UTC): A/E paired replays have also completed at all
-three redshifts. Twelve of 21 independent v3 catalogues are now published; the
-saved preliminary analysis still uses its original eight inputs.
+| Comparison | Fixed setting | Passing log10 mass interval, Msun/h |
+|---|---|---|
+| C/E: 512^3 → 1024^3 particles | 2048^3 force mesh | 12.75–14.75 |
+| E/F: 2048^3 → 4096^3 force mesh | 1024^3 particles | 14.00–14.75 |
+| F/T: every timestep halved | 1024^3 particles, 4096^3 force mesh | 12.50–14.75 |
 
-Controller dependencies, requested cores/memory, frozen script/bundle hashes,
-shell syntax and bundled Python syntax have been checked. B/C replays already
-completed and are verified through their receipts. Full analysis refuses
-missing v3 catalogues; legacy failures or its 900-s per-stage time cap are
-reported independently and do not discard validated v3 measurements.
+The screen requires abundance and median bound mass within 5%, median resolved
+Vmax within 2%, at least 90% reference completeness, abundance jackknife sigma
+at most 5%, and at least 30 objects per required statistic. These are chosen
+relative-stability criteria, not absolute-accuracy guarantees.
 
-At 01:14 UTC, accounting recorded 339 billed core-hours so far. Replacing
-finished-job estimates with actual usage gives about 2400 core-hours for the
-campaign. Summed submitted time limits allow 3889 core-hours; that ceiling is
-not the expected charge. T remains the critical path, projected at roughly
-16-17 hours of evolution plus replay and analysis; queue delays are additional.
+Force resolution limits the tested lower-mass z=0 sample. In the E/F bin
+12.50 <= log10(M/[Msun/h]) < 12.75, the 2048^3-mesh run has 9.2% fewer haloes;
+matched median mass and Vmax are both about 7.3% lower. In contrast, C/E
+maximum absolute bin-median shifts are 0.63% in mass and 0.29% in Vmax over
+its eight eligible z=0 bins. The timestep conclusion is redshift dependent:
+F/T passes only over log10 mass 12.50–13.00 at z=2 and 12.50–13.50 at z=1.
+Full tables, scatter and individual criteria are in [CONVERGENCE.md](CONVERGENCE.md)
+and `convergence-assessment.json`. No finder-mesh, box-size or 2LPTIC
+convergence claim follows from this suite.
 
-On continuation, inspect jobs 11956207/11956208 and `accounting.json`, confirm
-`convergence.json` has `completed: true` and 21 inputs, and inspect the final
-plots/slides before drawing conclusions. Record a new PDF-hash-bound visual
-review and commit the completed measurement receipts on this branch. The
-queued jobs do not commit or merge automatically. If an upstream job fails,
-inspect its frozen log and receipt before resuming; preserve successful stages.
-Completed launch files may have been consolidated as described below; restore
-the relevant archive when the original script, bundle or log path is needed.
+| Completed stage | Slurm job |
+|---|---:|
+| D simulation → paired replay | 11955919 → 11955978 |
+| F simulation → paired replay | 11955920 → 11956205 |
+| T simulation → paired replay | 11955921 → 11956206 |
+| A / E paired replays | 11956146 / 11956204 |
+| Full analysis | 11956207 |
+| Full plots and Beamer | 11956208 |
+| Final launch-file cleanup | 11956701 |
+
+Final Slurm accounting is **2133.48 billed core-hours** and **1891.57 consumed
+CPU-hours**, including pilots, replays, initial presentation attempts and
+cleanup. The estimate was about 2400 core-hours; summed submitted wall limits
+were 3888.75 core-hours. D/F/T elapsed times were 7.46/7.96/13.76 hours on
+64 cores each. The final analysis took 152 s on one core. The final narrative
+and visual review use the completed measurements; large simulations and
+membership matching were not repeated. The lightweight review render is
+recorded separately in `final-review.json`.
+
+Scientific inputs/outputs remain unpacked. Completed launch paths are retained
+in the verified archives described below and can be restored for reproduction.
+The branch contains code, results and receipts; the presentation and figures
+remain local artifacts excluded from Git.
 
 All runs use GR, L=256 Mpc/h, Omega_m=0.3089, Omega_Lambda=0.6911,
 h=0.6774, sigma8=0.8159, z_init=100, and exact outputs z=2,1,0.
@@ -100,11 +115,11 @@ would instead yield 312 steps with a different schedule. T starts with its own
 correctly staggered velocities. Output velocities remain at a_out-da/2 in the
 native PM convention, so timestep differences include this output staggering.
 
-The planned comparisons are A/C/E (particle mass), B/C/D and E/F (evolved
+The completed comparisons are A/C/E (particle mass), B/C/D and E/F (evolved
 force resolution at common finder mesh), and F/T (time). The earlier
 L512/N1024/Ng2048 realization is a separate volume comparison, not a matched
 same-object pair. Halo abundance, matched masses/radii/Vmax/velocity/shape,
-completeness and independent membership invariants will determine usable
+completeness and independent membership invariants determine usable
 mass/redshift ranges. Agreement must be measured above particle-count floors
 and with finite-volume/counting uncertainty.
 
@@ -156,9 +171,12 @@ reduction of 90 files after its archive and receipt. Every archive member was
 read back and hashed before any original was removed. Scientific products,
 executables, configurations and active/unknown launch files remain unpacked.
 The job used 6 s, 1.191 CPU s and 42,620 KiB Slurm batch MaxRSS. Final cleanup
-job 11956701 is queued after render job 11956208 on one shared core and
-256 MiB (5-minute limit; 15-second expectation). It requires complete analysis
-and matching PDF/manifest hashes, then archives newly finished launch files.
+job 11956701 completed after render job 11956208, consolidating another 27
+launch files into `launches-post-render-launches.tar.gz` after checking complete
+analysis and matching PDF/manifest hashes. It used 10 s and 55,552 KiB MaxRSS
+on one shared core with 256 MiB requested. Across the five scratch/launch
+archives, 584 files/links were consolidated, a net reduction of 574 files
+after archives and receipts. Git object packing is counted separately.
 `launch-cleanup-preflight.json` records controls for active/unknown jobs,
 changed originals, corrupt archives and interrupted-deletion recovery.
 The workspace inventory counted about 12,564 files/directories before this
@@ -168,7 +186,7 @@ and are retained as scientific results.
 To restore old build or fixture paths for rerunning controls, extract the
 corresponding `work-artifacts.tar.gz` or `work-controls.tar.gz` in this directory.
 Restore launch paths with `tar -xzf launches-finished-launches.tar.gz -C .`
-here, or use the corresponding post-render archive once it exists. Archive
+here, or use `launches-post-render-launches.tar.gz` for the later jobs. Archive
 receipts retain original paths and hashes even while those paths are packed.
 No rebuild is needed to execute the frozen campaign.
 
@@ -181,12 +199,11 @@ paired replays were increased from 96 to 128 GiB through recorded `scontrol`
 updates. Completed C subsequently measured 122.15 GiB, so still-pending D
 was increased to 160 GiB. The E z=0 v3 pilot completed in 544 s including
 validation (457.77 s inside the native finder), with 122.90 GiB batch MaxRSS.
-Remaining E/F/T pairs use 192 GiB at 32 cores, allowing additional headroom
-for the finer-force density fields. The original submitted scripts remain
-immutable. The final
-expected campaign cost is approximately 2400 billed core-hours, with the
-3000-hour planning allowance retained. Wall limits provide additional margin
-and their summed maximum is larger than expected usage.
+E/F/T pairs used 192 GiB at 32 cores. F's completed batch peak reached
+191.99 GiB, and full analysis reached 7.83 GiB of its 8-GiB request. For future
+equivalent full reruns, allow at least 256 GiB for high-resolution paired
+replays and 16 GiB for analysis, using those completed peaks plus headroom.
+The original submitted scripts and allocation amendments remain recorded.
 
 `analyze.py` reads independently validated v3 memberships. It matches shared
 initial-lattice IDs, records both overlap fractions, and compares bound masses
@@ -206,12 +223,17 @@ descriptive comparisons; they do not certify absolute physical accuracy.
 `render.py` runs frozen plotting and local Beamer sources after analysis.
 One multipage vector figure PDF contains the main and additional diagnostics;
 the Beamer deck shows the design, membership checks and measured ranges.
+Final visual review corrected a plotting-only defect: setting the lower y
+limit before adding data had frozen the absolute velocity/centre-difference
+panels at an upper limit of 1. Those panels now scale to the plotted data.
+`plot-controls.json` checks coverage of every displayed 84th percentile on
+all 18 affected axes; measured statistics and all 63 assessments are unchanged.
 Partially completed measurements are labelled explicitly. Both plot and
 presentation receipts distinguish automated checks from visual review.
 Presentation source, themes, PDF, figures and launch bundles are ignored by Git.
 The full render also refreshes Slurm accounting; its own few remaining seconds
 are not yet included at that timestamp. `visual-review.json` binds the inspected
-preliminary PDFs by hash and does not certify later automatic renders.
+final PDFs by hash; a subsequent render would require a new visual review.
 
 Run every Python command through `micromamba run -n cosemu python3 -B`.
 Receipts and the final report distinguish preparation, successful process
