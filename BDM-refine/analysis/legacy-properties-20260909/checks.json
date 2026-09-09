@@ -1,0 +1,116 @@
+{
+  "passed": true,
+  "controls": [
+    {
+      "name": "check_pairs",
+      "passed": true,
+      "elapsed_seconds": 2.3686603233218193,
+      "detail": {
+        "haloes": 97,
+        "unordered_pairs": 1024,
+        "zero_pairs": 1
+      }
+    },
+    {
+      "name": "check_invariance",
+      "passed": true,
+      "elapsed_seconds": 0.004124090075492859,
+      "detail": {
+        "periodic_translation_and_Galilean_boost": true
+      }
+    },
+    {
+      "name": "check_known_velocities",
+      "passed": true,
+      "elapsed_seconds": 0.0009287497960031033,
+      "detail": {
+        "mean_vr": 50.0,
+        "sigma_r": 269.2582403567252,
+        "sigma_t_1d": 70.71067811865476,
+        "skew_r": 0.0,
+        "excess_kurt_r": -1.5243757431629013
+      }
+    },
+    {
+      "name": "check_density_phase_window",
+      "passed": true,
+      "elapsed_seconds": 0.021824239753186703,
+      "detail": {
+        "max_coefficient_error": 3.1031676915590914e-17,
+        "axis_order_phase_CIC_and_average_windows": true
+      }
+    },
+    {
+      "name": "check_halo_fourier",
+      "passed": true,
+      "elapsed_seconds": 0.47540939785540104,
+      "detail": {
+        "independent_modes": 1150,
+        "direct_DFT_max_error": 1.0297888985749564e-15
+      }
+    },
+    {
+      "name": "check_bias",
+      "passed": true,
+      "elapsed_seconds": 0.0009365747682750225,
+      "detail": {
+        "injected_bias": 1.7,
+        "recovered_band_bias": [
+          1.7,
+          1.7,
+          1.7
+        ]
+      }
+    },
+    {
+      "name": "check_selections",
+      "passed": true,
+      "elapsed_seconds": 0.10377929173409939,
+      "detail": {
+        "real_selection_controls": [
+          {
+            "z": 0,
+            "counts": {
+              "legacy": [
+                22806,
+                7358,
+                22767,
+                7344
+              ],
+              "v3": [
+                22767,
+                7344,
+                22767,
+                7344
+              ]
+            }
+          },
+          {
+            "z": 2,
+            "counts": {
+              "legacy": [
+                5979,
+                771,
+                5979,
+                771
+              ],
+              "v3": [
+                6035,
+                788,
+                5979,
+                771
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "elapsed_seconds": 3.0081647862680256,
+  "source_hashes": {
+    "BDM-refine/analysis/legacy-properties-20260909/measure.py": "aa2ff98c44ba4a4793eea65bd472d284ad84f45422d4128db967164599b01ccc",
+    "BDM-refine/analysis/legacy-properties-20260909/checks.py": "c0a0aeb22074b8b0d021c017b9127671e2ad64beb2aac4615b1eddac5ab3f461",
+    "PMP2linker.f90": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d",
+    "PMP2mod_density.f90": "199ad91667f32c068bab5882c08046c24970ca3caa0321d277cfc7d704e88ed3"
+  }
+}

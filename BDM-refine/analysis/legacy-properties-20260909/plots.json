@@ -1,0 +1,34 @@
+{
+  "completed": true,
+  "pages": 9,
+  "page_names": [
+    "hmf",
+    "bias",
+    "xi_hh",
+    "velocity_mean",
+    "velocity_dispersion",
+    "velocity_higher_moments",
+    "internal_velocities",
+    "selection_check",
+    "hmf_all_cases"
+  ],
+  "outputs": [
+    {
+      "path": "BDM-refine/analysis/legacy-properties-20260909/figures/bdm_legacy_comparison.pdf",
+      "sha256": "201afabfa39fb6efb8b6c481ea6bc48394e92aec6ccc1a2d43ecc0b290fcd9da"
+    }
+  ],
+  "script_sha256": "554038df0845632600e087e5e0e1c7d1bcebc251b0070a76f511396fb7988b08",
+  "styles": {
+    "BDM-refine/validation/20260908-convergence/plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+    "BDM-refine/validation/20260908-convergence/plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992"
+  },
+  "measurements": {
+    "catalogue-statistics.npz": "ade9399cbefb6ea8552de46bde53ad24c5f66817a601e74b13cd4b393b07d77b",
+    "F-z0-statistics.npz": "43861ba62bbcdf79fb45b789ba92b941184bca038bc75da52a2d6e4f58bf90fe",
+    "F-z1-statistics.npz": "9b04c71373e0f13c8e700173a4ba75cd340f36d66a0c9ee1a5c67f9c5993df23",
+    "F-z2-statistics.npz": "f23772447c3b4e313c9524cb9d9e034b269e610d54d794090a90aabd2f0e47ab"
+  },
+  "cache": "Temporary Matplotlib/TeX directory removed after rendering",
+  "figures_committed": false
+}

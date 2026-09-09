@@ -1,0 +1,58 @@
+{
+  "completed": true,
+  "recorded_at_utc": "2026-09-09T05:06:38.853429+00:00",
+  "scope": "Only this analysis task\u2019s finished launch/log files and generated PDF previews.",
+  "archive": "launch-logs.tar.gz",
+  "archive_sha256": "0b36a4ccbb0af4c76c84cecf1c31eee3781c805d6111c07a23fc48a69dd604ea",
+  "archive_members_verified": [
+    {
+      "path": "work/F-z0-login.log",
+      "bytes": 333,
+      "sha256": "8b363f6aa3880cd5a2747df5b1e82ec6619a622c972b1a3e21b4f7d19cb19a3e"
+    },
+    {
+      "path": "work/F-z1-login.log",
+      "bytes": 333,
+      "sha256": "cfb7d2b9ddfbdf06e3508ad890b6e4dffa49308669095431ccaef21a9d258310"
+    },
+    {
+      "path": "work/F-z2-login.log",
+      "bytes": 325,
+      "sha256": "50e333862ee9127905433ba906c4f0e13cddd28258984708297250700d40a545"
+    },
+    {
+      "path": "work/F-z2.sh",
+      "bytes": 1485,
+      "sha256": "9a90f9f44e7ee8069ba6d12138329572f55624ac6ce4d2d45bd707be4fa31b78"
+    },
+    {
+      "path": "work/plot.log",
+      "bytes": 131,
+      "sha256": "9924b42d377f90d5ae0ca8a64e9c1a6390e69686a4e90be43bf2b1f3401eece2"
+    }
+  ],
+  "files_removed": 14,
+  "restorable_files_consolidated": 5,
+  "disposable_preview_files_removed": 9,
+  "directories_removed": [
+    "work"
+  ],
+  "net_file_reduction_from_cleanup_excluding_receipt": 13,
+  "restore_command": "tar -xzf launch-logs.tar.gz",
+  "pdf_retained": "figures/bdm_legacy_comparison.pdf",
+  "pdf_sha256": "201afabfa39fb6efb8b6c481ea6bc48394e92aec6ccc1a2d43ecc0b290fcd9da",
+  "preview_pages_visually_inspected": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "numerical_axis_limits_checked": 69,
+  "unrelated_files_removed": 0,
+  "matplotlib_tex_cache": "TemporaryDirectory automatically removed all task-owned render caches after both completed runs."
+}

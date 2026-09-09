@@ -1,0 +1,4 @@
+work/
+figures/
+__pycache__/
+*.partial

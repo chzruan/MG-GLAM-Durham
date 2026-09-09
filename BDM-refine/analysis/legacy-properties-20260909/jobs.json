@@ -1,0 +1,29 @@
+[
+  {
+    "job_id": "11960799",
+    "redshift": 2,
+    "submitted_at": "2026-09-09T04:44:58.626122+00:00",
+    "source_hashes": {
+      "BDM-refine/analysis/legacy-properties-20260909/measure.py": "aa2ff98c44ba4a4793eea65bd472d284ad84f45422d4128db967164599b01ccc",
+      "BDM-refine/analysis/legacy-properties-20260909/checks.py": "c0a0aeb22074b8b0d021c017b9127671e2ad64beb2aac4615b1eddac5ab3f461",
+      "PMP2linker.f90": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d",
+      "PMP2mod_density.f90": "199ad91667f32c068bab5882c08046c24970ca3caa0321d277cfc7d704e88ed3"
+    },
+    "script": "BDM-refine/analysis/legacy-properties-20260909/work/F-z2.sh",
+    "script_sha256": "9a90f9f44e7ee8069ba6d12138329572f55624ac6ce4d2d45bd707be4fa31b78",
+    "partition": "cosma8-serial",
+    "cores": 2,
+    "memory_gib": 8,
+    "expected_minutes": 3.0,
+    "expected_core_hours": 0.1,
+    "time_limit_minutes": 15,
+    "time_limit_core_hours": 0.5,
+    "reason": "Pilot: stream a 32-GiB density tape in 64-MiB slabs; 512-cubed float64 grid plus FFT requires about 3-4 GiB, so request 8 GiB. Two cores cover threaded FFT/direct halo modes while hashing and pair moments are serial. Seven small controls passed. Expected 3 minutes = 0.10 core-hours, cap 15 minutes = 0.50 core-hours. Inspect sacct before remaining epochs.",
+    "dependency": null,
+    "submit_command": [
+      "sbatch",
+      "--parsable",
+      "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/analysis/legacy-properties-20260909/work/F-z2.sh"
+    ]
+  }
+]

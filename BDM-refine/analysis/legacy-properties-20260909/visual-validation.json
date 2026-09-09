@@ -1,0 +1,835 @@
+{
+  "passed": true,
+  "pdf_sha256": "201afabfa39fb6efb8b6c481ea6bc48394e92aec6ccc1a2d43ecc0b290fcd9da",
+  "axes": [
+    {
+      "page": "hmf",
+      "axis": 0,
+      "plotted_min": 3.337860107421875e-06,
+      "plotted_max": 0.0022771358489990234,
+      "ylim": [
+        2.184053529842569e-06,
+        0.0034801165840023917
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "hmf",
+      "axis": 1,
+      "plotted_min": 2.384185791015625e-06,
+      "plotted_max": 0.0019333362579345703,
+      "ylim": [
+        1.5426138308515934e-06,
+        0.0029880665810433533
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "hmf",
+      "axis": 2,
+      "plotted_min": 9.5367431640625e-07,
+      "plotted_max": 0.0008847713470458984,
+      "ylim": [
+        6.116698500517881e-07,
+        0.0013794757245242566
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "hmf",
+      "axis": 3,
+      "plotted_min": -1.0,
+      "plotted_max": 1.6129032258064484,
+      "ylim": [
+        -1.1698387096774192,
+        1.7827419354838676
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "hmf",
+      "axis": 4,
+      "plotted_min": -1.0,
+      "plotted_max": 6.976744186046503,
+      "ylim": [
+        -1.5184883720930227,
+        7.495232558139525
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "hmf",
+      "axis": 5,
+      "plotted_min": -1.0,
+      "plotted_max": 2.717391304347828,
+      "ylim": [
+        -1.2416304347826088,
+        2.9590217391304368
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "bias",
+      "axis": 0,
+      "plotted_min": 1.0218648981232756,
+      "plotted_max": 1.4450743391840493,
+      "ylim": [
+        0.9943562844543253,
+        1.4725829528529994
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "bias",
+      "axis": 1,
+      "plotted_min": 1.9536546920396067,
+      "plotted_max": 3.0917726714549842,
+      "ylim": [
+        1.8796770233776072,
+        3.165750340116984
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "bias",
+      "axis": 2,
+      "plotted_min": 3.3077556922392395,
+      "plotted_max": 5.570872567149896,
+      "ylim": [
+        3.160653095370047,
+        5.717975164019089
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "bias",
+      "axis": 3,
+      "plotted_min": -1.3708773962562049,
+      "plotted_max": 1.0,
+      "ylim": [
+        -1.5249844270128583,
+        1.1541070307566534
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "bias",
+      "axis": 4,
+      "plotted_min": -1.1741769661007737,
+      "plotted_max": 1.0,
+      "ylim": [
+        -1.315498468897324,
+        1.1413215027965502
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "bias",
+      "axis": 5,
+      "plotted_min": -1.5972600794070644,
+      "plotted_max": 1.0,
+      "ylim": [
+        -1.7660819845685236,
+        1.1688219051614592
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "xi_hh",
+      "axis": 0,
+      "plotted_min": -1.0,
+      "plotted_max": 332.9014771945841,
+      "ylim": [
+        -1.5,
+        677.1902375775638
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "xi_hh",
+      "axis": 1,
+      "plotted_min": -1.0,
+      "plotted_max": 3496.5865664151124,
+      "ylim": [
+        -1.5,
+        8287.539429715633
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "xi_hh",
+      "axis": 2,
+      "plotted_min": -1.0,
+      "plotted_max": 37914.95470639781,
+      "ylim": [
+        -1.5,
+        104924.68429596607
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "xi_hh",
+      "axis": 3,
+      "plotted_min": -13.380347786958268,
+      "plotted_max": 1.0,
+      "ylim": [
+        -14.315070393110556,
+        1.9347226061522873
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "xi_hh",
+      "axis": 4,
+      "plotted_min": -15.65698366074163,
+      "plotted_max": 1.0,
+      "ylim": [
+        -16.739687598689837,
+        2.0827039379482057
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "xi_hh",
+      "axis": 5,
+      "plotted_min": -7.300306090214917,
+      "plotted_max": 4.4982205659260615,
+      "ylim": [
+        -8.067210322864081,
+        5.265124798575225
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_mean",
+      "axis": 0,
+      "plotted_min": -395.69159022255417,
+      "plotted_max": -86.65771937505062,
+      "ylim": [
+        -415.7787918276419,
+        -66.57051776996289
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_mean",
+      "axis": 1,
+      "plotted_min": -489.7874826367083,
+      "plotted_max": -82.06112004381833,
+      "ylim": [
+        -516.2896962052462,
+        -55.55890647528048
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_mean",
+      "axis": 2,
+      "plotted_min": -414.41775344816216,
+      "plotted_max": -83.99152168367101,
+      "ylim": [
+        -435.8954585128541,
+        -62.513816618979085
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_mean",
+      "axis": 3,
+      "plotted_min": -32.35134786209005,
+      "plotted_max": 2.961589778020908,
+      "ylim": [
+        -34.64668880869726,
+        5.256930724628121
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_mean",
+      "axis": 4,
+      "plotted_min": -73.98649825869037,
+      "plotted_max": 1.7194619815362557,
+      "ylim": [
+        -78.9073856743051,
+        6.640349397150987
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_mean",
+      "axis": 5,
+      "plotted_min": -33.977032867757885,
+      "plotted_max": 5.630549072070721,
+      "ylim": [
+        -36.55152569384674,
+        8.20504189815958
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_dispersion",
+      "axis": 0,
+      "plotted_min": 121.64926973112311,
+      "plotted_max": 420.4973298084815,
+      "ylim": [
+        102.22414582609483,
+        439.92245371350975
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_dispersion",
+      "axis": 1,
+      "plotted_min": 120.10321476286529,
+      "plotted_max": 384.1370613972795,
+      "ylim": [
+        102.94101473162837,
+        401.29926142851644
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_dispersion",
+      "axis": 2,
+      "plotted_min": 101.66958522142609,
+      "plotted_max": 335.8718663994739,
+      "ylim": [
+        86.44643694485298,
+        351.095014676047
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_dispersion",
+      "axis": 3,
+      "plotted_min": -1.0,
+      "plotted_max": 21.469664569825483,
+      "ylim": [
+        -2.4605281970386566,
+        22.93019276686414
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_dispersion",
+      "axis": 4,
+      "plotted_min": -1.0,
+      "plotted_max": 14.198512796091151,
+      "ylim": [
+        -1.9879033317459247,
+        15.186416127837076
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_dispersion",
+      "axis": 5,
+      "plotted_min": -1.0,
+      "plotted_max": 13.34046315631501,
+      "ylim": [
+        -1.9321301051604758,
+        14.272593261475485
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_dispersion",
+      "axis": 6,
+      "plotted_min": 143.64271629845257,
+      "plotted_max": 356.28701347920247,
+      "ylim": [
+        129.82083698170382,
+        370.1088927959512
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_dispersion",
+      "axis": 7,
+      "plotted_min": 142.2044676078744,
+      "plotted_max": 323.58887590254307,
+      "ylim": [
+        130.41448106872093,
+        335.3788624416965
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_dispersion",
+      "axis": 8,
+      "plotted_min": 135.1879872765304,
+      "plotted_max": 282.33324348337425,
+      "ylim": [
+        125.62354562308556,
+        291.8976851368191
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_dispersion",
+      "axis": 9,
+      "plotted_min": -1.0,
+      "plotted_max": 31.506732966112992,
+      "ylim": [
+        -3.1129376427973448,
+        33.61967060891034
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_dispersion",
+      "axis": 10,
+      "plotted_min": -1.0,
+      "plotted_max": 40.27021788037385,
+      "ylim": [
+        -3.6825641622243004,
+        42.95278204259815
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_dispersion",
+      "axis": 11,
+      "plotted_min": -1.0,
+      "plotted_max": 13.715177333815959,
+      "ylim": [
+        -1.9564865266980374,
+        14.671663860513997
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_higher_moments",
+      "axis": 0,
+      "plotted_min": -1.2690173479620275,
+      "plotted_max": 1.635630141128316,
+      "ylim": [
+        -1.4578194347528999,
+        1.8244322279191885
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_higher_moments",
+      "axis": 1,
+      "plotted_min": -0.993182005935641,
+      "plotted_max": 2.195850084921954,
+      "ylim": [
+        -1.2004690918413847,
+        2.403137170827698
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_higher_moments",
+      "axis": 2,
+      "plotted_min": -0.9467162802799433,
+      "plotted_max": -0.036337297633926374,
+      "ylim": [
+        -1.0058909141519343,
+        0.022837336238064727
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_higher_moments",
+      "axis": 3,
+      "plotted_min": -0.7559481025219323,
+      "plotted_max": 0.026484247063794042,
+      "ylim": [
+        -0.8068062052450046,
+        0.07734234978686626
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_higher_moments",
+      "axis": 4,
+      "plotted_min": -0.921759405502575,
+      "plotted_max": 0.12485382539633383,
+      "ylim": [
+        -0.989789265511004,
+        0.1928836854047629
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_higher_moments",
+      "axis": 5,
+      "plotted_min": -0.1841552365180661,
+      "plotted_max": 0.14624252632715073,
+      "ylim": [
+        -0.20563109110300518,
+        0.16771838091208982
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_higher_moments",
+      "axis": 6,
+      "plotted_min": 0.34780622464872835,
+      "plotted_max": 5.048379962542796,
+      "ylim": [
+        0.04226893168561391,
+        5.353917255505911
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_higher_moments",
+      "axis": 7,
+      "plotted_min": -0.5791935314933467,
+      "plotted_max": 8.854515854422697,
+      "ylim": [
+        -1.1923846415778896,
+        9.46770696450724
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_higher_moments",
+      "axis": 8,
+      "plotted_min": -0.21598590275981833,
+      "plotted_max": 2.293902770079825,
+      "ylim": [
+        -0.37912866649439514,
+        2.4570455338144015
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_higher_moments",
+      "axis": 9,
+      "plotted_min": -2.12022721548282,
+      "plotted_max": 0.6048910040300939,
+      "ylim": [
+        -2.297359899751159,
+        0.7820236882984333
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_higher_moments",
+      "axis": 10,
+      "plotted_min": -3.2585246417198555,
+      "plotted_max": 2.3404170449566237,
+      "ylim": [
+        -3.6224558513538265,
+        2.704348254590595
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "velocity_higher_moments",
+      "axis": 11,
+      "plotted_min": -0.9848414348418801,
+      "plotted_max": 0.2764169656888451,
+      "ylim": [
+        -1.0668232308763772,
+        0.35839876172334223
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "internal_velocities",
+      "axis": 0,
+      "plotted_min": 230.8,
+      "plotted_max": 1205.0,
+      "ylim": [
+        167.477,
+        1268.323
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "internal_velocities",
+      "axis": 1,
+      "plotted_min": 311.4,
+      "plotted_max": 1070.0,
+      "ylim": [
+        262.09099999999995,
+        1119.309
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "internal_velocities",
+      "axis": 2,
+      "plotted_min": 376.0,
+      "plotted_max": 859.1,
+      "ylim": [
+        344.5985,
+        890.5015000000001
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "internal_velocities",
+      "axis": 3,
+      "plotted_min": -3.1879194630872405,
+      "plotted_max": 1.0,
+      "ylim": [
+        -3.4601342281879113,
+        1.2722147651006708
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "internal_velocities",
+      "axis": 4,
+      "plotted_min": -4.15512465373962,
+      "plotted_max": 1.0,
+      "ylim": [
+        -4.490207756232695,
+        1.3350831024930754
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "internal_velocities",
+      "axis": 5,
+      "plotted_min": -2.9273429273429343,
+      "plotted_max": 1.0,
+      "ylim": [
+        -3.182620217620225,
+        1.2552772902772906
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "internal_velocities",
+      "axis": 6,
+      "plotted_min": 257.0,
+      "plotted_max": 1131.0,
+      "ylim": [
+        200.19,
+        1187.81
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "internal_velocities",
+      "axis": 7,
+      "plotted_min": 319.8,
+      "plotted_max": 988.2,
+      "ylim": [
+        276.354,
+        1031.646
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "internal_velocities",
+      "axis": 8,
+      "plotted_min": 380.2,
+      "plotted_max": 809.3,
+      "ylim": [
+        352.3085,
+        837.1914999999999
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "internal_velocities",
+      "axis": 9,
+      "plotted_min": -1.0,
+      "plotted_max": 1.0723860589812375,
+      "ylim": [
+        -1.1347050938337804,
+        1.2070911528150179
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "internal_velocities",
+      "axis": 10,
+      "plotted_min": -1.6638533879913098,
+      "plotted_max": 1.0,
+      "ylim": [
+        -1.8370038582107449,
+        1.173150470219435
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "internal_velocities",
+      "axis": 11,
+      "plotted_min": -1.1946278845440474,
+      "plotted_max": 1.0,
+      "ylim": [
+        -1.3372786970394106,
+        1.1426508124953632
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "selection_check",
+      "axis": 0,
+      "plotted_min": -1.3708773962562049,
+      "plotted_max": 0.0,
+      "ylim": [
+        -1.4599844270128581,
+        0.08910703075665331
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "selection_check",
+      "axis": 1,
+      "plotted_min": -1.2452409554693133,
+      "plotted_max": 0.0,
+      "ylim": [
+        -1.3261816175748187,
+        0.08094066210550536
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "selection_check",
+      "axis": 2,
+      "plotted_min": -1.5972600794070644,
+      "plotted_max": 1.7436184601508273,
+      "ylim": [
+        -1.8144171844783274,
+        1.9607755652220904
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "selection_check",
+      "axis": 3,
+      "plotted_min": -13.709677419354847,
+      "plotted_max": 0.1490188418274272,
+      "ylim": [
+        -14.610492676331695,
+        1.0498340988042751
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "selection_check",
+      "axis": 4,
+      "plotted_min": -15.753424657534254,
+      "plotted_max": 0.21367521367521647,
+      "ylim": [
+        -16.791286149162868,
+        1.251536705303832
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "selection_check",
+      "axis": 5,
+      "plotted_min": -7.300306090214917,
+      "plotted_max": 4.4982205659260615,
+      "ylim": [
+        -8.067210322864081,
+        5.265124798575225
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "hmf_all_cases",
+      "axis": 0,
+      "plotted_min": -18.777251184834114,
+      "plotted_max": 3.278688524590166,
+      "ylim": [
+        -20.210887265946692,
+        4.712324605702744
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "hmf_all_cases",
+      "axis": 1,
+      "plotted_min": -18.67167919799499,
+      "plotted_max": 6.976744186046503,
+      "ylim": [
+        -20.338826717957687,
+        8.6438917060092
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    },
+    {
+      "page": "hmf_all_cases",
+      "axis": 2,
+      "plotted_min": -18.72409028097651,
+      "plotted_max": 4.444444444444457,
+      "ylim": [
+        -20.230045038128875,
+        5.95039920159682
+      ],
+      "out_of_bounds_before": 0,
+      "out_of_bounds_after": 0
+    }
+  ],
+  "out_of_bounds_after": 0
+}

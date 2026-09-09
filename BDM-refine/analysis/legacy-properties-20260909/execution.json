@@ -1,0 +1,94 @@
+{
+  "completed": true,
+  "execution_order": [
+    2,
+    0,
+    1
+  ],
+  "concurrent_density_reads": 1,
+  "method": "Sequential nice -n 10, 600-second timeout, two threads; micromamba run -n cosemu python3 -B",
+  "authorization": "User allowed non-heavy jobs on an idle login node.",
+  "preflight": {
+    "utc": "2026-09-09T04:46:32Z",
+    "host": "login8b",
+    "load_average": [
+      1.45,
+      1.42,
+      1.26
+    ],
+    "available_memory_gib": 973,
+    "pilot_memory_bound_gib": 4,
+    "pilot_requested_gib": 8
+  },
+  "slurm_pilot": {
+    "job_id": "11960799",
+    "cancelled_while_pending": true,
+    "reason": "Shared queue forecast start 07:02 BST at 05:45 BST; run bounded analysis on idle login node under existing authorization.",
+    "scontrol_requested_tres": "cpu=2,mem=8G,node=1,billing=2",
+    "sacct_state": "CANCELLED by 21209",
+    "billed_core_hours": 0.0
+  },
+  "pilot_observed": {
+    "redshift": 2,
+    "receipt": "F-z2-statistics.json",
+    "receipt_sha256": "5969c64a04e4f1f1421fa28cab5b52f8948a6cebc28b1beb6df977aa9584c391",
+    "host": "login8b.pri.cosma.local",
+    "threads": 2,
+    "nice": 10,
+    "timeout_seconds": 600,
+    "elapsed_seconds": 95.11333839828148,
+    "cpu_hours": 0.026810108611111112,
+    "maxrss_gib": 2.1947555541992188,
+    "completed_at_utc_from_receipt_mtime": "2026-09-09T04:48:09+00:00",
+    "estimated_started_at_utc": "2026-09-09T04:46:33.886662+00:00"
+  },
+  "decision_after_pilot": "95.1 seconds, 2.195 GiB RSS and 96.5 CPU-seconds demonstrated a light job; run remaining two epochs sequentially with the same limits.",
+  "runs": [
+    {
+      "redshift": 2,
+      "receipt": "F-z2-statistics.json",
+      "receipt_sha256": "5969c64a04e4f1f1421fa28cab5b52f8948a6cebc28b1beb6df977aa9584c391",
+      "host": "login8b.pri.cosma.local",
+      "threads": 2,
+      "nice": 10,
+      "timeout_seconds": 600,
+      "elapsed_seconds": 95.11333839828148,
+      "cpu_hours": 0.026810108611111112,
+      "maxrss_gib": 2.1947555541992188,
+      "completed_at_utc_from_receipt_mtime": "2026-09-09T04:48:09+00:00",
+      "estimated_started_at_utc": "2026-09-09T04:46:33.886662+00:00"
+    },
+    {
+      "redshift": 0,
+      "receipt": "F-z0-statistics.json",
+      "receipt_sha256": "e67973f0c2eecc8145c82f9f42fd36a0f756eae16d3f56d2d16d62841105694c",
+      "host": "login8b.pri.cosma.local",
+      "threads": 2,
+      "nice": 10,
+      "timeout_seconds": 600,
+      "elapsed_seconds": 114.20801365422085,
+      "cpu_hours": 0.03160194222222222,
+      "maxrss_gib": 2.2009429931640625,
+      "completed_at_utc_from_receipt_mtime": "2026-09-09T04:53:21+00:00",
+      "estimated_started_at_utc": "2026-09-09T04:51:26.791986+00:00"
+    },
+    {
+      "redshift": 1,
+      "receipt": "F-z1-statistics.json",
+      "receipt_sha256": "a7c6846823fc38182c72b6575ed06519c240a1eae3dbd0f8ea78e8de7aa01bca",
+      "host": "login8b.pri.cosma.local",
+      "threads": 2,
+      "nice": 10,
+      "timeout_seconds": 600,
+      "elapsed_seconds": 124.41818878613412,
+      "cpu_hours": 0.028935539444444443,
+      "maxrss_gib": 2.199604034423828,
+      "completed_at_utc_from_receipt_mtime": "2026-09-09T04:56:10+00:00",
+      "estimated_started_at_utc": "2026-09-09T04:54:05.581811+00:00"
+    }
+  ],
+  "total_measured_cpu_hours": 0.08734759027777778,
+  "total_measurement_elapsed_seconds": 333.73954083863646,
+  "peak_rss_gib": 2.2009429931640625,
+  "scope_of_accounting": "Measurement processes only; brief login-node controls, HMF analysis, plotting and reporting are not included in this CPU-hour sum. Slurm allocated nothing."
+}

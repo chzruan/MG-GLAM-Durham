@@ -1,0 +1,50 @@
+{
+  "completed": true,
+  "input": {
+    "receipt": "BDM-refine/validation/20260908-convergence/replay-F-z0-ng2048.json",
+    "receipt_sha256": "55f991e4b6dfe3a1e81f51c758ef0eaa83d48c8ea66cf4765e44b435fcf1a8d8",
+    "catalogue_arrays": "BDM-refine/validation/20260908-convergence/work/replays/F-z0-ng2048/catalogues-pair.npz",
+    "catalogue_arrays_sha256": "10f63ffe0f2fad518826e08afc966fb9d98b3675a7f039831f87425e1204c6b0",
+    "rows": {
+      "legacy": 28262,
+      "v3": 28226
+    }
+  },
+  "density": {
+    "density_path": "BDM-refine/validation/20260908-convergence/work/replays/F-z0-ng2048/density.bin",
+    "density_sha256": "1a5d8d632e609943ea42675dd59064725fe1ff26f3139c4019a0b7b741cb63e1",
+    "fine_ng": 2048,
+    "coarse_ng": 512,
+    "comparison_ng": 256,
+    "nparticles": 1073741824,
+    "step": 158,
+    "a": 1.0,
+    "box": 256.0,
+    "mean_delta": -9.519463620155655e-10,
+    "elapsed_seconds": 93.99631556775421
+  },
+  "source_hashes": {
+    "BDM-refine/analysis/legacy-properties-20260909/measure.py": "aa2ff98c44ba4a4793eea65bd472d284ad84f45422d4128db967164599b01ccc",
+    "BDM-refine/analysis/legacy-properties-20260909/checks.py": "c0a0aeb22074b8b0d021c017b9127671e2ad64beb2aac4615b1eddac5ab3f461",
+    "PMP2linker.f90": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d",
+    "PMP2mod_density.f90": "199ad91667f32c068bab5882c08046c24970ca3caa0321d277cfc7d704e88ed3"
+  },
+  "output_sha256": "43861ba62bbcdf79fb45b789ba92b941184bca038bc75da52a2d6e4f58bf90fe",
+  "packages": {
+    "numpy": "2.3.5",
+    "scipy": "1.16.3",
+    "numba": "0.63.1",
+    "pycorr": "1.0.0",
+    "Corrfunc": "2.5.1"
+  },
+  "threads": 2,
+  "job_id": null,
+  "hostname": "login8b.pri.cosma.local",
+  "git_head": "3fcab819c181dc7faa0d2c947255f5cc792ddda2",
+  "elapsed_seconds": 114.20801365422085,
+  "maxrss_kib": 2307856,
+  "cpu_seconds": 113.76699199999999,
+  "pair_count_crosscheck": "All 8 selections agree exactly: 2*KDTree unordered = Corrfunc ordered",
+  "bias": "sum Re(delta_h delta_m*) / sum |delta_m|^2; independent +/- modes; no shot subtraction",
+  "uncertainties": "Single periodic realization; no independent-volume uncertainty estimate"
+}
