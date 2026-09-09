@@ -105,6 +105,11 @@ def diagnostics(data,comparisons):
 def assess(path):
     producer_sha=source_sha256()
     data,input_sha=read_json_snapshot(path);edges=data['log10_mass_edges']
+    claims=None;claims_sha=None
+    if (ROOT/'claims-response.json').exists():
+        claims,claims_sha=read_json_snapshot(ROOT/'claims-response.json')
+        assert claims['completed'] and claims['input_sha256']==input_sha
+        assert claims['source_sha256'][str((ROOT/'claims_response.py').relative_to(ROOT.parents[2]))]==sha(ROOT/'claims_response.py')
     comparisons=[evaluate(row,edges) for row in data['comparisons']]
     extra=diagnostics(data,comparisons)
     overview=[]
@@ -130,6 +135,7 @@ def assess(path):
                 assess_source_sha256=producer_sha,property_definitions=PROPERTY_DEFINITIONS,
                 criteria=CRITERIA,comparisons=comparisons,z0_overview=overview,
                 supplemental_diagnostics=extra,
+                claims_response_sha256=claims_sha,
                 abundance_uncertainty_interpretation=dict(
                     paired_octant_sigma='Delete-one-octant paired-ratio scatter in this realization. '
                         'Can be zero for identical octant counts; not a confidence interval or proof of zero ensemble uncertainty.',
@@ -142,6 +148,7 @@ def assess(path):
                 interpretation='Descriptive working tolerances, not a formal confidence interval or proof of absolute accuracy. '
                     'The highest resolution is a reference. One realization and eight spatial octants cannot establish volume convergence.')
     verify_json_snapshot(path,input_sha)
+    if claims_sha:verify_json_snapshot(ROOT/'claims-response.json',claims_sha)
     assert source_sha256()==producer_sha, 'Assessment source changed during reporting'
     write_json(ROOT/'convergence-assessment.json',result)
     lines=['# BDM convergence measurements','',
@@ -179,7 +186,7 @@ def assess(path):
         lines.append(f"| {d['coarse']}/{d['reference']} | {d['redshift']} | "+
                      ' | '.join('Unmeasured' if v is None else f'{v:.2f}' for v in values)+' |')
     lines+=['',('In the completed suite, E/F at z=0 reaches 5.86% in median c/a inside its mass/Vmax passing interval. '
-        'F/T reaches 4.70–5.42% across the three outputs; the coarser A/C particle comparison reaches 6.24% at z=0. '
+        'F/T reaches 4.70–5.42% across the three outputs; the table maximum is 8.92% for A/E at z=1. '
         if data['completed'] else '')+'Shape, velocity, tails and scatter require their own criteria.','',
         '## Effective particle and publication cuts','',
         'The common mass cut is max(2.5e12 Msun/h, nominal_floor × max(m_particle)). Only whole bins above that cut are used. '
@@ -205,7 +212,9 @@ def assess(path):
         'C/E at z=1, log10 mass 14.00–14.25 has identical octant counts [10,9,7,5,2,6,4,4]: '
         '47 objects in each catalogue, paired sigma 0, and independent-count relative scale 20.63%. '
         'This is one unique bin repeated at three nominal floors. At floor 300, 21 bins meet the abundance-difference cut while paired sigma exceeds 2.5%; '
-        'that count includes bins failing other parts of the full screen. High-mass abundance agreement has limited statistical discrimination.','']
+        '15 of those bins pass the full screen. High-mass abundance agreement has limited statistical discrimination.','']
+    if claims:
+        lines+=claims.get('report_markdown_lines',[])
     lines+=['','## Membership checks','',
         'The frozen checker applies the production **priority-ordered extended-aperture rule**: a lower-priority centre must lie outside '
         'the higher-priority halo\'s reported aperture. Priority is bound mass, then stable candidate index. '
@@ -222,6 +231,7 @@ def assess(path):
         'They are not host-rule failures. The production data provide no positive control of the violation branch; fixtures remain necessary.','',
         'Exact member-set uniqueness does not require disjoint memberships. The review measured excess memberships '
         '(occurrences after the first appearance of a particle ID) at 0.06–0.13% of total memberships. '
+        'Summed bound mass counts shared particles repeatedly; it is not a partition of the particle set. '
         'This global rate does not bound the fractional mass error of an individual halo. See '
         '[the independent review](../../analysis/review-20260909-convergence/REVIEW.md) for the full scan.','',
         '## Limits of the measurement','',
@@ -231,6 +241,8 @@ def assess(path):
           'The force mesh is the limiting tested setting for lower-mass z=0 haloes in this suite.' if data['completed'] else
           '- The missing comparisons prevent a conclusion about which numerical setting limits the complete suite.'),
         '- The z=0 timestep result does not extend to all higher-redshift masses; inspect the separate z=1 and z=2 ranges.',
+        '- The force response changes sign with redshift in several fixed mass bins; the wider z=1 intervals '
+          'are epoch-specific. Small mass medians near this transition do not establish convergence across epochs.',
         '- The initial E/F positions differ by at most 6.103515625e-5 Mpc/h; physical velocities match exactly. '
           'The native periodic edge guard is retained. F/T initial positions match exactly.',
         '- Native output velocities are staggered by half a timestep. The F/T velocity difference includes this output-time effect.',

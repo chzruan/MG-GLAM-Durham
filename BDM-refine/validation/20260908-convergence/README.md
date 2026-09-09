@@ -28,7 +28,8 @@ The independent review found four reverse-orientation centre-in-aperture pairs,
 all outside both unextended SO radii; they are allowed by this priority rule.
 It also measured excess memberships of 0.06–0.13%: exact member sets are unique,
 but different haloes can share particles. That global rate is not a bound on
-individual-halo errors.
+individual-halo errors. Summing bound masses counts shared particles repeatedly;
+the catalogue is not a partition of the particle set.
 
 The full results contain seven comparison pairs at three redshifts, each
 assessed with 100/300/1000-particle floors (63 assessments). At z=0, the
@@ -56,7 +57,7 @@ bin-median shape shifts **inside those intervals** are:
 | F/T | 2.92 | 4.91 |
 
 F/T's median c/a shifts reach 4.70–5.42% across the three redshifts; the coarser
-A/C particle comparison reaches 6.24% at z=0. All pair/redshift shape summaries
+A/E particle comparison reaches the table maximum of 8.92% at z=1. All pair/redshift shape summaries
 are in `CONVERGENCE.md`, and all floors in `convergence-assessment.json`.
 These are the reported empirically corrected axis ratios, not raw tensor
 ratios. Shape, velocity, scatter and tails need separate acceptance criteria.
@@ -83,6 +84,20 @@ matched median mass and Vmax are both about 7.3% lower. In contrast, C/E
 maximum absolute bin-median shifts are 0.63% in mass and 0.29% in Vmax over
 its eight eligible z=0 bins. The timestep conclusion is redshift dependent:
 F/T passes only over log10 mass 12.50–13.00 at z=2 and 12.50–13.50 at z=1.
+The force response also depends on epoch: in log10 mass 13.00–13.25,
+E/F median mass shifts are +1.85%, −0.17%, −4.07% at z=2,1,0; C/D gives
++2.36%, +0.08%, −3.80%. Small z=1 medians lie near a sign transition in
+the population response. These are separately matched mass-bin populations,
+not tracked haloes across epochs. Both example bins satisfy the mass condition
+at every epoch; abundance and Vmax cause their z=0 failures. Wider z=1 force
+intervals do not establish stability across epochs. z=0 restricts lower-mass
+force comparisons most strongly here; earlier epochs still restrict timesteps.
+
+The force response in median mass agrees between C/D and E/F to 0.35 percentage
+points in eight common z=0 bins (0.28 pp for Vmax), supporting approximate
+force–particle separability for those statistics. Timestep interactions remain
+untested. Per-halo scatter is appreciable: C/E at z=0, log10 mass 12.75–13.00
+has mass-shift percentiles −8.30/−0.52/+6.74% (16th/median/84th).
 Full tables, scatter and individual criteria are in [CONVERGENCE.md](CONVERGENCE.md)
 and `convergence-assessment.json`. No finder-mesh, box-size or 2LPTIC
 convergence claim follows from this suite.
@@ -90,10 +105,17 @@ convergence claim follows from this suite.
 The independent [review](../../analysis/review-20260909-convergence/REVIEW.md)
 reproduced all 63 comparisons and decisions. [REVIEW-RESPONSE.md](REVIEW-RESPONSE.md)
 records the repairs and clarifies the paired uncertainty and host-rule
-interpretations. This campaign establishes conditional stability of v3; it
-does not establish a convergence advantage over legacy. Legacy catalogues are
-retained, but equivalent membership-based legacy matching would require legacy
-member lists that the current replay receipts do not contain.
+interpretations. The subsequent [claims review](../../analysis/review-20260909-convergence-claims/CLAIMS-REVIEW.md)
+is a second pass by the same reviewer, not a blind independent opinion.
+[CLAIMS-RESPONSE.md](CLAIMS-RESPONSE.md) records its reproduced measurements
+and necessary qualifications. The retained catalogues now support 114
+abundance comparisons: smaller absolute shift in 68 bins for v3, 43 for legacy,
+and 3 exact ties; median absolute shifts 2.78% and 3.21%. These correlated bins
+establish neither a statistically supported advantage nor equivalence.
+Equivalent membership-based legacy matching still requires member lists absent
+from the current replay receipts. Candidate-count sensitivity at one finder
+mesh cannot rule out attenuation or shared catalogue bias; finder-mesh tests
+remain necessary. No new simulation or replay was needed for this claims response.
 
 | Completed stage | Slurm job |
 |---|---:|

@@ -1,9 +1,9 @@
 {
   "completed": true,
-  "created_at_utc": "2026-09-09T02:39:36.380831+00:00",
+  "created_at_utc": "2026-09-09T03:49:29.189879+00:00",
   "input": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/convergence.json",
   "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
-  "assess_source_sha256": "f1c0d85c85316db597b9badd1809c803746665e79c7e5ac9edb820ee3fb267e5",
+  "assess_source_sha256": "ba40a87f913e7260334e8a4363ca8f5a441b2822bd68d3fd9efb7016ed1c1897",
   "property_definitions": {
     "axis_ba": "Reported intermediate/major ratio: reduced-inertia eigenvalue ratio after the legacy empirical exponent correction depending on RadRms / extended aperture, then transverse-axis reordering.",
     "axis_ca": "Reported minor/major ratio: reduced-inertia eigenvalue ratio after the legacy empirical exponent correction depending on RadRms / extended aperture, then transverse-axis reordering."
@@ -25251,6 +25251,7 @@
       ]
     }
   ],
+  "claims_response_sha256": "7b6cebac0031730c9bc18e09921e1822740cf58d4b87bf2443bc44af49ec244b",
   "abundance_uncertainty_interpretation": {
     "paired_octant_sigma": "Delete-one-octant paired-ratio scatter in this realization. Can be zero for identical octant counts; not a confidence interval or proof of zero ensemble uncertainty.",
     "independent_count_scale": "Hypothetical independent Poisson counts: relative scale sqrt(1/Nleft + 1/Nright); ratio scale additionally multiplies by |Nleft/Nright|. Actual paired catalogues are correlated. This diagnostic omits their covariance and is neither a replacement uncertainty nor an acceptance criterion."

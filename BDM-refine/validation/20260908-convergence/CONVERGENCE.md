@@ -62,7 +62,7 @@ The screen does not test shape. The following are maximum absolute bin-median pe
 | E/F | 0 | 4.11 | 5.86 |
 | F/T | 0 | 2.92 | 4.91 |
 
-In the completed suite, E/F at z=0 reaches 5.86% in median c/a inside its mass/Vmax passing interval. F/T reaches 4.70–5.42% across the three outputs; the coarser A/C particle comparison reaches 6.24% at z=0. Shape, velocity, tails and scatter require their own criteria.
+In the completed suite, E/F at z=0 reaches 5.86% in median c/a inside its mass/Vmax passing interval. F/T reaches 4.70–5.42% across the three outputs; the table maximum is 8.92% for A/E at z=1. Shape, velocity, tails and scatter require their own criteria.
 
 ## Effective particle and publication cuts
 
@@ -86,8 +86,29 @@ The paired delete-one-octant jackknife measures variation of the abundance ratio
 
 For comparison, supplemental_diagnostics in convergence-assessment.json reports sqrt(1/Nleft + 1/Nright) as a **hypothetical independent-count relative scale**, and also that scale multiplied by the absolute ratio for comparison with delta n. The actual catalogues are paired and correlated, so their covariance must be included for a sampling-error interpretation. The independent-count scale is not used to replace the jackknife, bound the actual uncertainty, or change the acceptance decisions.
 
-C/E at z=1, log10 mass 14.00–14.25 has identical octant counts [10,9,7,5,2,6,4,4]: 47 objects in each catalogue, paired sigma 0, and independent-count relative scale 20.63%. This is one unique bin repeated at three nominal floors. At floor 300, 21 bins meet the abundance-difference cut while paired sigma exceeds 2.5%; that count includes bins failing other parts of the full screen. High-mass abundance agreement has limited statistical discrimination.
+C/E at z=1, log10 mass 14.00–14.25 has identical octant counts [10,9,7,5,2,6,4,4]: 47 objects in each catalogue, paired sigma 0, and independent-count relative scale 20.63%. This is one unique bin repeated at three nominal floors. At floor 300, 21 bins meet the abundance-difference cut while paired sigma exceeds 2.5%; 15 of those bins pass the full screen. High-mass abundance agreement has limited statistical discrimination.
 
+
+## Redshift dependence and additional claims checks
+
+Matched median bound-mass shifts change sign in eight E/F and C/D mass bins between z=2 and z=0. The following example uses the convention 100 × (coarse/reference − 1). These are separately matched populations at each epoch, not the same haloes tracked through time.
+
+| Pair | log10 mass interval | z=2 median shift, % | z=1, % | z=0, % |
+|---|---|---:|---:|---:|
+| E/F | 13.00–13.25 | +1.85 | -0.17 | -4.07 |
+| C/D | 13.00–13.25 | +2.36 | +0.08 | -3.80 |
+
+The small z=1 medians lie near a sign transition in the population response. They do not establish stability across epochs or locate a continuous zero crossing. Both example bins pass the 5% mass condition at every epoch; their z=0 full-screen failures are abundance and resolved Vmax. The wider z=1 force intervals must therefore be read with all criteria, not attributed solely to mass cancellation. z=0 is the more restrictive lower-mass force comparison here; higher redshifts remain restrictive for timesteps.
+
+The C/D and E/F force responses agree to 0.35 percentage points in median mass and 0.28 in median Vmax in the eight common usable z=0 bins. This supports approximate force–particle separability for those medians. The particle chain has median absolute residual 0.162 pp, maximum 0.942 pp over 18 bin/property cases (mass and Vmax combined); this is not a 0.2-pp bound. Interactions with timesteps and all-property separability remain untested.
+
+The retained legacy/v3 catalogues allow 114 comparable abundance bins: v3 has the smaller absolute shift in 68, legacy in 43, with 3 exact ties. Median absolute shifts are 2.78% and 3.21%, respectively. These correlated measurements establish neither a statistically supported convergence advantage nor equivalence. Matched legacy properties still require missing membership information.
+
+In C/E at z=0, log10 mass 12.75–13.00, the per-halo mass-shift 16th/median/84th percentiles are −8.30/−0.52/+6.74%. Median agreement does not bound individual errors. The review's 0.14–1.57% unmatched fractions pool broad mass ranges; per-bin losses and the both-particle-floor selection are recorded separately. Small selection fractions alone do not bound a median shift in percentage units.
+
+Candidate counts respond strongly to particle load and force refinement at the fixed finder mesh. This demonstrates sensitivity but cannot exclude attenuation or a shared bias in catalogue statistics. The z=0 median apertures span 2.97–3.04 finder cells; similar radii are also affected by the common publication cut. Neither an absolute error nor its exact cancellation is measured.
+
+See [CLAIMS-RESPONSE.md](CLAIMS-RESPONSE.md) and the source-bound `claims-response.json` for the reproduced controls, population definitions and follow-up design.
 
 ## Membership checks
 
@@ -119,7 +140,7 @@ The frozen checker applies the production **priority-ordered extended-aperture r
 
 The independent review found four reverse-orientation centre-in-aperture pairs: the higher-priority centre lies inside the lower-priority aperture. This orientation is allowed by the production rule. All four separations exceed both unextended SO radii. They are not host-rule failures. The production data provide no positive control of the violation branch; fixtures remain necessary.
 
-Exact member-set uniqueness does not require disjoint memberships. The review measured excess memberships (occurrences after the first appearance of a particle ID) at 0.06–0.13% of total memberships. This global rate does not bound the fractional mass error of an individual halo. See [the independent review](../../analysis/review-20260909-convergence/REVIEW.md) for the full scan.
+Exact member-set uniqueness does not require disjoint memberships. The review measured excess memberships (occurrences after the first appearance of a particle ID) at 0.06–0.13% of total memberships. Summed bound mass counts shared particles repeatedly; it is not a partition of the particle set. This global rate does not bound the fractional mass error of an individual halo. See [the independent review](../../analysis/review-20260909-convergence/REVIEW.md) for the full scan.
 
 ## Limits of the measurement
 
@@ -127,6 +148,7 @@ Exact member-set uniqueness does not require disjoint memberships. The review me
 - One matched realization isolates numerical changes but does not measure box-size or cosmology dependence.
 - At z=0, particle refinement C/E and timestep refinement F/T meet the working screen over broader mass ranges than force refinement E/F. The force mesh is the limiting tested setting for lower-mass z=0 haloes in this suite.
 - The z=0 timestep result does not extend to all higher-redshift masses; inspect the separate z=1 and z=2 ranges.
+- The force response changes sign with redshift in several fixed mass bins; the wider z=1 intervals are epoch-specific. Small mass medians near this transition do not establish convergence across epochs.
 - The initial E/F positions differ by at most 6.103515625e-5 Mpc/h; physical velocities match exactly. The native periodic edge guard is retained. F/T initial positions match exactly.
 - Native output velocities are staggered by half a timestep. The F/T velocity difference includes this output-time effect.
 - The normal schedule has 158 steps and T has 316. All normal endpoints and output epochs are retained.

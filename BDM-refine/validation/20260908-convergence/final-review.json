@@ -199,18 +199,122 @@
       "status": "Final table layout and prior unchanged narrative/science pages visually reviewed",
       "retained_log": "work/review-followup-render.log",
       "retained_log_sha256": "4f76cf180726bd31b8581f0ec5f7ad7550c940a3fab420866fe69c6044220484"
+    },
+    {
+      "status": "Superseded: new legacy slide exceeded the text height by 4.76443 pt; layout check correctly failed",
+      "resource_record": "Command exited with non-zero status 1\nelapsed_seconds=60.94 user_seconds=29.76 system_seconds=5.21 maxrss_kib=202820",
+      "presentation_pdf_sha256": "f8bea21e31a733790a17928f61f682733f6827dd36cf4d4c5324f04e45bcc64d",
+      "presentation_generator_sha256": "dd5bf8b9274282d0af604732617791d59125f11dd9c3ffc57e2452a28ae9df39",
+      "presentation_source_sha256": "94ecd374194303bc4d7479b17533a2ed7238bfa64020c50fd83da69341f1312f",
+      "pages": 35,
+      "warning": "Overfull vbox (4.76443pt too high) at line 242"
+    },
+    {
+      "status": "Successful 35-slide full render; presentation metadata refreshed after the reporting dependency was made data-only",
+      "resource_record": "elapsed_seconds=55.97 user_seconds=29.83 system_seconds=5.21 maxrss_kib=202716",
+      "render": {
+        "completed": true,
+        "complete_campaign": true,
+        "started_at_utc": "2026-09-09T03:46:16.007311+00:00",
+        "completed_at_utc": "2026-09-09T03:47:10.796716+00:00",
+        "source_sha256": {
+          "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+          "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+          "plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+          "plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992",
+          "slides/make_slides.py": "486b869872967e501e505ad1ce3959887f2711b8aa13ad1c739816af8d3922cd",
+          "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+          "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+          "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+          "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc"
+        },
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "plot_manifest_sha256": "3a45f8c8c518a51d08366c3c616e92c5d9e250ffb6180b0001847df70a237e73",
+        "presentation_manifest_sha256": "432975bb510b04f08a29160025a099470450536266d7423ff9975431d9043b39",
+        "figure_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+        "presentation_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "visual_review": "Automated build and text/layout-log checks only; newly completed results still need visual scientific review."
+      },
+      "presentation": {
+        "completed": true,
+        "complete_campaign": true,
+        "created_at_utc": "2026-09-09T03:47:10.389332+00:00",
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "assessment_input_sha256": "eb3a82e624fca413c831dfb0ad1449f099c3b7533ff102b63fc7933382c06b14",
+        "claims_response_input_sha256": "0345cb23b25e251fcd40a083f8e4e1c6d09f01ae8760955d4a6895426b4052d9",
+        "ic_validation_input_sha256": "1dd5c3ef1c916e558a25035a9185d8adee6807f22e7f17a37b67582d008c9beb",
+        "accounting_input_sha256": "e361392b2799f6e1907c27337c54449e241ec9652ec7052b3422bc695ae7b7cc",
+        "plot_pdf_sha256": "92cce942de4a2c1d8062258a0f77f13f53fd4dd8e6dbe1caae3cddb7ce30340a",
+        "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+        "source_sha256": "044187663066a091a512351e03c0a8ee25e068915109b190db254408d9ffb0dd",
+        "generator_sha256": "486b869872967e501e505ad1ce3959887f2711b8aa13ad1c739816af8d3922cd",
+        "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "pdf_sha256": "d5fb7107907996470cd6e9be4f2c9b0ab2fe65a010c8892763154384167e2bac",
+        "pages": 35,
+        "page_count_source": "pdfinfo",
+        "warnings": [],
+        "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+      },
+      "slide_pages_inspected": [
+        1,
+        10,
+        11,
+        15,
+        16,
+        18,
+        19,
+        20,
+        35
+      ],
+      "visual_scope": "These pages were inspected in the preceding build; only slide 17 changed in this successful build. Final slide 17 inspection follows.",
+      "accounting_input_retained_at": {
+        "git_commit": "ceb7e8c182f9f0395d1876ebab15f1f2be6724e6",
+        "path": "BDM-refine/validation/20260908-convergence/accounting.json",
+        "sha256": "e361392b2799f6e1907c27337c54449e241ec9652ec7052b3422bc695ae7b7cc"
+      }
+    },
+    {
+      "status": "Final successful presentation refresh; numerical figures preserved",
+      "resource_record": "elapsed_seconds=8.63 user_seconds=4.97 system_seconds=0.62 maxrss_kib=202820",
+      "presentation": {
+        "completed": true,
+        "complete_campaign": true,
+        "created_at_utc": "2026-09-09T03:49:38.807194+00:00",
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "assessment_input_sha256": "b1fd08422e72133202253121b22c336bede7330e42423f22c2f931f73945edbe",
+        "claims_response_input_sha256": "7b6cebac0031730c9bc18e09921e1822740cf58d4b87bf2443bc44af49ec244b",
+        "ic_validation_input_sha256": "1dd5c3ef1c916e558a25035a9185d8adee6807f22e7f17a37b67582d008c9beb",
+        "accounting_input_sha256": "beb7eddfac631a6e32cf54a855cf1d8d4fa5b1f03fb0cec351a3734b0f50e7f6",
+        "plot_pdf_sha256": "92cce942de4a2c1d8062258a0f77f13f53fd4dd8e6dbe1caae3cddb7ce30340a",
+        "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+        "source_sha256": "044187663066a091a512351e03c0a8ee25e068915109b190db254408d9ffb0dd",
+        "generator_sha256": "486b869872967e501e505ad1ce3959887f2711b8aa13ad1c739816af8d3922cd",
+        "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "pdf_sha256": "ce1ae04bb0be3a0b36477502d2849f2e0d44759f5556f739073034dd4628f061",
+        "pages": 35,
+        "page_count_source": "pdfinfo",
+        "warnings": [],
+        "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+      },
+      "final_slide_pages_inspected": [
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
     }
   ],
-  "completed_at_utc": "2026-09-09T02:53:43.674638+00:00",
-  "branch": "fix/bdm-convergence-review-20260909",
-  "head_before_result_commit": "b8e5a8e260443259464e218e104261e1a1bb1460",
+  "completed_at_utc": "2026-09-09T03:52:44.890763+00:00",
+  "branch": "fix/bdm-convergence-claims-20260909",
+  "head_before_result_commit": "ceb7e8c182f9f0395d1876ebab15f1f2be6724e6",
   "main_cz_unchanged": "e289c3f7ea28d38390a1663e50bb2784b85abc84",
   "counts": {
     "simulations": 7,
     "paired_replays": 21,
     "v3_catalogues": 21,
     "assessments": 63,
-    "presentation_pages": 31,
+    "presentation_pages": 35,
     "figure_pages": 18,
     "selected": 377475,
     "exact_duplicate_member_sets": 0,
@@ -240,7 +344,25 @@
     "review_followup_controls_passed": true,
     "production_ic_check_rerun_job": "11960736",
     "scientific_input_unchanged_since_independent_review": true,
-    "new_raw_hash_verification_scope": "IC manifests and all fine rows rechecked by job 11960736. No new membership-tape or snapshot hash survey; independent review evidence and unchanged recorded identities are retained."
+    "new_raw_hash_verification_scope": "IC manifests and all fine rows rechecked by job 11960736. No new membership-tape or snapshot hash survey; independent review evidence and unchanged recorded identities are retained.",
+    "claims_frozen_zipapp_control": {
+      "passed": true,
+      "assess_source_sha256": "ba40a87f913e7260334e8a4363ca8f5a441b2822bd68d3fd9efb7016ed1c1897",
+      "assessments": 63,
+      "note": "Actual common.py/assess.py zipapp on copied small inputs; no claims helper module in the archive. Temporary control tree removed."
+    },
+    "claims_review_controls_reproduced": {
+      "verification_and_response_audit": true,
+      "separability": true,
+      "finder_mesh_indicators": true,
+      "matching_selection": true,
+      "tails_vs_medians": true,
+      "legacy_vs_v3_abundance_convergence": true,
+      "redshift_behaviour": true
+    },
+    "claims_scope": "56 frozen production receipts and four production/analysis files re-hashed; seven small-input review controls reproduce; no new raw-tape verification or simulation.",
+    "assessment_comparisons_and_criteria_unchanged_since_claims_review": true,
+    "current_presentation_inputs_match_current_artifact_hashes": true
   },
   "simulation_and_pair_receipt_sha256": {
     "A-simulation.json": "7795997e4db16ab8350b976da3c9f820b14769877efda6feae1d791cc0b856c9",
@@ -274,25 +396,31 @@
   },
   "artifact_sha256": {
     "analyze.py": "c1fdbb62ea771527d9a0e3b9a67e6e4c53c34c0c25899c6b3a8ffdf40398ff68",
-    "assess.py": "f1c0d85c85316db597b9badd1809c803746665e79c7e5ac9edb820ee3fb267e5",
+    "assess.py": "ba40a87f913e7260334e8a4363ca8f5a441b2822bd68d3fd9efb7016ed1c1897",
     "convergence.json": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
-    "convergence-assessment.json": "0b35a83983cfd2c823a95593dfa2bebd05e414577a2af9b2062f38c40ef47f9f",
-    "CONVERGENCE.md": "de262efe75c1470a0ef6e8764819af0b50a301fb4fca1c6ae1d4b25247c8d7b8",
-    "README.md": "93ecb2a2916d64f1d37d495e53eef5eaf06771aa24b6b8be630a68da9dcd2475",
-    "accounting.json": "e361392b2799f6e1907c27337c54449e241ec9652ec7052b3422bc695ae7b7cc",
+    "convergence-assessment.json": "b1fd08422e72133202253121b22c336bede7330e42423f22c2f931f73945edbe",
+    "CONVERGENCE.md": "018ad9289f319321c8e3b722657f455aa6a603b03346dbe9b3605f06831c7743",
+    "README.md": "e61f2188f7121f5c17778f9770889a7084fc338f9210437ce45ed12d5e6c4934",
+    "accounting.json": "beb7eddfac631a6e32cf54a855cf1d8d4fa5b1f03fb0cec351a3734b0f50e7f6",
     "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
     "plot-controls.json": "1495c4972843cfa2958544e111c5d52ba0040af90dedc93cce04a30f4beac17d",
-    "plot-manifest-n300.json": "322c7be51b1510237bd849277545f706cc30aa123f583f47f837d29892e24908",
-    "presentation-validation.json": "286b4685d30d65f81a7411b3930b678b3413e6802de426d4ae7a3e68de7743ac",
-    "render-validation.json": "f25cc6273878498aaca076b708531fb0a2d06f8ab071c1bf8cdaecc5e06c2995",
-    "visual-review.json": "16b0aa4ac2aa50be63204e84da54c4bed6189ce61ebbe7b696fb257f090fb04d",
+    "plot-manifest-n300.json": "3a45f8c8c518a51d08366c3c616e92c5d9e250ffb6180b0001847df70a237e73",
+    "presentation-validation.json": "1a6b2187ff15066e961e3b646f61f1756425dc12c8363293fa304a655ed59265",
+    "render-validation.json": "19dd2aec7a6e6c5b51ab343ef5ac52d19f17b33e71d468e78a96da3a35e7ba93",
+    "visual-review.json": "6dfcd63ad3d595a05aa760a7d1db5764e49ba5087eb943ed43627a20ec5c4a94",
     "ic_validate.py": "dce0e7a9ab76edff08b19a57e1333abcfbc7d0a2db8f23e19484dd5558e78a89",
     "ic-production-validation.json": "1dd5c3ef1c916e558a25035a9185d8adee6807f22e7f17a37b67582d008c9beb",
     "jobs.json": "99a10684caa6fd5293cd47babb07de52c06bbc201ff5dc4ac44539283d60fb81",
     "REVIEW-RESPONSE.md": "628655ac7c17d57a2fc098599e0ad8c10bbcc299d38d447994c949b0aed0068f",
     "review_followup_checks.py": "01665dd42f806cc9ab08e5e4022feccf906ac7a6560311aba17c2f042fb1b4c5",
     "review-followup-controls.json": "56992141d03b9b9bfec645817204f1517b6511e566bb9ee37a36888c29adbff7",
-    "launches-cleanup-review-20260909.json": "6c2d6703bdce55ae808a5a90eef35e2e661ff9a4b198c580bdad0c10f860c678"
+    "launches-cleanup-review-20260909.json": "6c2d6703bdce55ae808a5a90eef35e2e661ff9a4b198c580bdad0c10f860c678",
+    "claims_response.py": "4975c8c3ff2ede22a3aa1e961e2c6493cb377821afa27df38f1950533b5d2b5c",
+    "claims-response.json": "7b6cebac0031730c9bc18e09921e1822740cf58d4b87bf2443bc44af49ec244b",
+    "CLAIMS-RESPONSE.md": "bab88872eb250c6936c347fc472a4082cee2574d9d7f9b130e6e6b0e6681a59e",
+    "../../analysis/review-20260909-convergence-claims/CLAIMS-REVIEW.md": "7162f4e50160b30e1d0983066774c45de337eb3465a3303dc20a4c87ec92540a",
+    "../../analysis/review-20260909-convergence-claims/claims_checks.py": "2d6056fd8800aa88dbc9d88fab1fead0a832c6019eef61eebc74a8a3d265edfd",
+    "../../analysis/review-20260909-convergence-claims/claims_results.json": "80b2fbb641db953259c186eb53c461cb57c7b628914f1b0a49d641332c5a56df"
   },
   "cost": {
     "slurm_billed_core_hours": 2133.645,
@@ -436,12 +564,156 @@
       }
     ],
     "scientific_data_retained": true,
-    "git_object_cleanup_record": "git-cleanup.json"
+    "git_object_cleanup_record": "git-cleanup.json",
+    "claims_response_removed_files": [
+      {
+        "path": "work/claims-final-slide-15.png",
+        "bytes": 109098,
+        "sha256": "1d7e5d1430e30aeb6249602f7505dbed00334a7888a1701357d2fdf4fb50cd15",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-final-slide-16.png",
+        "bytes": 148280,
+        "sha256": "276b9c4aeeed48ef922ee8fc7c61c263864ea3d4ed2460a15ac7a54e6cf74b87",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-final-slide-17.png",
+        "bytes": 98062,
+        "sha256": "a120cdd1ac484ddae8fa4aa72d306c96210e1b8a5667095d9c194b0389d0303d",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-final-slide-18.png",
+        "bytes": 131282,
+        "sha256": "e907e3aa4085208b0d443b43787db8a38b7e259135ba0e10a6d08b74e62d1f16",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-final-slide-19.png",
+        "bytes": 149703,
+        "sha256": "48ad1126124de863aaafdb80d3b1a633aaabdd047166a308eff4f555bf3d9d47",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-1.png",
+        "bytes": 61429,
+        "sha256": "bac2ce117d0e7310d92053d867e6c0f6cc7571325ee53ae732f3ad0b943fc825",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-10.png",
+        "bytes": 111038,
+        "sha256": "a9b7635773bef42bda00b83d3d8ca5d0838619e19c7abfda2824b001433603ed",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-11.png",
+        "bytes": 93844,
+        "sha256": "6f769c74ede55c459c65947101f91849c4fbe73b1ba9612b8a992942eb13d769",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-15.png",
+        "bytes": 109098,
+        "sha256": "1d7e5d1430e30aeb6249602f7505dbed00334a7888a1701357d2fdf4fb50cd15",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-16.png",
+        "bytes": 148280,
+        "sha256": "276b9c4aeeed48ef922ee8fc7c61c263864ea3d4ed2460a15ac7a54e6cf74b87",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-17.png",
+        "bytes": 107920,
+        "sha256": "bcb331c5173d8a8deba46a5be88d8f84c4c0e55dfe1d667f9e1b7a9ac17200a1",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-18.png",
+        "bytes": 131282,
+        "sha256": "e907e3aa4085208b0d443b43787db8a38b7e259135ba0e10a6d08b74e62d1f16",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-19.png",
+        "bytes": 149703,
+        "sha256": "48ad1126124de863aaafdb80d3b1a633aaabdd047166a308eff4f555bf3d9d47",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-20.png",
+        "bytes": 95064,
+        "sha256": "8a3ba69a5abaf4eae5492929582bb89ea611201a2ca0ad98070ffbf7ffa840ef",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-35.png",
+        "bytes": 85304,
+        "sha256": "1482e5eda4065f91fc94ed8e73454c5702b8b01e92e528becfc2afcc0421e03c",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-response-render.log",
+        "bytes": 18575,
+        "sha256": "386c5192d44d8b6d6af71fbd2f08be3773fd9e346aca8deeae0d4cc5dc18128f",
+        "purpose": "Superseded lightweight-render log; completion, resource use and source/PDF hashes retained in review receipts"
+      },
+      {
+        "path": "work/claims-response-render.time",
+        "bytes": 79,
+        "sha256": "f36a29ded9c38b36065d500473447c1e596e88c6628d0eae1087f05ee37b410a",
+        "purpose": "Superseded lightweight-render log; completion, resource use and source/PDF hashes retained in review receipts"
+      },
+      {
+        "path": "work/claims-response-slides.log",
+        "bytes": 130,
+        "sha256": "077ece7b4081ee0b42d3ab502e6a3c7a262b6c33f287096537b6f52cb6a9f3ee",
+        "purpose": "Superseded lightweight-render log; completion, resource use and source/PDF hashes retained in review receipts"
+      },
+      {
+        "path": "work/claims-response-slides.time",
+        "bytes": 77,
+        "sha256": "00082c46387926f9febf5bdeae07d2fb9789e3e9df08ac2217d2ab770fc42c7d",
+        "purpose": "Superseded lightweight-render log; completion, resource use and source/PDF hashes retained in review receipts"
+      },
+      {
+        "path": "work/review-followup-render.log",
+        "bytes": 18575,
+        "sha256": "4f76cf180726bd31b8581f0ec5f7ad7550c940a3fab420866fe69c6044220484",
+        "purpose": "Superseded lightweight-render log; completion, resource use and source/PDF hashes retained in review receipts"
+      },
+      {
+        "path": "work/review-followup-render.time",
+        "bytes": 79,
+        "sha256": "cba4c265ac5118eae7b3e4036f379ab6aa67faf55ad0d4b1cf8c5550e52a8464",
+        "purpose": "Superseded lightweight-render log; completion, resource use and source/PDF hashes retained in review receipts"
+      }
+    ],
+    "claims_response_removed_file_count": 21,
+    "claims_response_policy": "Only owned temporary previews and redundant local-render logs removed. Scientific outputs, current build.log, configurations, review records and unrelated untracked files preserved."
   },
   "publication": {
     "results": "Commit code, measurements and receipts on the validation branch",
     "presentation": "Keep figures, slides and LaTeX local and Git-ignored as requested",
     "merge_to_cz": false
   },
-  "review_followup_receipt": "review-followup.json"
+  "review_followup_receipt": "review-followup.json",
+  "claims_response": {
+    "receipt": "claims-response.json",
+    "response": "CLAIMS-RESPONSE.md",
+    "diagnostic_resource_record": "elapsed_seconds=8.46 user_seconds=2.09 system_seconds=0.74 maxrss_kib=193220",
+    "local_threads": 1,
+    "login_load_at_start": "2.37, 1.55, 1.29",
+    "new_slurm_jobs": 0,
+    "previous_final_review": {
+      "git_commit": "ceb7e8c182f9f0395d1876ebab15f1f2be6724e6",
+      "path": "BDM-refine/validation/20260908-convergence/final-review.json",
+      "sha256": "4f659bd51b002cb8d3ef24d81878a277f1a988fb486bbfe162e2b7ac4bcafcf5"
+    },
+    "historical_prompt1_followup": "review-followup.json records the artifact versions at ceb7e8c; its historical final-review hash is retained at that commit."
+  }
 }
