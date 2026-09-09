@@ -1,0 +1,29 @@
+{
+  "completed": true,
+  "complete_campaign": true,
+  "started_at_utc": "2026-09-09T03:46:16.007311+00:00",
+  "completed_at_utc": "2026-09-09T03:52:40.833939+00:00",
+  "source_sha256": {
+    "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+    "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+    "plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+    "plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992",
+    "slides/make_slides.py": "486b869872967e501e505ad1ce3959887f2711b8aa13ad1c739816af8d3922cd",
+    "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+    "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+    "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+    "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc"
+  },
+  "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+  "plot_manifest_sha256": "3a45f8c8c518a51d08366c3c616e92c5d9e250ffb6180b0001847df70a237e73",
+  "presentation_manifest_sha256": "1a6b2187ff15066e961e3b646f61f1756425dc12c8363293fa304a655ed59265",
+  "figure_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+  "presentation_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+  "visual_review": "Automated build and text/layout-log checks only; newly completed results still need visual scientific review.",
+  "presentation_refresh": {
+    "reason": "Rebuilt slides after binding self-contained claims prose in the assessment input; plot data and figure manifest unchanged.",
+    "previous_presentation_manifest_sha256": "432975bb510b04f08a29160025a099470450536266d7423ff9975431d9043b39",
+    "presentation_created_at_utc": "2026-09-09T03:49:38.807194+00:00",
+    "resource_record": "elapsed_seconds=8.63 user_seconds=4.97 system_seconds=0.62 maxrss_kib=202820"
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "completed": true,
+  "complete_campaign": true,
+  "created_at_utc": "2026-09-09T03:47:03.327074+00:00",
+  "input": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/convergence.json",
+  "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+  "script_sha256": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+  "particle_floor": 300,
+  "minimum_count": 30,
+  "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+  "pdf_sha256": "92cce942de4a2c1d8062258a0f77f13f53fd4dd8e6dbe1caae3cddb7ce30340a",
+  "pages": [
+    {
+      "page": 1,
+      "redshift": 2,
+      "kind": "particle",
+      "supplement": false,
+      "pairs": [
+        "A/C",
+        "C/E",
+        "A/E"
+      ]
+    },
+    {
+      "page": 2,
+      "redshift": 2,
+      "kind": "particle",
+      "supplement": true,
+      "pairs": [
+        "A/C",
+        "C/E",
+        "A/E"
+      ]
+    },
+    {
+      "page": 3,
+      "redshift": 2,
+      "kind": "force",
+      "supplement": false,
+      "pairs": [
+        "B/C",
+        "C/D",
+        "E/F"
+      ]
+    },
+    {
+      "page": 4,
+      "redshift": 2,
+      "kind": "force",
+      "supplement": true,
+      "pairs": [
+        "B/C",
+        "C/D",
+        "E/F"
+      ]
+    },
+    {
+      "page": 5,
+      "redshift": 2,
+      "kind": "time",
+      "supplement": false,
+      "pairs": [
+        "F/T"
+      ]
+    },
+    {
+      "page": 6,
+      "redshift": 2,
+      "kind": "time",
+      "supplement": true,
+      "pairs": [
+        "F/T"
+      ]
+    },
+    {
+      "page": 7,
+      "redshift": 1,
+      "kind": "particle",
+      "supplement": false,
+      "pairs": [
+        "A/C",
+        "C/E",
+        "A/E"
+      ]
+    },
+    {
+      "page": 8,
+      "redshift": 1,
+      "kind": "particle",
+      "supplement": true,
+      "pairs": [
+        "A/C",
+        "C/E",
+        "A/E"
+      ]
+    },
+    {
+      "page": 9,
+      "redshift": 1,
+      "kind": "force",
+      "supplement": false,
+      "pairs": [
+        "B/C",
+        "C/D",
+        "E/F"
+      ]
+    },
+    {
+      "page": 10,
+      "redshift": 1,
+      "kind": "force",
+      "supplement": true,
+      "pairs": [
+        "B/C",
+        "C/D",
+        "E/F"
+      ]
+    },
+    {
+      "page": 11,
+      "redshift": 1,
+      "kind": "time",
+      "supplement": false,
+      "pairs": [
+        "F/T"
+      ]
+    },
+    {
+      "page": 12,
+      "redshift": 1,
+      "kind": "time",
+      "supplement": true,
+      "pairs": [
+        "F/T"
+      ]
+    },
+    {
+      "page": 13,
+      "redshift": 0,
+      "kind": "particle",
+      "supplement": false,
+      "pairs": [
+        "A/C",
+        "C/E",
+        "A/E"
+      ]
+    },
+    {
+      "page": 14,
+      "redshift": 0,
+      "kind": "particle",
+      "supplement": true,
+      "pairs": [
+        "A/C",
+        "C/E",
+        "A/E"
+      ]
+    },
+    {
+      "page": 15,
+      "redshift": 0,
+      "kind": "force",
+      "supplement": false,
+      "pairs": [
+        "B/C",
+        "C/D",
+        "E/F"
+      ]
+    },
+    {
+      "page": 16,
+      "redshift": 0,
+      "kind": "force",
+      "supplement": true,
+      "pairs": [
+        "B/C",
+        "C/D",
+        "E/F"
+      ]
+    },
+    {
+      "page": 17,
+      "redshift": 0,
+      "kind": "time",
+      "supplement": false,
+      "pairs": [
+        "F/T"
+      ]
+    },
+    {
+      "page": 18,
+      "redshift": 0,
+      "kind": "time",
+      "supplement": true,
+      "pairs": [
+        "F/T"
+      ]
+    }
+  ],
+  "interpretation": "Reference bands illustrate 5% mass/shape/abundance and 2% radius/Vmax scales; they do not establish physical accuracy."
+}

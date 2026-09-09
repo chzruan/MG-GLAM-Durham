@@ -1,0 +1,38 @@
+{
+  "completed": true,
+  "spec": {
+    "case": "F",
+    "nrow": 1024,
+    "ngrid": 4096,
+    "box_mpc_h": 256.0,
+    "epochs": [
+      2,
+      1,
+      0
+    ],
+    "half_steps": false,
+    "cosmology": {
+      "Omega_m": 0.3089,
+      "Omega_Lambda": 0.6911,
+      "h": 0.6774,
+      "sigma8": 0.8159
+    },
+    "shape_repair_commit": "c68c22d",
+    "analysis_ngrid": 2048
+  },
+  "pilot_steps": 4,
+  "threads": 64,
+  "snapshots": [],
+  "stage_receipt": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/pilots/F-t64-s4/Run1/evolve.json",
+  "outputs": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/pilots/F-t64-s4/Run1/timing.log": {
+      "sha256": "fc4fe1c745a24bb043b22b5b4fddac71a6cdb62593f9f7ae1e7138f34b4b5b8f",
+      "bytes": 672
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/pilots/F-t64-s4/Run1/Run.log": {
+      "sha256": "3506823c72cc0533dfdd2f9507c23336a518e0633e119cef93240416cf93bfa4",
+      "bytes": 1329
+    }
+  },
+  "completed_at_utc": "2026-09-08T00:13:24.875356+00:00"
+}

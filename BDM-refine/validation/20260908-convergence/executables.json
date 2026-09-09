@@ -1,0 +1,53 @@
+{
+  "completed": true,
+  "prepared_at_utc": "2026-09-07T23:57:44.029743+00:00",
+  "binaries": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2BDM.native.exe": {
+      "sha256": "8db8f233f0c381a06d0c5fc9749c687fa2fb08c9da7de968ff80af0a0b6a1d98",
+      "bytes": 1143848
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2init.native.exe": {
+      "sha256": "36425f022e6ba14cf117167b8a735c5cb16e30f612b66badd2f8f4ea1ddebd14",
+      "bytes": 122064
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2main.native.exe": {
+      "sha256": "8572a762f67cf9bb1f5f6ac1adae11b9b793aadc307dde8817c3e3458839592e",
+      "bytes": 1246168
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2main.schedule.exe": {
+      "sha256": "ba091225cbb67b3833ddba3b72ed6511866c48a6518904622aad5dc34328d5e8",
+      "bytes": 1251504
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2replay.legacy.exe": {
+      "sha256": "e7088dc3dbe456f0fe7f2603d4515fb21c0346a7fac22c8fbba74094a2c8ee5b",
+      "bytes": 1168832
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2replay.v3.exe": {
+      "sha256": "09faea9712d4848afefa44eaecbf64897f13504d2bd31659cf0a2a715c43e479",
+      "bytes": 1172400
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2start.matched.exe": {
+      "sha256": "0971fca65c274382b65dc2e2f254a2360d2e7e5ae7a6fcd0f0e59a06d0de2f34",
+      "bytes": 1088712
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/bin/PMP2start.native.exe": {
+      "sha256": "529ee12f75a03624ee38da5876cb15ab7c00a1afeb954ca80e77741dd03a473e",
+      "bytes": 579424
+    }
+  },
+  "production_finder_sha256": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d",
+  "build_receipts": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/build.json": {
+      "sha256": "6576ff280fe5c45ffcfe98024af8fadaa09b8ce8503bd8af1efc537f985e5f99",
+      "bytes": 23969
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/ic-build.json": {
+      "sha256": "15212594c5243f7c35700bf35b1ca037bb2d6abca253d9c9ba12e6523bb2a5b4",
+      "bytes": 2114
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/replay-build.json": {
+      "sha256": "a4d3608f53e811076b9244eebdd0bdf162653b2e1b0d29bebdd79b71f1352225",
+      "bytes": 13609
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "completed": true,
+  "spec": {
+    "case": "C",
+    "nrow": 512,
+    "ngrid": 2048,
+    "box_mpc_h": 256.0,
+    "epochs": [
+      2,
+      1,
+      0
+    ],
+    "half_steps": false,
+    "cosmology": {
+      "Omega_m": 0.3089,
+      "Omega_Lambda": 0.6911,
+      "h": 0.6774,
+      "sigma8": 0.8159
+    },
+    "shape_repair_commit": "c68c22d",
+    "analysis_ngrid": 2048
+  },
+  "header": {
+    "scale_factor": 0.009900989942252636,
+    "step": 0,
+    "nrow": 512,
+    "ngrid": 2048,
+    "particles": 134217728
+  },
+  "stage_receipt": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/C/Run1/ic.json",
+  "sampled_modes_sha256": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071",
+  "outputs": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/C/Run1/PMcrd.DAT": {
+      "sha256": "dedbbab7727036ad3f385766a395feb895d13191835de1c16e221fe24685be5a",
+      "bytes": 537
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/C/Run1/PMcrs0.DAT": {
+      "sha256": "16c3b3beffd242813ae296659339e761c9db839b9a5e9e912d2f2ff32b8bea42",
+      "bytes": 3221225472
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/C/Run1/matched_ic_receipt.txt": {
+      "sha256": "bb192e938a7003c5857d18a701a494e2fb85d967ff20e9f593c2d11481ea2838",
+      "bytes": 637
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/C/Run1/matched_modes.bin": {
+      "sha256": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071",
+      "bytes": 431248
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/C/Run1/pt.dat": {
+      "sha256": "a4bdddfe99b36286da7046ac901cf18a8ee500d7ccf00dff61c9d9fae9be8cd6",
+      "bytes": 12
+    }
+  }
+}

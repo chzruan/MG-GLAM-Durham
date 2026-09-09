@@ -1,0 +1,1212 @@
+{
+  "completed": true,
+  "started_at_utc": "2026-09-09T00:11:30.296951+00:00",
+  "local_render_attempts": [
+    {
+      "resource_record": "elapsed_seconds=67.12 user_seconds=27.93 system_seconds=4.54 maxrss_kib=201532",
+      "render": {
+        "completed": true,
+        "complete_campaign": true,
+        "started_at_utc": "2026-09-09T00:03:21.731027+00:00",
+        "completed_at_utc": "2026-09-09T00:04:28.206101+00:00",
+        "source_sha256": {
+          "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+          "plots/plot_convergence.py": "c8697cc993f269ad349a7f94fb585e2ec27ec6e9e41ca92e82a7e4437220eda3",
+          "plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+          "plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992",
+          "slides/make_slides.py": "472e4abe9371666cbe468c1c6800604f9ee4aa15b32dca079facfafe4eb27188",
+          "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+          "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+          "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+          "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc"
+        },
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "plot_manifest_sha256": "a82287863f7730122e01c095929d04a4adfb1dd8dc0525cfb62ba1988ba28703",
+        "presentation_manifest_sha256": "f0d55c3d1f3b0c026b7b17b09f44cf39bc70a6e5bdaf6977ad9857af3c94a3a6",
+        "figure_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+        "presentation_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "visual_review": "Automated build and text/layout-log checks only; newly completed results still need visual scientific review."
+      },
+      "presentation": {
+        "completed": true,
+        "complete_campaign": true,
+        "created_at_utc": "2026-09-09T00:04:22.169745+00:00",
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "accounting_input_sha256": "5f652352ce891d60ea6e0545d110b6b90c1f4ce16faf860225da8cac6f2b7f66",
+        "plot_pdf_sha256": "ffe2c666fdfe8f2e85f50f8cb0a44c53e7290da5af45972e8736a4ae135f3c7b",
+        "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+        "source_sha256": "5e2c1b7c96d9e7a80b72044f9a7ca06d4590b4d761e4ab6ad4434682ad44becd",
+        "generator_sha256": "472e4abe9371666cbe468c1c6800604f9ee4aa15b32dca079facfafe4eb27188",
+        "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "pdf_sha256": "318f01ab3b9e78705358ca85deef8c1376b5740731acf33b9a6dada38cccfd39",
+        "pages": 29,
+        "page_count_source": "pdfinfo",
+        "warnings": [],
+        "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+      },
+      "status": "Superseded after visual review found absolute-difference axes fixed at an upper limit of 1"
+    },
+    {
+      "resource_record": "elapsed_seconds=66.59 user_seconds=29.62 system_seconds=4.98 maxrss_kib=202808",
+      "render": {
+        "completed": true,
+        "complete_campaign": true,
+        "started_at_utc": "2026-09-09T00:11:31.261779+00:00",
+        "completed_at_utc": "2026-09-09T00:12:36.515173+00:00",
+        "source_sha256": {
+          "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+          "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+          "plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+          "plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992",
+          "slides/make_slides.py": "588736ea65172a9d1297548d028c659e53e6469166e77970386ebc57baf3e127",
+          "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+          "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+          "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+          "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc"
+        },
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "plot_manifest_sha256": "70ff3b55efbc732d2572df42f153305ad95b3f45783e913d501d1085ab9f9992",
+        "presentation_manifest_sha256": "915c25ce489f7ea3d13d5cc4246e5b73036e56e14c0b1ef9b1b754f4299247d2",
+        "figure_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+        "presentation_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "visual_review": "Automated build and text/layout-log checks only; newly completed results still need visual scientific review."
+      },
+      "presentation": {
+        "completed": true,
+        "complete_campaign": true,
+        "created_at_utc": "2026-09-09T00:12:36.249938+00:00",
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "accounting_input_sha256": "9de73b0e87b323b5901ab31744e951020134648376af714354fc60e1920ed8f0",
+        "plot_pdf_sha256": "5c56ab1e7ff9f4cfa289c9b859c7b2d866b7189b016dd10b2640eb6777878e90",
+        "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+        "source_sha256": "6bcec58b2ec648f185012cbba05c17e3dc6d5b609b83d1ab5d75497813f42ad0",
+        "generator_sha256": "588736ea65172a9d1297548d028c659e53e6469166e77970386ebc57baf3e127",
+        "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "pdf_sha256": "58ebad4132ae817b5c7a2e0bd8a56a852acce674f35454bfad4a3d7712635a0f",
+        "pages": 29,
+        "page_count_source": "pdfinfo",
+        "warnings": [],
+        "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+      },
+      "status": "Passed automated checks and representative final visual review",
+      "execution": "Idle login node, one requested OpenMP/BLAS thread; no simulations or membership matching repeated",
+      "retained_log": "work/review-render.log",
+      "retained_log_sha256": "f45a0f8a8f81417bf7ed92c5196558b75ab35969fbf9e58b6576a7c56b8a3070"
+    },
+    {
+      "render": {
+        "completed": true,
+        "complete_campaign": true,
+        "started_at_utc": "2026-09-09T02:44:07.169455+00:00",
+        "completed_at_utc": "2026-09-09T02:45:07.629678+00:00",
+        "source_sha256": {
+          "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+          "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+          "plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+          "plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992",
+          "slides/make_slides.py": "33c057c9d3f626ec1883d26915b4f2240d68fb43e7274a3e1b23507582dd276f",
+          "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+          "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+          "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+          "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc"
+        },
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "plot_manifest_sha256": "87729344a48cfbeb1a653cb04c5d0aee00ac320f5762dcf18e21ba6c2f7ed096",
+        "presentation_manifest_sha256": "442c8985f010612d8fece9ee32f9afe2288c6853465fad4d818173467bc7d751",
+        "figure_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+        "presentation_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "visual_review": "Automated build and text/layout-log checks only; newly completed results still need visual scientific review."
+      },
+      "presentation": {
+        "completed": true,
+        "complete_campaign": true,
+        "created_at_utc": "2026-09-09T02:45:07.330109+00:00",
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "assessment_input_sha256": "0b35a83983cfd2c823a95593dfa2bebd05e414577a2af9b2062f38c40ef47f9f",
+        "ic_validation_input_sha256": "1dd5c3ef1c916e558a25035a9185d8adee6807f22e7f17a37b67582d008c9beb",
+        "accounting_input_sha256": "7fff4757b0a2b83396dc1f54eed748be2078533ba6077e13c7bd412323295799",
+        "plot_pdf_sha256": "57db71fb758a366b53fecbf92ae4a2a7fc3e0a6f5e5dd3ef092035c1eefd0b7b",
+        "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+        "source_sha256": "d58c7715fc811aa5ef07efafa4de768a4f9b2a256c3420470ddbac01e83b9bac",
+        "generator_sha256": "33c057c9d3f626ec1883d26915b4f2240d68fb43e7274a3e1b23507582dd276f",
+        "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "pdf_sha256": "0bd6e2bc1e94f6a116eb851b5115afd8384ecc5e49c752b57f1bf9ff3472edaf",
+        "pages": 31,
+        "page_count_source": "pdfinfo",
+        "warnings": [],
+        "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+      },
+      "resources": "elapsed_seconds=61.40 user_seconds=29.66 system_seconds=4.95 maxrss_kib=202812",
+      "status": "Superseded by table-spacing refinement after visual inspection",
+      "slide_pages_inspected": [
+        1,
+        4,
+        5,
+        6,
+        8,
+        10,
+        11,
+        12,
+        13,
+        15,
+        31
+      ]
+    },
+    {
+      "render": {
+        "completed": true,
+        "complete_campaign": true,
+        "started_at_utc": "2026-09-09T02:48:46.265833+00:00",
+        "completed_at_utc": "2026-09-09T02:49:44.065344+00:00",
+        "source_sha256": {
+          "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+          "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+          "plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+          "plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992",
+          "slides/make_slides.py": "81076a5642bc58c44aff55212a800b578d63b339ed3aacc24db0088a871745e4",
+          "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+          "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+          "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+          "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc"
+        },
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "plot_manifest_sha256": "322c7be51b1510237bd849277545f706cc30aa123f583f47f837d29892e24908",
+        "presentation_manifest_sha256": "286b4685d30d65f81a7411b3930b678b3413e6802de426d4ae7a3e68de7743ac",
+        "figure_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+        "presentation_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "visual_review": "Automated build and text/layout-log checks only; newly completed results still need visual scientific review."
+      },
+      "presentation": {
+        "completed": true,
+        "complete_campaign": true,
+        "created_at_utc": "2026-09-09T02:49:43.531161+00:00",
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "assessment_input_sha256": "0b35a83983cfd2c823a95593dfa2bebd05e414577a2af9b2062f38c40ef47f9f",
+        "ic_validation_input_sha256": "1dd5c3ef1c916e558a25035a9185d8adee6807f22e7f17a37b67582d008c9beb",
+        "accounting_input_sha256": "94fdb9da33d00c3b3ca2cafa8db0a2aaf035b529151d8ca82d0c029d28a1c8a6",
+        "plot_pdf_sha256": "e0f2f0d0e6238825b5e835f77843d5453c18626b460b8108e84fb0f64906ec11",
+        "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+        "source_sha256": "c09e3be9e048a778a2e329bc72316d749357d3a8bf182eef412b57c95265a065",
+        "generator_sha256": "81076a5642bc58c44aff55212a800b578d63b339ed3aacc24db0088a871745e4",
+        "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "pdf_sha256": "ef9c7a572c6d3705ca02c62b285901f9b181b6739a4b32f06cb39b0c3572801d",
+        "pages": 31,
+        "page_count_source": "pdfinfo",
+        "warnings": [],
+        "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+      },
+      "resources": "elapsed_seconds=58.32 user_seconds=29.88 system_seconds=4.89 maxrss_kib=202808",
+      "status": "Final table layout and prior unchanged narrative/science pages visually reviewed",
+      "retained_log": "work/review-followup-render.log",
+      "retained_log_sha256": "4f76cf180726bd31b8581f0ec5f7ad7550c940a3fab420866fe69c6044220484"
+    },
+    {
+      "status": "Superseded: new legacy slide exceeded the text height by 4.76443 pt; layout check correctly failed",
+      "resource_record": "Command exited with non-zero status 1\nelapsed_seconds=60.94 user_seconds=29.76 system_seconds=5.21 maxrss_kib=202820",
+      "presentation_pdf_sha256": "f8bea21e31a733790a17928f61f682733f6827dd36cf4d4c5324f04e45bcc64d",
+      "presentation_generator_sha256": "dd5bf8b9274282d0af604732617791d59125f11dd9c3ffc57e2452a28ae9df39",
+      "presentation_source_sha256": "94ecd374194303bc4d7479b17533a2ed7238bfa64020c50fd83da69341f1312f",
+      "pages": 35,
+      "warning": "Overfull vbox (4.76443pt too high) at line 242"
+    },
+    {
+      "status": "Successful 35-slide full render; presentation metadata refreshed after the reporting dependency was made data-only",
+      "resource_record": "elapsed_seconds=55.97 user_seconds=29.83 system_seconds=5.21 maxrss_kib=202716",
+      "render": {
+        "completed": true,
+        "complete_campaign": true,
+        "started_at_utc": "2026-09-09T03:46:16.007311+00:00",
+        "completed_at_utc": "2026-09-09T03:47:10.796716+00:00",
+        "source_sha256": {
+          "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+          "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+          "plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+          "plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992",
+          "slides/make_slides.py": "486b869872967e501e505ad1ce3959887f2711b8aa13ad1c739816af8d3922cd",
+          "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+          "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+          "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+          "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc"
+        },
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "plot_manifest_sha256": "3a45f8c8c518a51d08366c3c616e92c5d9e250ffb6180b0001847df70a237e73",
+        "presentation_manifest_sha256": "432975bb510b04f08a29160025a099470450536266d7423ff9975431d9043b39",
+        "figure_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+        "presentation_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "visual_review": "Automated build and text/layout-log checks only; newly completed results still need visual scientific review."
+      },
+      "presentation": {
+        "completed": true,
+        "complete_campaign": true,
+        "created_at_utc": "2026-09-09T03:47:10.389332+00:00",
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "assessment_input_sha256": "eb3a82e624fca413c831dfb0ad1449f099c3b7533ff102b63fc7933382c06b14",
+        "claims_response_input_sha256": "0345cb23b25e251fcd40a083f8e4e1c6d09f01ae8760955d4a6895426b4052d9",
+        "ic_validation_input_sha256": "1dd5c3ef1c916e558a25035a9185d8adee6807f22e7f17a37b67582d008c9beb",
+        "accounting_input_sha256": "e361392b2799f6e1907c27337c54449e241ec9652ec7052b3422bc695ae7b7cc",
+        "plot_pdf_sha256": "92cce942de4a2c1d8062258a0f77f13f53fd4dd8e6dbe1caae3cddb7ce30340a",
+        "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+        "source_sha256": "044187663066a091a512351e03c0a8ee25e068915109b190db254408d9ffb0dd",
+        "generator_sha256": "486b869872967e501e505ad1ce3959887f2711b8aa13ad1c739816af8d3922cd",
+        "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "pdf_sha256": "d5fb7107907996470cd6e9be4f2c9b0ab2fe65a010c8892763154384167e2bac",
+        "pages": 35,
+        "page_count_source": "pdfinfo",
+        "warnings": [],
+        "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+      },
+      "slide_pages_inspected": [
+        1,
+        10,
+        11,
+        15,
+        16,
+        18,
+        19,
+        20,
+        35
+      ],
+      "visual_scope": "These pages were inspected in the preceding build; only slide 17 changed in this successful build. Final slide 17 inspection follows.",
+      "accounting_input_retained_at": {
+        "git_commit": "ceb7e8c182f9f0395d1876ebab15f1f2be6724e6",
+        "path": "BDM-refine/validation/20260908-convergence/accounting.json",
+        "sha256": "e361392b2799f6e1907c27337c54449e241ec9652ec7052b3422bc695ae7b7cc"
+      }
+    },
+    {
+      "status": "Final successful presentation refresh; numerical figures preserved",
+      "resource_record": "elapsed_seconds=8.63 user_seconds=4.97 system_seconds=0.62 maxrss_kib=202820",
+      "presentation": {
+        "completed": true,
+        "complete_campaign": true,
+        "created_at_utc": "2026-09-09T03:49:38.807194+00:00",
+        "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+        "assessment_input_sha256": "b1fd08422e72133202253121b22c336bede7330e42423f22c2f931f73945edbe",
+        "claims_response_input_sha256": "7b6cebac0031730c9bc18e09921e1822740cf58d4b87bf2443bc44af49ec244b",
+        "ic_validation_input_sha256": "1dd5c3ef1c916e558a25035a9185d8adee6807f22e7f17a37b67582d008c9beb",
+        "accounting_input_sha256": "beb7eddfac631a6e32cf54a855cf1d8d4fa5b1f03fb0cec351a3734b0f50e7f6",
+        "plot_pdf_sha256": "92cce942de4a2c1d8062258a0f77f13f53fd4dd8e6dbe1caae3cddb7ce30340a",
+        "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+        "source_sha256": "044187663066a091a512351e03c0a8ee25e068915109b190db254408d9ffb0dd",
+        "generator_sha256": "486b869872967e501e505ad1ce3959887f2711b8aa13ad1c739816af8d3922cd",
+        "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+        "pdf_sha256": "ce1ae04bb0be3a0b36477502d2849f2e0d44759f5556f739073034dd4628f061",
+        "pages": 35,
+        "page_count_source": "pdfinfo",
+        "warnings": [],
+        "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+      },
+      "final_slide_pages_inspected": [
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    }
+  ],
+  "completed_at_utc": "2026-09-09T04:12:05.463777+00:00",
+  "branch": "docs/bdm-convergence-erratum-20260909",
+  "head_before_result_commit": "78bb887b67cdfca69d76457e0c261474119a7cb9",
+  "main_cz_unchanged": "e289c3f7ea28d38390a1663e50bb2784b85abc84",
+  "counts": {
+    "simulations": 7,
+    "paired_replays": 21,
+    "v3_catalogues": 21,
+    "assessments": 63,
+    "presentation_pages": 35,
+    "figure_pages": 18,
+    "selected": 377475,
+    "exact_duplicate_member_sets": 0,
+    "repeated_original_ids": 0,
+    "mass_count_mismatches": 0,
+    "host_exclusion_violations": 0,
+    "higher_priority_neighbours_examined": 0
+  },
+  "initial_conditions": {
+    "lpt_order": 1,
+    "z_init": 100,
+    "generator": "Native GLAM matched campaign variant",
+    "scope": "Existing-run exception; not a test of the default 2LPTIC workflow"
+  },
+  "verification": {
+    "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+    "input_unchanged_by_reporting_fixes": true,
+    "all_63_assessments_and_criteria_unchanged_by_reporting_fixes": true,
+    "small_science_files_sha256_checked": true,
+    "small_file_threshold_bytes": 16777216,
+    "all_recorded_science_paths_and_sizes_checked": true,
+    "large_raw_files": "Full hashes verified by successful analysis job 11956207; final review checked receipt links and sizes without repeating large raw-file reads.",
+    "completed_launch_archives": "Both final launch archives rechecked member by member during final review.",
+    "artifact_and_source_hash_chains_verified": true,
+    "affected_plot_axes_checked": 18,
+    "host_check_caveat": "Frozen checker implements priority-ordered extended apertures. Zero in-aperture examined pairs does not demonstrate coverage; six actual-block controls include rejection and allowed reverse orientation.",
+    "review_followup_controls_passed": true,
+    "production_ic_check_rerun_job": "11960736",
+    "scientific_input_unchanged_since_independent_review": true,
+    "new_raw_hash_verification_scope": "IC manifests and all fine rows rechecked by job 11960736. No new membership-tape or snapshot hash survey; independent review evidence and unchanged recorded identities are retained.",
+    "claims_frozen_zipapp_control": {
+      "passed": true,
+      "assess_source_sha256": "ba40a87f913e7260334e8a4363ca8f5a441b2822bd68d3fd9efb7016ed1c1897",
+      "assessments": 63,
+      "note": "Actual common.py/assess.py zipapp on copied small inputs; no claims helper module in the archive. Temporary control tree removed."
+    },
+    "claims_review_controls_reproduced": {
+      "verification_and_response_audit": true,
+      "separability": true,
+      "finder_mesh_indicators": true,
+      "matching_selection": true,
+      "tails_vs_medians": true,
+      "legacy_vs_v3_abundance_convergence": true,
+      "redshift_behaviour": true
+    },
+    "claims_scope": "56 frozen production receipts and four production/analysis files re-hashed; seven small-input review controls reproduce; no new raw-tape verification or simulation.",
+    "assessment_comparisons_and_criteria_unchanged_since_claims_review": true,
+    "current_presentation_inputs_match_current_artifact_hashes": true
+  },
+  "simulation_and_pair_receipt_sha256": {
+    "A-simulation.json": "7795997e4db16ab8350b976da3c9f820b14769877efda6feae1d791cc0b856c9",
+    "replay-A-z2-ng2048.json": "5ba82bd27da5a9d5999f9448af1da328da569c1d481d8f69f431ccc5f4f23516",
+    "replay-A-z1-ng2048.json": "3575b0ef94f089536287b5e22c8a65aaed705ed5b911effb18465ca531f246fc",
+    "replay-A-z0-ng2048.json": "933bb829216eb78ba0d6e8cd3c920dbac88e8bcebb4c7124b6550d400b57c5aa",
+    "B-simulation.json": "8adcfbf0b5e56354d025208835ae3d09fb796411e0decaea0e2f70fc1b71e383",
+    "replay-B-z2-ng2048.json": "2b2f71b8e953a4ee03a8db461fa10aa177ecd443ab0e6b000cecfa19b969712f",
+    "replay-B-z1-ng2048.json": "5738a8369c724c17a0332d532c1a26c513caa3e85809244575163552be7fb331",
+    "replay-B-z0-ng2048.json": "e866c1e9fa0828803a8655d28befb42db7eed49ef656fe544c3db2ebace45666",
+    "C-simulation.json": "4af113fd8f6585318299df9762d8d19f7a9a85e77ab39725ce7675b0a1817eb8",
+    "replay-C-z2-ng2048.json": "42bb42d205f80fe533792a5b58fe0583baccc1e36d7f8eccc12df75c569472db",
+    "replay-C-z1-ng2048.json": "68b6b22867ec55303eff5267d0ca9106a1e81a14863047be30e8590f8e41dd11",
+    "replay-C-z0-ng2048.json": "4867a44965e2033fdbb3ef45a261a940284d7a0196d1945236992e5a7acb454d",
+    "D-simulation.json": "d2e7030bbb9a3f0e5e6a6d4e0cc179baef93f3ee0a87ad16e515f7717842d3a1",
+    "replay-D-z2-ng2048.json": "97efb08663e002a0f478e9636e7b43a053a6fb594a8cca777b59baae95bca377",
+    "replay-D-z1-ng2048.json": "6fc214f94370bd15a3b9730968fb99646f07cf5585b728c1677042090b82d693",
+    "replay-D-z0-ng2048.json": "9149e2da3c3a495e29a860e87ae00f2683ff6ee7b20b366b7ecd6bf2c6262aa6",
+    "E-simulation.json": "4704715b883e96ae0dbcc83e462895e1dca33fd68f2726b340e30190affc6ae5",
+    "replay-E-z2-ng2048.json": "23018c05193833bfa497f8a2a8d20e616d0513686c6b552860057505239d1442",
+    "replay-E-z1-ng2048.json": "ca31a88262b9c1aa12ae18ff6550c6b2662b3e07c60145c8984a734395d4ad5b",
+    "replay-E-z0-ng2048.json": "e1e8326fdb489797249a28f2489d8ae77c60b77170b4298e94981437603dad7a",
+    "F-simulation.json": "910ddb787f72bfa00efea16cae0b31db61f844fd35edcb5a7f0ed42e3d6b288c",
+    "replay-F-z2-ng2048.json": "b59d6f86a4b4b2bc38f74bdb8655b5c3cefca7c9fd2b18b070c58c55b5a36854",
+    "replay-F-z1-ng2048.json": "a3e527a6686fe8fc0438e26ccb15460a83443b3410a2e74e2fc4a06184ad93b1",
+    "replay-F-z0-ng2048.json": "55f991e4b6dfe3a1e81f51c758ef0eaa83d48c8ea66cf4765e44b435fcf1a8d8",
+    "T-simulation.json": "703c00421152a791d7a5f2bd50989d9d74eaf9707382c2aa8f698ad9c8687738",
+    "replay-T-z2-ng2048.json": "e6c3f4f24ceee8c5078511c1973e2766b108bcdb27362ea77ae386fc626e0b43",
+    "replay-T-z1-ng2048.json": "cfc4d8e9e547a576ca3fee9d87f010517e84b53dc76d09419855bf3a5d3a4961",
+    "replay-T-z0-ng2048.json": "5e3d2928b6d412c571b60e1f4045540382495f8ab15b2c0e593aadeb14c6bb30"
+  },
+  "artifact_sha256": {
+    "analyze.py": "c1fdbb62ea771527d9a0e3b9a67e6e4c53c34c0c25899c6b3a8ffdf40398ff68",
+    "assess.py": "ba40a87f913e7260334e8a4363ca8f5a441b2822bd68d3fd9efb7016ed1c1897",
+    "convergence.json": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+    "convergence-assessment.json": "b1fd08422e72133202253121b22c336bede7330e42423f22c2f931f73945edbe",
+    "CONVERGENCE.md": "018ad9289f319321c8e3b722657f455aa6a603b03346dbe9b3605f06831c7743",
+    "README.md": "e61f2188f7121f5c17778f9770889a7084fc338f9210437ce45ed12d5e6c4934",
+    "accounting.json": "beb7eddfac631a6e32cf54a855cf1d8d4fa5b1f03fb0cec351a3734b0f50e7f6",
+    "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+    "plot-controls.json": "1495c4972843cfa2958544e111c5d52ba0040af90dedc93cce04a30f4beac17d",
+    "plot-manifest-n300.json": "3a45f8c8c518a51d08366c3c616e92c5d9e250ffb6180b0001847df70a237e73",
+    "presentation-validation.json": "1a6b2187ff15066e961e3b646f61f1756425dc12c8363293fa304a655ed59265",
+    "render-validation.json": "19dd2aec7a6e6c5b51ab343ef5ac52d19f17b33e71d468e78a96da3a35e7ba93",
+    "visual-review.json": "6dfcd63ad3d595a05aa760a7d1db5764e49ba5087eb943ed43627a20ec5c4a94",
+    "ic_validate.py": "dce0e7a9ab76edff08b19a57e1333abcfbc7d0a2db8f23e19484dd5558e78a89",
+    "ic-production-validation.json": "1dd5c3ef1c916e558a25035a9185d8adee6807f22e7f17a37b67582d008c9beb",
+    "jobs.json": "99a10684caa6fd5293cd47babb07de52c06bbc201ff5dc4ac44539283d60fb81",
+    "REVIEW-RESPONSE.md": "628655ac7c17d57a2fc098599e0ad8c10bbcc299d38d447994c949b0aed0068f",
+    "review_followup_checks.py": "01665dd42f806cc9ab08e5e4022feccf906ac7a6560311aba17c2f042fb1b4c5",
+    "review-followup-controls.json": "56992141d03b9b9bfec645817204f1517b6511e566bb9ee37a36888c29adbff7",
+    "launches-cleanup-review-20260909.json": "6c2d6703bdce55ae808a5a90eef35e2e661ff9a4b198c580bdad0c10f860c678",
+    "claims_response.py": "4975c8c3ff2ede22a3aa1e961e2c6493cb377821afa27df38f1950533b5d2b5c",
+    "claims-response.json": "7b6cebac0031730c9bc18e09921e1822740cf58d4b87bf2443bc44af49ec244b",
+    "CLAIMS-RESPONSE.md": "92335d698074c75568d04e26285bf4aa83a17c8f8291951f7a96767991d93e71",
+    "../../analysis/review-20260909-convergence-claims/CLAIMS-REVIEW.md": "9b0f677e281b16d90dc0be2248be2633d2409737ee8e94a33713c877b955d4b0",
+    "../../analysis/review-20260909-convergence-claims/claims_checks.py": "2d6056fd8800aa88dbc9d88fab1fead0a832c6019eef61eebc74a8a3d265edfd",
+    "../../analysis/review-20260909-convergence-claims/claims_results.json": "80b2fbb641db953259c186eb53c461cb57c7b628914f1b0a49d641332c5a56df"
+  },
+  "cost": {
+    "slurm_billed_core_hours": 2133.645,
+    "slurm_consumed_cpu_hours": 1891.6604733333334,
+    "submitted_expected_core_hours": 2394.229166666667,
+    "submitted_time_limit_core_hours": 3889.25,
+    "note": "Original campaign plus source-bound IC recheck. Local review renders are separate; all Slurm jobs were terminal before the final accounting refresh."
+  },
+  "cleanup": {
+    "campaign_archives": 6,
+    "archived_files_and_links": 590,
+    "net_files_reduced_by_archives_and_receipts": 578,
+    "temporary_preview_files_removed": [
+      {
+        "path": "work/final-review-slide-1.png",
+        "bytes": 74250
+      },
+      {
+        "path": "work/final-review-slide-3.png",
+        "bytes": 140958
+      },
+      {
+        "path": "work/final-review-slide-4.png",
+        "bytes": 156877
+      },
+      {
+        "path": "work/final-review-slide-7.png",
+        "bytes": 124309
+      },
+      {
+        "path": "work/final-review-slide-8.png",
+        "bytes": 128484
+      },
+      {
+        "path": "work/final-review-slide-9.png",
+        "bytes": 103765
+      },
+      {
+        "path": "work/final-review-slide-10.png",
+        "bytes": 139037
+      },
+      {
+        "path": "work/final-review-slide-11.png",
+        "bytes": 153189
+      },
+      {
+        "path": "work/final-review-slide-12.png",
+        "bytes": 132224
+      },
+      {
+        "path": "work/final-review-slide-13.png",
+        "bytes": 158646
+      },
+      {
+        "path": "work/final-review-slide-14.png",
+        "bytes": 122332
+      },
+      {
+        "path": "work/final-review-slide-29.png",
+        "bytes": 105795
+      },
+      {
+        "path": "work/final-review-plot-5.png",
+        "bytes": 99984
+      },
+      {
+        "path": "work/final-review-plot-13.png",
+        "bytes": 131507
+      },
+      {
+        "path": "work/final-review-plot-14.png",
+        "bytes": 120342
+      },
+      {
+        "path": "work/final-review-plot-15.png",
+        "bytes": 136943
+      },
+      {
+        "path": "work/final-review-plot-16.png",
+        "bytes": 129063
+      },
+      {
+        "path": "work/final-review-plot-18.png",
+        "bytes": 107970
+      },
+      {
+        "path": "work/equation-review-05.png",
+        "bytes": 169663
+      },
+      {
+        "path": "work/equation-review-06.png",
+        "bytes": 120317
+      },
+      {
+        "path": "work/review-followup-slide-1.png",
+        "bytes": 74250
+      },
+      {
+        "path": "work/review-followup-slide-4.png",
+        "bytes": 165148
+      },
+      {
+        "path": "work/review-followup-slide-5.png",
+        "bytes": 167697
+      },
+      {
+        "path": "work/review-followup-slide-6.png",
+        "bytes": 125073
+      },
+      {
+        "path": "work/review-followup-slide-8.png",
+        "bytes": 128250
+      },
+      {
+        "path": "work/review-followup-slide-10.png",
+        "bytes": 141760
+      },
+      {
+        "path": "work/review-followup-slide-11.png",
+        "bytes": 123740
+      },
+      {
+        "path": "work/review-followup-slide-12.png",
+        "bytes": 169618
+      },
+      {
+        "path": "work/review-followup-slide-13.png",
+        "bytes": 158296
+      },
+      {
+        "path": "work/review-followup-slide-14.png",
+        "bytes": 131010
+      },
+      {
+        "path": "work/review-followup-slide-15.png",
+        "bytes": 180817
+      },
+      {
+        "path": "work/review-followup-slide-31.png",
+        "bytes": 105364
+      }
+    ],
+    "scientific_data_retained": true,
+    "git_object_cleanup_record": "git-cleanup.json",
+    "claims_response_removed_files": [
+      {
+        "path": "work/claims-final-slide-15.png",
+        "bytes": 109098,
+        "sha256": "1d7e5d1430e30aeb6249602f7505dbed00334a7888a1701357d2fdf4fb50cd15",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-final-slide-16.png",
+        "bytes": 148280,
+        "sha256": "276b9c4aeeed48ef922ee8fc7c61c263864ea3d4ed2460a15ac7a54e6cf74b87",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-final-slide-17.png",
+        "bytes": 98062,
+        "sha256": "a120cdd1ac484ddae8fa4aa72d306c96210e1b8a5667095d9c194b0389d0303d",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-final-slide-18.png",
+        "bytes": 131282,
+        "sha256": "e907e3aa4085208b0d443b43787db8a38b7e259135ba0e10a6d08b74e62d1f16",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-final-slide-19.png",
+        "bytes": 149703,
+        "sha256": "48ad1126124de863aaafdb80d3b1a633aaabdd047166a308eff4f555bf3d9d47",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-1.png",
+        "bytes": 61429,
+        "sha256": "bac2ce117d0e7310d92053d867e6c0f6cc7571325ee53ae732f3ad0b943fc825",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-10.png",
+        "bytes": 111038,
+        "sha256": "a9b7635773bef42bda00b83d3d8ca5d0838619e19c7abfda2824b001433603ed",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-11.png",
+        "bytes": 93844,
+        "sha256": "6f769c74ede55c459c65947101f91849c4fbe73b1ba9612b8a992942eb13d769",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-15.png",
+        "bytes": 109098,
+        "sha256": "1d7e5d1430e30aeb6249602f7505dbed00334a7888a1701357d2fdf4fb50cd15",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-16.png",
+        "bytes": 148280,
+        "sha256": "276b9c4aeeed48ef922ee8fc7c61c263864ea3d4ed2460a15ac7a54e6cf74b87",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-17.png",
+        "bytes": 107920,
+        "sha256": "bcb331c5173d8a8deba46a5be88d8f84c4c0e55dfe1d667f9e1b7a9ac17200a1",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-18.png",
+        "bytes": 131282,
+        "sha256": "e907e3aa4085208b0d443b43787db8a38b7e259135ba0e10a6d08b74e62d1f16",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-19.png",
+        "bytes": 149703,
+        "sha256": "48ad1126124de863aaafdb80d3b1a633aaabdd047166a308eff4f555bf3d9d47",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-20.png",
+        "bytes": 95064,
+        "sha256": "8a3ba69a5abaf4eae5492929582bb89ea611201a2ca0ad98070ffbf7ffa840ef",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-slide-35.png",
+        "bytes": 85304,
+        "sha256": "1482e5eda4065f91fc94ed8e73454c5702b8b01e92e528becfc2afcc0421e03c",
+        "purpose": "Temporary PDF preview"
+      },
+      {
+        "path": "work/claims-response-render.log",
+        "bytes": 18575,
+        "sha256": "386c5192d44d8b6d6af71fbd2f08be3773fd9e346aca8deeae0d4cc5dc18128f",
+        "purpose": "Superseded lightweight-render log; completion, resource use and source/PDF hashes retained in review receipts"
+      },
+      {
+        "path": "work/claims-response-render.time",
+        "bytes": 79,
+        "sha256": "f36a29ded9c38b36065d500473447c1e596e88c6628d0eae1087f05ee37b410a",
+        "purpose": "Superseded lightweight-render log; completion, resource use and source/PDF hashes retained in review receipts"
+      },
+      {
+        "path": "work/claims-response-slides.log",
+        "bytes": 130,
+        "sha256": "077ece7b4081ee0b42d3ab502e6a3c7a262b6c33f287096537b6f52cb6a9f3ee",
+        "purpose": "Superseded lightweight-render log; completion, resource use and source/PDF hashes retained in review receipts"
+      },
+      {
+        "path": "work/claims-response-slides.time",
+        "bytes": 77,
+        "sha256": "00082c46387926f9febf5bdeae07d2fb9789e3e9df08ac2217d2ab770fc42c7d",
+        "purpose": "Superseded lightweight-render log; completion, resource use and source/PDF hashes retained in review receipts"
+      },
+      {
+        "path": "work/review-followup-render.log",
+        "bytes": 18575,
+        "sha256": "4f76cf180726bd31b8581f0ec5f7ad7550c940a3fab420866fe69c6044220484",
+        "purpose": "Superseded lightweight-render log; completion, resource use and source/PDF hashes retained in review receipts"
+      },
+      {
+        "path": "work/review-followup-render.time",
+        "bytes": 79,
+        "sha256": "cba4c265ac5118eae7b3e4036f379ab6aa67faf55ad0d4b1cf8c5550e52a8464",
+        "purpose": "Superseded lightweight-render log; completion, resource use and source/PDF hashes retained in review receipts"
+      }
+    ],
+    "claims_response_removed_file_count": 21,
+    "claims_response_policy": "Only owned temporary previews and redundant local-render logs removed. Scientific outputs, current build.log, configurations, review records and unrelated untracked files preserved."
+  },
+  "publication": {
+    "results": "Commit code, measurements and receipts on the validation branch",
+    "presentation": "Keep figures, slides and LaTeX local and Git-ignored as requested",
+    "merge_to_cz": false
+  },
+  "review_followup_receipt": "review-followup.json",
+  "claims_response": {
+    "receipt": "claims-response.json",
+    "response": "CLAIMS-RESPONSE.md",
+    "diagnostic_resource_record": "elapsed_seconds=8.46 user_seconds=2.09 system_seconds=0.74 maxrss_kib=193220",
+    "local_threads": 1,
+    "login_load_at_start": "2.37, 1.55, 1.29",
+    "new_slurm_jobs": 0,
+    "previous_final_review": {
+      "git_commit": "ceb7e8c182f9f0395d1876ebab15f1f2be6724e6",
+      "path": "BDM-refine/validation/20260908-convergence/final-review.json",
+      "sha256": "4f659bd51b002cb8d3ef24d81878a277f1a988fb486bbfe162e2b7ac4bcafcf5"
+    },
+    "historical_prompt1_followup": "review-followup.json records the artifact versions at ceb7e8c; its historical final-review hash is retained at that commit."
+  },
+  "erratum_followup": {
+    "completed": true,
+    "verified_at_utc": "2026-09-09T04:12:05.454707+00:00",
+    "baseline_commit": "78bb887b67cdfca69d76457e0c261474119a7cb9",
+    "review_path": "BDM-refine/analysis/review-20260909-convergence-claims/CLAIMS-REVIEW.md",
+    "original_review_sha256": "7162f4e50160b30e1d0983066774c45de337eb3465a3303dc20a4c87ec92540a",
+    "appended_review_sha256": "9b0f677e281b16d90dc0be2248be2633d2409737ee8e94a33713c877b955d4b0",
+    "original_prefix_bytes": 28098,
+    "added_lines": 139,
+    "removed_lines": 0,
+    "original_prefix_unchanged": true,
+    "review_input_history": "The original claims-response.json records the review before this append. Its source hash matches the immutable prefix and the file at baseline_commit.",
+    "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+    "assessment_sha256": "b1fd08422e72133202253121b22c336bede7330e42423f22c2f931f73945edbe",
+    "unchanged_assessments": 63,
+    "unchanged_criteria": true,
+    "frozen_production_and_analysis_files_verified": 60,
+    "nominal_particle_floor": 300,
+    "redshift_populations": [
+      {
+        "pair": "E/F",
+        "log10_mass_interval": [
+          12.75,
+          13.0
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": -1.106770833333337,
+            "median_mass_shift_percent": 0.6932129614702564,
+            "median_vmax_shift_percent": -0.2047399442786191,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": -4.893410852713176,
+            "median_mass_shift_percent": -1.4953011317628548,
+            "median_vmax_shift_percent": -1.816629557470713,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -7.505105513955068,
+            "median_mass_shift_percent": -5.528226750995549,
+            "median_vmax_shift_percent": -6.255568851596443,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": true,
+              "bound_mass": false,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": false,
+          "median_vmax_shift_percent": false
+        }
+      },
+      {
+        "pair": "E/F",
+        "log10_mass_interval": [
+          13.0,
+          13.25
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 0.902527075812265,
+            "median_mass_shift_percent": 1.8510452447095833,
+            "median_vmax_shift_percent": 0.5650949158221474,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": -2.811860940695299,
+            "median_mass_shift_percent": -0.16636957813428402,
+            "median_vmax_shift_percent": -0.9569230317727674,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -6.4306784660767,
+            "median_mass_shift_percent": -4.071533335143121,
+            "median_vmax_shift_percent": -5.191305011309383,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      },
+      {
+        "pair": "E/F",
+        "log10_mass_interval": [
+          13.25,
+          13.5
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 7.407407407407418,
+            "median_mass_shift_percent": 2.2535412791529548,
+            "median_vmax_shift_percent": 0.9333528405107354,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": 0.7376185458377149,
+            "median_mass_shift_percent": 0.8954214309701078,
+            "median_vmax_shift_percent": -0.22993930657942163,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -4.4768349817803195,
+            "median_mass_shift_percent": -2.830071921652231,
+            "median_vmax_shift_percent": -4.147239654548179,
+            "passes": false,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      },
+      {
+        "pair": "E/F",
+        "log10_mass_interval": [
+          13.5,
+          13.75
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 14.634146341463406,
+            "median_mass_shift_percent": 2.7038321701700863,
+            "median_vmax_shift_percent": 1.4707587547806589,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": false,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": 1.049868766404205,
+            "median_mass_shift_percent": 1.322670985592334,
+            "median_vmax_shift_percent": 0.430445148962162,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -2.843137254901962,
+            "median_mass_shift_percent": -1.8833029434748634,
+            "median_vmax_shift_percent": -3.133867404594782,
+            "passes": false,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      },
+      {
+        "pair": "C/D",
+        "log10_mass_interval": [
+          12.75,
+          13.0
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 0.677048070413,
+            "median_mass_shift_percent": 1.4171844599259398,
+            "median_vmax_shift_percent": 0.1286502310325265,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": -2.9995042141794714,
+            "median_mass_shift_percent": -0.8902077151335311,
+            "median_vmax_shift_percent": -1.5351324112182807,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -6.8893528183716075,
+            "median_mass_shift_percent": -5.17990831024411,
+            "median_vmax_shift_percent": -6.13943368708456,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": true,
+              "bound_mass": false,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      },
+      {
+        "pair": "C/D",
+        "log10_mass_interval": [
+          13.0,
+          13.25
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 4.672897196261672,
+            "median_mass_shift_percent": 2.3628691983122363,
+            "median_vmax_shift_percent": 0.7214286905851117,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": -2.9472595656670153,
+            "median_mass_shift_percent": 0.0765696784073507,
+            "median_vmax_shift_percent": -0.7947501722431275,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -5.824955647545826,
+            "median_mass_shift_percent": -3.8046129374337223,
+            "median_vmax_shift_percent": -4.918738926052666,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      },
+      {
+        "pair": "C/D",
+        "log10_mass_interval": [
+          13.25,
+          13.5
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 6.8783068783068835,
+            "median_mass_shift_percent": 2.6359143327841847,
+            "median_vmax_shift_percent": 1.1899081435997616,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": -0.21299254526091493,
+            "median_mass_shift_percent": 0.997506234413965,
+            "median_vmax_shift_percent": -0.07282859672575129,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -3.970354685018529,
+            "median_mass_shift_percent": -2.5508170585890793,
+            "median_vmax_shift_percent": -3.987725232180334,
+            "passes": false,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      },
+      {
+        "pair": "C/D",
+        "log10_mass_interval": [
+          13.5,
+          13.75
+        ],
+        "epochs": [
+          {
+            "z": 2,
+            "abundance_shift_percent": 9.523809523809534,
+            "median_mass_shift_percent": 2.9931620696896806,
+            "median_vmax_shift_percent": 1.5493684477776966,
+            "passes": false,
+            "checks": {
+              "abundance": false,
+              "abundance_uncertainty": false,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 1,
+            "abundance_shift_percent": 2.34375,
+            "median_mass_shift_percent": 1.6230366492146597,
+            "median_vmax_shift_percent": 0.45735367432310464,
+            "passes": true,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": true,
+              "completeness": true
+            }
+          },
+          {
+            "z": 0,
+            "abundance_shift_percent": -2.17821782178218,
+            "median_mass_shift_percent": -1.7199003504807249,
+            "median_vmax_shift_percent": -3.07266515775945,
+            "passes": false,
+            "checks": {
+              "abundance": true,
+              "abundance_uncertainty": true,
+              "bound_mass": true,
+              "resolved_vmax": false,
+              "completeness": true
+            }
+          }
+        ],
+        "sign_changes": {
+          "abundance_shift_percent": true,
+          "median_vmax_shift_percent": true
+        }
+      }
+    ],
+    "full_screen_passes_by_redshift": {
+      "2": 4,
+      "1": 8,
+      "0": 0
+    },
+    "abundance_and_vmax_sign_change_cases": 7,
+    "mass_passes_all_three_epochs_cases": 6,
+    "all_seven_pairs_z0_eligible_bins": 52,
+    "maximum_eligible_bin_loss": {
+      "pair": "B/C",
+      "log10_mass_interval": [
+        12.75,
+        13.0
+      ],
+      "loss_percent": 2.8961136023916256,
+      "reference_count": 5352,
+      "passes": false
+    },
+    "maximum_passing_bin_loss": {
+      "pair": "A/E",
+      "log10_mass_interval": [
+        13.5,
+        13.75
+      ],
+      "loss_percent": 2.72452068617558,
+      "reference_count": 991,
+      "passes": true
+    },
+    "remaining_erratum_qualification": "Both 12.75-13.00 mass bins fail bound_mass at z=0. Both 13.50-13.75 bins additionally fail abundance_uncertainty at z=2.",
+    "slides": "Unchanged: existing 35-slide deck states the correct scopes. No figure or LaTeX rebuild needed.",
+    "new_slurm_jobs": 0,
+    "new_files_created": 0
+  }
+}

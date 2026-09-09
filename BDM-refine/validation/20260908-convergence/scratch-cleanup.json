@@ -1,0 +1,2983 @@
+{
+  "completed": true,
+  "started_at_utc": "2026-09-08T00:32:42.159838+00:00",
+  "archive": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work-artifacts.tar.gz",
+  "archive_sha256": "bef9c9d832e98026d77f239d21cc4dee43b80949fd8c1dfa9cdd5f111619a5f2",
+  "archive_bytes": 6516983,
+  "archive_verified_member_by_member": true,
+  "prefixes": [
+    "work/native-build",
+    "work/ic-build",
+    "work/replay-build",
+    "work/schedule-preflight",
+    "work/pilots"
+  ],
+  "manifest": {
+    "work/ic-build/PMP2mod_fft5.f90": {
+      "bytes": 56680,
+      "mode": 420,
+      "mtime_ns": 1776226878000000000,
+      "device": 56918434,
+      "inode": 198160013510951202,
+      "kind": "file",
+      "sha256": "1cf32f6d5271c55ef282ce9299a9235d2de673b32b0d83bfd9ca409ea13c08c9"
+    },
+    "work/ic-build/PMP2mod_fft5.o": {
+      "bytes": 81888,
+      "mode": 420,
+      "mtime_ns": 1788825185000000000,
+      "device": 56918434,
+      "inode": 198160013510951211,
+      "kind": "file",
+      "sha256": "858d145dd5d2214554dfc5e7452fe2c1de4faea7c1f22b375ed40e97f8609af1"
+    },
+    "work/ic-build/PMP2mod_random.f90": {
+      "bytes": 13195,
+      "mode": 420,
+      "mtime_ns": 1776226878000000000,
+      "device": 56918434,
+      "inode": 198160013510951201,
+      "kind": "file",
+      "sha256": "3b8eca39991da447d868c9c7ca1407e53d9ab6f0075789270d0e244c6a6258e8"
+    },
+    "work/ic-build/PMP2mod_random.o": {
+      "bytes": 12656,
+      "mode": 420,
+      "mtime_ns": 1788825184000000000,
+      "device": 56918434,
+      "inode": 198160013510951209,
+      "kind": "file",
+      "sha256": "dc56a1f0a63595d6218a17e0aef6c0e7897bfbc8dfc3d55f39f54083acb3c9eb"
+    },
+    "work/ic-build/PMP2mod_tools.f90": {
+      "bytes": 23316,
+      "mode": 420,
+      "mtime_ns": 1788266740000000000,
+      "device": 56918434,
+      "inode": 198160013510951200,
+      "kind": "file",
+      "sha256": "c40db0bcdf20413878e2fc91262293f47dc322d9ab846ea146fe2b7d12e1e0fb"
+    },
+    "work/ic-build/PMP2mod_tools.o": {
+      "bytes": 74720,
+      "mode": 420,
+      "mtime_ns": 1788825183000000000,
+      "device": 56918434,
+      "inode": 198160013510951206,
+      "kind": "file",
+      "sha256": "b1c1f1130ef0e695bb1afbc56d626a263176cb4a13b4d283eb5c3bce23ba464f"
+    },
+    "work/ic-build/PMP2start.matched.exe": {
+      "bytes": 1088712,
+      "mode": 493,
+      "mtime_ns": 1788825187000000000,
+      "device": 56918434,
+      "inode": 198160013510951214,
+      "kind": "file",
+      "sha256": "0971fca65c274382b65dc2e2f254a2360d2e7e5ae7a6fcd0f0e59a06d0de2f34"
+    },
+    "work/ic-build/PMP2start.matched.f90": {
+      "bytes": 32815,
+      "mode": 420,
+      "mtime_ns": 1788825182000000000,
+      "device": 56918434,
+      "inode": 198160013510951199,
+      "kind": "file",
+      "sha256": "49ed4701ee3263c5890d0c89ab9b583c881652cfbcd1415d132367cf5ba8412b"
+    },
+    "work/ic-build/PMP2start.matched.o": {
+      "bytes": 114784,
+      "mode": 420,
+      "mtime_ns": 1788825186000000000,
+      "device": 56918434,
+      "inode": 198160013510951213,
+      "kind": "file",
+      "sha256": "a56f2a04cc60349907278c7347fe9091559ed66c84ffaa0c78eb106ba7adb02b"
+    },
+    "work/ic-build/build.json": {
+      "bytes": 2114,
+      "mode": 420,
+      "mtime_ns": 1788825187000000000,
+      "device": 56918434,
+      "inode": 198160013510951215,
+      "kind": "file",
+      "sha256": "15212594c5243f7c35700bf35b1ca037bb2d6abca253d9c9ba12e6523bb2a5b4"
+    },
+    "work/ic-build/build.log": {
+      "bytes": 93,
+      "mode": 420,
+      "mtime_ns": 1788825187000000000,
+      "device": 56918434,
+      "inode": 198160013510951204,
+      "kind": "file",
+      "sha256": "2a7a8daf2d38c46938f8b054dc3343b7b5819c71f0faf13ca3857b422dfb3ca8"
+    },
+    "work/ic-build/fft5.mod": {
+      "bytes": 31680,
+      "mode": 420,
+      "mtime_ns": 1788825184000000000,
+      "device": 56918434,
+      "inode": 198160013510951210,
+      "kind": "file",
+      "sha256": "0d71ac9e87b6b0bca9404d56503299a641ad795fdc605b95ba36a749d6364565"
+    },
+    "work/ic-build/luxury.mod": {
+      "bytes": 1605,
+      "mode": 420,
+      "mtime_ns": 1788825184000000000,
+      "device": 56918434,
+      "inode": 198160013510951207,
+      "kind": "file",
+      "sha256": "849399af6034a36304f1767454c0bec47e9307334fb6c23b1b04d86852a5591d"
+    },
+    "work/ic-build/luxuryp.h": {
+      "bytes": 1108,
+      "mode": 420,
+      "mtime_ns": 1776226879000000000,
+      "device": 56918434,
+      "inode": 198160013510951203,
+      "kind": "file",
+      "sha256": "ca26e590488d836593d330385e4f2e872932dd29966f78c83c1bc96b3b107836"
+    },
+    "work/ic-build/random.mod": {
+      "bytes": 12418,
+      "mode": 420,
+      "mtime_ns": 1788825184000000000,
+      "device": 56918434,
+      "inode": 198160013510951208,
+      "kind": "file",
+      "sha256": "ac9d1dabeed72d3ed38dff13f668fb1a93d2a74637866f8986e55ae8605f6080"
+    },
+    "work/ic-build/setinitialconditions.mod": {
+      "bytes": 25682,
+      "mode": 420,
+      "mtime_ns": 1788825185000000000,
+      "device": 56918434,
+      "inode": 198160013510951212,
+      "kind": "file",
+      "sha256": "3473056ee1e0975ecab959d3cad7feee06a5ffff103a4f3fd363b40ae38de686"
+    },
+    "work/ic-build/tools.mod": {
+      "bytes": 13644,
+      "mode": 420,
+      "mtime_ns": 1788825183000000000,
+      "device": 56918434,
+      "inode": 198160013510951205,
+      "kind": "file",
+      "sha256": "e187843a9c6593a4baf83ed6c5c7262d2fa3a1cf5fd84b80900b219475436615"
+    },
+    "work/native-build/PMP2linker.legacy.f90": {
+      "bytes": 82003,
+      "mode": 420,
+      "mtime_ns": 1788824705000000000,
+      "device": 56918434,
+      "inode": 198160013510950867,
+      "kind": "file",
+      "sha256": "05c8d604977175568ca9e3b85d90e323c69a313781d4b2696e1d75bfc232fb5c"
+    },
+    "work/native-build/common-ready.json": {
+      "bytes": 23969,
+      "mode": 420,
+      "mtime_ns": 1788824814000000000,
+      "device": 56918434,
+      "inode": 198160013510950964,
+      "kind": "file",
+      "sha256": "6576ff280fe5c45ffcfe98024af8fadaa09b8ce8503bd8af1efc537f985e5f99"
+    },
+    "work/native-build/production/AverageBispectrum.f90": {
+      "bytes": 2414,
+      "mode": 420,
+      "mtime_ns": 1776226877000000000,
+      "device": 56918434,
+      "inode": 198160013510950820,
+      "kind": "file",
+      "sha256": "119c00b67d1ab507e21533508ec946841886635f11d4a3f2b6df140b0318d2fc"
+    },
+    "work/native-build/production/AveragePk.f90": {
+      "bytes": 1509,
+      "mode": 420,
+      "mtime_ns": 1776226877000000000,
+      "device": 56918434,
+      "inode": 198160013510950821,
+      "kind": "file",
+      "sha256": "f92fb983583fc79c5d9eada9f448784a58004a7641f07d8bbca7d31b6f7334b4"
+    },
+    "work/native-build/production/Massfunction.f90": {
+      "bytes": 80653,
+      "mode": 420,
+      "mtime_ns": 1788266739000000000,
+      "device": 56918434,
+      "inode": 198160013510950822,
+      "kind": "file",
+      "sha256": "8b1c30f459e6da82f3bb274b9045b7ff4a567d41e243d45a415063b021abe77d"
+    },
+    "work/native-build/production/PMP2BDM.exe": {
+      "bytes": 1143848,
+      "mode": 493,
+      "mtime_ns": 1788824806000000000,
+      "device": 56918434,
+      "inode": 198160013510950945,
+      "kind": "file",
+      "sha256": "8db8f233f0c381a06d0c5fc9749c687fa2fb08c9da7de968ff80af0a0b6a1d98"
+    },
+    "work/native-build/production/PMP2MG_subroutines.f90": {
+      "bytes": 41597,
+      "mode": 420,
+      "mtime_ns": 1776226877000000000,
+      "device": 56918434,
+      "inode": 198160013510950823,
+      "kind": "file",
+      "sha256": "128e0f3f17885a90baf42f90fb8e79a152354c5b476fd56ee7f1637bf15a1dbc"
+    },
+    "work/native-build/production/PMP2MG_subroutines.o": {
+      "bytes": 25160,
+      "mode": 420,
+      "mtime_ns": 1788824742000000000,
+      "device": 56918434,
+      "inode": 198160013510950892,
+      "kind": "file",
+      "sha256": "d491d3fe734348f3a0922d1e7ef0e0fde31f3347f3816e68e3bb995894c0505b"
+    },
+    "work/native-build/production/PMP2MG_subroutines.opt.yaml": {
+      "bytes": 343787,
+      "mode": 420,
+      "mtime_ns": 1788824743000000000,
+      "device": 56918434,
+      "inode": 198160013510950891,
+      "kind": "file",
+      "sha256": "62419c28cf791c243831ab5d4b7d529d65d05ae506f9163b580ff11e864962f1"
+    },
+    "work/native-build/production/PMP2MG_subroutines.optrpt": {
+      "bytes": 19719,
+      "mode": 420,
+      "mtime_ns": 1788824743000000000,
+      "device": 56918434,
+      "inode": 198160013510950893,
+      "kind": "file",
+      "sha256": "b46e8ca8715b5ade70e34f48afc677927ecdf822495f59d43ba2bbb1194cca2f"
+    },
+    "work/native-build/production/PMP2MGsolver_DGP.f90": {
+      "bytes": 58001,
+      "mode": 420,
+      "mtime_ns": 1776370664000000000,
+      "device": 56918434,
+      "inode": 198160013510950824,
+      "kind": "file",
+      "sha256": "985ad50a2a754bbf23358244c1880c707ae45a8ca38ac9aac27a16d7ade9734d"
+    },
+    "work/native-build/production/PMP2MGsolver_DGP.o": {
+      "bytes": 59928,
+      "mode": 420,
+      "mtime_ns": 1788824782000000000,
+      "device": 56918434,
+      "inode": 198160013510950924,
+      "kind": "file",
+      "sha256": "618dc313b6ce7a4633a63479d63c1db8a8eb66c85ff5ae5d6f0ae79f65b49157"
+    },
+    "work/native-build/production/PMP2MGsolver_DGP.opt.yaml": {
+      "bytes": 395641,
+      "mode": 420,
+      "mtime_ns": 1788824783000000000,
+      "device": 56918434,
+      "inode": 198160013510950923,
+      "kind": "file",
+      "sha256": "b0747f31a2f6aecfca974e4b71c59e280c61c2d021675400f3e1395dec36c4ec"
+    },
+    "work/native-build/production/PMP2MGsolver_DGP.optrpt": {
+      "bytes": 37257,
+      "mode": 420,
+      "mtime_ns": 1788824783000000000,
+      "device": 56918434,
+      "inode": 198160013510950925,
+      "kind": "file",
+      "sha256": "3b4bae5b82fdf9024258b5087d4af83197f85ca71264754500184b4b1c941e91"
+    },
+    "work/native-build/production/PMP2MGsolver_csf.f90": {
+      "bytes": 25833,
+      "mode": 420,
+      "mtime_ns": 1776370626000000000,
+      "device": 56918434,
+      "inode": 198160013510950825,
+      "kind": "file",
+      "sha256": "31e7c8f561ea135944abd07c4d578967a86405e7dba719e44b9a26466cca6a88"
+    },
+    "work/native-build/production/PMP2MGsolver_csf.o": {
+      "bytes": 62064,
+      "mode": 420,
+      "mtime_ns": 1788824794000000000,
+      "device": 56918434,
+      "inode": 198160013510950935,
+      "kind": "file",
+      "sha256": "8a0c8c2d07c3327a7e4e94ec61aa51868fedc7e329d01a4350f19c35b09a1063"
+    },
+    "work/native-build/production/PMP2MGsolver_csf.opt.yaml": {
+      "bytes": 619239,
+      "mode": 420,
+      "mtime_ns": 1788824794000000000,
+      "device": 56918434,
+      "inode": 198160013510950932,
+      "kind": "file",
+      "sha256": "797cf6fd9df2cc785670b7cc989ee3cbe602322248c21481418bf8d999055484"
+    },
+    "work/native-build/production/PMP2MGsolver_csf.optrpt": {
+      "bytes": 104034,
+      "mode": 420,
+      "mtime_ns": 1788824794000000000,
+      "device": 56918434,
+      "inode": 198160013510950936,
+      "kind": "file",
+      "sha256": "83901ffce722ca9bea35c37442f190bb09ca656d51665000442aa80593ac14d4"
+    },
+    "work/native-build/production/PMP2MGsolver_fR.f90": {
+      "bytes": 51752,
+      "mode": 420,
+      "mtime_ns": 1776376661000000000,
+      "device": 56918434,
+      "inode": 198160013510950826,
+      "kind": "file",
+      "sha256": "e64c83a8a8ea404d106a7be02b2f62d334a5bd15ca34a55edf7d5d516c6cca20"
+    },
+    "work/native-build/production/PMP2MGsolver_fR.o": {
+      "bytes": 156312,
+      "mode": 420,
+      "mtime_ns": 1788824775000000000,
+      "device": 56918434,
+      "inode": 198160013510950918,
+      "kind": "file",
+      "sha256": "f9b9025b7d97fcc8bf9c90d8332591f9ec711f047a238f9ca0dff5d211af0eea"
+    },
+    "work/native-build/production/PMP2MGsolver_fR.opt.yaml": {
+      "bytes": 1360923,
+      "mode": 420,
+      "mtime_ns": 1788824777000000000,
+      "device": 56918434,
+      "inode": 198160013510950917,
+      "kind": "file",
+      "sha256": "2d0af2395cbfd7f3851b4c84fd0d36fdd378cdeb4bccc7854e625e8342fb4f1f"
+    },
+    "work/native-build/production/PMP2MGsolver_fR.optrpt": {
+      "bytes": 52695,
+      "mode": 420,
+      "mtime_ns": 1788824777000000000,
+      "device": 56918434,
+      "inode": 198160013510950919,
+      "kind": "file",
+      "sha256": "4f873c52264a2db9d3211b2226e7244f323e381e27414de288d7768f168ac65f"
+    },
+    "work/native-build/production/PMP2MGsolver_kmf.f90": {
+      "bytes": 70478,
+      "mode": 420,
+      "mtime_ns": 1776370795000000000,
+      "device": 56918434,
+      "inode": 198160013510950827,
+      "kind": "file",
+      "sha256": "f46433a9ee2bc2689381beb32931c8015f0243f147c0e3cfd86de322a6b60967"
+    },
+    "work/native-build/production/PMP2MGsolver_kmf.o": {
+      "bytes": 90584,
+      "mode": 420,
+      "mtime_ns": 1788824790000000000,
+      "device": 56918434,
+      "inode": 198160013510950930,
+      "kind": "file",
+      "sha256": "d944bf269119578a65c3856c66178b0ab87afca7495e8e43e2a80a068d347b84"
+    },
+    "work/native-build/production/PMP2MGsolver_kmf.opt.yaml": {
+      "bytes": 573554,
+      "mode": 420,
+      "mtime_ns": 1788824790000000000,
+      "device": 56918434,
+      "inode": 198160013510950929,
+      "kind": "file",
+      "sha256": "b0d33e5f583f9b19b048c4e77f84414238d19c5f4455417623bc977fe7e02cc8"
+    },
+    "work/native-build/production/PMP2MGsolver_kmf.optrpt": {
+      "bytes": 70601,
+      "mode": 420,
+      "mtime_ns": 1788824790000000000,
+      "device": 56918434,
+      "inode": 198160013510950931,
+      "kind": "file",
+      "sha256": "f6e95551980dd576335668358a58c49c5605c6e6b82654f9697ab72a87bd44a0"
+    },
+    "work/native-build/production/PMP2MGsolver_sym.f90": {
+      "bytes": 19673,
+      "mode": 420,
+      "mtime_ns": 1776370693000000000,
+      "device": 56918434,
+      "inode": 198160013510950828,
+      "kind": "file",
+      "sha256": "84bcec5eaaf1054b72db7147b842b3b83952bdf72e9cb80523431e08cbedaf6c"
+    },
+    "work/native-build/production/PMP2MGsolver_sym.o": {
+      "bytes": 51624,
+      "mode": 420,
+      "mtime_ns": 1788824787000000000,
+      "device": 56918434,
+      "inode": 198160013510950927,
+      "kind": "file",
+      "sha256": "b708aff01eeccdeb74e813e34f311137b77358eb3d644bc5d8016b3b695b58f1"
+    },
+    "work/native-build/production/PMP2MGsolver_sym.opt.yaml": {
+      "bytes": 405304,
+      "mode": 420,
+      "mtime_ns": 1788824787000000000,
+      "device": 56918434,
+      "inode": 198160013510950926,
+      "kind": "file",
+      "sha256": "b548a5434c6f87b3957f4eee28413e51fe362ce7597bcee39093b0e644558d8e"
+    },
+    "work/native-build/production/PMP2MGsolver_sym.optrpt": {
+      "bytes": 40285,
+      "mode": 420,
+      "mtime_ns": 1788824787000000000,
+      "device": 56918434,
+      "inode": 198160013510950928,
+      "kind": "file",
+      "sha256": "5d12dc566bae36522aaf6f929e6e05168c65b36ea2a82c13c5e91bb4b6a8a6ad"
+    },
+    "work/native-build/production/PMP2analyze.f90": {
+      "bytes": 1357,
+      "mode": 420,
+      "mtime_ns": 1776226877000000000,
+      "device": 56918434,
+      "inode": 198160013510950829,
+      "kind": "file",
+      "sha256": "ee116ae532dfdadb41e07b8017bcb4c655e52ce22a8c86d0d3c5039e43911cce"
+    },
+    "work/native-build/production/PMP2bdm.f90": {
+      "bytes": 1282,
+      "mode": 420,
+      "mtime_ns": 1780567066000000000,
+      "device": 56918434,
+      "inode": 198160013510950830,
+      "kind": "file",
+      "sha256": "99fe4f521881aaf462ca650e0990a44fcd82ce113b8204931eff684baffcd766"
+    },
+    "work/native-build/production/PMP2bdm.o": {
+      "bytes": 8728,
+      "mode": 420,
+      "mtime_ns": 1788824804000000000,
+      "device": 56918434,
+      "inode": 198160013510950943,
+      "kind": "file",
+      "sha256": "00a1004e17338f911fc3d7a9902d6d300f23b1fcf4e3e9eb43b59ffb7939257d"
+    },
+    "work/native-build/production/PMP2bdm.opt.yaml": {
+      "bytes": 31391,
+      "mode": 420,
+      "mtime_ns": 1788824805000000000,
+      "device": 56918434,
+      "inode": 198160013510950942,
+      "kind": "file",
+      "sha256": "06217cf9b289a62eca917c8f5abea13d84294a6344023859092bc8fb7628172a"
+    },
+    "work/native-build/production/PMP2bdm.optrpt": {
+      "bytes": 698,
+      "mode": 420,
+      "mtime_ns": 1788824805000000000,
+      "device": 56918434,
+      "inode": 198160013510950944,
+      "kind": "file",
+      "sha256": "e93b7e86b6573f0aaba58fc214e77255edcb0cdc7e8da02f5eb952ea342ce6d3"
+    },
+    "work/native-build/production/PMP2catalReform.f90": {
+      "bytes": 3504,
+      "mode": 493,
+      "mtime_ns": 1788266739000000000,
+      "device": 56918434,
+      "inode": 198160013510950831,
+      "kind": "file",
+      "sha256": "ebb857911929711fc1cfc3a42f4a65f4ed73933891d03b2d14b38a6080a89e29"
+    },
+    "work/native-build/production/PMP2catalogCorrect.f90": {
+      "bytes": 20572,
+      "mode": 420,
+      "mtime_ns": 1788266740000000000,
+      "device": 56918434,
+      "inode": 198160013510950832,
+      "kind": "file",
+      "sha256": "1df9edb128f0561efce0d10139f5674b933246bc28d8db4f3df28a14e79248b4"
+    },
+    "work/native-build/production/PMP2correlation.f90": {
+      "bytes": 43468,
+      "mode": 420,
+      "mtime_ns": 1788266740000000000,
+      "device": 56918434,
+      "inode": 198160013510950833,
+      "kind": "file",
+      "sha256": "774249be21ed3a2bc11479d64d92e4dfb45e0d130bd193cea2085fe023e337ae"
+    },
+    "work/native-build/production/PMP2density.f90": {
+      "bytes": 3052,
+      "mode": 420,
+      "mtime_ns": 1776226878000000000,
+      "device": 56918434,
+      "inode": 198160013510950834,
+      "kind": "file",
+      "sha256": "c3cb79f5d4f1d5315ecb4edc94120674f9df1eda563e8bdc48bf79b47594682f"
+    },
+    "work/native-build/production/PMP2extradof.f90": {
+      "bytes": 60394,
+      "mode": 420,
+      "mtime_ns": 1776370824000000000,
+      "device": 56918434,
+      "inode": 198160013510950835,
+      "kind": "file",
+      "sha256": "d741567059e23c36fcc37762ed3b323145bd5e770b379adfa1368639b15af87d"
+    },
+    "work/native-build/production/PMP2extradof.o": {
+      "bytes": 152904,
+      "mode": 420,
+      "mtime_ns": 1788824778000000000,
+      "device": 56918434,
+      "inode": 198160013510950921,
+      "kind": "file",
+      "sha256": "45ff5e75399a9d37e4ce7820d9a4e41e80a7e531aadcd6875fe0b85fffc14645"
+    },
+    "work/native-build/production/PMP2extradof.opt.yaml": {
+      "bytes": 2123440,
+      "mode": 420,
+      "mtime_ns": 1788824780000000000,
+      "device": 56918434,
+      "inode": 198160013510950920,
+      "kind": "file",
+      "sha256": "07a62d3c5f316e08340efa8a25b13fd66a7d545e84bc3c46fcf5b1f9498122bf"
+    },
+    "work/native-build/production/PMP2extradof.optrpt": {
+      "bytes": 75623,
+      "mode": 420,
+      "mtime_ns": 1788824779000000000,
+      "device": 56918434,
+      "inode": 198160013510950922,
+      "kind": "file",
+      "sha256": "e40a36a74cac1a6300851b31c2910bad127cfb78ffd94c5599d89e77653c9da1"
+    },
+    "work/native-build/production/PMP2formatFiles.f90": {
+      "bytes": 1298,
+      "mode": 420,
+      "mtime_ns": 1776226878000000000,
+      "device": 56918434,
+      "inode": 198160013510950836,
+      "kind": "file",
+      "sha256": "e7f26617ead8f8db4d323458b3a0a7ebb6f6507b954a96c87612b4cc17389f44"
+    },
+    "work/native-build/production/PMP2haloStat.f90": {
+      "bytes": 62109,
+      "mode": 420,
+      "mtime_ns": 1788266740000000000,
+      "device": 56918434,
+      "inode": 198160013510950837,
+      "kind": "file",
+      "sha256": "6fcc2c14aababa6a8288a5c8a9f3da8aaaffe127414eb28af016fafdd5957b7a"
+    },
+    "work/native-build/production/PMP2init.exe": {
+      "bytes": 122064,
+      "mode": 493,
+      "mtime_ns": 1788824727000000000,
+      "device": 56918434,
+      "inode": 198160013510950881,
+      "kind": "file",
+      "sha256": "36425f022e6ba14cf117167b8a735c5cb16e30f612b66badd2f8f4ea1ddebd14"
+    },
+    "work/native-build/production/PMP2init.f90": {
+      "bytes": 36346,
+      "mode": 420,
+      "mtime_ns": 1787753892000000000,
+      "device": 56918434,
+      "inode": 198160013510950838,
+      "kind": "file",
+      "sha256": "5978546b1ba8efdaae512c22c31d764fb852dc0117d78e42950917870fa0a111"
+    },
+    "work/native-build/production/PMP2init.o": {
+      "bytes": 171424,
+      "mode": 420,
+      "mtime_ns": 1788824727000000000,
+      "device": 56918434,
+      "inode": 198160013510950879,
+      "kind": "file",
+      "sha256": "0b6ef2547e1c4bef5b0233ffb14ca0a2caf675e1276d2b11ff3ef563c91a85dd"
+    },
+    "work/native-build/production/PMP2init.opt.yaml": {
+      "bytes": 1101780,
+      "mode": 420,
+      "mtime_ns": 1788824727000000000,
+      "device": 56918434,
+      "inode": 198160013510950877,
+      "kind": "file",
+      "sha256": "f92cfaa4516963f97b68e949a7b711625d1c18af8abf92e1204fcd2b53ccd761"
+    },
+    "work/native-build/production/PMP2init.optrpt": {
+      "bytes": 28297,
+      "mode": 420,
+      "mtime_ns": 1788824727000000000,
+      "device": 56918434,
+      "inode": 198160013510950880,
+      "kind": "file",
+      "sha256": "e2f966052bd05afc4fea96f791f3b6ee4e8cdb867545496a58a870b872908c42"
+    },
+    "work/native-build/production/PMP2linker.f90": {
+      "bytes": 95367,
+      "mode": 420,
+      "mtime_ns": 1788718127000000000,
+      "device": 56918434,
+      "inode": 198160013510950839,
+      "kind": "file",
+      "sha256": "39f7e514d1db9fb3b9c7545fc7f3269b4e20b5ee2d1366945f8916b997e4cd5d"
+    },
+    "work/native-build/production/PMP2linker.o": {
+      "bytes": 388432,
+      "mode": 420,
+      "mtime_ns": 1788824769000000000,
+      "device": 56918434,
+      "inode": 198160013510950911,
+      "kind": "file",
+      "sha256": "5d539cd9870ac0a8456a91ce3419fd045e505f64a8114e0e4e3d05a88d8dc8aa"
+    },
+    "work/native-build/production/PMP2linker.opt.yaml": {
+      "bytes": 11130721,
+      "mode": 420,
+      "mtime_ns": 1788824769000000000,
+      "device": 56918434,
+      "inode": 198160013510950907,
+      "kind": "file",
+      "sha256": "a1ecb0c9570e53cd1869d7568e6e867f49c7cadb358d3910258d88bef918c2e9"
+    },
+    "work/native-build/production/PMP2linker.optrpt": {
+      "bytes": 177902,
+      "mode": 420,
+      "mtime_ns": 1788824769000000000,
+      "device": 56918434,
+      "inode": 198160013510950912,
+      "kind": "file",
+      "sha256": "6dd9cae8d3aa75f867a5b8d9ed13c77f87081d22aea218dc583c98f31efa8958"
+    },
+    "work/native-build/production/PMP2main.exe": {
+      "bytes": 1246168,
+      "mode": 493,
+      "mtime_ns": 1788824803000000000,
+      "device": 56918434,
+      "inode": 198160013510950941,
+      "kind": "file",
+      "sha256": "8572a762f67cf9bb1f5f6ac1adae11b9b793aadc307dde8817c3e3458839592e"
+    },
+    "work/native-build/production/PMP2main.f90": {
+      "bytes": 42035,
+      "mode": 420,
+      "mtime_ns": 1787753892000000000,
+      "device": 56918434,
+      "inode": 198160013510950840,
+      "kind": "file",
+      "sha256": "487f9835ae1a73a41c84e31c138e356c2700aeb3a798304f53e7610594b2f0bb"
+    },
+    "work/native-build/production/PMP2main.o": {
+      "bytes": 162400,
+      "mode": 420,
+      "mtime_ns": 1788824800000000000,
+      "device": 56918434,
+      "inode": 198160013510950939,
+      "kind": "file",
+      "sha256": "576da87e745169d3558db5d83d86a5f96ce25d312035c664d22c9672817912be"
+    },
+    "work/native-build/production/PMP2main.opt.yaml": {
+      "bytes": 2508922,
+      "mode": 420,
+      "mtime_ns": 1788824801000000000,
+      "device": 56918434,
+      "inode": 198160013510950937,
+      "kind": "file",
+      "sha256": "0e879450d4816a76431a04d8e57e61d85c203cf18565a712b56b2c86688931cc"
+    },
+    "work/native-build/production/PMP2main.optrpt": {
+      "bytes": 39466,
+      "mode": 420,
+      "mtime_ns": 1788824800000000000,
+      "device": 56918434,
+      "inode": 198160013510950940,
+      "kind": "file",
+      "sha256": "e6750f7bd4aff903d624b5e6b36058ef38ab628d8e545b2655d3ce6c7cb36f4c"
+    },
+    "work/native-build/production/PMP2mainMPI.f90": {
+      "bytes": 22264,
+      "mode": 420,
+      "mtime_ns": 1787753892000000000,
+      "device": 56918434,
+      "inode": 198160013510950841,
+      "kind": "file",
+      "sha256": "edc0c750b4c9f02c07881b87455f111b638f0b47ef7d62c1ff7b3bebc0bb689d"
+    },
+    "work/native-build/production/PMP2mod_MGbackground.f90": {
+      "bytes": 31651,
+      "mode": 420,
+      "mtime_ns": 1776226878000000000,
+      "device": 56918434,
+      "inode": 198160013510950842,
+      "kind": "file",
+      "sha256": "cd4b9fc2f9dca17c06c1be53ca9739437a4c9731eebeec34c6b429cacd763860"
+    },
+    "work/native-build/production/PMP2mod_MGbackground.o": {
+      "bytes": 55288,
+      "mode": 420,
+      "mtime_ns": 1788824716000000000,
+      "device": 56918434,
+      "inode": 198160013510950874,
+      "kind": "file",
+      "sha256": "a309b76b56b98fdc3f2594895e65e702187e32e7e362acb4f3756db2b91fb5ce"
+    },
+    "work/native-build/production/PMP2mod_MGbackground.opt.yaml": {
+      "bytes": 409722,
+      "mode": 420,
+      "mtime_ns": 1788824718000000000,
+      "device": 56918434,
+      "inode": 198160013510950872,
+      "kind": "file",
+      "sha256": "f0b4575e25b1387ab96777d74de5de081db2bcf9e5df2440338d682e190e6942"
+    },
+    "work/native-build/production/PMP2mod_MGbackground.optrpt": {
+      "bytes": 13940,
+      "mode": 420,
+      "mtime_ns": 1788824718000000000,
+      "device": 56918434,
+      "inode": 198160013510950875,
+      "kind": "file",
+      "sha256": "2ff1902a9bfd095ce74800f2e65be656771d376058749db5901753b8d9f7d9e7"
+    },
+    "work/native-build/production/PMP2mod_analyze.f90": {
+      "bytes": 14247,
+      "mode": 420,
+      "mtime_ns": 1776226878000000000,
+      "device": 56918434,
+      "inode": 198160013510950843,
+      "kind": "file",
+      "sha256": "444918cac15c7486718dcf6a7cf65e3fe21ad06b9bd9d0653dea0d83d6ae42fb"
+    },
+    "work/native-build/production/PMP2mod_analyze.o": {
+      "bytes": 64144,
+      "mode": 420,
+      "mtime_ns": 1788824770000000000,
+      "device": 56918434,
+      "inode": 198160013510950915,
+      "kind": "file",
+      "sha256": "3f7c8d84f5e82542ad0b301a703973e4b99e0be0038d3ae54e089baa6f046769"
+    },
+    "work/native-build/production/PMP2mod_analyze.opt.yaml": {
+      "bytes": 1215819,
+      "mode": 420,
+      "mtime_ns": 1788824771000000000,
+      "device": 56918434,
+      "inode": 198160013510950913,
+      "kind": "file",
+      "sha256": "9555edbf26d54694c0f3754c89cf7ec479c6ac8fc987cc2df4ed575dd05efa7a"
+    },
+    "work/native-build/production/PMP2mod_analyze.optrpt": {
+      "bytes": 8087,
+      "mode": 420,
+      "mtime_ns": 1788824771000000000,
+      "device": 56918434,
+      "inode": 198160013510950916,
+      "kind": "file",
+      "sha256": "b79eb9618440f927a2a61def33755d253865e6fc7029ac3b7897ca0ddc86787e"
+    },
+    "work/native-build/production/PMP2mod_density.f90": {
+      "bytes": 43662,
+      "mode": 420,
+      "mtime_ns": 1788266740000000000,
+      "device": 56918434,
+      "inode": 198160013510950844,
+      "kind": "file",
+      "sha256": "199ad91667f32c068bab5882c08046c24970ca3caa0321d277cfc7d704e88ed3"
+    },
+    "work/native-build/production/PMP2mod_density.o": {
+      "bytes": 196568,
+      "mode": 420,
+      "mtime_ns": 1788824748000000000,
+      "device": 56918434,
+      "inode": 198160013510950896,
+      "kind": "file",
+      "sha256": "a8eca6f9e775df14c7d835b27b3d7a09d7552a7e9f5b6f9d8c187d7946181e3c"
+    },
+    "work/native-build/production/PMP2mod_density.opt.yaml": {
+      "bytes": 4545201,
+      "mode": 420,
+      "mtime_ns": 1788824751000000000,
+      "device": 56918434,
+      "inode": 198160013510950894,
+      "kind": "file",
+      "sha256": "b3c41af1f1e630b80ef1f428fb2bab6628b765d335113f1bb748923b2087ddfe"
+    },
+    "work/native-build/production/PMP2mod_density.optrpt": {
+      "bytes": 48329,
+      "mode": 420,
+      "mtime_ns": 1788824751000000000,
+      "device": 56918434,
+      "inode": 198160013510950897,
+      "kind": "file",
+      "sha256": "b2f13d15b72da57f09a399395af479474f9b0a84d777ae486f056c92ad08866e"
+    },
+    "work/native-build/production/PMP2mod_fft5.f90": {
+      "bytes": 56680,
+      "mode": 420,
+      "mtime_ns": 1776226878000000000,
+      "device": 56918434,
+      "inode": 198160013510950845,
+      "kind": "file",
+      "sha256": "1cf32f6d5271c55ef282ce9299a9235d2de673b32b0d83bfd9ca409ea13c08c9"
+    },
+    "work/native-build/production/PMP2mod_fft5.o": {
+      "bytes": 158456,
+      "mode": 420,
+      "mtime_ns": 1788824729000000000,
+      "device": 56918434,
+      "inode": 198160013510950884,
+      "kind": "file",
+      "sha256": "87be103d195d9edbeba41cc5f655d89ea2aab08e98b723273df0fa7a53cce5ef"
+    },
+    "work/native-build/production/PMP2mod_fft5.opt.yaml": {
+      "bytes": 962032,
+      "mode": 420,
+      "mtime_ns": 1788824730000000000,
+      "device": 56918434,
+      "inode": 198160013510950882,
+      "kind": "file",
+      "sha256": "6eff2765ab46882e532b36a91ed6804131b5b9726dd288fc9fc4f17d83b9aa2d"
+    },
+    "work/native-build/production/PMP2mod_fft5.optrpt": {
+      "bytes": 52570,
+      "mode": 420,
+      "mtime_ns": 1788824729000000000,
+      "device": 56918434,
+      "inode": 198160013510950885,
+      "kind": "file",
+      "sha256": "c5f3dbbc125ecbe7fabb9a8af707207b26272f0932d5f64b0876de21f10bc4fe"
+    },
+    "work/native-build/production/PMP2mod_power.f90": {
+      "bytes": 17617,
+      "mode": 420,
+      "mtime_ns": 1776226878000000000,
+      "device": 56918434,
+      "inode": 198160013510950846,
+      "kind": "file",
+      "sha256": "3bb942f8a7ed217e79057e9d523728ac5a56328c89c01c01075a82ed89d4f7e0"
+    },
+    "work/native-build/production/PMP2mod_power.o": {
+      "bytes": 109384,
+      "mode": 420,
+      "mtime_ns": 1788824754000000000,
+      "device": 56918434,
+      "inode": 198160013510950900,
+      "kind": "file",
+      "sha256": "2fb0579f0f9f60dfaf793bb169da14997ab84a37b1e6c5c389d7c395ced7757c"
+    },
+    "work/native-build/production/PMP2mod_power.opt.yaml": {
+      "bytes": 2756794,
+      "mode": 420,
+      "mtime_ns": 1788824755000000000,
+      "device": 56918434,
+      "inode": 198160013510950898,
+      "kind": "file",
+      "sha256": "d28addcf1696109b3befb749d811b0feaf543b42c3f446a4a0920d6d5b8bce6e"
+    },
+    "work/native-build/production/PMP2mod_power.optrpt": {
+      "bytes": 42513,
+      "mode": 420,
+      "mtime_ns": 1788824755000000000,
+      "device": 56918434,
+      "inode": 198160013510950901,
+      "kind": "file",
+      "sha256": "de2ea342bcceb72769b62f0708c84f1e3ee55c9ffc71d8a5bea276193512408b"
+    },
+    "work/native-build/production/PMP2mod_random.f90": {
+      "bytes": 13195,
+      "mode": 420,
+      "mtime_ns": 1776226878000000000,
+      "device": 56918434,
+      "inode": 198160013510950847,
+      "kind": "file",
+      "sha256": "3b8eca39991da447d868c9c7ca1407e53d9ab6f0075789270d0e244c6a6258e8"
+    },
+    "work/native-build/production/PMP2mod_random.o": {
+      "bytes": 38832,
+      "mode": 420,
+      "mtime_ns": 1788824734000000000,
+      "device": 56918434,
+      "inode": 198160013510950889,
+      "kind": "file",
+      "sha256": "87f6253c510ec3cb169e9949b2f19ad8e941b46fd98b7c06849f5ee1bd07ce23"
+    },
+    "work/native-build/production/PMP2mod_random.opt.yaml": {
+      "bytes": 157595,
+      "mode": 420,
+      "mtime_ns": 1788824736000000000,
+      "device": 56918434,
+      "inode": 198160013510950886,
+      "kind": "file",
+      "sha256": "371e4373ce69928c8ae68c8355b3faca3f496cc166222a3f3bcb15ac6aa5f8d1"
+    },
+    "work/native-build/production/PMP2mod_random.optrpt": {
+      "bytes": 18713,
+      "mode": 420,
+      "mtime_ns": 1788824736000000000,
+      "device": 56918434,
+      "inode": 198160013510950890,
+      "kind": "file",
+      "sha256": "e41321eb3ae57a7fe5faa4d480674be39c696bf45fdd897636097bd93217818c"
+    },
+    "work/native-build/production/PMP2mod_tools.f90": {
+      "bytes": 23316,
+      "mode": 420,
+      "mtime_ns": 1788266740000000000,
+      "device": 56918434,
+      "inode": 198160013510950848,
+      "kind": "file",
+      "sha256": "c40db0bcdf20413878e2fc91262293f47dc322d9ab846ea146fe2b7d12e1e0fb"
+    },
+    "work/native-build/production/PMP2mod_tools.o": {
+      "bytes": 111216,
+      "mode": 420,
+      "mtime_ns": 1788824710000000000,
+      "device": 56918434,
+      "inode": 198160013510950870,
+      "kind": "file",
+      "sha256": "dfd4d89d6ac64583b8f2940c5c382b0db5222674b08bcbb9940e786cf4ebe05d"
+    },
+    "work/native-build/production/PMP2mod_tools.opt.yaml": {
+      "bytes": 1934265,
+      "mode": 420,
+      "mtime_ns": 1788824711000000000,
+      "device": 56918434,
+      "inode": 198160013510950868,
+      "kind": "file",
+      "sha256": "54621b9aae61c4ea19d7ee157f98734e8da9c948e09c6d0ec1f3301fdd37ac23"
+    },
+    "work/native-build/production/PMP2mod_tools.optrpt": {
+      "bytes": 18039,
+      "mode": 420,
+      "mtime_ns": 1788824711000000000,
+      "device": 56918434,
+      "inode": 198160013510950871,
+      "kind": "file",
+      "sha256": "4f14856100fb10257b49f582f02ca1b3fdc13b076fca3531201dccbc5c6ae4c2"
+    },
+    "work/native-build/production/PMP2power.f90": {
+      "bytes": 25548,
+      "mode": 493,
+      "mtime_ns": 1776226878000000000,
+      "device": 56918434,
+      "inode": 198160013510950849,
+      "kind": "file",
+      "sha256": "cf6c0c99d5e6819648626cae23381a4be7858985e0adf77048cfe280c527a3b7"
+    },
+    "work/native-build/production/PMP2powerSSC.f90": {
+      "bytes": 16212,
+      "mode": 493,
+      "mtime_ns": 1776226879000000000,
+      "device": 56918434,
+      "inode": 198160013510950850,
+      "kind": "file",
+      "sha256": "e5a555dd9e602ff93460b4b3f90bce9e3f7a4186626bc53f9d576075159eefe3"
+    },
+    "work/native-build/production/PMP2readFiles.f90": {
+      "bytes": 7846,
+      "mode": 420,
+      "mtime_ns": 1776226879000000000,
+      "device": 56918434,
+      "inode": 198160013510950851,
+      "kind": "file",
+      "sha256": "18ec7c4e5acd8f3cb00f422572f033dafeb7b33662b4210dd84c36352668c27b"
+    },
+    "work/native-build/production/PMP2spectrum.f90": {
+      "bytes": 1513,
+      "mode": 420,
+      "mtime_ns": 1776226879000000000,
+      "device": 56918434,
+      "inode": 198160013510950852,
+      "kind": "file",
+      "sha256": "318594381c772eaf76fce54c4b872219ef9e432a5d65de794ab682943104059f"
+    },
+    "work/native-build/production/PMP2start.exe": {
+      "bytes": 579424,
+      "mode": 493,
+      "mtime_ns": 1788824761000000000,
+      "device": 56918434,
+      "inode": 198160013510950906,
+      "kind": "file",
+      "sha256": "529ee12f75a03624ee38da5876cb15ab7c00a1afeb954ca80e77741dd03a473e"
+    },
+    "work/native-build/production/PMP2start.f90": {
+      "bytes": 29003,
+      "mode": 420,
+      "mtime_ns": 1785609481000000000,
+      "device": 56918434,
+      "inode": 198160013510950853,
+      "kind": "file",
+      "sha256": "cf60bcf92c5620b3fd8428cbeaae2a56dc0177afb872f997df32c0280a8ecc4a"
+    },
+    "work/native-build/production/PMP2start.o": {
+      "bytes": 166288,
+      "mode": 420,
+      "mtime_ns": 1788824759000000000,
+      "device": 56918434,
+      "inode": 198160013510950904,
+      "kind": "file",
+      "sha256": "319da04da53121743916f41175c05245dbe828693d1947bd6ec33060a6a8824a"
+    },
+    "work/native-build/production/PMP2start.opt.yaml": {
+      "bytes": 3125721,
+      "mode": 420,
+      "mtime_ns": 1788824760000000000,
+      "device": 56918434,
+      "inode": 198160013510950902,
+      "kind": "file",
+      "sha256": "d9ee60640f55fb65380d58a38f32a7df5e6534bbb064339afd931649c3ffb9f9"
+    },
+    "work/native-build/production/PMP2start.optrpt": {
+      "bytes": 49176,
+      "mode": 420,
+      "mtime_ns": 1788824760000000000,
+      "device": 56918434,
+      "inode": 198160013510950905,
+      "kind": "file",
+      "sha256": "e7fa0b48687b8075d4a239a770bbe8888ce5ec8f6b9bf4e525d2f7333cfa1fef"
+    },
+    "work/native-build/production/PMP2startMPI.f90": {
+      "bytes": 34138,
+      "mode": 420,
+      "mtime_ns": 1785609481000000000,
+      "device": 56918434,
+      "inode": 198160013510950854,
+      "kind": "file",
+      "sha256": "63a16fb3b7964fb6a2adc40abd21e9aab9db9adfe960baac28e5cb26bce2bb20"
+    },
+    "work/native-build/production/PMP2tunestepping.f90": {
+      "bytes": 5337,
+      "mode": 420,
+      "mtime_ns": 1776226879000000000,
+      "device": 56918434,
+      "inode": 198160013510950855,
+      "kind": "file",
+      "sha256": "99d9b9162bcab93e9494923d24bc2b681ae22b1c8274cc9dfc5b0ba90d5105e3"
+    },
+    "work/native-build/production/PMPcovariance.f90": {
+      "bytes": 6285,
+      "mode": 420,
+      "mtime_ns": 1776226879000000000,
+      "device": 56918434,
+      "inode": 198160013510950856,
+      "kind": "file",
+      "sha256": "878aaf616bd579eb5097e0bb4761c4d52e67062ffb958b9a2f4adeadf566dc52"
+    },
+    "work/native-build/production/analyze.mod": {
+      "bytes": 895,
+      "mode": 420,
+      "mtime_ns": 1788824769000000000,
+      "device": 56918434,
+      "inode": 198160013510950914,
+      "kind": "file",
+      "sha256": "da43b24d52ccfdec19c3a1143796a7c3a8cdc6e40241f87d124484d8c74c625e"
+    },
+    "work/native-build/production/bdmduplicaterules.mod": {
+      "bytes": 2243,
+      "mode": 420,
+      "mtime_ns": 1788824763000000000,
+      "device": 56918434,
+      "inode": 198160013510950908,
+      "kind": "file",
+      "sha256": "7dc46c768b2ad49659e3eafa84f313187295dcac0805c79ff83457ea33d9247f"
+    },
+    "work/native-build/production/density.mod": {
+      "bytes": 8417,
+      "mode": 420,
+      "mtime_ns": 1788824745000000000,
+      "device": 56918434,
+      "inode": 198160013510950895,
+      "kind": "file",
+      "sha256": "496d896133a812006cc46e322ef161269e081e6ab8a5fec7921d377fca01adcb"
+    },
+    "work/native-build/production/extradofbackgrounddata.mod": {
+      "bytes": 5887,
+      "mode": 420,
+      "mtime_ns": 1788824714000000000,
+      "device": 56918434,
+      "inode": 198160013510950873,
+      "kind": "file",
+      "sha256": "f5c17e4840d09235d94687c05d15c0186fcf32e5adfcc65d802eef1028a31c20"
+    },
+    "work/native-build/production/fft5.mod": {
+      "bytes": 31680,
+      "mode": 420,
+      "mtime_ns": 1788824727000000000,
+      "device": 56918434,
+      "inode": 198160013510950883,
+      "kind": "file",
+      "sha256": "d8c1c0d9e1654d0319a895e62fa6c4997c614def562853a0b584fd206ca54368"
+    },
+    "work/native-build/production/gadget2pm.f90": {
+      "bytes": 6604,
+      "mode": 420,
+      "mtime_ns": 1780566669000000000,
+      "device": 56918434,
+      "inode": 198160013510950857,
+      "kind": "file",
+      "sha256": "7b6156f94ebe88e3623572c1d82eed466164b5c9d002fbc622f15889700116ee"
+    },
+    "work/native-build/production/ic2pm.f90": {
+      "bytes": 9344,
+      "mode": 420,
+      "mtime_ns": 1785609484000000000,
+      "device": 56918434,
+      "inode": 198160013510950858,
+      "kind": "file",
+      "sha256": "b7c19a0393b38d85db09bd878e082a27c7513a5f62a3e0c69b0d14bcdfd5c96e"
+    },
+    "work/native-build/production/linkerlist.mod": {
+      "bytes": 30954,
+      "mode": 420,
+      "mtime_ns": 1788824766000000000,
+      "device": 56918434,
+      "inode": 198160013510950910,
+      "kind": "file",
+      "sha256": "7b203d33d2d947d3fb5d7b28982376c3f9c55126d65fe2a11af043a85afbc523"
+    },
+    "work/native-build/production/localdata.mod": {
+      "bytes": 1475,
+      "mode": 420,
+      "mtime_ns": 1788824810000000000,
+      "device": 56918434,
+      "inode": 198160013510950938,
+      "kind": "file",
+      "sha256": "638c01745aaa94a9d44cb8a7c667c50a54fb06c9de45ba21ec1a386a3b04822c"
+    },
+    "work/native-build/production/luxury.mod": {
+      "bytes": 1605,
+      "mode": 420,
+      "mtime_ns": 1788824731000000000,
+      "device": 56918434,
+      "inode": 198160013510950887,
+      "kind": "file",
+      "sha256": "3fbc483b8342f3cabde4a254cdea80a5a6c8fab65d1adf54c9f9a06af0d7176c"
+    },
+    "work/native-build/production/luxuryp.h": {
+      "bytes": 1108,
+      "mode": 420,
+      "mtime_ns": 1776226879000000000,
+      "device": 56918434,
+      "inode": 198160013510950861,
+      "kind": "file",
+      "sha256": "ca26e590488d836593d330385e4f2e872932dd29966f78c83c1bc96b3b107836"
+    },
+    "work/native-build/production/makefile": {
+      "bytes": 5896,
+      "mode": 420,
+      "mtime_ns": 1788718127000000000,
+      "device": 56918434,
+      "inode": 198160013510950862,
+      "kind": "file",
+      "sha256": "6d4a0127d52f22a5645d08ef788440687dfe82218b852b9d81b0e24c8536ec74"
+    },
+    "work/native-build/production/param.mod": {
+      "bytes": 8785,
+      "mode": 420,
+      "mtime_ns": 1788824725000000000,
+      "device": 56918434,
+      "inode": 198160013510950878,
+      "kind": "file",
+      "sha256": "b318e2b0ab74ba1d1543cc704a6bd1a3d9628d13af517c24e0441d4833b6e19a"
+    },
+    "work/native-build/production/power.mod": {
+      "bytes": 6209,
+      "mode": 420,
+      "mtime_ns": 1788824752000000000,
+      "device": 56918434,
+      "inode": 198160013510950899,
+      "kind": "file",
+      "sha256": "c304f4144ebb063f154ce8c9a4b24a0e73c4353fe74956818d7eb7f6aae34290"
+    },
+    "work/native-build/production/random.mod": {
+      "bytes": 12418,
+      "mode": 420,
+      "mtime_ns": 1788824732000000000,
+      "device": 56918434,
+      "inode": 198160013510950888,
+      "kind": "file",
+      "sha256": "4a399cb06c7a99d52c46f51990f376f6afab7dbbd9550a4691775d8aae08baa0"
+    },
+    "work/native-build/production/setinitialconditions.mod": {
+      "bytes": 19885,
+      "mode": 420,
+      "mtime_ns": 1788824757000000000,
+      "device": 56918434,
+      "inode": 198160013510950903,
+      "kind": "file",
+      "sha256": "45172d0d155beee6bd26ee2a519b22ed14f0050407470fb0d5b0e9681997feee"
+    },
+    "work/native-build/production/structures.mod": {
+      "bytes": 14958,
+      "mode": 420,
+      "mtime_ns": 1788824764000000000,
+      "device": 56918434,
+      "inode": 198160013510950909,
+      "kind": "file",
+      "sha256": "cbc1f691d021de43dde8cc385b36388c4dd8e77d719d4f0f4bc56533c9b063b4"
+    },
+    "work/native-build/production/testMemory.f90": {
+      "bytes": 1066,
+      "mode": 420,
+      "mtime_ns": 1776226879000000000,
+      "device": 56918434,
+      "inode": 198160013510950859,
+      "kind": "file",
+      "sha256": "4ec069a4b41fa5ea19f9ca82bcafe05eb7b5693e4c66b6ebc0763d905f9a23c3"
+    },
+    "work/native-build/production/testtOmp.f90": {
+      "bytes": 3406,
+      "mode": 420,
+      "mtime_ns": 1776226879000000000,
+      "device": 56918434,
+      "inode": 198160013510950860,
+      "kind": "file",
+      "sha256": "a35dbb2e8b7ccc866377c40d60b795b0d0c29d91aa83ab8321cdae838e98d4c1"
+    },
+    "work/native-build/production/tools.mod": {
+      "bytes": 13644,
+      "mode": 420,
+      "mtime_ns": 1788824709000000000,
+      "device": 56918434,
+      "inode": 198160013510950869,
+      "kind": "file",
+      "sha256": "d52aca9c65319ff30cbd1146fc1be728b96e6c504aa7adf9852f65d27ca7a2e0"
+    },
+    "work/pilots/E-t64-s4/Init.dat": {
+      "bytes": 1911,
+      "mode": 420,
+      "mtime_ns": 1788825468000000000,
+      "device": 56918434,
+      "inode": 198160015842869288,
+      "kind": "file",
+      "sha256": "ddb5c41b97e7f9ef9faead510bf4986b8b708568e3fc3011ea75777ed440fc3b"
+    },
+    "work/pilots/E-t64-s4/PkTable.dat": {
+      "bytes": 126,
+      "mode": 511,
+      "mtime_ns": 1788825468000000000,
+      "device": 56918434,
+      "inode": 198160015842869291,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/PkTable.dat"
+    },
+    "work/pilots/E-t64-s4/Run1/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788825468000000000,
+      "device": 56918434,
+      "inode": 198160015842869289,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/pilots/E-t64-s4/Run1/PMcrd.DAT": {
+      "bytes": 120,
+      "mode": 511,
+      "mtime_ns": 1788825469000000000,
+      "device": 56918434,
+      "inode": 198160015842869302,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/E/Run1/PMcrd.DAT"
+    },
+    "work/pilots/E-t64-s4/Run1/PMcrs0.DAT": {
+      "bytes": 121,
+      "mode": 511,
+      "mtime_ns": 1788825469000000000,
+      "device": 56918434,
+      "inode": 198160015842869301,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/E/Run1/PMcrs0.DAT"
+    },
+    "work/pilots/E-t64-s4/Run1/PMcrs1.DAT": {
+      "bytes": 121,
+      "mode": 511,
+      "mtime_ns": 1788825469000000000,
+      "device": 56918434,
+      "inode": 198160015842869303,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/E/Run1/PMcrs1.DAT"
+    },
+    "work/pilots/E-t64-s4/Run1/PMcrs2.DAT": {
+      "bytes": 121,
+      "mode": 511,
+      "mtime_ns": 1788825469000000000,
+      "device": 56918434,
+      "inode": 198160015842869304,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/E/Run1/PMcrs2.DAT"
+    },
+    "work/pilots/E-t64-s4/Run1/PMcrs3.DAT": {
+      "bytes": 121,
+      "mode": 511,
+      "mtime_ns": 1788825469000000000,
+      "device": 56918434,
+      "inode": 198160015842869300,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/E/Run1/PMcrs3.DAT"
+    },
+    "work/pilots/E-t64-s4/Run1/Run.log": {
+      "bytes": 1329,
+      "mode": 420,
+      "mtime_ns": 1788825566000000000,
+      "device": 56918434,
+      "inode": 198160015842869308,
+      "kind": "file",
+      "sha256": "59dbe71a8d25b3bdcd40cb8e5eeff2a7b5168c4c3d320bfec75166c070002375"
+    },
+    "work/pilots/E-t64-s4/Run1/campaign_schedule.dat": {
+      "bytes": 9967,
+      "mode": 420,
+      "mtime_ns": 1788825468000000000,
+      "device": 56918434,
+      "inode": 198160015842869290,
+      "kind": "file",
+      "sha256": "430ae3a5f8ffd67291947c46477904b726fdf02387cafc42b930e2937a89a1ba"
+    },
+    "work/pilots/E-t64-s4/Run1/evolve.json": {
+      "bytes": 3979,
+      "mode": 420,
+      "mtime_ns": 1788825566000000000,
+      "device": 56918434,
+      "inode": 198160015842869310,
+      "kind": "file",
+      "sha256": "d272271f375d1b7523197c7be1a2d4f1886f9e126c92dfb5212bf8f864c251ca"
+    },
+    "work/pilots/E-t64-s4/Run1/evolve.log": {
+      "bytes": 2626,
+      "mode": 420,
+      "mtime_ns": 1788825566000000000,
+      "device": 56918434,
+      "inode": 198160015842869306,
+      "kind": "file",
+      "sha256": "827e5452a79481bf0726df7b2e3b157e1fd8239b8c445b898524dbd94f036363"
+    },
+    "work/pilots/E-t64-s4/Run1/evolve.time": {
+      "bytes": 30,
+      "mode": 420,
+      "mtime_ns": 1788825566000000000,
+      "device": 56918434,
+      "inode": 198160015842869307,
+      "kind": "file",
+      "sha256": "1e3c9cfd610be6a64ab149a6ce111cbdca1215a2640c6a8e622610b68a6a15fd"
+    },
+    "work/pilots/E-t64-s4/Run1/timing.log": {
+      "bytes": 672,
+      "mode": 420,
+      "mtime_ns": 1788825566000000000,
+      "device": 56918434,
+      "inode": 198160015842869309,
+      "kind": "file",
+      "sha256": "c0c01f812ab4e882aed0dbab360b7ecce4b3146cae75cfea38955189626fc377"
+    },
+    "work/pilots/E-t64-s4/Setup.dat": {
+      "bytes": 3129,
+      "mode": 420,
+      "mtime_ns": 1788825469000000000,
+      "device": 56918434,
+      "inode": 198160015842869296,
+      "kind": "file",
+      "sha256": "7b95305ca7bcb4e1bc38dee9dcdb1aa0db03007b9bf02aa7594124e3c88101ba"
+    },
+    "work/pilots/E-t64-s4/Setup.native.dat": {
+      "bytes": 3119,
+      "mode": 420,
+      "mtime_ns": 1788825469000000000,
+      "device": 56918434,
+      "inode": 198160015842869298,
+      "kind": "file",
+      "sha256": "ffa633a654c0fbbe91d75f54f28fad70f8d3723502869a35a52943c0430156bf"
+    },
+    "work/pilots/E-t64-s4/TableSeeds.dat": {
+      "bytes": 129,
+      "mode": 511,
+      "mtime_ns": 1788825468000000000,
+      "device": 56918434,
+      "inode": 198160015842869292,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/TableSeeds.dat"
+    },
+    "work/pilots/E-t64-s4/init.json": {
+      "bytes": 2398,
+      "mode": 420,
+      "mtime_ns": 1788825469000000000,
+      "device": 56918434,
+      "inode": 198160015842869299,
+      "kind": "file",
+      "sha256": "c876fefe07e95b717dc72e06b07c7d2bfc19a10f40816a3107c771665232d887"
+    },
+    "work/pilots/E-t64-s4/init.log": {
+      "bytes": 1006,
+      "mode": 420,
+      "mtime_ns": 1788825468000000000,
+      "device": 56918434,
+      "inode": 198160015842869294,
+      "kind": "file",
+      "sha256": "0b038fd00af450e30ff6e5e51d8bf346556dbb9fc65b7cf2c4e2ca4d93417739"
+    },
+    "work/pilots/E-t64-s4/init.time": {
+      "bytes": 20,
+      "mode": 420,
+      "mtime_ns": 1788825469000000000,
+      "device": 56918434,
+      "inode": 198160015842869295,
+      "kind": "file",
+      "sha256": "074ab133fefaedeb599fa930645545bf83eba34c04e6cdd3fac3c4cacd0a3c3b"
+    },
+    "work/pilots/E-t64-s4/lcdm.dat": {
+      "bytes": 3101,
+      "mode": 420,
+      "mtime_ns": 1788825468000000000,
+      "device": 56918434,
+      "inode": 198160015842869297,
+      "kind": "file",
+      "sha256": "b7d1b1e1253b5572c89d454df1e7eb400c9f637e73925cd5ce82ab26d03304cd"
+    },
+    "work/pilots/F-t128-s4/Init.dat": {
+      "bytes": 1911,
+      "mode": 420,
+      "mtime_ns": 1788826463000000000,
+      "device": 56918434,
+      "inode": 198160015909978117,
+      "kind": "file",
+      "sha256": "c6a8bf905d8cf449689c0215371111b02946c709f4054ec77cb0c36b2e1d5d9e"
+    },
+    "work/pilots/F-t128-s4/PkTable.dat": {
+      "bytes": 126,
+      "mode": 511,
+      "mtime_ns": 1788826464000000000,
+      "device": 56918434,
+      "inode": 198160015909978120,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/PkTable.dat"
+    },
+    "work/pilots/F-t128-s4/Run1/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788826464000000000,
+      "device": 56918434,
+      "inode": 198160015909978118,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/pilots/F-t128-s4/Run1/PMcrd.DAT": {
+      "bytes": 120,
+      "mode": 511,
+      "mtime_ns": 1788826465000000000,
+      "device": 56918434,
+      "inode": 198160015909978131,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrd.DAT"
+    },
+    "work/pilots/F-t128-s4/Run1/PMcrs0.DAT": {
+      "bytes": 121,
+      "mode": 511,
+      "mtime_ns": 1788826465000000000,
+      "device": 56918434,
+      "inode": 198160015909978130,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrs0.DAT"
+    },
+    "work/pilots/F-t128-s4/Run1/PMcrs1.DAT": {
+      "bytes": 121,
+      "mode": 511,
+      "mtime_ns": 1788826465000000000,
+      "device": 56918434,
+      "inode": 198160015909978132,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrs1.DAT"
+    },
+    "work/pilots/F-t128-s4/Run1/PMcrs2.DAT": {
+      "bytes": 121,
+      "mode": 511,
+      "mtime_ns": 1788826465000000000,
+      "device": 56918434,
+      "inode": 198160015909978133,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrs2.DAT"
+    },
+    "work/pilots/F-t128-s4/Run1/PMcrs3.DAT": {
+      "bytes": 121,
+      "mode": 511,
+      "mtime_ns": 1788826465000000000,
+      "device": 56918434,
+      "inode": 198160015909978129,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrs3.DAT"
+    },
+    "work/pilots/F-t128-s4/Run1/Run.log": {
+      "bytes": 1329,
+      "mode": 420,
+      "mtime_ns": 1788826891000000000,
+      "device": 56918434,
+      "inode": 198160015909978137,
+      "kind": "file",
+      "sha256": "3506823c72cc0533dfdd2f9507c23336a518e0633e119cef93240416cf93bfa4"
+    },
+    "work/pilots/F-t128-s4/Run1/campaign_schedule.dat": {
+      "bytes": 9967,
+      "mode": 420,
+      "mtime_ns": 1788826464000000000,
+      "device": 56918434,
+      "inode": 198160015909978119,
+      "kind": "file",
+      "sha256": "430ae3a5f8ffd67291947c46477904b726fdf02387cafc42b930e2937a89a1ba"
+    },
+    "work/pilots/F-t128-s4/Run1/evolve.json": {
+      "bytes": 3989,
+      "mode": 420,
+      "mtime_ns": 1788826892000000000,
+      "device": 56918434,
+      "inode": 198160015909978139,
+      "kind": "file",
+      "sha256": "0cfb5081ab03bf2b581ddb1e3ec3f311299f569f0a5e4c6faa485b1ec35fb118"
+    },
+    "work/pilots/F-t128-s4/Run1/evolve.log": {
+      "bytes": 2626,
+      "mode": 420,
+      "mtime_ns": 1788826891000000000,
+      "device": 56918434,
+      "inode": 198160015909978135,
+      "kind": "file",
+      "sha256": "ae498da0119e4d84144a42252af2a712b12c7e84b16ddd872d46c1c24914aa44"
+    },
+    "work/pilots/F-t128-s4/Run1/evolve.time": {
+      "bytes": 33,
+      "mode": 420,
+      "mtime_ns": 1788826892000000000,
+      "device": 56918434,
+      "inode": 198160015909978136,
+      "kind": "file",
+      "sha256": "6478378cee7735288711fd98878a33db6cff2f57191c36d9c315a563dbab50c6"
+    },
+    "work/pilots/F-t128-s4/Run1/timing.log": {
+      "bytes": 672,
+      "mode": 420,
+      "mtime_ns": 1788826891000000000,
+      "device": 56918434,
+      "inode": 198160015909978138,
+      "kind": "file",
+      "sha256": "abe63008baa3984526397674b8ace4dff68d9b88be2ab9210f6b2115760d8e7f"
+    },
+    "work/pilots/F-t128-s4/Setup.dat": {
+      "bytes": 3129,
+      "mode": 420,
+      "mtime_ns": 1788826465000000000,
+      "device": 56918434,
+      "inode": 198160015909978125,
+      "kind": "file",
+      "sha256": "72c94565e602ad0b2a58ab9d2ef05be8e5ca87fd0fda85a79e44b8e0f7ea896e"
+    },
+    "work/pilots/F-t128-s4/Setup.native.dat": {
+      "bytes": 3119,
+      "mode": 420,
+      "mtime_ns": 1788826465000000000,
+      "device": 56918434,
+      "inode": 198160015909978127,
+      "kind": "file",
+      "sha256": "9392b3b2a0f20e77b6680c558e5ee299d605150c47484c30520a8eb27632406c"
+    },
+    "work/pilots/F-t128-s4/TableSeeds.dat": {
+      "bytes": 129,
+      "mode": 511,
+      "mtime_ns": 1788826464000000000,
+      "device": 56918434,
+      "inode": 198160015909978121,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/TableSeeds.dat"
+    },
+    "work/pilots/F-t128-s4/init.json": {
+      "bytes": 2405,
+      "mode": 420,
+      "mtime_ns": 1788826465000000000,
+      "device": 56918434,
+      "inode": 198160015909978128,
+      "kind": "file",
+      "sha256": "f2f8f97459f8dcc8e6ad0082814176726a72861f5878622de77d52973694c2cd"
+    },
+    "work/pilots/F-t128-s4/init.log": {
+      "bytes": 1006,
+      "mode": 420,
+      "mtime_ns": 1788826465000000000,
+      "device": 56918434,
+      "inode": 198160015909978123,
+      "kind": "file",
+      "sha256": "7bb929d52487f289b6193db2dec1be67ce0af0c7e34d287605f039ccb4c4dd32"
+    },
+    "work/pilots/F-t128-s4/init.time": {
+      "bytes": 20,
+      "mode": 420,
+      "mtime_ns": 1788826465000000000,
+      "device": 56918434,
+      "inode": 198160015909978124,
+      "kind": "file",
+      "sha256": "3eb394b425ae7b04116644a97f5628bab2a05d98f9e9877778626323ff50e470"
+    },
+    "work/pilots/F-t128-s4/lcdm.dat": {
+      "bytes": 3101,
+      "mode": 420,
+      "mtime_ns": 1788826465000000000,
+      "device": 56918434,
+      "inode": 198160015909978126,
+      "kind": "file",
+      "sha256": "b7d1b1e1253b5572c89d454df1e7eb400c9f637e73925cd5ce82ab26d03304cd"
+    },
+    "work/pilots/F-t64-s4/Init.dat": {
+      "bytes": 1911,
+      "mode": 420,
+      "mtime_ns": 1788825666000000000,
+      "device": 56918434,
+      "inode": 198160015842869376,
+      "kind": "file",
+      "sha256": "c6a8bf905d8cf449689c0215371111b02946c709f4054ec77cb0c36b2e1d5d9e"
+    },
+    "work/pilots/F-t64-s4/PkTable.dat": {
+      "bytes": 126,
+      "mode": 511,
+      "mtime_ns": 1788825666000000000,
+      "device": 56918434,
+      "inode": 198160015842869379,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/PkTable.dat"
+    },
+    "work/pilots/F-t64-s4/Run1/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788825666000000000,
+      "device": 56918434,
+      "inode": 198160015842869377,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/pilots/F-t64-s4/Run1/PMcrd.DAT": {
+      "bytes": 120,
+      "mode": 511,
+      "mtime_ns": 1788825667000000000,
+      "device": 56918434,
+      "inode": 198160015842869390,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrd.DAT"
+    },
+    "work/pilots/F-t64-s4/Run1/PMcrs0.DAT": {
+      "bytes": 121,
+      "mode": 511,
+      "mtime_ns": 1788825667000000000,
+      "device": 56918434,
+      "inode": 198160015842869389,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrs0.DAT"
+    },
+    "work/pilots/F-t64-s4/Run1/PMcrs1.DAT": {
+      "bytes": 121,
+      "mode": 511,
+      "mtime_ns": 1788825667000000000,
+      "device": 56918434,
+      "inode": 198160015842869391,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrs1.DAT"
+    },
+    "work/pilots/F-t64-s4/Run1/PMcrs2.DAT": {
+      "bytes": 121,
+      "mode": 511,
+      "mtime_ns": 1788825667000000000,
+      "device": 56918434,
+      "inode": 198160015842869392,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrs2.DAT"
+    },
+    "work/pilots/F-t64-s4/Run1/PMcrs3.DAT": {
+      "bytes": 121,
+      "mode": 511,
+      "mtime_ns": 1788825667000000000,
+      "device": 56918434,
+      "inode": 198160015842869388,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/F/Run1/PMcrs3.DAT"
+    },
+    "work/pilots/F-t64-s4/Run1/Run.log": {
+      "bytes": 1329,
+      "mode": 420,
+      "mtime_ns": 1788826401000000000,
+      "device": 56918434,
+      "inode": 198160015842869396,
+      "kind": "file",
+      "sha256": "3506823c72cc0533dfdd2f9507c23336a518e0633e119cef93240416cf93bfa4"
+    },
+    "work/pilots/F-t64-s4/Run1/campaign_schedule.dat": {
+      "bytes": 9967,
+      "mode": 420,
+      "mtime_ns": 1788825666000000000,
+      "device": 56918434,
+      "inode": 198160015842869378,
+      "kind": "file",
+      "sha256": "430ae3a5f8ffd67291947c46477904b726fdf02387cafc42b930e2937a89a1ba"
+    },
+    "work/pilots/F-t64-s4/Run1/evolve.json": {
+      "bytes": 3981,
+      "mode": 420,
+      "mtime_ns": 1788826404000000000,
+      "device": 56918434,
+      "inode": 198160015842869405,
+      "kind": "file",
+      "sha256": "3b6a3f3ac2a392a9bd2ba05300c1fce85b08d48e9e542fdb9eca93fdc7485e3e"
+    },
+    "work/pilots/F-t64-s4/Run1/evolve.log": {
+      "bytes": 2626,
+      "mode": 420,
+      "mtime_ns": 1788826401000000000,
+      "device": 56918434,
+      "inode": 198160015842869394,
+      "kind": "file",
+      "sha256": "379b83592565b66a2c351f1ecb47c8747a1f2f4ac08d5824cb891e89b68d2752"
+    },
+    "work/pilots/F-t64-s4/Run1/evolve.time": {
+      "bytes": 33,
+      "mode": 420,
+      "mtime_ns": 1788826404000000000,
+      "device": 56918434,
+      "inode": 198160015842869395,
+      "kind": "file",
+      "sha256": "5a91158d9996af8dff65a4d0dbfd3b6fde30985016ff3b47bbdc6a9fcdb0abd8"
+    },
+    "work/pilots/F-t64-s4/Run1/timing.log": {
+      "bytes": 672,
+      "mode": 420,
+      "mtime_ns": 1788826401000000000,
+      "device": 56918434,
+      "inode": 198160015842869397,
+      "kind": "file",
+      "sha256": "fc4fe1c745a24bb043b22b5b4fddac71a6cdb62593f9f7ae1e7138f34b4b5b8f"
+    },
+    "work/pilots/F-t64-s4/Setup.dat": {
+      "bytes": 3129,
+      "mode": 420,
+      "mtime_ns": 1788825667000000000,
+      "device": 56918434,
+      "inode": 198160015842869384,
+      "kind": "file",
+      "sha256": "72c94565e602ad0b2a58ab9d2ef05be8e5ca87fd0fda85a79e44b8e0f7ea896e"
+    },
+    "work/pilots/F-t64-s4/Setup.native.dat": {
+      "bytes": 3119,
+      "mode": 420,
+      "mtime_ns": 1788825667000000000,
+      "device": 56918434,
+      "inode": 198160015842869386,
+      "kind": "file",
+      "sha256": "9392b3b2a0f20e77b6680c558e5ee299d605150c47484c30520a8eb27632406c"
+    },
+    "work/pilots/F-t64-s4/TableSeeds.dat": {
+      "bytes": 129,
+      "mode": 511,
+      "mtime_ns": 1788825666000000000,
+      "device": 56918434,
+      "inode": 198160015842869380,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/TableSeeds.dat"
+    },
+    "work/pilots/F-t64-s4/init.json": {
+      "bytes": 2398,
+      "mode": 420,
+      "mtime_ns": 1788825667000000000,
+      "device": 56918434,
+      "inode": 198160015842869387,
+      "kind": "file",
+      "sha256": "4da3306a6498ece2b18d8ca81c4250ceb6905b3aadd7ad18f243834f2e72d1b4"
+    },
+    "work/pilots/F-t64-s4/init.log": {
+      "bytes": 1006,
+      "mode": 420,
+      "mtime_ns": 1788825667000000000,
+      "device": 56918434,
+      "inode": 198160015842869382,
+      "kind": "file",
+      "sha256": "7bb929d52487f289b6193db2dec1be67ce0af0c7e34d287605f039ccb4c4dd32"
+    },
+    "work/pilots/F-t64-s4/init.time": {
+      "bytes": 20,
+      "mode": 420,
+      "mtime_ns": 1788825667000000000,
+      "device": 56918434,
+      "inode": 198160015842869383,
+      "kind": "file",
+      "sha256": "d98a51d8f66f403b1b39fc80c3e78ade17d94e2556ae2b85d5f56d831b25f36e"
+    },
+    "work/pilots/F-t64-s4/lcdm.dat": {
+      "bytes": 3101,
+      "mode": 420,
+      "mtime_ns": 1788825667000000000,
+      "device": 56918434,
+      "inode": 198160015842869385,
+      "kind": "file",
+      "sha256": "b7d1b1e1253b5572c89d454df1e7eb400c9f637e73925cd5ce82ab26d03304cd"
+    },
+    "work/replay-build/build.json": {
+      "bytes": 13609,
+      "mode": 420,
+      "mtime_ns": 1788825236000000000,
+      "device": 56918434,
+      "inode": 198160013510951317,
+      "kind": "file",
+      "sha256": "a4d3608f53e811076b9244eebdd0bdf162653b2e1b0d29bebdd79b71f1352225"
+    },
+    "work/replay-build/legacy/analyze.mod": {
+      "bytes": 895,
+      "mode": 420,
+      "mtime_ns": 1788824769000000000,
+      "device": 56918434,
+      "inode": 198160013510951263,
+      "kind": "file",
+      "sha256": "da43b24d52ccfdec19c3a1143796a7c3a8cdc6e40241f87d124484d8c74c625e"
+    },
+    "work/replay-build/legacy/bdmduplicaterules.mod": {
+      "bytes": 2239,
+      "mode": 420,
+      "mtime_ns": 1788825227000000000,
+      "device": 56918434,
+      "inode": 198160013510951277,
+      "kind": "file",
+      "sha256": "87f80a3bec5251bf1c89818ec5faa19464c7540fa31b1507095608b83840677f"
+    },
+    "work/replay-build/legacy/common_grid.f90": {
+      "bytes": 4977,
+      "mode": 420,
+      "mtime_ns": 1788825205000000000,
+      "device": 56918434,
+      "inode": 198160013510951275,
+      "kind": "file",
+      "sha256": "146c45367a20b66a31a1d8dac53417a1dfe2382892453d29fcf5e9ec589f22e3"
+    },
+    "work/replay-build/legacy/common_grid.o": {
+      "bytes": 27656,
+      "mode": 420,
+      "mtime_ns": 1788825229000000000,
+      "device": 56918434,
+      "inode": 198160013510951283,
+      "kind": "file",
+      "sha256": "8379772a9718bbcfe767c2eb6faf5f5aaa08c92a81a9339bf12670f98a778f48"
+    },
+    "work/replay-build/legacy/convergencegrid.mod": {
+      "bytes": 9143,
+      "mode": 420,
+      "mtime_ns": 1788825229000000000,
+      "device": 56918434,
+      "inode": 198160013510951282,
+      "kind": "file",
+      "sha256": "652ffdff373db064dea43a6770dddbd8f5f930fb8adc37fde9f2e7991e4a89a5"
+    },
+    "work/replay-build/legacy/density.mod": {
+      "bytes": 8417,
+      "mode": 420,
+      "mtime_ns": 1788824745000000000,
+      "device": 56918434,
+      "inode": 198160013510951264,
+      "kind": "file",
+      "sha256": "496d896133a812006cc46e322ef161269e081e6ab8a5fec7921d377fca01adcb"
+    },
+    "work/replay-build/legacy/extradofbackgrounddata.mod": {
+      "bytes": 5887,
+      "mode": 420,
+      "mtime_ns": 1788824714000000000,
+      "device": 56918434,
+      "inode": 198160013510951265,
+      "kind": "file",
+      "sha256": "f5c17e4840d09235d94687c05d15c0186fcf32e5adfcc65d802eef1028a31c20"
+    },
+    "work/replay-build/legacy/fft5.mod": {
+      "bytes": 31680,
+      "mode": 420,
+      "mtime_ns": 1788824727000000000,
+      "device": 56918434,
+      "inode": 198160013510951266,
+      "kind": "file",
+      "sha256": "d8c1c0d9e1654d0319a895e62fa6c4997c614def562853a0b584fd206ca54368"
+    },
+    "work/replay-build/legacy/finder.f90": {
+      "bytes": 82003,
+      "mode": 420,
+      "mtime_ns": 1788825226000000000,
+      "device": 56918434,
+      "inode": 198160013510951274,
+      "kind": "file",
+      "sha256": "05c8d604977175568ca9e3b85d90e323c69a313781d4b2696e1d75bfc232fb5c"
+    },
+    "work/replay-build/legacy/finder.o": {
+      "bytes": 385416,
+      "mode": 420,
+      "mtime_ns": 1788825229000000000,
+      "device": 56918434,
+      "inode": 198160013510951280,
+      "kind": "file",
+      "sha256": "f054cea9795407ad5c296b96f52ae9c3866d04e379696a6ece5eb9a7b93b5a39"
+    },
+    "work/replay-build/legacy/linkerlist.mod": {
+      "bytes": 22393,
+      "mode": 420,
+      "mtime_ns": 1788825227000000000,
+      "device": 56918434,
+      "inode": 198160013510951279,
+      "kind": "file",
+      "sha256": "394e135414a858ebd2c6f3b560af8bc3c73bca3727bfef03b312a45a135d92de"
+    },
+    "work/replay-build/legacy/localdata.mod": {
+      "bytes": 1475,
+      "mode": 420,
+      "mtime_ns": 1788824810000000000,
+      "device": 56918434,
+      "inode": 198160013510951267,
+      "kind": "file",
+      "sha256": "638c01745aaa94a9d44cb8a7c667c50a54fb06c9de45ba21ec1a386a3b04822c"
+    },
+    "work/replay-build/legacy/luxury.mod": {
+      "bytes": 1605,
+      "mode": 420,
+      "mtime_ns": 1788824731000000000,
+      "device": 56918434,
+      "inode": 198160013510951268,
+      "kind": "file",
+      "sha256": "3fbc483b8342f3cabde4a254cdea80a5a6c8fab65d1adf54c9f9a06af0d7176c"
+    },
+    "work/replay-build/legacy/param.mod": {
+      "bytes": 8785,
+      "mode": 420,
+      "mtime_ns": 1788824725000000000,
+      "device": 56918434,
+      "inode": 198160013510951269,
+      "kind": "file",
+      "sha256": "b318e2b0ab74ba1d1543cc704a6bd1a3d9628d13af517c24e0441d4833b6e19a"
+    },
+    "work/replay-build/legacy/power.mod": {
+      "bytes": 6209,
+      "mode": 420,
+      "mtime_ns": 1788824752000000000,
+      "device": 56918434,
+      "inode": 198160013510951270,
+      "kind": "file",
+      "sha256": "c304f4144ebb063f154ce8c9a4b24a0e73c4353fe74956818d7eb7f6aae34290"
+    },
+    "work/replay-build/legacy/random.mod": {
+      "bytes": 12418,
+      "mode": 420,
+      "mtime_ns": 1788824732000000000,
+      "device": 56918434,
+      "inode": 198160013510951271,
+      "kind": "file",
+      "sha256": "4a399cb06c7a99d52c46f51990f376f6afab7dbbd9550a4691775d8aae08baa0"
+    },
+    "work/replay-build/legacy/replay.exe": {
+      "bytes": 1168832,
+      "mode": 493,
+      "mtime_ns": 1788825230000000000,
+      "device": 56918434,
+      "inode": 198160013510951286,
+      "kind": "file",
+      "sha256": "e7088dc3dbe456f0fe7f2603d4515fb21c0346a7fac22c8fbba74094a2c8ee5b"
+    },
+    "work/replay-build/legacy/replay_entry.f90": {
+      "bytes": 4365,
+      "mode": 420,
+      "mtime_ns": 1788825205000000000,
+      "device": 56918434,
+      "inode": 198160013510951276,
+      "kind": "file",
+      "sha256": "c1267320a6004aabc27e309e6b939730162966316c9a465de49e32fb19202938"
+    },
+    "work/replay-build/legacy/replay_entry.o": {
+      "bytes": 26488,
+      "mode": 420,
+      "mtime_ns": 1788825230000000000,
+      "device": 56918434,
+      "inode": 198160013510951284,
+      "kind": "file",
+      "sha256": "6db7cfa8cb4e56bf468be8c0496035425155fe7b467b6a9a17eeba6cf86e4bdb"
+    },
+    "work/replay-build/legacy/setinitialconditions.mod": {
+      "bytes": 19885,
+      "mode": 420,
+      "mtime_ns": 1788824757000000000,
+      "device": 56918434,
+      "inode": 198160013510951272,
+      "kind": "file",
+      "sha256": "45172d0d155beee6bd26ee2a519b22ed14f0050407470fb0d5b0e9681997feee"
+    },
+    "work/replay-build/legacy/structures.mod": {
+      "bytes": 11243,
+      "mode": 420,
+      "mtime_ns": 1788825227000000000,
+      "device": 56918434,
+      "inode": 198160013510951278,
+      "kind": "file",
+      "sha256": "354313c36e9f19291909a3614772a08c7c5ec672b51ca65501c9eb87b2f12b3f"
+    },
+    "work/replay-build/legacy/tools.mod": {
+      "bytes": 13644,
+      "mode": 420,
+      "mtime_ns": 1788824709000000000,
+      "device": 56918434,
+      "inode": 198160013510951273,
+      "kind": "file",
+      "sha256": "d52aca9c65319ff30cbd1146fc1be728b96e6c504aa7adf9852f65d27ca7a2e0"
+    },
+    "work/replay-build/v3/analyze.mod": {
+      "bytes": 895,
+      "mode": 420,
+      "mtime_ns": 1788824769000000000,
+      "device": 56918434,
+      "inode": 198160013510951290,
+      "kind": "file",
+      "sha256": "da43b24d52ccfdec19c3a1143796a7c3a8cdc6e40241f87d124484d8c74c625e"
+    },
+    "work/replay-build/v3/bdmduplicaterules.mod": {
+      "bytes": 2239,
+      "mode": 420,
+      "mtime_ns": 1788825233000000000,
+      "device": 56918434,
+      "inode": 198160013510951304,
+      "kind": "file",
+      "sha256": "fe552a9b0487ca4648e823cebebf72152fe6f2d077755662dbe98a50ab8854ea"
+    },
+    "work/replay-build/v3/common_grid.f90": {
+      "bytes": 4977,
+      "mode": 420,
+      "mtime_ns": 1788825205000000000,
+      "device": 56918434,
+      "inode": 198160013510951302,
+      "kind": "file",
+      "sha256": "146c45367a20b66a31a1d8dac53417a1dfe2382892453d29fcf5e9ec589f22e3"
+    },
+    "work/replay-build/v3/common_grid.o": {
+      "bytes": 27640,
+      "mode": 420,
+      "mtime_ns": 1788825236000000000,
+      "device": 56918434,
+      "inode": 198160013510951311,
+      "kind": "file",
+      "sha256": "32494a4dd75e09362e812b195c5a5c89a3ec0c1db2fa0611f75a732f85ead28a"
+    },
+    "work/replay-build/v3/convergencegrid.mod": {
+      "bytes": 9143,
+      "mode": 420,
+      "mtime_ns": 1788825235000000000,
+      "device": 56918434,
+      "inode": 198160013510951310,
+      "kind": "file",
+      "sha256": "d25eda7e01b5709c650fa62eecbc059e0c896bbaeff96955235ef7b279bb95a5"
+    },
+    "work/replay-build/v3/density.mod": {
+      "bytes": 8417,
+      "mode": 420,
+      "mtime_ns": 1788824745000000000,
+      "device": 56918434,
+      "inode": 198160013510951291,
+      "kind": "file",
+      "sha256": "496d896133a812006cc46e322ef161269e081e6ab8a5fec7921d377fca01adcb"
+    },
+    "work/replay-build/v3/extradofbackgrounddata.mod": {
+      "bytes": 5887,
+      "mode": 420,
+      "mtime_ns": 1788824714000000000,
+      "device": 56918434,
+      "inode": 198160013510951292,
+      "kind": "file",
+      "sha256": "f5c17e4840d09235d94687c05d15c0186fcf32e5adfcc65d802eef1028a31c20"
+    },
+    "work/replay-build/v3/fft5.mod": {
+      "bytes": 31680,
+      "mode": 420,
+      "mtime_ns": 1788824727000000000,
+      "device": 56918434,
+      "inode": 198160013510951293,
+      "kind": "file",
+      "sha256": "d8c1c0d9e1654d0319a895e62fa6c4997c614def562853a0b584fd206ca54368"
+    },
+    "work/replay-build/v3/finder.f90": {
+      "bytes": 97963,
+      "mode": 420,
+      "mtime_ns": 1788825232000000000,
+      "device": 56918434,
+      "inode": 198160013510951301,
+      "kind": "file",
+      "sha256": "458b1158f09033bbf6f0856303d5ea81ac809b424a43754186fb9c2f2c2a264d"
+    },
+    "work/replay-build/v3/finder.o": {
+      "bytes": 399200,
+      "mode": 420,
+      "mtime_ns": 1788825235000000000,
+      "device": 56918434,
+      "inode": 198160013510951307,
+      "kind": "file",
+      "sha256": "ff5847736c49a095bf00f4a68662077e6125da18e6c65382fa1438a0f23374bd"
+    },
+    "work/replay-build/v3/linkerlist.mod": {
+      "bytes": 31421,
+      "mode": 420,
+      "mtime_ns": 1788825233000000000,
+      "device": 56918434,
+      "inode": 198160013510951306,
+      "kind": "file",
+      "sha256": "caf4e3771faec415aeacd3ecbb59a4bfa934f995c4bc1f9aec23fd69423d8fde"
+    },
+    "work/replay-build/v3/localdata.mod": {
+      "bytes": 1475,
+      "mode": 420,
+      "mtime_ns": 1788824810000000000,
+      "device": 56918434,
+      "inode": 198160013510951294,
+      "kind": "file",
+      "sha256": "638c01745aaa94a9d44cb8a7c667c50a54fb06c9de45ba21ec1a386a3b04822c"
+    },
+    "work/replay-build/v3/luxury.mod": {
+      "bytes": 1605,
+      "mode": 420,
+      "mtime_ns": 1788824731000000000,
+      "device": 56918434,
+      "inode": 198160013510951295,
+      "kind": "file",
+      "sha256": "3fbc483b8342f3cabde4a254cdea80a5a6c8fab65d1adf54c9f9a06af0d7176c"
+    },
+    "work/replay-build/v3/param.mod": {
+      "bytes": 8785,
+      "mode": 420,
+      "mtime_ns": 1788824725000000000,
+      "device": 56918434,
+      "inode": 198160013510951296,
+      "kind": "file",
+      "sha256": "b318e2b0ab74ba1d1543cc704a6bd1a3d9628d13af517c24e0441d4833b6e19a"
+    },
+    "work/replay-build/v3/power.mod": {
+      "bytes": 6209,
+      "mode": 420,
+      "mtime_ns": 1788824752000000000,
+      "device": 56918434,
+      "inode": 198160013510951297,
+      "kind": "file",
+      "sha256": "c304f4144ebb063f154ce8c9a4b24a0e73c4353fe74956818d7eb7f6aae34290"
+    },
+    "work/replay-build/v3/random.mod": {
+      "bytes": 12418,
+      "mode": 420,
+      "mtime_ns": 1788824732000000000,
+      "device": 56918434,
+      "inode": 198160013510951298,
+      "kind": "file",
+      "sha256": "4a399cb06c7a99d52c46f51990f376f6afab7dbbd9550a4691775d8aae08baa0"
+    },
+    "work/replay-build/v3/replay.exe": {
+      "bytes": 1172400,
+      "mode": 493,
+      "mtime_ns": 1788825236000000000,
+      "device": 56918434,
+      "inode": 198160013510951314,
+      "kind": "file",
+      "sha256": "09faea9712d4848afefa44eaecbf64897f13504d2bd31659cf0a2a715c43e479"
+    },
+    "work/replay-build/v3/replay_entry.f90": {
+      "bytes": 4365,
+      "mode": 420,
+      "mtime_ns": 1788825205000000000,
+      "device": 56918434,
+      "inode": 198160013510951303,
+      "kind": "file",
+      "sha256": "c1267320a6004aabc27e309e6b939730162966316c9a465de49e32fb19202938"
+    },
+    "work/replay-build/v3/replay_entry.o": {
+      "bytes": 26368,
+      "mode": 420,
+      "mtime_ns": 1788825236000000000,
+      "device": 56918434,
+      "inode": 198160013510951312,
+      "kind": "file",
+      "sha256": "432114417e1633418786f86eab34355e1ea600b81d1d8f18ec8cba2db42843b0"
+    },
+    "work/replay-build/v3/setinitialconditions.mod": {
+      "bytes": 19885,
+      "mode": 420,
+      "mtime_ns": 1788824757000000000,
+      "device": 56918434,
+      "inode": 198160013510951299,
+      "kind": "file",
+      "sha256": "45172d0d155beee6bd26ee2a519b22ed14f0050407470fb0d5b0e9681997feee"
+    },
+    "work/replay-build/v3/structures.mod": {
+      "bytes": 14954,
+      "mode": 420,
+      "mtime_ns": 1788825233000000000,
+      "device": 56918434,
+      "inode": 198160013510951305,
+      "kind": "file",
+      "sha256": "4ae60554fc016b81dc8c775521d35666cd8f255d330f7b24393ba7172a737f37"
+    },
+    "work/replay-build/v3/tools.mod": {
+      "bytes": 13644,
+      "mode": 420,
+      "mtime_ns": 1788824709000000000,
+      "device": 56918434,
+      "inode": 198160013510951300,
+      "kind": "file",
+      "sha256": "d52aca9c65319ff30cbd1146fc1be728b96e6c504aa7adf9852f65d27ca7a2e0"
+    },
+    "work/schedule-preflight/half/Init.dat": {
+      "bytes": 1906,
+      "mode": 420,
+      "mtime_ns": 1788824967000000000,
+      "device": 56918434,
+      "inode": 198160013510951035,
+      "kind": "file",
+      "sha256": "a02d05cce1a596c10da42179665b16e049823ea8535723afe1d211fa6324f587"
+    },
+    "work/schedule-preflight/half/PkTable.dat": {
+      "bytes": 126,
+      "mode": 511,
+      "mtime_ns": 1788824969000000000,
+      "device": 56918434,
+      "inode": 198160013510951038,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/PkTable.dat"
+    },
+    "work/schedule-preflight/half/Run1/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788824968000000000,
+      "device": 56918434,
+      "inode": 198160013510951036,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/schedule-preflight/half/Run1/PMcrd.0184.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788824991000000000,
+      "device": 56918434,
+      "inode": 198160013510951062,
+      "kind": "file",
+      "sha256": "76c05d63c115bc8ff794f990590a45f5dd6ff8042e473893df763cb58a6701b9"
+    },
+    "work/schedule-preflight/half/Run1/PMcrd.0218.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788824992000000000,
+      "device": 56918434,
+      "inode": 198160013510951067,
+      "kind": "file",
+      "sha256": "17a22ae5fa7faf0095c455cd98ca3c15b0b8edfee590d3a195bc65b74ab7d83a"
+    },
+    "work/schedule-preflight/half/Run1/PMcrd.0316.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788824996000000000,
+      "device": 56918434,
+      "inode": 198160013510951069,
+      "kind": "file",
+      "sha256": "6e871f395802f1316aba6363187e7ee360f0fa722190a28c6767d49fec299f11"
+    },
+    "work/schedule-preflight/half/Run1/PMcrd.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788824981000000000,
+      "device": 56918434,
+      "inode": 198160013510951051,
+      "kind": "file",
+      "sha256": "b7d7db8803ed02eaf4dad8712718e91833f7219253568b7664294fb4ab873364"
+    },
+    "work/schedule-preflight/half/Run1/PMcrs0.0184.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788824991000000000,
+      "device": 56918434,
+      "inode": 198160013510951064,
+      "kind": "file",
+      "sha256": "b32e71d7dce47d48d15417dd3b71ab2b5a69d771a509de5229869ae20a9534d2"
+    },
+    "work/schedule-preflight/half/Run1/PMcrs0.0218.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788824992000000000,
+      "device": 56918434,
+      "inode": 198160013510951068,
+      "kind": "file",
+      "sha256": "89c00724222dd308786e73bbe93c4162a09d38d6258c60dc7491b9eb3864f76b"
+    },
+    "work/schedule-preflight/half/Run1/PMcrs0.0316.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788824996000000000,
+      "device": 56918434,
+      "inode": 198160013510951070,
+      "kind": "file",
+      "sha256": "1fe159c5c9b3b5b2e8f4b9cd2c7bda8e42374c96b76e82cacd7ee38229f95776"
+    },
+    "work/schedule-preflight/half/Run1/PMcrs0.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788824982000000000,
+      "device": 56918434,
+      "inode": 198160013510951055,
+      "kind": "file",
+      "sha256": "79d8349fabbf2e319237601effeea35a207bc1ada6f196b6132f6ebaf0304601"
+    },
+    "work/schedule-preflight/half/Run1/Results.log": {
+      "bytes": 100,
+      "mode": 420,
+      "mtime_ns": 1788824981000000000,
+      "device": 56918434,
+      "inode": 198160013510951053,
+      "kind": "file",
+      "sha256": "2de57670427c143248f9b7c971beebea3df330df825da42b5f18f49832677e6c"
+    },
+    "work/schedule-preflight/half/Run1/Run.log": {
+      "bytes": 13587,
+      "mode": 420,
+      "mtime_ns": 1788824996000000000,
+      "device": 56918434,
+      "inode": 198160013510951060,
+      "kind": "file",
+      "sha256": "7069200fccff25063013980fb12b11839cda8d07b05e82b6ae797c576eb2f204"
+    },
+    "work/schedule-preflight/half/Run1/campaign_schedule.dat": {
+      "bytes": 18016,
+      "mode": 420,
+      "mtime_ns": 1788824969000000000,
+      "device": 56918434,
+      "inode": 198160013510951037,
+      "kind": "file",
+      "sha256": "c3b5d459c9dbbfb80e7baae60f1b3911b0d5cf55ba3d4e8371d11842f6bf8274"
+    },
+    "work/schedule-preflight/half/Run1/fort.17": {
+      "bytes": 29,
+      "mode": 420,
+      "mtime_ns": 1788824977000000000,
+      "device": 56918434,
+      "inode": 198160013510951050,
+      "kind": "file",
+      "sha256": "fc118c6280901cdaffbd06a083d699a2963d01de9d3c483e030f5954ad06ec75"
+    },
+    "work/schedule-preflight/half/Run1/ic.json": {
+      "bytes": 2726,
+      "mode": 420,
+      "mtime_ns": 1788824984000000000,
+      "device": 56918434,
+      "inode": 198160013510951056,
+      "kind": "file",
+      "sha256": "8cb3e1e50aa35a5b240bb153c4e0adc6a69d21e60c31383fbd03463b7f7bd1c6"
+    },
+    "work/schedule-preflight/half/Run1/ic.log": {
+      "bytes": 1782,
+      "mode": 420,
+      "mtime_ns": 1788824982000000000,
+      "device": 56918434,
+      "inode": 198160013510951048,
+      "kind": "file",
+      "sha256": "7624df566b6788a995428276661df4dfd5ca7474d35cfd6d3991f9d8f0b8bcd2"
+    },
+    "work/schedule-preflight/half/Run1/ic.time": {
+      "bytes": 21,
+      "mode": 420,
+      "mtime_ns": 1788824983000000000,
+      "device": 56918434,
+      "inode": 198160013510951049,
+      "kind": "file",
+      "sha256": "d027fb641930045c09f2e0ae2e5b70528280fe00ed7503d8f33c56c6b5299819"
+    },
+    "work/schedule-preflight/half/Run1/main.json": {
+      "bytes": 4097,
+      "mode": 420,
+      "mtime_ns": 1788824997000000000,
+      "device": 56918434,
+      "inode": 198160013510951071,
+      "kind": "file",
+      "sha256": "d5de97557009d0e30d4c6ef0bb4a1dcef8f3600a6b162f8942076bd3f2ff590e"
+    },
+    "work/schedule-preflight/half/Run1/main.log": {
+      "bytes": 116695,
+      "mode": 420,
+      "mtime_ns": 1788824996000000000,
+      "device": 56918434,
+      "inode": 198160013510951058,
+      "kind": "file",
+      "sha256": "817eed040e3782d69985d9c287b2057eb3f654ee3de4103d4213e414b4564097"
+    },
+    "work/schedule-preflight/half/Run1/main.time": {
+      "bytes": 21,
+      "mode": 420,
+      "mtime_ns": 1788824996000000000,
+      "device": 56918434,
+      "inode": 198160013510951059,
+      "kind": "file",
+      "sha256": "0872acf37964f741bfb307af5d9d24daff3e635aa6870f3c23b42d00e22dac86"
+    },
+    "work/schedule-preflight/half/Run1/pt.dat": {
+      "bytes": 12,
+      "mode": 420,
+      "mtime_ns": 1788824982000000000,
+      "device": 56918434,
+      "inode": 198160013510951054,
+      "kind": "file",
+      "sha256": "451735af8242c3c5393771994c06b1f23f3678eea52cbb77a0ee95cf3c8076bf"
+    },
+    "work/schedule-preflight/half/Run1/timing.log": {
+      "bytes": 39048,
+      "mode": 420,
+      "mtime_ns": 1788824996000000000,
+      "device": 56918434,
+      "inode": 198160013510951061,
+      "kind": "file",
+      "sha256": "dd08961119d4ed24112ea10df9950d18b56bdeb817c3fb2399140f4f053db2da"
+    },
+    "work/schedule-preflight/half/Setup.dat": {
+      "bytes": 3129,
+      "mode": 420,
+      "mtime_ns": 1788824976000000000,
+      "device": 56918434,
+      "inode": 198160013510951043,
+      "kind": "file",
+      "sha256": "12dfa8585db4118b1e76f4ed85cb011968818c6276627b37417a003dd3d393a4"
+    },
+    "work/schedule-preflight/half/Setup.native.dat": {
+      "bytes": 3119,
+      "mode": 420,
+      "mtime_ns": 1788824976000000000,
+      "device": 56918434,
+      "inode": 198160013510951045,
+      "kind": "file",
+      "sha256": "01d022b41bd18861a1987a49bc764285a72ee776ee4d3eb6ad19dc44c6141c3e"
+    },
+    "work/schedule-preflight/half/TableSeeds.dat": {
+      "bytes": 129,
+      "mode": 511,
+      "mtime_ns": 1788824969000000000,
+      "device": 56918434,
+      "inode": 198160013510951039,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/TableSeeds.dat"
+    },
+    "work/schedule-preflight/half/init.json": {
+      "bytes": 2441,
+      "mode": 420,
+      "mtime_ns": 1788824976000000000,
+      "device": 56918434,
+      "inode": 198160013510951046,
+      "kind": "file",
+      "sha256": "5bf1b5c10b42ec413bc026e5ba057c9ba3d0cbbe8853ba2bc2de37e488f1963f"
+    },
+    "work/schedule-preflight/half/init.log": {
+      "bytes": 1006,
+      "mode": 420,
+      "mtime_ns": 1788824973000000000,
+      "device": 56918434,
+      "inode": 198160013510951041,
+      "kind": "file",
+      "sha256": "4b0a669a23d289a47e12d95b27d492c2391d6e9e3a8645df00327916c419aedc"
+    },
+    "work/schedule-preflight/half/init.time": {
+      "bytes": 20,
+      "mode": 420,
+      "mtime_ns": 1788824976000000000,
+      "device": 56918434,
+      "inode": 198160013510951042,
+      "kind": "file",
+      "sha256": "5e19fb6777300638431a50a2edfa1137105f2097159a7059c6dc35e09a89ad31"
+    },
+    "work/schedule-preflight/half/lcdm.dat": {
+      "bytes": 3101,
+      "mode": 420,
+      "mtime_ns": 1788824973000000000,
+      "device": 56918434,
+      "inode": 198160013510951044,
+      "kind": "file",
+      "sha256": "00cbc0f10f04b000e6e6a8fdae4b4ca440db5462d225a10abde62a92a2f3302e"
+    },
+    "work/schedule-preflight/native/Init.dat": {
+      "bytes": 1906,
+      "mode": 420,
+      "mtime_ns": 1788824915000000000,
+      "device": 56918434,
+      "inode": 198160013510950970,
+      "kind": "file",
+      "sha256": "21597c7a556930a68e6f01bb8e8b4a538cb9fbdf14e20dacb8c44e43779da614"
+    },
+    "work/schedule-preflight/native/PkTable.dat": {
+      "bytes": 126,
+      "mode": 511,
+      "mtime_ns": 1788824915000000000,
+      "device": 56918434,
+      "inode": 198160013510950973,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/PkTable.dat"
+    },
+    "work/schedule-preflight/native/Run1/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788824915000000000,
+      "device": 56918434,
+      "inode": 198160013510950971,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/schedule-preflight/native/Run1/PMcrd.0092.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788824944000000000,
+      "device": 56918434,
+      "inode": 198160013510950996,
+      "kind": "file",
+      "sha256": "76271b02112ca85b3dc2d359496f55bbef99a9c015230061cba8a77f511cc3c4"
+    },
+    "work/schedule-preflight/native/Run1/PMcrd.0109.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788824944000000000,
+      "device": 56918434,
+      "inode": 198160013510950998,
+      "kind": "file",
+      "sha256": "3e83945f4853c1d69a13ecb8a8409b5ab004dfd19726e5f8d2140b5d014d82e0"
+    },
+    "work/schedule-preflight/native/Run1/PMcrd.0158.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788824945000000000,
+      "device": 56918434,
+      "inode": 198160013510951000,
+      "kind": "file",
+      "sha256": "457b49eaba5525559e0eb17eb7a5e2085f5e336906cd8acb745527223a50e128"
+    },
+    "work/schedule-preflight/native/Run1/PMcrd.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788824926000000000,
+      "device": 56918434,
+      "inode": 198160013510950986,
+      "kind": "file",
+      "sha256": "2d947980330d3266623af7320744a232f3d4085b04504c55405f2d191d7bcd26"
+    },
+    "work/schedule-preflight/native/Run1/PMcrs0.0092.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788824944000000000,
+      "device": 56918434,
+      "inode": 198160013510950997,
+      "kind": "file",
+      "sha256": "51c36eb15bb0cb1683d0c3ff64d466dd0d92322c4467ff89c04892046386f911"
+    },
+    "work/schedule-preflight/native/Run1/PMcrs0.0109.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788824945000000000,
+      "device": 56918434,
+      "inode": 198160013510950999,
+      "kind": "file",
+      "sha256": "2d4e3e0089c17e0ae42a75498f4523293730c7451b88946242ee33920e949270"
+    },
+    "work/schedule-preflight/native/Run1/PMcrs0.0158.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788824945000000000,
+      "device": 56918434,
+      "inode": 198160013510951001,
+      "kind": "file",
+      "sha256": "29410d28b1cc9c03bdbd26643c712e37cb2fed2b4736b7d0959e435937f49e01"
+    },
+    "work/schedule-preflight/native/Run1/PMcrs0.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788824926000000000,
+      "device": 56918434,
+      "inode": 198160013510950989,
+      "kind": "file",
+      "sha256": "5a896cf2b4f89b6e61ca4ac57f9ad637d364d3de546117b40fd88a20d40c3e07"
+    },
+    "work/schedule-preflight/native/Run1/Results.log": {
+      "bytes": 100,
+      "mode": 420,
+      "mtime_ns": 1788824926000000000,
+      "device": 56918434,
+      "inode": 198160013510950987,
+      "kind": "file",
+      "sha256": "5343fe42657228455cd19fd742d7cbe30878cfd61c0d58bd49729592d76d09a7"
+    },
+    "work/schedule-preflight/native/Run1/Run.log": {
+      "bytes": 7109,
+      "mode": 420,
+      "mtime_ns": 1788824945000000000,
+      "device": 56918434,
+      "inode": 198160013510950994,
+      "kind": "file",
+      "sha256": "8e98cce618d7888e05606bedd31bfe64555ea9ecbe20ea5878f9b5c166bdad6f"
+    },
+    "work/schedule-preflight/native/Run1/campaign_schedule.dat": {
+      "bytes": 9967,
+      "mode": 420,
+      "mtime_ns": 1788824915000000000,
+      "device": 56918434,
+      "inode": 198160013510950972,
+      "kind": "file",
+      "sha256": "430ae3a5f8ffd67291947c46477904b726fdf02387cafc42b930e2937a89a1ba"
+    },
+    "work/schedule-preflight/native/Run1/fort.17": {
+      "bytes": 29,
+      "mode": 420,
+      "mtime_ns": 1788824924000000000,
+      "device": 56918434,
+      "inode": 198160013510950985,
+      "kind": "file",
+      "sha256": "fc118c6280901cdaffbd06a083d699a2963d01de9d3c483e030f5954ad06ec75"
+    },
+    "work/schedule-preflight/native/Run1/ic.json": {
+      "bytes": 2738,
+      "mode": 420,
+      "mtime_ns": 1788824928000000000,
+      "device": 56918434,
+      "inode": 198160013510950990,
+      "kind": "file",
+      "sha256": "be1aadc8c6c01be197c6eedf0ad6b7da978b53c80f54fda60cc427717899687e"
+    },
+    "work/schedule-preflight/native/Run1/ic.log": {
+      "bytes": 1782,
+      "mode": 420,
+      "mtime_ns": 1788824926000000000,
+      "device": 56918434,
+      "inode": 198160013510950983,
+      "kind": "file",
+      "sha256": "80ec4f303ce9d314465d42f3be1716b92b5364db739f5dab9c8c9fb98f5976a9"
+    },
+    "work/schedule-preflight/native/Run1/ic.time": {
+      "bytes": 21,
+      "mode": 420,
+      "mtime_ns": 1788824926000000000,
+      "device": 56918434,
+      "inode": 198160013510950984,
+      "kind": "file",
+      "sha256": "7bca846f44311db9c6a96e7880738718ad24acfab7b4166115ca2b09efb33279"
+    },
+    "work/schedule-preflight/native/Run1/main.json": {
+      "bytes": 4120,
+      "mode": 420,
+      "mtime_ns": 1788824945000000000,
+      "device": 56918434,
+      "inode": 198160013510951002,
+      "kind": "file",
+      "sha256": "79357b8b778f91a40658427f041c1636b185ab9484d292af44ef8e553354b4da"
+    },
+    "work/schedule-preflight/native/Run1/main.log": {
+      "bytes": 59242,
+      "mode": 420,
+      "mtime_ns": 1788824945000000000,
+      "device": 56918434,
+      "inode": 198160013510950992,
+      "kind": "file",
+      "sha256": "37fdeb09dd2ef51ce6ffba428604a88b2198924be879f26457aaec1e5ea003fd"
+    },
+    "work/schedule-preflight/native/Run1/main.time": {
+      "bytes": 21,
+      "mode": 420,
+      "mtime_ns": 1788824945000000000,
+      "device": 56918434,
+      "inode": 198160013510950993,
+      "kind": "file",
+      "sha256": "c665a5e8b8f3f1d5b33584ec62432c69f52196ac0e1a9017b64c21fb687414a2"
+    },
+    "work/schedule-preflight/native/Run1/pt.dat": {
+      "bytes": 12,
+      "mode": 420,
+      "mtime_ns": 1788824926000000000,
+      "device": 56918434,
+      "inode": 198160013510950988,
+      "kind": "file",
+      "sha256": "a4bdddfe99b36286da7046ac901cf18a8ee500d7ccf00dff61c9d9fae9be8cd6"
+    },
+    "work/schedule-preflight/native/Run1/timing.log": {
+      "bytes": 19614,
+      "mode": 420,
+      "mtime_ns": 1788824945000000000,
+      "device": 56918434,
+      "inode": 198160013510950995,
+      "kind": "file",
+      "sha256": "283c2cc2cff9ee59b1368f6f6ac785d578ce8171b6c5f3c1198fd8a0e1f94f89"
+    },
+    "work/schedule-preflight/native/Setup.dat": {
+      "bytes": 3129,
+      "mode": 420,
+      "mtime_ns": 1788824920000000000,
+      "device": 56918434,
+      "inode": 198160013510950978,
+      "kind": "file",
+      "sha256": "3c630518dbcbac886b77df1d390e93a5411607e087728d92480bc9feb72ad02b"
+    },
+    "work/schedule-preflight/native/Setup.native.dat": {
+      "bytes": 3119,
+      "mode": 420,
+      "mtime_ns": 1788824920000000000,
+      "device": 56918434,
+      "inode": 198160013510950980,
+      "kind": "file",
+      "sha256": "f5e444f199da3b21f600c89f4fdbb27bcdce0d768a0c9003bc308e2cbec7ff25"
+    },
+    "work/schedule-preflight/native/TableSeeds.dat": {
+      "bytes": 129,
+      "mode": 511,
+      "mtime_ns": 1788824915000000000,
+      "device": 56918434,
+      "inode": 198160013510950974,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/TableSeeds.dat"
+    },
+    "work/schedule-preflight/native/init.json": {
+      "bytes": 2453,
+      "mode": 420,
+      "mtime_ns": 1788824920000000000,
+      "device": 56918434,
+      "inode": 198160013510950981,
+      "kind": "file",
+      "sha256": "9df0357abe8a5492a0f9277af46c6bf3ff7a15f091cb98180ed557d6c8907bdc"
+    },
+    "work/schedule-preflight/native/init.log": {
+      "bytes": 1006,
+      "mode": 420,
+      "mtime_ns": 1788824918000000000,
+      "device": 56918434,
+      "inode": 198160013510950976,
+      "kind": "file",
+      "sha256": "324c8412ddbe42daca89b314ae3ac48e5bda121381870b0dc2ba70471f288108"
+    },
+    "work/schedule-preflight/native/init.time": {
+      "bytes": 20,
+      "mode": 420,
+      "mtime_ns": 1788824919000000000,
+      "device": 56918434,
+      "inode": 198160013510950977,
+      "kind": "file",
+      "sha256": "cd15130853ba7434f141faabae74a73d6aa24a2dd4a9126da4c094dab1337bb1"
+    },
+    "work/schedule-preflight/native/lcdm.dat": {
+      "bytes": 3101,
+      "mode": 420,
+      "mtime_ns": 1788824917000000000,
+      "device": 56918434,
+      "inode": 198160013510950979,
+      "kind": "file",
+      "sha256": "00cbc0f10f04b000e6e6a8fdae4b4ca440db5462d225a10abde62a92a2f3302e"
+    },
+    "work/schedule-preflight/table/Init.dat": {
+      "bytes": 1906,
+      "mode": 420,
+      "mtime_ns": 1788824948000000000,
+      "device": 56918434,
+      "inode": 198160013510951006,
+      "kind": "file",
+      "sha256": "21597c7a556930a68e6f01bb8e8b4a538cb9fbdf14e20dacb8c44e43779da614"
+    },
+    "work/schedule-preflight/table/PkTable.dat": {
+      "bytes": 126,
+      "mode": 511,
+      "mtime_ns": 1788824948000000000,
+      "device": 56918434,
+      "inode": 198160013510951009,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/PkTable.dat"
+    },
+    "work/schedule-preflight/table/Run1/BDM.config": {
+      "bytes": 167,
+      "mode": 420,
+      "mtime_ns": 1788824948000000000,
+      "device": 56918434,
+      "inode": 198160013510951007,
+      "kind": "file",
+      "sha256": "fc6fd12cfcb7809aa308efde91c841d488405e5a6e14f01236bbb40c3611c2d4"
+    },
+    "work/schedule-preflight/table/Run1/PMcrd.0092.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788824960000000000,
+      "device": 56918434,
+      "inode": 198160013510951025,
+      "kind": "file",
+      "sha256": "76271b02112ca85b3dc2d359496f55bbef99a9c015230061cba8a77f511cc3c4"
+    },
+    "work/schedule-preflight/table/Run1/PMcrd.0109.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788824962000000000,
+      "device": 56918434,
+      "inode": 198160013510951027,
+      "kind": "file",
+      "sha256": "3e83945f4853c1d69a13ecb8a8409b5ab004dfd19726e5f8d2140b5d014d82e0"
+    },
+    "work/schedule-preflight/table/Run1/PMcrd.0158.DAT": {
+      "bytes": 537,
+      "mode": 420,
+      "mtime_ns": 1788824965000000000,
+      "device": 56918434,
+      "inode": 198160013510951029,
+      "kind": "file",
+      "sha256": "457b49eaba5525559e0eb17eb7a5e2085f5e336906cd8acb745527223a50e128"
+    },
+    "work/schedule-preflight/table/Run1/PMcrd.DAT": {
+      "bytes": 138,
+      "mode": 511,
+      "mtime_ns": 1788824955000000000,
+      "device": 56918434,
+      "inode": 198160013510951018,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/schedule-preflight/native/Run1/PMcrd.DAT"
+    },
+    "work/schedule-preflight/table/Run1/PMcrs0.0092.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788824960000000000,
+      "device": 56918434,
+      "inode": 198160013510951026,
+      "kind": "file",
+      "sha256": "51c36eb15bb0cb1683d0c3ff64d466dd0d92322c4467ff89c04892046386f911"
+    },
+    "work/schedule-preflight/table/Run1/PMcrs0.0109.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788824963000000000,
+      "device": 56918434,
+      "inode": 198160013510951028,
+      "kind": "file",
+      "sha256": "2d4e3e0089c17e0ae42a75498f4523293730c7451b88946242ee33920e949270"
+    },
+    "work/schedule-preflight/table/Run1/PMcrs0.0158.DAT": {
+      "bytes": 25165824,
+      "mode": 420,
+      "mtime_ns": 1788824965000000000,
+      "device": 56918434,
+      "inode": 198160013510951030,
+      "kind": "file",
+      "sha256": "29410d28b1cc9c03bdbd26643c712e37cb2fed2b4736b7d0959e435937f49e01"
+    },
+    "work/schedule-preflight/table/Run1/PMcrs0.DAT": {
+      "bytes": 139,
+      "mode": 511,
+      "mtime_ns": 1788824955000000000,
+      "device": 56918434,
+      "inode": 198160013510951019,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/schedule-preflight/native/Run1/PMcrs0.DAT"
+    },
+    "work/schedule-preflight/table/Run1/Run.log": {
+      "bytes": 7109,
+      "mode": 420,
+      "mtime_ns": 1788824965000000000,
+      "device": 56918434,
+      "inode": 198160013510951023,
+      "kind": "file",
+      "sha256": "8e98cce618d7888e05606bedd31bfe64555ea9ecbe20ea5878f9b5c166bdad6f"
+    },
+    "work/schedule-preflight/table/Run1/campaign_schedule.dat": {
+      "bytes": 9967,
+      "mode": 420,
+      "mtime_ns": 1788824948000000000,
+      "device": 56918434,
+      "inode": 198160013510951008,
+      "kind": "file",
+      "sha256": "430ae3a5f8ffd67291947c46477904b726fdf02387cafc42b930e2937a89a1ba"
+    },
+    "work/schedule-preflight/table/Run1/main.json": {
+      "bytes": 4111,
+      "mode": 420,
+      "mtime_ns": 1788824966000000000,
+      "device": 56918434,
+      "inode": 198160013510951031,
+      "kind": "file",
+      "sha256": "adfe8fa08d4a8defee3d91be40a872c2ccb08963a6facc2e2438cf53027a7ada"
+    },
+    "work/schedule-preflight/table/Run1/main.log": {
+      "bytes": 59183,
+      "mode": 420,
+      "mtime_ns": 1788824965000000000,
+      "device": 56918434,
+      "inode": 198160013510951021,
+      "kind": "file",
+      "sha256": "9c2fc3a10c0d70bcebb8c96028e6cda42d9416074493d1355e59b9e9c587295f"
+    },
+    "work/schedule-preflight/table/Run1/main.time": {
+      "bytes": 21,
+      "mode": 420,
+      "mtime_ns": 1788824965000000000,
+      "device": 56918434,
+      "inode": 198160013510951022,
+      "kind": "file",
+      "sha256": "528783ee7701e86e093edc3cfcee88fd7e1f637a61ca8018ddd3098807ef5f11"
+    },
+    "work/schedule-preflight/table/Run1/timing.log": {
+      "bytes": 19614,
+      "mode": 420,
+      "mtime_ns": 1788824965000000000,
+      "device": 56918434,
+      "inode": 198160013510951024,
+      "kind": "file",
+      "sha256": "73ec3cac396b1f977ab1dcf32bfe73da1e24221440d20d13b7193a39aa480477"
+    },
+    "work/schedule-preflight/table/Setup.dat": {
+      "bytes": 3129,
+      "mode": 420,
+      "mtime_ns": 1788824955000000000,
+      "device": 56918434,
+      "inode": 198160013510951014,
+      "kind": "file",
+      "sha256": "3c630518dbcbac886b77df1d390e93a5411607e087728d92480bc9feb72ad02b"
+    },
+    "work/schedule-preflight/table/Setup.native.dat": {
+      "bytes": 3119,
+      "mode": 420,
+      "mtime_ns": 1788824955000000000,
+      "device": 56918434,
+      "inode": 198160013510951016,
+      "kind": "file",
+      "sha256": "f5e444f199da3b21f600c89f4fdbb27bcdce0d768a0c9003bc308e2cbec7ff25"
+    },
+    "work/schedule-preflight/table/TableSeeds.dat": {
+      "bytes": 129,
+      "mode": 511,
+      "mtime_ns": 1788824948000000000,
+      "device": 56918434,
+      "inode": 198160013510951010,
+      "kind": "symlink",
+      "target": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/reference-inputs/TableSeeds.dat"
+    },
+    "work/schedule-preflight/table/init.json": {
+      "bytes": 2447,
+      "mode": 420,
+      "mtime_ns": 1788824955000000000,
+      "device": 56918434,
+      "inode": 198160013510951017,
+      "kind": "file",
+      "sha256": "0db3969b74cf902ec69d5a75b680f54af0b843a6d133eb7844f51e31f5934a7e"
+    },
+    "work/schedule-preflight/table/init.log": {
+      "bytes": 1006,
+      "mode": 420,
+      "mtime_ns": 1788824952000000000,
+      "device": 56918434,
+      "inode": 198160013510951012,
+      "kind": "file",
+      "sha256": "324c8412ddbe42daca89b314ae3ac48e5bda121381870b0dc2ba70471f288108"
+    },
+    "work/schedule-preflight/table/init.time": {
+      "bytes": 20,
+      "mode": 420,
+      "mtime_ns": 1788824955000000000,
+      "device": 56918434,
+      "inode": 198160013510951013,
+      "kind": "file",
+      "sha256": "d9725ba17eed8885c62cfdf61afd7fa95bad447c7ee768e99d38f0e6d4faa900"
+    },
+    "work/schedule-preflight/table/lcdm.dat": {
+      "bytes": 3101,
+      "mode": 420,
+      "mtime_ns": 1788824952000000000,
+      "device": 56918434,
+      "inode": 198160013510951015,
+      "kind": "file",
+      "sha256": "00cbc0f10f04b000e6e6a8fdae4b4ca440db5462d225a10abde62a92a2f3302e"
+    }
+  },
+  "files_removed": 329,
+  "completed_at_utc": "2026-09-08T00:32:44.605066+00:00",
+  "net_files_reduced": 327,
+  "retained": "work/bin, scientific IC/snapshots/replays, bundles/logs, reference inputs and timestep tables",
+  "restore": "tar -xzf work-artifacts.tar.gz -C . (run in the campaign directory; restore only if needed)"
+}

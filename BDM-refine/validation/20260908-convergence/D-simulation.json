@@ -1,0 +1,105 @@
+{
+  "completed": true,
+  "spec": {
+    "case": "D",
+    "nrow": 512,
+    "ngrid": 4096,
+    "box_mpc_h": 256.0,
+    "epochs": [
+      2,
+      1,
+      0
+    ],
+    "half_steps": false,
+    "cosmology": {
+      "Omega_m": 0.3089,
+      "Omega_Lambda": 0.6911,
+      "h": 0.6774,
+      "sigma8": 0.8159
+    },
+    "shape_repair_commit": "c68c22d",
+    "analysis_ngrid": 2048
+  },
+  "pilot_steps": 0,
+  "threads": 64,
+  "snapshots": [
+    {
+      "redshift": 2,
+      "header": {
+        "scale_factor": 0.3333333432674408,
+        "step": 92,
+        "nrow": 512,
+        "ngrid": 4096,
+        "particles": 134217728
+      },
+      "header_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/PMcrd.0092.DAT",
+      "data_paths": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/PMcrs0.0092.DAT"
+      ]
+    },
+    {
+      "redshift": 1,
+      "header": {
+        "scale_factor": 0.5,
+        "step": 109,
+        "nrow": 512,
+        "ngrid": 4096,
+        "particles": 134217728
+      },
+      "header_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/PMcrd.0109.DAT",
+      "data_paths": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/PMcrs0.0109.DAT"
+      ]
+    },
+    {
+      "redshift": 0,
+      "header": {
+        "scale_factor": 1.0,
+        "step": 158,
+        "nrow": 512,
+        "ngrid": 4096,
+        "particles": 134217728
+      },
+      "header_path": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/PMcrd.0158.DAT",
+      "data_paths": [
+        "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/PMcrs0.0158.DAT"
+      ]
+    }
+  ],
+  "stage_receipt": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/evolve.json",
+  "outputs": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/PMcrd.0092.DAT": {
+      "sha256": "462d4542d5d788d6c73e11518f80f4fc93005c3a7b5828aa0e00ab1bc957934c",
+      "bytes": 537
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/PMcrd.0109.DAT": {
+      "sha256": "a02bf1bf439ed57dfc023aae16d040d1e245f1d8a747ec33ea9c7d621c2b4f06",
+      "bytes": 537
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/PMcrd.0158.DAT": {
+      "sha256": "1ff0ae996256b141a8279112fa49ac3021f2bc4726e9d770895d46916e42abc1",
+      "bytes": 537
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/PMcrs0.0092.DAT": {
+      "sha256": "a658b5b810c976217fe6510d5f09bc38586db147a7d607cf806294f42676277d",
+      "bytes": 3221225472
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/PMcrs0.0109.DAT": {
+      "sha256": "7fa48adb1407d703f647f7cf3be2513e50b87cb9aab6b2be6bc7791f340bc686",
+      "bytes": 3221225472
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/PMcrs0.0158.DAT": {
+      "sha256": "16b3ddad4840c1649d7edc9ccd4fc561a9b7c6152609d888d5c17c12d194a217",
+      "bytes": 3221225472
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/timing.log": {
+      "sha256": "73d63f56e210373addca27377d494ef485d3c61d4eae65dcb129e306b13e30ed",
+      "bytes": 19614
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/D/Run1/Run.log": {
+      "sha256": "c9d0e1ec6845e37139d947b3da54c2dd518cd006ed60e874ac4aadab6839d9d6",
+      "bytes": 7667
+    }
+  },
+  "completed_at_utc": "2026-09-08T07:55:21.422910+00:00"
+}

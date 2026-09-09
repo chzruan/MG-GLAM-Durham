@@ -1,0 +1,135 @@
+{
+  "completed": true,
+  "completed_at_utc": "2026-09-09T00:10:38.048334+00:00",
+  "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+  "plot_source_sha256": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+  "scope": "All nine supplemental pages: zero lower bounds and upper bounds contain every displayed 84th percentile; no temporary files retained",
+  "checks": [
+    {
+      "kind": "particle",
+      "redshift": 2,
+      "axes": {
+        "bulk_velocity_km_s": {
+          "highest_q84": 59.410056917329385,
+          "displayed_upper_limit": 62.14933894138141
+        },
+        "centre_distance_mpc_h": {
+          "highest_q84": 0.22485486893807746,
+          "displayed_upper_limit": 0.23552653038017307
+        }
+      }
+    },
+    {
+      "kind": "force",
+      "redshift": 2,
+      "axes": {
+        "bulk_velocity_km_s": {
+          "highest_q84": 26.214793905949186,
+          "displayed_upper_limit": 27.403956002744984
+        },
+        "centre_distance_mpc_h": {
+          "highest_q84": 0.15255834085837036,
+          "displayed_upper_limit": 0.15995631816167508
+        }
+      }
+    },
+    {
+      "kind": "time",
+      "redshift": 2,
+      "axes": {
+        "bulk_velocity_km_s": {
+          "highest_q84": 24.335019850787113,
+          "displayed_upper_limit": 25.422421271156654
+        },
+        "centre_distance_mpc_h": {
+          "highest_q84": 0.07032512388244629,
+          "displayed_upper_limit": 0.07376058384167263
+        }
+      }
+    },
+    {
+      "kind": "particle",
+      "redshift": 1,
+      "axes": {
+        "bulk_velocity_km_s": {
+          "highest_q84": 66.39581391557995,
+          "displayed_upper_limit": 69.4639896965959
+        },
+        "centre_distance_mpc_h": {
+          "highest_q84": 0.32095960802726053,
+          "displayed_upper_limit": 0.3363311782198394
+        }
+      }
+    },
+    {
+      "kind": "force",
+      "redshift": 1,
+      "axes": {
+        "bulk_velocity_km_s": {
+          "highest_q84": 40.076548338557494,
+          "displayed_upper_limit": 41.982954595642056
+        },
+        "centre_distance_mpc_h": {
+          "highest_q84": 0.30605533489508585,
+          "displayed_upper_limit": 0.32103403902976385
+        }
+      }
+    },
+    {
+      "kind": "time",
+      "redshift": 1,
+      "axes": {
+        "bulk_velocity_km_s": {
+          "highest_q84": 28.59777029285421,
+          "displayed_upper_limit": 29.91628068561142
+        },
+        "centre_distance_mpc_h": {
+          "highest_q84": 0.15185992568556606,
+          "displayed_upper_limit": 0.15938320583336021
+        }
+      }
+    },
+    {
+      "kind": "particle",
+      "redshift": 0,
+      "axes": {
+        "bulk_velocity_km_s": {
+          "highest_q84": 61.51389466018461,
+          "displayed_upper_limit": 64.39994271252058
+        },
+        "centre_distance_mpc_h": {
+          "highest_q84": 0.42226729328551954,
+          "displayed_upper_limit": 0.4426782035836756
+        }
+      }
+    },
+    {
+      "kind": "force",
+      "redshift": 0,
+      "axes": {
+        "bulk_velocity_km_s": {
+          "highest_q84": 29.017430540410903,
+          "displayed_upper_limit": 30.3437341416825
+        },
+        "centre_distance_mpc_h": {
+          "highest_q84": 0.3347325547842129,
+          "displayed_upper_limit": 0.35108286862185395
+        }
+      }
+    },
+    {
+      "kind": "time",
+      "redshift": 0,
+      "axes": {
+        "bulk_velocity_km_s": {
+          "highest_q84": 15.797436198598906,
+          "displayed_upper_limit": 16.552254495422346
+        },
+        "centre_distance_mpc_h": {
+          "highest_q84": 0.12618945650993924,
+          "displayed_upper_limit": 0.13242611976148452
+        }
+      }
+    }
+  ]
+}

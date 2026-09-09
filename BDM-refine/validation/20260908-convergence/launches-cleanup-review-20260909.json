@@ -1,0 +1,79 @@
+{
+  "completed": true,
+  "started_at_utc": "2026-09-09T02:51:14.926767+00:00",
+  "archive": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/launches-review-20260909.tar.gz",
+  "archive_sha256": "0820f15fa8c607adeb2246dfe5d9d337a28c9274cc5483339a7fe1643f60aae8",
+  "archive_bytes": 44431,
+  "archive_verified_member_by_member": true,
+  "manifest": {
+    "work/slurm/cleanup-post-render-launches-t1-11956701.log": {
+      "bytes": 19936,
+      "mode": 420,
+      "mtime_ns": 1788879657000000000,
+      "device": 56918434,
+      "inode": 198160015842885113,
+      "kind": "file",
+      "sha256": "0d19336a390b287d058c08d78e6b6a0705d5d12163fedd0b7ae1abc2949edc15"
+    },
+    "work/slurm/cleanup-post-render-launches-t1.pyz": {
+      "bytes": 25133,
+      "mode": 420,
+      "mtime_ns": 1788844361000000000,
+      "device": 56918434,
+      "inode": 198160013510952155,
+      "kind": "file",
+      "sha256": "aa61502c183485164521448867f8c503bef9fad5225e98e95757859fb9beed9d"
+    },
+    "work/slurm/cleanup-post-render-launches-t1.sh": {
+      "bytes": 1184,
+      "mode": 420,
+      "mtime_ns": 1788844361000000000,
+      "device": 56918434,
+      "inode": 198160013510952156,
+      "kind": "file",
+      "sha256": "11d9bd444a0624466d4d7725ec363f2c5dee50aa3bad630d2e31d298fe7d7758"
+    },
+    "work/slurm/ic-check-review-20260909-t1-11960736.log": {
+      "bytes": 2073,
+      "mode": 420,
+      "mtime_ns": 1788921669000000000,
+      "device": 56918434,
+      "inode": 198160015842888038,
+      "kind": "file",
+      "sha256": "f934d41dabd54710fe47068292c8dac9227e876a9b5af8ff746370b7d2ffeb25"
+    },
+    "work/slurm/ic-check-review-20260909-t1.pyz": {
+      "bytes": 22753,
+      "mode": 420,
+      "mtime_ns": 1788921044000000000,
+      "device": 56918434,
+      "inode": 198160013510953568,
+      "kind": "file",
+      "sha256": "0144e21777b9f2ef44b658d18e264a7f647c12491e5539db847e8510c788cc75"
+    },
+    "work/slurm/ic-check-review-20260909-t1.sh": {
+      "bytes": 1123,
+      "mode": 420,
+      "mtime_ns": 1788921045000000000,
+      "device": 56918434,
+      "inode": 198160013510953569,
+      "kind": "file",
+      "sha256": "bee0b2244c75d6714a1da0aea9c1da47b55513135a9693243b37852918182581"
+    }
+  },
+  "selected_terminal_jobs": {
+    "11956701": "COMPLETED",
+    "11960736": "COMPLETED"
+  },
+  "prior_archive_receipts": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/launches-cleanup-finished-launches.json": "fee983b817f1777ba64b136a627a5b4e7eea8bbe2e9cf67a85033dd19c192b26",
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/launches-cleanup-post-render-launches.json": "c07e4273e2633bdd83b45b27b13f854146d1b49e1a93fee4a032017a6dedbcea"
+  },
+  "accounting_sha256": "e361392b2799f6e1907c27337c54449e241ec9652ec7052b3422bc695ae7b7cc",
+  "files_removed": 6,
+  "require_finished": true,
+  "completed_at_utc": "2026-09-09T02:51:15.601523+00:00",
+  "net_files_reduced": 4,
+  "retained": "All scientific inputs/outputs, executables, configurations, and active/unknown launch files",
+  "restore": "tar -xzf launches-review-20260909.tar.gz -C . (run in the campaign directory; restore only if needed)"
+}

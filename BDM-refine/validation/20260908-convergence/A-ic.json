@@ -1,0 +1,54 @@
+{
+  "completed": true,
+  "spec": {
+    "case": "A",
+    "nrow": 256,
+    "ngrid": 2048,
+    "box_mpc_h": 256.0,
+    "epochs": [
+      2,
+      1,
+      0
+    ],
+    "half_steps": false,
+    "cosmology": {
+      "Omega_m": 0.3089,
+      "Omega_Lambda": 0.6911,
+      "h": 0.6774,
+      "sigma8": 0.8159
+    },
+    "shape_repair_commit": "c68c22d",
+    "analysis_ngrid": 2048
+  },
+  "header": {
+    "scale_factor": 0.009900989942252636,
+    "step": 0,
+    "nrow": 256,
+    "ngrid": 2048,
+    "particles": 16777216
+  },
+  "stage_receipt": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/A/Run1/ic.json",
+  "sampled_modes_sha256": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071",
+  "outputs": {
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/A/Run1/PMcrd.DAT": {
+      "sha256": "a844f75f092a9d44fae05bd077ed6e41c5873f0eab0bd79b33be82deb8dc6f06",
+      "bytes": 537
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/A/Run1/PMcrs0.DAT": {
+      "sha256": "1b4f7e3d532e54acd936e90c4309228d60f343c8c72e50d50216bbc3c869887a",
+      "bytes": 402653184
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/A/Run1/matched_ic_receipt.txt": {
+      "sha256": "5edb3fb6e5f627d98031ad664935992e1643ce32c04d98bedbc1ffbaf27285a2",
+      "bytes": 637
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/A/Run1/matched_modes.bin": {
+      "sha256": "40f4c0e4e73e40e3ef879f3b97acbfa5385980d9aa951fee47e2b2e55fca4071",
+      "bytes": 431248
+    },
+    "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/work/cases/A/Run1/pt.dat": {
+      "sha256": "a4bdddfe99b36286da7046ac901cf18a8ee500d7ccf00dff61c9d9fae9be8cd6",
+      "bytes": 12
+    }
+  }
+}

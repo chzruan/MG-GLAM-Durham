@@ -1,0 +1,200 @@
+{
+  "passed": true,
+  "reviewed_at_utc": "2026-09-09T03:52:40.911209+00:00",
+  "scope": "35-slide claims response; new scientific content and final layout checked.",
+  "presentation_pdf_sha256": "ce1ae04bb0be3a0b36477502d2849f2e0d44759f5556f739073034dd4628f061",
+  "figure_pdf_sha256": "92cce942de4a2c1d8062258a0f77f13f53fd4dd8e6dbe1caae3cddb7ce30340a",
+  "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+  "slide_pages_inspected": [
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "figure_pages_inspected": [],
+  "preceding_render_inspection": {
+    "presentation_pdf_sha256": "f8bea21e31a733790a17928f61f682733f6827dd36cf4d4c5324f04e45bcc64d",
+    "slide_pages_inspected": [
+      1,
+      10,
+      11,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      35
+    ],
+    "scope": "Title, tables, new content, equation, conclusions, accounting and final figure. Slide 17 title/spacing was subsequently fixed and re-inspected in the final PDF."
+  },
+  "findings": [
+    "35 pages; no overfull/underfull, missing-character or reference/layout warnings in the recorded presentation checks.",
+    "Final new tables, percentile equation, narrative and footers are legible without clipping or overlap.",
+    "Legacy counts are 68/43/3; redshift shifts use separate populations; selection and separability limits remain explicit.",
+    "Numerical plotting source and input unchanged; earlier 18-axis numerical coverage control remains applicable and was not rerun."
+  ],
+  "previous_reviews": [
+    {
+      "passed": true,
+      "reviewed_at_utc": "2026-09-09T02:53:43.674638+00:00",
+      "scope": "Review-response presentation: 31 slides and unchanged numerical figure inputs.",
+      "presentation_pdf_sha256": "ef9c7a572c6d3705ca02c62b285901f9b181b6739a4b32f06cb39b0c3572801d",
+      "figure_pdf_sha256": "e0f2f0d0e6238825b5e835f77843d5453c18626b460b8108e84fb0f64906ec11",
+      "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+      "slide_pages_inspected": [
+        10,
+        11,
+        14
+      ],
+      "figure_pages_inspected": [],
+      "preceding_render_inspection": {
+        "render": {
+          "completed": true,
+          "complete_campaign": true,
+          "started_at_utc": "2026-09-09T02:44:07.169455+00:00",
+          "completed_at_utc": "2026-09-09T02:45:07.629678+00:00",
+          "source_sha256": {
+            "common.py": "70e412d7c7544a67292f3abd7b4a86f486659835b7abb1b18836275665d329cb",
+            "plots/plot_convergence.py": "ea79435cb67ae349d69590fc17aea26bde9aec678930686d2e5685cebeaee2fc",
+            "plots/house_style.py": "8c8c75392d6b0b43586432b5526690605e34c341f7fd4139fd1377e765c8950d",
+            "plots/chz-paper.mplstyle": "d68fb93fd8287697b558dbb610ff1801e2fe37dcbb040b8288051b5589bac992",
+            "slides/make_slides.py": "33c057c9d3f626ec1883d26915b4f2240d68fb43e7274a3e1b23507582dd276f",
+            "slides/beamerthemeStanford.sty": "e47448a1255c7c06a091b980638adea3712c0977238d7adbceaf47e190235e52",
+            "slides/beamercolorthemestanford.sty": "551ff19ca218a97187e1a63b03d4811327d8fd0b4065299d8cd650fb72ba5f64",
+            "slides/beamerouterthemesimplefooter.sty": "4765b67a8adc94966a72fc0180c029719d01ea0e22a9d3b28ec6cbb6e8991db7",
+            "slides/durham_logo.png": "80be871d34359191546433eca0cbc149d299e2a45389e8006e6e4c134e1651fc"
+          },
+          "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+          "plot_manifest_sha256": "87729344a48cfbeb1a653cb04c5d0aee00ac320f5762dcf18e21ba6c2f7ed096",
+          "presentation_manifest_sha256": "442c8985f010612d8fece9ee32f9afe2288c6853465fad4d818173467bc7d751",
+          "figure_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/figures/bdm_convergence_n300.pdf",
+          "presentation_pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+          "visual_review": "Automated build and text/layout-log checks only; newly completed results still need visual scientific review."
+        },
+        "presentation": {
+          "completed": true,
+          "complete_campaign": true,
+          "created_at_utc": "2026-09-09T02:45:07.330109+00:00",
+          "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+          "assessment_input_sha256": "0b35a83983cfd2c823a95593dfa2bebd05e414577a2af9b2062f38c40ef47f9f",
+          "ic_validation_input_sha256": "1dd5c3ef1c916e558a25035a9185d8adee6807f22e7f17a37b67582d008c9beb",
+          "accounting_input_sha256": "7fff4757b0a2b83396dc1f54eed748be2078533ba6077e13c7bd412323295799",
+          "plot_pdf_sha256": "57db71fb758a366b53fecbf92ae4a2a7fc3e0a6f5e5dd3ef092035c1eefd0b7b",
+          "source": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.tex",
+          "source_sha256": "d58c7715fc811aa5ef07efafa4de768a4f9b2a256c3420470ddbac01e83b9bac",
+          "generator_sha256": "33c057c9d3f626ec1883d26915b4f2240d68fb43e7274a3e1b23507582dd276f",
+          "pdf": "/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/BDM-refine/validation/20260908-convergence/slides/bdm_convergence.pdf",
+          "pdf_sha256": "0bd6e2bc1e94f6a116eb851b5115afd8384ecc5e49c752b57f1bf9ff3472edaf",
+          "pages": 31,
+          "page_count_source": "pdfinfo",
+          "warnings": [],
+          "visual_review": "Build and layout-log checks passed; inspect the rendered scientific results visually."
+        },
+        "resources": "elapsed_seconds=61.40 user_seconds=29.66 system_seconds=4.95 maxrss_kib=202812",
+        "status": "Superseded by table-spacing refinement after visual inspection",
+        "slide_pages_inspected": [
+          1,
+          4,
+          5,
+          6,
+          8,
+          10,
+          11,
+          12,
+          13,
+          15,
+          31
+        ]
+      },
+      "findings": [
+        "Initial inspection covered title, ICs, mass definitions, effective cuts, membership, figures, shapes, uncertainties, conclusions and final slide.",
+        "The final build changes only table spacing; all three changed table pages were inspected again and are readable without overlap.",
+        "All 31 pages compiled with no layout warnings. Scientific plot input and plotting source are unchanged; existing 18-axis coverage controls remain applicable.",
+        "Shape limitations, the paired uncertainty interpretation, publication thresholds and the source-bound IC rerun are explicit."
+      ],
+      "previous_reviews": [
+        {
+          "reviewed_at_utc": "2026-09-09T00:19:58.343708+00:00",
+          "scope": "Complete seven-run, 21-catalogue campaign; representative scientific and layout review of the final 29-slide deck and 18-page figure PDF.",
+          "presentation_pdf_sha256": "58ebad4132ae817b5c7a2e0bd8a56a852acce674f35454bfad4a3d7712635a0f",
+          "figure_pdf_sha256": "5c56ab1e7ff9f4cfa289c9b859c7b2d866b7189b016dd10b2640eb6777878e90",
+          "input_sha256": "31d96e95f8a6df13ecfdefd11df88b3c811cc73eb15cb21bc4677f7a5221fa3d",
+          "slide_pages_inspected": [
+            3,
+            5,
+            6,
+            10,
+            12,
+            29
+          ],
+          "figure_pages_inspected": [
+            5,
+            14,
+            16,
+            18
+          ],
+          "prior_full_render_inspection": {
+            "presentation_pdf_sha256": "318f01ab3b9e78705358ca85deef8c1376b5740731acf33b9a6dada38cccfd39",
+            "slide_pages_inspected": [
+              1,
+              3,
+              4,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              29
+            ],
+            "figure_pages_inspected": [
+              13,
+              15
+            ],
+            "scope": "Title, IC explanation, main z=0 diagnostics, interpretation, costs and limitations inspected before the final axis/table-spacing fixes; changed content was rechecked in the final render."
+          },
+          "findings": [
+            "Scientific axes, units, resolution cuts, uncertainty shading, legends and footers are readable on the inspected pages.",
+            "The first full review identified clipped absolute velocity differences from an upper limit of 1. Final plots scale both absolute velocity and centre-distance axes to the data.",
+            "All 18 affected axes additionally pass the numeric plot-controls.json coverage checks.",
+            "z=0 passing mass ranges and higher-redshift timestep limitations agree with the completed assessments.",
+            "The first-order IC exception and the unexercised production host-violation branch remain explicit.",
+            "Automated checks report 29 slide pages and no LaTeX layout warnings; visual inspection is representative, not a claim to have inspected every page."
+          ],
+          "passed": true,
+          "previous_reviews": [
+            {
+              "reviewed_at_utc": "2026-09-08T01:12:22.763015+00:00",
+              "scope": "Preliminary 8-catalogue analysis only; a later full render requires a new visual review.",
+              "presentation_pdf_sha256": "7e6c4dff5091c1bc4f929d17911ee7759391cb1c0cbf8f168e00ad47d12f32be",
+              "figure_pdf_sha256": "cb9ac5e6b4127bf8294e5fbd13541b2fc93666974ce418dd25cecca068d2f77a",
+              "input_sha256": "377d9204dc2ed8128001dc73783661dc47825f2a27b470176ce710c83ad189d7",
+              "slide_pages_inspected": [
+                1,
+                3,
+                7,
+                9,
+                10
+              ],
+              "figure_pages_inspected": [
+                9
+              ],
+              "findings": [
+                "Title and matrix are readable and identify the incomplete campaign.",
+                "Scientific panels, tick labels, legends and footers are readable without overlap or clipping after spacing corrections.",
+                "Particle floors, unresolved Vmax and the reference convention are stated.",
+                "Working ranges are descriptive and limitations remain explicit."
+              ],
+              "passed": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "template_bookmark_warning": "hyperref removes the translation command from the appendix PDF bookmark; rendered text and layout are unaffected. Initial-pass PageLabels/outlines rerun notices are resolved by latexmk."
+}
