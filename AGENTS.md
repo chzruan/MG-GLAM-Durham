@@ -11,6 +11,9 @@
 - Generate the Gadget-format ICs with 2LPTIC, convert them to GLAM PM files
   with [`ic2pm`](ic2pm.f90), then evolve with GLAM. Match the IC epoch,
   cosmology, spectrum normalization and velocity conventions to the run.
+- `ic2pm`'s default velocity epoch is `half` (velocities shifted to
+  a_init − ASTEP/2, GLAM's leapfrog convention); use `sync` only to reproduce
+  pre-2026-09-16 runs, and record the epoch in each campaign's provenance.
 - GLAM's native `PMP2start` generators use first-order Zel'dovich ICs. Use
   them for explicitly requested legacy reproduction or IC-method controls;
   do not silently substitute them for the default 2LPTIC workflow.

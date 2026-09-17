@@ -11,6 +11,30 @@ reproduction or IC-method controls; existing campaigns retain their recorded
 IC method. See [VALIDATION.md](VALIDATION.md) for the checked conventions and
 end-to-end comparisons.
 
+## `ic2pm` velocity epoch — erratum/update (2026-09-17)
+
+Usage is now `ic2pm.exe <IC_basename> [S_vel] [half|sync]` (run from
+`Run<box>/`, reads `../Setup.dat`). The third argument selects the epoch of
+the velocities written to the PM files:
+
+- `half` (**default**): the synchronous 2LPTic/Gadget velocities (at
+  a_init) are rescaled to a_v = a_init − ASTEP/2 with PMP2start's
+  growing-mode factor (a_v/a)^1.5 F(a_v)/F(a), F = sqrt(Om + OmL a^3),
+  ASTEP being the PM-header step (= ASTEP0 from `Setup.dat`). This is what
+  GLAM's kick-then-drift leapfrog expects. Do **not** edit the Gadget IC
+  files themselves; keep them standard (synchronous).
+- `sync`: no shift; byte-identical to the pre-2026-09-16 converter. Only
+  for reproducing the runs made before the fix (`conv_da*`,
+  `fid2LPTIC_*`, `ic2pm_val_L1024`).
+
+Without the shift the late-time P(k) is high by ≈ 0.8 × 0.75 da/a_init
+(+1.2 / +1.75 / +2.3 / +4.5% for da0 = 4e-4 / 6e-4 / 8e-4 / 1.6e-3 from
+z = 49), which is what several earlier numbers in [VALIDATION.md](VALIDATION.md)
+measured; see its 2026-09-17 erratum and `../halfstep_ab/README.md` for the
+A/B test. `S_vel` values: 1.0 for ICs from this build and for the original
+DEGRACE `ics.*`; 5.12e6/0.99059529 for Gui's old HEFT files (see below).
+Fix commit: ee44100.
+
 ## Generator identity
 
 Gui Brando's "2LPTic" IC generator (email thread: `Gmail - Fw_ 2LPTic.html`)
