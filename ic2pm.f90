@@ -11,15 +11,37 @@
 !   (the same 2-level directory contract as PMP2start.exe).
 !
 !   Usage:
-!       ic2pm.exe  <IC_basename>  [S_vel]
+!       ic2pm.exe  <IC_basename>  [S_vel]  [half|sync]
 !
 !   - <IC_basename> is the Gadget file prefix INCLUDING the trailing '.', so the
 !     files are <IC_basename>0, <IC_basename>1, ...  e.g.
 !       /cosma7/data/dp004/bl267/Runs/DEGRACE/ICs/IC_data/L1024/Node_002/ics.
 !       /cosma8/data/dp203/bl267/Projects/Ongoing/HEFT/ICs/IC_highres/IC_Np1d_2048_L_1024_2LPT.
-!   - [S_vel] (default 1.0) scales the Gadget VEL-block value to km/s:
-!       low-res 2LPTic :  1.0        (velocities already in km/s)
-!       high-res HEFT  :  ~5.172e6   (custom UnitVelocity - CONFIRM before use)
+!   - [S_vel] (default 1.0) scales the Gadget VEL-block value to the standard
+!     Gadget unit u = v_pec/sqrt(a) in km/s (verified values, see
+!     2LPTIC_Gui/README.md and VALIDATION.md):
+!       ICs from our fixed FML build (2LPTIC_Gui)        :  1.0
+!       original DEGRACE 2LPTic ics.* (bl267, L1024)     :  1.0
+!       Gui's old HEFT IC_Np1d_2048_L_1024_2LPT.* files  :  5.12e6/0.99059529
+!   - [half|sync] (default half) selects the epoch of the OUTPUT velocities:
+!       half : velocities are moved back half a time step, to a_v = a_init -
+!              ASTEP/2, where ASTEP is the value written to the PM header
+!              (= ASTEP0 from ../Setup.dat).  This is the convention GLAM's
+!              kick-then-drift leapfrog expects (PMP2main::MOVE kicks the
+!              momenta from a-da/2 to a+da/2 with the force at a, then drifts
+!              the positions with the new momenta) and the one PMP2start
+!              itself uses (AEXPV = AEXPN - ASTEP/2, VCONS built at AEXPV,
+!              XCONS at AEXPN).  2LPTic/Gadget ICs are synchronous (positions
+!              and velocities both at a_init), so without this shift the first
+!              kick over-boosts every momentum by ~0.75*da/a_init and the
+!              growing mode ends up ~1-4% high (da = 4e-4 .. 1.6e-3, z_i = 49).
+!              The shift is the growing-mode rescale used by PMP2start,
+!                 V(a_v)/V(a) = (a_v/a)^1.5 * F(a_v)/F(a),  F = sqrt(Om+OmL a^3)
+!              (D ~ a, f ~ 1 at z_init; the 2LPT velocity term strictly scales
+!              as (a_v/a)^2.5 but is <~3% of the 1LPT term, error <~ 6e-4).
+!       sync : no shift; output byte-identical to the pre-2026-09-16 ic2pm.
+!              Only for reproducing legacy runs (conv_da*, fid2LPTIC_*,
+!              ic2pm_val_L1024).
 !
 !   Corrections vs gadget2pm.f90 (which targets z=0, kpc/h, BDM snapshots):
 !     (1) positions are already Mpc/h (BoxSize=1024) -> NO /1000; keep Box=1024.
@@ -48,24 +70,34 @@ Program IC2PM
 
    type(GadgetHeader) :: gh
    character(len=256)  :: inbase, sarg, fname
+   character(len=16)   :: vepoch
    integer*4           :: nfiles_in, ifile_g, np, j
    integer*8           :: ip, ioff, nlow
    real*4              :: xs, vfac, Svel, xx, yy, zz
    real*4              :: xmin, xmax
-   real*8              :: velsq
+   real*8              :: velsq, a8, av8, fshift
    real*4, allocatable :: pos(:), vel(:)
    integer, parameter  :: uG = 50
    logical             :: ex
 
 !--- command line -----------------------------------------------------------
    if (command_argument_count() < 1) then
-      write(*,*) 'Usage: ic2pm.exe <IC_basename incl trailing "."> [S_vel]'
+      write(*,*) 'Usage: ic2pm.exe <IC_basename incl trailing "."> [S_vel] [half|sync]'
       stop
    end if
    call get_command_argument(1, inbase)
    Svel = 1.0
    if (command_argument_count() >= 2) then
       call get_command_argument(2, sarg); read(sarg,*) Svel
+   end if
+   vepoch = 'half'
+   if (command_argument_count() >= 3) then
+      call get_command_argument(3, sarg); vepoch = adjustl(sarg)
+   end if
+   if (trim(vepoch) /= 'half' .and. trim(vepoch) /= 'sync') then
+      write(*,*) ' ic2pm: bad velocity-epoch argument "', trim(vepoch), '"'
+      write(*,*) ' Usage: ic2pm.exe <IC_basename incl trailing "."> [S_vel] [half|sync]'
+      stop 1
    end if
 
 !--- run parameters from ../Setup.dat (NGRID, NROW, Box, cosmology, AEXPN0) ---
@@ -114,7 +146,20 @@ Program IC2PM
    write(HEADER,'(a)') 'ic2pm: 2LPTic ingest'
 
    xs   = real(NGRID) / Box
-   vfac = Svel * AEXPN**1.5 * real(NGRID) / (100.0 * Box)
+   vfac = Svel * AEXPN**1.5 * real(NGRID) / (100.0 * Box)   ! synchronous, at a_init
+
+!--- half-step velocity epoch (GLAM leapfrog convention, see header) ---------
+   a8  = real(AEXPN, 8)
+   av8 = a8
+   fshift = 1.0d0
+   if (trim(vepoch) == 'half') then
+      if (ASTEP <= 0.0 .or. ASTEP >= AEXPN) &
+         call die('ASTEP (Setup.dat) must satisfy 0 < ASTEP < a_init', ASTEP, AEXPN)
+      av8    = a8 - real(ASTEP, 8)/2.0d0
+      fshift = (av8/a8)**1.5d0 * sqrt((real(Om,8) + real(OmL,8)*av8**3) / &
+                                      (real(Om,8) + real(OmL,8)*a8**3))
+      vfac   = real(real(vfac, 8) * fshift, 4)
+   end if
 
    write(*,'(a)')          ' === ic2pm : 2LPTic -> MG-GLAM PM ==='
    write(*,'(2a)')         '  IC basename = ', trim(inbase)
@@ -125,6 +170,9 @@ Program IC2PM
    write(*,'(a,i14)')      '  Nparticles  = ', Nparticles
    write(*,'(2(a,i7))')    '  NROW =', NROW, '  NGRID =', NGRID
    write(*,'(a,i6)')       '  num_files   = ', nfiles_in
+   write(*,'(2a)')         '  velocity epoch = ', trim(vepoch)
+   write(*,'(a,f12.8,a,es12.4)') '  a_v (velocities) = ', av8, '   ASTEP =', ASTEP
+   write(*,'(a,f12.8)')    '  velocity shift factor V(a_v)/V(a_init) = ', fshift
    write(*,'(2(a,es12.4))')'  xs =', xs, '   vfac =', vfac
 
 !--- allocate the Tools global particle arrays -------------------------------
@@ -189,9 +237,13 @@ Program IC2PM
 !$OMP END PARALLEL DO
    write(*,'(a,2f12.4,a,i8,a)') '  coord min/max =', xmin, xmax, &
         '   (expect [1,', NGRID+1, '))'
-   write(*,'(a,f10.3,a)') '  1D peculiar-velocity rms = ', &
+   write(*,'(a,f10.3,a)') '  1D peculiar-velocity rms at a_init (IC file) = ', &
         sqrt(AEXPN) * Svel * sqrt(velsq/(3.0d0*real(Nparticles,8))), &
         ' km/s   (expect ~50 km/s at z=49)'
+   ! v_pec(a_v)/v_pec(a) = fshift * a/a_v  (GLAM momentum V = v_pec*a*NGRID/(100*Box))
+   write(*,'(a,f10.3,a,f10.6,a,f10.6,a)') '  1D peculiar-velocity rms written, at a_v = ', &
+        sqrt(AEXPN) * Svel * sqrt(velsq/(3.0d0*real(Nparticles,8))) * fshift * a8/av8, &
+        ' km/s   (a_v =', av8, ', momentum factor =', fshift, ')'
 
 !--- write PM files (PMcrd.DAT + PMcrs0.DAT, PMcrs1.DAT, ...) into cwd --------
    write(*,'(a)') '  writing PMcrd.DAT + PMcrs*.DAT ...'
@@ -203,7 +255,7 @@ contains
       character(len=*), intent(in) :: msg
       real*4,           intent(in) :: a, b
       write(*,'(3a,2es14.6)') ' ic2pm: FATAL ', msg, ' : ', a, b
-      stop
+      stop 1
    end subroutine die
 
 end Program IC2PM
