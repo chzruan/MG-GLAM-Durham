@@ -22,7 +22,9 @@
 !     2LPTIC_Gui/README.md and VALIDATION.md):
 !       ICs from our fixed FML build (2LPTIC_Gui)        :  1.0
 !       original DEGRACE 2LPTic ics.* (bl267, L1024)     :  1.0
-!       Gui's old HEFT IC_Np1d_2048_L_1024_2LPT.* files  :  5.12e6/0.99059529
+!       Gui's old HEFT IC_Np1d_2048_L_1024_2LPT.* files  :  5.168609e6
+!         (= 5.12e6/0.99059529; write the NUMBER on the command line, a '/'
+!          expression is rejected)
 !   - [half|sync] (default half) selects the epoch of the OUTPUT velocities:
 !       half : velocities are moved back half a time step, to a_v = a_init -
 !              ASTEP/2, where ASTEP is the value written to the PM header
@@ -33,15 +35,29 @@
 !              itself uses (AEXPV = AEXPN - ASTEP/2, VCONS built at AEXPV,
 !              XCONS at AEXPN).  2LPTic/Gadget ICs are synchronous (positions
 !              and velocities both at a_init), so without this shift the first
-!              kick over-boosts every momentum by ~0.75*da/a_init and the
-!              growing mode ends up ~1-4% high (da = 4e-4 .. 1.6e-3, z_i = 49).
+!              kick over-boosts every momentum by ~0.75*da/a_init and P(k)
+!              ends up ~1.2-4.8% high at linear k (growing-mode amplitude
+!              ~0.6-2.3%; da = 4e-4 .. 1.6e-3, z_i = 49; larger at nonlinear k).
 !              The shift is the growing-mode rescale used by PMP2start,
 !                 V(a_v)/V(a) = (a_v/a)^1.5 * F(a_v)/F(a),  F = sqrt(Om+OmL a^3)
 !              (D ~ a, f ~ 1 at z_init; the 2LPT velocity term strictly scales
-!              as (a_v/a)^2.5 but is <~3% of the 1LPT term, error <~ 6e-4).
-!       sync : no shift; output byte-identical to the pre-2026-09-16 ic2pm.
-!              Only for reproducing legacy runs (conv_da*, fid2LPTIC_*,
-!              ic2pm_val_L1024).
+!              as (a_v/a)^2.5, but its rms is ~1.1% of the 1LPT term on the
+!              ICs checked, so the mis-scaling is <= 4.5e-4 for da <= 1.6e-3).
+!       sync : no shift.  PMcrs*.DAT are byte-identical to the output of ic2pm
+!              at commit 00ea3df (the last version without the epoch argument);
+!              PMcrd.DAT is identical except the AEXP0 word (0-based bytes
+!              53-56), an uninitialised local of Tools::WriteDataPM that
+!              differs between any two runs, even of the same binary.
+!              Only for reproducing runs converted before commit ee44100.
+!              Those runs were made when sync was the only behaviour and their
+!              submit scripts pass NO third argument, so re-running them with
+!              this binary would silently give half: append 'sync' to
+!                conv_da{4,8,16}/Run1/submit_conv.sh, ic2pm_val_L1024/Run1/submit_val.sh,
+!                fid2LPTIC_L512Np2048Ng4096{,_da4,_da6}/Run1/submit.sh
+!              to reproduce them.  The PM header string records the mode:
+!                'ic2pm: 2LPTic ingest'               (sync, and all pre-ee44100 files)
+!                'ic2pm: 2LPTic ingest, v at a-da/2'  (half)
+!   All failures print a message and exit with status 1; success exits 0.
 !
 !   Corrections vs gadget2pm.f90 (which targets z=0, kpc/h, BDM snapshots):
 !     (1) positions are already Mpc/h (BoxSize=1024) -> NO /1000; keep Box=1024.
@@ -71,7 +87,9 @@ Program IC2PM
    type(GadgetHeader) :: gh
    character(len=256)  :: inbase, sarg, fname
    character(len=16)   :: vepoch
-   integer*4           :: nfiles_in, ifile_g, np, j
+   integer*4           :: nfiles_in, ifile_g, np, j, ios
+   character(len=*), parameter :: usage = &
+      'Usage: ic2pm.exe <IC_basename incl trailing "."> [S_vel] [half|sync]'
    integer*8           :: ip, ioff, nlow
    real*4              :: xs, vfac, Svel, xx, yy, zz
    real*4              :: xmin, xmax
@@ -82,13 +100,25 @@ Program IC2PM
 
 !--- command line -----------------------------------------------------------
    if (command_argument_count() < 1) then
-      write(*,*) 'Usage: ic2pm.exe <IC_basename incl trailing "."> [S_vel] [half|sync]'
-      stop
+      write(*,*) usage
+      stop 1
    end if
    call get_command_argument(1, inbase)
    Svel = 1.0
    if (command_argument_count() >= 2) then
-      call get_command_argument(2, sarg); read(sarg,*) Svel
+      call get_command_argument(2, sarg); sarg = adjustl(sarg)
+      if (len_trim(sarg) == 0 .or. verify(trim(sarg), '0123456789.+-eEdD') /= 0) then
+         write(*,*) ' ic2pm: bad S_vel argument "', trim(sarg), &
+                    '" (must be a plain number, e.g. 1.0 or 5.168609e6)'
+         write(*,*) usage
+         stop 1
+      end if
+      read(sarg, *, iostat=ios) Svel
+      if (ios /= 0 .or. Svel <= 0.0) then
+         write(*,*) ' ic2pm: bad S_vel argument "', trim(sarg), '" (unreadable or <= 0)'
+         write(*,*) usage
+         stop 1
+      end if
    end if
    vepoch = 'half'
    if (command_argument_count() >= 3) then
@@ -96,20 +126,26 @@ Program IC2PM
    end if
    if (trim(vepoch) /= 'half' .and. trim(vepoch) /= 'sync') then
       write(*,*) ' ic2pm: bad velocity-epoch argument "', trim(vepoch), '"'
-      write(*,*) ' Usage: ic2pm.exe <IC_basename incl trailing "."> [S_vel] [half|sync]'
+      write(*,*) usage
       stop 1
    end if
 
 !--- run parameters from ../Setup.dat (NGRID, NROW, Box, cosmology, AEXPN0) ---
    inquire(file='../Setup.dat', exist=ex)
-   if (.not. ex) stop ' ic2pm: ../Setup.dat not found (run PMP2init first, from RunN/)'
+   if (.not. ex) then
+      write(*,*) ' ic2pm: ../Setup.dat not found (run PMP2init first, from RunN/)'
+      stop 1
+   end if
    open(11, file='../Setup.dat', status='old')
    call ReadSetup             ! sets AEXPN0, ASTEP0, Box, hubble, Om, OmL, NROW, NGRID, Nseed, ...
 
 !--- file-0 Gadget header: a, Box, cosmology, total particle count -----------
    write(fname,'(2a)') trim(inbase), '0'
    inquire(file=trim(fname), exist=ex)
-   if (.not. ex) stop ' ic2pm: first IC file (<IC_basename>0) not found'
+   if (.not. ex) then
+      write(*,*) ' ic2pm: first IC file (<IC_basename>0) not found: ', trim(fname)
+      stop 1
+   end if
    open(uG, file=trim(fname), form='unformatted', access='sequential', &
         status='old', convert='little_endian')
    read(uG) gh
@@ -128,7 +164,8 @@ Program IC2PM
    if (nint(real(Nparticles,8)**(1.d0/3.d0)) /= NROW) then
       write(*,*) ' NROW(Setup)=', NROW, '  nint(Nparticles^1/3)=', &
                  nint(real(Nparticles,8)**(1.d0/3.d0))
-      stop ' ic2pm: NROW mismatch (Setup vs IC)'
+      write(*,*) ' ic2pm: NROW mismatch (Setup vs IC)'
+      stop 1
    end if
    if (abs(Om  - real(gh%Omega0))      > 1.0e-3) call die('Om mismatch',  Om,  real(gh%Omega0))
    if (abs(OmL - real(gh%OmegaLambda)) > 1.0e-3) call die('OmL mismatch', OmL, real(gh%OmegaLambda))
@@ -143,7 +180,11 @@ Program IC2PM
    EKIN = 0.0 ; EKIN1 = 0.0 ; EKIN2 = 0.0 ; TINTG = 0.0 ; AEU0 = 0.0
    extras(:)    = 0.0
    extras(100)  = Box                    ! sole Box source for ReadDataPM
-   write(HEADER,'(a)') 'ic2pm: 2LPTic ingest'
+   if (trim(vepoch) == 'half') then
+      write(HEADER,'(a)') 'ic2pm: 2LPTic ingest, v at a-da/2'   ! records the epoch (34 chars)
+   else
+      write(HEADER,'(a)') 'ic2pm: 2LPTic ingest'                ! unchanged from 00ea3df
+   end if
 
    xs   = real(NGRID) / Box
    vfac = Svel * AEXPN**1.5 * real(NGRID) / (100.0 * Box)   ! synchronous, at a_init
@@ -193,7 +234,10 @@ Program IC2PM
       read(uG) vel                                ! velocities, file units (IDs skipped)
       close(uG)
 
-      if (ioff + np > Nparticles) stop ' ic2pm: too many particles vs header count'
+      if (ioff + np > Nparticles) then
+         write(*,*) ' ic2pm: too many particles vs header count'
+         stop 1
+      end if
 
 !$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(j,xx,yy,zz) REDUCTION(+:velsq)
       do j = 1, np
@@ -224,7 +268,7 @@ Program IC2PM
 
    if (ioff /= Nparticles) then
       write(*,'(a,2i15)') ' ic2pm: FATAL scattered /= total count :', ioff, Nparticles
-      stop
+      stop 1
    end if
 
 !--- diagnostics: coordinate range + implied 1D peculiar-velocity rms --------

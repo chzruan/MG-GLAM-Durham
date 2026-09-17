@@ -14,7 +14,13 @@ end-to-end comparisons.
 ## `ic2pm` velocity epoch — erratum/update (2026-09-17)
 
 Usage is now `ic2pm.exe <IC_basename> [S_vel] [half|sync]` (run from
-`Run<box>/`, reads `../Setup.dat`). The third argument selects the epoch of
+`Run<box>/`, reads `../Setup.dat`). `<IC_basename>` includes the trailing
+'.', and the PM files are written to the current directory. The epoch is
+positional, so S_vel must come before it (`ic2pm.exe <IC> 1.0 sync`);
+`ic2pm.exe <IC> sync` is rejected. Every failure (usage error, bad S_vel,
+missing `../Setup.dat` or IC file, header/Setup mismatch) prints a message
+and exits with status 1 (since the review-1 fix commit; at ee44100 only
+`die` aborts and a bad epoch did). The third argument selects the epoch of
 the velocities written to the PM files:
 
 - `half` (**default**): the synchronous 2LPTic/Gadget velocities (at
@@ -22,18 +28,35 @@ the velocities written to the PM files:
   growing-mode factor (a_v/a)^1.5 F(a_v)/F(a), F = sqrt(Om + OmL a^3),
   ASTEP being the PM-header step (= ASTEP0 from `Setup.dat`). This is what
   GLAM's kick-then-drift leapfrog expects. Do **not** edit the Gadget IC
-  files themselves; keep them standard (synchronous).
-- `sync`: no shift; byte-identical to the pre-2026-09-16 converter. Only
-  for reproducing the runs made before the fix (`conv_da*`,
-  `fid2LPTIC_*`, `ic2pm_val_L1024`).
+  files themselves; keep them standard (synchronous). The shift depends on
+  the GLAM run's ASTEP0, not on the IC (one IC serves runs with different
+  da), and an edited file converted with the default `half` would be
+  shifted twice.
+- `sync`: no shift; particle files (PMcrs*.DAT) byte-identical to the
+  pre-fix converter (commit 00ea3df), PMcrd.DAT identical apart from the
+  uninitialised AEXP0 header field. Only for reproducing the runs made
+  before the fix (`conv_da*`, `fid2LPTIC_*`, `ic2pm_val_L1024`). Their
+  submit scripts (`conv_da{4,8,16}/Run1/submit_conv.sh`,
+  `ic2pm_val_L1024/Run1/submit_val.sh`,
+  `fid2LPTIC_L512Np2048Ng4096{,_da4,_da6}/Run1/submit.sh`) call
+  `ic2pm.exe <IC> 1.0` without a third argument and would now get `half`;
+  add `sync` explicitly to reproduce them. The PM header string records the
+  mode: `ic2pm: 2LPTic ingest` (sync and all pre-fix files) vs
+  `ic2pm: 2LPTic ingest, v at a-da/2` (half).
 
-Without the shift the late-time P(k) is high by ≈ 0.8 × 0.75 da/a_init
-(+1.2 / +1.75 / +2.3 / +4.5% for da0 = 4e-4 / 6e-4 / 8e-4 / 1.6e-3 from
-z = 49), which is what several earlier numbers in [VALIDATION.md](VALIDATION.md)
-measured; see its 2026-09-17 erratum and `../halfstep_ab/README.md` for the
-A/B test. `S_vel` values: 1.0 for ICs from this build and for the original
-DEGRACE `ics.*`; 5.12e6/0.99059529 for Gui's old HEFT files (see below).
-Fix commit: ee44100.
+Without the shift the late-time P(k) is high by ≈ 0.8 × 0.75 da/a_init at
+linear scales (+1.2 / +1.8 / +2.4 / +4.8% for da0 = 4e-4 / 6e-4 / 8e-4 /
+1.6e-3 from z = 49; measured +1.20 / – / +2.39 / +4.78% at k ≤ 0.05 h/Mpc)
+and by ≈1.4× that at 0.3<k<1 by z=0. This is what several earlier numbers
+in [VALIDATION.md](VALIDATION.md) measured; see its 2026-09-17 erratum and
+`../halfstep_ab/README.md` for the A/B test. `S_vel` values: 1.0 for ICs
+from this build and for the original DEGRACE `ics.*`; `5.168609e6`
+(= 5.12e6/0.99059529, but write the number: the parser rejects `/`) for
+Gui's old HEFT files (5.12e6 = 100·box/a: see "Changes vs Gui's
+Main_2LPT_lua.cpp" below; 0.99059529: VALIDATION.md, High-res validation).
+Fix commit: ee44100 on branch `ic2pm-halfstep` (not yet merged into `cz`);
+`ic2pm` binaries built before it have no epoch argument and always write
+synchronous velocities.
 
 ## Generator identity
 

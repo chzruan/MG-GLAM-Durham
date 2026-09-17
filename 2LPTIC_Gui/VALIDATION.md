@@ -100,8 +100,10 @@ measured, not assumed):
   amplitude by 1.005, i.e. +1% in P, still undercompensating), not an error
   in the 2LPTIC/ic2pm chain.
   [ERRATUM 2026-09-17: the 1.023x was NOT "linear + nonlinear" — it is the
-  ic2pm half-step velocity offset (+2.3% predicted for da=8e-4); see the
-  2026-09-17 erratum section at the end of this file.]
+  ic2pm half-step velocity offset (+2.4% at linear k for da=8e-4). The z=2.5
+  "match" in the first bullet therefore hid that excess, and ≈ +3% of the
+  +4-6% at 0.3<k<1 IS an error in the ic2pm chain (estimate). See the
+  2026-09-17 erratum section at the end of this file. [corrected 2026-09-17 after review]]
 
 Note on "Pk tune" (traced 2026-07-29): it is BiasPars(10), used in exactly
 one place — PMP2init multiplies the box rms delta rho/rho written to
@@ -117,6 +119,10 @@ scatter; the systematic difference at quasi-linear/nonlinear k is
 attributable to the IC method, with the 2LPT @ z=49 start being the more
 accurate. Any suite mixing legacy ZA-started GLAM boxes with 2LPTIC-started
 ones must expect (and correct for) this few-% k-dependent offset.
+[ERRATUM 2026-09-17: ≈ +3% of this offset at 0.3<k<1 is the ic2pm half-step
+velocity offset, not the IC method; the ZA-transient part there is ≲1%
+(estimate). The "few-% k-dependent offset" is withdrawn pending re-measurement
+with `half` ICs; see the erratum section, item 1.]
 
 Pk-tune accounting in the comparison (added 2026-07-29): the fid boxes'
 ICs were deliberately boosted by Pk tune = 1.005 (x1.010 in P). Their
@@ -128,8 +134,9 @@ response; the amplitude part propagates slightly superlinearly at
 nonlinear k, so ~1.037 is an upper bound on the pure-growth part there).
 Without the tune, the as-run offset would have been ~1% larger (~+6%).
 The dashed reference line in pk_fid_compare.png marks the 1.011 level.
-[ERRATUM 2026-09-17: ~1.023 of the "~1.037 pure ZA-transient" factor is our
-own half-step offset; see the erratum section.]
+[ERRATUM 2026-09-17: ≈1.033 of the "~1.037 pure ZA-transient" factor at
+0.3<k<1 is our own half-step offset (1.4× its linear +2.4%; estimate); see
+the erratum section. [corrected 2026-09-17 after review]]
 
 ## Time-stepping convergence at Ng=4096 (2026-07-30)
 
@@ -148,8 +155,9 @@ force resolution — the resolution-dependent regime of eq. 32 that the
 Ng=2048 test could not see. Lesson: at dx~0.125 Mpc/h use da=4e-4-class
 schedules (late da/a<1e-2); re-evaluate per config via beta.
 [ERRATUM 2026-09-17: the +1.1-1.3% at k<0.8 is the difference of the
-half-step offsets (1.0233/1.0118), not a stepping error; the high-k
-suppression is genuine. See the erratum section.]
+half-step offsets (1.0240/1.0120 at linear k, ≈1.016 at 0.4<k<0.8; estimate),
+not a stepping error; the high-k suppression is genuine and ≈1 point larger
+net of the offset. See the erratum section. [corrected 2026-09-17 after review]]
 
 CONVERGED comparison vs fid Run1-5 (244-step run): +1.1% (0.1<k<0.2),
 +2.5% (0.2-0.4), +4.1% (0.4-0.8), +4.6% (0.8-1.6), +4.7% (1.6-3.2),
@@ -158,6 +166,11 @@ tune] x [~1.028 pure ZA transient]. At k>3 the fid boxes' own late-time
 stepping (da/a=1.0e-2, beta>1 in clusters at this dx) also suppresses
 their P, so the high-k gap mixes IC transients with fid stepping error;
 the 244-step 2LPTIC run is the most accurate box of the set.
+[ERRATUM 2026-09-17: every number in this paragraph contains the 244-step
+run's half-step offset (≈ +1.2% at k<0.2, ≈ +1.7% at 0.3<k<1, ≈ +1.0-1.6% at
+k>0.8; estimates), so "~1.028 pure ZA transient" is ≈1.011 and "the most
+accurate box of the set" holds only after that correction. See the erratum
+section, item 2.]
 
 ## Default-schedule run (163 steps) — stepping ladder complete (2026-07-30)
 
@@ -182,15 +195,21 @@ errors are slightly smaller), and high-k suppression only -0.7..-1.2%
 (vs -4..-5% for the 123-step run). The 123-step (da0=8e-4) schedule is NOT
 recommended at dx~0.125.
 [ERRATUM 2026-09-17: the "+0.6-1.1% quasi-linear over-growth" of the 163-step
-run and the "residual +0.5-0.8% by da^2 scaling" of the 244-step run are the
-half-step offsets (1.0175 and 1.0118), not stepping errors. The high-k part
-of this comparison, and hence the da0=6e-4 recommendation at dx~0.125,
-stands. See the erratum section.]
+run relative to 244 steps, and its +0.6-0.9% at 0.8<k<3.2, are the difference
+of the half-step offsets (1.0180/1.0120 = 1.006 at linear k, ≈1.008 at
+0.4<k<0.8; estimate), not stepping errors, so the table's "(pure stepping
+error)" label holds only at k>3. The "residual +0.5-0.8% by da^2 scaling" of
+the 244-step run was its own +1.2% offset. Net of the offset the high-k
+suppressions are ≈0.5 point (163) and ≈1 point (123) larger; the da0=6e-4
+recommendation at dx~0.125 stands. See the erratum section, item 3. [corrected 2026-09-17 after review]]
 
 Stepping-matched IC comparison — P(2LPTIC, 163-step default)/<P_fid,
 157-step default>: +1.7% (0.1<k<0.2), +3.5% (0.2-0.4), +5.2% (0.4-0.8),
 +5.6% (0.8-1.6), +5.3% (1.6-3.2), +5.6% (3.2-6.4). This is the practical
 "switch the IC method in production, keep default stepping" offset.
+[ERRATUM 2026-09-17: contains the 163-step run's half-step offset, ≈ +1.8% at
+linear k, ≈ +2.2% at 0.2<k<0.4 and ≈ +1.5% at 3.2<k<6.4 (estimates); see the
+erratum section, item 3.]
 
 ## Halo mass function comparison (2026-07-30)
 
@@ -215,72 +234,133 @@ Key findings:
 - Cluster masses (13.5-14.5): +2% (converged) with mild step dependence
   (123-step: +4-5%), consistent with the P(k) excess propagated through
   the HMF response; extreme tail consistent within realization scatter.
+  [ERRATUM 2026-09-17: both the +2% and its step dependence contain the
+  half-step P offset; see the erratum section, item 4.]
 
 ## ERRATUM (2026-09-17): `ic2pm` half-step velocity offset in every run above
 
-All GLAM runs in this file that started from `ic2pm`-converted ICs
-(`fid2LPTIC_L512Np2048Ng4096{,_da4,_da6}`, `conv_da{4,8,16}`,
-`ic2pm_val_L1024`) were made with the pre-2026-09-16 `ic2pm`, which passed
+(Section corrected in place 2026-09-17 after the independent reviews
+`REVIEW-1-ee44100-findings.md`, `REVIEW-2-halfstep-ab-findings.md`,
+`REVIEW-3-c01255e-errata-findings.md`: k-dependence of the offset, the T3
+claim, and the quasi-linear estimates.)
+
+All GLAM runs in or cited by this file that started from `ic2pm`-converted
+ICs (`fid2LPTIC_L512Np2048Ng4096{,_da4,_da6}`; `conv_da{4,8,16}` = "the
+2026-07-02 Ng=2048 test"; `ic2pm_val_L1024`), and any other ΛCDM or MG run
+converted with `ic2pm` before commit ee44100, were made with the unshifted
+converter, which passed
 the synchronous 2LPTic velocities (at a_init) straight into GLAM's PM files.
 GLAM's kick-then-drift leapfrog (PMP2main::MOVE) expects momenta at
 a_init - da/2, which PMP2start supplies (AEXPV = AEXPN - ASTEP/2). The
 missing shift over-boosts every momentum by ~0.75 da/a_init at the first
-kick; in linear theory 40% of that feeds the growing mode, so the late-time
-P(k) is high by a k-independent 0.8*eps:
+kick; in linear theory 40% of that feeds the growing mode, so at linear
+scales the late-time P(k) is high by 0.8 × 0.75 da/a_init = 0.6 da/a_init
+(an exact linear model of PMP2main's discrete leapfrog agrees to 0.1%; the
+continuum 0.8·eps with eps normalised at a_init + da/2 is 2-7% lower). The
+offset is NOT k-independent once modes are nonlinear: in the A/B at z=0 it
+is ≈1.2× the linear value at 0.2<k<0.4 and ≈1.4× at 0.3<k<1 (at z=2.6:
+≈1.25× at 0.3<k<1, ≈1.7× at 1.6<k<3.2).
 
-| da0 (z_init=49) | steps | predicted P excess | measured (L1024/Ng2048 A/B) |
+| da0 (z_init=49) | steps | predicted P excess (discrete leapfrog model) | measured (L1024/Ng2048 A/B, k ≤ 0.05 h/Mpc, z≈9 .. z≈2) |
 |---|---|---|---|
-| 4e-4 | 244 | +1.2% | +1.18% (z 9) .. +1.20% (z 2) |
-| 6e-4 | 163 | +1.75% | (not run; interpolated) |
-| 8e-4 | 123 | +2.3% | +2.35% .. +2.39% |
-| 1.6e-3 | 62 | +4.5% | +4.70% .. +4.78% |
+| 4e-4 | 244 | +1.20% | +1.18% (z 9) .. +1.20% (z 2) |
+| 6e-4 | 163 | +1.80% | (not run; ≈ +1.8% interpolated) |
+| 8e-4 | 123 | +2.40% | +2.35% .. +2.39% |
+| 1.6e-3 | 62 | +4.80% | +4.70% .. +4.78% |
+
+At 0.3<k<1 and z=0 the same A/B gives +1.67% / ≈+2.5% (interpolated) /
++3.35% / +6.70%; these, not the linear values, are the offsets to remove from
+the quasi-linear ratios quoted in this file.
 
 Fix: `ic2pm.f90` commit ee44100 (branch `ic2pm-halfstep`): new third
 argument `[half|sync]`, default `half` = rescale the velocities to
 a_v = a_init - ASTEP/2 with PMP2start's growing-mode factor
 (a_v/a)^1.5 F(a_v)/F(a), F = sqrt(Om + OmL a^3); `sync` reproduces the old
-files byte-for-byte. A/B test (`halfstep_ab/README.md`, jobs 12006891-93,
-same Node_002 IC as conv_da*, all six da x epoch variants, k <= 0.05 h/Mpc):
+particle files byte-for-byte (PMcrd.DAT differs only in the uninitialised
+AEXP0 field). A/B test (`halfstep_ab/README.md`, an untracked directory at
+/cosma8/data/dp203/dc-ruan1/mgglam_claude/MG-GLAM/halfstep_ab/, jobs
+12006891-93, same Node_002 IC as conv_da*, all six da x epoch variants,
+k <= 0.05 h/Mpc):
 - T2 (decisive): from the step-1 output to z=2, the `half` runs grow as
   linear theory to 0.9973-0.9988 (min 0.9954), the `sync` runs 1.0101 /
-  1.0199 / 1.0362 for da 4e-4 / 8e-4 / 1.6e-3 (predicted 1.011 / 1.021 /
-  1.036).
+  1.0199 / 1.0362 for da 4e-4 / 8e-4 / 1.6e-3 averaged over 2≤z≤10
+  (predicted 1.011 / 1.021 / 1.036; per output the da4 value falls to 1.0088
+  by z=2.25 because both epochs share a ≈ -0.25% nonlinear drift at
+  k ≤ 0.05). The contamination-free ratio G_sync/G_half is 1.011-1.014 /
+  1.021-1.022 / 1.038-1.039, matching an exact linear model of the leapfrog
+  to ≤0.02%.
 - T3: z=0 growth-corrected P(da8)/P(da4) and P(da16)/P(da4) at k <= 2.5:
-  `sync` +1.1-1.6% / +3.3-5.3% (= the 2026-07-02 conv_da* result);
-  `half` 0.9989-0.9996 / 0.998-1.0025. The genuine time-stepping error of
-  the GLAM schedule at dx=0.5 Mpc/h is <= 0.1% (da0=8e-4) and <= 0.3%
-  (da0=1.6e-3), not the 1-5% previously reported.
+  `sync` +1.1-1.6% / +3.3-5.3% with a linear-D^2 growth correction (= the
+  2026-07-02 conv_da* result; +3.3-4.5% for da0=1.6e-3 when compared at
+  matched epochs); `half` 0.9989-0.9996 / 0.998-1.0025 with the same
+  correction, which is not valid at nonlinear k for the da0=1.6e-3 run's
+  last output (a=1.0102). Compared at matched epochs (a≈0.847), the genuine
+  time-stepping error at dx=0.5 Mpc/h is -0.04% (da0=8e-4) and -0.18%
+  (da0=1.6e-3) at k ≲ 0.2, scaling as da^2 as a linear model of the leapfrog
+  predicts, but -0.1..-0.2% (da0=8e-4, 1<k<2.5) and -0.5..-1.2%
+  (da0=1.6e-3, 0.5<k<2.5) at nonlinear k. The 1-5% previously reported was
+  the offset at k ≲ 0.2 but not entirely at k ≳ 0.5.
 
-Consequences for the statements above (earlier text left as written;
-numbers below are linear-theory corrections, not re-runs):
+Consequences for the statements above (earlier text left as written). The
+numbers below are ESTIMATES, not re-runs: they divide the Ng=4096
+(dx=0.125 Mpc/h) ratios by the offsets measured at the same k and z in the
+L1024/Ng2048 (dx=0.5 Mpc/h) A/B, which assumes the nonlinear response
+transfers between resolutions (least safe at k>1, unmeasured at k>6). None
+of the fid2LPTIC_L512 runs has been repeated with `half`.
 1. "End-to-end GLAM run vs the fiducial suite": the 123-step run's 1.023x
    growth relative to linear from the IC to z=2.5 at k~0.07 is the offset
    (predicted 1.023), not "linear + nonlinear". The fid ZA boxes' 1.003x is
    approximately correct. In the decomposition ours/fid = 1.048 =
-   1.011 (IC amplitude) x 1.037, about 1.023 of the 1.037 is ours; the
-   pure ZA-transient part at 0.3<k<1 is therefore ~1.4%, not ~3.7%.
-   The qualitative conclusion (ZA@z=100 starts under-grow; 2LPT@z=49 is the
-   more accurate start) stands, but with a smaller amplitude, and the
-   "few-% k-dependent offset" between ZA- and 2LPTIC-started boxes must be
-   re-measured with shifted ICs.
+   1.011 (IC amplitude) x 1.037 at 0.3<k<1 (z=0), the 123-step offset at
+   those k is ≈ +3.3% (1.4× its linear +2.4%), so the pure ZA-transient part
+   is only ≈ 1.048/(1.011 × 1.033) ≈ +0.3% (estimate; the 244-step pair in
+   item 2 gives ≈ +1.1%), not ~3.7%. At 0.3<k<1 a ZA-transient deficit is
+   therefore ≲1% and not established by this comparison: the "few-%
+   k-dependent offset" between ZA- and 2LPTIC-started boxes is withdrawn
+   until re-measured with `half` ICs. "2LPT@z=49 is the more accurate start"
+   remains supported at k ≳ 1 (≈ +2 to +3.5% at z=0 after removing the
+   offset and the 1.1% amplitude; estimate), by the ~20% deficit at k~10 at
+   z=2.5, and by the low-mass HMF excess.
 2. "Time-stepping convergence at Ng=4096": P(123)/P(244) = +1.1-1.3% at
-   k<0.8 equals the offset ratio 1.0233/1.0118 = 1.011; it is not stepping.
-   The -2.4% (k~4) / -4.3% (k~10) suppression is genuine (the offset is
-   positive and k-independent) and the lesson about late da/a at
-   dx~0.125 stands. The converged 2LPTIC-vs-fid figure +3.9% at 0.3<k<1
-   contains a 1.012 offset, so ~1.011 x ~1.016.
+   0.05<k<0.8 is essentially the offset ratio: 1.0240/1.0120 = 1.012 at
+   linear k, rising to ≈ +1.4% at 0.2<k<0.4 and ≈ +1.6% at 0.4<k<0.8 at z=0
+   (estimate). At k ≲ 0.2 it is not stepping; at 0.4<k<0.8 the measured
+   value sits ≈0.3-0.5 point below the offset, i.e. the 123-step run's
+   genuine stepping error is already slightly negative there (estimate).
+   The -2.4% (k~4) / -4.3% (k~10) suppression is genuine and, net of the
+   offset difference (≈ +1.0% at 3.2<k<6.4 in the A/B; unmeasured at k>6),
+   larger: ≈ -3.4% at k~4 and probably ≈ -5% at k~10 (estimates); the lesson
+   about late da/a at dx~0.125 stands. The converged 2LPTIC-vs-fid figure
+   +3.9% at 0.3<k<1 contains the 244-step offset at those k, ≈ +1.7% (not
+   the linear 1.2%), so ≈ 1.011 x 1.011: a pure ZA-transient part of ≈ +1%
+   (estimate).
 3. "Default-schedule run (163 steps)": +0.6-1.1% at k<0.8 vs 244 steps is
-   1.0175/1.0118 = 1.0056; the "residual +0.5-0.8% by da^2 scaling" was
-   the 244-run's own 1.2% offset (the error scaled as da, not da^2). The
-   high-k comparison (-0.7..-1.2% vs -4..-5%) and hence the da0=6e-4
-   recommendation at dx~0.125 stand; the stepping-matched IC-switch offset
-   (+3.5% at k~0.3, +5.6% at k~5) contains ~1.75% from this bug.
+   mostly the offset ratio: 1.0180/1.0120 = 1.006 at linear k, ≈ +0.7% at
+   0.2<k<0.4 and ≈ +0.8% at 0.4<k<0.8 at z=0 (estimate), leaving ≲ +0.3%
+   for stepping; the 0.8<k<3.2 row (+0.6-0.9%) is likewise ≈ the offset
+   (+0.6-0.8%); the "residual +0.5-0.8% by da^2 scaling" was the 244-run's
+   own 1.2% offset (the error scaled as da, not da^2). The high-k comparison
+   and hence the da0=6e-4 recommendation at dx~0.125 stand (the offset is
+   positive at every measured k, so net of it the suppressions relative to
+   244 steps are ≈0.5 point larger for 163 steps and ≈1 point larger for
+   123 steps; estimates, offset unmeasured at k>6). "Accurate to ~1%
+   everywhere" should therefore read "within ~1-2% of the 244-step run at
+   k>6". The stepping-matched IC-switch offset (+3.5% at k~0.3, +5.6% at
+   k~5) contains ≈ +2.2% (k~0.3) and ≈ +1.5% (k~5) from this bug
+   (estimates), leaving ≈ +1.3% and ≈ +4%.
 4. "Halo mass function": the mild step dependence at cluster masses
-   (+4-5% at 123 steps vs +2% converged) is consistent with the 1.1% P
-   offset difference propagated through the HMF; the step-INdependent
-   low-mass excess is unaffected by this erratum.
+   (+4-5% at 123 steps vs +2% converged) is partly the ≈1.2% P offset
+   difference propagated through the HMF (Sheth-Tormen response: ≈ +0.4% at
+   log10M=13.55, +1.0% at 14.05, +2.0% at 14.55; estimate), and the
+   converged +2% itself contains the 244-step run's own offset (≈ +0.5%,
+   +1.1%, +2.2% at the same masses), so the cluster-mass excess over the fid
+   boxes is ≲1% after correction and not established. The step-independent
+   low-mass excess (+8..+39%) is unaffected (response ≲0.2%, of opposite
+   sign).
 
 Follow-ups (not started): re-run the three fid2LPTIC_L512 comparisons with
 `half` (~3 x 10 node-h) and re-derive the ZA-vs-2LPT offsets and the HMF
 ratios; re-check the da0 recommendation from the high-k side only. To
-reproduce any pre-fix run exactly, convert with `ic2pm.exe <IC> 1.0 sync`.
+reproduce any pre-fix run exactly, convert with `ic2pm.exe <IC> <S_vel> sync`
+(S_vel = 1.0 for every run listed above; their submit scripts pass no third
+argument and must have `sync` appended).
