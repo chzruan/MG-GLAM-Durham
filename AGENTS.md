@@ -11,8 +11,8 @@
 - Generate the Gadget-format ICs with 2LPTIC, convert them to GLAM PM files
   with [`ic2pm`](ic2pm.f90), then evolve with GLAM. Match the IC epoch,
   cosmology, spectrum normalization and velocity conventions to the run.
-- Use `ic2pm` built from commit 6b629f1 or later (branch `ic2pm-halfstep`
-  until merged into `cz`). Its default velocity epoch is `half` (velocities
+- Use `ic2pm` built from commit 6b629f1 or later (on `cz` since
+  2026-09-17). Its default velocity epoch is `half` (velocities
   shifted to a_init − ASTEP/2, GLAM's leapfrog convention); never shift
   velocities by editing the Gadget IC files. Use `sync` only to reproduce
   runs converted before ee44100, and pass it explicitly

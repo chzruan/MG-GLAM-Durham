@@ -64,7 +64,7 @@ from this build and for the original DEGRACE `ics.*`; `5.168609e6`
 (= 5.12e6/0.99059529, but write the number: the parser rejects `/`) for
 Gui's old HEFT files (5.12e6 = 100·box/a: see "Changes vs Gui's
 Main_2LPT_lua.cpp" below; 0.99059529: VALIDATION.md, High-res validation).
-Fix commit: ee44100 on branch `ic2pm-halfstep` (not yet merged into `cz`);
+Fix commits: ee44100, 6b629f1, 54a8872 (merged into `cz` on 2026-09-17);
 `ic2pm` binaries built before it have no epoch argument and always write
 synchronous velocities.
 
