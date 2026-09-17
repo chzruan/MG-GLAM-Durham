@@ -37,7 +37,7 @@
 !              and velocities both at a_init), so without this shift the first
 !              kick over-boosts every momentum by ~0.75*da/a_init and P(k)
 !              ends up ~1.2-4.8% high at linear k (growing-mode amplitude
-!              ~0.6-2.3%; da = 4e-4 .. 1.6e-3, z_i = 49; larger at nonlinear k).
+!              ~0.6-2.4%; da = 4e-4 .. 1.6e-3, z_i = 49; larger at nonlinear k).
 !              The shift is the growing-mode rescale used by PMP2start,
 !                 V(a_v)/V(a) = (a_v/a)^1.5 * F(a_v)/F(a),  F = sqrt(Om+OmL a^3)
 !              (D ~ a, f ~ 1 at z_init; the 2LPT velocity term strictly scales
@@ -47,17 +47,27 @@
 !              at commit 00ea3df (the last version without the epoch argument);
 !              PMcrd.DAT is identical except the AEXP0 word (0-based bytes
 !              53-56), an uninitialised local of Tools::WriteDataPM that
-!              differs between any two runs, even of the same binary.
+!              usually differs between runs, even of the same binary.
 !              Only for reproducing runs converted before commit ee44100.
 !              Those runs were made when sync was the only behaviour and their
 !              submit scripts pass NO third argument, so re-running them with
 !              this binary would silently give half: append 'sync' to
 !                conv_da{4,8,16}/Run1/submit_conv.sh, ic2pm_val_L1024/Run1/submit_val.sh,
 !                fid2LPTIC_L512Np2048Ng4096{,_da4,_da6}/Run1/submit.sh
-!              to reproduce them.  The PM header string records the mode:
-!                'ic2pm: 2LPTic ingest'               (sync, and all pre-ee44100 files)
+!              to reproduce them.  The PM header string records the mode for
+!              files written by builds of commit 6b629f1 or later:
 !                'ic2pm: 2LPTic ingest, v at a-da/2'  (half)
-!   All failures print a message and exit with status 1; success exits 0.
+!                'ic2pm: 2LPTic ingest'               (sync)
+!              Every file written by an OLDER build carries the sync string
+!              whatever its mode (this includes the half-mode A/B runs of jobs
+!              12006891-93 made with an ee44100 build); for those the mode is
+!              only in the 'velocity epoch =' line of the ic2pm log.
+!   Exit status: every check in this file prints a message and exits 1;
+!   success exits 0.  Fortran runtime I/O errors (a missing or truncated
+!   IC file other than file 0, an unreadable Setup.dat value, an unwritable
+!   run directory) exit non-zero with the ifx error code; a Setup.dat that
+!   lacks the checkpoint block is rejected inside Tools::ReadSetup with a
+!   bare stop (exit 0) - job scripts should also check that PMcrd.DAT exists.
 !
 !   Corrections vs gadget2pm.f90 (which targets z=0, kpc/h, BDM snapshots):
 !     (1) positions are already Mpc/h (BoxSize=1024) -> NO /1000; keep Box=1024.
@@ -107,15 +117,15 @@ Program IC2PM
    Svel = 1.0
    if (command_argument_count() >= 2) then
       call get_command_argument(2, sarg); sarg = adjustl(sarg)
-      if (len_trim(sarg) == 0 .or. verify(trim(sarg), '0123456789.+-eEdD') /= 0) then
-         write(*,*) ' ic2pm: bad S_vel argument "', trim(sarg), &
+      if (.not. valid_number(trim(sarg))) then
+         write(*,'(3a)') ' ic2pm: bad S_vel argument "', trim(sarg), &
                     '" (must be a plain number, e.g. 1.0 or 5.168609e6)'
          write(*,*) usage
          stop 1
       end if
       read(sarg, *, iostat=ios) Svel
       if (ios /= 0 .or. Svel <= 0.0) then
-         write(*,*) ' ic2pm: bad S_vel argument "', trim(sarg), '" (unreadable or <= 0)'
+         write(*,'(3a)') ' ic2pm: bad S_vel argument "', trim(sarg), '" (unreadable or <= 0)'
          write(*,*) usage
          stop 1
       end if
@@ -181,7 +191,7 @@ Program IC2PM
    extras(:)    = 0.0
    extras(100)  = Box                    ! sole Box source for ReadDataPM
    if (trim(vepoch) == 'half') then
-      write(HEADER,'(a)') 'ic2pm: 2LPTic ingest, v at a-da/2'   ! records the epoch (34 chars)
+      write(HEADER,'(a)') 'ic2pm: 2LPTic ingest, v at a-da/2'   ! records the epoch (33 chars)
    else
       write(HEADER,'(a)') 'ic2pm: 2LPTic ingest'                ! unchanged from 00ea3df
    end if
@@ -295,6 +305,41 @@ Program IC2PM
    write(*,'(a)') '  ic2pm done.'
 
 contains
+   logical function valid_number(str)
+      ! plain real literal: [sign] digits[.digits] [eEdD [sign] digits]; nothing else
+      character(len=*), intent(in) :: str
+      integer :: i, n, ndig, nexp
+      logical :: seen_dot, in_exp
+      valid_number = .false.
+      n = len_trim(str); ndig = 0; nexp = 0; seen_dot = .false.; in_exp = .false.
+      if (n == 0) return
+      i = 1
+      if (str(1:1) == '+' .or. str(1:1) == '-') i = 2
+      do while (i <= n)
+         select case (str(i:i))
+         case ('0':'9')
+            if (in_exp) then
+               nexp = nexp + 1
+            else
+               ndig = ndig + 1
+            end if
+         case ('.')
+            if (in_exp .or. seen_dot) return
+            seen_dot = .true.
+         case ('e', 'E', 'd', 'D')
+            if (in_exp .or. ndig == 0) return
+            in_exp = .true.
+            if (i < n) then
+               if (str(i+1:i+1) == '+' .or. str(i+1:i+1) == '-') i = i + 1
+            end if
+         case default
+            return
+         end select
+         i = i + 1
+      end do
+      valid_number = (ndig > 0) .and. (.not. in_exp .or. nexp > 0)
+   end function valid_number
+
    subroutine die(msg, a, b)
       character(len=*), intent(in) :: msg
       real*4,           intent(in) :: a, b

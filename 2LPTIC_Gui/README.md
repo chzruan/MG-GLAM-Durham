@@ -17,11 +17,16 @@ Usage is now `ic2pm.exe <IC_basename> [S_vel] [half|sync]` (run from
 `Run<box>/`, reads `../Setup.dat`). `<IC_basename>` includes the trailing
 '.', and the PM files are written to the current directory. The epoch is
 positional, so S_vel must come before it (`ic2pm.exe <IC> 1.0 sync`);
-`ic2pm.exe <IC> sync` is rejected. Every failure (usage error, bad S_vel,
-missing `../Setup.dat` or IC file, header/Setup mismatch) prints a message
-and exits with status 1 (since the review-1 fix commit; at ee44100 only
-`die` aborts and a bad epoch did). The third argument selects the epoch of
-the velocities written to the PM files:
+`ic2pm.exe <IC> sync` is rejected. Every check in `ic2pm` (usage error,
+bad S_vel, missing `../Setup.dat` or IC file 0, header/Setup mismatch,
+particle-count mismatch) prints a message and exits with status 1 (since
+commit 6b629f1; at ee44100 only `die` aborts and a bad epoch did). Fortran
+runtime I/O errors (a missing or truncated later IC file, an unreadable
+Setup.dat value, an unwritable run directory) exit non-zero with the ifx
+error code; a Setup.dat without the checkpoint block is rejected inside
+Tools with a bare `stop` (exit 0), so job scripts should also check that
+`PMcrd.DAT` exists. The third argument selects the epoch of the velocities
+written to the PM files:
 
 - `half` (**default**): the synchronous 2LPTic/Gadget velocities (at
   a_init) are rescaled to a_v = a_init − ASTEP/2 with PMP2start's
@@ -40,13 +45,18 @@ the velocities written to the PM files:
   `ic2pm_val_L1024/Run1/submit_val.sh`,
   `fid2LPTIC_L512Np2048Ng4096{,_da4,_da6}/Run1/submit.sh`) call
   `ic2pm.exe <IC> 1.0` without a third argument and would now get `half`;
-  add `sync` explicitly to reproduce them. The PM header string records the
-  mode: `ic2pm: 2LPTic ingest` (sync and all pre-fix files) vs
-  `ic2pm: 2LPTic ingest, v at a-da/2` (half).
+  add `sync` explicitly to reproduce them. For files written by builds of
+  commit 6b629f1 or later the PM header string records the mode:
+  `ic2pm: 2LPTic ingest, v at a-da/2` (half) vs `ic2pm: 2LPTic ingest`
+  (sync). Every file written by an older build carries the sync string
+  whatever its mode (including the half-mode A/B runs of jobs 12006891-93,
+  made with an ee44100 build); for those the mode is only in the
+  `velocity epoch =` line of the ic2pm log.
 
 Without the shift the late-time P(k) is high by ≈ 0.8 × 0.75 da/a_init at
 linear scales (+1.2 / +1.8 / +2.4 / +4.8% for da0 = 4e-4 / 6e-4 / 8e-4 /
-1.6e-3 from z = 49; measured +1.20 / – / +2.39 / +4.78% at k ≤ 0.05 h/Mpc)
+1.6e-3 from z = 49; measured at k ≤ 0.05 h/Mpc: +1.20 / – / +2.39 / +4.78%
+at the z ≈ 2-3 peak, +1.18 / – / +2.36 / +4.72% at z = 0)
 and by ≈1.4× that at 0.3<k<1 by z=0. This is what several earlier numbers
 in [VALIDATION.md](VALIDATION.md) measured; see its 2026-09-17 erratum and
 `../halfstep_ab/README.md` for the A/B test. `S_vel` values: 1.0 for ICs
