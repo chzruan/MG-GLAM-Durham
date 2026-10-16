@@ -2,8 +2,9 @@
 
 Implementation plan for MG-GLAM, derived from the Slack thread with Baojiu Li in
 `slack-chat-degrace-prep.txt` (analysed 2026-10-16). Written for agent sessions
-and for the user. Status: **nothing implemented yet**; the numerical cross-check
-Baojiu asked for is done (section 2).
+and for the user. Status: the numerical cross-check Baojiu asked for is done
+(section 2) and **I1 is implemented** on `cz` (commit `ae4fa9d`, 2026-10-16);
+I2–I6 are open.
 
 Review deck: `docs/slides/degrace_lensplanes_plan/degrace_lensplanes_plan.pdf`
 (source `.tex` beside it; the schedule figure is made by
@@ -57,7 +58,8 @@ the lightcone/lensing code must use the same χ(a).
 0.8888888888888888  P z=0.125   0.9198100312830662  S1    1.0                 P z=0 (= S0)
 ```
 
-**Four pairs are closer than the 0.5 % merge tolerance of the exact-z code:**
+**Four pairs are closer than the 0.5 % merge tolerance the exact-z code had
+before `ae4fa9d`:**
 
 | pair (z) | a | separation in a | Δa |
 |---|---|---|---|
@@ -86,35 +88,40 @@ a_station = [brentq(lambda x: chi(x) - 256.0*k, 0.01, 0.9999999) for k in range(
 
 ## 3. Implementation items in GLAM (branch off `cz`)
 
-### I1. Exact-z schedule: allow targets closer than 0.5 % — **blocker**
+### I1. Exact-z schedule: allow targets closer than 0.5 % — **done** (`cz` commit `ae4fa9d`)
 
-Where: `SetExactSteps`, `PMP2main.f90` (≈ line 232); tests in `test/precise_z/`.
+Where: `SetExactSteps`, `PMP2main.f90`; tests in `test/precise_z/`.
 
-Today: `ZTOL = 0.005`; a target within ZTOL of a scheduled step *moves* that step
-onto the target, and any two targets closer than ZTOL are rejected with
-"closer than the 0.5% merge tolerance". The rejection exists because the second
-target of a close pair would otherwise re-move the step already pinned to the
-first target.
+As landed on `cz` (2026-10-16):
 
-Change:
-
-1. Never move a step that is already pinned (`MarkX == 1`); fall through to the
-   insertion branch instead. Keep ZTOL = 0.5 % for moving *unpinned* steps, so
-   most targets still merge (35 of 42 for the ladder above) instead of adding
-   PM steps.
-2. Relax the pair rejection to "distinct in Real*4" (e.g. relative separation
-   > 1e-5); keep the clear error message for true duplicates.
-3. Assert after insertion: all `dAlist > 0`, `Alist` strictly increasing,
-   exactly `Nexact` steps have `MarkX = 1`, each pinned `Alist` equals the
-   Real*4 of 1/(1+z).
+1. Only bitwise-duplicate targets (relative separation in a below 1e-6) are
+   rejected, because a zero-length step would break the leapfrog. The old
+   "closer than the 0.5% merge tolerance" stop is gone.
+2. The 0.5 % merge still moves a scheduled step onto a target, but never a
+   step already pinned (`MarkX = 1`) to an earlier target, which is why the
+   barrier existed. The later member of a close pair is inserted as a short
+   step. With the ladder above, 35 of the 42 targets still merge.
+3. A post-check stops the run if the schedule is not strictly increasing, if
+   `dAlist` disagrees with the epoch differences, or if the number of pinned
+   steps differs from `Nexact`.
 4. Restart check unchanged (checkpoint `AEXPN` must match `Alist(ISTEP)`).
 
-Tests to add in `test/precise_z/` (small box, `Nrow=128`): the four Baojiu pairs
-→ 42 marked steps, headers bit-exact at 1/(1+z), no duplicate step, one restart
-across a pinned pair; existing cases unchanged. Note the generalised leapfrog
-`FactV = 2 da_new/(da_old+da_new)` already handles the short inserted steps
-(FactV ≈ 0.09 then ≈ 1.9 around the 3.3e-4 step); the known limitation that the
-kick factor is evaluated at `AEXPN` rather than the kick mid-point remains.
+Tests (65 checks, all passing with ifx): `case7_closepairs` runs the four
+DEGRACE pairs on the 36³ test box for 140 steps (headers bit-exact at
+1/(1+z), shortest step 3.3e-4 in a, logged expansion factors follow the
+oracle for all 129 executed steps); `case8_pinned` checks that a merged
+target is not moved by a later target 0.09 % away; `case4c_dup` replaces the
+old pair-rejection case.
+
+Why a short step is harmless: the kick spans (da_old + da_new)/2 with the
+background prefactor evaluated at the current a. For a 3.3e-4 step after a
+6.8e-3 one the kick midpoint is off by 0.2 % of a, the prefactor error on
+that single kick is about 0.05 %, and the resulting velocity error is about
+2e-6, below float32 noise. The legacy 1.5× step growth at a < 0.3 produces
+the same size of asymmetry seven times in every run. Cost: one extra PM step
+per inserted target. Note the two snapshots of a close pair have different
+velocity staggering (v at a − da/2 with the step just taken; `ASTEP` is in
+the header).
 
 ### I2. Lens-plane output
 
@@ -195,8 +202,9 @@ Defer until section 4 is answered.
    (z = 0 plus k = 1…25)? Baojiu's 34 GB budget assumes all 42.
 3. Plane normalisation: mean (1+δ) over the slab column (proposed) versus
    surface density; must match his ECOSMOG planes.
-4. Do the four close pairs stay (I1 fix) or does he drop one of each pair?
-   Differences are ≤ 1.5 Mpc/h in χ.
+4. Keep both members of each close pair (now supported, I1) or drop one?
+   Differences are ≤ 1.5 Mpc/h in χ and 0.03 % in growth, so this is a
+   science choice, not a code constraint.
 
 ## 5. Disk budget per box (42 outputs)
 
@@ -211,7 +219,7 @@ Defer until section 4 is answered.
 ## 6. Checklist
 
 - [x] Cross-check of the 42 scale factors (2026-10-16)
-- [ ] I1 ZTOL / pinned-step fix + tests
+- [x] I1 ZTOL / pinned-step fix + tests (`cz` commit `ae4fa9d`, 2026-10-16)
 - [ ] I2 lens-plane routine, parameters, file format, numpy reader
 - [ ] I3 schedule generator script; production `Init.dat`
 - [ ] I4 `OutputSchedule.dat`
