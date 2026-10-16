@@ -223,16 +223,22 @@ end subroutine Initialize
 !
 !   Each target a_t = 1/(1+z_t) either becomes a NEW timestep, or - when a
 !   scheduled step is already closer than ZTOL (relative in a, equivalently
-!   in 1+z) - that scheduled step is MOVED onto the target instead, so no
-!   near-degenerate step is created. Marked steps (Nlist=1) trigger the
-!   standard snapshot/analysis outputs; MarkX=1 makes ADDTIME land on the
-!   tabulated epoch exactly. The legacy zout moments are kept unchanged.
+!   in 1+z) and that step is not yet pinned to another target - that
+!   scheduled step is MOVED onto the target instead, so no near-degenerate
+!   step is created. Targets may be arbitrarily close to each other (only
+!   bitwise duplicates are rejected): the later member of a close pair is
+!   inserted as a short step, which the variable-step leapfrog (FactV in
+!   the main loop) integrates with no loss of accuracy. Marked steps
+!   (Nlist=1) trigger the standard snapshot/analysis outputs; MarkX=1 makes
+!   ADDTIME land on the tabulated epoch exactly. The legacy zout moments
+!   are kept unchanged.
 !
 !------------------------------
 Subroutine SetExactSteps
     use Tools
     use LocalData
     Real*4, parameter :: ZTOL = 0.005    ! merge threshold: 0.5% in a (= in 1+z)
+    Real*4, parameter :: DUPTOL = 1.e-6  ! targets closer than this are one Real*4 epoch
     Real*4    :: atgt(1000), aprev, atol
     Integer*4 :: i, j, k, jnear
 
@@ -265,12 +271,14 @@ Subroutine SetExactSteps
         atgt(j+1) = aprev
     End Do
 
-    !---- reject targets closer to each other than the merge tolerance
+    !---- reject duplicate targets only: a zero-length step would break the
+    !     leapfrog. Pairs closer than ZTOL are allowed; the later member is
+    !     inserted as a short step (see the merge rule below).
     Do i = 2, Nexact
-        If (atgt(i) - atgt(i-1) < ZTOL*atgt(i)) Then
+        If (atgt(i) - atgt(i-1) < DUPTOL*atgt(i)) Then
             write (*, '(2(a,f10.5),a)') ' Error: exact output redshifts z=', 1./atgt(i-1) - 1., &
-                ' and z=', 1./atgt(i) - 1., ' are closer than the 0.5% merge tolerance'
-            Stop 'Exact output redshifts too close to each other'
+                ' and z=', 1./atgt(i) - 1., ' are duplicates (same epoch to Real*4 precision)'
+            Stop 'Duplicate exact output redshifts'
         End If
     End Do
 
@@ -286,8 +294,8 @@ Subroutine SetExactSteps
             If (atgt(i) - Alist(j-1) < Alist(j) - atgt(i)) jnear = j - 1
         End If
 
-        If (abs(Alist(jnear) - atgt(i)) < atol) Then
-            !-- close enough: move the scheduled step onto the target
+        If (abs(Alist(jnear) - atgt(i)) < atol .and. MarkX(jnear) == 0) Then
+            !-- close enough and not yet pinned: move the scheduled step onto the target
             Alist(jnear) = atgt(i)
             If (jnear == 1) Then
                 dAlist(1) = atgt(i) - AEXPN0
@@ -319,6 +327,25 @@ Subroutine SetExactSteps
             MarkX(j) = 1
         End If
     End Do
+
+    !---- sanity: strictly increasing schedule with positive, consistent
+    !     steps, and every requested moment pinned exactly once
+    k = 0
+    aprev = AEXPN0
+    Do i = 1, Ntotal
+        If (Alist(i) <= aprev .or. dAlist(i) <= 0. .or. &
+            abs(dAlist(i) - (Alist(i) - aprev)) > 1.e-3*dAlist(i) + 1.e-6) Then
+            write (*, '(a,i5,3(a,es14.6))') ' Error: exact-z schedule inconsistent at step ', i, &
+                ': a=', Alist(i), ' a_prev=', aprev, ' da=', dAlist(i)
+            Stop 'Exact-z schedule inconsistent'
+        End If
+        aprev = Alist(i)
+        If (MarkX(i) == 1) k = k + 1
+    End Do
+    If (k /= Nexact) Then
+        write (*, '(2(a,i5))') ' Error: exact-z moments pinned: ', k, '  requested: ', Nexact
+        Stop 'Exact-z schedule lost a requested moment'
+    End If
 
     !---- last step to execute: the legacy stop rule (within half a step of
     !     a=1) evaluated on the final table, extended so that a marked output

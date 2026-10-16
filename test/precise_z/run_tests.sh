@@ -9,7 +9,8 @@
 # Config convention under test: the existing '#outputs' line + redshift list.
 #   #outputs =  N   -> legacy: analyze at the step CLOSEST to each redshift
 #   #outputs = -N   -> exact:  hit each listed redshift exactly (new steps are
-#                      inserted, or a step within 0.5% in 1+z is moved onto it)
+#                      inserted, or an unpinned step within 0.5% in 1+z is
+#                      moved onto it; targets may be arbitrarily close)
 #
 # Cases (see asserts.py for the exact expectations):
 #   case5a_legacy    - positive #outputs: legacy schedule (baseline)
@@ -21,9 +22,11 @@
 #                      snapshot lands bit-exactly on 1/(1+z)
 #   case3_multi      - three exact z given unsorted: all produced, in order
 #   case4a/4b        - invalid z (>= z_init / negative) rejected by PMP2init
-#   case4c/4d        - close pair / out-of-range z in a hand-edited Setup.dat
+#   case4c/4d        - duplicate z / out-of-range z in a hand-edited Setup.dat
 #                      rejected by PMP2main
 #   case6_tailinsert - z=0 inserted after the legacy stop step (NlastX fix)
+#   case7_closepairs - the four DEGRACE pairs closer than 0.5%: all scheduled
+#   case8_pinned     - second member of a pair must not re-move a pinned step
 #
 # Usage:   bash run_tests.sh          (interactive; ~1-2 min on a login node)
 #          SKIP_MODULES=1 bash run_tests.sh   (if the Intel env is already loaded)
@@ -150,6 +153,18 @@ run_init case6_tailinsert || echo "  (init failed)"
 ( cd "$WORK/case6_tailinsert/Run1" && echo 1 | "$ROOT/PMP2start.exe" > start.log 2>&1 )  # own ICs: da differs
 run_main case6_tailinsert 300
 
+echo "== case7_closepairs: four pairs closer than 0.5% in a (#outputs = -8)"
+prep_case case7_closepairs
+set_outputs case7_closepairs -8 " 2.0 1.98541 1.75 1.74475 1.00202 1.0 0.37562 0.375"
+run_init case7_closepairs || echo "  (init failed)"
+copy_ics case7_closepairs && run_main case7_closepairs 140   # reach the z=0.375 pair (steps ~108/109)
+
+echo "== case8_pinned: merged target followed 0.09% later by an inserted one (#outputs = -2)"
+prep_case case8_pinned
+set_outputs case8_pinned -2 " 0.49337 0.4920"
+run_init case8_pinned || echo "  (init failed)"
+copy_ics case8_pinned && run_main case8_pinned
+
 # ---------------------------------------------------------------- error cases
 echo "== case4a_zbig / case4b_zneg: rejected by PMP2init"
 prep_case case4a_zbig
@@ -159,13 +174,13 @@ prep_case case4b_zneg
 set_outputs case4b_zneg -1 " -0.5"
 run_init case4b_zneg
 
-echo "== case4c_pair / case4d_range: rejected by PMP2main (hand-edited Setup.dat)"
-mkdir -p "$WORK/case4c_pair/Run1" "$WORK/case4d_range/Run1"
-cp "$WORK/case5a_legacy/Setup.dat" "$WORK/case4c_pair/Setup.dat"
-set_setup_outputs "$WORK/case4c_pair/Setup.dat" -2 "   0.51200   0.51000"
+echo "== case4c_dup / case4d_range: rejected by PMP2main (hand-edited Setup.dat)"
+mkdir -p "$WORK/case4c_dup/Run1" "$WORK/case4d_range/Run1"
+cp "$WORK/case5a_legacy/Setup.dat" "$WORK/case4c_dup/Setup.dat"
+set_setup_outputs "$WORK/case4c_dup/Setup.dat" -2 "   0.51200   0.51200"
 cp "$WORK/case5a_legacy/Setup.dat" "$WORK/case4d_range/Setup.dat"
 set_setup_outputs "$WORK/case4d_range/Setup.dat" -1 "  60.00000"
-copy_ics case4c_pair;  run_main case4c_pair
+copy_ics case4c_dup;   run_main case4c_dup
 copy_ics case4d_range; run_main case4d_range
 
 # ------------------------------------------------------------------ verdicts

@@ -27,7 +27,9 @@ import sys
 ZINIT = 49.0
 DA0 = 8.0e-4
 NSTEPS = 100        # steps piped into PMP2main (default)
-ZTOL = 0.005        # merge tolerance in SetExactSteps
+ZTOL = 0.005        # merge tolerance in SetExactSteps (unpinned steps only)
+DUPTOL = 1.0e-6     # targets closer than this (relative in a) are duplicates
+LOG_ATOL = 2.0e-5   # precision of the A= column in main.log
 
 SIM_CASES = {       # case dir -> configuration (zout list + sign of #outputs)
     "case5a_legacy": dict(zout=[2.00, 0.50], exact=False),
@@ -38,11 +40,17 @@ SIM_CASES = {       # case dir -> configuration (zout list + sign of #outputs)
     # z=0 must be INSERTED after the step where the legacy half-step exit
     # rule already fires (regression test for the NlastX stop-index fix)
     "case6_tailinsert": dict(zout=[0.0], exact=True, da0=6.9e-4, nsteps=300),
+    # the four DEGRACE pairs closer than ZTOL (0.49%, 0.19%, 0.10%, 0.045% in
+    # a): every member must be scheduled, the later one as a short step
+    "case7_closepairs": dict(zout=[2.0, 1.98541, 1.75, 1.74475, 1.00202, 1.0, 0.37562, 0.375], exact=True, nsteps=140),
+    # first member merges onto a ladder step (pinned); the second, 0.09%
+    # later, must be INSERTED and must not re-move the pinned step
+    "case8_pinned": dict(zout=[0.49337, 0.4920], exact=True),
 }
 ERR_CASES = {       # case dir -> (log file, required message, forbidden product)
     "case4a_zbig": ("init.log", "outside the simulation range", "Setup.dat"),
     "case4b_zneg": ("init.log", "outside the simulation range", "Setup.dat"),
-    "case4c_pair": ("Run1/main.log", "closer than the 0.5% merge tolerance", "Run1/PMcrd.0*.DAT"),
+    "case4c_dup": ("Run1/main.log", "are duplicates", "Run1/PMcrd.0*.DAT"),
     "case4d_range": ("Run1/main.log", "at or before the initial redshift", "Run1/PMcrd.0*.DAT"),
 }
 
@@ -106,7 +114,7 @@ def apply_exact(aexpn0, A, dA, zex):
         jn = j
         if j > 1 and f32(at - A[j - 1]) < f32(A[j] - at):
             jn = j - 1
-        if abs(f32(A[jn] - at)) < atol:     # merge: move the scheduled step
+        if abs(f32(A[jn] - at)) < atol and jn not in xmarks:   # merge: move an unpinned step
             A[jn] = at
             dA[jn] = f32(at - (A[jn - 1] if jn > 1 else aexpn0))
             if jn < n:
@@ -249,6 +257,30 @@ def main(work):
     act6 = results["case6_tailinsert"]
     rep.check(z0step in act6 and act6.get(z0step) == 1.0, "case6_tailinsert",
               f"z=0 snapshot produced at step {z0step} with AEXPN exactly 1.0")
+
+    # cases 7/8: close pairs -> each member pinned on its own step, the
+    # schedule strictly increasing, and the run really executed every
+    # (short) step in the oracle's order
+    for case in ("case7_closepairs", "case8_pinned"):
+        cfg = SIM_CASES[case]
+        a0, A, dA = build_ladder(DA0)
+        A, dA, marks, xm = apply_exact(a0, A, dA, cfg["zout"])
+        rep.check(len(xm) == len(cfg["zout"]), case,
+                  f"all {len(cfg['zout'])} requested moments pinned on distinct steps (got {len(xm)})")
+        gaps = [f32(A[i] - A[i - 1]) for i in range(2, len(A))]
+        rep.check(min(gaps) > 0 and min(dA[1:]) > 0, case,
+                  f"schedule strictly increasing, shortest step da={min(dA[1:]):.3e}")
+        stop = stop_index(A, dA, marks, exact=True)
+        last = min(cfg.get("nsteps", NSTEPS), stop)
+        seq = [float(v) for v in a_sequence(os.path.join(work, case, "Run1", "main.log"))]
+        rep.check(len(seq) == last, case, f"run executed {len(seq)} steps, oracle expects {last}")
+        ok = len(seq) == last and all(abs(seq[i] - A[i + 1]) <= LOG_ATOL for i in range(last))
+        rep.check(ok, case, "logged expansion factors follow the oracle schedule step by step")
+    _, xm8, _, nins8 = oracle(SIM_CASES["case8_pinned"])
+    rep.check(nins8 == 1, "case8_pinned",
+              f"z=0.49337 merged, z=0.4920 inserted (1 step inserted, got {nins8})")
+    rep.check(len(xm8) == 2 and sorted(xm8.values())[0] == f32(1.0 / f32(1.0 + f32(0.49337))),
+              "case8_pinned", "the pinned step stayed on its own target")
 
     # case 5: backward compatibility
     trailing = open(os.path.join(work, "case5b_trailing", "Setup.dat")).read()

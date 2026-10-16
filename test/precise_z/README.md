@@ -18,9 +18,12 @@ no new config lines:
 
 - `#outputs = 3` — legacy: analyze at the scheduled step *closest* to each z.
 - `#outputs = -3` — exact: the same three redshifts are hit *exactly*; each
-  becomes a new timestep, or a scheduled step within 0.5% (in 1+z) is moved
-  onto it. `PMP2init` then writes the list to `Setup.dat` in full Real*4
-  precision (`es16.8`) instead of the legacy `f8.3`.
+  becomes a new timestep, or a scheduled step within 0.5% (in 1+z) that is
+  not already pinned to another target is moved onto it. Targets may be
+  arbitrarily close to each other (only bitwise duplicates are rejected);
+  the later member of a close pair becomes a short inserted step.
+  `PMP2init` then writes the list to `Setup.dat` in full Real*4 precision
+  (`es16.8`) instead of the legacy `f8.3`.
 
 ## Run
 
@@ -42,9 +45,11 @@ delete). The executables are built automatically if missing.
 | `case2_insert` | `-2` / `2.00 0.512` (both between scheduled steps) | two new timesteps inserted; snapshots land bit-exactly on 1/(1+z) |
 | `case3_multi` | `-3` / `2.5 0.512 1.1` (deliberately unsorted) | all three produced, snapshot numbers ascending as z decreases; z=2.5 exercises the merge path, the others insert |
 | `case4a/4b` | `-1` / z = 60 (≥ z_init) resp. z = −0.5 | `PMP2init` stops with a clear message; no `Setup.dat` written |
-| `case4c/4d` | pair closer than 0.5% resp. z = 60, hand-edited into `Setup.dat` | `PMP2main` stops with a clear message; no snapshots written |
+| `case4c/4d` | duplicate z resp. z = 60, hand-edited into `Setup.dat` | `PMP2main` stops with a clear message; no snapshots written |
 | `case5a_legacy` | `+2` / `2.00 0.50` | legacy nearest-step schedule, output moments match the ladder oracle |
 | `case5b_trailing` | `case5a` `Setup.dat` with stale trailing lines appended | accepted and ignored; expansion-factor sequence identical to `case5a` step by step |
+| `case7_closepairs` | `-8` / the four DEGRACE pairs closer than 0.5% in a (`2.0 1.98541 1.75 1.74475 1.00202 1.0 0.37562 0.375`) | all 8 pinned on distinct steps, headers bit-exact, the run executes every short step in the oracle's order |
+| `case8_pinned` | `-2` / `0.49337 0.4920` (first merges onto a ladder step, second is 0.09% later) | the second target is inserted; the step pinned to the first is not moved again |
 | `case6_tailinsert` | `-1` / `0.00` with `da = 6.9e-4`: the z=0 step must be **inserted after** the step where the legacy half-step exit rule (`a >= 1 - da/2`) already fires | the run keeps stepping to the inserted moment (`NlastX` stop index) and writes the snapshot at AEXPN exactly 1.0 |
 
 Checks common to every simulation case: the *set* of numbered snapshots
