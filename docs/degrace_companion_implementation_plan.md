@@ -282,13 +282,17 @@ exits before allocating particles.
 
 1. FML-generated runs (new boxes): add the δ_L dump to our FML generator in
    `2LPTIC_Gui/` (we control it; same file format, same copy convention).
-2. Baojiu's `ics.*` (ECOSMOG companions): either (a) derive δ_L from the IC
-   displacement field at ingest in `ic2pm` (first-order inversion
-   δ_L = −∇·Ψ on the lattice, with the 2LPT second-order contamination,
-   a few % at k ~ 1 and negligible at k < 0.1 at z = 49, quantified by V3),
-   or (b) patch his 2LPTic to dump the Gaussian field in regenerate-only
-   mode with his `2LPTic.param` and seed 2026 (the code and parameters are
-   on cosma7).
+2. Baojiu's `ics.*` (ECOSMOG companions): either (a) derive δ_L from the
+   ICs at ingest in `ic2pm`. The naive version takes δ_1 = −∇·Ψ with
+   Ψ = x − q on the lattice and carries the 2LPT term Ψ_2 as a
+   contamination (negligible at k < 0.1, a few per cent near k ~ 1 at
+   z = 49). The exact version uses positions and velocities together:
+   2LPTic writes x − q = Ψ_1 + Ψ_2 and v/(aH) = f_1 Ψ_1 + f_2 Ψ_2 with its
+   own f_1 = Ω_m(a)^{5/9}, f_2 = 2 Ω_m(a)^{6/11}, so
+   Ψ_1 = (f_2 (x − q) − v/(aH)) / (f_2 − f_1) per particle, then
+   δ_L(a = 1) = −∇·Ψ_1 / D(a_ini) by one FFT of the lattice field.
+   Or (b) patch his 2LPTic (source on cosma7) to dump its Gaussian field
+   in a regenerate-only mode with his `2LPTic.param` and seed 2026.
 3. Legacy pilots (PMP2start ZA at z = 100): the brief's `IC_DUMP_ONLY` mode
    in `PMP2start`, which needs the Phase 0 answers on its RNG (Q1).
 
@@ -450,10 +454,13 @@ Mode count (2n+1)²(n+1), n = floor(k_c L/2π), 8 B per mode.
 | reference: float32 snapshot | 206 GB | 26 GB |
 
 Per box of 42 outputs at 2048³: lens planes 34 GB, catalogues ~15 GB,
-extras at all 42 outputs ~80 GB (≈130 GB per box, 13 TB for 100 boxes);
-extras at the 17 primary outputs only ~32 GB (≈80 GB per box, 8 TB for
-100 boxes). Baojiu's Slack budget covered lens planes only (3.4 TB).
-Decision needed (section 11). Optional offline `zstd` gains are modest.
+extras at all 42 outputs ~80 GB (≈130 GB per box, 13 TB for 100 boxes).
+**Decision (CZ, 2026-10-17): the extras are written at all 42 outputs**
+(every output is class 1; BDM at all 42 as well unless Baojiu asks for
+primary-only catalogues, which the class list can still express). For
+the 96 ECOSMOG companions at 1024³ the extras cost ~1.2 GB per output
+(~50 GB per run). Baojiu's Slack budget covered lens planes only
+(3.4 TB). Optional offline `zstd` gains are modest.
 
 ## 10. Phasing
 
@@ -491,7 +498,7 @@ For Baojiu:
    r2g conversions, Node_900, ΛCDM P(k)).
 
 For CZ:
-6. Extras cadence: all 42 outputs or primary only (section 9).
+6. ~~Extras cadence~~ decided 2026-10-17: all 42 outputs (section 9).
 7. k_c,δ = 1.5 or 3.0 (do tidal/environment definitions need R ≈ 1 Mpc/h)?
 8. I7 route for the FML generator and for Baojiu's ICs (section 5, I7).
 9. File naming: the brief's `extra/<run>_a<a>_<product>` or GLAM's
