@@ -615,12 +615,12 @@ For CZ:
 - [ ] Phase 0 answers in section 16
 - [x] I3 generator + S2; I4 `OutputSchedule.dat`; I5 class list (`degrace-track-a` `cb09e3c`)
 - [x] I2 lens planes + L1, L2 (`degrace-track-a` `b774f8d`); L3 (plane P(k) vs 3-D P(k)) in the suite since 2026-10-17
-- [ ] Pilot node 2 vs the ECOSMOG twins (ΛCDM job 12180066 submitted 2026-10-17; f(R) next)
+- [ ] Pilot node 2 vs the ECOSMOG twins: ΛCDM pilot complete and verified (job 12180082, 2026-10-17, section 16); f(R) pilot running (job 12180110, started 04:57 BST)
 - [x] I7 δ_L dump, route 1 in the FML generator + V3, V7, V8 (`degrace-track-a`, 2026-10-17; `test/extras/run_deltaL_test.sh`); legacy pilots out of scope (decision)
 - [x] I8 + V1, V2 (`degrace-track-a` `a41ae37`); V3 passed with I7; V4 needs the pilot catalogues
 - [x] I9 + V5, V6 (`degrace-track-a`, commit after `09c4aa4`)
 - [x] I10 (`degrace-track-a`, commit after `a41ae37`); unit test + f(R) smoke case
-- [ ] V9 overhead run
+- [ ] V9 overhead run: ΛCDM baseline measured (planes < 1 %, P(k) at 42 outputs 11 %, BDM at 17 primaries 23 % of the wall time); the extras themselves (modes, subsample, f_R at haloes) are timed on the f(R) pilot
 - [ ] Reply to Baojiu with the cross-check result and questions 1–5
 
 ## 15. Related memory
@@ -796,3 +796,35 @@ For CZ:
   IO 0.21 for the 201 MB plane file); primary outputs 2.53 min (BDM, logged
   in the Analysis column); output steps so far 25 % of the wall time, of
   which the lens planes themselves are < 1 %.
+- 2026-10-17, ΛCDM pilot (node 2, job 12180082) **completed and verified**
+  (`check_run.py`: 0 FAIL): 42 exact outputs on the pinned ECOSMOG epochs
+  (max rel diff 1e-7), 42 `PowerDM.R`, 42 `LensPlanes` (201 MB each, axis
+  means 1 to 1e-7, Σ/Σ̄ from 0.33 to 1.8 at z = 8.7 and from 0.11 to 50 at
+  z = 0), 17 `CatshortV` at the primaries, 9.1 GB per box in all.
+  Resources: 2 h 32 min wall on 64 cores of one `cosma8-serial` node,
+  CPU efficiency 83 %, MaxRSS 118 GB (sacct; 91 GB for `PMP2main` alone),
+  181 steps (163 ladder + 18 inserted), median step 0.60 min; output steps
+  cost 43 min = 29 % of the wall time (primaries 2.6 min each, almost all
+  BDM; stations 0.96 min: 2048³ P(k) 25 s, planes 1.8 s, 201 MB write
+  12 s). The lens planes are < 1 % of the run. Production estimate per
+  ΛCDM box at this size: ~165 core-hours (plus ~10 % for the extras, to
+  be measured).
+  Twin comparison (`compare_ecosmog_pk.py`; ECOSMOG has only f(R)
+  spectra, so this is ΛCDM vs the f(R) twin from the same IC files):
+  P_GLAM/P_ECOSMOG at k = 0.01–0.03 is +0.47 % at z = 2 rising to +0.69 %
+  at z = 0 and is already +0.70 % at z = 8.7 where f(R) is negligible at
+  all k; at 0.03–0.1 the ratio goes 1.006 → 0.995, at 0.1–0.3 1.006 →
+  0.953 and at 0.3–1 1.05 → 0.897 (z = 2 → 0): the f(R) enhancement for
+  |f_R0| = 5.6e-6 with the expected scale and time dependence. The
+  constant ~+0.5 % at linear scales (mode-exact, same IC) is unexplained:
+  candidates are the half-step velocity convention of `ic2pm` vs
+  ECOSMOG's start, POWMES vs raw-CIC normalisation, or a 0.25 % growth
+  difference between the codes. The f(R) pilot against the f(R) twin
+  decides whether it is a code/ingestion offset (ratio stays 1.005) or
+  not; a da0 = 3e-4 restart of the first 20 steps would isolate the
+  half-step term (expected to move linear P by ≈ 0.3 % per the
+  `2LPTIC_Gui/README.md` numbers).
+  At k = 0.3–1 and z ≳ 3 our raw spectra exceed POWMES by ~10 % where
+  P ~ 30 (Mpc/h)³: discreteness of the perturbed lattice (white shot
+  noise alone is 1 (Mpc/h)³), not a pipeline error; compare below
+  0.3 h/Mpc at high z.
