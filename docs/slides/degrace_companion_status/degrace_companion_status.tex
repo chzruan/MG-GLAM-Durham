@@ -118,7 +118,7 @@
 % Presentation metadata
 % -----------------------------------------------------------------------------
 \title[DEGRACE companions: status]{\textbf{DEGRACE companions in MG-GLAM: status}}
-\subtitle{What landed, how it was verified, what the first pilot says, what is left}
+\subtitle{What landed, how it was verified, what the two pilots say, what is left}
 
 \author[C.-Z. Ruan]{\Large Cheng-Zong Ruan}
 
@@ -151,8 +151,8 @@
     \item \textbf{Merged} into \texttt{cz} today (fast-forward, suite green on \texttt{cz}).
   \end{itemize}
   \examplebox{Take-away}{%
-    Everything a companion run needs exists, is tested and is on the mainline.
-    Three design decisions and the f(R) pilot verification remain.
+    Everything a companion run needs exists, is tested, is on the mainline and has run twice at $1024^3$.
+    Three design decisions and one $0.5\,\%$ question remain.
   }
 \end{frame}
 
@@ -174,7 +174,7 @@
     I11 & optional extras & \open & not started \\
     \midrule
     pilot & node 2 $\Lambda$CDM, $N_g = 2048$ & \done & verified, 0 FAIL \\
-    pilot & node 2 f(R), extras + subsample + $f_R$ & \running & job 12180110, $\sim$7 h \\
+    pilot & node 2 f(R), extras + subsample + $f_R$ & \done & verified, 0 FAIL; 6 h 08 min \\
     \bottomrule
   \end{tabularx}
   \smallskip
@@ -343,52 +343,77 @@
   \small
   \begin{itemize}
     \item \texttt{check\_run.py}: schedule, epochs, files, sizes, plane means, catalogues, ic2pm epoch: 0 FAIL.
-    \item BDM dominates the output cost; the new products are cheap. The extras themselves (modes,
-      subsample, $f_R$) are timed on the f(R) pilot (V9).
+    \item BDM dominates the output cost; the new products are cheap. The extras (modes, subsample, $f_R$)
+      add at most 1.4 min per primary output on the f(R) pilot (two frames on).
   \end{itemize}
 \end{frame}
 
 % -----------------------------------------------------------------------------
-\begin{frame}{\textbf{Pilot vs the ECOSMOG twin: same ICs, mode-exact}}
+\begin{frame}{\textbf{Pilots vs the ECOSMOG twin: same ICs, mode-exact}}
+  \centering
+  \includegraphics[width=0.60\textwidth]{figs/twin_ratio.pdf}
+  \vspace{-0.5ex}
   \begin{columns}[T]
-    \begin{column}{0.54\textwidth}
-      \includegraphics[width=0.96\textwidth]{figs/twin_ratio.pdf}
-    \end{column}
-    \begin{column}{0.44\textwidth}
-      \footnotesize
+    \begin{column}{0.49\textwidth}
+      \scriptsize
       \begin{itemize}
-        \item ECOSMOG has only f(R) spectra, so this is $\Lambda$CDM vs the f(R) twin.
-        \item $0.05 < k < 0.3$: a flat $+0.5$ to $+0.7\,\%$ plateau at every epoch, already at $z = 8.7$ where
-          f(R) is negligible.
-        \item Late times: ECOSMOG rises above us by 5\,\% at $k = 0.1$--$0.3$ and 10\,\% at $k = 0.3$--1 by $z = 0$:
-          the f(R) enhancement for $|f_{R0}| = 5.6\times10^{-6}$.
-        \item $k > 0.3$ at $z > 3$: +10\,\% where $P \sim 30\,(h^{-1}\mathrm{Mpc})^3$, the discreteness of the
-          perturbed lattice.
+        \item Left, $\Lambda$CDM vs the f(R) twin: flat $+0.5$ to $+0.7\,\%$ at $k < 0.1$ at every epoch, already
+          at $z = 8.7$; late times: ECOSMOG above us by 5\,\% ($k = 0.1$--0.3) and 10\,\% ($k = 0.3$--1), the
+          f(R) enhancement for $|f_{R0}| = 5.6\times10^{-6}$.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \scriptsize
+      \begin{itemize}
+        \item Right, f(R) vs f(R), the real twin test: the same $+0.5$ to $+0.8\,\%$ at $k < 0.1$; within $\pm1\,\%$
+          to $k = 0.3$ at every epoch; $-0.6\,\%$ at $k = 0.3$--1 at $z = 0$ (PM force resolution).
+          $k > 0.3$ at $z > 3$: lattice discreteness.
       \end{itemize}
     \end{column}
   \end{columns}
   \vspace{-0.5ex}
-  \examplebox{Open: the constant $+0.5\,\%$ at linear scales}{%
-    \footnotesize Candidates: \texttt{ic2pm}'s half-step velocity convention vs ECOSMOG's start, POWMES vs raw-CIC
-    normalisation, a 0.25\,\% growth difference. The f(R) pilot vs the f(R) spectra decides whether it is a
-    code/ingestion offset; a $\mathrm{d}a_0 = 3\times10^{-4}$ restart of 20 steps isolates the half-step term.
+  \examplebox{The $+0.5\,\%$ at linear scales is the same in both gravity models}{%
+    \scriptsize A code or ingestion offset, not physics: \texttt{ic2pm}'s half-step convention, POWMES normalisation or
+    a 0.25\,\% growth difference; a $\mathrm{d}a_0 = 3\times10^{-4}$ restart of 20 steps isolates the half-step term.
   }
 \end{frame}
 
 % -----------------------------------------------------------------------------
-\begin{frame}{\textbf{f(R) pilot (job 12180110): running since 04:57 BST}}
-  \small
-  \begin{itemize}
-    \item Same node 2 ICs, $|f_{R0}| = 5.6\times10^{-6}$, $n = 1$; extras on ($\delta_m$ and momentum modes,
-      subsample $M = 100$, $f_R$ at haloes); 400 GB, 16 h limit.
-    \item So far 1.75 min per step, of which the multigrid f(R) solver 1.05 min ($\sim 3\times$ the
-      $\Lambda$CDM step); about 7 h in total.
-    \item It will give: V9 (wall-time overhead of the extras, target $< 5\,\%$, and peak memory with the
-      transient $N_{\rm dep}^3$ buffer); the real twin test at linear $k$ (is the $+0.5\,\%$ still there?);
-      subsample and $f_R$ products at $1024^3$.
-    \item Caveat: launched with $k_{c,\rm mom} = 1.0$ before the no-interlacing rule, so use its momentum
-      modes below $k = 0.78\,h\,\mathrm{Mpc}^{-1}$; its binaries predate the review fixes.
-  \end{itemize}
+\begin{frame}{\textbf{f(R) pilot (job 12180110): completed and verified}}
+  \begin{columns}[T]
+    \begin{column}{0.50\textwidth}
+      \scriptsize
+      \begin{tabular}{@{}lp{0.64\textwidth}@{}}
+        \toprule
+        & f(R), extras on \quad ($\Lambda$CDM pilot) \\
+        \midrule
+        wall, 64 cores & 6 h 08 min (2 h 32 min) \\
+        CPU efficiency & 83\,\% (83\,\%) \\
+        MaxRSS & 177 GB (118 GB) \\
+        non-output step & 1.72 min; multigrid 1.1 min (0.60 min) \\
+        station output & $+0.37$ min: P(k), planes ($+0.36$) \\
+        primary output & $+2.9$ min: BDM + extras ($+2.0$, BDM) \\
+        42 outputs & 59 min = 16\,\% of the run (29\,\%) \\
+        disk per box & 25 GB (9.1 GB) \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \footnotesize
+      \begin{itemize}
+        \item \texttt{check\_run.py}: 42 exact outputs, 42 P(k) + planes, 17 catalogues, 0 FAIL, 0 WARN.
+        \item Per primary: $\delta_m$ cube $n = 244$ (469 MB), momentum cubes $n = 162$ ($3\times138$ MB),
+          subsample of $10.74$ M particles $= N/100$ to 0.03\,\%, no clipping (129 MB), $f_R$ at 1.12 M haloes
+          at $z = 1$ (9 MB): 1.0 GB.
+        \item V9: the extras cost at most 1.4 min per primary (the excess over the $\Lambda$CDM primaries),
+          $\le 23$ min $= 6\,\%$ of this run and $\le 15\,\%$ of a $\Lambda$CDM run; an upper bound until
+          \texttt{ExtraOutputs} gets per-product timers. Memory 177 GB on a 1 TB node.
+        \item $\approx 390$ core-hours per f(R) box at $1024^3$.
+        \item Caveats: $k_{c,\rm mom} = 1.0$ (use the momentum modes below $0.78\,h\,\mathrm{Mpc}^{-1}$);
+          the binaries predate the review fixes.
+      \end{itemize}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
@@ -451,12 +476,12 @@
 \begin{frame}{\textbf{Next steps}}
   \small
   \begin{enumerate}
-    \item f(R) pilot: \texttt{check\_run.py}, \texttt{compare\_ecosmog\_pk.py}, V9 overhead and memory; decide on
-      the $+0.5\,\%$ with the $\mathrm{d}a_0$ test if it persists.
+    \item Explain the $+0.5\,\%$: the $\mathrm{d}a_0 = 3\times10^{-4}$ restart test (half-step term) and a POWMES
+      normalisation check; add per-product timers to \texttt{ExtraOutputs} (the V9 split).
     \item Settle the three decisions above; rebuild the frozen pilot binaries from \texttt{cz}.
     \item Production recipe per node: \texttt{gen\_inputs.py --node N --gravity \{lcdm,fr\}} $\to$ \texttt{submit.sh}
       (\texttt{ic2pm half} on Baojiu's ICs) $\to$ \texttt{check\_run.py}; $\approx 165$ core-hours per $\Lambda$CDM box,
-      $\approx 3\times$ for f(R); 9 GB + extras ($\sim 1$ GB per output) per box.
+      $\approx 390$ for f(R); 9 GB ($\Lambda$CDM) or 25 GB (f(R) with the extras) per box.
     \item Readers for the new products in \texttt{halocat} (planes, modes, subsample, $f_R$), following the
       \texttt{.meta} keys.
     \item Reply to Baojiu with the cross-check of the 42 epochs and the open questions.
@@ -469,12 +494,12 @@
   \begin{itemize}
     \item The DEGRACE companion outputs (schedule, lens planes, $\delta_L$, modes, subsample, $f_R$) are implemented,
       tested, reviewed and merged into \texttt{cz}.
-    \item The $\Lambda$CDM pilot runs in 2.5 h per box with all 42 outputs; the new products cost about 1\,\%
-      of the run, the halo finder 23\,\%.
-    \item Against the ECOSMOG twin the pilot agrees to $+0.5$--$0.7\,\%$ at linear scales at every epoch and
-      shows the expected f(R) signature at late times; the small constant offset is the one physics
-      question still open.
-    \item Three design decisions and the f(R) pilot verification stand between here and production.
+    \item The $\Lambda$CDM pilot runs in 2.5 h per box with all 42 outputs, the f(R) pilot with all the extras
+      in 6 h; the new products cost about 1\,\% of a run, the halo finder 23\,\%, the extras at most 6\,\%.
+    \item Both pilots agree with the ECOSMOG twin to $+0.5$--$0.8\,\%$ at linear scales at every epoch, and the
+      f(R) run reproduces the f(R) spectrum to $\pm1\,\%$ up to $k = 0.3$; the small constant offset is common
+      to both gravity models and is the one question still open.
+    \item Three design decisions stand between here and production.
   \end{itemize}
 \end{frame}
 

@@ -14,10 +14,11 @@ before any edit and record the answers in section 16.
 
 Status (2026-10-17): the cross-check of the 42 output epochs is done
 (section 2); **I1 is on `cz`** (`ae4fa9d`); **Phase 0 is answered**
-(section 16); **I2, I3, I4, I5, I8, I9, I10 are implemented on branch
-`degrace-track-a`** (175/175 checks plus two unit-test scripts); the
-node-2 ΛCDM pilot is running (Slurm job 12180082, section 16). I6 is
-encoded in the input generator and launcher; I7 and I11 are open.
+(section 16); **I2–I5 and I7–I10 are implemented and merged into `cz`**
+(2026-10-17; 180/180 checks plus four unit-test scripts); both node-2
+pilots are complete and verified (ΛCDM job 12180082, f(R) job 12180110,
+section 16). I6 is encoded in the input generator and launcher; I7 is
+done (route 1); I11 is open.
 
 Related references: `docs/degrace_ecosmog/README.md` (Baojiu's ECOSMOG
 suite: design, ICs, output lists, snapshots), `2LPTIC_Gui/VALIDATION.md`
@@ -506,7 +507,7 @@ Extra outputs (from the brief):
 | V6 | momentum spectrum from the subsample vs `mom_*`, k < 0.3 | within subsample shot noise |
 | V7 | determinism of the regenerate-only mode, twice and with another thread count | identical md5, or thread dependence documented and enforced. **Passed 2026-10-17**: `deltaL` md5 identical with 1, 2 and 4 MPI ranks (`run_deltaL_test.sh`) |
 | V8 | f(R) vs ΛCDM, same seed: `deltaL` | identical md5. Holds by construction (2026-10-17): the FML generator has no gravity-model input; twins share one IC file |
-| V9 | overhead at production size (one short job, approval first) | extra wall time < 5 %; peak RSS within node memory with margin |
+| V9 | overhead at production size (one short job, approval first) | extra wall time < 5 %; peak RSS within node memory with margin. **Measured on the node-2 pilots (1024³, N_g = 2048; section 16, 2026-10-17)**: the extras cost at most 1.4 min per primary output (≤ 6 % of the f(R) run, ≤ 15 % of a ΛCDM run; an upper bound until `ExtraOutputs` has per-product timers); MaxRSS 118 GB (ΛCDM) and 177 GB (f(R)) on a 1 TB node. Production size (N_g = 4096) not yet timed |
 
 ## 9. Storage budget (L = 1024 Mpc/h)
 
@@ -633,13 +634,13 @@ For CZ:
 - [ ] Phase 0 answers in section 16
 - [x] I3 generator + S2; I4 `OutputSchedule.dat`; I5 class list (`degrace-track-a` `cb09e3c`)
 - [x] I2 lens planes + L1, L2 (`degrace-track-a` `b774f8d`); L3 (plane P(k) vs 3-D P(k)) in the suite since 2026-10-17
-- [ ] Pilot node 2 vs the ECOSMOG twins: ΛCDM pilot complete and verified (job 12180082, 2026-10-17, section 16); f(R) pilot running (job 12180110, started 04:57 BST)
+- [x] Pilot node 2 vs the ECOSMOG twins: both pilots complete and verified (ΛCDM job 12180082, f(R) job 12180110, 2026-10-17, section 16); the ≈ +0.5 % linear-scale offset is the same in both gravity models (code/ingestion; origin open, da0 test)
 - [x] I7 δ_L dump, route 1 in the FML generator + V3, V7, V8 (`degrace-track-a`, 2026-10-17; `test/extras/run_deltaL_test.sh`); legacy pilots out of scope (decision)
 - [x] I8 + V1, V2 (`degrace-track-a` `a41ae37`); V3 passed with I7; V4 needs the pilot catalogues
 - [x] I9 + V5, V6 (`degrace-track-a`, commit after `09c4aa4`); ic2pm places particles at index = Gadget ID and tags the lattice order since the 2026-10-17 review fixes
 - [x] Review of the branch (six subagents, `docs/reviews/degrace-track-a/`, 040f011) and fixes of the eight Majors (commit after 040f011)
 - [x] I10 (`degrace-track-a`, commit after `a41ae37`); unit test + f(R) smoke case
-- [ ] V9 overhead run: ΛCDM baseline measured (planes < 1 %, P(k) at 42 outputs 11 %, BDM at 17 primaries 23 % of the wall time); the extras themselves (modes, subsample, f_R at haloes) are timed on the f(R) pilot
+- [ ] V9 overhead run: ΛCDM baseline measured (planes < 1 %, P(k) at 42 outputs 11 %, BDM at 17 primaries 23 % of the wall time); f(R) pilot: the extras (modes, subsample, f_R at haloes) ≤ 1.4 min per primary = ≤ 6 % of the run (upper bound), MaxRSS 177 GB; still open: per-product timers in `ExtraOutputs`, and a production-size (N_g = 4096) timing
 - [ ] Reply to Baojiu with the cross-check result and questions 1–5
 
 ## 15. Related memory
@@ -885,3 +886,51 @@ For CZ:
     `IDz`, int64 shuffled x-fastest → `IDx`, duplicate ID → refused;
     verified through a one-step GLAM run with `Subsample M = 1`). The
     `compare_ecosmog_pk.py` rerun matches all 42 ΛCDM-pilot epochs.
+- 2026-10-17, f(R) pilot (node 2, job 12180110, c353887 binaries, extras
+  on: `kc_delta = 1.5`, `kc_mom = 1.0`, `N_dep_mom = 0` → 1024,
+  `Subsample M = 100`, `fR at halos = 1`) **completed and verified**
+  (`check_run.py`: 0 FAIL, 0 WARN; the outputs are saved beside the run
+  as `check_run_12180110.txt` and `compare_ecosmog_pk_12180110.txt`):
+  42 exact outputs on the pinned epochs, 42 `PowerDM.R`, 42 `LensPlanes`,
+  17 `CatshortV`, and at the 17 primaries `deltam` (n = 244, 469 MB),
+  `mom_x/y/z` (n = 162, 138 MB each), `Subsample` (10.74 M particles =
+  N/100 to 0.03 %, n_clip_v = 0, 129 MB) and `fR_halo` (one pair per
+  catalogue row, 1.12 M rows at z = 1, 9 MB); 25 GB per f(R) box
+  (ΛCDM 9.1 GB: the extras add 1.0 GB per primary).
+  Resources: 6 h 08 min wall on 64 cores (`cosma8-serial`, 400 GB
+  requested), CPU efficiency 83 %, MaxRSS 177 GB (ΛCDM 118 GB), 181
+  steps, median non-output step 1.72 min of which the multigrid solver
+  1.1 min; output steps 58.7 min = 16 % of the wall time. Station outputs
+  2.09 min (+0.37 min: P(k) and planes, as in ΛCDM); primary outputs
+  4.62 min (+2.9 min: BDM, modes, subsample and f_R at haloes, all logged
+  in the Analysis column). Against the ΛCDM primaries (+2.0 min, BDM
+  only) the extras cost at most 1.4 min per primary, ≤ 23 min = 6 % of
+  this run and ≤ 15 % of a ΛCDM run (V9; an upper bound, because the BDM
+  cost itself differs between the twins; per-product timers in
+  `ExtraOutputs` would settle the split). ≈ 390 core-hours per f(R) box
+  at this size.
+  Twin comparison, f(R) vs the f(R) POWMES spectra (the real twin test):
+  P_GLAM/P_ECOSMOG at k = 0.01–0.03 is +0.70 % at z = 8.7, +0.48 % at
+  z = 2 and +0.82 % at z = 0; at 0.03–0.1 +0.96 % → +0.65 % → +0.75 %;
+  at 0.1–0.3 +1.35 % → +0.97 % → +0.39 %; at 0.3–1 +10 % (discreteness)
+  → +7 % → −0.6 %. The ≈ +0.5 % at linear scales is therefore the same
+  in both gravity models (ΛCDM-vs-f(R) gave +0.47 % → +0.69 % at the
+  same bins): a code or ingestion offset common to both runs, not a
+  gravity-model difference; the differences between the two pilots'
+  low-k ratios (≤ 0.15 %) are at the level of the f(R) enhancement and
+  the 3-modes-per-bin scatter. Within ±1 % up to k = 0.3 at every epoch;
+  at z = 0 our f(R) spectrum is 0.6 % below ECOSMOG's at k = 0.3–1 where
+  the ΛCDM one sits 10 % below, i.e. the f(R) enhancement is reproduced
+  to ≈ 0.6 % of P there (PM force resolution at dx = 0.5 Mpc/h; the
+  deficit grows to ≈ 9 % at k = 1.3). The da0 = 3e-4 restart test of 20
+  steps remains the way to isolate the half-step term of the offset; a
+  POWMES normalisation check against a raw spectrum of one ECOSMOG
+  snapshot is the other candidate test.
+- 2026-10-17, repository and data: `degrace-track-a` merged into `cz`
+  (fast-forward, 17 commits), status deck in
+  `docs/slides/degrace_companion_status/`, finished runs and notes
+  consolidated into `archive/` (README with restore commands). At the
+  user's request the 2048³ validation IC (`2LPTIC_Gui/validate_highres/
+  snap`, 275 GB, regenerable in 8 min) and the step-100 checkpoint of the
+  finished L1800 ΛCDM Run1 (786 GB) were deleted; `archive/README.md`
+  records both.
