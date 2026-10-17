@@ -324,3 +324,14 @@ Run every Python command through `micromamba run -n cosemu python3 -B`.
 Receipts and the final report distinguish preparation, successful process
 completion, scientific validation and actual convergence; a submitted job
 does not count as completed validation.
+
+## Update 2026-10-17: PM particle snapshots removed
+
+At the user's request the `PMcrs*.DAT` particle files under `work/` (the
+running states and the snapshots listed above) were deleted on 2026-10-17 to
+free space; the `PMcrd` headers, catalogues, receipts, logs and the replay
+density/membership tapes remain. Finder replays on these snapshots are no
+longer possible without rerunning the simulations. The inventory and the
+record are in `archive/README.md` and
+`archive/bdm-validation-work-tapes-removed-2026-10-17.txt` at the repository
+root.

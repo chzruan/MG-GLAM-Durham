@@ -272,3 +272,14 @@ numerical-control receipts retain their historical absolute worktree paths;
 corresponding `numerical-threading/work` and `main-thread-control/work` paths
 here. The nested `work/plotter-evidence.tar.gz` and
 `plotter-evidence-archive.json` preserve the earlier plotter test files.
+
+## Update 2026-10-17: PM particle snapshots removed
+
+At the user's request the `PMcrs*.DAT` particle files under `work/` (the
+running states and the snapshots listed above) were deleted on 2026-10-17 to
+free space; the `PMcrd` headers, catalogues, receipts, logs and the replay
+density/membership tapes remain. Finder replays on these snapshots are no
+longer possible without rerunning the simulations. The inventory and the
+record are in `archive/README.md` and
+`archive/bdm-validation-work-tapes-removed-2026-10-17.txt` at the repository
+root.
