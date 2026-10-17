@@ -61,3 +61,21 @@ float32(1/(1+z)) of `Init.dat` and to the pinned ECOSMOG list), one
 `ic2pm` velocity epoch, the `timing.log` breakdown (median step, output
 overhead) and, when the job is finished, sacct elapsed / MaxRSS / CPU
 efficiency. Exit 0 = all checks passed.
+
+## Comparing with the ECOSMOG twin
+
+```sh
+micromamba run -n cosemu python3 DEGRACE-companion/compare_ecosmog_pk.py \
+    DEGRACE-companion/runs/Node_002_FR_L1024Np1024Ng2048 002 [--kmax 1.0]
+```
+
+Prints P_GLAM / P_ECOSMOG per output in the bands 0.01-0.03, 0.03-0.1, 0.1-0.3
+and 0.3-1 h/Mpc, matching our `PowerDM.R` epochs to the ECOSMOG snapshots
+S02..S43 (S01 = IC) through the pinned `aout.json`. ECOSMOG only has f(R)
+spectra (POWMES, `/cosma7/data/dp004/bl267/Runs/DEGRACE/Runs/L1024/FR/power_spectra/`),
+so a ΛCDM companion compared this way shows the f(R) enhancement at late
+times; the f(R) companion is the real twin test. Our raw CIC spectra are
+deconvolved with the shell-averaged window 1 − (2/3) sin²(πk/2k_Ny); at
+k ≳ 0.5 and z ≳ 3 the comparison is limited by discreteness (P ~ a few
+(Mpc/h)³), so judge the bands below 0.3 h/Mpc there. Both runs use the same
+IC files, so the low-k ratio is mode-exact (no cosmic variance).
