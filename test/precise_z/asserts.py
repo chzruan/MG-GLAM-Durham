@@ -56,6 +56,8 @@ SIM_CASES = {       # case dir -> configuration (zout list + sign of #outputs)
     "case11_modes": dict(zout=[2.5, 0.512, 1.1], exact=True, modes=dict(kc=0.5, kc_mom=0.185, ndep=36), subm=1),
     # f(R) smoke test: BDM + f_R at halo centres (I10); the box may host few or no haloes
     "case12_frhalo": dict(zout=[1.1, 0.512], exact=True, frhalo=True),
+    # binary halo catalogue (BDM.config CatalogueFormat = binary): .bin + .meta only, no text
+    "case13_catbin": dict(zout=[0.512], exact=True, catbin=True),
 }
 BOX = 150.0
 NGRID = 72
@@ -67,6 +69,7 @@ ERR_CASES = {       # case dir -> (log file, required message, forbidden product
     "case4d_range": ("Run1/main.log", "at or before the initial redshift", "Run1/PMcrd.0*.DAT"),
     "case4e_classes": ("init.log", "one output class per listed redshift", "Setup.dat"),
     "case4f_badopt": ("init.log", "malformed optional line", "Setup.dat"),
+    "case4g_badcatfmt": ("Run1/main.log", "CatalogueFormat must be text, binary or both", "Run1/CATALOGS/Catshort*"),
 }
 
 
@@ -561,6 +564,73 @@ def main(work):
             ok_fr &= bool(np.all(np.isfinite(vals))) and bool(np.all(vals <= 0)) and bool(np.all(np.abs(vals) < 10 * abs(fRbg)))
     rep.check(ok_fr, "case12_frhalo", f"fR_halo files per output, finite, sign of fR0 (rows in total: {nrows_total})")
     rep.check(ok_rows, "case12_frhalo", "fR_halo rows == CatshortV rows == meta rows")
+
+    # Binary halo catalogue (BDM.config CatalogueFormat, default both): at every
+    # BDM output CatshortV.<step>.0001.{bin,meta} sit beside the text catalogue,
+    # hold the same rows in the same order, and every one of the 24 columns equals
+    # the text at the text's printed precision. Read through the glamio package
+    # (python/), so this also validates its reader against the Fortran writer.
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "python"))
+    from glamio import read_catalogue, CATALOGUE_DTYPE
+    # (atol, rtol) per column from the text format (3f11.4,3x,3f10.2,1p,2g12.4,g12.5,26g12.4):
+    TEXT_TOL = ([(6e-5, 0.0)] * 3 + [(6e-3, 0.0)] * 3        # positions 1e-4 Mpc/h, velocities 1e-2 km/s
+                + [(0.0, 6e-5)] * 2 + [(0.0, 6e-5)]            # masses (1p E form, 5 sig.), Rvir (g12.5, 5 sig. in F form)
+                + [(1e-12, 6e-4)] * 15)                        # g12.4: 4 significant digits in F form, 5 in E form
+
+    def text_rows(cat):
+        rows = np.loadtxt(cat, skiprows=8, ndmin=2)
+        return rows if rows.size else np.zeros((0, 24))
+
+    def text_header_a(cat):
+        with open(cat) as fh:
+            fh.readline()
+            return float(fh.readline().split("=")[1].split()[0])
+
+    ok_bfiles = ok_bequal = ok_bmeta = True
+    nb_total = 0
+    for step in sorted(marks12):
+        stem = os.path.join(rundir, "CATALOGS", f"CatshortV.{step:04d}.0001")
+        if not all(os.path.exists(stem + ext) for ext in (".bin", ".meta", ".DAT")):
+            ok_bfiles = False
+            continue
+        cat = read_catalogue(stem)
+        txt = text_rows(stem + ".DAT")
+        nb_total += len(cat)
+        ok_bmeta &= (int(cat.meta["rows"]) == len(cat) == txt.shape[0]
+                     and os.path.getsize(stem + ".bin") == 96 * len(cat)
+                     and cat.meta["text_catalogue"].strip().endswith(f"CatshortV.{step:04d}.0001.DAT")
+                     and abs(cat.a - text_header_a(stem + ".DAT")) < 1e-5
+                     and abs(cat.a - cat.a_v - float(cat.meta["da"].split()[0]) / 2) < 1e-7)
+        if len(cat) != txt.shape[0]:
+            ok_bequal = False
+            continue
+        for j, name in enumerate(CATALOGUE_DTYPE.names):
+            atol, rtol = TEXT_TOL[j]
+            b = cat[name].astype(np.float64)
+            ok_bequal &= bool(np.all(np.abs(b - txt[:, j]) <= atol + rtol * np.abs(txt[:, j])))
+        ok_bequal &= bool(np.all(cat["row"] == np.arange(1, len(cat) + 1))) and bool(np.all(cat["distinct"] == 0))
+    ok_bfiles &= not glob.glob(os.path.join(rundir, "CATALOGS", ".Catshort*"))   # no staged temporaries left behind
+    rep.check(ok_bfiles, "case12_frhalo", "binary catalogue .bin + .meta beside every text catalogue; no staged temporaries")
+    rep.check(ok_bmeta, "case12_frhalo", "meta rows == .bin size/96 == text rows; meta a == header A, a_v = a - da/2; text_catalogue named")
+    rep.check(ok_bequal, "case12_frhalo", f"all 24 binary columns equal the text at its printed precision; row = 1..N, distinct = 0 (rows in total: {nb_total})")
+
+    # case13: CatalogueFormat = binary: no text catalogue, .bin + .meta present and readable from the stem
+    _, _, _, _, marks13, _ = oracle_full(SIM_CASES["case13_catbin"])
+    rundir13 = os.path.join(work, "case13_catbin", "Run1")
+    ok_13 = True
+    n13 = 0
+    for step in sorted(marks13):
+        stem = os.path.join(rundir13, "CATALOGS", f"CatshortV.{step:04d}.0001")
+        ok_13 &= os.path.exists(stem + ".bin") and os.path.exists(stem + ".meta") and not os.path.exists(stem + ".DAT")
+        if not ok_13:
+            continue
+        cat = read_catalogue(stem)
+        n13 += len(cat)
+        ok_13 &= int(cat.meta["rows"]) == len(cat) and cat.meta["text_catalogue"].strip() == "none"
+        ok_13 &= bool(np.all(np.isfinite(cat["Mbound"]))) and bool(np.all(cat["Mbound"] > 0))
+        ok_13 &= bool(np.all(cat["row"] == np.arange(1, len(cat) + 1)))
+    ok_13 &= not glob.glob(os.path.join(rundir13, "CATALOGS", ".Catshort*"))
+    rep.check(ok_13, "case13_catbin", f"CatalogueFormat = binary: .bin + .meta only, readable, text_catalogue = none (rows: {n13})")
 
     # 36 = 2x2 block mean of 72 at the same steps (same IC, same schedule)
     ok_blk = True

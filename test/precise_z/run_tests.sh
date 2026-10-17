@@ -32,6 +32,9 @@
 #   case4e           - class count /= #outputs rejected by PMP2init
 #   case4f           - optional line whose comment contains "=" rejected by PMP2init
 #   case12_frhalo    - f(R) run with BDM: fR_halo rows match the catalogue rows
+#                      binary catalogue (.bin + .meta) equals the text column by column
+#   case13_catbin    - BDM with CatalogueFormat = binary: .bin + .meta only, no text
+#   case4g_badcatfmt - BDM.config CatalogueFormat = hdf5 is rejected at the first catalogue step
 #   case11_modes     - low-k density modes from POWERfft5 (P(k) from the cube equals
 #                      PowerDM.R bin by bin), momentum modes on N_dep=36, and the
 #                      full quantised subsample M=1 (decoded spectra equal the dumps: V6)
@@ -241,6 +244,15 @@ mkdir -p "$WORK/case12_frhalo/Run1/CATALOGS"     # BDM needs it
 run_init case12_frhalo || echo "  (init failed)"
 copy_ics case12_frhalo && run_main case12_frhalo
 
+echo "== case13_catbin: LCDM run with BDM and CatalogueFormat = binary (no text catalogue; #outputs = -1)"
+prep_case case13_catbin
+set_outputs case13_catbin -1 " 0.512"
+sed -i 's/^Find BDM halos            =         0/Find BDM halos            =         1/' "$WORK/case13_catbin/Init.dat"
+{ cat "$ROOT/test/BDM.config"; echo; echo '          CatalogueFormat = binary     ! text, binary or both (default both)'; } > "$WORK/case13_catbin/Run1/BDM.config"
+mkdir -p "$WORK/case13_catbin/Run1/CATALOGS"
+run_init case13_catbin || echo "  (init failed)"
+copy_ics case13_catbin && run_main case13_catbin
+
 # ---------------------------------------------------------------- error cases
 echo "== case4a_zbig / case4b_zneg: rejected by PMP2init"
 prep_case case4a_zbig
@@ -254,6 +266,15 @@ prep_case case4f_badopt
 set_outputs case4f_badopt -3 " 2.5 0.512 1.1"
 echo 'Extra outputs             =         1  (1 = on)' >> "$WORK/case4f_badopt/Init.dat"
 run_init case4f_badopt
+
+echo "== case4g_badcatfmt: BDM.config CatalogueFormat = hdf5: rejected by PMP2main at the first catalogue step, no catalogue written"
+prep_case case4g_badcatfmt
+set_outputs case4g_badcatfmt -1 " 0.512"
+sed -i 's/^Find BDM halos            =         0/Find BDM halos            =         1/' "$WORK/case4g_badcatfmt/Init.dat"
+{ cat "$ROOT/test/BDM.config"; echo; echo '          CatalogueFormat = hdf5'; } > "$WORK/case4g_badcatfmt/Run1/BDM.config"
+mkdir -p "$WORK/case4g_badcatfmt/Run1/CATALOGS"
+run_init case4g_badcatfmt
+copy_ics case4g_badcatfmt; run_main case4g_badcatfmt
 
 echo "== case4e_classes: class count differs from #outputs: rejected by PMP2init"
 prep_case case4e_classes

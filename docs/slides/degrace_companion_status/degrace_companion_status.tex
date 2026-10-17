@@ -232,7 +232,7 @@
     \midrule
     \texttt{PowerDM.R/log.<step>.0001.dat} & $P(k)$ on the $N_g$ mesh, linear / log bins, raw CIC & 41 KB & 80 KB \\
     \texttt{LensPlanes.<step>.0001.bin/.meta} & 12 planes of $\Sigma/\bar\Sigma$, $N_{\rm lens}^2$ float32 & 201 MB ($2048^2$) & 805 MB ($4096^2$) \\
-    \texttt{CatshortV.<step>.0001.DAT} & BDM haloes (in \texttt{CATALOGS/}), text, 24 columns & 0.1--0.3 GB & 0.3--0.4 GB \\
+    \texttt{CatshortV.<step>.0001.DAT} / \texttt{.bin} + \texttt{.meta} & BDM haloes (in \texttt{CATALOGS/}): text, 24 columns; binary twin, 96 B per halo (\texttt{CatalogueFormat}) & 0.1--0.3 GB (binary $\tfrac13$) & 0.3--0.4 GB (binary $\tfrac13$) \\
     \texttt{deltam.<step>.0001.bin/.meta} & $\tilde\delta_m(\mathbf{k})$ cube, $k_c = 1.5$ & 469 MB & 469 MB \\
     \texttt{mom\_x,y,z.<step>.0001.bin/.meta} & $[(1+\delta)v_i]^{\sim}(\mathbf{k})$ cubes, $k_c = 0.75$ & $3\times59$ MB ($3\times138$ at $k_c = 1$) & same \\
     \texttt{Subsample.<step>.0001.bin/.meta} & 1 in $M = 100$ particles, int16 & 129 MB & 1.03 GB \\
@@ -442,6 +442,10 @@
       $x, y, z$ [$h^{-1}$Mpc]; $V_x, V_y, V_z$ [km/s]; $M_{\rm bound}$, $M_{\rm tot}$ [$h^{-1}M_\odot$]; $R_{\rm vir}$
       [$h^{-1}$kpc]; $V_{\rm rms}$, $V_{\rm circ}$ [km/s]; row index; $c_{\rm vir}$; $N_{\rm part}$; distinct/sub flag;
       $X_{\rm off}$; $2K/E_p - 1$; spin $\lambda$; RadRMS; $b/a$, $c/a$; major-axis direction $(x, y, z)$.
+    \item \textbf{Binary twin} (\texttt{CatalogueFormat = text|binary|both} in \texttt{BDM.config}, default both; 2026-10-17):
+      \texttt{CatshortV.<step>.0001.bin}, 96-byte little-endian records holding the same 24 columns (22 float32 + 2 int32),
+      same rows and order, lossless and $3\times$ smaller; sidecar \texttt{.meta} with columns, units, rows, $a$, $a_v$,
+      $\Delta a$, cosmology, $m_p$, \texttt{MassMin}, $\Delta_{\rm vir}$. Reader: \texttt{python/glamio} (\texttt{read\_catalogue}).
     \item \textbf{Halo definition (BDM).} Centre = density peak refined by centre-of-mass iterations; radius = the
       Bryan--Norman virial aperture relative to the mean density ($\Delta_{\rm vir} = 338$ at $z = 0$, 203 at $z = 1$);
       \texttt{MassMin} $= 10^{11}\,h^{-1}M_\odot$ (particle mass $8.3\times10^{10}$ at $1024^3$); rows in peak order, not
@@ -450,8 +454,7 @@
       bin, $k$ [$h\,\mathrm{Mpc}^{-1}$], number of modes, $P$ [$(h^{-1}\mathrm{Mpc})^3$] in linear bins of width $2\pi/L$;
       $\delta$ from CIC on $N_g$, raw: divide by the shell-averaged $W_{\rm CIC}^2 \simeq 1 - \tfrac{2}{3}\sin^2(\pi k/2k_{\rm Ny})$
       offline (as in the twin comparison). \texttt{PowerDM.log}: the same in logarithmic bins.
-    \item \texttt{timing.log}: per step the wall time split into Force, Move, Density, IO, BDM, Analysis and MG; the source
-      of the cost figures on the pilot frames.
+    \item \texttt{timing.log}: per-step wall time split into Force, Move, Density, IO, BDM, Analysis, MG (source of the cost figures).
   \end{itemize}
 \end{frame}
 

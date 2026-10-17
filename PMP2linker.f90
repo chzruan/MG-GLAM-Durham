@@ -52,9 +52,20 @@ Real*4 ::            TotalMemory=0.2, t0                           ! current mem
 Real*4 ::            Xleft,Xright,Yleft,Yright,Zleft,Zright,dBuffer    ! boundaries of domain
 Character*120 ::     CatshortName,CatalogName,    &                ! names of halo catalogs 
                      outputName                                    ! dump file
+! Catalogue output format (BDM.config "CatalogueFormat = text | binary | both"):
+! the legacy text CatshortV.<step>.<box>.DAT and/or the raw little-endian
+! CatshortV.<step>.<box>.bin (96-byte records, 24 four-byte fields, same rows
+! and order as the text) with a key = value sidecar .meta.
+character(8) :: CatalogueFormat='both'
+logical :: CatText=.true.,CatBinary=.true.
+character(2) :: CatLabelCur='V.'
 ! Publish a complete catalogue atomically; an interrupted finder may only leave
-! a hidden staged file, never a partially replaced final catalogue.
-character(256) :: CatalogueFinalPath='',CatalogueStagedPath=''
+! hidden staged files, never a partially replaced final catalogue. Up to three
+! files (text, binary, meta) are staged together and renamed in that order, so
+! the .meta sidecar is the completion marker of the binary catalogue.
+integer, parameter :: CatUnitText=12,CatUnitBin=32,CatUnitMeta=33
+integer :: CatPubN=0,CatPubUnit(3)=0
+character(256) :: CatPubFinal(3)='',CatPubStaged(3)=''
 logical :: CataloguePublicationPending=.false.
 
 Real*4     ::        Om0,Ovdens      ! cosmology
@@ -259,6 +270,7 @@ Contains
       NradP=30; iVirial=1; dLogR=0.02; dLogP=0.02
       dBuffer=5.; SlopeR=0.20; Rext=0.15; MassMin=2.5e12
       MaxMemory=500.
+      CatalogueFormat='both'
       inquire(file='BDM.config',exist=FileExists)
       if (FileExists) then
          open(newunit=unit,file='BDM.config',status='old',action='read',iostat=io)
@@ -304,6 +316,17 @@ Contains
                read(value,*,iostat=io) MassMin
             case('maxmemory')
                read(value,*,iostat=io) MaxMemory
+            case('catalogueformat','catalogformat','catalogue_format')
+               io=0                        ! a string value: nothing is list-directed read here
+               if (len_trim(value) > len(CatalogueFormat)) &
+                  call ConfigurationError(line_number,'CatalogueFormat must be text, binary or both')
+               CatalogueFormat=trim(value)
+               do i=1,len_trim(CatalogueFormat)
+                  if (CatalogueFormat(i:i) >= 'A'.and.CatalogueFormat(i:i) <= 'Z') &
+                     CatalogueFormat(i:i)=achar(iachar(CatalogueFormat(i:i))+32)
+               end do
+               if (CatalogueFormat /= 'text'.and.CatalogueFormat /= 'binary'.and.CatalogueFormat /= 'both') &
+                  call ConfigurationError(line_number,'CatalogueFormat must be text, binary or both')
             case('nne')
                ! This historical option never affected the active finder.
                read(value,*,iostat=io) nne_legacy
@@ -331,6 +354,7 @@ Contains
          write(unit,20) 'MaxMemory',MaxMemory,'! Linked-list admission limit in GiB'
          write(unit,20) 'dLogR',dLogR,'! Log bin size for potential'
          write(unit,20) 'dLogP',dLogP,'! Log bin size for profiles'
+         write(unit,30) 'CatalogueFormat',trim(CatalogueFormat),'! text (CatshortV.*.DAT), binary (.bin + .meta) or both'
          close(unit)
       end if
       write(*,'(/a)') ' ------ current set of parameters:'
@@ -342,8 +366,10 @@ Contains
       write(*,20) 'MaxMemory',MaxMemory,'! Linked-list admission limit in GiB'
       write(*,20) 'dLogR',dLogR,'! Log bin size for potential'
       write(*,20) 'dLogP',dLogP,'! Log bin size for profiles'
+      write(*,30) 'CatalogueFormat',trim(CatalogueFormat),'! text (CatshortV.*.DAT), binary (.bin + .meta) or both'
 10    format(10x,a,T20,' = ',i6,T40,a)
 20    format(10x,a,T20,' = ',1p,g10.3,T40,a)
+30    format(10x,a,T20,' = ',a,T40,a)
 
       ! Only validated configuration may create or replace catalogue outputs.
       write(outputName,'(a,i4.4,a)') 'CATALOGS/outputB.',jStep,'.dat'
@@ -360,14 +386,41 @@ Contains
       case(3)
          CatLabel='A.'
       end select
-      write(outputName,'(2a,2(i4.4,a))') 'CATALOGS/Catshort',trim(CatLabel),jStep,'.',Nrealization,'.DAT'
+      CatLabelCur=CatLabel(1:2)
+      ! Base name without extension: .DAT (text), .bin and .meta (binary) are staged together.
+      write(outputName,'(2a,i4.4,a,i4.4)') 'CATALOGS/Catshort',trim(CatLabel),jStep,'.',Nrealization
       call BeginCataloguePublication(trim(outputName))
       end SUBROUTINE ReadParameters
 
-      SUBROUTINE BeginCataloguePublication(final_path)
+      SUBROUTINE BeginCataloguePublication(base_path)
+      ! Stage every catalogue file selected by CatalogueFormat: the text .DAT on
+      ! CatUnitText, the binary .bin on CatUnitBin and its sidecar .meta on
+      ! CatUnitMeta. Each is created exclusively as a hidden temporary beside its
+      ! final name; PublishCatalogue renames them into place once complete.
+      implicit none
+      character(*), intent(in) :: base_path
+      if (CataloguePublicationPending) error stop 'BDM catalogue publication is already pending'
+      if (len_trim(base_path) == 0.or.len_trim(base_path)+5 > len(CatPubFinal(1))) &
+         error stop 'BDM catalogue path is empty or too long'
+      if (index(trim(base_path),'/',back=.true.) == len_trim(base_path)) &
+         error stop 'BDM catalogue path names a directory'
+      CatText=CatalogueFormat /= 'binary'
+      CatBinary=CatalogueFormat /= 'text'
+      CatPubN=0
+      if (CatText) call StageCatalogueFile(trim(base_path)//'.DAT',CatUnitText,.false.)
+      if (CatBinary) then
+         call StageCatalogueFile(trim(base_path)//'.bin',CatUnitBin,.true.)
+         call StageCatalogueFile(trim(base_path)//'.meta',CatUnitMeta,.false.)
+      end if
+      CataloguePublicationPending=.true.
+      end SUBROUTINE BeginCataloguePublication
+
+      SUBROUTINE StageCatalogueFile(final_path,unit,stream)
       use, intrinsic :: iso_c_binding, only: c_int
       implicit none
       character(*), intent(in) :: final_path
+      integer, intent(in) :: unit
+      logical, intent(in) :: stream          ! .true.: unformatted little-endian stream (binary catalogue)
       character(96) :: suffix
       character(256) :: staged_base
       integer*8 :: stamp
@@ -380,11 +433,8 @@ Contains
             integer(c_int) :: pid
          end function c_getpid
       end interface
-      if (CataloguePublicationPending) error stop 'BDM catalogue publication is already pending'
-      if (len_trim(final_path) == 0.or.len_trim(final_path) > len(CatalogueFinalPath)) &
-         error stop 'BDM catalogue path is empty or too long'
+      if (CatPubN >= size(CatPubUnit)) error stop 'BDM stages too many catalogue files'
       slash=index(trim(final_path),'/',back=.true.)
-      if (slash == len_trim(final_path)) error stop 'BDM catalogue path names a directory'
       if (slash > 0) then
          staged_base=final_path(:slash)//'.'//trim(final_path(slash+1:))
       else
@@ -392,31 +442,37 @@ Contains
       end if
       process_id=c_getpid()
       call system_clock(count=stamp)
-      close(12,iostat=io)
+      close(unit,iostat=io)
       if (io /= 0) error stop 'BDM cannot close the previous catalogue unit'
       do attempt=0,999
          write(suffix,'(a,i0,a,i0,a,i0)') '.tmp.',process_id,'.',stamp,'.',attempt
-         if (len_trim(staged_base)+len_trim(suffix) > len(CatalogueStagedPath)) &
+         if (len_trim(staged_base)+len_trim(suffix) > len(CatPubStaged(1))) &
             error stop 'BDM staged catalogue path is too long'
-         CatalogueStagedPath=trim(staged_base)//trim(suffix)
          ! STATUS=NEW exclusively creates the path and keeps normal umask
          ! permissions. A collision must never truncate another staged file.
-         open(12,file=trim(CatalogueStagedPath),status='new',action='write',iostat=io)
+         if (stream) then
+            open(unit,file=trim(staged_base)//trim(suffix),status='new',action='write', &
+                 access='stream',form='unformatted',convert='little_endian',iostat=io)
+         else
+            open(unit,file=trim(staged_base)//trim(suffix),status='new',action='write',iostat=io)
+         end if
          if (io == 0) then
-            CatalogueFinalPath=trim(final_path)
-            CataloguePublicationPending=.true.
+            CatPubN=CatPubN+1
+            CatPubUnit(CatPubN)=unit
+            CatPubFinal(CatPubN)=trim(final_path)
+            CatPubStaged(CatPubN)=trim(staged_base)//trim(suffix)
             return
          end if
-         inquire(file=trim(CatalogueStagedPath),exist=exists)
+         inquire(file=trim(staged_base)//trim(suffix),exist=exists)
          if (.not.exists) error stop 'BDM cannot create staged catalogue'
       end do
       error stop 'BDM cannot reserve a unique staged catalogue'
-      end SUBROUTINE BeginCataloguePublication
+      end SUBROUTINE StageCatalogueFile
 
       SUBROUTINE PublishCatalogue
       use, intrinsic :: iso_c_binding, only: c_int,c_char,c_null_char
       implicit none
-      integer :: io,unit
+      integer :: i,io,unit
       integer(c_int) :: rename_status
       logical :: opened
       interface
@@ -427,17 +483,23 @@ Contains
          end function c_rename
       end interface
       if (.not.CataloguePublicationPending) error stop 'BDM catalogue publication was not started'
-      unit=-1;opened=.false.
-      inquire(file=trim(CatalogueStagedPath),opened=opened,number=unit,iostat=io)
-      if (io /= 0.or..not.opened.or.unit /= 12) error stop 'BDM staged catalogue is not open on unit 12'
-      close(12,iostat=io)
-      if (io /= 0) error stop 'BDM staged catalogue could not be completely written'
-      ! C rename is atomic within this directory on the supported POSIX
-      ! filesystems. Only a fully written, successfully closed file is exposed.
-      rename_status=c_rename(trim(CatalogueStagedPath)//c_null_char,trim(CatalogueFinalPath)//c_null_char)
-      if (rename_status /= 0_c_int) error stop 'BDM cannot publish staged catalogue'
+      ! Close every staged file first, then rename them in staging order (text,
+      ! binary, meta): a published .meta always has its complete .bin beside it.
+      do i=1,CatPubN
+         unit=-1;opened=.false.
+         inquire(file=trim(CatPubStaged(i)),opened=opened,number=unit,iostat=io)
+         if (io /= 0.or..not.opened.or.unit /= CatPubUnit(i)) error stop 'BDM staged catalogue is not open on its unit'
+         close(CatPubUnit(i),iostat=io)
+         if (io /= 0) error stop 'BDM staged catalogue could not be completely written'
+      end do
+      do i=1,CatPubN
+         ! C rename is atomic within this directory on the supported POSIX
+         ! filesystems. Only a fully written, successfully closed file is exposed.
+         rename_status=c_rename(trim(CatPubStaged(i))//c_null_char,trim(CatPubFinal(i))//c_null_char)
+         if (rename_status /= 0_c_int) error stop 'BDM cannot publish staged catalogue'
+      end do
       CataloguePublicationPending=.false.
-      CatalogueFinalPath='';CatalogueStagedPath=''
+      CatPubN=0;CatPubUnit=0;CatPubFinal='';CatPubStaged=''
       end SUBROUTINE PublishCatalogue
 
       SUBROUTINE ConfigurationError(line_number,message)
@@ -631,15 +693,68 @@ SUBROUTINE WriteFiles
      if(.not.all(ieee_is_finite([Vrms,rr,Cvir,aNpart,VirRat]))) &
        error stop 'BDM derived catalogue property is nonfinite'
      iHalo=iHalo+1
-     write(12,'(3f11.4,3x,3f10.2,1p,2g12.4,g12.5,26g12.4)') &
+     if(CatText) write(CatUnitText,'(3f11.4,3x,3f10.2,1p,2g12.4,g12.5,26g12.4)') &
        x,y,z,VxMaxx(ip),VyMaxx(ip),VzMaxx(ip),Mvir(ip),Mtotal(ip), &
        rr,Vrms,VmaxM(ip),iHalo,Cvir,aNpart,0,Xoff(ip),VirRat,LambdaM(ip), &
+       1.e3*RadRms(ip),Axba(ip),Axca(ip),Xax(ip),Yax(ip),Zax(ip)
+     ! Binary record: the same 24 values as the text row, 4 bytes each (real*4,
+     ! the row index and the distinct flag as integer*4), little-endian stream.
+     if(CatBinary) write(CatUnitBin) &
+       x,y,z,VxMaxx(ip),VyMaxx(ip),VzMaxx(ip),Mvir(ip),Mtotal(ip), &
+       rr,Vrms,VmaxM(ip),int(iHalo,4),Cvir,aNpart,0_4,Xoff(ip),VirRat,LambdaM(ip), &
        1.e3*RadRms(ip),Axba(ip),Axca(ip),Xax(ip),Yax(ip),Zax(ip)
      if(fRHaloActive) call fRHaloRow(x,y,z,Rvir(ip))     ! same row order as the catalogue (I10)
    enddo
    Nhalo=iHalo
+   if(CatBinary) call WriteCatalogueMeta(Nhalo)
    call PublishCatalogue
 end SUBROUTINE WriteFiles
+
+!---------------------------------------------------------------------------
+!   Sidecar of the binary catalogue: key = value lines (readers split on the
+!   first '='). Written after the rows, so it carries the final row count, and
+!   published last, so its presence marks a complete .bin.
+SUBROUTINE WriteCatalogueMeta(nrows)
+   implicit none
+   integer, intent(in) :: nrows
+   integer :: u
+   character(256) :: Name
+   u=CatUnitMeta
+   write(u,'(2a)') 'product = Catshort',CatLabelCur(1:1)
+   write(u,'(a)') 'format = raw little-endian records, 96 bytes per halo: 24 four-byte fields (22 float32 + 2 int32), row-major, no header; same rows and order as the text catalogue'
+   write(u,'(a)') 'columns = x y z vx vy vz Mbound Mtot Rvir Vrms Vcirc row Cvir Npart distinct Xoff virial_ratio lambda RadRMS b_a c_a ax_x ax_y ax_z'
+   write(u,'(a)') 'dtypes = f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 i4 f4 f4 i4 f4 f4 f4 f4 f4 f4 f4 f4 f4'
+   write(u,'(a)') 'units = Mpc/h Mpc/h Mpc/h km/s km/s km/s Msun/h Msun/h kpc/h km/s km/s - - - - Rvir - - kpc/h - - - - -'
+   write(u,'(a,i10)') 'rows = ',nrows
+   write(u,'(a)') 'record_bytes = 96'
+   if(CatText)then
+     write(Name,'(2a,i4.4,a,i4.4,a)') 'CATALOGS/Catshort',CatLabelCur,ISTEP,'.',Nrealization,'.DAT'
+     write(u,'(2a)') 'text_catalogue = ',trim(Name)
+   else
+     write(u,'(a)') 'text_catalogue = none'
+   endif
+   write(u,'(a,es16.8)') 'a = ',AEXPN
+   write(u,'(a,es16.8)') 'z = ',1./AEXPN-1.
+   write(u,'(a,es16.8,a)') 'a_v = ',AEXPN-ASTEP/2.,'   (epoch of the particle velocities, a - da/2)'
+   write(u,'(a,es16.8)') 'da = ',ASTEP
+   write(u,'(a)') 'velocity_scale = 1/a   (vx,vy,vz = code velocity * 100 Box/N_grid / a, the legacy convention; multiply by a/a_v for velocities at a_v)'
+   write(u,'(a,i6)') 'step = ',ISTEP
+   write(u,'(a,i6)') 'realization = ',Nrealization
+   write(u,'(a,f12.4)') 'Box = ',Box
+   write(u,'(a,i6)') 'N_grid = ',NGRID
+   write(u,'(a,i6)') 'N_row = ',NROW
+   write(u,'(a,f10.6)') 'Omega_m = ',Om0
+   write(u,'(a,f10.6)') 'Omega_L = ',OmL
+   write(u,'(a,f10.6)') 'hubble = ',hubble
+   write(u,'(a,es16.8,a)') 'particle_mass = ',MassOne,'   (Msun/h)'
+   write(u,'(a,es16.8,a)') 'MassMin = ',MassMin,'   (Msun/h; rows also need Npart >= 20)'
+   write(u,'(a,f12.4,a)') 'overdensity = ',Ovdens,'   (relative to the mean matter density at this epoch)'
+   write(u,'(a,i2,a)') 'iVirial = ',iVirial,'   (0 = 200 critical, 1 = Bryan-Norman virial, 2 = 200 mean, 3 = Abacus)'
+   write(u,'(a,f10.4,a)') 'buffer_width = ',dBuffer,'   (Mpc/h)'
+   write(u,'(a)') 'centre = density peak refined by centre-of-mass iterations; Rvir = radius where the enclosed mean density equals overdensity times the mean matter density; Mbound = bound mass within Rvir; Mtot = all mass within Rvir; Xoff = centre-of-mass offset in units of Rvir; row = 1-based row index in this file'
+   write(u,'(a)') 'finder = BDM finder v3'
+   write(u,'(2a)') 'header = ',trim(HEADER)
+end SUBROUTINE WriteCatalogueMeta
 
 !---------------------------------------------------------------------------
 !                  
@@ -1938,6 +2053,7 @@ end SUBROUTINE List
       write(*,*) ' Scales=', Xscale, Vscale
       Do kf =1,1
                       kfile = FileList(kf)
+               If(kf==1.and..not.CatText) cycle          ! text catalogue switched off (CatalogueFormat = binary)
                If(kf==2.or.kf==3)Then
                  WRITE (kfile) HEADER
                       sxt1 =' A    ='
