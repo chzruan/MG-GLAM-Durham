@@ -118,7 +118,7 @@
 % Presentation metadata
 % -----------------------------------------------------------------------------
 \title[DEGRACE companions: status]{\textbf{DEGRACE companions in MG-GLAM: status}}
-\subtitle{What landed, how it was verified, what the two pilots say, what is left}
+\subtitle{What landed, what the products are, how they were verified, what the pilots say, what is left}
 
 \author[C.-Z. Ruan]{\Large Cheng-Zong Ruan}
 
@@ -183,51 +183,114 @@
 \end{frame}
 
 % -----------------------------------------------------------------------------
-\begin{frame}{\textbf{Schedule and output classes (I1, I4, I5)}}
-  \small
+\begin{frame}{\textbf{Schedule and output classes (I1, I3--I5)}}
+  \footnotesize
   \begin{columns}[T]
-    \begin{column}{0.55\textwidth}
+    \begin{column}{0.57\textwidth}
       \begin{itemize}
-        \item \texttt{\#outputs = -42}: every requested epoch is hit exactly (a step moved onto it or
-          inserted); pairs closer than 0.5\,\% allowed (four in the DEGRACE list).
-        \item Pilot: 181 steps = 163 ladder + 18 inserted, $\mathrm{d}a_0 = 6\times10^{-4}$ from $z = 49$.
-        \item \texttt{OutputSchedule.dat}: step, $a$, $z$, $\chi$, exact flag, class.
-        \item Class 1 = full (halo finder + extras), 2 = station (planes + $P(k)$).
-          Production decision: extras at all 42 outputs.
+        \item \textbf{17 primary redshifts} $z = 0, 0.125, \ldots, 2$ ($\Delta z = 0.125$), common to all cosmologies.
+        \item \textbf{25 stations} at comoving distance $\chi = 256\,k\;h^{-1}$Mpc, $k = 1\ldots25$, from the run's own
+          flat matter\,+\,$\Lambda$ $\chi(a)$ (no radiation, $c/H_0 = 2997.92458\,h^{-1}$Mpc);
+          \texttt{gen\_inputs.py} reproduces every ECOSMOG list to $10^{-7}$.
+        \item \texttt{\#outputs = -42}: every epoch is hit exactly (a step moved onto it or inserted); pairs closer
+          than 0.5\,\% are allowed. Pilot: 181 steps = 163 ladder + 18 inserted, $\mathrm{d}a_0 = 6\times10^{-4}$ from $z = 49$.
+        \item \texttt{OutputSchedule.dat}: one line per output: step (= snapshot number), $a$, $z$, $\chi$, exact, class.
+        \item \textbf{Class 1} (full): $P(k)$, planes, BDM catalogue, $f_R$ at haloes, $\delta_m$ and momentum cubes,
+          subsample; \textbf{class 2} (station): $P(k)$ and planes. Pilots 17 + 25; production: all 42 class 1.
       \end{itemize}
     \end{column}
-    \begin{column}{0.43\textwidth}
+    \begin{column}{0.41\textwidth}
       \scriptsize
       \begin{tabular}{@{}rrrrcc@{}}
         \toprule
         step & $a$ & $z$ & $\chi$ & exact & class \\
         \midrule
-        57  & 0.10275 & 8.732 & 8344.5 & 1 & 1 \\
-        63  & 0.11832 & 7.452 & 8104.7 & 1 & 2 \\
-        105 & 0.33333 & 2.000 & 5190.2 & 1 & 1 \\
-        127 & 0.50000 & 1.000 & 3306.9 & 1 & 1 \\
+        57  & 0.10275 & 8.732 & 6400.0 & 1 & 2 \\
+        63  & 0.11832 & 7.452 & 6144.0 & 1 & 2 \\
+        105 & 0.33333 & 2.000 & 3625.9 & 1 & 1 \\
+        106 & 0.33796 & 1.959 & 3584.0 & 1 & 2 \\
+        127 & 0.50000 & 1.000 & 2312.7 & 1 & 1 \\
+        128 & 0.50128 & 0.995 & 2304.0 & 1 & 2 \\
+        152 & 0.72727 & 0.375 & 1024.9 & 1 & 1 \\
+        153 & 0.72747 & 0.375 & 1024.0 & 1 & 2 \\
         181 & 1.00000 & 0.000 & 0.0    & 1 & 1 \\
         \bottomrule
       \end{tabular}
       \\[1ex]
-      \scriptsize $\chi$ in $h^{-1}$Mpc. Epochs equal the pinned ECOSMOG list of node 2 to $10^{-7}$.
+      \scriptsize Node 2 ($\Omega_m = 0.3$), $\chi$ in $h^{-1}$Mpc. Epochs equal the pinned ECOSMOG list to $10^{-7}$;
+      steps 105/106, 127/128, 152/153 are the close pairs.
     \end{column}
   \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
-\begin{frame}{\textbf{Lens planes (I2): cheap, verified, 1\,\% of the run}}
-  \small
+\begin{frame}{\textbf{What a box writes: files per output}}
+  \scriptsize
+  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.28\textwidth} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{0.19\textwidth} >{\raggedright\arraybackslash}p{0.12\textwidth}@{}}
+    \toprule
+    file (\texttt{<step>} = snapshot, box 0001) & content & $1024^3$, $N_g = 2048$ (pilots) & $2048^3$, $N_g = 4096$ \\
+    \midrule
+    \texttt{PowerDM.R/log.<step>.0001.dat} & $P(k)$ on the $N_g$ mesh, linear / log bins, raw CIC & 41 KB & 80 KB \\
+    \texttt{LensPlanes.<step>.0001.bin/.meta} & 12 planes of $\Sigma/\bar\Sigma$, $N_{\rm lens}^2$ float32 & 201 MB ($2048^2$) & 805 MB ($4096^2$) \\
+    \texttt{CatshortV.<step>.0001.DAT} & BDM haloes (in \texttt{CATALOGS/}), text, 24 columns & 0.1--0.3 GB & 0.3--0.4 GB \\
+    \texttt{deltam.<step>.0001.bin/.meta} & $\tilde\delta_m(\mathbf{k})$ cube, $k_c = 1.5$ & 469 MB & 469 MB \\
+    \texttt{mom\_x,y,z.<step>.0001.bin/.meta} & $[(1+\delta)v_i]^{\sim}(\mathbf{k})$ cubes, $k_c = 0.75$ & $3\times59$ MB ($3\times138$ at $k_c = 1$) & same \\
+    \texttt{Subsample.<step>.0001.bin/.meta} & 1 in $M = 100$ particles, int16 & 129 MB & 1.03 GB \\
+    \texttt{fR\_halo.<step>.0001.bin/.meta} & $(f_R^{\rm centre}, f_R^{\rm mean})$ per halo & 9 MB (1.1 M haloes) & $\sim$30 MB \\
+    \texttt{<IC prefix>\_deltaL.bin/.meta} & $\tilde\delta_L(\mathbf{k})$ cube, once per box, from the IC job & 469 MB & 469 MB \\
+    \texttt{OutputSchedule.dat}, \texttt{timing.log} & schedule; per-step timing (with \texttt{Run.log}) & KB & KB \\
+    \bottomrule
+  \end{tabularx}
+  \smallskip
+  \footnotesize
+  \begin{itemize}
+    \item No particle snapshots (\texttt{iSave = 0}). Per box: 9.1 GB ($\Lambda$CDM pilot, no extras), 25 GB (f(R) pilot, extras at the 17 primaries); with the extras at
+      all 42 outputs $\approx 40$ GB at $1024^3$ and $\approx 130$ GB at $2048^3$ (13 TB for 100 boxes).
+  \end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Conventions shared by every product}}
+  \footnotesize
+  \begin{itemize}
+    \item \textbf{Epochs.} Positions at the output $a$ ($a_x = a$); velocities half a step behind, $a_v = a - \Delta a/2$
+      with $\Delta a$ the step just taken (leapfrog). Every sidecar records \texttt{step, a, z, a\_x, a\_v}. The legacy
+      BDM catalogue converts its velocities with $1/a$ instead of $1/a_v$ (0.5--1.1\,\% high; decision pending).
+    \item \textbf{Units.} Comoving $h^{-1}$Mpc, peculiar velocities in km/s, masses in $h^{-1}M_\odot$; axes follow the
+      particle $x, y, z$ of the catalogue (\texttt{axis\_map}).
+    \item \textbf{Fourier.} $\tilde\delta(\mathbf{k}) = N^{-3}\sum_{\mathbf{x}}\delta(\mathbf{x})\,e^{-i\mathbf{k}\cdot\mathbf{x}}$,
+      $\mathbf{k} = (2\pi/L)(i_x, i_y, i_z)$, $P(k) = L^3\langle|\tilde\delta|^2\rangle$; grid node $i$ at $(i-1)L/N$.
+    \item \textbf{Mode cube.} $|i_x|, |i_y| \le n$, $0 \le i_z \le n$ with $n = \lfloor k_c L/2\pi\rfloor$; the Hermitian-redundant
+      $i_z = 0$ modes are kept, $\mathbf{k} = 0$ is zero; $(2n+1)^2(n+1)$ complex64 values.
+    \item \textbf{Layout.} Fortran \texttt{C(0:n,-n:n,-n:n)}, $i_z$ fastest; numpy
+      \texttt{fromfile(f, '<c8').reshape(2n+1, 2n+1, n+1)[ix+n, iy+n, iz]}.
+    \item \textbf{Mass assignment.} CIC on $N_{\rm dep}$ nodes, never deconvolved inside GLAM; \texttt{assignment},
+      \texttt{N\_dep} and \texttt{interlaced = false} are recorded and offline code divides by $W_{\rm CIC}$.
+    \item \textbf{Sidecar keys.} \texttt{product, format, layout, fourier\_norm, modes, n, k\_c, N\_dep, N\_grid, N\_row, N\_p,
+      Box, units, D\_code(a)} (the code's flat matter\,+\,$\Lambda$ growth, $D(1) = 1$), \texttt{Omega\_m, Omega\_L, hubble,
+      MG\_flag, MG\_model, fR0}, and \texttt{header} (the PM header: \texttt{ic2pm} velocity epoch, lattice tag \texttt{IDx}/\texttt{IDz}).
+  \end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Lens planes (I2): definition, cost, checks}}
+  \footnotesize
   \begin{columns}[T]
-    \begin{column}{0.55\textwidth}
+    \begin{column}{0.58\textwidth}
       \begin{itemize}
-        \item Per output: 3 axes $\times$ 4 slabs of $256\,h^{-1}$Mpc, mean of $1+\delta$ over the slab
-          column, block-averaged to $2048^2$; float32, 201 MB per output, 8.5 GB per box.
-        \item \texttt{.meta} sidecar: geometry, epoch, pixel convention, cosmology, header.
-        \item Cost on the pilot: 1.8 s per output; the 201 MB write 12 s.
+        \item \textbf{Definition.} For projection axis $X$ and slab $s$ of depth $L/N_{\rm slab} = 256\,h^{-1}$Mpc, pixel
+          $(i,j)$ is the mean of $1+\delta$ over the slab column and the pixel block, i.e. $\Sigma_s(i,j)/\bar\Sigma$ with
+          $\bar\Sigma = \bar\rho_m\times$ depth; $\delta$ from the CIC deposit on $N_g$, not deconvolved. Each plane
+          averages to 1 by construction.
+        \item \textbf{Layout.} 12 planes in the order $X_1\ldots X_4, Y_1\ldots Y_4, Z_1\ldots Z_4$; $X$-planes indexed
+          $(y, z)$, $Y$ $(x, z)$, $Z$ $(x, y)$; pixel $(i,j)$ covers $[(i-1), i)\,L/N_{\rm lens}$; float32,
+          column-major; block average when $N_{\rm lens} < N_g$.
+        \item \textbf{Offline use.} $\kappa = \tfrac{3}{2}\Omega_m (H_0/c)^2 \sum_{\rm planes}
+          \frac{\chi(\chi_s-\chi)}{\chi_s\,a}\,(\Sigma/\bar\Sigma - 1)\,\Delta\chi$, $\Delta\chi = 256\,h^{-1}$Mpc.
+        \item \textbf{Cost.} 1.8 s per output, the 201 MB write 12 s: $< 1\,\%$ of a run.
       \end{itemize}
     \end{column}
-    \begin{column}{0.43\textwidth}
+    \begin{column}{0.40\textwidth}
       \scriptsize
       \begin{tabular}{@{}ll@{}}
         \toprule
@@ -237,13 +300,16 @@
         L2 vs \texttt{ProjectDENSIT} & $10^{-5}$ \\
         L2 $36^2$ = block mean of $72^2$ & $10^{-5}$ \\
         L3 $P_{2D}$ vs projected $P_{3D}$ & $3\sigma$ per ring; 3--7\,\% \\
+        pilots: plane means & $1 \pm 10^{-7}$ \\
+        pilots: $\Sigma/\bar\Sigma$ range at $z = 0$ & 0.10--51 \\
         \bottomrule
       \end{tabular}
+      \\[1ex]
+      \examplebox{Open question for Baojiu}{%
+        \scriptsize Plane normalisation ($\Sigma/\bar\Sigma$ vs $\Sigma$); do the stations also need halo catalogues?
+      }
     \end{column}
   \end{columns}
-  \examplebox{Open question for Baojiu}{%
-    Plane normalisation ($\Sigma/\bar\Sigma$ vs $\Sigma$); do the stations also need halo catalogues?
-  }
 \end{frame}
 
 % -----------------------------------------------------------------------------
@@ -265,11 +331,70 @@
   \smallskip
   \small
   \begin{itemize}
-    \item Storage at $1024^3$ per output: $\delta_m$ 0.47 GB, momentum 0.41 GB, subsample ($M=100$) 0.13 GB.
+    \item Storage at $1024^3$ per output: $\delta_m$ 0.47 GB, momentum 0.18 GB ($k_c = 0.75$; 0.41 at 1.0), subsample ($M=100$) 0.13 GB.
     \item From the review: \texttt{ic2pm} places every particle at array index = Gadget ID and tags the
       lattice order (\texttt{IDz} 2LPTic, \texttt{IDx} FML) in the PM header, so the subsample index gives
       the Lagrangian position.
   \end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Definitions: density, momentum and $\delta_L$ cubes (I7, I8)}}
+  \footnotesize
+  \begin{itemize}
+    \item \texttt{deltam}: $\delta(\mathbf{x}) = n(\mathbf{x})/\bar n - 1$ from the CIC deposit of the output positions on
+      $N_{\rm dep} = N_g$, forward FFT, cube $|k_i| \le k_c = 1.5\,h\,\mathrm{Mpc}^{-1}$ ($n = 244$ at $L = 1024$: 0.47 GB).
+      Offline $P_{mm}(k) = L^3\langle|\tilde\delta_m/W_{\rm CIC}|^2\rangle$ equals \texttt{PowerDM.R} bin by bin to $10^{-4}$ (V2).
+    \item \texttt{mom\_x,y,z}: $p_i(\mathbf{x}) = \bar n_{\rm cell}^{-1}\sum_p v_{i,p}\,W_{\rm CIC}(\mathbf{x}-\mathbf{x}_p)
+      = (1+\delta)\,v_i$, $v$ the peculiar velocity in km/s at $a_v$; deposit on $N_{\rm dep} = N_g/2$, $k_c = 0.75$ by
+      the rule $k_c \le k_{N,\rm dep}/4 = \pi N_{\rm dep}/4L$ (no interlacing; the f(R) pilot used 1.0).
+      At linear $k$, $\tilde v_i \simeq \tilde p_i$.
+    \item \texttt{deltaL}: the IC generator's Gaussian field at $z_{\rm ini}$ divided by $D(a_{\rm ini})$ (flat
+      matter\,+\,$\Lambda$, $D(1) = 1$), i.e. the linear field at $a = 1$; written before any LPT displacement, same cube
+      and layout as \texttt{deltam}, identical for a $\Lambda$CDM/f(R) twin pair (one IC file). Sidecar adds
+      \texttt{seed, z\_ini, D\_gen(a\_ini), pofk\_file, lpt\_order, fix\_amplitude, lattice} (particles at $iL/N_p$,
+      ID $= 1 + i_x + N_p(i_y + N_p i_z)$) and the cube rms.
+    \item \textbf{Uses.} Halo propagator $\Gamma_h(k|M) = \sum\mathrm{Re}[\tilde\delta_h\tilde\delta_L^*]/\sum|\tilde\delta_L|^2$
+      without cosmic variance; matter propagator $G_m = P_{mL}/P_L$; growth check
+      $\langle\tilde\delta_m/W_{\rm CIC}/\tilde\delta_L\rangle = D_{\rm code}(a)$ (0.9997--1.0012 at $k \le 0.15$, V3);
+      halo--momentum cross spectra; environment and tidal fields at $R \ge 3/k_c$.
+    \item \textbf{Caveat.} Compare dumps with binned means and cross-correlations, not single-mode ratios (CIC of lattice
+      particles is not linear in the displacement; phase scatter $\sim k\Delta/2$ at early times).
+  \end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Definitions: particle subsample (I9) and $f_R$ at haloes (I10)}}
+  \scriptsize
+  \begin{columns}[T]
+    \begin{column}{0.56\textwidth}
+      \textbf{\texttt{Subsample}}
+      \begin{itemize}
+        \item ID $=$ 0-based lattice index $i + N(j + Nk)$ ($i$ along $x$ for FML ICs, tag \texttt{IDx}; Baojiu's 2LPTic
+          files are $k$-fastest, \texttt{IDz}); \texttt{ic2pm} places particle = Gadget ID. Lagrangian position
+          $\mathbf{q} = (i, j, k)\,L/N$.
+        \item Keep iff \texttt{splitmix64(ID xor SALT) mod M = 0}, \texttt{SALT = 0x5EED00DE6C0A2026}, $M = 100$:
+          the same particles at every output and in both twins; $n_{\rm sel} = 10\,741\,150 = N/100$ to 0.03\,\%.
+        \item Stored in increasing ID: the $k$-th particle is the $k$-th ID passing the rule (IDs implicit).
+        \item int16 quantisation: $q = \lfloor 65536\,x/L\rfloor - 32768$, decode $x = (q + 32768 + 0.5)\,L/65536$
+          ($\Delta x = 15.6\,h^{-1}$kpc); $s = \mathrm{nint}(v/\Delta v)$, $\Delta v = 0.25$ km/s, clipped at
+          $\pm32767$ (count in the sidecar, 0 in the pilot); $v$ peculiar at $a_v$.
+        \item Layout: \texttt{qx, qy, qz, vx, vy, vz}, $n_{\rm sel}$ each, contiguous; 12 B per particle.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \textbf{\texttt{fR\_halo}} (f(R) runs, \texttt{MG\_model = 1})
+      \begin{itemize}
+        \item One float32 pair $(f_R^{\rm centre}, f_R^{\rm mean})$ per catalogue row, in \texttt{CatshortV} order.
+        \item $f_R^{\rm centre}$: CIC interpolation of $f_R$ at the BDM centre; $f_R^{\rm mean}$: mean over the mesh cells
+          whose centres lie within $R_{\rm vir}$ (equal to the centre value below half a cell).
+        \item $f_R(\mathbf{x}) = f_{R,\rm bg}(a_{\rm old})\,u(\mathbf{x})^{n+1}$, $u$ the solver field (scalar field over its
+          background value) at the pre-step epoch $a_{\rm old}$;
+          $f_{R,\rm bg}(a) = f_{R0}\,[R_0/R(a)]^{n+1}$, $R(a) = 3(\Omega_m a^{-3} + 4\Omega_\Lambda)$.
+        \item Sidecar: $f_{R0}$, $n$, $a_{\rm old}$, $f_{R,\rm bg}(a_{\rm old})$, catalogue name and row count.
+      \end{itemize}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 % -----------------------------------------------------------------------------
@@ -305,6 +430,29 @@
     CIC density of particles sitting on grid nodes is not linear in the displacement (phase scatter
     $\sim k\Delta/2$ per mode at early times): compare dumps with binned means and cross-correlations.
   }
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Definitions: BDM halo catalogue and $P(k)$ (legacy products)}}
+  \footnotesize
+  \begin{itemize}
+    \item \texttt{CATALOGS/CatshortV.<step>.0001.DAT}: text, 8 header lines (PM header with the \texttt{ic2pm} epoch and
+      lattice tag, $a$ and $\Delta a$, step, $N_{\rm row}$, $N_g$, cosmology, buffer width, mass of the smallest particle,
+      overdensity limit), then one row per halo with 24 columns:
+      $x, y, z$ [$h^{-1}$Mpc]; $V_x, V_y, V_z$ [km/s]; $M_{\rm bound}$, $M_{\rm tot}$ [$h^{-1}M_\odot$]; $R_{\rm vir}$
+      [$h^{-1}$kpc]; $V_{\rm rms}$, $V_{\rm circ}$ [km/s]; row index; $c_{\rm vir}$; $N_{\rm part}$; distinct/sub flag;
+      $X_{\rm off}$; $2K/E_p - 1$; spin $\lambda$; RadRMS; $b/a$, $c/a$; major-axis direction $(x, y, z)$.
+    \item \textbf{Halo definition (BDM).} Centre = density peak refined by centre-of-mass iterations; radius = the
+      Bryan--Norman virial aperture relative to the mean density ($\Delta_{\rm vir} = 338$ at $z = 0$, 203 at $z = 1$);
+      \texttt{MassMin} $= 10^{11}\,h^{-1}M_\odot$ (particle mass $8.3\times10^{10}$ at $1024^3$); rows in peak order, not
+      by mass; velocities converted with $1/a$ (the $a/a_v$ offset of the decisions frame).
+    \item \texttt{PowerDM.R.<step>.0001.dat}: 2 header lines ($a$, step, $z$, $N_g$, $k_{\rm Ny} = \pi N_g/L$), then
+      bin, $k$ [$h\,\mathrm{Mpc}^{-1}$], number of modes, $P$ [$(h^{-1}\mathrm{Mpc})^3$] in linear bins of width $2\pi/L$;
+      $\delta$ from CIC on $N_g$, raw: divide by the shell-averaged $W_{\rm CIC}^2 \simeq 1 - \tfrac{2}{3}\sin^2(\pi k/2k_{\rm Ny})$
+      offline (as in the twin comparison). \texttt{PowerDM.log}: the same in logarithmic bins.
+    \item \texttt{timing.log}: per step the wall time split into Force, Move, Density, IO, BDM, Analysis and MG; the source
+      of the cost figures on the pilot frames.
+  \end{itemize}
 \end{frame}
 
 % -----------------------------------------------------------------------------
@@ -464,8 +612,8 @@
       985 GB runs; reuse \texttt{FI} or restrict extras to $N_g = 2048$.
     \item \textbf{Interlacing}: not implemented; default $k_{c,\rm mom} = 0.75$ stays below $k_{N,\rm dep}/4$ and
       PMP2init refuses more. Implement if $k > 0.78$ momentum modes are wanted.
-    \item \textbf{Disk}: 213 GB regenerable validation IC, 786 GB of February checkpoints in the high-res
-      $\Lambda$CDM run, 459 GB in BDM validation work directories, 15 GB of superseded pre-fix fiducial catalogues.
+    \item \textbf{Disk}: 1.5 TB freed on 17 Oct (validation IC, February checkpoints, BDM PM snapshots); still to
+      decide: the 21 BDM replay density tapes and membership tapes (195 GB on disk), 15 GB of superseded fiducial catalogues.
   \end{itemize}
   \textbf{Open minors} (grouped in \texttt{TRIAGE.md}): parameter-path robustness, $f_R$ product details, provenance
   JSON, test strength, docs drift. \quad \textbf{Questions for Baojiu}: BDM cadence, plane normalisation, CAMB
