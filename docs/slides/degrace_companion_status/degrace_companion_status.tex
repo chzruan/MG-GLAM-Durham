@@ -1,0 +1,481 @@
+% !TeX program = xelatex
+\documentclass[UTF8]{beamer}
+
+% -----------------------------------------------------------------------------
+% Language support
+% -----------------------------------------------------------------------------
+\usepackage{xeCJK}
+
+% -----------------------------------------------------------------------------
+% Mathematics and tables
+% -----------------------------------------------------------------------------
+\usepackage{amsmath}
+\usepackage{physics}
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+% -----------------------------------------------------------------------------
+% Graphics and code listings
+% -----------------------------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false
+}
+
+% -----------------------------------------------------------------------------
+% Colours and boxes
+% -----------------------------------------------------------------------------
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+% -----------------------------------------------------------------------------
+% Fonts
+%   - palatino for Latin
+%   - Noto Serif CJK SC for Chinese
+%   - Inconsolata for mono
+% -----------------------------------------------------------------------------
+\usepackage[T1]{fontenc} 
+\usepackage{palatino} 
+\setCJKmainfont{Noto Serif CJK SC} % or other, see list below \setmonofont{Inconsolata}
+\setmonofont{Inconsolata}
+
+% Make math use the text font family by default
+\def\mathfamilydefault{\rmdefault}
+
+% -----------------------------------------------------------------------------
+% 16:9 slide canvas
+% -----------------------------------------------------------------------------
+\usepackage[
+  orientation=landscape,
+  size=custom,
+  width=16,
+  height=9,
+  scale=0.5
+]{beamerposter}
+
+% Compatibility fix for older Babel releases.
+\makeatletter
+\let\@@magyar@captionfix\relax
+\makeatother
+
+% -----------------------------------------------------------------------------
+% Custom commands
+% -----------------------------------------------------------------------------
+\newcommand{\der}[2]{\frac{d #1}{d #2}}
+\newcommand{\nder}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\pder}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\npder}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+
+\newcommand{\overbar}[1]{%
+  \mkern1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern1.5mu%
+}
+\newcommand{\lined}{\overbar}
+\newcommand{\perm}[2]{{}^{#1}\!P_{#2}}
+\newcommand{\comb}[2]{{}^{#1}C_{#2}}
+\newcommand{\intall}{\int_{-\infty}^{\infty}}
+\newcommand{\Var}[1]{\text{Var}\left(#1\right)}
+\newcommand{\E}[1]{\text{E}\left(#1\right)}
+\newcommand{\define}{\equiv}
+\newcommand{\diff}[1]{\mathrm{d}#1}
+
+\newcommand{\empy}[1]{{\color{darkorange}\emph{#1}}}
+\newcommand{\empr}[1]{{\color{cardinalred}\emph{#1}}}
+\newcommand{\empbf}[1]{{\color{cardinalred}\bfseries #1}}
+
+\newcommand{\examplebox}[2]{%
+  \begin{tcolorbox}[colframe=darkcardinal,colback=boxgray,title=#1]
+    #2
+  \end{tcolorbox}
+}
+
+% -----------------------------------------------------------------------------
+% Theme and deck-specific visual language
+% -----------------------------------------------------------------------------
+\usetheme{Stanford}
+\beamertemplatenavigationsymbolsempty
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamerfont{title}{size=\LARGE,series=\bfseries}
+\setbeamercolor{itemize item}{fg=darkcyan}
+\setbeamercolor{itemize subitem}{fg=darkcyan}
+\setbeamercolor{enumerate item}{fg=darkcyan}
+
+\definecolor{okgreen}{RGB}{0,128,96}
+\definecolor{warngold}{RGB}{188,122,25}
+\definecolor{openrose}{RGB}{174,63,79}
+\newcommand{\done}{\textcolor{okgreen}{\textbf{done}}}
+\newcommand{\running}{\textcolor{warngold}{\textbf{running}}}
+\newcommand{\open}{\textcolor{openrose}{\textbf{open}}}
+
+\usepackage{multicol}
+\setlength{\columnsep}{0.5cm}
+
+% -----------------------------------------------------------------------------
+% Presentation metadata
+% -----------------------------------------------------------------------------
+\title[DEGRACE companions: status]{\textbf{DEGRACE companions in MG-GLAM: status}}
+\subtitle{What landed, how it was verified, what the first pilot says, what is left}
+
+\author[C.-Z. Ruan]{\Large Cheng-Zong Ruan}
+
+\institute[Durham University]{%
+  \includegraphics[height=0.72in]{durham_logo.png}\\[0.65ex]
+  \small Institute for Computational Cosmology, Durham University
+}
+\date{17 October 2026 \quad\textcolor{coolgray}{\small merged into \texttt{cz}; plan in \texttt{docs/}}}
+
+% -----------------------------------------------------------------------------
+% Document
+% -----------------------------------------------------------------------------
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{One week from plan to merged code}}
+  \small
+  \begin{itemize}
+    \item \textbf{Scope} (plan of 16 Oct): 42 exact outputs per box (17 primary redshifts + 25 stations
+      at $\Delta\chi = 256\,h^{-1}$Mpc), lens planes instead of snapshots, and the extra products of the
+      brief: $\delta_L$, low-$k$ density and momentum modes, a hashed subsample, $f_R$ at halo centres.
+    \item \textbf{Implemented} on \texttt{degrace-track-a} (17 commits, 53 files, +10.8k lines):
+      items I1--I10; I11 (optional) not done.
+    \item \textbf{Verified}: 180-check regression suite + four unit/integration scripts,
+      six independent code reviews (0 blockers, 8 majors, all fixed), two pilots on ECOSMOG node 2.
+    \item \textbf{Merged} into \texttt{cz} today (fast-forward, suite green on \texttt{cz}).
+  \end{itemize}
+  \examplebox{Take-away}{%
+    Everything a companion run needs exists, is tested and is on the mainline.
+    Three design decisions and the f(R) pilot verification remain.
+  }
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Status of the plan items}}
+  \scriptsize
+  \begin{tabularx}{\textwidth}{@{}l X l l@{}}
+    \toprule
+    item & what & status & evidence \\
+    \midrule
+    I1 & exact-$z$ scheduler accepts arbitrarily close output pairs & \done\ (\texttt{cz} ae4fa9d) & suite case 7 \\
+    I2 & lens planes: 12 per output, $\Sigma/\bar\Sigma$ on $2048^2$ & \done & L1--L3 \\
+    I3--I5 & input generator, \texttt{OutputSchedule.dat}, per-output classes & \done & cases 9, 4e; S2 (42 epochs = ECOSMOG to $10^{-7}$) \\
+    I6 & provenance per box & partial & JSON lacks generator/LPT/seed (minor) \\
+    I7 & $\delta_L(k)$ dump, route 1: in our FML IC generator & \done & V3, V7, V8; \texttt{run\_deltaL\_test.sh} \\
+    I8 & low-$k$ $\delta_m$ and $(1+\delta)\mathbf{v}$ modes & \done & V1, V2, mode-by-mode \\
+    I9 & ID-hashed quantised subsample, 1 in $M$ & \done & V5, V6; \texttt{run\_ic2pm\_test.sh} \\
+    I10 & $f_R$ at BDM halo centres & \done & unit test + f(R) smoke case \\
+    I11 & optional extras & \open & not started \\
+    \midrule
+    pilot & node 2 $\Lambda$CDM, $N_g = 2048$ & \done & verified, 0 FAIL \\
+    pilot & node 2 f(R), extras + subsample + $f_R$ & \running & job 12180110, $\sim$7 h \\
+    \bottomrule
+  \end{tabularx}
+  \smallskip
+  All flags default off: without the new \texttt{Init.dat} lines the code follows the \texttt{cz} path
+  (review 2), apart from \texttt{OutputSchedule.dat} and an appended \texttt{Setup.dat} block.
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Schedule and output classes (I1, I4, I5)}}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      \begin{itemize}
+        \item \texttt{\#outputs = -42}: every requested epoch is hit exactly (a step moved onto it or
+          inserted); pairs closer than 0.5\,\% allowed (four in the DEGRACE list).
+        \item Pilot: 181 steps = 163 ladder + 18 inserted, $\mathrm{d}a_0 = 6\times10^{-4}$ from $z = 49$.
+        \item \texttt{OutputSchedule.dat}: step, $a$, $z$, $\chi$, exact flag, class.
+        \item Class 1 = full (halo finder + extras), 2 = station (planes + $P(k)$).
+          Production decision: extras at all 42 outputs.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.43\textwidth}
+      \scriptsize
+      \begin{tabular}{@{}rrrrcc@{}}
+        \toprule
+        step & $a$ & $z$ & $\chi$ & exact & class \\
+        \midrule
+        57  & 0.10275 & 8.732 & 8344.5 & 1 & 1 \\
+        63  & 0.11832 & 7.452 & 8104.7 & 1 & 2 \\
+        105 & 0.33333 & 2.000 & 5190.2 & 1 & 1 \\
+        127 & 0.50000 & 1.000 & 3306.9 & 1 & 1 \\
+        181 & 1.00000 & 0.000 & 0.0    & 1 & 1 \\
+        \bottomrule
+      \end{tabular}
+      \\[1ex]
+      \scriptsize $\chi$ in $h^{-1}$Mpc. Epochs equal the pinned ECOSMOG list of node 2 to $10^{-7}$.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Lens planes (I2): cheap, verified, 1\,\% of the run}}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      \begin{itemize}
+        \item Per output: 3 axes $\times$ 4 slabs of $256\,h^{-1}$Mpc, mean of $1+\delta$ over the slab
+          column, block-averaged to $2048^2$; float32, 201 MB per output, 8.5 GB per box.
+        \item \texttt{.meta} sidecar: geometry, epoch, pixel convention, cosmology, header.
+        \item Cost on the pilot: 1.8 s per output; the 201 MB write 12 s.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.43\textwidth}
+      \scriptsize
+      \begin{tabular}{@{}ll@{}}
+        \toprule
+        check & result \\
+        \midrule
+        L1 mass conservation per axis & $10^{-7}$ \\
+        L2 vs \texttt{ProjectDENSIT} & $10^{-5}$ \\
+        L2 $36^2$ = block mean of $72^2$ & $10^{-5}$ \\
+        L3 $P_{2D}$ vs projected $P_{3D}$ & $3\sigma$ per ring; 3--7\,\% \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+  \examplebox{Open question for Baojiu}{%
+    Plane normalisation ($\Sigma/\bar\Sigma$ vs $\Sigma$); do the stations also need halo catalogues?
+  }
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Fourier dumps, subsample, $f_R$ at haloes (I8--I10)}}
+  \scriptsize
+  \begin{tabularx}{\textwidth}{@{}l X l@{}}
+    \toprule
+    product & what & verified \\
+    \midrule
+    \texttt{deltam} & $\delta_k = N^{-3}\sum_x \delta(x)e^{-ik\cdot x}$, cube $|k_i| \le k_c = 1.5$, CIC on $N_g$,
+      complex64 $C(0{:}n,-n{:}n,-n{:}n)$ & V1 layout; V2 $=$ \texttt{PowerDM.R} to $10^{-4}$ \\
+    \texttt{mom\_x,y,z} & $(1+\delta)\,v$ on $N_{\rm dep} = N_g/2$, $v$ at $a_v = a - \mathrm{d}a/2$,
+      $k_c = 0.75$ (below $k_{N,\rm dep}/4$: no interlacing) & V6; mode by mode vs decoded particles $7\times10^{-5}$ \\
+    \texttt{Subsample} & keep 1 in $M$ by splitmix64(ID $\oplus$ salt), int16 positions and velocities,
+      deterministic across twins, threads, restarts & V5 ($10^7$ IDs), V6 \\
+    \texttt{fR\_halo} & $f_R = f_{R,\rm bg}(a_{\rm old})\,u^{n+1}$ at every BDM centre & unit test; f(R) smoke case \\
+    \bottomrule
+  \end{tabularx}
+  \smallskip
+  \small
+  \begin{itemize}
+    \item Storage at $1024^3$ per output: $\delta_m$ 0.47 GB, momentum 0.41 GB, subsample ($M=100$) 0.13 GB.
+    \item From the review: \texttt{ic2pm} places every particle at array index = Gadget ID and tags the
+      lattice order (\texttt{IDz} 2LPTic, \texttt{IDx} FML) in the PM header, so the subsample index gives
+      the Lagrangian position.
+  \end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{$\delta_L$ from the IC generator (I7, route 1)}}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.47\textwidth}
+      \begin{itemize}
+        \item The FML generator writes \texttt{<prefix>\_deltaL.bin/.meta}: its Gaussian field at $z_{\rm ini}$
+          divided by $D(a_{\rm ini})$, same layout and convention as \texttt{deltam}; $k_c = 1.5$, 0.47 GB.
+        \item Lua: \texttt{write\_deltaL}, \texttt{deltaL\_kc}; on in the production input. Costs 1 s.
+        \item Baojiu's ICs and the legacy pilots are out of scope (decision of 17 Oct).
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.51\textwidth}
+      \scriptsize
+      \begin{tabular}{@{}ll@{}}
+        \toprule
+        check & result \\
+        \midrule
+        Zel'dovich: $\delta_L = -i\,k\cdot\Psi(k)/D$ & every mode to $10^{-3}$ \\
+        2LPT ICs & residual $8\times10^{-3}$ (2nd order) \\
+        wrong axis / sign / half cell & off by $10^4\times$ \\
+        V3: ratio to $D(a)$, $k \le 0.15$ & 0.9997--1.0012 \\
+        V3: cross-correlation, $k \le 0.05$ & 0.99998 \\
+        V3: coordinate offset per axis & $\le 0.03\,h^{-1}$Mpc \\
+        V7: 1/2/4 MPI ranks & identical md5 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+  \examplebox{Lesson}{%
+    CIC density of particles sitting on grid nodes is not linear in the displacement (phase scatter
+    $\sim k\Delta/2$ per mode at early times): compare dumps with binned means and cross-correlations.
+  }
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Pilot: node 2 $\Lambda$CDM, $N_g = 2048$ (job 12180082)}}
+  \footnotesize
+  \begin{columns}[T]
+    \begin{column}{0.44\textwidth}
+      \begin{tabular}{@{}lp{0.5\textwidth}@{}}
+        \toprule
+        wall time & 2 h 32 min, 64 cores, \texttt{cosma8-serial} \\
+        CPU efficiency & 83\,\% \\
+        peak memory & 118 GB (91 GB \texttt{PMP2main}) \\
+        steps & 181, median 0.60 min \\
+        outputs & 42 $P(k)$, 42 plane sets, 17 catalogues \\
+        disk per box & 9.1 GB \\
+        core-hours & $\approx 165$ per $\Lambda$CDM box \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.54\textwidth}
+      \begin{tabular}{@{}p{0.7\textwidth}r@{}}
+        \toprule
+        step type & mean wall time \\
+        \midrule
+        ordinary step & 0.60 min \\
+        station output: $2048^3$ $P(k)$ 25 s, planes 1.8 s, write 12 s & 0.96 min \\
+        primary output: + BDM halo finder & 2.6 min \\
+        \midrule
+        all 42 outputs & 43 min (29\,\%) \\
+        of which lens planes & $< 1\,\%$ \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+  \medskip
+  \small
+  \begin{itemize}
+    \item \texttt{check\_run.py}: schedule, epochs, files, sizes, plane means, catalogues, ic2pm epoch: 0 FAIL.
+    \item BDM dominates the output cost; the new products are cheap. The extras themselves (modes,
+      subsample, $f_R$) are timed on the f(R) pilot (V9).
+  \end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Pilot vs the ECOSMOG twin: same ICs, mode-exact}}
+  \begin{columns}[T]
+    \begin{column}{0.54\textwidth}
+      \includegraphics[width=0.96\textwidth]{figs/twin_ratio.pdf}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \footnotesize
+      \begin{itemize}
+        \item ECOSMOG has only f(R) spectra, so this is $\Lambda$CDM vs the f(R) twin.
+        \item $0.05 < k < 0.3$: a flat $+0.5$ to $+0.7\,\%$ plateau at every epoch, already at $z = 8.7$ where
+          f(R) is negligible.
+        \item Late times: ECOSMOG rises above us by 5\,\% at $k = 0.1$--$0.3$ and 10\,\% at $k = 0.3$--1 by $z = 0$:
+          the f(R) enhancement for $|f_{R0}| = 5.6\times10^{-6}$.
+        \item $k > 0.3$ at $z > 3$: +10\,\% where $P \sim 30\,(h^{-1}\mathrm{Mpc})^3$, the discreteness of the
+          perturbed lattice.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \vspace{-0.5ex}
+  \examplebox{Open: the constant $+0.5\,\%$ at linear scales}{%
+    \footnotesize Candidates: \texttt{ic2pm}'s half-step velocity convention vs ECOSMOG's start, POWMES vs raw-CIC
+    normalisation, a 0.25\,\% growth difference. The f(R) pilot vs the f(R) spectra decides whether it is a
+    code/ingestion offset; a $\mathrm{d}a_0 = 3\times10^{-4}$ restart of 20 steps isolates the half-step term.
+  }
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{f(R) pilot (job 12180110): running since 04:57 BST}}
+  \small
+  \begin{itemize}
+    \item Same node 2 ICs, $|f_{R0}| = 5.6\times10^{-6}$, $n = 1$; extras on ($\delta_m$ and momentum modes,
+      subsample $M = 100$, $f_R$ at haloes); 400 GB, 16 h limit.
+    \item So far 1.75 min per step, of which the multigrid f(R) solver 1.05 min ($\sim 3\times$ the
+      $\Lambda$CDM step); about 7 h in total.
+    \item It will give: V9 (wall-time overhead of the extras, target $< 5\,\%$, and peak memory with the
+      transient $N_{\rm dep}^3$ buffer); the real twin test at linear $k$ (is the $+0.5\,\%$ still there?);
+      subsample and $f_R$ products at $1024^3$.
+    \item Caveat: launched with $k_{c,\rm mom} = 1.0$ before the no-interlacing rule, so use its momentum
+      modes below $k = 0.78\,h\,\mathrm{Mpc}^{-1}$; its binaries predate the review fixes.
+  \end{itemize}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Independent review: six reviewers, eight majors, all fixed}}
+  \begin{columns}[T]
+    \begin{column}{0.40\textwidth}
+      \scriptsize
+      \begin{tabular}{@{}lcccc@{}}
+        \toprule
+        review & B & M & m & n \\
+        \midrule
+        1 Fortran extras module & 0 & 0 & 9 & 5 \\
+        2 scheduler, parameters, build & 0 & 2 & 6 & 6 \\
+        3 particle subsample & 0 & 1 & 4 & 6 \\
+        4 $\delta_L$ generator dump & 0 & 0 & 7 & 7 \\
+        5 Python tools and tests & 0 & 2 & 10 & 6 \\
+        6 docs and provenance & 0 & 3 & 11 & 8 \\
+        \bottomrule
+      \end{tabular}
+      \\[1ex]
+      \scriptsize Self-contained prompts and findings in \texttt{docs/reviews/degrace-track-a/}; rerunnable.
+    \end{column}
+    \begin{column}{0.58\textwidth}
+      \footnotesize
+      \textbf{Majors and their fixes}
+      \begin{itemize}
+        \item subsample ``ID'' was the IC file order $\to$ \texttt{ic2pm} scatters by Gadget ID and tags the lattice order
+        \item optional \texttt{Init.dat} lines defaulted silently when malformed $\to$ stop with the line
+        \item $f_R$ gate on \texttt{MG\_flag} only $\to$ also \texttt{MG\_model = 1}
+        \item twin script skipped early epochs (5-decimal header) $\to$ epochs from the schedule file
+        \item no test sensitive to axis order/sign of the dumps $\to$ mode-by-mode test
+        \item plan flags table, catalogue velocity epoch, interlacing status $\to$ documented, rules added
+      \end{itemize}
+      \textbf{After the fixes}: suite 180/180, four scripts green, merged.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Decisions pending and open items}}
+  \footnotesize
+  \textbf{Decisions (yours)}
+  \begin{itemize}
+    \item \textbf{BDM catalogue velocities} are converted with $1/a$, the new products with $1/a_v$:
+      a $1.1\,\%$ (first output) to $0.5\,\%$ ($z = 0$) offset. Fix the legacy finder (changes every GLAM
+      catalogue) or keep documenting it (apply $a_v/a$ offline).
+    \item \textbf{Momentum deposit} at $N_g = 4096$ f(R): the transient $N_{\rm dep}^3$ buffer (34 GB) does not fit the
+      985 GB runs; reuse \texttt{FI} or restrict extras to $N_g = 2048$.
+    \item \textbf{Interlacing}: not implemented; default $k_{c,\rm mom} = 0.75$ stays below $k_{N,\rm dep}/4$ and
+      PMP2init refuses more. Implement if $k > 0.78$ momentum modes are wanted.
+    \item \textbf{Disk}: 213 GB regenerable validation IC, 786 GB of February checkpoints in the high-res
+      $\Lambda$CDM run, 459 GB in BDM validation work directories, 15 GB of superseded pre-fix fiducial catalogues.
+  \end{itemize}
+  \textbf{Open minors} (grouped in \texttt{TRIAGE.md}): parameter-path robustness, $f_R$ product details, provenance
+  JSON, test strength, docs drift. \quad \textbf{Questions for Baojiu}: BDM cadence, plane normalisation, CAMB
+  $\omega_c$ pitfall, r2g velocity convention, node 900.
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Next steps}}
+  \small
+  \begin{enumerate}
+    \item f(R) pilot: \texttt{check\_run.py}, \texttt{compare\_ecosmog\_pk.py}, V9 overhead and memory; decide on
+      the $+0.5\,\%$ with the $\mathrm{d}a_0$ test if it persists.
+    \item Settle the three decisions above; rebuild the frozen pilot binaries from \texttt{cz}.
+    \item Production recipe per node: \texttt{gen\_inputs.py --node N --gravity \{lcdm,fr\}} $\to$ \texttt{submit.sh}
+      (\texttt{ic2pm half} on Baojiu's ICs) $\to$ \texttt{check\_run.py}; $\approx 165$ core-hours per $\Lambda$CDM box,
+      $\approx 3\times$ for f(R); 9 GB + extras ($\sim 1$ GB per output) per box.
+    \item Readers for the new products in \texttt{halocat} (planes, modes, subsample, $f_R$), following the
+      \texttt{.meta} keys.
+    \item Reply to Baojiu with the cross-check of the 42 epochs and the open questions.
+  \end{enumerate}
+\end{frame}
+
+% -----------------------------------------------------------------------------
+\begin{frame}{\textbf{Summary}}
+  \small
+  \begin{itemize}
+    \item The DEGRACE companion outputs (schedule, lens planes, $\delta_L$, modes, subsample, $f_R$) are implemented,
+      tested, reviewed and merged into \texttt{cz}.
+    \item The $\Lambda$CDM pilot runs in 2.5 h per box with all 42 outputs; the new products cost about 1\,\%
+      of the run, the halo finder 23\,\%.
+    \item Against the ECOSMOG twin the pilot agrees to $+0.5$--$0.7\,\%$ at linear scales at every epoch and
+      shows the expected f(R) signature at late times; the small constant offset is the one physics
+      question still open.
+    \item Three design decisions and the f(R) pilot verification stand between here and production.
+  \end{itemize}
+\end{frame}
+
+\end{document}

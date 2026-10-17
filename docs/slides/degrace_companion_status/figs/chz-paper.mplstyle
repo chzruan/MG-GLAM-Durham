@@ -1,0 +1,36 @@
+font.family: serif
+font.size: 12
+mathtext.fontset: cm
+text.usetex: True
+text.latex.preamble: \usepackage{amsmath}\usepackage{physics}
+
+figure.figsize: 5.2, 5.3
+figure.dpi: 120
+
+axes.labelsize: 14
+axes.linewidth: 0.8
+axes.grid: False
+axes.formatter.use_mathtext: True
+
+lines.linewidth: 1.7
+lines.markersize: 3.6
+errorbar.capsize: 0
+
+xtick.direction: in
+xtick.top: True
+xtick.major.size: 3.5
+xtick.minor.size: 2.0
+ytick.direction: in
+ytick.right: True
+ytick.major.size: 3.5
+ytick.minor.size: 2.0
+
+legend.frameon: False
+legend.fontsize: 10.5
+
+grid.linestyle: :
+grid.alpha: 0.35
+
+savefig.bbox: tight
+savefig.pad_inches: 0.028
+savefig.transparent: False
