@@ -14,8 +14,8 @@ before any edit and record the answers in section 16.
 
 Status (2026-10-17): the cross-check of the 42 output epochs is done
 (section 2); **I1 is on `cz`** (`ae4fa9d`); **Phase 0 is answered**
-(section 16); **I2, I3, I4, I5, I8, I10 are implemented on branch
-`degrace-track-a`** (172/172 checks); I9 is being integrated; the
+(section 16); **I2, I3, I4, I5, I8, I9, I10 are implemented on branch
+`degrace-track-a`** (175/175 checks plus two unit-test scripts); the
 node-2 ΛCDM pilot is running (Slurm job 12180082, section 16). I6 is
 encoded in the input generator and launcher; I7 and I11 are open.
 
@@ -559,7 +559,7 @@ For CZ:
 - [ ] Pilot node 2 vs the ECOSMOG twins (ΛCDM job 12180066 submitted 2026-10-17; f(R) next)
 - [ ] I7 δ_L dump (route decided) + V7, V8; δ_L for one legacy pilot + V4 (V1 layout test exists)
 - [x] I8 + V1, V2 (`degrace-track-a` `a41ae37`); V3 needs I7, V4 needs the pilot catalogues
-- [ ] I9 + V5, V6 (module delivered by a subagent, integration pending)
+- [x] I9 + V5, V6 (`degrace-track-a`, commit after `09c4aa4`)
 - [x] I10 (`degrace-track-a`, commit after `a41ae37`); unit test + f(R) smoke case
 - [ ] V9 overhead run
 - [ ] Reply to Baojiu with the cross-check result and questions 1–5
@@ -704,3 +704,11 @@ For CZ:
     outputs). `Run1/CATALOGS` had to be created by hand while it ran.
   - Known: `PowerDM`/extras velocities use a_v = a − da/2 (recorded in
     every `.meta`); the legacy BDM catalogue divides by a instead.
+  - I9 integrated: `PMP2mod_subsample.f90` + `glam_hash.c` (written by a
+    subagent to the brief's spec, new files only), wired into `Analysis`
+    for class-1 outputs; V5 unit test (hash agreement on 1e7 IDs, order,
+    quantisation, clipping) and V6 in the suite (full-mode subsample
+    reproduces the `deltam`/`mom_x` spectra to 1e-3). Lesson recorded
+    for the parameter files: a comment containing `=` after a value
+    breaks `ParseLine` (it keys on the last `=`); the generator's
+    comments avoid it.
