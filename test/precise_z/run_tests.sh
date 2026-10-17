@@ -30,6 +30,10 @@
 #   case9_classes    - per-output class list (1 full / 2 station) reaches
 #                      OutputSchedule.dat; schedule unchanged by classes
 #   case4e           - class count /= #outputs rejected by PMP2init
+#   case10_lens72/36 - lens planes (2 slabs per axis) at plane grid 72 and 36:
+#                      slab means average to 1, slab average equals the
+#                      ProjectDENSIT full-box projection, 36 = 2x2 block mean
+#                      of 72; schedule unchanged
 #   every sim case   - OutputSchedule.dat lists exactly the marked steps with
 #                      their epochs, comoving distances and classes
 #
@@ -180,6 +184,20 @@ set_outputs case9_classes -3 " 2.5 0.512 1.1"
 } >> "$WORK/case9_classes/Init.dat"
 run_init case9_classes || echo "  (init failed)"
 copy_ics case9_classes && run_main case9_classes
+
+echo "== case10_lens72 / case10_lens36: lens planes at full and half plane resolution (+ ProjectDENSIT reference)"
+for c in case10_lens72:72 case10_lens36:36; do
+    d=${c%%:*}; g=${c##*:}
+    prep_case "$d"
+    set_outputs "$d" -3 " 2.5 0.512 1.1"
+    sed -i 's/^Dump random fraction      =         0/Dump random fraction      =         1/' "$WORK/$d/Init.dat"
+    { echo 'Output classes            =         0  0-all class 1'
+      echo 'Lens slabs per axis       =         2  0-off'
+      echo "Lens plane grid           =        $g  0-Ngrid"
+    } >> "$WORK/$d/Init.dat"
+    run_init "$d" || echo "  (init failed)"
+    copy_ics "$d" && run_main "$d"
+done
 
 # ---------------------------------------------------------------- error cases
 echo "== case4a_zbig / case4b_zneg: rejected by PMP2init"

@@ -49,7 +49,11 @@ SIM_CASES = {       # case dir -> configuration (zout list + sign of #outputs)
     # per-output classes (I5) must not change the schedule; they must reach
     # OutputSchedule.dat (I4) attached to the right redshift after sorting
     "case9_classes": dict(zout=[2.5, 0.512, 1.1], exact=True, classes=[2, 1, 2]),
+    # lens planes (I2): 2 slabs per axis, plane grid 72 (= Ngrid) and 36 (2x2 block mean)
+    "case10_lens72": dict(zout=[2.5, 0.512, 1.1], exact=True, lens=(2, 72)),
+    "case10_lens36": dict(zout=[2.5, 0.512, 1.1], exact=True, lens=(2, 36)),
 }
+NGRID = 72
 C_H0 = 2997.92458   # Mpc/h, comoving-distance convention of OutputSchedule.dat
 ERR_CASES = {       # case dir -> (log file, required message, forbidden product)
     "case4a_zbig": ("init.log", "outside the simulation range", "Setup.dat"),
@@ -222,6 +226,33 @@ def chi_of(a, om, oml):
     return C_H0 * s * h / 3.0
 
 
+def read_planes(path, nslab, nlens):
+    # raw little-endian float32; Fortran column-major (i,j) per plane -> numpy [plane, j, i]
+    import numpy as np
+    arr = np.fromfile(path, dtype="<f4")
+    assert arr.size == 3 * nslab * nlens * nlens, f"{path}: {arr.size} values"
+    return arr.reshape(3 * nslab, nlens, nlens)
+
+
+def read_projection(path, ngrid):
+    # ProjectDENSIT output: big-endian Fortran unformatted; record 1 = (AEXPN, ISTEP, NGRID),
+    # record 2 = Den(NGRID, NGRID) real*4 column-major -> numpy [j, i]
+    import numpy as np
+    with open(path, "rb") as fh:
+        raw = fh.read()
+    off = 4 + 12 + 4 + 4
+    return np.frombuffer(raw, dtype=">f4", count=ngrid * ngrid, offset=off).reshape(ngrid, ngrid)
+
+
+def read_meta(path):
+    out = {}
+    for line in open(path):
+        if "=" in line:
+            k, v = line.split("=", 1)
+            out[k.strip()] = v.strip()
+    return out
+
+
 # ---- test driver ----------------------------------------------------------
 class Report:
     def __init__(self):
@@ -300,6 +331,50 @@ def main(work):
         rep.check(ok_x, case, "exact flags mark exactly the pinned steps")
         rep.check(ok_chi, case, f"comoving distances match flat matter+Lambda (Om={om}, OmL={oml})")
         rep.check(ok_cl, case, f"output classes as requested ({cfg.get('classes', 'all 1')})")
+    # lens planes (I2)
+    import numpy as np
+    planes = {}
+    for case in ("case10_lens72", "case10_lens36"):
+        cfg = SIM_CASES[case]
+        nslab, nlens = cfg["lens"]
+        _, xmarks, _, _, marks, _ = oracle_full(cfg)
+        rundir = os.path.join(work, case, "Run1")
+        ok_files = ok_meta = ok_mean = ok_proj = True
+        for step in sorted(marks):
+            fbin = os.path.join(rundir, f"LensPlanes.{step:04d}.0001.bin")
+            fmeta = os.path.join(rundir, f"LensPlanes.{step:04d}.0001.meta")
+            if not (os.path.exists(fbin) and os.path.exists(fmeta)):
+                ok_files = False
+                continue
+            pl = read_planes(fbin, nslab, nlens)
+            planes[(case, step)] = pl
+            meta = read_meta(fmeta)
+            ok_meta &= (int(meta["N_slab"]) == nslab and int(meta["N_lens"]) == nlens and int(meta["step"]) == step
+                        and f32(float(meta["a"])) == xmarks[step] and abs(float(meta["depth"]) - 150.0 / nslab) < 1e-6)
+            for ax in range(3):                      # mass conservation per axis
+                ok_mean &= abs(pl[ax * nslab:(ax + 1) * nslab].mean() - 1.0) < 2e-6
+            if nlens == NGRID:                       # L2: slab average == ProjectDENSIT full-box projection
+                for ax, tag in enumerate(("YZ", "XZ", "XY")):
+                    ref = read_projection(os.path.join(rundir, f"Projection{tag}.{step:04d}.0001.dat"), NGRID)
+                    ok_proj &= np.max(np.abs(pl[ax * nslab:(ax + 1) * nslab].mean(axis=0) - ref)) < 1e-5
+        rep.check(ok_files, case, "LensPlanes .bin and .meta written for every output")
+        rep.check(ok_meta, case, "meta: N_slab, N_lens, step, a (bit-exact), depth")
+        rep.check(ok_mean, case, "each axis: mean over its slabs of mean(1+delta) = 1 (mass conservation)")
+        if nlens == NGRID:
+            rep.check(ok_proj, case, "slab average equals the ProjectDENSIT full-box projection (< 1e-5)")
+    # 36 = 2x2 block mean of 72 at the same steps (same IC, same schedule)
+    ok_blk = True
+    for (case, step), pl in planes.items():
+        if case != "case10_lens72":
+            continue
+        pl36 = planes.get(("case10_lens36", step))
+        if pl36 is None:
+            ok_blk = False
+            continue
+        blk = pl.reshape(pl.shape[0], 36, 2, 36, 2).mean(axis=(2, 4))
+        ok_blk &= np.max(np.abs(blk - pl36)) < 1e-5
+    rep.check(ok_blk, "case10_lens36", "planes equal the 2x2 block means of the full-resolution planes")
+
     # case 9: classes must not change the schedule of case 3 (same redshifts)
     rep.check(set(results["case9_classes"]) == set(results["case3_multi"]), "case9_classes",
               "snapshot set identical to case3_multi (classes do not alter the schedule)")

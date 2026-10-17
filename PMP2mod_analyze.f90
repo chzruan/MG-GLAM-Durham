@@ -13,6 +13,7 @@ subroutine Analysis(Path,mDENSIT)
 !
 !--------------------------------------------
 use Tools
+use ExtraOutputs
 use Density
 use LUXURY
 use Random
@@ -41,6 +42,15 @@ use LinkerList
     !moment = max(moment,0)
     moment = ISTEP
     Nseed = 13979821
+               !------------ Lens planes (DEGRACE companions, item I2):
+               !             from the fresh density, before anything overwrites FI
+    If(LensSlab > 0)Then
+       If(mDENSIT==1)Then
+          CALL DENSIT
+          mDENSIT = 0
+       End If
+       Call LensPlanes(moment)
+    End If
                !------------ Density Distribution in real space
     If(iDensityDistr == 1)Then
        write(NameF,'(2(a,i4.4),3(a,i3.3))')'DensDistrDM.',moment,   &
