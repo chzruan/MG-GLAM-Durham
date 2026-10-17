@@ -14,10 +14,10 @@ before any edit and record the answers in section 16.
 
 Status (2026-10-17): the cross-check of the 42 output epochs is done
 (section 2); **I1 is on `cz`** (`ae4fa9d`); **Phase 0 is answered**
-(section 16); **I2, I3, I4, I5 are implemented on branch
-`degrace-track-a`** (commits `cb09e3c`, `b774f8d`; 146/146 checks); the
-node-2 ΛCDM pilot is submitted (Slurm job 12180066, section 16). I6 is
-partly encoded in the input generator; I7–I11 are open.
+(section 16); **I2, I3, I4, I5, I8, I10 are implemented on branch
+`degrace-track-a`** (172/172 checks); I9 is being integrated; the
+node-2 ΛCDM pilot is running (Slurm job 12180082, section 16). I6 is
+encoded in the input generator and launcher; I7 and I11 are open.
 
 Related references: `docs/degrace_ecosmog/README.md` (Baojiu's ECOSMOG
 suite: design, ICs, output lists, snapshots), `2LPTIC_Gui/VALIDATION.md`
@@ -557,8 +557,10 @@ For CZ:
 - [x] I3 generator + S2; I4 `OutputSchedule.dat`; I5 class list (`degrace-track-a` `cb09e3c`)
 - [x] I2 lens planes + L1, L2 (`degrace-track-a` `b774f8d`); L3 (plane P(k) vs 3-D P(k)) pending
 - [ ] Pilot node 2 vs the ECOSMOG twins (ΛCDM job 12180066 submitted 2026-10-17; f(R) next)
-- [ ] I7 δ_L dump (route decided) + V1, V7, V8; δ_L for one legacy pilot + V4
-- [ ] I8 + V2–V4; I9 + V5, V6; I10
+- [ ] I7 δ_L dump (route decided) + V7, V8; δ_L for one legacy pilot + V4 (V1 layout test exists)
+- [x] I8 + V1, V2 (`degrace-track-a` `a41ae37`); V3 needs I7, V4 needs the pilot catalogues
+- [ ] I9 + V5, V6 (module delivered by a subagent, integration pending)
+- [x] I10 (`degrace-track-a`, commit after `a41ae37`); unit test + f(R) smoke case
 - [ ] V9 overhead run
 - [ ] Reply to Baojiu with the cross-check result and questions 1–5
 
@@ -681,3 +683,24 @@ For CZ:
   - Cosmetic bug fixed on the branch: `PMP2init` printed the exact-z list
     with a recycled `(a,10f10.5)` format, which emitted raw float bytes
     into the log for more than 10 redshifts.
+- 2026-10-17, Track B on `degrace-track-a`:
+  - `a41ae37` I8: `FFT3Dforward` (copy of `POWERfft5`'s passes), `DumpModes`
+    (packed → complex cube, V1 layout test passes: cos → +½ real at ±m,
+    sin → −¼i at +m), `MomentumDeposit`, `ExtraModes`; density modes
+    hooked into `POWERfft5` before the squaring (no extra FFT), momentum
+    on a transient N_dep³ grid (default N_g/2). V2: the `deltam` cube
+    reproduces `PowerDM.R` bin by bin to 1e-4 on the test box. New flags
+    `Extra outputs`, `kc_delta`, `kc_mom`, `N_dep_mom`, `Subsample M`,
+    `fR at halos` (optional `Init.dat` lines, `Setup.dat` block extended;
+    older blocks keep the defaults). `PMP2start`/`PMP2spectrum` now link
+    the extras module because `Power` uses it.
+  - I10: `fR_halo.<step>.<box>.bin` written from inside BDM's row loop
+    (`PMP2linker.f90`, 3 lines) with `FI2` and the pre-step epoch; unit
+    test on a synthetic ramp; f(R) smoke case on the 36³ box (BDM found
+    1 and 5 haloes at the two outputs, rows match).
+  - Pilot job 12180066 failed at once (`$0` resolves to Slurm's spool
+    copy; now `SLURM_SUBMIT_DIR`); resubmitted as **12180082** on m8504,
+    running at ~0.64 min per step on 64 cores (163 steps ≈ 1.8 h plus
+    outputs). `Run1/CATALOGS` had to be created by hand while it ran.
+  - Known: `PowerDM`/extras velocities use a_v = a − da/2 (recorded in
+    every `.meta`); the legacy BDM catalogue divides by a instead.
