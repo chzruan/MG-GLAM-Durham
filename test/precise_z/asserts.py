@@ -53,7 +53,7 @@ SIM_CASES = {       # case dir -> configuration (zout list + sign of #outputs)
     "case10_lens72": dict(zout=[2.5, 0.512, 1.1], exact=True, lens=(2, 72)),
     "case10_lens36": dict(zout=[2.5, 0.512, 1.1], exact=True, lens=(2, 36)),
     # low-k mode dumps (I8): density from POWERfft5's transform (iPower=1), momentum on N_dep=36
-    "case11_modes": dict(zout=[2.5, 0.512, 1.1], exact=True, modes=dict(kc=0.5, ndep=36)),
+    "case11_modes": dict(zout=[2.5, 0.512, 1.1], exact=True, modes=dict(kc=0.5, ndep=36), subm=1),
     # f(R) smoke test: BDM + f_R at halo centres (I10); the box may host few or no haloes
     "case12_frhalo": dict(zout=[1.1, 0.512], exact=True, frhalo=True),
 }
@@ -276,6 +276,44 @@ def hermitian_ok(C, n, tol=1e-5):
     return np.max(np.abs(plane[::-1, ::-1] - np.conj(plane))) < tol * scale
 
 
+def read_subsample(fb, fm):
+    # int16 arrays qx,qy,qz,vx,vy,vz -> positions [Mpc/h] in [0,L), velocities [km/s]
+    import numpy as np
+    meta = read_meta(fm)
+    num = lambda k: float(meta[k].split()[0])          # values may carry a unit suffix
+    nsel, L, dv = int(num("n_sel")), num("Box"), num("dv_quant")
+    arr = np.fromfile(fb, dtype="<i2").reshape(6, nsel)
+    x = (arr[:3].astype(np.int64) + 32768 + 0.5) * L / 65536.0
+    v = arr[3:].astype(np.float64) * dv
+    return meta, x, v
+
+
+def cube_from_particles(x, w, nd, L):
+    # CIC deposit of weights w at positions x (3, N) onto nd^3, then delta_k = N^-3 sum e^{-ikx}
+    import numpy as np
+    pos = x * nd / L
+    i0 = np.floor(pos).astype(np.int64)
+    d = pos - i0
+    g = np.zeros((nd, nd, nd))
+    for dx in (0, 1):
+        for dy in (0, 1):
+            for dz in (0, 1):
+                wt = w * (d[0] if dx else 1 - d[0]) * (d[1] if dy else 1 - d[1]) * (d[2] if dz else 1 - d[2])
+                np.add.at(g, ((i0[0] + dx) % nd, (i0[1] + dy) % nd, (i0[2] + dz) % nd), wt)
+    return np.fft.fftn(g) / nd**3
+
+
+def binned_power(C, n, box, nbins):
+    # mean of |C|^2 box^3 in bins nint(|m|) over the full sphere (weight 2 for iz > 0)
+    import numpy as np
+    ix, iy, iz = np.meshgrid(np.arange(-n, n + 1), np.arange(-n, n + 1), np.arange(0, n + 1), indexing="ij")
+    mm = np.sqrt(ix**2 + iy**2 + iz**2)
+    w = np.where(iz > 0, 2.0, 1.0)
+    b = np.rint(mm).astype(int)
+    p2 = np.abs(C) ** 2 * box**3
+    return np.array([np.sum(w[b == k] * p2[b == k]) / np.sum(w[b == k]) for k in range(1, nbins + 1)])
+
+
 def read_meta(path):
     out = {}
     for line in open(path):
@@ -433,6 +471,43 @@ def main(work):
     rep.check(ok_herm, "case11_modes", "iz = 0 plane is Hermitian (layout and sign convention)")
     rep.check(ok_k0, "case11_modes", "k = 0 mode is zero")
     rep.check(ok_pk, "case11_modes", "P(k) from the density cube equals PowerDM.R bin by bin (< 1e-4), V2")
+
+    # subsample (I9) in full mode (M = 1: every particle, quantised): one file per class-1
+    # output with n_sel = N, and V6: the density and momentum spectra of the decoded particles
+    # equal the deltam/mom_* dumps at the five lowest bins to 1e-3 (quantisation only; the
+    # hashed selection itself is covered by test/extras/run_subsample_test.sh)
+    msub = cfg["subm"]
+    npart = 36**3
+    ok_sfiles = ok_nsel = ok_v6 = True
+    for step in sorted(marks):
+        fb = os.path.join(rundir, f"Subsample.{step:04d}.0001.bin")
+        fm = os.path.join(rundir, f"Subsample.{step:04d}.0001.meta")
+        if not (os.path.exists(fb) and os.path.exists(fm)):
+            ok_sfiles = ok_nsel = ok_v6 = False
+            continue
+        meta, x, v = read_subsample(fb, fm)
+        nsel = x.shape[1]
+        ok_nsel &= (nsel == npart if msub == 1 else abs(nsel - npart / msub) < 3 * np.sqrt(npart / msub)) \
+                   and int(meta["M"].split()[0]) == msub
+        Cd = cube_from_particles(x, np.full(nsel, NGRID**3 / nsel), NGRID, BOX)   # deltam comes from the Ngrid mesh
+        Csub = np.zeros((2 * n + 1, 2 * n + 1, n + 1), complex)
+        for i in range(-n, n + 1):
+            for j in range(-n, n + 1):
+                Csub[i + n, j + n, :] = Cd[i, j, 0:n + 1]
+        pd_sub = binned_power(Csub, n, BOX, 5)
+        pd_full = binned_power(read_modes(os.path.join(rundir, f"deltam.{step:04d}.0001.bin"), n), n, BOX, 5)
+        ok_v6 &= np.all(np.abs(pd_sub / pd_full - 1.0) < 1e-3)
+        Cm = cube_from_particles(x, v[0] * ndep**3 / nsel, ndep, BOX)
+        Cmsub = np.zeros((2 * n + 1, 2 * n + 1, n + 1), complex)
+        for i in range(-n, n + 1):
+            for j in range(-n, n + 1):
+                Cmsub[i + n, j + n, :] = Cm[i, j, 0:n + 1]
+        pm_sub = binned_power(Cmsub, n, BOX, 5)
+        pm_full = binned_power(read_modes(os.path.join(rundir, f"mom_x.{step:04d}.0001.bin"), n), n, BOX, 5)
+        ok_v6 &= np.all(np.abs(pm_sub / pm_full - 1.0) < 1e-3)
+    rep.check(ok_sfiles, "case11_modes", "Subsample .bin and .meta written for every output")
+    rep.check(ok_nsel, "case11_modes", f"n_sel = N (M={msub}, full quantised snapshot)")
+    rep.check(ok_v6, "case11_modes", "decoded particles reproduce the deltam and mom_x spectra at k <= 5 k_f to 1e-3 (V6)")
 
     # f_R at halo centres (I10): one float32 pair per catalogue row, finite, |f_R| <= |fR_bg| * max(u)^2
     _, _, _, _, marks12, _ = oracle_full(SIM_CASES["case12_frhalo"])

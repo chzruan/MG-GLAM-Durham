@@ -14,6 +14,7 @@ subroutine Analysis(Path,mDENSIT)
 !--------------------------------------------
 use Tools
 use ExtraOutputs
+use Subsample
 use Density
 use LUXURY
 use Random
@@ -127,6 +128,8 @@ use LinkerList
     If(iExtra == 1 .and. OutClass == 1)Then
        Call ExtraModes(moment, mDENSIT, merge(1, 0, iPower == 1 .and. iPowerRSD == 0))
     End If
+                      !----------------- Extra outputs: quantised particle subsample (item I9)
+    If(iExtra == 1 .and. SubM > 0 .and. OutClass == 1) Call WriteSubsample(moment, SubM)
                       !----------------- Save snapshot    
     If(iDumpPart == 1)Then 
            If(mDENSIT==1)Then

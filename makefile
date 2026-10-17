@@ -5,6 +5,9 @@
 FC = ifx
 FFLAGS =   -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian
 LDFLAGS =  -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian
+# C helper for the hashed particle subsample (glam_hash.c, called through iso_c_binding)
+CC = icx
+CFLAGS = -O2 -g -march=core-avx2 -mcmodel=medium
 # The finder validates IEEE domains and uses reproducible diagnostic arithmetic.
 # Append the finder safety flags after overrides, including recursive bitmatch
 # builds. Intel resolves repeated FP-model options in favour of the last one.
@@ -24,7 +27,7 @@ LDFLAGS_BITMATCH = -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmode
 #FFLAGS = -O3  -mp  -byteswapio -mcmodel=medium -Mlarge_arrays -Mnoframe -Munroll -Knoieee
 #LDFLAGS = -O3  -mp   -byteswapio -mcmodel=medium -Mlarge_arrays -Mnoframe -Munroll -Knoieee
 
-OBJ = PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o  PMP2extradof.o  PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o
+OBJ = PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o  PMP2extradof.o  PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o
 
 PMP2main: $(OBJ)  PMP2main.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
@@ -34,6 +37,9 @@ PMP2main: $(OBJ)  PMP2main.o
 # ExtradofBackgroundData) is satisfied.
 PMP2BDM: $(OBJ) PMP2bdm.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
+
+glam_hash.o: glam_hash.c
+	$(CC) $(CFLAGS) -c $<
 
 PMP2linker.o: PMP2linker.f90 PMP2mod_tools.o PMP2mod_density.o PMP2mod_extras.o
 	$(FC) $(BDM_FFLAGS) $(BDM_PRECISE_FLAGS) -w -c $<
@@ -73,7 +79,7 @@ PMP2main-bitmatch:
 
 PMP2analyze: $(OBJ)  PMP2analyze.o                 
 	$(FC) $(LDFLAGS) -o $@.exe $^                
-PMP2spectrum: PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_power.o PMP2mod_analyze.o  PMP2spectrum.o                 
+PMP2spectrum: PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o PMP2mod_power.o PMP2mod_analyze.o  PMP2spectrum.o                 
 	$(FC) $(LDFLAGS) -o $@.exe $^                
 PMP2init: PMP2init.o
 	$(FC) $(LDFLAGS)  -o $@.exe $^
@@ -93,7 +99,7 @@ PMP2mainMPI: $(OBJ) PMP2mainMPI.o
 	$(FMPI) $(MPIFLAGS)  -o $@.exe $^
 
 # Compile MG program
-PMP2MG: PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o  PMP2extradof.o PMP2main.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o 
+PMP2MG: PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o  PMP2extradof.o PMP2main.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o 
 	$(FC) $(LDFLAGS) -o $@.exe $^
 
 .f.o: 
