@@ -79,3 +79,18 @@ deconvolved with the shell-averaged window 1 − (2/3) sin²(πk/2k_Ny); at
 k ≳ 0.5 and z ≳ 3 the comparison is limited by discreteness (P ~ a few
 (Mpc/h)³), so judge the bands below 0.3 h/Mpc there. Both runs use the same
 IC files, so the low-k ratio is mode-exact (no cosmic variance).
+
+## Known conventions and offsets
+
+- Velocities in the new products (`mom_*`, `Subsample`) are at a_v = a − da/2
+  and the `.meta` records `a_v`. The legacy BDM catalogue (`CatshortV`)
+  converts with 1/a instead: its velocities are high by a/a_v (1.1 % at the
+  first companion output, 0.5 % at z = 0). Apply a_v/a when combining them,
+  or wait for the decision recorded in the plan (section 11).
+- `kc_mom` must stay below k_Nyquist(N_dep_mom)/4 (0.785 h/Mpc at N_dep =
+  1024, L = 1024; default 0.75): the momentum deposit is not interlaced and
+  `PMP2init` refuses larger values. The node-2 f(R) pilot predates this rule
+  (k_c,mom = 1.0): use its `mom_*` below k = 0.78 h/Mpc.
+- Particle IDs: `ic2pm` places each particle at array index = Gadget ID and
+  tags the lattice order in the PM header (`IDz` for Baojiu's 2LPTic files,
+  `IDx` for our FML generator); see the `lattice` key of `Subsample.*.meta`.

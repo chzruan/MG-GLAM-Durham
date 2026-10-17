@@ -20,6 +20,23 @@ and three are documentation that does not match the implementation.
 | R6-M2 | yes (`PMP2linker.f90:537`, `Vscale = 100 Xscale/AEXPN`) | Plan section 3 says every velocity product uses the same (x, v) pair and records a_v; the BDM catalogue converts with a, not a_v (1.1 % at the first pilot output, 0.5 % at z = 0) | Decision needed: fix the legacy catalogue conversion (changes legacy output) or document it as a known offset in plan section 3, the README and the catalogue reader |
 | R6-M3 | yes (`interlaced = false` always) | Plan I8 requires interlacing when N_dep < N_g and k_c > k_N,dep/4; the companions (N_dep = 1024, k_c,mom = 1.0 > 0.785) are in that regime and nothing interlaces | Decision needed: implement interlacing for the momentum deposit, or lower `kc_mom` to 0.75 at N_dep = N_g/2, or deposit momentum on N_g (memory); record the choice |
 
+## Resolution (2026-10-17, commit after 040f011)
+
+All eight Majors are fixed or decided; tests rerun: `test/precise_z/run_tests.sh`
+180/180 (new: case4f parser rejection, mode-by-mode dump test), `run_modes_test.sh`,
+`run_subsample_test.sh`, `run_deltaL_test.sh` and the new `run_ic2pm_test.sh` all pass.
+
+| ID | Resolution |
+|---|---|
+| R3-M1 | `ic2pm` reads the Gadget ID block (4- or 8-byte), places each particle at index = ID, verifies a permutation of 1..N, detects the lattice order from the first file and tags the PM header `IDx`/`IDz`/`ID?` (every product `.meta` carries `header`); Baojiu's `ics.*` verified z-fastest sequential int32. `run_ic2pm_test.sh` checks both orders through GLAM's subsample and the refusal of a duplicate-ID set |
+| R2-M1 | optional `Init.dat` lines parse the first token after the last `=` and stop with the offending line when it is not a number (EOF / no `=` still means absent); `ReadSetup` stops on a malformed extras line; suite case4f |
+| R2-M2 | both gates require `MG_model == 1`; PMP2init prints the demotion; `MG_model` written in the LensPlanes, modes and Subsample sidecars |
+| R5-M1 | epoch from `OutputSchedule.dat` by step (header fallback with the f8.5 tolerance); all 42 ΛCDM-pilot epochs now match |
+| R5-M2 | case 11 compares the decoded full subsample's cubes with `deltam` and `mom_x` mode by mode (residual 3e-4 / 7e-5 of the rms mode; transposed/conjugated fail at 1.4) |
+| R6-M1 | plan section 7 rewritten with the implemented keys and defaults |
+| R6-M2 | decided: legacy catalogue left unchanged; the offset is stated in plan section 3 and the companion README (apply a_v/a); the physics change is a one-line decision for the user |
+| R6-M3 | decided: no interlacing; `kc_mom` default 0.75 (< k_N,dep/4 at N_dep = 1024, L = 1024), PMP2init refuses larger values, `gen_inputs.py` default likewise; recorded in plan I8 and the README (the f(R) pilot's `mom_*` above 0.78 h/Mpc carry aliasing) |
+
 ## Minors worth fixing with the Majors (grouped)
 
 - Robustness of the parameter path: `ReadSetup` treats EOF and parse errors

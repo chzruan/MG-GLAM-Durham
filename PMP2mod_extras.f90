@@ -209,6 +209,7 @@ Contains
         write (30, '(a,f10.6)') 'Omega_L = ', OmL
         write (30, '(a,f10.6)') 'hubble = ', hubble
         write (30, '(a,i3)') 'MG_flag = ', MG_flag
+        write (30, '(a,i3)') 'MG_model = ', MG_model
         If (MG_flag == 1) Then
             write (30, '(a,es14.6)') 'fR0 = ', fR0
         Else
@@ -410,6 +411,7 @@ Contains
         write (30, '(a,f10.6)') 'Omega_L = ', OmL
         write (30, '(a,f10.6)') 'hubble = ', hubble
         write (30, '(a,i3)') 'MG_flag = ', MG_flag
+        write (30, '(a,i3)') 'MG_model = ', MG_model
         If (MG_flag == 1) Then
             write (30, '(a,es14.6)') 'fR0 = ', fR0
         Else

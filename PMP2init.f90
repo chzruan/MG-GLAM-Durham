@@ -277,9 +277,17 @@ Program Initialize
         If (NdepMom < 8 .or. NdepMom > Ngrid) Stop 'N_dep_mom must be between 8 and Ngrid'
         If (int(KcDelta*Box/6.2831853) > Ngrid/2 - 1) Stop 'kc_delta reaches the Nyquist frequency of Ngrid'
         If (int(KcMom*Box/6.2831853) > NdepMom/2 - 1) Stop 'kc_mom reaches the Nyquist frequency of N_dep_mom'
+        If (KcMom > 3.14159265*NdepMom/(4.*Box)) Then      ! plan I8: above k_N,dep/4 the deposit must be interlaced
+            write (*, '(a,f8.4,a,f8.4,a)') ' kc_mom =', KcMom, ' h/Mpc is above k_Nyquist(N_dep_mom)/4 =', &
+                3.14159265*NdepMom/(4.*Box), ' h/Mpc'
+            Stop 'kc_mom above k_N/4 would need interlacing, which is not implemented: lower kc_mom or raise N_dep_mom'
+        End If
         If (SubM < 0) Stop 'Subsample M must not be negative'
         If (FRhalo /= 0 .and. FRhalo /= 1) Stop 'fR at halos must be 0 or 1'
-        If (FRhalo == 1 .and. MG_flag /= 1) FRhalo = 0
+        If (FRhalo == 1 .and. (MG_flag /= 1 .or. MG_model /= 1)) Then
+            write (*, '(a)') ' fR at halos switched off: it needs MG_flag = 1 and MG_model = 1 (f(R))'
+            FRhalo = 0
+        End If
         write (*, '(a,2(a,f6.3),a,i6,a,i6,a,i2)') ' Extra outputs ON:', ' kc_delta =', KcDelta, &
             '  kc_mom =', KcMom, '  N_dep_mom =', NdepMom, '  subsample M =', SubM, '  fR_halo =', FRhalo
     End If
@@ -556,7 +564,7 @@ Subroutine ReadInit
     LensGrid = iParseLineOpt(11, 0)
     iExtra = iParseLineOpt(11, 0)
     KcDelta = ParseLineOpt(11, 1.5)
-    KcMom = ParseLineOpt(11, 1.0)
+    KcMom = ParseLineOpt(11, 0.75)
     NdepMom = iParseLineOpt(11, 0)
     SubM = iParseLineOpt(11, 0)
     FRhalo = iParseLineOpt(11, 0)
@@ -760,34 +768,32 @@ end Function iParseLine
 !        the file or when the next line carries no '=' sign (keeps
 !        Init.dat files written before the parameter existed valid)
 Function iParseLineOpt(iFile, idef)
-    Character :: Line*120, Line2*120, Line3(120)
-    Integer*4 :: iParseLineOpt, idef, ios
+    Character :: Line*120
+    Integer*4 :: iParseLineOpt, idef, ios, Ieq
 
     Read (iFile, '(a)', iostat=ios) Line
-    If (ios /= 0) Then
+    If (ios /= 0) Then                       ! end of file: the optional line is absent
         iParseLineOpt = idef
         Return
     End If
     Ieq = INDEX(Line, '=', BACK=.TRUE.)
-    backspace (iFile)
-    If (Ieq == 0) Then
+    If (Ieq == 0) Then                       ! not a "key = value" line: absent, leave it unread
+        backspace (iFile)
         iParseLineOpt = idef
         Return
     End If
-    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,i10)'
-    Read (iFile, Line2, iostat=ios) (Line3(i), i=1, Ieq), idummy
+    Read (Line(Ieq + 1:), *, iostat=ios) iParseLineOpt     ! first token after the last "="
     If (ios /= 0) Then
-        iParseLineOpt = idef
-    Else
-        iParseLineOpt = idummy
+        write (*, '(3a)') ' Init.dat: no integer after the last "=" in: "', TRIM(Line), '"'
+        Stop 'Init.dat: malformed optional line (a comment must not contain "=")'
     End If
 end Function iParseLineOpt
 !--------------------------------------------------
 !        read an OPTIONAL real line (see iParseLineOpt)
 Function ParseLineOpt(iFile, def)
-    Character :: Line*120, Line2*120, Line3(120)
+    Character :: Line*120
     Real*4    :: ParseLineOpt, def
-    Integer*4 :: ios
+    Integer*4 :: ios, Ieq
 
     Read (iFile, '(a)', iostat=ios) Line
     If (ios /= 0) Then
@@ -795,17 +801,15 @@ Function ParseLineOpt(iFile, def)
         Return
     End If
     Ieq = INDEX(Line, '=', BACK=.TRUE.)
-    backspace (iFile)
     If (Ieq == 0) Then
+        backspace (iFile)
         ParseLineOpt = def
         Return
     End If
-    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,g12.5)'
-    Read (iFile, Line2, iostat=ios) (Line3(i), i=1, Ieq), dummy
+    Read (Line(Ieq + 1:), *, iostat=ios) ParseLineOpt
     If (ios /= 0) Then
-        ParseLineOpt = def
-    Else
-        ParseLineOpt = dummy
+        write (*, '(3a)') ' Init.dat: no number after the last "=" in: "', TRIM(Line), '"'
+        Stop 'Init.dat: malformed optional line (a comment must not contain "=")'
     End If
 end Function ParseLineOpt
 !--------------------------------------------------

@@ -160,9 +160,14 @@ D(1) = 1), plus the item-specific keys below. Names:
 
 **Velocity epoch.** GLAM's leapfrog leaves velocities half a step behind the
 positions at every output (v at a − da/2 with the step just taken; in
-exact-z mode that step can be as short as 3.3e-4). Every product that
-carries velocities (I8 momentum, I9 subsample, the BDM catalogue) uses the
-same (x, v) pair and records `a_x` and `a_v`.
+exact-z mode that step can be as short as 3.3e-4). The new products that
+carry velocities (I8 momentum, I9 subsample) use the same (x, v) pair and
+record `a_x` and `a_v`. The legacy BDM catalogue is unchanged on this
+branch and converts its velocities with 1/a instead of 1/a_v
+(`PMP2linker.f90`, `Vscale = 100 Xscale/AEXPN`), so its velocities are high
+by a/a_v: 1.1 % at the first companion output, 0.5 % at z = 0. Correcting it
+would change every GLAM catalogue, not only the companions; the choice is
+listed in section 11 and the catalogue readers must apply a_v/a meanwhile.
 
 ## 4. Sequence at an output step
 
@@ -368,7 +373,14 @@ catalogue:
    (no extra memory); otherwise a separate N_g/2 buffer (34 GB at 2048³) only
    if Q8 shows headroom. If N_dep < N_g and k_c > k_N,dep/4, interlace (two
    deposits shifted by half a cell, combined with the phase factor) and set
-   `interlaced = true`.
+   `interlaced = true`. **Status (2026-10-17): interlacing is not
+   implemented.** `PMP2init` refuses k_c,mom > k_N,dep/4 and the default is
+   k_c,mom = 0.75 h/Mpc (k_N,dep/4 = 0.785 at N_dep = 1024, L = 1024); every
+   `.meta` writes `interlaced = false` truthfully. The node-2 f(R) pilot was
+   launched with k_c,mom = 1.0 before this rule existed, so its `mom_*` modes
+   above k = 0.78 h/Mpc carry uncorrected aliasing. The transient N_dep³
+   buffer (not FI reuse) is what the code does; at N_g = 4096 f(R) it would
+   not fit (Q8) and must be revisited before such a run.
 4. Files: `deltam`, `mom_x`, `mom_y`, `mom_z`, each with `.meta`.
 
 ### I9. Item C: ID-hashed, quantised particle subsample
@@ -443,26 +455,32 @@ weighting; eigen-decomposition or any environment definition; Python
 readers (they belong in halocat; list reader work as follow-ups in
 section 16, do not edit halocat from a GLAM session).
 
-## 7. Runtime flags (all default off; appended to `Init.dat`/`Setup.dat`)
+## 7. Runtime flags (as implemented: optional trailing `Init.dat` lines, copied by `PMP2init` into a `Setup.dat` block)
 
-| Flag | Default | Meaning |
+All default off; a missing line means the default. The value is the first
+token after the last `=` of the line, so comments must not contain `=`.
+A present but unreadable line stops `PMP2init` (since the review fixes of
+2026-10-17; before, it silently took the default).
+
+| `Init.dat` key | Default | Meaning |
 |---|---|---|
-| `LENS_SLABS` | 0 (off) | slabs per axis for lens planes (4 for 256 Mpc/h at L = 1024) |
-| `LENS_GRID` | N_g | plane grid (must divide N_g) |
-| `OUTPUT_CLASS` | all outputs class 1 | per-output class list (I5) |
-| `EXTRA_OUTPUT` | off | master switch for I8–I10 |
-| `KC_LIN` | 1.5 | k_c for I7 (h/Mpc) |
-| `KC_DELTA` | 1.5 | k_c for `deltam` (h/Mpc) |
-| `KC_MOM` | 1.0 | k_c for the momentum dumps (h/Mpc) |
-| `N_DEP` | N_g | deposit grid for I8 (N_g/2 fallback) |
-| `SUBSAMPLE_M` | 100 | keep 1 in M particles |
-| `SUBSAMPLE_SALT` | 0x5EED00DE6C0A2026 | hash salt, never change between runs |
-| `FULL_QUANT_OUTPUTS` | none | output indices for full quantised snapshots |
-| `FR_AT_HALOS` | on if f(R), else off | I10 |
-| `IC_DUMP` | on when `EXTRA_OUTPUT` is on | I7 during normal runs (where the generator allows) |
-| `IC_DUMP_ONLY` | off | regenerate-only mode for the legacy pilots |
+| `Output classes` + list line | 0 (all outputs class 1) | number of classes = `#outputs`, then one class per redshift (1 full, 2 station), I5 |
+| `Lens slabs per axis` | 0 (off) | slabs per axis for the lens planes (4 for 256 Mpc/h at L = 1024), I2 |
+| `Lens plane grid` | 0 (= N_g) | plane grid, must divide N_g |
+| `Extra outputs` | 0 | master switch for I8–I10 |
+| `kc_delta` | 1.5 | k_c of `deltam` (h/Mpc), deposit on N_g |
+| `kc_mom` | 0.75 | k_c of `mom_*` (h/Mpc); must be below k_N,dep/4 (no interlacing) |
+| `N_dep_mom` | 0 (= N_g/2) | momentum deposit grid, 8 … N_g |
+| `Subsample M` | 0 (off) | keep 1 in M particles (1 = every particle, quantised) |
+| `fR at halos` | 0 | f_R at BDM halo centres; forced to 0 unless `MG_flag = 1` and `MG_model = 1` |
 
-Names may be adapted to the `Init.dat` style (`key = value` with comments).
+Not implemented as flags: the hash salt (constant `0x5EED00DE6C0A2026` in
+`PMP2mod_subsample.f90`), per-output full quantised snapshots
+(`FULL_QUANT_OUTPUTS` of the brief: only the global `Subsample M`), the
+regenerate-only IC dump (`IC_DUMP_ONLY`: not needed, the FML dump costs ~1 s
+inside the IC job). The δ_L dump is a Lua switch of the FML generator
+(`write_deltaL`, default false; `deltaL_kc`, default 1.5), independent of
+the GLAM flags.
 
 ## 8. Validation tests
 
@@ -618,7 +636,8 @@ For CZ:
 - [ ] Pilot node 2 vs the ECOSMOG twins: ΛCDM pilot complete and verified (job 12180082, 2026-10-17, section 16); f(R) pilot running (job 12180110, started 04:57 BST)
 - [x] I7 δ_L dump, route 1 in the FML generator + V3, V7, V8 (`degrace-track-a`, 2026-10-17; `test/extras/run_deltaL_test.sh`); legacy pilots out of scope (decision)
 - [x] I8 + V1, V2 (`degrace-track-a` `a41ae37`); V3 passed with I7; V4 needs the pilot catalogues
-- [x] I9 + V5, V6 (`degrace-track-a`, commit after `09c4aa4`)
+- [x] I9 + V5, V6 (`degrace-track-a`, commit after `09c4aa4`); ic2pm places particles at index = Gadget ID and tags the lattice order since the 2026-10-17 review fixes
+- [x] Review of the branch (six subagents, `docs/reviews/degrace-track-a/`, 040f011) and fixes of the eight Majors (commit after 040f011)
 - [x] I10 (`degrace-track-a`, commit after `a41ae37`); unit test + f(R) smoke case
 - [ ] V9 overhead run: ΛCDM baseline measured (planes < 1 %, P(k) at 42 outputs 11 %, BDM at 17 primaries 23 % of the wall time); the extras themselves (modes, subsample, f_R at haloes) are timed on the f(R) pilot
 - [ ] Reply to Baojiu with the cross-check result and questions 1–5
@@ -828,3 +847,41 @@ For CZ:
   P ~ 30 (Mpc/h)³: discreteness of the perturbed lattice (white shot
   noise alone is 1 (Mpc/h)³), not a pipeline error; compare below
   0.3 h/Mpc at high z.
+- 2026-10-17, review fixes (eight Majors of `docs/reviews/degrace-track-a/TRIAGE.md`):
+  - R3-M1: `ic2pm` now reads the Gadget ID block (4- or 8-byte, stream
+    access), places every particle at array index = ID, verifies that the
+    IDs are a permutation of 1..N (sentinel fill), detects the lattice
+    order from the first file (Baojiu's 2LPTic files: IDs sequential in
+    file order, z fastest, verified on `Node_002/ics.0`; FML: x fastest)
+    and appends `IDx`/`IDz`/`ID?` to the PM header, which every product's
+    `.meta` carries; the subsample `.meta` explains the tags. For 2LPTic
+    files the particle order is unchanged (sequential IDs); multi-rank
+    FML files are re-ordered. `PMcrd.DAT` differs from older conversions
+    by the header tag.
+  - R2-M1: the optional `Init.dat` parsers read the first token after the
+    last `=` (any comment after a space is fine, `kc_delta = 1` is 1.0)
+    and stop with the offending line when the token is not a number;
+    EOF or a line without `=` still means "absent". `ReadSetup` stops on
+    a malformed extras line and defaults only at end of file.
+  - R2-M2: `fR at halos` needs `MG_flag = 1` and `MG_model = 1` (PMP2init
+    demotes with a message; the BDM hook checks both); `MG_model` is
+    written into the LensPlanes, modes and Subsample sidecars.
+  - R5-M1: `compare_ecosmog_pk.py` takes the epoch from
+    `OutputSchedule.dat` by step (header fallback with the f8.5 rounding
+    tolerance).
+  - R5-M2: case 11 compares the decoded full subsample's CIC cubes with
+    the `deltam` and `mom_x` dumps mode by mode (rms residual < 1e-2 of
+    the rms mode) and requires the transposed and conjugated cubes to
+    fail; `kc_mom` of the test cases is 0.185 (below k_N(36)/4 = 0.1885).
+  - R6-M1/M2/M3: section 7 rewritten with the implemented keys and
+    defaults; section 3 states the BDM catalogue epoch offset; I8 item 3
+    records the interlacing status and the new `kc_mom` rule/default
+    (0.75; `gen_inputs.py` default likewise).
+  - Tests after the fixes: suite 180/180 (new case4f: a malformed
+    optional line stops PMP2init; mode-by-mode dump test), modes and
+    subsample unit tests, `run_deltaL_test.sh` (its `kc_mom` lowered to
+    0.3 for the new rule) and the new `test/extras/run_ic2pm_test.sh`
+    (synthetic two-file Gadget-1 ICs: int32 sequential z-fastest IDs →
+    `IDz`, int64 shuffled x-fastest → `IDx`, duplicate ID → refused;
+    verified through a one-step GLAM run with `Subsample M = 1`). The
+    `compare_ecosmog_pk.py` rerun matches all 42 ΛCDM-pilot epochs.

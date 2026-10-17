@@ -100,7 +100,12 @@ Program IC2PM
    integer*4           :: nfiles_in, ifile_g, np, j, ios
    character(len=*), parameter :: usage = &
       'Usage: ic2pm.exe <IC_basename incl trailing "."> [S_vel] [half|sync]'
-   integer*8           :: ip, ioff, nlow
+   integer*8           :: ip, ioff, nlow, id, nmiss
+   integer*4           :: m4, nmx, nmz, nchk, lx, ly, lz
+   integer*8, allocatable :: ids(:)
+   integer*4, allocatable :: ids4(:)
+   real*4              :: dxl
+   character(len=3)    :: idtag
    real*4              :: xs, vfac, Svel, xx, yy, zz
    real*4              :: xmin, xmax
    real*8              :: velsq, a8, av8, fshift
@@ -230,27 +235,57 @@ Program IC2PM
    allocate(XPAR(Nparticles), YPAR(Nparticles), ZPAR(Nparticles))
    allocate(VX(Nparticles),   VY(Nparticles),   VZ(Nparticles))
 
-!--- loop over the Gadget files: scatter type-1 particles --------------------
+!--- loop over the Gadget files: place every type-1 particle at array index = Gadget ID
+!    so that the implicit particle ID of the GLAM products (subsample: ID = index-1) is
+!    the generator's ID whatever the file order. Gadget-1 does not record whether IDs
+!    are 4 or 8 bytes, so the files are read in stream mode and the record markers
+!    decide. The lattice order of the IDs is detected from the first file and tagged
+!    in the PM header: IDx = x fastest, ID-1 = ix + Np (iy + Np iz) (FML generator);
+!    IDz = z fastest, ID-1 = iz + Np (iy + Np ix) (2LPTic); ID? = undetermined.
+   XPAR(:) = -1.0                     ! sentinel: every index must be filled exactly once
    ioff  = 0
    velsq = 0.0d0
+   nmx = 0 ; nmz = 0 ; nchk = 0
+   dxl = Box / real(NROW)             ! lattice spacing [Mpc/h]
    do ifile_g = 0, nfiles_in - 1
       write(fname,'(a,i0)') trim(inbase), ifile_g
-      open(uG, file=trim(fname), form='unformatted', access='sequential', &
+      open(uG, file=trim(fname), form='unformatted', access='stream', &
            status='old', convert='little_endian')
-      read(uG) gh
+      read(uG) m4 ; read(uG) gh ; read(uG) m4                 ! header record (256 bytes)
       np = gh%npart(2)
-      allocate(pos(3*np), vel(3*np))
-      read(uG) pos                                ! positions, Mpc/h
-      read(uG) vel                                ! velocities, file units (IDs skipped)
+      allocate(pos(3*np), vel(3*np), ids(np))
+      read(uG) m4
+      if (m4 /= 12*np) call die_rec('position record', m4, 12*np)
+      read(uG) pos ; read(uG) m4                               ! positions, Mpc/h
+      read(uG) m4
+      if (m4 /= 12*np) call die_rec('velocity record', m4, 12*np)
+      read(uG) vel ; read(uG) m4                               ! velocities, file units
+      read(uG) m4                                              ! ID record: 4 or 8 bytes each
+      if (m4 == 8*np) then
+         read(uG) ids
+      else if (m4 == 4*np) then
+         allocate(ids4(np))
+         read(uG) ids4
+         ids = int(ids4, 8)
+         where (ids < 0) ids = ids + 4294967296_8              ! unsigned 32-bit IDs
+         deallocate(ids4)
+      else
+         call die_rec('ID record (neither 4 nor 8 bytes per particle)', m4, 8*np)
+      end if
       close(uG)
 
       if (ioff + np > Nparticles) then
          write(*,*) ' ic2pm: too many particles vs header count'
          stop 1
       end if
+      if (minval(ids) < 1 .or. maxval(ids) > Nparticles) then
+         write(*,'(a,2i15)') ' ic2pm: FATAL Gadget ID outside 1..N :', minval(ids), maxval(ids)
+         stop 1
+      end if
 
-!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(j,xx,yy,zz) REDUCTION(+:velsq)
+!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(j,xx,yy,zz,id) REDUCTION(+:velsq)
       do j = 1, np
+         id = ids(j)
          xx = pos(3*j-2) * xs + 1.0               ! Mpc/h -> grid units (NO /1000)
          yy = pos(3*j-1) * xs + 1.0
          zz = pos(3*j  ) * xs + 1.0
@@ -260,18 +295,29 @@ Program IC2PM
          if (xx < 1.0) xx = xx + NGRID
          if (yy < 1.0) yy = yy + NGRID
          if (zz < 1.0) zz = zz + NGRID
-         XPAR(ioff+j) = xx
-         YPAR(ioff+j) = yy
-         ZPAR(ioff+j) = zz
-         VX(ioff+j)   = vel(3*j-2) * vfac
-         VY(ioff+j)   = vel(3*j-1) * vfac
-         VZ(ioff+j)   = vel(3*j  ) * vfac
+         XPAR(id) = xx
+         YPAR(id) = yy
+         ZPAR(id) = zz
+         VX(id)   = vel(3*j-2) * vfac
+         VY(id)   = vel(3*j-1) * vfac
+         VZ(id)   = vel(3*j  ) * vfac
          velsq = velsq + real(vel(3*j-2),8)**2 + real(vel(3*j-1),8)**2 + real(vel(3*j),8)**2
       end do
 !$OMP END PARALLEL DO
 
+      if (ifile_g == 0) then                     ! lattice order of the IDs (displacements << spacing at z_init)
+         nchk = min(np, 20000)
+         do j = 1, nchk
+            lx = modulo(nint(pos(3*j-2)/dxl), NROW)
+            ly = modulo(nint(pos(3*j-1)/dxl), NROW)
+            lz = modulo(nint(pos(3*j  )/dxl), NROW)
+            if (ids(j) == 1_8 + lx + int(NROW,8)*(ly + int(NROW,8)*lz)) nmx = nmx + 1
+            if (ids(j) == 1_8 + lz + int(NROW,8)*(ly + int(NROW,8)*lx)) nmz = nmz + 1
+         end do
+      end if
+
       ioff = ioff + np
-      deallocate(pos, vel)
+      deallocate(pos, vel, ids)
       if (mod(ifile_g,50)==0 .or. ifile_g==nfiles_in-1) &
          write(*,'(a,i5,a,i14)') '  read file ', ifile_g, '   cumulative np = ', ioff
    end do
@@ -280,6 +326,24 @@ Program IC2PM
       write(*,'(a,2i15)') ' ic2pm: FATAL scattered /= total count :', ioff, Nparticles
       stop 1
    end if
+   nmiss = 0
+!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(ip) REDUCTION(+:nmiss)
+   do ip = 1, Nparticles
+      if (XPAR(ip) < 0.0) nmiss = nmiss + 1
+   end do
+!$OMP END PARALLEL DO
+   if (nmiss > 0) then
+      write(*,'(a,i15,a)') ' ic2pm: FATAL ', nmiss, &
+           ' array indices never filled: the Gadget IDs are not a permutation of 1..N'
+      stop 1
+   end if
+   idtag = 'ID?'
+   if (nmx >= nint(0.9*nchk)) idtag = 'IDx'
+   if (nmz >= nint(0.9*nchk)) idtag = 'IDz'
+   write(*,'(a)') '  particles placed at array index = Gadget ID (every index 1..N filled exactly once)'
+   write(*,'(a,i6,a,i6,a,i6,2a)') '  ID lattice order from the first', nchk, ' particles: x-fastest matches', nmx, &
+        ', z-fastest matches', nmz, '  -> header tag ', idtag
+   write(HEADER,'(a)') trim(HEADER)//', '//idtag        ! e.g. 'ic2pm: 2LPTic ingest, v at a-da/2, IDz' (38 chars)
 
 !--- diagnostics: coordinate range + implied 1D peculiar-velocity rms --------
    xmin = 1.0e30 ; xmax = -1.0e30
@@ -305,6 +369,13 @@ Program IC2PM
    write(*,'(a)') '  ic2pm done.'
 
 contains
+   subroutine die_rec(what, got, expected)
+      character(len=*), intent(in) :: what
+      integer*4, intent(in) :: got, expected
+      write(*,'(3a,i12,a,i12)') ' ic2pm: FATAL ', what, ' length mismatch: got', got, '  expected', expected
+      stop 1
+   end subroutine die_rec
+
    logical function valid_number(str)
       ! plain real literal: [sign] digits[.digits] [eEdD [sign] digits]; nothing else
       character(len=*), intent(in) :: str

@@ -52,7 +52,7 @@ awk '/^#outputs/ { printf "#outputs = %9d\n%s\n", -2, " 48.0 30.0"; getline; nex
   echo 'Lens plane grid           =         0  0-Ngrid'
   echo 'Extra outputs             =         1  0-off'
   echo 'kc_delta                  =     0.500  h/Mpc'
-  echo 'kc_mom                    =     0.500  h/Mpc'
+  echo 'kc_mom                    =     0.300  h/Mpc'   # below k_N(N_dep = 128)/4 = 0.39
   echo 'N_dep_mom                 =         0  0-Ngrid/2'
   echo 'Subsample M               =         0  0-off'
   echo 'fR at halos               =         0  0-off'; } >> "$G/Init.dat"

@@ -30,13 +30,23 @@ def main():
     edges = [0.01, 0.03, 0.1, 0.3, 1.0, 3.0]
     edges = [e for e in edges if e <= a.kmax * 1.0001] + ([a.kmax] if a.kmax not in edges else [])
     files = sorted(glob.glob(os.path.join(a.run, 'Run%d' % a.realization, 'PowerDM.R.*.%04d.dat' % a.realization)))
+    # exact epochs per step from OutputSchedule.dat (PowerDM.R prints Aexpn with only 5 decimals)
+    sched = {}
+    fs = os.path.join(a.run, 'Run%d' % a.realization, 'OutputSchedule.dat')
+    if os.path.exists(fs):
+        for l in open(fs):
+            if not l.startswith('#') and l.split():
+                p = l.split(); sched[int(p[0])] = float(p[1])
     print('%d PowerDM.R files in %s; ECOSMOG spectra from %s' % (len(files), a.run, pkdir))
     print('   step      a       z   S   ' + '  '.join('%8s' % ('%.2f-%.2f' % (lo, hi)) for lo, hi in zip(edges[:-1], edges[1:])) + '   (P_GLAM/P_ECOSMOG, mean over bins; N bins)')
     for f in files:
         hdr = open(f).read(300).splitlines()[1]
         ag = float(re.search(r'Aexpn *= *([0-9.Ee+-]+)', hdr).group(1)); step = int(re.search(r'Step= *(\d+)', hdr).group(1))
+        tol = 6e-6 + 2e-6 * ag                      # f8.5 rounding of the header value
+        if step in sched:
+            ag = sched[step]; tol = 2e-6 * ag       # float32-exact epoch, 9 significant digits
         i = int(np.argmin(np.abs(np.array(aout) - ag)))
-        if abs(aout[i] - ag) > 2e-5 * ag:
+        if abs(aout[i] - ag) > tol:
             print('  %5d %8.5f  no ECOSMOG output at this epoch (closest %.5f)' % (step, ag, aout[i])); continue
         fe = os.path.join(pkdir, 'PK_FR_N%s_S%02d.dat' % (node, i + 2))
         if not os.path.exists(fe):

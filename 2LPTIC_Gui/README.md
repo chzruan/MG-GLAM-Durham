@@ -53,6 +53,18 @@ written to the PM files:
   made with an ee44100 build); for those the mode is only in the
   `velocity epoch =` line of the ic2pm log.
 
+Since the 2026-10-17 review fixes `ic2pm` also reads the Gadget ID block
+(4- or 8-byte IDs) and places every particle at array index = ID, so the
+implicit particle ID of GLAM's products (subsample: index − 1) is the
+generator's ID. It verifies that the IDs are a permutation of 1..N, detects
+the lattice order from the first file and appends a tag to the PM header
+string: `IDx` (x fastest, ID = 1 + ix + Np(iy + Np iz): this FML build),
+`IDz` (z fastest, ID = 1 + iz + Np(iy + Np ix): 2LPTic, e.g. Baojiu's
+DEGRACE `ics.*`), `ID?` (undetermined). 2LPTic files have sequential IDs in
+file order, so their PMcrs files are unchanged; multi-rank FML files are
+re-ordered (physics unaffected). `PMcrd.DAT` differs from older conversions
+by the tag (e.g. `ic2pm: 2LPTic ingest, v at a-da/2, IDz`).
+
 Without the shift the late-time P(k) is high by ≈ 0.8 × 0.75 da/a_init at
 linear scales (+1.2 / +1.8 / +2.4 / +4.8% for da0 = 4e-4 / 6e-4 / 8e-4 /
 1.6e-3 from z = 49; measured at k ≤ 0.05 h/Mpc: +1.20 / – / +2.39 / +4.78%

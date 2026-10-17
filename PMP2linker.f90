@@ -206,7 +206,7 @@ Contains
       write(*,*) ' Go to Write Catshort: ',Nparticles
 
       tstart = seconds()
-      If(iExtra==1 .and. FRhalo==1 .and. MG_flag==1 .and. OutClass==1) Call fRHaloOpen(ISTEP)   ! f_R at halo centres (I10)
+      If(iExtra==1 .and. FRhalo==1 .and. MG_flag==1 .and. MG_model==1 .and. OutClass==1) Call fRHaloOpen(ISTEP)   ! f_R at halo centres (I10)
       Call WriteFiles
       Call fRHaloClose(Nhalo)
       tfinish = seconds()

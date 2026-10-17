@@ -53,7 +53,7 @@ SIM_CASES = {       # case dir -> configuration (zout list + sign of #outputs)
     "case10_lens72": dict(zout=[2.5, 0.512, 1.1], exact=True, lens=(2, 72)),
     "case10_lens36": dict(zout=[2.5, 0.512, 1.1], exact=True, lens=(2, 36)),
     # low-k mode dumps (I8): density from POWERfft5's transform (iPower=1), momentum on N_dep=36
-    "case11_modes": dict(zout=[2.5, 0.512, 1.1], exact=True, modes=dict(kc=0.5, ndep=36), subm=1),
+    "case11_modes": dict(zout=[2.5, 0.512, 1.1], exact=True, modes=dict(kc=0.5, kc_mom=0.185, ndep=36), subm=1),
     # f(R) smoke test: BDM + f_R at halo centres (I10); the box may host few or no haloes
     "case12_frhalo": dict(zout=[1.1, 0.512], exact=True, frhalo=True),
 }
@@ -66,6 +66,7 @@ ERR_CASES = {       # case dir -> (log file, required message, forbidden product
     "case4c_dup": ("Run1/main.log", "are duplicates", "Run1/PMcrd.0*.DAT"),
     "case4d_range": ("Run1/main.log", "at or before the initial redshift", "Run1/PMcrd.0*.DAT"),
     "case4e_classes": ("init.log", "one output class per listed redshift", "Setup.dat"),
+    "case4f_badopt": ("init.log", "malformed optional line", "Setup.dat"),
 }
 
 
@@ -436,8 +437,9 @@ def main(work):
     # against the code's own PowerDM.R, bin by bin (GetPower bins by nint(|m|), each
     # mode counted once over the full sphere: weight 2 for iz > 0, 1 for iz = 0)
     cfg = SIM_CASES["case11_modes"]
-    kc, ndep = cfg["modes"]["kc"], cfg["modes"]["ndep"]
-    n = int(kc * BOX / (2 * np.pi))
+    kc, kc_mom, ndep = cfg["modes"]["kc"], cfg["modes"]["kc_mom"], cfg["modes"]["ndep"]
+    n = int(kc * BOX / (2 * np.pi))                 # deltam cube half-width
+    n_mom = int(kc_mom * BOX / (2 * np.pi))         # mom_* cube half-width (kc_mom < k_N(ndep)/4: no interlacing)
     _, xmarks, _, _, marks, _ = oracle_full(cfg)
     rundir = os.path.join(work, "case11_modes", "Run1")
     ok_files = ok_meta = ok_herm = ok_pk = ok_k0 = True
@@ -448,12 +450,13 @@ def main(work):
             if not (os.path.exists(fb) and os.path.exists(fm)):
                 ok_files = False
                 continue
-            C = read_modes(fb, n)
+            nn, kk = (n, kc) if prod == "deltam" else (n_mom, kc_mom)
+            C = read_modes(fb, nn)
             meta = read_meta(fm)
-            ok_meta &= (int(meta["n"]) == n and int(meta["N_dep"]) == (NGRID if prod == "deltam" else ndep)
-                        and f32(float(meta["a"])) == xmarks[step] and float(meta["k_c"]) == kc)
-            ok_herm &= hermitian_ok(C, n)
-            ok_k0 &= C[n, n, 0] == 0
+            ok_meta &= (int(meta["n"]) == nn and int(meta["N_dep"]) == (NGRID if prod == "deltam" else ndep)
+                        and f32(float(meta["a"])) == xmarks[step] and abs(float(meta["k_c"]) - kk) < 1e-5)
+            ok_herm &= hermitian_ok(C, nn)
+            ok_k0 &= C[nn, nn, 0] == 0
             if prod == "deltam":
                 ix, iy, iz = np.meshgrid(np.arange(-n, n + 1), np.arange(-n, n + 1), np.arange(0, n + 1), indexing="ij")
                 mm = np.sqrt(ix**2 + iy**2 + iz**2)
@@ -478,7 +481,14 @@ def main(work):
     # hashed selection itself is covered by test/extras/run_subsample_test.sh)
     msub = cfg["subm"]
     npart = 36**3
-    ok_sfiles = ok_nsel = ok_v6 = True
+    nbm = min(5, n_mom - 1)                         # complete momentum bins available
+    ok_sfiles = ok_nsel = ok_v6 = ok_mode = True
+    mode_lines = []
+
+    def resid(A, B):                                # rms residual relative to the rms mode, k = 0 excluded
+        m = np.ones(B.shape, bool)
+        m[B.shape[0] // 2, B.shape[1] // 2, 0] = False
+        return float(np.sqrt(np.mean(np.abs(A[m] - B[m]) ** 2) / np.mean(np.abs(B[m]) ** 2)))
     for step in sorted(marks):
         fb = os.path.join(rundir, f"Subsample.{step:04d}.0001.bin")
         fm = os.path.join(rundir, f"Subsample.{step:04d}.0001.meta")
@@ -494,20 +504,33 @@ def main(work):
         for i in range(-n, n + 1):
             for j in range(-n, n + 1):
                 Csub[i + n, j + n, :] = Cd[i, j, 0:n + 1]
+        Cfull = read_modes(os.path.join(rundir, f"deltam.{step:04d}.0001.bin"), n)
         pd_sub = binned_power(Csub, n, BOX, 5)
-        pd_full = binned_power(read_modes(os.path.join(rundir, f"deltam.{step:04d}.0001.bin"), n), n, BOX, 5)
+        pd_full = binned_power(Cfull, n, BOX, 5)
         ok_v6 &= np.all(np.abs(pd_sub / pd_full - 1.0) < 1e-3)
         Cm = cube_from_particles(x, v[0] * ndep**3 / nsel, ndep, BOX)
-        Cmsub = np.zeros((2 * n + 1, 2 * n + 1, n + 1), complex)
-        for i in range(-n, n + 1):
-            for j in range(-n, n + 1):
-                Cmsub[i + n, j + n, :] = Cm[i, j, 0:n + 1]
-        pm_sub = binned_power(Cmsub, n, BOX, 5)
-        pm_full = binned_power(read_modes(os.path.join(rundir, f"mom_x.{step:04d}.0001.bin"), n), n, BOX, 5)
+        Cmsub = np.zeros((2 * n_mom + 1, 2 * n_mom + 1, n_mom + 1), complex)
+        for i in range(-n_mom, n_mom + 1):
+            for j in range(-n_mom, n_mom + 1):
+                Cmsub[i + n_mom, j + n_mom, :] = Cm[i, j, 0:n_mom + 1]
+        Cmfull = read_modes(os.path.join(rundir, f"mom_x.{step:04d}.0001.bin"), n_mom)
+        pm_sub = binned_power(Cmsub, n_mom, BOX, nbm)
+        pm_full = binned_power(Cmfull, n_mom, BOX, nbm)
         ok_v6 &= np.all(np.abs(pm_sub / pm_full - 1.0) < 1e-3)
+        # mode by mode (review R5-M2): axis order, sign of Im and layout of the production dumps.
+        # The decoded particles are an independent reconstruction (numpy CIC + FFT in the stated
+        # convention); the transposed and conjugated cubes must fail by O(1).
+        r_d, r_m = resid(Csub, Cfull), resid(Cmsub, Cmfull)
+        r_alt = min(resid(np.transpose(Csub, (1, 0, 2)), Cfull), resid(np.conj(Csub), Cfull),
+                    resid(np.transpose(Cmsub, (1, 0, 2)), Cmfull), resid(np.conj(Cmsub), Cmfull))
+        ok_mode &= r_d < 1e-2 and r_m < 1e-2 and r_alt > 0.5
+        mode_lines.append(f"step {step}: deltam {r_d:.1e}, mom_x {r_m:.1e}, wrong layouts >= {r_alt:.2f}")
     rep.check(ok_sfiles, "case11_modes", "Subsample .bin and .meta written for every output")
     rep.check(ok_nsel, "case11_modes", f"n_sel = N (M={msub}, full quantised snapshot)")
-    rep.check(ok_v6, "case11_modes", "decoded particles reproduce the deltam and mom_x spectra at k <= 5 k_f to 1e-3 (V6)")
+    rep.check(ok_v6, "case11_modes", f"decoded particles reproduce the deltam (5 bins) and mom_x ({nbm} bins) spectra to 1e-3 (V6)")
+    for l in mode_lines:
+        print("      mode-by-mode rms residual / rms mode: " + l)
+    rep.check(ok_mode, "case11_modes", "deltam and mom_x dumps equal the decoded-particle cubes mode by mode (< 1e-2; transposed/conjugated fail)")
 
     # f_R at halo centres (I10): one float32 pair per catalogue row, finite, |f_R| <= |fR_bg| * max(u)^2
     _, _, _, _, marks12, _ = oracle_full(SIM_CASES["case12_frhalo"])

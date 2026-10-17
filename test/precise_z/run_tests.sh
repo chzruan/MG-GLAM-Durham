@@ -30,6 +30,7 @@
 #   case9_classes    - per-output class list (1 full / 2 station) reaches
 #                      OutputSchedule.dat; schedule unchanged by classes
 #   case4e           - class count /= #outputs rejected by PMP2init
+#   case4f           - optional line whose comment contains "=" rejected by PMP2init
 #   case12_frhalo    - f(R) run with BDM: fR_halo rows match the catalogue rows
 #   case11_modes     - low-k density modes from POWERfft5 (P(k) from the cube equals
 #                      PowerDM.R bin by bin), momentum modes on N_dep=36, and the
@@ -213,7 +214,7 @@ sed -i 's/^DM power spectrum         =         0/DM power spectrum         =    
   echo 'Lens plane grid           =         0  0-Ngrid'
   echo 'Extra outputs             =         1  0-off'
   echo 'kc_delta                  =     0.500  h/Mpc'
-  echo 'kc_mom                    =     0.500  h/Mpc'
+  echo 'kc_mom                    =     0.185  h/Mpc'   # below k_N(N_dep=36)/4 = 0.1885 (no interlacing)
   echo 'N_dep_mom                 =        36  0-Ngrid/2'
   echo 'Subsample M               =         1  0-off; 1-full quantised snapshot'
   echo 'fR at halos               =         0  0-off'
@@ -230,7 +231,7 @@ sed -i 's/^Find BDM halos            =         0/Find BDM halos            =    
   echo 'Lens plane grid           =         0  0-Ngrid'
   echo 'Extra outputs             =         1  0-off'
   echo 'kc_delta                  =     0.500  h/Mpc'
-  echo 'kc_mom                    =     0.500  h/Mpc'
+  echo 'kc_mom                    =     0.185  h/Mpc'   # below k_N(N_dep=36)/4 = 0.1885 (no interlacing)
   echo 'N_dep_mom                 =        36  0-Ngrid/2'
   echo 'Subsample M               =         0  0-off'
   echo 'fR at halos               =         1  0-off'
@@ -248,6 +249,12 @@ run_init case4a_zbig
 prep_case case4b_zneg
 set_outputs case4b_zneg -1 " -0.5"
 run_init case4b_zneg
+echo "== case4f_badopt: optional line with '=' inside its comment: rejected by PMP2init (no silent default)"
+prep_case case4f_badopt
+set_outputs case4f_badopt -3 " 2.5 0.512 1.1"
+echo 'Extra outputs             =         1  (1 = on)' >> "$WORK/case4f_badopt/Init.dat"
+run_init case4f_badopt
+
 echo "== case4e_classes: class count differs from #outputs: rejected by PMP2init"
 prep_case case4e_classes
 set_outputs case4e_classes -3 " 2.5 0.512 1.1"

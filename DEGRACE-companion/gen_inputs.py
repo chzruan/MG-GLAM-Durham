@@ -226,7 +226,7 @@ def main() -> int:
     ap.add_argument("--lens-grid", type=int, default=0, help="lens planes: plane grid (0 = Ngrid)")
     ap.add_argument("--extra", action="store_true", help="extra outputs at class-1 outputs: low-k density and momentum modes (+ subsample, fR at halos if set)")
     ap.add_argument("--kc-delta", type=float, default=1.5, help="k_c [h/Mpc] of the density mode dump")
-    ap.add_argument("--kc-mom", type=float, default=1.0, help="k_c [h/Mpc] of the momentum mode dumps")
+    ap.add_argument("--kc-mom", type=float, default=0.75, help="k_c [h/Mpc] of the momentum mode dumps; must stay below k_Nyquist(N_dep_mom)/4 (0.785 at N_dep = 1024, L = 1024), PMP2init refuses more")
     ap.add_argument("--ndep-mom", type=int, default=0, help="momentum deposit grid (0 = Ngrid/2)")
     ap.add_argument("--subsample-m", type=int, default=0, help="keep 1 in M particles (0 = off)")
     ap.add_argument("--fr-halos", action="store_true", help="f_R at halo centres (f(R) runs)")

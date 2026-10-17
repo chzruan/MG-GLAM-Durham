@@ -89,3 +89,5 @@ LCDM_*/
 2LPTIC_Gui/Gmail*
 2LPTIC_Gui/summary_*
 test/extras/work/
+__pycache__/
+test/precise_z/work/

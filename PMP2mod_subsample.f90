@@ -4,9 +4,12 @@
 !   docs/degrace_companion_implementation_plan.md).
 !
 !   Selection. Particle ID = array index - 1 (0-based; the particle
-!   arrays are never permuted, so this is the IC generator's lattice
-!   order, ID = i + N_row*(j + N_row*k) for the native PMP2start
-!   lattice with i along x). Particle ID is kept when
+!   arrays are never permuted). For ICs ingested by ic2pm the index is
+!   the Gadget ID (ic2pm places every particle at index = ID and tags
+!   the lattice order in HEADER: IDx = x fastest, ID-1 = ix + Np (iy +
+!   Np iz), the FML generator; IDz = z fastest, ID-1 = iz + Np (iy +
+!   Np ix), 2LPTic). For native PMP2start ICs ID-1 = i + Np (j + Np k)
+!   with i along x. Particle ID is kept when
 !       splitmix64(ID xor SALT) mod M == 0
 !   with SALT = 0x5EED00DE6C0A2026 (never change) and M the
 !   subsampling factor passed by the caller (M = 1 keeps everything).
@@ -181,13 +184,14 @@ Contains
         write (iu, '(a)') 'x_decode = x [Mpc/h] = (q + 32768 + 0.5) * Box/65536, q the stored int16; q + 32768 = floor(x/Box * 65536) with x wrapped into [0, Box)'
         write (iu, '(a)') 'v_decode = v [km/s] = s * dv_quant, s the stored int16 = nint(v/dv_quant) clipped to [-32767, 32767]'
         write (iu, '(a)') 'id_rule = ID = index-1 in lattice order; k-th stored particle = k-th ID with splitmix64(ID xor SALT) mod M == 0'
-        write (iu, '(a)') 'lattice = ID = index-1 of the particle arrays, 0-based; native PMP2start lattice ID = i + N_side*(j + N_side*k) with i along x; converted ICs keep the IC file order'
+        write (iu, '(a)') 'lattice = ID = index-1 of the particle arrays (0-based). ICs via ic2pm: index = Gadget ID; the IDx/IDz tag in header gives the order, IDx: ID = 1 + ix + Np (iy + Np iz) (FML), IDz: ID = 1 + iz + Np (iy + Np ix) (2LPTic), ID?: undetermined; no tag = pre-fix ic2pm, IC file order. Native PMP2start: ID = 1 + i + Np (j + Np k), i along x'
         write (iu, '(a)') 'hash = splitmix64(x), uint64: z = x + 0x9E3779B97F4A7C15; z = (z ^ (z >> 30)) * 0xBF58476D1CE4E5B9; z = (z ^ (z >> 27)) * 0x94D049BB133111EB; return z ^ (z >> 31)'
         write (iu, '(a)') 'axis_map = qx, qy, qz follow the particle x, y, z of the halo catalogue'
         write (iu, '(a,f10.6)') 'Omega_m = ', Om
         write (iu, '(a,f10.6)') 'Omega_L = ', OmL
         write (iu, '(a,f10.6)') 'hubble = ', hubble
         write (iu, '(a,i3)') 'MG_flag = ', MG_flag
+        write (iu, '(a,i3)') 'MG_model = ', MG_model
         If (MG_flag == 1) Then
             write (iu, '(a,es14.6)') 'fR0 = ', fR0
         Else

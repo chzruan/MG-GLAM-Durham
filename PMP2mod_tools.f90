@@ -43,7 +43,7 @@ Module Tools
       Integer*4 :: LensGrid = 0      ! lens planes: plane grid (0 = NGRID)
       Integer*4 :: iExtra = 0        ! extra outputs master switch (low-k modes, subsample, f_R at haloes)
       Real*4    :: KcDelta = 1.5     ! k_c [h/Mpc] of the density mode dump
-      Real*4    :: KcMom = 1.0       ! k_c [h/Mpc] of the momentum mode dumps
+      Real*4    :: KcMom = 0.75      ! k_c [h/Mpc] of the momentum mode dumps (< k_N,dep/4 at N_dep = 1024, L = 1024)
       Integer*4 :: NdepMom = 0       ! momentum deposit grid (0 = NGRID/2)
       Integer*4 :: SubM = 0          ! particle subsample: keep 1 in SubM particles (0 = off)
       Integer*4 :: FRhalo = 0        ! f_R at halo centres (f(R) runs only)
@@ -256,8 +256,9 @@ subroutine ReadSetup
          If(ierr == 0) read(11,*,iostat=ierr) NdepMom
          If(ierr == 0) read(11,*,iostat=ierr) SubM
          If(ierr == 0) read(11,*,iostat=ierr) FRhalo
-         If(ierr /= 0)Then
-            iExtra = 0; KcDelta = 1.5; KcMom = 1.0; NdepMom = 0; SubM = 0; FRhalo = 0
+         If(ierr > 0) stop 'Setup.dat: malformed extra-outputs block (extras lines)'
+         If(ierr < 0)Then          ! end of file: the four-line block of older Setup.dat files
+            iExtra = 0; KcDelta = 1.5; KcMom = 0.75; NdepMom = 0; SubM = 0; FRhalo = 0
          End If
          write (*,'(a,i4,2(a,i5))') '  Extra outputs: output classes=',Nclasses, &
                                     '  lens slabs per axis=',LensSlab,'  lens plane grid=',LensGrid
