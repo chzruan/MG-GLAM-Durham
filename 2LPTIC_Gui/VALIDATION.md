@@ -76,6 +76,13 @@ too small; velocities additionally x0.9906 low). Our regenerated
 normalization; positions identical to the HEFT set) is a drop-in replacement
 with correct velocities and IDs.
 
+> **Removed 2026-10-17** (user decision, file-quota cleanup): the 64
+> `snap/IC_ours_Np2048_L1024.*` files (275 GB) were deleted after this record
+> was complete. They are deterministic (seed 2026) and regenerate in 8 min
+> with `validate_highres/job.sh` + `input.lua` (64 ranks, cosma8-shm, 3000G);
+> `snap/pofks_ours_2048.txt`, `pk_validate_highres.npz` and the comparison
+> scripts are kept. Record: `archive/README.md`.
+
 ## End-to-end GLAM run vs the fiducial suite (2026-07-29)
 
 Full-chain test: fid-cosmology 2LPTIC IC (L=512, 2048^3, seed 2026, 2LPT

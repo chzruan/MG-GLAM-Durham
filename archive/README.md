@@ -14,8 +14,14 @@ root (the notes tarball extracts into the current directory).
 | `review-and-session-notes-2026-04-to-09.tar.gz` | ic2pm half-step review/handoff prompts and findings (`2LPTIC_Gui/REVIEW-*`, `FIX-PROMPTS`, `HANDOFF`, `VERIFY-6b629f1`), BDM duplicated-haloes debug prompts, `op.md` (OMP summary, superseded by `OMP_OPTIMIZATION_NOTES.md`), `thread_num.md`, `conv_jobids.txt` | finished tasks; results live in the tracked docs |
 
 Not archived (still in use or awaiting a decision): `DEGRACE-companion/runs/`
-(pilots; the f(R) pilot was running), `DEGRACE-pilot/`, `DEGRACE-highres/`,
-`verify/`, the production run directories (`DurMun_*`, `DEGRACE_*`, `fid_*`),
-`fid2LPTIC_*` (superseded pre-fix fiducial runs, 15 GB of catalogues),
-`2LPTIC_Gui/validate_highres/snap` (213 GB regenerable IC),
-`BDM-refine/validation/*/work` (459 GB of PM files).
+(pilots), `DEGRACE-pilot/`, `DEGRACE-highres/`, `verify/`, the production run
+directories (`DurMun_*`, `DEGRACE_*`, `fid_*`), `fid2LPTIC_*` (superseded
+pre-fix fiducial runs, 15 GB of catalogues), `BDM-refine/validation/*/work`
+(459 GB of PM files).
+
+## Removed without an archive (user decision 2026-10-17)
+
+| removed | what it was | how to recover |
+|---|---|---|
+| `2LPTIC_Gui/validate_highres/snap/IC_ours_Np2048_L1024.{0..63}` (64 Gadget-1 files, 275 GB, written 2026-07-28 by job 11658977) | the regenerated 2048^3 L1024 seed-2026 validation IC (HEFT normalisation). Its validation record is `2LPTIC_Gui/VALIDATION.md` ("High-res validation") with `pk_validate_highres.npz`; `snap/pofks_ours_2048.txt` (the generator's own P(k)) is kept | deterministic: `cd 2LPTIC_Gui/validate_highres && sbatch job.sh` (64 ranks, cosma8-shm, 3000G, 8 min; `pofk_bli_z49.txt` is beside `input.lua`) |
+| `DEGRACE_LCDM_L1800Np3200Ng6400/Run1/PMcrd.DAT` + `PMcrs{0..61}.DAT` (62 particle files, 786 GB = 732 GiB, written 2026-02-12) | the mid-run restart checkpoint of the finished L1800 LCDM Run1: header `N=3200x6400L=1800zi100da=4.00E-04f0.040`, ISTEP = 100, AEXPN = 0.41824 (z = 1.39), Nseed = 13979821. The run went on to step 157 (z = 0); all 11 `PowerDM.*` spectra and `CATALOGS/CatshortV.{0092..0157}` (19 GB) are kept. Run2..Run12 never had PMcrs files | not recoverable as such (no full particle snapshot of Run1 remains); a rerun of box 1 (`PMP2start.exe <<< 1; PMP2main.exe <<< 157`, 72 h cosma8-shm slots with checkpoint restarts) reproduces it |
