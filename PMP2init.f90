@@ -542,7 +542,7 @@ Subroutine ReadInit
     write (*, *) 'Ngrid =', Ngrid
     write (*, *) 'Nout  =', Nout
     write (*, *) 'Nbias =', Nbiaspars
-    if (iExactZ == 1) write (*, '(a,10f10.5)') ' Exact output redshifts (#outputs < 0): ', (zout(i), i=1, Nout)
+    if (iExactZ == 1) write (*, '(a,/,(10f10.5))') ' Exact output redshifts (#outputs < 0): ', (zout(i), i=1, Nout)
 end Subroutine ReadInit
 !
 !---------------------------------------------------

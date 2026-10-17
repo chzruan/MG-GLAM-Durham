@@ -109,10 +109,23 @@ def read_pk(path: Path) -> np.ndarray:
     return pk
 
 
+def is_primary(a: float) -> bool:
+    return bool(np.any(np.isclose(a, 1.0 / (1.0 + PRIMARY_Z), rtol=0, atol=1e-9)))
+
+
 def init_dat(a: dict, epochs: np.ndarray) -> str:
     z = 1.0 / epochs[::-1] - 1.0           # descending in z, i.e. ascending in a
     z[z < 1e-12] = 0.0
     lines = [" ".join(f"{v:10.7f}" for v in z[i:i + 6]) for i in range(0, len(z), 6)]
+    if a["classes"] == "primary":          # same order as the redshift list
+        cl = [1 if is_primary(e) else 2 for e in epochs[::-1]]
+        class_block = (f"Output classes            = {len(cl):9d}  0-all class 1; 1 full, 2 station per redshift\n"
+                       + "\n".join(" ".join(f"{c:2d}" for c in cl[i:i + 20]) for i in range(0, len(cl), 20)) + "\n")
+    else:
+        class_block = "Output classes            =         0  0-all class 1\n"
+    extra_block = (class_block
+                   + f"Lens slabs per axis       = {a['lens_slabs']:9d}  0-off\n"
+                   + f"Lens plane grid           = {a['lens_grid']:9d}  0-Ngrid\n")
     params = "".join("Parametr =     0.000\n" for _ in range(9))
     fr0 = "0.0" if a["mg_flag"] == 0 else f"{a['fR0']:.4E}"
     return (
@@ -164,6 +177,7 @@ def init_dat(a: dict, epochs: np.ndarray) -> str:
         f"csf_potential             =         1\n"
         f"csf_alpha                 = 0.10000\n"
         f"csf_beta                  = -0.20000\n"
+        + extra_block
     )
 
 
@@ -199,6 +213,11 @@ def main() -> int:
     ap.add_argument("--da", type=float, default=6e-4, help="initial step da0 (6e-4: legacy late-time ladder from z=49)")
     ap.add_argument("--ncheckpoint", type=int, default=50)
     ap.add_argument("--no-bdm", action="store_true")
+    ap.add_argument("--classes", choices=["all", "primary"], default="all",
+                    help="per-output classes: 'all' = every output class 1 (BDM everywhere); "
+                         "'primary' = the 17 primary redshifts class 1, the 25 stations class 2 (no BDM/extras)")
+    ap.add_argument("--lens-slabs", type=int, default=0, help="lens planes: slabs per axis (0 = off; 4 = 256 Mpc/h at L=1024)")
+    ap.add_argument("--lens-grid", type=int, default=0, help="lens planes: plane grid (0 = Ngrid)")
     ap.add_argument("--check", action="store_true", help="S2: verify the epoch generator against the ECOSMOG lists")
     args = ap.parse_args()
 
@@ -238,7 +257,12 @@ def main() -> int:
     pk = read_pk(pkfile)
     a = dict(box=args.box, nrow=args.nrow, ngrid=args.ngrid, sigma8=sigma8, zinit=args.zinit, da=args.da,
              ncheckpoint=args.ncheckpoint, bdm=0 if args.no_bdm else 1,
-             mg_flag=1 if args.gravity == "fr" else 0, fR0=fr0)
+             mg_flag=1 if args.gravity == "fr" else 0, fR0=fr0,
+             classes=args.classes, lens_slabs=args.lens_slabs, lens_grid=args.lens_grid)
+    if args.lens_slabs and args.ngrid % args.lens_slabs:
+        sys.exit("--lens-slabs must divide --ngrid")
+    if args.lens_grid and args.ngrid % args.lens_grid:
+        sys.exit("--lens-grid must divide --ngrid")
     if any(1.0 / e - 1.0 >= args.zinit for e in epochs):
         sys.exit("an output epoch is at or before z_init")
     out = args.out

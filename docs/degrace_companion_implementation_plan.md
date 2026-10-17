@@ -12,8 +12,12 @@ Merged 2026-10-17 from `docs/degrace_lensplanes_implementation_plan.md`
 touching the code; answer the Phase 0 questions of section 13 from the code
 before any edit and record the answers in section 16.
 
-Status: the cross-check of the 42 output epochs is done (section 2);
-**I1 is implemented** on `cz` (commit `ae4fa9d`); everything else is open.
+Status (2026-10-17): the cross-check of the 42 output epochs is done
+(section 2); **I1 is on `cz`** (`ae4fa9d`); **Phase 0 is answered**
+(section 16); **I2, I3, I4, I5 are implemented on branch
+`degrace-track-a`** (commits `cb09e3c`, `b774f8d`; 146/146 checks); the
+node-2 ΛCDM pilot is submitted (Slurm job 12180066, section 16). I6 is
+partly encoded in the input generator; I7–I11 are open.
 
 Related references: `docs/degrace_ecosmog/README.md` (Baojiu's ECOSMOG
 suite: design, ICs, output lists, snapshots), `2LPTIC_Gui/VALIDATION.md`
@@ -550,9 +554,9 @@ For CZ:
 - [x] I1 close-pair fix + tests (`cz` `ae4fa9d`, 2026-10-16)
 - [x] ECOSMOG suite metadata pinned (`docs/degrace_ecosmog/`, 2026-10-16)
 - [ ] Phase 0 answers in section 16
-- [ ] I3 generator + S2; I4 `OutputSchedule.dat`; I5 class list
-- [ ] I2 lens planes + L1–L3
-- [ ] Pilot node 2 vs the ECOSMOG twins
+- [x] I3 generator + S2; I4 `OutputSchedule.dat`; I5 class list (`degrace-track-a` `cb09e3c`)
+- [x] I2 lens planes + L1, L2 (`degrace-track-a` `b774f8d`); L3 (plane P(k) vs 3-D P(k)) pending
+- [ ] Pilot node 2 vs the ECOSMOG twins (ΛCDM job 12180066 submitted 2026-10-17; f(R) next)
 - [ ] I7 δ_L dump (route decided) + V1, V7, V8; δ_L for one legacy pilot + V4
 - [ ] I8 + V2–V4; I9 + V5, V6; I10
 - [ ] V9 overhead run
@@ -581,3 +585,99 @@ For CZ:
   (Q9) `Init.dat` is parsed sequentially (`iParseLine`); `Setup.dat` is
   written by `PMP2init` and read by `ReadSetup`; stale trailing lines in
   `Setup.dat` are ignored. I7 conflicts with the 2LPTIC rule; see I7.
+- 2026-10-17, Phase 0 answers (four read-only reconnaissance passes over the
+  root sources; line numbers refer to `cz`):
+  - **Q1 (legacy ICs)** `PMP2start` builds Zel'dovich displacements in
+    `SPECTR` (`GRX/GRY/GRZ = TS k_i/k²` in a real cos/sin basis, not δ or the
+    potential), RANLUX lux 2 seeded from `TableSeeds.dat` row `Nrealization`,
+    one saved state per k-plane restored inside the OpenMP loop: the random
+    numbers do not depend on the thread count (only the real*8 reduction
+    of the normalisation sum, at ~1e-15). Normalisation uses the realised
+    total power (`ALPHA = AMPLT/sqrt(SUMM)`), not the table.
+  - **Q2 (ordering)** Nothing permutes the particle arrays: `MOVE`, density
+    deposits, BDM (`move_alloc` copies, ghost rows appended after `Np`, index
+    sorts only, originals restored), `ParticlesRandom`, `WriteDataPM`/
+    `ReadDataPM` (pages in index order). `ic2pm` fills the arrays in Gadget
+    file order and never reads the ID block; Baojiu's `ics.*` carry
+    sequential IDs 1…N³ across files 0…27 (lattice order, k fastest), so
+    file order = lattice order for the ECOSMOG companions. `PMP2start`
+    lattice: `Icurrent = ip + (jp-1)·NROW + (kp-1)·NROW²`, ip → x.
+    Known bug: `ParticlesRandom` sets `Nparticles = NROW³` in int4 (overflows
+    for NROW ≥ 1291; only with `iDumpPart = 1`).
+  - **Q3 (units)** Positions in grid units [1, NGRID+1), node i at
+    (i−1)·Box/NGRID; `VX` is the comoving momentum with x in grid units; every
+    existing writer (BDM, `ParticlesRandom`, `DumpParticles`) uses
+    v[km/s] = VX·(100·Box/NGRID)/AEXPN although VX sits at a − ASTEP/2, so
+    their km/s are low by a_v/a; the new products must divide by a_v and
+    record `a_v`. `ic2pm`: V = v_pec·a·NGRID/(100·Box) via
+    `vfac = S_vel·a^1.5·NGRID/(100·Box)`.
+  - **Q4 (epochs)** Outputs are not synchronous: x at a, v at a − ASTEP/2
+    (ASTEP = the step just taken, in the `PMcrd` header and the BDM catalogue
+    header `Step=`). BDM uses the arrays as they stand.
+  - **Q5 (density buffer)** `DENSIT`: CIC into `FI` initialised to −1 with
+    weight NGRID³/Np, so FI = δ with zero mean; `FI(ix,iy,iz)`, ix fastest.
+    `GetPower` → `POWERfft5`: three real 1-D `rfft1f` passes (x, y, transpose,
+    z), √2 scaling of indices 1 and N per pass, then **squares the
+    coefficients in place** (`FI = FI²/8`) and zeroes k = 0, so after
+    `GetPower` FI holds neither δ nor the coefficients. Low-k mode dumps (I8)
+    must be copied inside `POWERfft5` between the FFT and the squaring, or
+    use their own transform. Packing per dimension (even N, phase index
+    j−1): p=1 → (1/N)Σx; p=2m → (2/N)Σx cos; p=2m+1 → +(2/N)Σx sin; p=N →
+    Nyquist; after the transpose the coefficient sits at `FI(pz,py,px)`.
+    `Analysis` order: PDF → P(k) (`mDENSIT = 1` after) → dump/project →
+    bias → `BDM(mDENSIT)` (re-deposits if needed). Lens planes now run
+    first, from the fresh deposit, and leave `mDENSIT = 0` for the power
+    spectrum. `MG_scratch_release` frees only `FI3`; `FI2` is kept.
+  - **Q6 (scalar field)** `FI2` holds u = |f_R|^{1/(n+1)} normalised by
+    u_bg after `scalar_field`; f_R(x) = fR_bg(a_old)·FI2^{n+1} with
+    fR_bg = fR0·(R0_bg/R_bg)^{n+1}, R_bg = 3(Ω_m/a³ + 4Ω_Λ), evaluated at the
+    pre-step a_old (FI2 was solved before MOVE/ADDTIME). FI2 is intact at
+    output time (only the MG solve writes it). The `fric_fac·FI2` term in
+    MOVE is symmetron-only; the f(R) force enters through `POTENT_FOR_MG`.
+  - **Q7 (BDM)** Called at the end of `Analysis`; `CatshortV.<step>.<box>.DAT`
+    has an 8-line header (A, Step=ASTEP, cosmology, mass, Ovdens) and 24
+    columns: x,y,z [Mpc/h], Vx,Vy,Vz [km/s], Mvir, Mtotal, Rvir [kpc/h],
+    Vrms, Vmax, iHalo (row index, per file only), Cvir, Npart, 0, Xoff,
+    2K/Ep−1, λ, RadRMS, b/a, c/a, axis direction. Rows in `FindMaxima` peak
+    order (z, y, x), not by mass. Centre = density peak refined by four
+    centre-of-mass iterations; radius = Bryan–Norman virial aperture.
+    Per-halo arrays (`xMaxx…`, `Rvir`, `Mvir`) live in module `Structures`
+    and are freed by `ReleaseMaxima` right after `WriteFiles`, so I10 must
+    hook in between (inside `BDM`, `PMP2linker.f90` ≈ 208–217).
+  - **Q8 (memory)** `sacct` MaxRSS: f(R) L1024 Np2048 Ng4096 (`fR_m65_b1`,
+    job 11448712) **985 GB**, 16 h 46 m on 128 cores; ΛCDM twin 489 GB,
+    6 h 20 m; the L512 2LPTIC reference 655 GB. On a 1005 GB node f(R) at
+    N_g = 4096 has ~20 GB headroom: no new N_g³ buffer, and not even the
+    N_g/2 fallback; FI reuse is mandatory there. During `Analysis` the MG
+    run has `FI3` freed (one N_g³ block) but `FI2` must stay.
+  - **Q9 (parameters)** `Init.dat` is parsed sequentially by
+    `ParseLine`/`iParseLine` (last '=' on the line, fixed 12/10-char field,
+    no `iostat`); `Setup.dat` is written by `PMP2init` and read by
+    `ReadSetup` in the same order, which stops after `csf_beta`. The new
+    optional block ("extra outputs") sits after `csf_beta` in both files
+    and is read only when its header line is present. Outputs land in the
+    run directory (`Run1/`); executables are addressed by absolute path;
+    `PMP2main` takes only the step count on stdin. The makefile has no
+    dependency rules (full rebuild after a module change) and no C rule
+    (needed for I9's splitmix64).
+- 2026-10-17, Track A implemented on `degrace-track-a`:
+  - `cb09e3c` I3 `DEGRACE-companion/gen_inputs.py` (S2: fiducial list to
+    7.7e-8, all 96 ECOSMOG lists to 1.3e-7); I4 `OutputSchedule.dat`
+    (module `ExtraOutputs`, `PMP2mod_extras.f90`); I5 per-output classes
+    (optional trailing `Init.dat`/`Setup.dat` block, class carried through
+    the sorted exact-z targets, BDM only for class 1).
+  - `b774f8d` I2 lens planes (`LensPlanes`, same module): real*8
+    accumulation, threads own plane rows, one deposit shared with P(k);
+    `.bin` + `.meta` per output. Tests `test/precise_z`: 146/146 (new
+    cases 9, 10_lens72, 10_lens36, 4e; `OutputSchedule.dat` checked for
+    every case). L3 (plane P(k) vs 3-D P(k)) not yet written.
+  - Pilot: `DEGRACE-companion/runs/Node_002_LCDM_L1024Np1024Ng2048/`
+    (node 2 = design centre, Baojiu's ICs via `ic2pm half`, Ng 2048, da0
+    6e-4, classes primary = 1 / station = 2, lens planes 4 × 2048²,
+    frozen binaries from `b774f8d`), Slurm job **12180066** on
+    `cosma8-serial`, 64 cores, 200 GB, 8 h, account dp203; pending at
+    submission (nodes reserved). Expected ~3 h once running. f(R) twin to
+    follow once it completes.
+  - Cosmetic bug fixed on the branch: `PMP2init` printed the exact-z list
+    with a recycled `(a,10f10.5)` format, which emitted raw float bytes
+    into the log for more than 10 redshifts.
