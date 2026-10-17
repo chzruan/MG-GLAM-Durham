@@ -277,8 +277,9 @@ same seed must give identical files (ICs are GR; f(R) linear growth is applied
 offline); a regenerate-only mode (`IC_DUMP_ONLY`) that writes the dump and
 exits before allocating particles.
 
-**Conflict with rule 1 and how to resolve it.** The brief places the dump in
-`PMP2start`, but new runs never use `PMP2start`. Three routes, to decide:
+**Decision (CZ, 2026-10-17): route 1.** The dump is implemented in our FML
+generator (`2LPTIC_Gui/`); Baojiu's ECOSMOG ICs and the legacy pilots are
+out of scope for I7. The other routes stay documented for reference:
 
 1. FML-generated runs (new boxes): add the δ_L dump to our FML generator in
    `2LPTIC_Gui/` (we control it; same file format, same copy convention).
