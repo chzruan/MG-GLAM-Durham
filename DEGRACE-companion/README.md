@@ -42,9 +42,13 @@ deletes the checkpoint files at the end. Outputs per analysis step:
 `PowerDM.*`, `LensPlanes.<step>.<box>.{bin,meta}`, `CATALOGS/CatshortV.*`
 (class-1 outputs only; `.DAT` text and/or `.bin` + `.meta` binary, chosen
 by `CatalogueFormat` in `Run1/BDM.config`, which `gen_inputs.py` writes
-from `--catalogue-format`, default `both`), and `OutputSchedule.dat`
-(step, a, z, χ, exact, class) written at start-up. Read the catalogues
-with `python/glamio` (`glamio.read_catalogue(stem)`).
+only when `--catalogue-format` is given; the compiled default is `text`,
+use `both` for the companions until halocat reads the binary), and
+`OutputSchedule.dat` (step, a, z, χ, exact, class) written at start-up.
+`PMP2main` validates `BDM.config` at start-up. Read the catalogues with
+`python/glamio` (`glamio.read_catalogue(stem)`); `check_run.py` verifies
+text and/or binary catalogues and flags stale `CATALOGS/.Catshort*.tmp.*`
+files left by a killed finder.
 
 `runs/` is git-ignored: record each campaign's inputs, job IDs and results
 in the plan's section 16.
@@ -87,11 +91,13 @@ IC files, so the low-k ratio is mode-exact (no cosmic variance).
 
 - Velocities in the new products (`mom_*`, `Subsample`) are at a_v = a − da/2
   and the `.meta` records `a_v`. The legacy BDM catalogue (`CatshortV`)
-  converts with 1/a instead: its velocities are high by a/a_v (1.1 % at the
-  first companion output, 0.5 % at z = 0). Apply a_v/a when combining them
-  (the binary catalogue's `.meta` records `a`, `a_v` and `da`;
+  converts with 1/a instead: its velocities (and V_rms, the virial ratio and
+  λ) are low by a_v/a (0.8 % at z = 2, the first catalogue output; 0.3 % at
+  z = 0). Multiply by a/a_v when combining them (the binary catalogue's
+  `.meta` records `a`, `a_v` and `da`;
   `glamio.read_catalogue(stem).velocities_at_av()` does it), or wait for
-  the decision recorded in the plan (section 11).
+  the decision recorded in the plan (section 11). (Direction corrected
+  2026-10-18; the earlier text said "high by a/a_v".)
 - `kc_mom` must stay below k_Nyquist(N_dep_mom)/4 (0.785 h/Mpc at N_dep =
   1024, L = 1024; default 0.75): the momentum deposit is not interlaced and
   `PMP2init` refuses larger values. The node-2 f(R) pilot predates this rule

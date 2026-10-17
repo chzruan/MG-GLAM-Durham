@@ -257,7 +257,8 @@ def test_text_reader(workdir: str) -> None:
     assert cat.a == 1.0
     assert cat.z == 0.0
     assert abs(cat.a_v - (1.0 - 0.0054 / 2)) < 1e-9
-    assert meta_float(cat.meta, "step_da") == 0.0054
+    assert meta_float(cat.meta, "da") == 0.0054
+    assert cat.meta["rows"] == str(len(cat)) and cat.meta["realization"] == "1"
     assert cat.step == 181
     assert meta_float(cat.meta, "N_row") == 1024
     assert meta_float(cat.meta, "N_grid") == 2048
@@ -356,6 +357,35 @@ TESTS = [
     test_text_binary_equivalence,
     test_read_meta,
 ]
+
+def test_byte_swapped_and_missing_layout(workdir: str) -> None:
+    """A byte-swapped .bin fails the row self-check; a sidecar without 'columns' is refused."""
+    arr = synthetic_catalogue(12)
+    stem = os.path.join(workdir, "CatshortV.0100.0001")
+    write_binary(stem, arr)
+    cat = read_catalogue(stem, mmap=True)                 # memory-mapped read is equivalent
+    assert np.array_equal(cat.data, arr) and len(cat) == 12
+    swapped = arr.byteswap()                               # same bytes reinterpreted big-endian
+    swapped.view(CATALOGUE_DTYPE).tofile(stem + ".bin")
+    try:
+        read_catalogue(stem)
+    except ValueError as exc:
+        assert "'row' column is not 1..12" in str(exc)
+    else:
+        raise AssertionError("byte-swapped .bin was accepted")
+    arr.tofile(stem + ".bin")
+    lines = [l for l in open(stem + ".meta") if not l.startswith("columns")]
+    open(stem + ".meta", "w").writelines(lines)
+    try:
+        read_catalogue(stem)
+    except ValueError as exc:
+        assert "no 'columns' line" in str(exc)
+    else:
+        raise AssertionError("sidecar without 'columns' was accepted")
+
+
+TESTS = TESTS + [test_byte_swapped_and_missing_layout] if "TESTS" in globals() else None  # noqa: F821
+
 
 if __name__ == "__main__":
     failures = 0

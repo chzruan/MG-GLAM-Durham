@@ -43,7 +43,7 @@ Record layout (`glamio.CATALOGUE_DTYPE`, itemsize 96):
 | 13 | Cvir | `<f4` | concentration |
 | 14 | Npart | `<f4` | number of particles (a float in the code) |
 | 15 | distinct | `<i4` | 0 = distinct halo |
-| 16 | Xoff | `<f4` | centre offset |
+| 16 | Xoff | `<f4` | centre-of-mass offset of the bound particles, in units of Rvir |
 | 17 | virial_ratio | `<f4` | 2K/\|Ep\| - 1 |
 | 18 | lambda | `<f4` | spin parameter |
 | 19 | RadRMS | `<f4` | kpc/h |
@@ -88,3 +88,29 @@ own epoch. For text catalogues `a_v` is derived from the header (`A - Step/2`).
 * `frhalo`: f(R) halo scalar-field outputs
 * `powerdm`: matter power spectra
 * `pmcrd`: big-endian PM snapshot headers
+
+## Definitions and caveats (from the finder's code, 2026-10-18 review)
+
+* `Rvir` is the spherical-overdensity radius `R_SO` (enclosed density =
+  `overdensity` x mean matter density) plus the finder's resolution correction
+  `min(Rext/(R_SO/cell)^SlopeR, 0.75)` cells; `Mtot` counts every particle
+  inside `Rvir`, `Mbound` the particles inside `R_SO` that survive unbinding.
+  The binary sidecar states this in its `definitions` line and records `Rext`,
+  `SlopeR`, `cell`, `MG_flag`, `MG_model` and `a_x` as well.
+* `Vcirc` and `Cvir` are 0 when the circular-velocity maximum is unresolved
+  (0.11 % of the pilot's rows).
+* Velocities (`vx, vy, vz`, and the derived `Vrms`, `virial_ratio`, `lambda`)
+  are written with the legacy `1/a` conversion: they are LOW by `a_v/a`
+  (0.8 % at z = 2, 0.3 % at z = 0 in the pilots). `velocities_at_av()` multiplies
+  `vx, vy, vz` by `a/a_v`.
+* The text reader returns the same float32 layout as the binary reader; the
+  cast adds up to one float32 ulp (6e-5 Mpc/h for x > 256) to positions the
+  text printed with 4 decimals. Use `np.loadtxt` directly if you need the
+  printed decimals exactly. Text and binary `meta` share the key names `a`,
+  `da`, `a_v`, `z`, `step`, `realization`, `rows`, `product`; the binary sidecar
+  has many more (see above) and its `format` value is a description, while the
+  text reader sets `format = text`.
+* `read_catalogue(stem, mmap=True)` memory-maps the `.bin` instead of loading
+  it (about 1 GB per output for 3200^3 runs). The binary reader refuses a file
+  whose `row` column is not `1..N` (byte-swapped, misaligned or corrupted) and a
+  sidecar without `columns`/`dtypes` lines.

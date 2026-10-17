@@ -52,12 +52,12 @@ Real*4 ::            TotalMemory=0.2, t0                           ! current mem
 Real*4 ::            Xleft,Xright,Yleft,Yright,Zleft,Zright,dBuffer    ! boundaries of domain
 Character*120 ::     CatshortName,CatalogName,    &                ! names of halo catalogs 
                      outputName                                    ! dump file
-! Catalogue output format (BDM.config "CatalogueFormat = text | binary | both"):
+! Catalogue output format (BDM.config "CatalogueFormat = text | binary | both", default text):
 ! the legacy text CatshortV.<step>.<box>.DAT and/or the raw little-endian
 ! CatshortV.<step>.<box>.bin (96-byte records, 24 four-byte fields, same rows
 ! and order as the text) with a key = value sidecar .meta.
-character(8) :: CatalogueFormat='both'
-logical :: CatText=.true.,CatBinary=.true.
+character(8) :: CatalogueFormat='text'
+logical :: CatText=.true.,CatBinary=.false.
 character(2) :: CatLabelCur='V.'
 ! Publish a complete catalogue atomically; an interrupted finder may only leave
 ! hidden staged files, never a partially replaced final catalogue. Up to three
@@ -258,19 +258,18 @@ Contains
 !----------------------------------------------------------
 !               Read/create  configuration file BDM.config       
 !                    
-      SUBROUTINE ReadParameters(jStep)
+      SUBROUTINE ReadBdmConfig(FileExists)
+      ! Compiled defaults, then BDM.config when it exists, then validation.
+      ! No side effects on disk, so CheckBdmConfig can run it at start-up.
       use, intrinsic :: iso_fortran_env, only: iostat_end,iostat_eor
       implicit none
-      integer, intent(in) :: jStep
+      logical, intent(out) :: FileExists
       integer :: unit, io, i, equals, comment, line_number, nne_legacy
       character(1024) :: line, key, value
-      character(10) :: CatLabel
-      logical :: FileExists
-
       NradP=30; iVirial=1; dLogR=0.02; dLogP=0.02
       dBuffer=5.; SlopeR=0.20; Rext=0.15; MassMin=2.5e12
       MaxMemory=500.
-      CatalogueFormat='both'
+      CatalogueFormat='text'
       inquire(file='BDM.config',exist=FileExists)
       if (FileExists) then
          open(newunit=unit,file='BDM.config',status='old',action='read',iostat=io)
@@ -342,6 +341,31 @@ Contains
          close(unit)
       end if
       call ValidateParameters
+      end SUBROUTINE ReadBdmConfig
+
+      SUBROUTINE CheckBdmConfig
+      ! Called at start-up when the halo finder is on: a bad BDM.config (for
+      ! instance a key this build does not know) stops the run before any
+      ! compute instead of at the first catalogue step, hours later.
+      implicit none
+      logical :: exists
+      call ReadBdmConfig(exists)
+      if (exists) then
+         write(*,'(a)') ' BDM.config validated at start-up'
+      else
+         write(*,'(a)') ' BDM.config absent: the finder writes its defaults at the first catalogue step'
+      end if
+      end SUBROUTINE CheckBdmConfig
+
+
+      SUBROUTINE ReadParameters(jStep)
+      implicit none
+      integer, intent(in) :: jStep
+      integer :: unit, io
+      character(10) :: CatLabel
+      logical :: FileExists
+
+      call ReadBdmConfig(FileExists)
       if (.not.FileExists) then
          open(newunit=unit,file='BDM.config',status='new',action='write',iostat=io)
          if (io /= 0) call ConfigurationError(0,'cannot create default BDM.config')
@@ -369,7 +393,7 @@ Contains
       write(*,30) 'CatalogueFormat',trim(CatalogueFormat),'! text (CatshortV.*.DAT), binary (.bin + .meta) or both'
 10    format(10x,a,T20,' = ',i6,T40,a)
 20    format(10x,a,T20,' = ',1p,g10.3,T40,a)
-30    format(10x,a,T20,' = ',a,T40,a)
+30    format(10x,a,' = ',a,T45,a)
 
       ! Only validated configuration may create or replace catalogue outputs.
       write(outputName,'(a,i4.4,a)') 'CATALOGS/outputB.',jStep,'.dat'
@@ -728,16 +752,16 @@ SUBROUTINE WriteCatalogueMeta(nrows)
    write(u,'(a,i10)') 'rows = ',nrows
    write(u,'(a)') 'record_bytes = 96'
    if(CatText)then
-     write(Name,'(2a,i4.4,a,i4.4,a)') 'CATALOGS/Catshort',CatLabelCur,ISTEP,'.',Nrealization,'.DAT'
-     write(u,'(2a)') 'text_catalogue = ',trim(Name)
+     write(u,'(2a)') 'text_catalogue = ',trim(CatPubFinal(1))     ! the staged text file (first entry when CatText)
    else
      write(u,'(a)') 'text_catalogue = none'
    endif
    write(u,'(a,es16.8)') 'a = ',AEXPN
+   write(u,'(a,es16.8,a)') 'a_x = ',AEXPN,'   (epoch of the positions; same as a)'
    write(u,'(a,es16.8)') 'z = ',1./AEXPN-1.
    write(u,'(a,es16.8,a)') 'a_v = ',AEXPN-ASTEP/2.,'   (epoch of the particle velocities, a - da/2)'
    write(u,'(a,es16.8)') 'da = ',ASTEP
-   write(u,'(a)') 'velocity_scale = 1/a   (vx,vy,vz = code velocity * 100 Box/N_grid / a, the legacy convention; multiply by a/a_v for velocities at a_v)'
+   write(u,'(a)') 'velocity_scale = 1/a   (vx,vy,vz = code velocity * 100 Box/N_grid / a, the legacy convention, i.e. low by a_v/a; multiply by a/a_v for the peculiar velocity at a_v; Vrms, virial_ratio and lambda are built from the same velocities and carry the same offset)'
    write(u,'(a,i6)') 'step = ',ISTEP
    write(u,'(a,i6)') 'realization = ',Nrealization
    write(u,'(a,f12.4)') 'Box = ',Box
@@ -751,7 +775,9 @@ SUBROUTINE WriteCatalogueMeta(nrows)
    write(u,'(a,f12.4,a)') 'overdensity = ',Ovdens,'   (relative to the mean matter density at this epoch)'
    write(u,'(a,i2,a)') 'iVirial = ',iVirial,'   (0 = 200 critical, 1 = Bryan-Norman virial, 2 = 200 mean, 3 = Abacus)'
    write(u,'(a,f10.4,a)') 'buffer_width = ',dBuffer,'   (Mpc/h)'
-   write(u,'(a)') 'centre = density peak refined by centre-of-mass iterations; Rvir = radius where the enclosed mean density equals overdensity times the mean matter density; Mbound = bound mass within Rvir; Mtot = all mass within Rvir; Xoff = centre-of-mass offset in units of Rvir; row = 1-based row index in this file'
+   write(u,'(a,es12.4,a,f8.4,a,f10.6,a)') 'Rext = ',Rext,'   SlopeR = ',SlopeR,'   cell = ',Box/NGRID,'   (resolution correction of Rvir, see definitions; cell in Mpc/h)'
+   write(u,'(a,i2,a,i2)') 'MG_flag = ',MG_flag,'   MG_model = ',MG_model
+   write(u,'(a)') 'definitions = centre: density peak refined by centre-of-mass iterations; R_SO: spherical-overdensity radius where the enclosed density reaches overdensity times the mean matter density (outermost crossing of the discrete profile); Rvir = R_SO + min(Rext/(R_SO/cell)^SlopeR, 0.75) cells (legacy resolution correction); Mtot = all particles within Rvir; Mbound = particles within R_SO that remain bound after unbinding; vx vy vz, Vrms, Vcirc, virial_ratio, lambda, RadRMS, b_a, c_a and the axis come from the bound population; Vcirc and Cvir are 0 when the circular-velocity maximum is unresolved; Xoff = centre-of-mass offset of the bound population in units of Rvir; row = 1-based row index in this file; distinct = 0 for every row (no subhaloes)'
    write(u,'(a)') 'finder = BDM finder v3'
    write(u,'(2a)') 'header = ',trim(HEADER)
 end SUBROUTINE WriteCatalogueMeta

@@ -4,11 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "glamio"
-version = "0.1.0"
+dynamic = ["version"]          # single source: glamio.__version__
 description = "Readers for GLAM / MG-GLAM simulation outputs"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.24"]
+license = {text = "MIT"}
+authors = [{name = "Cheng-Zong Ruan"}]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.setuptools.dynamic]
+version = {attr = "glamio.__version__"}
 
 [tool.setuptools.packages.find]
 include = ["glamio*"]

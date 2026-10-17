@@ -255,7 +255,7 @@
   \begin{itemize}
     \item \textbf{Epochs.} Positions at the output $a$ ($a_x = a$); velocities half a step behind, $a_v = a - \Delta a/2$
       with $\Delta a$ the step just taken (leapfrog). Every sidecar records \texttt{step, a, z, a\_x, a\_v}. The legacy
-      BDM catalogue converts its velocities with $1/a$ instead of $1/a_v$ (0.5--1.1\,\% high; decision pending).
+      BDM catalogue converts its velocities with $1/a$ instead of $1/a_v$ (0.3--0.8\,\% low; decision pending).
     \item \textbf{Units.} Comoving $h^{-1}$Mpc, peculiar velocities in km/s, masses in $h^{-1}M_\odot$; axes follow the
       particle $x, y, z$ of the catalogue (\texttt{axis\_map}).
     \item \textbf{Fourier.} $\tilde\delta(\mathbf{k}) = N^{-3}\sum_{\mathbf{x}}\delta(\mathbf{x})\,e^{-i\mathbf{k}\cdot\mathbf{x}}$,
@@ -434,7 +434,7 @@
 
 % -----------------------------------------------------------------------------
 \begin{frame}{\textbf{Definitions: BDM halo catalogue and $P(k)$ (legacy products)}}
-  \footnotesize
+  \scriptsize
   \begin{itemize}
     \item \texttt{CATALOGS/CatshortV.<step>.0001.DAT}: text, 8 header lines (PM header with the \texttt{ic2pm} epoch and
       lattice tag, $a$ and $\Delta a$, step, $N_{\rm row}$, $N_g$, cosmology, buffer width, mass of the smallest particle,
@@ -442,14 +442,18 @@
       $x, y, z$ [$h^{-1}$Mpc]; $V_x, V_y, V_z$ [km/s]; $M_{\rm bound}$, $M_{\rm tot}$ [$h^{-1}M_\odot$]; $R_{\rm vir}$
       [$h^{-1}$kpc]; $V_{\rm rms}$, $V_{\rm circ}$ [km/s]; row index; $c_{\rm vir}$; $N_{\rm part}$; distinct/sub flag;
       $X_{\rm off}$; $2K/E_p - 1$; spin $\lambda$; RadRMS; $b/a$, $c/a$; major-axis direction $(x, y, z)$.
-    \item \textbf{Binary twin} (\texttt{CatalogueFormat = text|binary|both} in \texttt{BDM.config}, default both; 2026-10-17):
-      \texttt{CatshortV.<step>.0001.bin}, 96-byte little-endian records holding the same 24 columns (22 float32 + 2 int32),
-      same rows and order, lossless and $3\times$ smaller; sidecar \texttt{.meta} with columns, units, rows, $a$, $a_v$,
-      $\Delta a$, cosmology, $m_p$, \texttt{MassMin}, $\Delta_{\rm vir}$. Reader: \texttt{python/glamio} (\texttt{read\_catalogue}).
-    \item \textbf{Halo definition (BDM).} Centre = density peak refined by centre-of-mass iterations; radius = the
-      Bryan--Norman virial aperture relative to the mean density ($\Delta_{\rm vir} = 338$ at $z = 0$, 203 at $z = 1$);
-      \texttt{MassMin} $= 10^{11}\,h^{-1}M_\odot$ (particle mass $8.3\times10^{10}$ at $1024^3$); rows in peak order, not
-      by mass; velocities converted with $1/a$ (the $a/a_v$ offset of the decisions frame).
+    \item \textbf{Binary twin} (\texttt{CatalogueFormat = text|binary|both} in \texttt{BDM.config}, compiled default text,
+      the companion inputs set both; 2026-10-17/18): \texttt{CatshortV.<step>.0001.bin}, 96-byte little-endian records
+      holding the same 24 columns (22 float32 + 2 int32), same rows and order, lossless; $3\times$ smaller apparent,
+      $\approx 40\,\%$ on disk (this Lustre compresses text $1.9\times$); sidecar \texttt{.meta} with columns, units,
+      rows, $a$, $a_v$, $\Delta a$, cosmology, $m_p$, \texttt{MassMin}, $\Delta_{\rm vir}$, definitions. Reader:
+      \texttt{python/glamio} (\texttt{read\_catalogue}). \texttt{BDM.config} is validated at start-up.
+    \item \textbf{Halo definition (BDM).} Centre = density peak refined by centre-of-mass iterations; $R_{\rm vir}$ = the
+      spherical-overdensity radius at the Bryan--Norman $\Delta_{\rm vir}$ relative to the mean ($338$ at $z = 0$, 203 at
+      $z = 1$ for $\Omega_m = 0.3$) plus a resolution correction of up to 0.75 cells; $M_{\rm bound}$ = bound mass inside the
+      uncorrected radius, $M_{\rm tot}$ = all mass inside $R_{\rm vir}$; \texttt{MassMin} $= 10^{11}$ raised to 20 particles
+      ($1.7\times10^{12}\,h^{-1}M_\odot$ at $1024^3$); rows in peak order, not by mass; velocities converted with $1/a$
+      (low by $a_v/a$, decisions frame).
     \item \texttt{PowerDM.R.<step>.0001.dat}: 2 header lines ($a$, step, $z$, $N_g$, $k_{\rm Ny} = \pi N_g/L$), then
       bin, $k$ [$h\,\mathrm{Mpc}^{-1}$], number of modes, $P$ [$(h^{-1}\mathrm{Mpc})^3$] in linear bins of width $2\pi/L$;
       $\delta$ from CIC on $N_g$, raw: divide by the shell-averaged $W_{\rm CIC}^2 \simeq 1 - \tfrac{2}{3}\sin^2(\pi k/2k_{\rm Ny})$
@@ -608,9 +612,9 @@
   \footnotesize
   \textbf{Decisions (yours)}
   \begin{itemize}
-    \item \textbf{BDM catalogue velocities} are converted with $1/a$, the new products with $1/a_v$:
-      a $1.1\,\%$ (first output) to $0.5\,\%$ ($z = 0$) offset. Fix the legacy finder (changes every GLAM
-      catalogue) or keep documenting it (apply $a_v/a$ offline).
+    \item \textbf{BDM catalogue velocities} are converted with $1/a$, the new products with $1/a_v$: the catalogue
+      is low by $a_v/a$, $0.8\,\%$ ($z = 2$) to $0.3\,\%$ ($z = 0$). Fix the legacy finder (changes every GLAM
+      catalogue) or keep documenting it (multiply by $a/a_v$ offline; \texttt{glamio} does).
     \item \textbf{Momentum deposit} at $N_g = 4096$ f(R): the transient $N_{\rm dep}^3$ buffer (34 GB) does not fit the
       985 GB runs; reuse \texttt{FI} or restrict extras to $N_g = 2048$.
     \item \textbf{Interlacing}: not implemented; default $k_{c,\rm mom} = 0.75$ stays below $k_{N,\rm dep}/4$ and

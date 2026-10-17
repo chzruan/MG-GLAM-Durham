@@ -34,7 +34,9 @@
 #   case12_frhalo    - f(R) run with BDM: fR_halo rows match the catalogue rows
 #                      binary catalogue (.bin + .meta) equals the text column by column
 #   case13_catbin    - BDM with CatalogueFormat = binary: .bin + .meta only, no text
-#   case4g_badcatfmt - BDM.config CatalogueFormat = hdf5 is rejected at the first catalogue step
+#   case15_cattext   - the case13 run with CatalogueFormat = text: .DAT only, rows equal case13's binary
+#   case14_catdefault - BDM on without BDM.config: the default file is written with the full key and re-read
+#   case4g_badcatfmt - BDM.config CatalogueFormat = hdf5 is rejected at start-up (CheckBdmConfig)
 #   case11_modes     - low-k density modes from POWERfft5 (P(k) from the cube equals
 #                      PowerDM.R bin by bin), momentum modes on N_dep=36, and the
 #                      full quantised subsample M=1 (decoded spectra equal the dumps: V6)
@@ -239,7 +241,7 @@ sed -i 's/^Find BDM halos            =         0/Find BDM halos            =    
   echo 'Subsample M               =         0  0-off'
   echo 'fR at halos               =         1  0-off'
 } >> "$WORK/case12_frhalo/Init.dat"
-cp "$ROOT/test/BDM.config" "$WORK/case12_frhalo/Run1/BDM.config"
+{ cat "$ROOT/test/BDM.config"; echo; echo '          CatalogueFormat = both       ! text, binary or both (compiled default text)'; } > "$WORK/case12_frhalo/Run1/BDM.config"
 mkdir -p "$WORK/case12_frhalo/Run1/CATALOGS"     # BDM needs it
 run_init case12_frhalo || echo "  (init failed)"
 copy_ics case12_frhalo && run_main case12_frhalo
@@ -252,6 +254,23 @@ sed -i 's/^Find BDM halos            =         0/Find BDM halos            =    
 mkdir -p "$WORK/case13_catbin/Run1/CATALOGS"
 run_init case13_catbin || echo "  (init failed)"
 copy_ics case13_catbin && run_main case13_catbin
+
+echo "== case15_cattext: the case13 run with CatalogueFormat = text (text catalogue only)"
+prep_case case15_cattext
+set_outputs case15_cattext -1 " 0.512"
+sed -i 's/^Find BDM halos            =         0/Find BDM halos            =         1/' "$WORK/case15_cattext/Init.dat"
+{ cat "$ROOT/test/BDM.config"; echo; echo '          CatalogueFormat = text'; } > "$WORK/case15_cattext/Run1/BDM.config"
+mkdir -p "$WORK/case15_cattext/Run1/CATALOGS"
+run_init case15_cattext || echo "  (init failed)"
+copy_ics case15_cattext && run_main case15_cattext
+
+echo "== case14_catdefault: BDM on with NO BDM.config: the finder writes and re-reads its default file (#outputs = -2)"
+prep_case case14_catdefault
+set_outputs case14_catdefault -2 " 1.1 0.512"
+sed -i 's/^Find BDM halos            =         0/Find BDM halos            =         1/' "$WORK/case14_catdefault/Init.dat"
+mkdir -p "$WORK/case14_catdefault/Run1/CATALOGS"
+run_init case14_catdefault || echo "  (init failed)"
+copy_ics case14_catdefault && run_main case14_catdefault
 
 # ---------------------------------------------------------------- error cases
 echo "== case4a_zbig / case4b_zneg: rejected by PMP2init"
@@ -267,7 +286,7 @@ set_outputs case4f_badopt -3 " 2.5 0.512 1.1"
 echo 'Extra outputs             =         1  (1 = on)' >> "$WORK/case4f_badopt/Init.dat"
 run_init case4f_badopt
 
-echo "== case4g_badcatfmt: BDM.config CatalogueFormat = hdf5: rejected by PMP2main at the first catalogue step, no catalogue written"
+echo "== case4g_badcatfmt: BDM.config CatalogueFormat = hdf5: rejected by PMP2main at start-up, no step run, no catalogue written"
 prep_case case4g_badcatfmt
 set_outputs case4g_badcatfmt -1 " 0.512"
 sed -i 's/^Find BDM halos            =         0/Find BDM halos            =         1/' "$WORK/case4g_badcatfmt/Init.dat"

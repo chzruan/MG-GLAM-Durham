@@ -58,6 +58,11 @@ SIM_CASES = {       # case dir -> configuration (zout list + sign of #outputs)
     "case12_frhalo": dict(zout=[1.1, 0.512], exact=True, frhalo=True),
     # binary halo catalogue (BDM.config CatalogueFormat = binary): .bin + .meta only, no text
     "case13_catbin": dict(zout=[0.512], exact=True, catbin=True),
+    # no BDM.config at all: the finder writes its defaults at the first catalogue step and must
+    # re-read that file at the second one (regression test for the truncated-key default file)
+    "case14_catdefault": dict(zout=[1.1, 0.512], exact=True, catdefault=True),
+    # CatalogueFormat = text: the text catalogue is untouched by the binary machinery; same run as case13
+    "case15_cattext": dict(zout=[0.512], exact=True, cattext=True),
 }
 BOX = 150.0
 NGRID = 72
@@ -69,7 +74,7 @@ ERR_CASES = {       # case dir -> (log file, required message, forbidden product
     "case4d_range": ("Run1/main.log", "at or before the initial redshift", "Run1/PMcrd.0*.DAT"),
     "case4e_classes": ("init.log", "one output class per listed redshift", "Setup.dat"),
     "case4f_badopt": ("init.log", "malformed optional line", "Setup.dat"),
-    "case4g_badcatfmt": ("Run1/main.log", "CatalogueFormat must be text, binary or both", "Run1/CATALOGS/Catshort*"),
+    "case4g_badcatfmt": ("Run1/main.log", "CatalogueFormat must be text, binary or both", ("Run1/CATALOGS/Catshort*", "Run1/CATALOGS/.Catshort*", "Run1/PMcrd.0*.DAT")),
 }
 
 
@@ -565,10 +570,10 @@ def main(work):
     rep.check(ok_fr, "case12_frhalo", f"fR_halo files per output, finite, sign of fR0 (rows in total: {nrows_total})")
     rep.check(ok_rows, "case12_frhalo", "fR_halo rows == CatshortV rows == meta rows")
 
-    # Binary halo catalogue (BDM.config CatalogueFormat, default both): at every
-    # BDM output CatshortV.<step>.0001.{bin,meta} sit beside the text catalogue,
-    # hold the same rows in the same order, and every one of the 24 columns equals
-    # the text at the text's printed precision. Read through the glamio package
+    # Binary halo catalogue (BDM.config CatalogueFormat): at every BDM output of a
+    # `both` run CatshortV.<step>.0001.{bin,meta} sit beside the text catalogue, hold
+    # the same rows in the same order, and every one of the 24 columns equals the
+    # text at the text's printed precision. Read through the glamio package
     # (python/), so this also validates its reader against the Fortran writer.
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "python"))
     from glamio import read_catalogue, CATALOGUE_DTYPE
@@ -576,9 +581,13 @@ def main(work):
     TEXT_TOL = ([(6e-5, 0.0)] * 3 + [(6e-3, 0.0)] * 3        # positions 1e-4 Mpc/h, velocities 1e-2 km/s
                 + [(0.0, 6e-5)] * 2 + [(0.0, 6e-5)]            # masses (1p E form, 5 sig.), Rvir (g12.5, 5 sig. in F form)
                 + [(1e-12, 6e-4)] * 15)                        # g12.4: 4 significant digits in F form, 5 in E form
+    LAYOUT = (list(CATALOGUE_DTYPE.names), [CATALOGUE_DTYPE[n].str.lstrip("<") for n in CATALOGUE_DTYPE.names])
 
     def text_rows(cat):
-        rows = np.loadtxt(cat, skiprows=8, ndmin=2)
+        import warnings
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")            # "input contained no data" on a header-only file
+            rows = np.loadtxt(cat, skiprows=8, ndmin=2)
         return rows if rows.size else np.zeros((0, 24))
 
     def text_header_a(cat):
@@ -586,51 +595,131 @@ def main(work):
             fh.readline()
             return float(fh.readline().split("=")[1].split()[0])
 
-    ok_bfiles = ok_bequal = ok_bmeta = True
+    def try_read(stem, problems):
+        """glamio's own validation errors are test failures, not crashes of the oracle."""
+        try:
+            return read_catalogue(stem)
+        except Exception as exc:                      # noqa: BLE001
+            problems.append(f"{os.path.basename(stem)}: {type(exc).__name__}: {exc}")
+            return None
+
+    def columns_match(cat, txt):
+        ok = len(cat) == txt.shape[0]
+        for j, name in enumerate(CATALOGUE_DTYPE.names):
+            if not ok:
+                break
+            atol, rtol = TEXT_TOL[j]
+            b = cat[name].astype(np.float64)
+            ok &= bool(np.all(np.abs(b - txt[:, j]) <= atol + rtol * np.abs(txt[:, j])))
+        ok &= bool(np.all(cat["row"] == np.arange(1, len(cat) + 1))) and bool(np.all(cat["distinct"] == 0))
+        return ok
+
+    def layout_lines_ok(cat):
+        m = cat.meta
+        return ("columns" in m and "dtypes" in m and "record_bytes" in m
+                and m["columns"].split() == LAYOUT[0] and m["dtypes"].split() == LAYOUT[1]
+                and int(m["record_bytes"].split()[0]) == 96)
+
+    ok_bfiles = ok_bequal = ok_bmeta = ok_layout = True
+    problems = []
     nb_total = 0
     for step in sorted(marks12):
         stem = os.path.join(rundir, "CATALOGS", f"CatshortV.{step:04d}.0001")
         if not all(os.path.exists(stem + ext) for ext in (".bin", ".meta", ".DAT")):
             ok_bfiles = False
             continue
-        cat = read_catalogue(stem)
+        cat = try_read(stem, problems)
+        if cat is None:
+            ok_bmeta = ok_bequal = False
+            continue
         txt = text_rows(stem + ".DAT")
         nb_total += len(cat)
+        ok_layout &= layout_lines_ok(cat)
         ok_bmeta &= (int(cat.meta["rows"]) == len(cat) == txt.shape[0]
                      and os.path.getsize(stem + ".bin") == 96 * len(cat)
-                     and cat.meta["text_catalogue"].strip().endswith(f"CatshortV.{step:04d}.0001.DAT")
+                     and cat.meta["text_catalogue"].strip() == f"CATALOGS/CatshortV.{step:04d}.0001.DAT"
                      and abs(cat.a - text_header_a(stem + ".DAT")) < 1e-5
                      and abs(cat.a - cat.a_v - float(cat.meta["da"].split()[0]) / 2) < 1e-7)
-        if len(cat) != txt.shape[0]:
-            ok_bequal = False
-            continue
-        for j, name in enumerate(CATALOGUE_DTYPE.names):
-            atol, rtol = TEXT_TOL[j]
-            b = cat[name].astype(np.float64)
-            ok_bequal &= bool(np.all(np.abs(b - txt[:, j]) <= atol + rtol * np.abs(txt[:, j])))
-        ok_bequal &= bool(np.all(cat["row"] == np.arange(1, len(cat) + 1))) and bool(np.all(cat["distinct"] == 0))
+        ok_bequal &= columns_match(cat, txt)
+        fm = os.path.join(rundir, f"fR_halo.{step:04d}.0001.meta")      # the fR_halo sidecar names the binary catalogue
+        if os.path.exists(fm):
+            ok_bfiles &= os.path.exists(os.path.join(rundir, read_meta(fm).get("catalogue_bin", "missing").split()[0]))
     ok_bfiles &= not glob.glob(os.path.join(rundir, "CATALOGS", ".Catshort*"))   # no staged temporaries left behind
-    rep.check(ok_bfiles, "case12_frhalo", "binary catalogue .bin + .meta beside every text catalogue; no staged temporaries")
+    for pr in problems:
+        print("      glamio: " + pr)
+    rep.check(ok_bfiles, "case12_frhalo", "binary catalogue .bin + .meta beside every text catalogue; fR_halo meta names it; no staged temporaries")
+    rep.check(ok_layout, "case12_frhalo", "sidecar columns/dtypes/record_bytes lines present and equal to glamio's CATALOGUE_DTYPE")
     rep.check(ok_bmeta, "case12_frhalo", "meta rows == .bin size/96 == text rows; meta a == header A, a_v = a - da/2; text_catalogue named")
-    rep.check(ok_bequal, "case12_frhalo", f"all 24 binary columns equal the text at its printed precision; row = 1..N, distinct = 0 (rows in total: {nb_total})")
+    rep.check(ok_bequal and nb_total > 0, "case12_frhalo", f"all 24 binary columns equal the text at its printed precision; row = 1..N, distinct = 0 (rows in total: {nb_total}, must be > 0)")
 
     # case13: CatalogueFormat = binary: no text catalogue, .bin + .meta present and readable from the stem
     _, _, _, _, marks13, _ = oracle_full(SIM_CASES["case13_catbin"])
     rundir13 = os.path.join(work, "case13_catbin", "Run1")
     ok_13 = True
     n13 = 0
+    cats13 = {}
+    problems = []
     for step in sorted(marks13):
         stem = os.path.join(rundir13, "CATALOGS", f"CatshortV.{step:04d}.0001")
         ok_13 &= os.path.exists(stem + ".bin") and os.path.exists(stem + ".meta") and not os.path.exists(stem + ".DAT")
         if not ok_13:
             continue
-        cat = read_catalogue(stem)
+        cat = try_read(stem, problems)
+        if cat is None:
+            ok_13 = False
+            continue
+        cats13[step] = cat
         n13 += len(cat)
-        ok_13 &= int(cat.meta["rows"]) == len(cat) and cat.meta["text_catalogue"].strip() == "none"
-        ok_13 &= bool(np.all(np.isfinite(cat["Mbound"]))) and bool(np.all(cat["Mbound"] > 0))
+        ok_13 &= int(cat.meta["rows"]) == len(cat) and cat.meta["text_catalogue"].strip() == "none" and layout_lines_ok(cat)
+        for name in CATALOGUE_DTYPE.names:                 # every column finite; masses and radii positive
+            ok_13 &= bool(np.all(np.isfinite(cat[name])))
+        ok_13 &= bool(np.all(cat["Mbound"] > 0)) and bool(np.all(cat["Mtot"] >= cat["Mbound"])) and bool(np.all(cat["Rvir"] > 0))
         ok_13 &= bool(np.all(cat["row"] == np.arange(1, len(cat) + 1)))
     ok_13 &= not glob.glob(os.path.join(rundir13, "CATALOGS", ".Catshort*"))
-    rep.check(ok_13, "case13_catbin", f"CatalogueFormat = binary: .bin + .meta only, readable, text_catalogue = none (rows: {n13})")
+    text13 = open(os.path.join(rundir13, "main.log"), errors="replace").read()
+    ok_13 &= "BDM.config validated at start-up" in text13
+    for pr in problems:
+        print("      glamio: " + pr)
+    rep.check(ok_13 and n13 > 0, "case13_catbin", f"CatalogueFormat = binary: .bin + .meta only, validated at start-up, readable, every column finite, text_catalogue = none (rows: {n13}, must be > 0)")
+
+    # case15: CatalogueFormat = text on the same run as case13: text only, and the text rows equal
+    # case13's binary rows (bitwise-reproducible runs; the text path is untouched by the binary machinery)
+    _, _, _, _, marks15, _ = oracle_full(SIM_CASES["case15_cattext"])
+    rundir15 = os.path.join(work, "case15_cattext", "Run1")
+    ok_15 = sorted(marks15) == sorted(marks13)
+    n15 = 0
+    for step in sorted(marks15):
+        stem = os.path.join(rundir15, "CATALOGS", f"CatshortV.{step:04d}.0001")
+        ok_15 &= os.path.exists(stem + ".DAT") and not os.path.exists(stem + ".bin") and not os.path.exists(stem + ".meta")
+        if not ok_15 or step not in cats13:
+            ok_15 = False
+            continue
+        txt = text_rows(stem + ".DAT")
+        n15 += txt.shape[0]
+        ok_15 &= columns_match(cats13[step], txt)
+    ok_15 &= "BDM.config validated at start-up" in open(os.path.join(rundir15, "main.log"), errors="replace").read()
+    rep.check(ok_15 and n15 > 0, "case15_cattext", f"CatalogueFormat = text: .DAT only, rows equal case13's binary rows column by column (rows: {n15}, must be > 0)")
+
+    # case14: no BDM.config: the finder writes its default file at the first catalogue step and
+    # must accept it at the second (the default must spell the full key); the compiled default is text
+    _, _, _, _, marks14, _ = oracle_full(SIM_CASES["case14_catdefault"])
+    rundir14 = os.path.join(work, "case14_catdefault", "Run1")
+    cfg14 = os.path.join(rundir14, "BDM.config")
+    ok_14 = os.path.exists(cfg14) and len(marks14) >= 2
+    keys14 = {}
+    if ok_14:
+        for line in open(cfg14):
+            line = line.split("!")[0]
+            if "=" in line:
+                k, v = line.split("=", 1)
+                keys14[k.strip()] = v.strip()
+    ok_14 &= keys14.get("CatalogueFormat") == "text" and "MassMin" in keys14 and "iVirial" in keys14
+    for step in sorted(marks14):
+        stem = os.path.join(rundir14, "CATALOGS", f"CatshortV.{step:04d}.0001")
+        ok_14 &= os.path.exists(stem + ".DAT") and not os.path.exists(stem + ".bin") and not os.path.exists(stem + ".meta")
+    text14 = open(os.path.join(rundir14, "main.log"), errors="replace").read()
+    ok_14 &= "BDM.config absent" in text14 and "configuration error" not in text14
+    rep.check(ok_14, "case14_catdefault", f"no BDM.config: default file written with the full key (CatalogueFormat = {keys14.get('CatalogueFormat')}), re-read at the second catalogue step, text only")
 
     # 36 = 2x2 block mean of 72 at the same steps (same IC, same schedule)
     ok_blk = True
@@ -773,8 +862,12 @@ def main(work):
         if os.path.exists(logpath):
             text = open(logpath, errors="replace").read()
         rep.check(msg in text, case, f'error message "{msg}" reported')
-        leftovers = glob.glob(os.path.join(work, case, product))
-        rep.check(not leftovers, case, f"no {product} produced")
+        if case == "case4g_badcatfmt":                 # start-up validation: rejected before the first step
+            rep.check("BDM configuration error" in text and "Step =" not in text, case,
+                      "rejected at start-up by CheckBdmConfig, before any time step")
+        patterns = product if isinstance(product, tuple) else (product,)
+        leftovers = [f for pat in patterns for f in glob.glob(os.path.join(work, case, pat))]
+        rep.check(not leftovers, case, f"no {' / '.join(patterns)} produced")
 
     print(f"\n{rep.checks - rep.failures}/{rep.checks} checks passed"
           + ("" if rep.failures == 0 else f"  ({rep.failures} FAILED)"))

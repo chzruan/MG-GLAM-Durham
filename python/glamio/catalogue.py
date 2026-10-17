@@ -31,6 +31,17 @@ proper to their own epoch uses ``1/a_v`` instead, so
 which is what :meth:`Catalogue.velocities_at_av` returns (``a`` and ``a_v`` are
 taken from the meta).  Positions are comoving Mpc/h in ``[0, Box)``; masses are
 Msun/h; ``Rvir`` and ``RadRMS`` are kpc/h.
+
+Column definitions follow the finder: ``Rvir`` is the spherical-overdensity
+radius ``R_SO`` plus a resolution correction of up to 0.75 mesh cells,
+``Mbound`` the mass of the particles inside ``R_SO`` that survive unbinding,
+``Mtot`` all mass inside ``Rvir`` (the sidecar's ``definitions`` line states
+this).  Velocities are written with the legacy ``1/a`` conversion, i.e. LOW by
+``a_v/a`` relative to the peculiar velocity at the leapfrog epoch ``a_v``;
+:meth:`Catalogue.velocities_at_av` multiplies by ``a/a_v``.  The text reader
+casts the printed decimals to float32 so that both forms share one layout; the
+cast adds up to one float32 ulp (6e-5 Mpc/h at x > 256) to positions the text
+pinned to 1e-4.
 """
 
 from __future__ import annotations
@@ -40,6 +51,8 @@ import re
 import warnings
 
 import numpy as np
+
+import math
 
 from .meta import meta_float, read_meta
 
@@ -59,7 +72,8 @@ CATALOGUE_DTYPE = np.dtype(
 
 #: Bytes per halo record in the binary catalogue.
 RECORD_BYTES = 96
-assert CATALOGUE_DTYPE.itemsize == RECORD_BYTES
+if CATALOGUE_DTYPE.itemsize != RECORD_BYTES:  # not an assert: must survive python -O
+    raise RuntimeError(f"glamio.CATALOGUE_DTYPE itemsize {CATALOGUE_DTYPE.itemsize} != {RECORD_BYTES}")
 
 #: Physical unit (or meaning) of every column.
 COLUMN_UNITS: dict[str, str] = {
@@ -69,18 +83,18 @@ COLUMN_UNITS: dict[str, str] = {
     "vx": "km/s (peculiar, as written: converted with 1/a)",
     "vy": "km/s (peculiar, as written: converted with 1/a)",
     "vz": "km/s (peculiar, as written: converted with 1/a)",
-    "Mbound": "Msun/h (bound virial mass)",
-    "Mtot": "Msun/h (total mass inside Rvir)",
-    "Rvir": "kpc/h",
-    "Vrms": "km/s",
-    "Vcirc": "km/s (maximum circular velocity)",
+    "Mbound": "Msun/h (mass of the particles inside the spherical-overdensity radius R_SO that remain bound after unbinding)",
+    "Mtot": "Msun/h (all particles inside Rvir)",
+    "Rvir": "kpc/h (R_SO plus the finder's resolution correction of up to 0.75 mesh cells; see the sidecar 'definitions')",
+    "Vrms": "km/s (3-D rms velocity of the bound particles; same 1/a scale as vx, vy, vz)",
+    "Vcirc": "km/s (maximum circular velocity of the bound profile; 0 when unresolved)",
     "row": "1-based row index in this file",
-    "Cvir": "concentration",
+    "Cvir": "concentration (0 when Vcirc is unresolved)",
     "Npart": "number of particles",
     "distinct": "0 = distinct halo",
-    "Xoff": "centre offset",
-    "virial_ratio": "2K/|Ep| - 1",
-    "lambda": "spin parameter",
+    "Xoff": "centre-of-mass offset of the bound particles, in units of Rvir",
+    "virial_ratio": "2K/|Ep| - 1 (K from the 1/a-scaled velocities)",
+    "lambda": "spin parameter (built from the 1/a-scaled velocities)",
     "RadRMS": "kpc/h",
     "b_a": "axis ratio b/a",
     "c_a": "axis ratio c/a",
@@ -94,7 +108,7 @@ TEXT_HEADER_LINES = 8
 
 _INT_COLUMNS = ("row", "distinct")
 _NCOL = len(CATALOGUE_DTYPE.names)
-_PRODUCT_RE = re.compile(r"^(Catshort[A-Za-z])\.")
+_PRODUCT_RE = re.compile(r"^(Catshort[A-Za-z])\.(\d+)\.(\d+)\.")
 
 
 class Catalogue:
@@ -117,7 +131,7 @@ class Catalogue:
         return self.data[name]
 
     def __repr__(self) -> str:
-        return f"Catalogue({len(self)} haloes, a={self.a}, path={self.path!r})"
+        return f"Catalogue({len(self)} haloes, a={self.meta.get('a', '?').split()[0] if self.meta.get('a') else None}, path={self.path!r})"
 
     @property
     def columns(self) -> list[str]:
@@ -172,25 +186,27 @@ class Catalogue:
                 "velocities_at_av() needs both 'a' and 'a_v' in the catalogue meta; "
                 f"got a={a!r}, a_v={a_v!r} for {self.path}"
             )
-        if a_v == 0.0:
-            raise ValueError(f"velocities_at_av(): a_v is zero in the meta of {self.path}")
+        if not (math.isfinite(a) and math.isfinite(a_v)) or a_v == 0.0:
+            raise ValueError(f"velocities_at_av(): a = {a}, a_v = {a_v} in the meta of {self.path} are not usable")
         factor = a / a_v
         vel = np.stack([self.data[c].astype(np.float64) for c in ("vx", "vy", "vz")], axis=1)
         vel *= factor
         return vel
 
 
-def read_catalogue(path: str | os.PathLike) -> Catalogue:
+def read_catalogue(path: str | os.PathLike, mmap: bool = False) -> Catalogue:
     """Read a BDM catalogue from its ``.bin``/``.meta`` pair or its legacy ``.DAT``.
 
     ``path`` may be the ``.bin``, the ``.meta``, the ``.DAT`` or the stem without
-    extension.  A ``.DAT`` (or ``.dat``) path goes to :func:`read_catalogue_text`.
-    A bare stem is read as binary when ``<stem>.bin`` or ``<stem>.meta`` exists,
-    as text when only ``<stem>.DAT`` exists, and as binary otherwise (which
-    raises ``FileNotFoundError`` naming the missing file).
+    extension.  A ``.DAT`` path (any letter case) goes to :func:`read_catalogue_text`.
+    A bare stem is read as binary when ``<stem>.bin`` exists, as text when only a
+    ``.DAT`` exists, and as binary otherwise (which raises ``FileNotFoundError``
+    naming the missing file).  ``mmap=True`` maps the ``.bin`` read-only instead of
+    loading it (useful for the ~1 GB catalogues of 3200^3 runs); the text reader
+    ignores it.
     """
     p = os.fspath(path)
-    if p.endswith((".DAT", ".dat")):
+    if p.lower().endswith(".dat"):
         return read_catalogue_text(p)
     if p.endswith(".bin"):
         stem = p[: -len(".bin")]
@@ -198,15 +214,22 @@ def read_catalogue(path: str | os.PathLike) -> Catalogue:
         stem = p[: -len(".meta")]
     else:
         stem = p
-        if not (os.path.isfile(stem + ".bin") or os.path.isfile(stem + ".meta")):
+        if not os.path.isfile(stem + ".bin"):
             for ext in (".DAT", ".dat"):
                 if os.path.isfile(stem + ext):
                     return read_catalogue_text(stem + ext)
-    return _read_catalogue_binary(stem)
+    return _read_catalogue_binary(stem, mmap=mmap)
 
 
 def _check_layout(meta: dict[str, str], meta_path: str) -> None:
-    """Raise ``ValueError`` if the sidecar's ``columns``/``dtypes``/``record_bytes`` differ from CATALOGUE_DTYPE."""
+    """Raise ``ValueError`` if the sidecar's ``columns``/``dtypes``/``record_bytes`` differ from CATALOGUE_DTYPE.
+
+    ``columns`` and ``dtypes`` are required: a sidecar without them is not a
+    GLAM binary-catalogue sidecar (the Fortran always writes both).
+    """
+    for key in ("columns", "dtypes"):
+        if key not in meta:
+            raise ValueError(f"{meta_path}: no '{key}' line; not a binary-catalogue sidecar")
     if "columns" in meta:
         names = meta["columns"].split()
         if names != list(CATALOGUE_DTYPE.names):
@@ -231,8 +254,13 @@ def _check_layout(meta: dict[str, str], meta_path: str) -> None:
         raise ValueError(f"{meta_path}: record_bytes = {int(rb)}, expected {RECORD_BYTES}")
 
 
-def _read_catalogue_binary(stem: str) -> Catalogue:
-    """Read ``<stem>.bin`` with the layout checked against ``<stem>.meta``."""
+def _read_catalogue_binary(stem: str, mmap: bool = False) -> Catalogue:
+    """Read ``<stem>.bin`` with the layout checked against ``<stem>.meta``.
+
+    After reading, the ``row`` column must be ``1..N``: a byte-swapped,
+    misaligned or truncated-in-the-middle file fails this (a flipped byte in a
+    float column cannot be detected here).
+    """
     bin_path, meta_path = stem + ".bin", stem + ".meta"
     for p in (bin_path, meta_path):
         if not os.path.isfile(p):
@@ -251,7 +279,15 @@ def _read_catalogue_binary(stem: str) -> Catalogue:
             f"{bin_path}: size {size} bytes, but {meta_path} says rows = {int(rows)} "
             f"({int(rows) * RECORD_BYTES} bytes)"
         )
-    data = np.fromfile(bin_path, dtype=CATALOGUE_DTYPE)
+    if mmap:
+        data = np.memmap(bin_path, dtype=CATALOGUE_DTYPE, mode="r")
+    else:
+        data = np.fromfile(bin_path, dtype=CATALOGUE_DTYPE)
+    n = len(data)
+    if n and not (data["row"][0] == 1 and data["row"][-1] == n and bool(np.all(np.diff(data["row"]) == 1))):
+        raise ValueError(
+            f"{bin_path}: the 'row' column is not 1..{n}; wrong byte order, misaligned or corrupted file"
+        )
     return Catalogue(data, meta, bin_path)
 
 
@@ -267,14 +303,16 @@ def _grab(pattern: str, line: str, meta: dict[str, str], *keys: str) -> None:
 def _parse_text_header(lines: list[str], path: str) -> dict[str, str]:
     """Turn the 8 header lines of a text catalogue into a meta dict (strings).
 
-    Keys: ``header``, ``a``, ``step_da``, ``a_v = a - step_da/2``, ``z = 1/a - 1``,
-    ``step`` (the ``I`` value), ``N_row``, ``N_grid``, ``Omega_m``, ``Omega_L``,
-    ``hubble``, ``buffer_width``, ``particle_mass``, ``overdensity``, ``product``
-    (the ``Catshort?`` label from the file name) and ``format = text``.
+    Keys (the same names the binary sidecar uses where both exist): ``header``,
+    ``a``, ``da`` (the ``Step`` value), ``a_v = a - da/2``, ``z = 1/a - 1``,
+    ``step`` (the ``I`` value), ``realization`` (from the file name), ``N_row``,
+    ``N_grid``, ``Omega_m``, ``Omega_L``, ``hubble``, ``buffer_width``,
+    ``particle_mass``, ``overdensity``, ``product`` (the ``Catshort?`` label from
+    the file name) and ``format = text``; ``rows`` is added by the reader.
     """
     num = r"([-+]?[0-9.]+(?:[eEdD][-+]?[0-9]+)?)"
     meta: dict[str, str] = {"header": lines[0].strip()}
-    _grab(rf"\bA\s*=\s*{num}\s+Step\s*=\s*{num}", lines[1], meta, "a", "step_da")
+    _grab(rf"\bA\s*=\s*{num}\s+Step\s*=\s*{num}", lines[1], meta, "a", "da")
     _grab(rf"\bI\s*=\s*{num}\s+Nrow\s*=\s*{num}\s+Ngrid\s*=\s*{num}", lines[2], meta, "step", "N_row", "N_grid")
     _grab(rf"Omega_0\s*=\s*{num}", lines[3], meta, "Omega_m")
     _grab(rf"Omega_L\s*=\s*{num}", lines[3], meta, "Omega_L")
@@ -283,7 +321,7 @@ def _parse_text_header(lines: list[str], path: str) -> dict[str, str]:
     _grab(rf"Mass of smallest particle\s*\(Msunh\)\s*=\s*{num}", lines[5], meta, "particle_mass")
     _grab(rf"Overdensity limit\s*=\s*{num}", lines[6], meta, "overdensity")
 
-    a, da = meta_float(meta, "a"), meta_float(meta, "step_da")
+    a, da = meta_float(meta, "a"), meta_float(meta, "da")
     if a is not None:
         meta["z"] = f"{1.0 / a - 1.0:.6f}"
         if da is not None:
@@ -291,6 +329,7 @@ def _parse_text_header(lines: list[str], path: str) -> dict[str, str]:
     m = _PRODUCT_RE.match(os.path.basename(path))
     if m is not None:
         meta["product"] = m.group(1)
+        meta["realization"] = m.group(3).lstrip("0") or "0"
     meta["format"] = "text"
     return meta
 
@@ -315,10 +354,11 @@ def read_catalogue_text(path: str | os.PathLike) -> Catalogue:
         warnings.filterwarnings("ignore", message=".*input contained no data.*", category=UserWarning)
         raw = np.loadtxt(p, skiprows=TEXT_HEADER_LINES, ndmin=2)
     if raw.size == 0:
+        meta["rows"] = "0"
         return Catalogue(np.empty(0, dtype=CATALOGUE_DTYPE), meta, p)
-    if raw.ndim != 2 or raw.shape[1] != _NCOL:
-        ncol = raw.shape[1] if raw.ndim == 2 else raw.ndim
-        raise ValueError(f"{p}: expected {_NCOL} columns per row, found {ncol}")
+    if raw.shape[1] != _NCOL:          # ndmin=2 guarantees a 2-D array
+        raise ValueError(f"{p}: expected {_NCOL} columns per row, found {raw.shape[1]}")
+    meta["rows"] = str(raw.shape[0])
 
     data = np.empty(raw.shape[0], dtype=CATALOGUE_DTYPE)
     for i, name in enumerate(CATALOGUE_DTYPE.names):
