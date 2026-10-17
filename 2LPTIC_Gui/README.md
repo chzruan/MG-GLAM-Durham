@@ -88,7 +88,9 @@ seed (2026) gives the same large-scale phases as the existing DEGRACE
 - `FML/FML/LPT/example/` — the working build directory:
   executable `test`, `Makefile` (Intel), `setup_env.sh`, `input.lua`
   (128^3 smoke test), `input_production_L1024_Np2048.lua`, `run_cosma.sh`,
-  `pofk_bli_z49.txt` (the DEGRACE linear P(k) at z=49, copied from Gui's dir)
+  `pofk_bli_z49.txt` (the DEGRACE linear P(k) at z=49, copied from Gui's dir),
+  `DeltaLDump.h` (delta_L dump, see below). `FML/` is gitignored; every
+  file we authored or changed is tracked in `fml_intel_port/` (`APPLY.md`).
 
 ## Changes vs upstream FML (clone @ 2026-07-28)
 
@@ -154,6 +156,38 @@ Output: Gadget-1 format, one file per MPI rank (`<prefix>.<rank>`), float
 pos [Mpc/h] / float vel [Gadget u = v_pec/sqrt(a), km/s] / int64 IDs, plus
 `pofks.txt` (k, P_lin, P_particle, r_cross, P_ini/P_input) as a built-in
 sanity check.
+
+## delta_L dump for MG-GLAM (I7, added 2026-10-17)
+
+With `write_deltaL = true` in `input.lua` the generator also writes
+`<output_prefix>_deltaL.bin` + `.meta`: the low-k modes of the Gaussian
+field it draws at `z_ini`, divided by the flat matter+Lambda growth factor
+D(a_ini) (D(1) = 1), i.e. linear theory at a = 1. Parameters: `deltaL_kc`
+(cube half-width in h/Mpc, default 1.5; n = floor(k_c L/2 pi), 0.47 GB for
+L = 1024) and `deltaL_output_prefix` (default `output_prefix`). Format and
+convention are those of MG-GLAM's `deltam` product (`PMP2mod_extras.f90`,
+`DumpModes`): delta_k = N^-3 sum_x delta(x) exp(-i k.x), k = (2 pi/L)
+(ix, iy, iz), grid value j at x = j L/N, complex64 cube C(0:n,-n:n,-n:n)
+with iz fastest (`numpy.fromfile(dtype=complex64).reshape(2n+1, 2n+1, n+1)`
+-> `[ix+n, iy+n, iz]`), k = 0 set to zero, no record markers; the `.meta`
+sidecar lists n, k_c, N_mesh, N_part_1D, Box, z_ini, D_gen(a_ini), the
+cosmology, seed, lpt_order, the P_lin file and the lattice convention
+(particles at i L/Np, ID = 1 + ix + Np (iy + Np iz)). The dump happens before
+any displacement is computed and adds ~1 s; it is deterministic in the
+number of MPI ranks (identical md5 with 1, 2, 4 ranks). Source:
+`DeltaLDump.h` (tracked in `fml_intel_port/`, copied into the example dir
+by `APPLY.md`). Memory: 8 bytes per mode per rank for the gather.
+
+Tests: `test/extras/run_deltaL_test.sh` (repo root; ~75 s on a login node)
+regenerates the 128^3 smoke test with 1/2/4 ranks, checks the cube against
+the IC particles (Zel'dovich ICs: delta_L = -i k.Psi(k)/D from the lattice
+displacements, exact to 1e-3 per mode; 2LPT ICs: residual 8e-3 from the
+second-order term; CIC density with a half-cell-shifted deposit), and runs
+the IC through `ic2pm half` and `PMP2main` with `Extra outputs = 1`
+(128^3/256^3, L = 256, outputs at z = 48 and 30): `deltam/W_CIC/delta_L`
+equals GLAM's `D_code(a)` to 0.1 per cent for k <= 0.15 with cross-correlation
+>= 0.9995 and no coordinate offset along any axis (inferred shift
+<= 0.03 Mpc/h). See `docs/degrace_companion_implementation_plan.md`, I7.
 
 ## Validation performed (2026-07-28)
 

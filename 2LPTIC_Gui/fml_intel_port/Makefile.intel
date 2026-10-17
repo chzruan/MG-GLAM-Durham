@@ -142,5 +142,10 @@ clean:
 test: $(OBJS)
 	${CC} -o $@ $^ $(OPTIONS) $(LIB) $(LINK)
 
+# Versioned correctness build.  Keep the established `test` executable
+# unchanged so completed-run provenance remains reproducible.
+test-id-round-v1: $(OBJS)
+	${CC} -o $@ $^ $(OPTIONS) $(LIB) $(LINK)
+
 %.o: %.cpp
 	${CC} -c -o $@ $< $(OPTIONS) $(INC)

@@ -59,3 +59,10 @@ write_pofk = true
 pofk_output_path = "snap/pofks_L1024_Np2048.txt"
 
 write_gadget = true
+
+------------------------------------------------------------
+-- delta_L dump for MG-GLAM (I7): low-k modes of the Gaussian field, linear theory at a = 1,
+-- written as <output_prefix>_deltaL.{bin,meta} (0.47 GB for k_c = 1.5 h/Mpc in this box)
+------------------------------------------------------------
+write_deltaL = true
+deltaL_kc    = 1.5

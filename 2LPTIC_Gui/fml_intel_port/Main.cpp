@@ -8,6 +8,7 @@
 #include <FML/GadgetUtils/GadgetUtils.h>
 #include <FML/Global/Global.h>
 #include <FML/LuaFileParser/LuaFileParser.h>
+#include "DeltaLDump.h"
 
 #include <algorithm>
 #include <array>
@@ -110,6 +111,10 @@ int main() {
     const bool write_pofk = lfp.read_bool("write_pofk", true, lfp.optional);
     const std::string pofk_output_path = lfp.read_string("pofk_output_path", output_prefix + "_pofks.txt", lfp.optional);
     const bool write_gadget = lfp.read_bool("write_gadget", true, lfp.optional);
+    // delta_L dump for MG-GLAM (I7): low-k modes of the Gaussian field, linear theory at a = 1
+    const bool write_deltaL = lfp.read_bool("write_deltaL", false, lfp.optional);
+    const double deltaL_kc = lfp.read_double("deltaL_kc", 1.5, lfp.optional);
+    const std::string deltaL_prefix = lfp.read_string("deltaL_output_prefix", output_prefix, lfp.optional);
 
     const double HoverH0 = std::sqrt(OmegaM / (a_ini * a_ini * a_ini) + OmegaLambda);
     const double growth_rate1 = lfp.read_double("growth_rate1", 1.0, lfp.optional);
@@ -247,6 +252,31 @@ int main() {
     }
 
     //=====================================================
+    // delta_L dump (before any displacement is computed)
+    //=====================================================
+    if (write_deltaL) {
+        if (FML::ThisTask == 0) {
+            std::cout << "#=====================================================\n";
+            std::cout << " Writing delta_L cube (k_c = " << deltaL_kc << " h/Mpc)\n";
+            std::cout << "#=====================================================\n";
+        }
+        DELTAL::Meta dm;
+        dm.pofk_file = pofk_path_at_zini;
+        dm.generator = "FML LPT (2LPTIC_Gui/FML/FML/LPT/example/Main.cpp)";
+        dm.lattice = "particles at q = i Box/Npart_1D (i = 0..Npart_1D-1, no half-cell offset); ID = 1 + ix + Np (iy + Np iz)";
+        dm.seed = random_seed;
+        dm.lpt_order = lpt_order;
+        dm.Npart_1D = Npart_1D;
+        dm.fix_amplitude = fix_amplitude;
+        dm.reverse_phases = ic_reverse_phases;
+        dm.h = h;
+        dm.OmegaM = OmegaM;
+        dm.OmegaLambda = OmegaLambda;
+        dm.z_ini = z_ini;
+        DELTAL::write_cube<Ndim>(delta, box, a_ini, deltaL_kc, deltaL_prefix, dm);
+    }
+
+    //=====================================================
     // Generate LPT potentials and displacement fields
     //=====================================================
     if (FML::ThisTask == 0) {
@@ -325,9 +355,15 @@ int main() {
         auto * vel = part_ptr[ind].get_vel();
         auto * q = part_ptr[ind].get_q();
 
-        long long ix = static_cast<long long>(std::floor(q[0] * Np));
-        long long iy = static_cast<long long>(std::floor(q[1] * Np));
-        long long iz = static_cast<long long>(std::floor(q[2] * Np));
+        // q is an unperturbed lattice coordinate.  Reconstructing its integer
+        // index with floor is not stable for grid sizes whose reciprocal is not
+        // represented exactly: e.g. (61 / 224) * 224 can round just below 61
+        // and alias the preceding lattice plane.  Round to the nearest lattice
+        // site instead.  This changes only the stored particle ID; positions,
+        // velocities, phases and all production-physics choices are untouched.
+        long long ix = std::llround(q[0] * Np);
+        long long iy = std::llround(q[1] * Np);
+        long long iz = std::llround(q[2] * Np);
         ix = std::min(std::max(ix, 0LL), Np - 1);
         iy = std::min(std::max(iy, 0LL), Np - 1);
         iz = std::min(std::max(iz, 0LL), Np - 1);

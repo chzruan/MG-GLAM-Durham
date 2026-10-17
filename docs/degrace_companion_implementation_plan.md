@@ -297,6 +297,57 @@ out of scope for I7. The other routes stay documented for reference:
 3. Legacy pilots (PMP2start ZA at z = 100): the brief's `IC_DUMP_ONLY` mode
    in `PMP2start`, which needs the Phase 0 answers on its RNG (Q1).
 
+**Implemented (2026-10-17, `degrace-track-a`).** `DeltaLDump.h` + three
+hunks in `Main.cpp` of the FML LPT example (tracked copies in
+`2LPTIC_Gui/fml_intel_port/`, see its `APPLY.md`):
+
+- Lua: `write_deltaL` (default false; on in the smoke-test and production
+  inputs), `deltaL_kc` (default 1.5 h/Mpc), `deltaL_output_prefix`
+  (default `output_prefix`). Output `<prefix>_deltaL.bin` + `.meta` next
+  to the Gadget files, written right after the Gaussian field is drawn,
+  before any LPT displacement.
+- Content: δ_k = N⁻³ Σ_x δ(x) e^{−ik·x} of the field at z_ini divided by
+  D(a_ini) (flat matter+Λ Simpson integral, D(1) = 1, the formula of
+  GLAM's `GrowthFactor`), i.e. linear theory at a = 1; cube |ix|,|iy| ≤ n,
+  0 ≤ iz ≤ n, n = ⌊k_c L/2π⌋ (n = 244 at k_c = 1.5, L = 1024: 0.47 GB),
+  complex64 `C(0:n,−n:n,−n:n)` (iz fastest), k = 0 zeroed: the `deltam`
+  layout exactly. FML's FFTWGrid already uses the N⁻³ normalisation and
+  node j at j L/N, so the copy is index-exact. The `.meta` records n,
+  k_c, N_mesh, N_part_1D, Box, z_ini, D_gen(a_ini), Ω_m, Ω_Λ, h, seed,
+  lpt_order, fix_amplitude, reverse_phases, the P_lin file, the lattice
+  convention (particles at i L/Np, ID = 1 + ix + Np(iy + Np iz)), the
+  axis map and the cube rms.
+- MPI: each task fills its slab's modes into a full float cube already
+  divided by D (D is identical on all tasks), then a chunked `MPI_Reduce`
+  (exact: one non-zero contribution per element) gathers on task 0; 8 B
+  per mode per task (0.47 GB per rank at production size, 30 GB per node
+  at 64 ranks).
+- Tests (`test/extras/run_deltaL_test.sh`, 75 s on a login node):
+  V7 identical md5 with 1, 2 and 4 ranks; layout check A on Zel'dovich
+  ICs (δ_L = −ik·Ψ(k)/D from the lattice displacements, exact: residual
+  rms 8e-6 of the cube rms, every mode within 1e-3, x↔y / conjugate /
+  half-cell hypotheses off by 10⁴×); A on 2LPT ICs (residual 8e-3, the
+  second-order displacement); B (CIC density of the particles, half-cell-
+  shifted deposit, deconvolved: mean ratio 1.0002); V3 end to end (FML IC
+  → `ic2pm half` → PMP2main 128³/256³ L256 with extras, outputs at
+  z = 48 and 30): ⟨deltam/W_CIC/δ_L⟩/D_code(a) = 0.9997–1.0012 in the
+  bins k ≤ 0.15, |Im| ≤ 0.2 %, r_cross ≥ 0.9995 (0.997 at 0.2–0.3), and
+  the per-axis coordinate offset inferred from the mean phase is
+  ≤ 0.03 Mpc/h (half a cell = 0.5), so `ic2pm`'s `x = pos N/L + 1` and
+  GLAM's node i at (i−1) L/N introduce no shift. V8 holds by
+  construction: the generator has no gravity-model input, and f(R)/ΛCDM
+  twins share one IC file.
+- Caveats found while testing: the CIC density of particles that sit
+  exactly on deposit-grid nodes is not linear in the displacement (the
+  weight 1 − |Ψ|/Δ gives one-sided differences), which leaves per-mode
+  phase scatter ~ kΔ/2 (10 % at k = 0.5 on the 256 grid) but no bias in
+  the mean to O((kΔ)²); every GLAM output from a lattice IC carries this at
+  early times. Offline cross-spectra should therefore use binned means or
+  a TSC/half-cell-shifted deposit, never single-mode ratios. The
+  regenerate-only mode of the brief is not needed: the dump costs ~1 s and
+  runs inside the normal IC job; a dump-only run is the generator with
+  `write_gadget = false`.
+
 ### I8. Item B: low-k Fourier dumps of the late-time density and momentum
 
 Purpose: large-scale P_hm(k|M) and halo × momentum cross-spectra for any
@@ -431,12 +482,12 @@ Extra outputs (from the brief):
 |---|---|---|
 | V1 | layout unit test: cos(2π m·x/L), sin(…) for a few integer m through the copy routine | amplitude 1/2 at ±m only, correct signs; zero elsewhere to round-off |
 | V2 | P(k) from `deltam` (CIC deconvolved offline) vs the code's own P_mm(k), same binning, k < k_c | < 1e-3 |
-| V3 | `deltam` at the first step vs `deltaL` | Re(ratio) = D_code(a_ini) to < 0.5 % at k < 0.1; \|Im/Re\| < 1e-3; r > 0.999 |
+| V3 | `deltam` at the first step vs `deltaL` | Re(ratio) = D_code(a_ini) to < 0.5 % at k < 0.1; \|Im/Re\| < 1e-3; r > 0.999. **Passed 2026-10-17** on the 128³/256³ test box at z = 48 and 30 (ratio/D = 0.9997–1.0012 for k ≤ 0.15, ⟨Im⟩ ≤ 2e-3, r = 0.99998 at k ≤ 0.05, 0.9995 at 0.1–0.15; see I7) |
 | V4 | halo axes/offset: BDM haloes (M ≳ 10¹³) deposited offline, crossed with `deltam` and `deltaL` | r ≳ 0.9 in the lowest bins; no linear-in-k phase |
 | V5 | subsample on the test box with a full-precision snapshot | n_sel within 3σ of N/M; reconstructed IDs match to dx_quant/2; n_clip_v = 0 or logged; C and Python hashes agree on 10⁷ IDs |
 | V6 | momentum spectrum from the subsample vs `mom_*`, k < 0.3 | within subsample shot noise |
-| V7 | determinism of the regenerate-only mode, twice and with another thread count | identical md5, or thread dependence documented and enforced |
-| V8 | f(R) vs ΛCDM, same seed: `deltaL` | identical md5 |
+| V7 | determinism of the regenerate-only mode, twice and with another thread count | identical md5, or thread dependence documented and enforced. **Passed 2026-10-17**: `deltaL` md5 identical with 1, 2 and 4 MPI ranks (`run_deltaL_test.sh`) |
+| V8 | f(R) vs ΛCDM, same seed: `deltaL` | identical md5. Holds by construction (2026-10-17): the FML generator has no gravity-model input; twins share one IC file |
 | V9 | overhead at production size (one short job, approval first) | extra wall time < 5 %; peak RSS within node memory with margin |
 
 ## 9. Storage budget (L = 1024 Mpc/h)
@@ -565,8 +616,8 @@ For CZ:
 - [x] I3 generator + S2; I4 `OutputSchedule.dat`; I5 class list (`degrace-track-a` `cb09e3c`)
 - [x] I2 lens planes + L1, L2 (`degrace-track-a` `b774f8d`); L3 (plane P(k) vs 3-D P(k)) pending
 - [ ] Pilot node 2 vs the ECOSMOG twins (ΛCDM job 12180066 submitted 2026-10-17; f(R) next)
-- [ ] I7 δ_L dump (route decided) + V7, V8; δ_L for one legacy pilot + V4 (V1 layout test exists)
-- [x] I8 + V1, V2 (`degrace-track-a` `a41ae37`); V3 needs I7, V4 needs the pilot catalogues
+- [x] I7 δ_L dump, route 1 in the FML generator + V3, V7, V8 (`degrace-track-a`, 2026-10-17; `test/extras/run_deltaL_test.sh`); legacy pilots out of scope (decision)
+- [x] I8 + V1, V2 (`degrace-track-a` `a41ae37`); V3 passed with I7; V4 needs the pilot catalogues
 - [x] I9 + V5, V6 (`degrace-track-a`, commit after `09c4aa4`)
 - [x] I10 (`degrace-track-a`, commit after `a41ae37`); unit test + f(R) smoke case
 - [ ] V9 overhead run
@@ -720,3 +771,17 @@ For CZ:
     for the parameter files: a comment containing `=` after a value
     breaks `ParseLine` (it keys on the last `=`); the generator's
     comments avoid it.
+- 2026-10-17, I7 route 1 on `degrace-track-a`: δ_L dump in the FML
+  generator (`DeltaLDump.h`, Lua `write_deltaL`/`deltaL_kc`/
+  `deltaL_output_prefix`; tracked in `2LPTIC_Gui/fml_intel_port/`, the
+  build directory `2LPTIC_Gui/FML/` is gitignored). The port copy of
+  `Main.cpp` was 7 weeks behind the build directory (an ID index rounding
+  fix of 2026-08-27, `llround` instead of `floor`, with a
+  `test-id-round-v1` Makefile target); both are now synced and the
+  provenance is in `APPLY.md`. Tests: `test/extras/run_deltaL_test.sh`
+  (V7, layout A/B on 1LPT and 2LPT ICs, V3 end to end through `ic2pm` and
+  PMP2main) all pass; numbers in I7. Lesson: a test that divides mode by
+  mode is ill-conditioned where δ_L is small and the CIC of particles on
+  grid nodes is non-analytic in Ψ, so the assertions use residual rms,
+  binned means, cross-correlation coefficients and the mean phase per axis
+  (a coordinate-offset estimator) instead of per-mode ratios.

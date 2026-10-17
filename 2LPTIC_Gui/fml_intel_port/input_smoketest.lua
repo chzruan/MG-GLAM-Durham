@@ -54,3 +54,9 @@ write_pofk = true
 pofk_output_path = "snap/pofks.txt"
 
 write_gadget = true
+
+------------------------------------------------------------
+-- delta_L dump for MG-GLAM (I7)
+------------------------------------------------------------
+write_deltaL = true
+deltaL_kc    = 0.5
