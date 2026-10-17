@@ -6,6 +6,7 @@
 Module Power
   use Tools
   use fft5
+  use ExtraOutputs, only: DumpModes
   Real*4, Allocatable, Dimension(:,:)   :: Pk,dNharm,kharm,  &
                                            PkLog, dNharmLog, kharmLog
   Integer*4                             :: iCIC=0
@@ -337,6 +338,9 @@ SUBROUTINE POWERfft5(iPol,iSwitch)
        end Do
        end Do
        write(*,*) ' time =',seconds()/60.,'  Normalize '
+       !---- extra outputs: low-k density modes from this transform (before the squaring)
+       If(iExtra == 1 .and. OutClass == 1 .and. iPol == 0 .and. iSwitch == 0 .and. iPowerRSD == 0) &
+          Call DumpModes(FI, NGRID, 'deltam', KcDelta, ISTEP, AEXPN - ASTEP/2.)
 !$OMP PARALLEL DO DEFAULT(SHARED)   & 
 !$OMP PRIVATE ( k,j,i)
        Do k=1,NGRID

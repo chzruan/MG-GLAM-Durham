@@ -73,11 +73,11 @@ PMP2main-bitmatch:
 
 PMP2analyze: $(OBJ)  PMP2analyze.o                 
 	$(FC) $(LDFLAGS) -o $@.exe $^                
-PMP2spectrum: PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_power.o PMP2mod_analyze.o  PMP2spectrum.o                 
+PMP2spectrum: PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_power.o PMP2mod_analyze.o  PMP2spectrum.o                 
 	$(FC) $(LDFLAGS) -o $@.exe $^                
 PMP2init: PMP2init.o
 	$(FC) $(LDFLAGS)  -o $@.exe $^
-PMP2start: PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2mod_density.o PMP2mod_power.o PMP2start.o
+PMP2start: PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_power.o PMP2start.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
 PMP2correlation: PMP2mod_tools.o  PMP2mod_random.o PMP2correlation.o
 	$(FC) $(LDFLAGS) -o $@.exe  $^

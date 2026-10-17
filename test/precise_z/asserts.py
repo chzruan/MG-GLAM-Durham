@@ -52,7 +52,10 @@ SIM_CASES = {       # case dir -> configuration (zout list + sign of #outputs)
     # lens planes (I2): 2 slabs per axis, plane grid 72 (= Ngrid) and 36 (2x2 block mean)
     "case10_lens72": dict(zout=[2.5, 0.512, 1.1], exact=True, lens=(2, 72)),
     "case10_lens36": dict(zout=[2.5, 0.512, 1.1], exact=True, lens=(2, 36)),
+    # low-k mode dumps (I8): density from POWERfft5's transform (iPower=1), momentum on N_dep=36
+    "case11_modes": dict(zout=[2.5, 0.512, 1.1], exact=True, modes=dict(kc=0.5, ndep=36)),
 }
+BOX = 150.0
 NGRID = 72
 C_H0 = 2997.92458   # Mpc/h, comoving-distance convention of OutputSchedule.dat
 ERR_CASES = {       # case dir -> (log file, required message, forbidden product)
@@ -244,6 +247,33 @@ def read_projection(path, ngrid):
     return np.frombuffer(raw, dtype=">f4", count=ngrid * ngrid, offset=off).reshape(ngrid, ngrid)
 
 
+def read_modes(path, n):
+    # complex64 little-endian, Fortran C(0:n,-n:n,-n:n) -> numpy [ix+n, iy+n, iz]
+    import numpy as np
+    arr = np.fromfile(path, dtype="<c8")
+    assert arr.size == (2 * n + 1) ** 2 * (n + 1), f"{path}: {arr.size} values"
+    return arr.reshape(2 * n + 1, 2 * n + 1, n + 1)
+
+
+def read_powerdm(path):
+    # PowerDM.R: 'bin k N Preal' rows after the header lines
+    import numpy as np
+    rows = []
+    for line in open(path):
+        p = line.split()
+        if len(p) == 4 and p[0].isdigit():
+            rows.append([float(v) for v in p])
+    return np.array(rows)
+
+
+def hermitian_ok(C, n, tol=1e-5):
+    # at iz = 0: C(-ix,-iy,0) == conj(C(ix,iy,0))
+    import numpy as np
+    plane = C[:, :, 0]
+    scale = max(np.max(np.abs(plane)), 1e-30)
+    return np.max(np.abs(plane[::-1, ::-1] - np.conj(plane))) < tol * scale
+
+
 def read_meta(path):
     out = {}
     for line in open(path):
@@ -362,6 +392,46 @@ def main(work):
         rep.check(ok_mean, case, "each axis: mean over its slabs of mean(1+delta) = 1 (mass conservation)")
         if nlens == NGRID:
             rep.check(ok_proj, case, "slab average equals the ProjectDENSIT full-box projection (< 1e-5)")
+    # low-k modes (I8): files, meta, Hermitian layout, and P(k) from the density cube
+    # against the code's own PowerDM.R, bin by bin (GetPower bins by nint(|m|), each
+    # mode counted once over the full sphere: weight 2 for iz > 0, 1 for iz = 0)
+    cfg = SIM_CASES["case11_modes"]
+    kc, ndep = cfg["modes"]["kc"], cfg["modes"]["ndep"]
+    n = int(kc * BOX / (2 * np.pi))
+    _, xmarks, _, _, marks, _ = oracle_full(cfg)
+    rundir = os.path.join(work, "case11_modes", "Run1")
+    ok_files = ok_meta = ok_herm = ok_pk = ok_k0 = True
+    for step in sorted(marks):
+        for prod in ("deltam", "mom_x", "mom_y", "mom_z"):
+            fb = os.path.join(rundir, f"{prod}.{step:04d}.0001.bin")
+            fm = os.path.join(rundir, f"{prod}.{step:04d}.0001.meta")
+            if not (os.path.exists(fb) and os.path.exists(fm)):
+                ok_files = False
+                continue
+            C = read_modes(fb, n)
+            meta = read_meta(fm)
+            ok_meta &= (int(meta["n"]) == n and int(meta["N_dep"]) == (NGRID if prod == "deltam" else ndep)
+                        and f32(float(meta["a"])) == xmarks[step] and float(meta["k_c"]) == kc)
+            ok_herm &= hermitian_ok(C, n)
+            ok_k0 &= C[n, n, 0] == 0
+            if prod == "deltam":
+                ix, iy, iz = np.meshgrid(np.arange(-n, n + 1), np.arange(-n, n + 1), np.arange(0, n + 1), indexing="ij")
+                mm = np.sqrt(ix**2 + iy**2 + iz**2)
+                w = np.where(iz > 0, 2.0, 1.0)
+                b = np.maximum(np.rint(mm).astype(int), 1)
+                p2 = np.abs(C) ** 2 * BOX**3
+                pdm = read_powerdm(os.path.join(rundir, f"PowerDM.R.{step:04d}.0001.dat"))
+                for bi in range(1, n):                      # complete bins only
+                    sel = (b == bi) & (mm > 0)
+                    pk_cube = np.sum(w[sel] * p2[sel]) / np.sum(w[sel])
+                    pk_code = pdm[pdm[:, 0] == bi, 3][0]
+                    ok_pk &= abs(pk_cube / pk_code - 1.0) < 1e-4
+    rep.check(ok_files, "case11_modes", "deltam and mom_x/y/z .bin and .meta written for every output")
+    rep.check(ok_meta, "case11_modes", f"meta: n={n}, N_dep, a (bit-exact), k_c")
+    rep.check(ok_herm, "case11_modes", "iz = 0 plane is Hermitian (layout and sign convention)")
+    rep.check(ok_k0, "case11_modes", "k = 0 mode is zero")
+    rep.check(ok_pk, "case11_modes", "P(k) from the density cube equals PowerDM.R bin by bin (< 1e-4), V2")
+
     # 36 = 2x2 block mean of 72 at the same steps (same IC, same schedule)
     ok_blk = True
     for (case, step), pl in planes.items():

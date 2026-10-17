@@ -35,6 +35,12 @@ Module Param
     Integer*4:: zclass(1000) = 1    ! class per zout entry: 1 = full, 2 = station
     Integer*4:: LensSlab = 0        ! lens planes: slabs per axis (0 = off)
     Integer*4:: LensGrid = 0        ! lens planes: plane grid (0 = Ngrid)
+    Integer*4:: iExtra = 0          ! extra outputs master switch
+    Real*4   :: KcDelta = 1.5       ! k_c of the density mode dump [h/Mpc]
+    Real*4   :: KcMom = 1.0         ! k_c of the momentum mode dumps [h/Mpc]
+    Integer*4:: NdepMom = 0         ! momentum deposit grid (0 = Ngrid/2)
+    Integer*4:: SubM = 0            ! subsample: keep 1 in M particles (0 = off)
+    Integer*4:: FRhalo = 0          ! f_R at halo centres (f(R) only)
     Real*8   :: rf, OmLOm0
     Real*4   :: xkt(0:NtabM), Pkt(0:NtabM)  ! Power spectrum
     Real*4   :: StepK, alog0
@@ -264,6 +270,19 @@ Program Initialize
             Box/LensSlab, ' Mpc/h, plane grid ', LensGrid
     End If
     If (Nclasses > 0) write (*, '(a,i4,a)') ' Output classes read for ', Nclasses, ' redshifts'
+    If (iExtra /= 0 .and. iExtra /= 1) Stop 'Extra outputs switch must be 0 or 1'
+    If (iExtra == 1) Then
+        If (KcDelta <= 0. .or. KcMom <= 0.) Stop 'kc_delta and kc_mom must be positive'
+        If (NdepMom == 0) NdepMom = Ngrid/2
+        If (NdepMom < 8 .or. NdepMom > Ngrid) Stop 'N_dep_mom must be between 8 and Ngrid'
+        If (int(KcDelta*Box/6.2831853) > Ngrid/2 - 1) Stop 'kc_delta reaches the Nyquist frequency of Ngrid'
+        If (int(KcMom*Box/6.2831853) > NdepMom/2 - 1) Stop 'kc_mom reaches the Nyquist frequency of N_dep_mom'
+        If (SubM < 0) Stop 'Subsample M must not be negative'
+        If (FRhalo /= 0 .and. FRhalo /= 1) Stop 'fR at halos must be 0 or 1'
+        If (FRhalo == 1 .and. MG_flag /= 1) FRhalo = 0
+        write (*, '(a,2(a,f6.3),a,i6,a,i6,a,i2)') ' Extra outputs ON:', ' kc_delta =', KcDelta, &
+            '  kc_mom =', KcMom, '  N_dep_mom =', NdepMom, '  subsample M =', SubM, '  fR_halo =', FRhalo
+    End If
 
     OPEN (10, file='Setup.dat')
     OPEN (1, file='lcdm.dat')
@@ -393,6 +412,12 @@ Program Initialize
     If (Nclasses > 0) write (10, '(50i3)') (zclass(i), i=1, Nclasses)
     write (10, 60) LensSlab, 'Lens planes: slabs per axis (0 = off)'
     write (10, 60) LensGrid, 'Lens planes: plane grid (0 = Ngrid)'
+    write (10, 60) iExtra, 'Extra outputs master switch (0 = off)'
+    write (10, 50) KcDelta, 'k_c of the density mode dump [h/Mpc]'
+    write (10, 50) KcMom, 'k_c of the momentum mode dumps [h/Mpc]'
+    write (10, 60) NdepMom, 'Momentum deposit grid (0 = Ngrid/2)'
+    write (10, 60) SubM, 'Subsample: keep 1 in M particles (0 = off)'
+    write (10, 60) FRhalo, 'f_R at halo centres (0/1, f(R) only)'
 50  format(es12.5, T20, a)
 60  format(i5, T20, a)
 70  format(L, T20, a)
@@ -529,6 +554,12 @@ Subroutine ReadInit
     End If
     LensSlab = iParseLineOpt(11, 0)
     LensGrid = iParseLineOpt(11, 0)
+    iExtra = iParseLineOpt(11, 0)
+    KcDelta = ParseLineOpt(11, 1.5)
+    KcMom = ParseLineOpt(11, 1.0)
+    NdepMom = iParseLineOpt(11, 0)
+    SubM = iParseLineOpt(11, 0)
+    FRhalo = iParseLineOpt(11, 0)
 
     If (BiasPars(10) < 0.1) BiasPars(10) = 1.0
     !--- make new da
@@ -615,6 +646,12 @@ Subroutine CheckInit
         write (11, '(a,i9,a)') 'Output classes            = ', 0, '  0-all class 1; else one class (1 full, 2 station) per redshift on the next line'
         write (11, '(a,i9,a)') 'Lens slabs per axis       = ', 0, '  0-off'
         write (11, '(a,i9,a)') 'Lens plane grid           = ', 0, '  0-Ngrid'
+        write (11, '(a,i9,a)') 'Extra outputs             = ', 0, '  0-off 1-low-k modes, subsample, fR at halos'
+        write (11, '(a,f9.3,a)') 'kc_delta                  = ', 1.5, '  h/Mpc'
+        write (11, '(a,f9.3,a)') 'kc_mom                    = ', 1.0, '  h/Mpc'
+        write (11, '(a,i9,a)') 'N_dep_mom                 = ', 0, '  0-Ngrid/2'
+        write (11, '(a,i9,a)') 'Subsample M               = ', 0, '  0-off; keep 1 in M particles'
+        write (11, '(a,i9,a)') 'fR at halos               = ', 0, '  0-off 1-on (f(R) runs)'
         stop
     end if
 
@@ -745,6 +782,32 @@ Function iParseLineOpt(iFile, idef)
         iParseLineOpt = idummy
     End If
 end Function iParseLineOpt
+!--------------------------------------------------
+!        read an OPTIONAL real line (see iParseLineOpt)
+Function ParseLineOpt(iFile, def)
+    Character :: Line*120, Line2*120, Line3(120)
+    Real*4    :: ParseLineOpt, def
+    Integer*4 :: ios
+
+    Read (iFile, '(a)', iostat=ios) Line
+    If (ios /= 0) Then
+        ParseLineOpt = def
+        Return
+    End If
+    Ieq = INDEX(Line, '=', BACK=.TRUE.)
+    backspace (iFile)
+    If (Ieq == 0) Then
+        ParseLineOpt = def
+        Return
+    End If
+    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,g12.5)'
+    Read (iFile, Line2, iostat=ios) (Line3(i), i=1, Ieq), dummy
+    If (ios /= 0) Then
+        ParseLineOpt = def
+    Else
+        ParseLineOpt = dummy
+    End If
+end Function ParseLineOpt
 !--------------------------------------------------
 !        read line from  input file iFile
 !                          logical format

@@ -54,6 +54,7 @@ delete). The executables are built automatically if missing.
 | `case4e_classes` | class count 2 for 3 outputs | `PMP2init` stops ("one output class per listed redshift"); no `Setup.dat` |
 | every simulation case | `Run1/OutputSchedule.dat` | exactly the marked steps; epochs equal the headers; exact flags; χ(a) matches flat matter+Λ to 1e-5; classes 1 unless requested |
 | `case10_lens72` / `case10_lens36` | `-3` / `2.5 0.512 1.1`, `Lens slabs per axis = 2`, plane grid 72 resp. 36, `Dump random fraction = 1` for the `ProjectDENSIT` reference | planes and `.meta` for every output; per axis the slab means average to 1; at grid 72 the slab average equals `ProjectionYZ/XZ/XY` to 1e-5; the 36 planes are the 2×2 block means of the 72 planes |
+| `case11_modes` | `-3` / `2.5 0.512 1.1`, `DM power spectrum = 1`, `Extra outputs = 1`, `kc_delta = kc_mom = 0.5`, `N_dep_mom = 36` | `deltam`, `mom_x/y/z` cubes (n = 11) and `.meta` for every output; Hermitian iz = 0 plane; k = 0 zero; P(k) from the `deltam` cube equals `PowerDM.R` bin by bin to 1e-4 (V2). The layout unit test V1 is `test/extras/run_modes_test.sh` |
 | `case6_tailinsert` | `-1` / `0.00` with `da = 6.9e-4`: the z=0 step must be **inserted after** the step where the legacy half-step exit rule (`a >= 1 - da/2`) already fires | the run keeps stepping to the inserted moment (`NlastX` stop index) and writes the snapshot at AEXPN exactly 1.0 |
 
 Checks common to every simulation case: the *set* of numbered snapshots

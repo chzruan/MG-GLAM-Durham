@@ -8,7 +8,12 @@
 !-------------------------------------------------
 Module ExtraOutputs
     use Tools
+    use fft5
+    use Density
     implicit none
+    integer*4, parameter, private :: Nlenmax = 16384
+    real*8, save, private :: work(Nlenmax), wsave(Nlenmax)
+!$OMP THREADPRIVATE(work, wsave)
 Contains
 !---------------------------------------------------------
 !   Comoving distance chi(a) in Mpc/h for the flat matter+Lambda
@@ -209,4 +214,338 @@ Contains
         write (30, '(a,a)') 'header = ', TRIM(HEADER)
         close (30)
     End Subroutine LensPlanes
+!---------------------------------------------------------
+!   Linear growth factor D(a) of the flat matter+Lambda background
+!   (Om, OmL from Setup.dat), normalised to D(1) = 1:
+!   D ~ E(a) int_0^a da'/(a' E(a'))^3, Simpson in ln a.
+!---------------------------------------------------------
+    Real*8 Function GrowthFactor(a)
+        Real*4, intent(in) :: a
+        GrowthFactor = GrowthRaw(dble(a))/GrowthRaw(1.d0)
+    End Function GrowthFactor
+
+    Real*8 Function GrowthRaw(a)
+        Real*8, intent(in) :: a
+        Integer*4, parameter :: Nint = 4000
+        Real*8 :: x0, h, x, s, f, e
+        Integer*4 :: i
+        x0 = log(1.d-8)
+        h = (log(a) - x0)/Nint
+        s = 0.d0
+        Do i = 0, Nint
+            x = x0 + h*i
+            f = exp(2.5d0*x)/(dble(Om) + dble(OmL)*exp(3.d0*x))**1.5d0   ! a'^{5/2}/(Om + OmL a'^3)^{3/2}
+            If (i == 0 .or. i == Nint) Then
+                s = s + f
+            Else If (mod(i, 2) == 1) Then
+                s = s + 4.d0*f
+            Else
+                s = s + 2.d0*f
+            End If
+        End Do
+        e = sqrt(dble(Om)/a**3 + dble(OmL))
+        GrowthRaw = e*s*h/3.d0
+    End Function GrowthRaw
+!---------------------------------------------------------
+!   Forward 3-D real FFT of G(N,N,N) in place, replicating POWERfft5
+!   exactly (three FFTPACK5 rfft1f passes along x, y, then z after a
+!   transposition of indices 1 and 3; indices 1 and N of each pass are
+!   multiplied by sqrt(2)). Afterwards the packed coefficient of mode
+!   (px,py,pz) sits at G(pz,py,px): per dimension p=1 is sqrt(2)/N
+!   times the sum, p=2m holds (2/N) sum x cos(2 pi m (j-1)/N), p=2m+1
+!   holds (2/N) sum x sin(...), p=N the Nyquist term times sqrt(2).
+!---------------------------------------------------------
+    Subroutine FFT3Dforward(G, N)
+        Integer*4, intent(in) :: N
+        Real*4, intent(inout) :: G(N, N, N)
+        Real*8 :: r(Nlenmax)
+        Real*4 :: aa
+        Integer*4 :: i, j, k, ier, lensav, lenwrk, inc, lenr
+        If (N > Nlenmax) Stop 'FFT3Dforward: grid larger than the FFT work arrays'
+        lensav = N + int(log(real(N, kind=4))/log(2.0E+00)) + 4
+        lenwrk = N
+        inc = 1
+        lenr = N
+        call rfft1i(N, wsave, lensav, ier)
+!$OMP PARALLEL DO DEFAULT(SHARED) COPYIN(wsave,work) PRIVATE(k,j,i,r,ier)
+        Do k = 1, N                ! ------ x-direction
+        Do j = 1, N
+            Do i = 1, N
+                r(i) = G(i, j, k)
+            End Do
+            call rfft1f(N, inc, r, lenr, wsave, lensav, work, lenwrk, ier)
+            Do i = 1, N
+                G(i, j, k) = r(i)
+            End Do
+        End Do
+        End Do
+        Do k = 1, N
+        Do j = 1, N
+            G(1, j, k) = G(1, j, k)*sqrt(2.)
+            G(N, j, k) = G(N, j, k)*sqrt(2.)
+        End Do
+        End Do
+!$OMP PARALLEL DO DEFAULT(SHARED) COPYIN(wsave,work) PRIVATE(k,j,i,r,ier)
+        Do k = 1, N                ! ------ y-direction
+        Do i = 1, N
+            Do j = 1, N
+                r(j) = G(i, j, k)
+            End Do
+            call rfft1f(N, inc, r, lenr, wsave, lensav, work, lenwrk, ier)
+            Do j = 1, N
+                G(i, j, k) = r(j)
+            End Do
+        End Do
+        End Do
+        Do k = 1, N
+        Do i = 1, N
+            G(i, 1, k) = G(i, 1, k)*sqrt(2.)
+            G(i, N, k) = G(i, N, k)*sqrt(2.)
+        End Do
+        End Do
+!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(k,j,i,aa)
+        Do j = 1, N                ! ------ transpose indices 1 and 3
+        Do k = 1, N - 1
+            Do i = k + 1, N
+                aa = G(i, j, k)
+                G(i, j, k) = G(k, j, i)
+                G(k, j, i) = aa
+            End Do
+        End Do
+        End Do
+!$OMP PARALLEL DO DEFAULT(SHARED) COPYIN(wsave,work) PRIVATE(k,j,i,r,ier)
+        Do j = 1, N                ! ------ z-direction (now the first index)
+        Do i = 1, N
+            Do k = 1, N
+                r(k) = G(k, i, j)
+            End Do
+            call rfft1f(N, inc, r, lenr, wsave, lensav, work, lenwrk, ier)
+            Do k = 1, N
+                G(k, i, j) = r(k)
+            End Do
+        End Do
+        End Do
+        Do j = 1, N
+        Do i = 1, N
+            G(1, i, j) = G(1, i, j)*sqrt(2.)
+            G(N, i, j) = G(N, i, j)*sqrt(2.)
+        End Do
+        End Do
+    End Subroutine FFT3Dforward
+!---------------------------------------------------------
+!   Low-k mode dump (item I7/I8 file writer). G holds a field in the
+!   packed layout produced by FFT3Dforward / POWERfft5 (before the
+!   squaring). Writes delta_k = N^-3 sum_x f(x) exp(-i k.x) for the cube
+!   |ix|,|iy| <= n, 0 <= iz <= n, n = floor(kc Box/2pi), k = 2pi/Box
+!   (ix,iy,iz), as complex(4) C(0:n,-n:n,-n:n) (first index iz), k=0
+!   set to zero, plus a .meta sidecar. File <product>.<step>.<box>.bin.
+!---------------------------------------------------------
+    Subroutine DumpModes(G, N, product, kc, moment, a_v)
+        Integer*4, intent(in) :: N, moment
+        Real*4, intent(in) :: G(N, N, N), kc, a_v
+        Character(len=*), intent(in) :: product
+        Complex*8, allocatable :: C(:, :, :)
+        Integer*4 :: nm, mx, my, mz, ix, iy, iz, px(2), py(2), pz(2), nx, ny, nz, i, j, k
+        Complex*8 :: wx(2), wy(2), wz(2), val
+        Character*120 :: Name
+        nm = int(dble(kc)*dble(Box)/6.283185307179586d0)
+        If (nm > N/2 - 1) Then
+            write (*, '(a,a,a,i5,a,i5)') ' DumpModes ', product, ': n=', nm, ' limited to N/2-1=', N/2 - 1
+            nm = N/2 - 1
+        End If
+        allocate (C(0:nm, -nm:nm, -nm:nm))
+!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(mx,my,mz,px,py,pz,wx,wy,wz,nx,ny,nz,i,j,k,val)
+        Do mx = -nm, nm
+            Call PackedBasis(mx, N, px, wx, nx)
+            Do my = -nm, nm
+                Call PackedBasis(my, N, py, wy, ny)
+                Do mz = 0, nm
+                    Call PackedBasis(mz, N, pz, wz, nz)
+                    val = (0., 0.)
+                    Do i = 1, nx
+                    Do j = 1, ny
+                    Do k = 1, nz
+                        val = val + wx(i)*wy(j)*wz(k)*G(pz(k), py(j), px(i))
+                    End Do
+                    End Do
+                    End Do
+                    C(mz, my, mx) = val
+                End Do
+            End Do
+        End Do
+        C(0, 0, 0) = (0., 0.)
+        write (Name, '(a,2(a,i4.4),a)') TRIM(product), '.', moment, '.', Nrealization, '.bin'
+        open (29, file=TRIM(Name), status='replace', access='stream', form='unformatted', convert='little_endian')
+        write (29) C
+        close (29)
+        write (Name, '(a,2(a,i4.4),a)') TRIM(product), '.', moment, '.', Nrealization, '.meta'
+        open (30, file=TRIM(Name), status='replace')
+        write (30, '(a,a)') 'product = ', TRIM(product)
+        write (30, '(a)') 'format = raw little-endian complex64 (re, im float32), no record markers'
+        write (30, '(a)') 'layout = Fortran C(0:nm,-nm:nm,-nm:nm) with the first index iz; numpy: fromfile(dtype=complex64).reshape(2n+1,2n+1,nm+1) -> [ix+nm, iy+nm, iz]'
+        write (30, '(a)') 'fourier_norm = delta_k = N^-3 sum_x f(x) exp(-i k.x), k = (2 pi/Box)(ix,iy,iz), P(k) = Box^3 <|delta_k|^2>; grid node i at x = (i-1) Box/N'
+        write (30, '(a)') 'modes = cube |ix|,|iy| <= nm, 0 <= iz <= nm (Hermitian-redundant iz = 0 modes kept); k = 0 set to zero'
+        write (30, '(a,i6)') 'n = ', nm
+        write (30, '(a,f10.5)') 'k_c = ', kc
+        write (30, '(a,i6)') 'N_dep = ', N
+        write (30, '(a,i6)') 'N_grid = ', NGRID
+        write (30, '(a)') 'assignment = CIC'
+        write (30, '(a)') 'interlaced = false'
+        write (30, '(a)') 'axis_map = ix, iy, iz follow the particle x, y, z of the halo catalogue'
+        write (30, '(a,i6)') 'step = ', moment
+        write (30, '(a,i6)') 'realization = ', Nrealization
+        write (30, '(a,es16.8)') 'a = ', AEXPN
+        write (30, '(a,es16.8)') 'z = ', 1./AEXPN - 1.
+        write (30, '(a,es16.8)') 'a_x = ', AEXPN
+        write (30, '(a,es16.8)') 'a_v = ', a_v
+        write (30, '(a,es16.8)') 'D_code(a) = ', GrowthFactor(AEXPN)
+        write (30, '(a,f12.4)') 'Box = ', Box
+        write (30, '(a)') 'units = Mpc/h; momentum products are (1+delta) v with v the peculiar velocity in km/s at a_v'
+        write (30, '(a,i6)') 'N_row = ', NROW
+        write (30, '(a,i20)') 'N_p = ', Nparticles
+        write (30, '(a,f10.6)') 'Omega_m = ', Om
+        write (30, '(a,f10.6)') 'Omega_L = ', OmL
+        write (30, '(a,f10.6)') 'hubble = ', hubble
+        write (30, '(a,i3)') 'MG_flag = ', MG_flag
+        If (MG_flag == 1) Then
+            write (30, '(a,es14.6)') 'fR0 = ', fR0
+        Else
+            write (30, '(a)') 'fR0 = none'
+        End If
+        write (30, '(a,a)') 'header = ', TRIM(HEADER)
+        close (30)
+        deallocate (C)
+        write (*, '(a,a,a,i4,a,i10,a)') '   modes ', TRIM(product), ': n=', nm, '  (', (2*nm + 1)**2*(nm + 1), ' complex values)'
+    End Subroutine DumpModes
+!---------------------------------------------------------
+!   Packed-basis entries of one dimension for mode m: indices p(1:np)
+!   into the packed array and the complex weights w such that the 1-D
+!   DFT coefficient X_m = sum_i w(i) r(p(i)) given FFT3Dforward's
+!   normalisation (r(1), r(N) carry the sqrt(2) factor).
+!---------------------------------------------------------
+    Subroutine PackedBasis(m, N, p, w, np)
+        Integer*4, intent(in) :: m, N
+        Integer*4, intent(out) :: p(2), np
+        Complex*8, intent(out) :: w(2)
+        If (m == 0) Then
+            np = 1
+            p(1) = 1
+            w(1) = cmplx(1./sqrt(2.), 0.)
+        Else If (abs(m) == N/2) Then
+            np = 1
+            p(1) = N
+            w(1) = cmplx(1./sqrt(2.), 0.)
+        Else
+            np = 2
+            p(1) = 2*abs(m)
+            p(2) = 2*abs(m) + 1
+            w(1) = cmplx(0.5, 0.)
+            w(2) = cmplx(0., -0.5*sign(1, m))       ! X_m = (r_cos - i r_sin)/2; X_{-m} = conj
+        End If
+    End Subroutine PackedBasis
+!---------------------------------------------------------
+!   Momentum deposit (item I8): CIC of w_p = (Nd^3/N_p) v_i,p onto
+!   G(Nd,Nd,Nd), so that G = (1+delta) v_i with v the peculiar velocity
+!   in km/s at the velocity epoch a_v (v = VX (100 Box/NGRID)/a_v).
+!---------------------------------------------------------
+    Subroutine MomentumDeposit(G, Nd, icomp, a_v)
+        Integer*4, intent(in) :: Nd, icomp
+        Real*4, intent(inout) :: G(Nd, Nd, Nd)
+        Real*4, intent(in) :: a_v
+        Integer*8 :: IN
+        Integer*4 :: I, J, K, I1, J1, K1
+        Real*4 :: X, Y, Z, D1, D2, D3, T1, T2, T3, T2W, D2W, W, vfac, sc, XN
+        vfac = 100.*Box/NGRID/a_v*(dble(Nd)**3/dble(Nparticles))
+        sc = real(Nd)/real(NGRID)
+        XN = float(Nd) + 1. - 1.E-7
+        G = 0.
+!$OMP PARALLEL DO DEFAULT(SHARED) PRIVATE(IN,X,Y,Z,D1,D2,D3,T1,T2,T3,T2W,D2W,W,I,J,K,I1,J1,K1)
+        Do IN = 1, Nparticles
+            X = (XPAR(IN) - 1.)*sc + 1.
+            Y = (YPAR(IN) - 1.)*sc + 1.
+            Z = (ZPAR(IN) - 1.)*sc + 1.
+            If (X >= XN) X = X - Nd
+            If (Y >= XN) Y = Y - Nd
+            If (Z >= XN) Z = Z - Nd
+            Select Case (icomp)
+            Case (1)
+                W = VX(IN)*vfac
+            Case (2)
+                W = VY(IN)*vfac
+            Case Default
+                W = VZ(IN)*vfac
+            End Select
+            I = INT(X)
+            J = INT(Y)
+            K = INT(Z)
+            D1 = X - FLOAT(I)
+            D2 = Y - FLOAT(J)
+            D3 = Z - FLOAT(K)
+            T1 = 1. - D1
+            T2 = 1. - D2
+            T3 = 1. - D3
+            T2W = T2*W
+            D2W = D2*W
+            I1 = I + 1
+            IF (I1 .GT. Nd) I1 = 1
+            J1 = J + 1
+            IF (J1 .GT. Nd) J1 = 1
+            K1 = K + 1
+            IF (K1 .GT. Nd) K1 = 1
+!$OMP ATOMIC
+            G(I, J, K) = G(I, J, K) + T3*T1*T2W
+!$OMP ATOMIC
+            G(I1, J, K) = G(I1, J, K) + T3*D1*T2W
+!$OMP ATOMIC
+            G(I, J1, K) = G(I, J1, K) + T3*T1*D2W
+!$OMP ATOMIC
+            G(I1, J1, K) = G(I1, J1, K) + T3*D1*D2W
+!$OMP ATOMIC
+            G(I, J, K1) = G(I, J, K1) + D3*T1*T2W
+!$OMP ATOMIC
+            G(I1, J, K1) = G(I1, J, K1) + D3*D1*T2W
+!$OMP ATOMIC
+            G(I, J1, K1) = G(I, J1, K1) + D3*T1*D2W
+!$OMP ATOMIC
+            G(I1, J1, K1) = G(I1, J1, K1) + D3*D1*D2W
+        End Do
+    End Subroutine MomentumDeposit
+!---------------------------------------------------------
+!   Extra mode products at a class-1 output (item I8): the density
+!   modes when the power spectrum was not computed (otherwise POWERfft5
+!   dumps them from its own transform), and the three momentum
+!   components on a transient Nd^3 grid.
+!---------------------------------------------------------
+    Subroutine ExtraModes(moment, mDENSIT, iPowerDone)
+        Integer*4, intent(in) :: moment, iPowerDone
+        Integer*4, intent(inout) :: mDENSIT
+        Real*4, allocatable :: G(:, :, :)
+        Integer*4 :: Nd, ic
+        Integer*8 :: c0, c1, cr
+        Real*4 :: a_v
+        Character*5 :: pname(3) = (/'mom_x', 'mom_y', 'mom_z'/)
+        If (iExtra /= 1) Return
+        a_v = AEXPN - ASTEP/2.
+        Call system_clock(c0, cr)
+        If (iPowerDone == 0) Then                    ! density modes from FI
+            If (mDENSIT == 1) Then
+                Call DENSIT
+                mDENSIT = 0
+            End If
+            Call FFT3Dforward(FI, NGRID)
+            Call DumpModes(FI, NGRID, 'deltam', KcDelta, moment, a_v)
+            mDENSIT = 1
+        End If
+        Nd = NdepMom
+        If (Nd <= 0) Nd = NGRID/2
+        allocate (G(Nd, Nd, Nd))
+        Do ic = 1, 3
+            Call MomentumDeposit(G, Nd, ic, a_v)
+            Call FFT3Dforward(G, Nd)
+            Call DumpModes(G, Nd, pname(ic), KcMom, moment, a_v)
+        End Do
+        deallocate (G)
+        Call system_clock(c1)
+        write (*, '(a,i5,a,f8.2,a)') '   extra modes: momentum on N_dep=', Nd, '   time =', dble(c1 - c0)/dble(cr), ' s'
+    End Subroutine ExtraModes
 End Module ExtraOutputs

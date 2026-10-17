@@ -125,7 +125,13 @@ def init_dat(a: dict, epochs: np.ndarray) -> str:
         class_block = "Output classes            =         0  0-all class 1\n"
     extra_block = (class_block
                    + f"Lens slabs per axis       = {a['lens_slabs']:9d}  0-off\n"
-                   + f"Lens plane grid           = {a['lens_grid']:9d}  0-Ngrid\n")
+                   + f"Lens plane grid           = {a['lens_grid']:9d}  0-Ngrid\n"
+                   + f"Extra outputs             = {a['extra']:9d}  0-off 1-low-k modes, subsample, fR at halos\n"
+                   + f"kc_delta                  = {a['kc_delta']:9.3f}  h/Mpc\n"
+                   + f"kc_mom                    = {a['kc_mom']:9.3f}  h/Mpc\n"
+                   + f"N_dep_mom                 = {a['ndep_mom']:9d}  0-Ngrid/2\n"
+                   + f"Subsample M               = {a['subsample_m']:9d}  0-off; keep 1 in M particles\n"
+                   + f"fR at halos               = {a['fr_halos']:9d}  0-off 1-on (f(R) runs)\n")
     params = "".join("Parametr =     0.000\n" for _ in range(9))
     fr0 = "0.0" if a["mg_flag"] == 0 else f"{a['fR0']:.4E}"
     return (
@@ -218,6 +224,12 @@ def main() -> int:
                          "'primary' = the 17 primary redshifts class 1, the 25 stations class 2 (no BDM/extras)")
     ap.add_argument("--lens-slabs", type=int, default=0, help="lens planes: slabs per axis (0 = off; 4 = 256 Mpc/h at L=1024)")
     ap.add_argument("--lens-grid", type=int, default=0, help="lens planes: plane grid (0 = Ngrid)")
+    ap.add_argument("--extra", action="store_true", help="extra outputs at class-1 outputs: low-k density and momentum modes (+ subsample, fR at halos if set)")
+    ap.add_argument("--kc-delta", type=float, default=1.5, help="k_c [h/Mpc] of the density mode dump")
+    ap.add_argument("--kc-mom", type=float, default=1.0, help="k_c [h/Mpc] of the momentum mode dumps")
+    ap.add_argument("--ndep-mom", type=int, default=0, help="momentum deposit grid (0 = Ngrid/2)")
+    ap.add_argument("--subsample-m", type=int, default=0, help="keep 1 in M particles (0 = off)")
+    ap.add_argument("--fr-halos", action="store_true", help="f_R at halo centres (f(R) runs)")
     ap.add_argument("--check", action="store_true", help="S2: verify the epoch generator against the ECOSMOG lists")
     args = ap.parse_args()
 
@@ -258,7 +270,9 @@ def main() -> int:
     a = dict(box=args.box, nrow=args.nrow, ngrid=args.ngrid, sigma8=sigma8, zinit=args.zinit, da=args.da,
              ncheckpoint=args.ncheckpoint, bdm=0 if args.no_bdm else 1,
              mg_flag=1 if args.gravity == "fr" else 0, fR0=fr0,
-             classes=args.classes, lens_slabs=args.lens_slabs, lens_grid=args.lens_grid)
+             classes=args.classes, lens_slabs=args.lens_slabs, lens_grid=args.lens_grid,
+             extra=1 if args.extra else 0, kc_delta=args.kc_delta, kc_mom=args.kc_mom, ndep_mom=args.ndep_mom,
+             subsample_m=args.subsample_m, fr_halos=1 if (args.fr_halos and args.gravity == "fr") else 0)
     if args.lens_slabs and args.ngrid % args.lens_slabs:
         sys.exit("--lens-slabs must divide --ngrid")
     if args.lens_grid and args.ngrid % args.lens_grid:

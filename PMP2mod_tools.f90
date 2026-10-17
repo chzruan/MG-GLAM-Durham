@@ -41,6 +41,12 @@ Module Tools
       Integer*4 :: OutClass = 1      ! class of the output being processed (set by the main loop before Analysis)
       Integer*4 :: LensSlab = 0      ! lens planes: slabs per axis (0 = off)
       Integer*4 :: LensGrid = 0      ! lens planes: plane grid (0 = NGRID)
+      Integer*4 :: iExtra = 0        ! extra outputs master switch (low-k modes, subsample, f_R at haloes)
+      Real*4    :: KcDelta = 1.5     ! k_c [h/Mpc] of the density mode dump
+      Real*4    :: KcMom = 1.0       ! k_c [h/Mpc] of the momentum mode dumps
+      Integer*4 :: NdepMom = 0       ! momentum deposit grid (0 = NGRID/2)
+      Integer*4 :: SubM = 0          ! particle subsample: keep 1 in SubM particles (0 = off)
+      Integer*4 :: FRhalo = 0        ! f_R at halo centres (f(R) runs only)
 
       Real*4    :: AEXPN0,ASTEP0,AMPLT,EKIN,EKIN1,EKIN2,AEU0,  &
                    TINTG,                 &
@@ -243,8 +249,20 @@ subroutine ReadSetup
          read(11,*,iostat=ierr) LensSlab
          If(ierr == 0) read(11,*,iostat=ierr) LensGrid
          If(ierr /= 0) stop 'Setup.dat: malformed extra-outputs block (lens planes)'
+         !---- the lines below were added later: a block that ends here keeps the defaults
+         If(ierr == 0) read(11,*,iostat=ierr) iExtra
+         If(ierr == 0) read(11,*,iostat=ierr) KcDelta
+         If(ierr == 0) read(11,*,iostat=ierr) KcMom
+         If(ierr == 0) read(11,*,iostat=ierr) NdepMom
+         If(ierr == 0) read(11,*,iostat=ierr) SubM
+         If(ierr == 0) read(11,*,iostat=ierr) FRhalo
+         If(ierr /= 0)Then
+            iExtra = 0; KcDelta = 1.5; KcMom = 1.0; NdepMom = 0; SubM = 0; FRhalo = 0
+         End If
          write (*,'(a,i4,2(a,i5))') '  Extra outputs: output classes=',Nclasses, &
                                     '  lens slabs per axis=',LensSlab,'  lens plane grid=',LensGrid
+         If(iExtra == 1) write (*,'(a,2(a,f6.3),3(a,i6))') '  Extra outputs ON:', &
+            ' kc_delta=',KcDelta,' kc_mom=',KcMom,' N_dep_mom=',NdepMom,' subsample M=',SubM,' fR_halo=',FRhalo
       End If
 
       If(Nexact > 0)Then

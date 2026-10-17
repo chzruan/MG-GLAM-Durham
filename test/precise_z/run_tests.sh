@@ -30,6 +30,8 @@
 #   case9_classes    - per-output class list (1 full / 2 station) reaches
 #                      OutputSchedule.dat; schedule unchanged by classes
 #   case4e           - class count /= #outputs rejected by PMP2init
+#   case11_modes     - low-k density modes from POWERfft5 (P(k) from the cube equals
+#                      PowerDM.R bin by bin) and momentum modes on N_dep=36
 #   case10_lens72/36 - lens planes (2 slabs per axis) at plane grid 72 and 36:
 #                      slab means average to 1, slab average equals the
 #                      ProjectDENSIT full-box projection, 36 = 2x2 block mean
@@ -198,6 +200,23 @@ for c in case10_lens72:72 case10_lens36:36; do
     run_init "$d" || echo "  (init failed)"
     copy_ics "$d" && run_main "$d"
 done
+
+echo "== case11_modes: low-k density and momentum modes (#outputs = -3, iPower=1, kc 0.5, N_dep 36)"
+prep_case case11_modes
+set_outputs case11_modes -3 " 2.5 0.512 1.1"
+sed -i 's/^DM power spectrum         =         0/DM power spectrum         =         1/' "$WORK/case11_modes/Init.dat"
+{ echo 'Output classes            =         0  0-all class 1'
+  echo 'Lens slabs per axis       =         0  0-off'
+  echo 'Lens plane grid           =         0  0-Ngrid'
+  echo 'Extra outputs             =         1  0-off'
+  echo 'kc_delta                  =     0.500  h/Mpc'
+  echo 'kc_mom                    =     0.500  h/Mpc'
+  echo 'N_dep_mom                 =        36  0-Ngrid/2'
+  echo 'Subsample M               =         0  0-off'
+  echo 'fR at halos               =         0  0-off'
+} >> "$WORK/case11_modes/Init.dat"
+run_init case11_modes || echo "  (init failed)"
+copy_ics case11_modes && run_main case11_modes
 
 # ---------------------------------------------------------------- error cases
 echo "== case4a_zbig / case4b_zneg: rejected by PMP2init"

@@ -122,6 +122,11 @@ use LinkerList
          Call GetPower(1)  ! pk in real and redshift space, Ngrid/2 mesh
        end If
     End If
+                      !----------------- Extra outputs: low-k momentum modes (density modes
+                      !                  come from POWERfft5 when iPower=1, item I8)
+    If(iExtra == 1 .and. OutClass == 1)Then
+       Call ExtraModes(moment, mDENSIT, merge(1, 0, iPower == 1 .and. iPowerRSD == 0))
+    End If
                       !----------------- Save snapshot    
     If(iDumpPart == 1)Then 
            If(mDENSIT==1)Then
