@@ -50,6 +50,9 @@ delete). The executables are built automatically if missing.
 | `case5b_trailing` | `case5a` `Setup.dat` with stale trailing lines appended | accepted and ignored; expansion-factor sequence identical to `case5a` step by step |
 | `case7_closepairs` | `-8` / the four DEGRACE pairs closer than 0.5% in a (`2.0 1.98541 1.75 1.74475 1.00202 1.0 0.37562 0.375`) | all 8 pinned on distinct steps, headers bit-exact, the run executes every short step in the oracle's order |
 | `case8_pinned` | `-2` / `0.49337 0.4920` (first merges onto a ladder step, second is 0.09% later) | the second target is inserted; the step pinned to the first is not moved again |
+| `case9_classes` | `-3` / `2.5 0.512 1.1` with `Output classes = 3` / `2 1 2` appended to `Init.dat` | schedule identical to `case3_multi`; `OutputSchedule.dat` lists the three pinned steps with classes 2, 1, 2 attached to the right redshifts after sorting |
+| `case4e_classes` | class count 2 for 3 outputs | `PMP2init` stops ("one output class per listed redshift"); no `Setup.dat` |
+| every simulation case | `Run1/OutputSchedule.dat` | exactly the marked steps; epochs equal the headers; exact flags; χ(a) matches flat matter+Λ to 1e-5; classes 1 unless requested |
 | `case6_tailinsert` | `-1` / `0.00` with `da = 6.9e-4`: the z=0 step must be **inserted after** the step where the legacy half-step exit rule (`a >= 1 - da/2`) already fires | the run keeps stepping to the inserted moment (`NlastX` stop index) and writes the snapshot at AEXPN exactly 1.0 |
 
 Checks common to every simulation case: the *set* of numbered snapshots

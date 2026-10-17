@@ -181,7 +181,7 @@ use LinkerList
  End If        !--- end BiasModel=2
  
 10 continue
- If(iBDM==1)Call BDM(mDENSIT)
+ If(iBDM==1 .and. OutClass==1)Call BDM(mDENSIT)    ! class-2 (station) outputs skip the halo finder
      Call Timing(7,1)      ! stop reading time
 
   end subroutine Analysis

@@ -35,6 +35,12 @@ Module Tools
       Integer*4 :: iExactZ = 0       ! =1: zout requested as exact redshifts (#outputs < 0)
       Integer*4 :: Nexact = 0        ! number of exact output redshifts (0 = legacy schedule)
       Real*4    :: zexact(1000)      ! exact output redshifts (copy of zout when iExactZ=1)
+      ! ---- extra outputs for the DEGRACE companions (optional trailing block of Setup.dat; defaults = off)
+      Integer*4 :: Nclasses = 0      ! number of per-output classes read (0 = every output is class 1)
+      Integer*4 :: zclass(1000) = 1  ! class of each zout entry: 1 = full output, 2 = station (no halo finder, no extras)
+      Integer*4 :: OutClass = 1      ! class of the output being processed (set by the main loop before Analysis)
+      Integer*4 :: LensSlab = 0      ! lens planes: slabs per axis (0 = off)
+      Integer*4 :: LensGrid = 0      ! lens planes: plane grid (0 = NGRID)
 
       Real*4    :: AEXPN0,ASTEP0,AMPLT,EKIN,EKIN1,EKIN2,AEU0,  &
                    TINTG,                 &
@@ -218,6 +224,28 @@ subroutine ReadSetup
       read(11,*) csf_potential   !'type of potential: 1 - inverse power law; 2 - SUGRA '
       read(11,*) csf_alpha       !'potential parameter alpha        '
       read(11,*) csf_beta        !'coupling function parameter beta '
+
+      !---- optional trailing block "extra outputs": absent in Setup.dat files written
+      !     before it existed (and distinct from any stale trailing lines), so defaults apply
+      Nclasses = 0
+      zclass(:) = 1
+      LensSlab = 0
+      LensGrid = 0
+      read(11,'(a)',iostat=ierr) Line
+      If(ierr == 0 .and. index(Line,'extra outputs') > 0)Then
+         read(11,*,iostat=ierr) Nclasses
+         If(ierr /= 0 .or. Nclasses < 0 .or. Nclasses > 1000) stop 'Setup.dat: malformed extra-outputs block (classes)'
+         If(Nclasses > 0)Then
+            If(Nclasses /= Nout) stop 'Setup.dat: number of output classes differs from the number of outputs'
+            read(11,*,iostat=ierr) (zclass(i),i=1,Nclasses)
+            If(ierr /= 0) stop 'Setup.dat: malformed output class list'
+         End If
+         read(11,*,iostat=ierr) LensSlab
+         If(ierr == 0) read(11,*,iostat=ierr) LensGrid
+         If(ierr /= 0) stop 'Setup.dat: malformed extra-outputs block (lens planes)'
+         write (*,'(a,i4,2(a,i5))') '  Extra outputs: output classes=',Nclasses, &
+                                    '  lens slabs per axis=',LensSlab,'  lens plane grid=',LensGrid
+      End If
 
       If(Nexact > 0)Then
          write (*,'(a,i4,a)') '  Requested ',Nexact,' exact output redshifts (#outputs < 0):'

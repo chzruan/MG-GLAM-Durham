@@ -46,12 +46,17 @@ SIM_CASES = {       # case dir -> configuration (zout list + sign of #outputs)
     # first member merges onto a ladder step (pinned); the second, 0.09%
     # later, must be INSERTED and must not re-move the pinned step
     "case8_pinned": dict(zout=[0.49337, 0.4920], exact=True),
+    # per-output classes (I5) must not change the schedule; they must reach
+    # OutputSchedule.dat (I4) attached to the right redshift after sorting
+    "case9_classes": dict(zout=[2.5, 0.512, 1.1], exact=True, classes=[2, 1, 2]),
 }
+C_H0 = 2997.92458   # Mpc/h, comoving-distance convention of OutputSchedule.dat
 ERR_CASES = {       # case dir -> (log file, required message, forbidden product)
     "case4a_zbig": ("init.log", "outside the simulation range", "Setup.dat"),
     "case4b_zneg": ("init.log", "outside the simulation range", "Setup.dat"),
     "case4c_dup": ("Run1/main.log", "are duplicates", "Run1/PMcrd.0*.DAT"),
     "case4d_range": ("Run1/main.log", "at or before the initial redshift", "Run1/PMcrd.0*.DAT"),
+    "case4e_classes": ("init.log", "one output class per listed redshift", "Setup.dat"),
 }
 
 
@@ -182,6 +187,41 @@ def a_sequence(mainlog):
     return seq
 
 
+def read_schedule(path):
+    """OutputSchedule.dat -> {step: (a, z, chi, exact, class)}."""
+    out = {}
+    for line in open(path):
+        if line.startswith("#") or not line.strip():
+            continue
+        s, a, z, chi, ex, cl = line.split()
+        out[int(s)] = (float(a), float(z), float(chi), int(ex), int(cl))
+    return out
+
+
+def setup_cosmology(path):
+    om = oml = None
+    for line in open(path):
+        if "Omega Matter" in line:
+            om = float(line.split()[0])
+        elif "Omega Lambda" in line:
+            oml = float(line.split()[0])
+    return om, oml
+
+
+def chi_of(a, om, oml):
+    """Comoving distance, flat matter+Lambda, by Simpson in ln a (no scipy)."""
+    import math
+    n = 20000
+    x0 = math.log(a)
+    h = -x0 / n
+    s = 0.0
+    for i in range(n + 1):
+        x = x0 + h * i
+        f = 1.0 / (math.exp(x) * math.sqrt(om * math.exp(-3.0 * x) + oml))
+        s += f if i in (0, n) else (4.0 * f if i % 2 else 2.0 * f)
+    return C_H0 * s * h / 3.0
+
+
 # ---- test driver ----------------------------------------------------------
 class Report:
     def __init__(self):
@@ -197,6 +237,11 @@ class Report:
 
 def oracle(cfg):
     """Returns (expected {step: aexpn}, xmarks, stop index, #inserted steps)."""
+    return oracle_full(cfg)[:4]
+
+
+def oracle_full(cfg):
+    """As oracle(), plus the set of marked steps and the full ladder A."""
     a0, A, dA = build_ladder(cfg.get("da0", DA0))
     n0 = len(A)
     if cfg["exact"]:
@@ -205,7 +250,7 @@ def oracle(cfg):
         marks, xmarks = legacy_marks(A, cfg["zout"]), {}
     stop = stop_index(A, dA, marks, exact=cfg["exact"])
     exp = expected_outputs(A, marks, cfg.get("nsteps", NSTEPS), stop)
-    return exp, xmarks, stop, len(A) - n0
+    return exp, xmarks, stop, len(A) - n0, marks, A
 
 
 def main(work):
@@ -227,6 +272,37 @@ def main(work):
             else:               # scheduled epoch: <= 2 ulp of the ladder
                 ok = abs(act[step] - exp[step]) <= 4e-7 * exp[step]
                 rep.check(ok, case, f"step {step}: AEXPN={act[step]:.9g} matches schedule {exp[step]:.9g}")
+
+    # OutputSchedule.dat (I4): exactly the marked steps, epochs as scheduled,
+    # exact flags, comoving distances and classes (I5)
+    for case, cfg in SIM_CASES.items():
+        path = os.path.join(work, case, "Run1", "OutputSchedule.dat")
+        if not os.path.exists(path):
+            rep.check(False, case, "OutputSchedule.dat written")
+            continue
+        sched = read_schedule(path)
+        _, xmarks, _, _, marks, A = oracle_full(cfg)
+        rep.check(set(sched) == marks, case,
+                  f"OutputSchedule.dat steps {sorted(sched)} == marked steps {sorted(marks)}")
+        om, oml = setup_cosmology(os.path.join(work, case, "Setup.dat"))
+        ok_a = ok_x = ok_chi = ok_cl = True
+        zclass = {f32(1.0 / f32(1.0 + f32(z))): c for z, c in zip(cfg["zout"], cfg.get("classes", [1] * len(cfg["zout"])))}
+        for step, (a, z, chi, ex, cl) in sched.items():
+            if step not in marks:
+                continue
+            target = xmarks.get(step)
+            ok_a &= (f32(a) == target) if target is not None else abs(a - A[step]) <= 4e-7 * A[step]
+            ok_x &= ex == (1 if target is not None else 0)
+            ok_chi &= abs(chi - chi_of(a, om, oml)) <= 1e-5 * max(chi, 1.0)
+            expected_class = zclass.get(target, 1) if cfg["exact"] else 1
+            ok_cl &= cl == expected_class
+        rep.check(ok_a, case, "schedule epochs match the headers (bit-exact on pinned steps)")
+        rep.check(ok_x, case, "exact flags mark exactly the pinned steps")
+        rep.check(ok_chi, case, f"comoving distances match flat matter+Lambda (Om={om}, OmL={oml})")
+        rep.check(ok_cl, case, f"output classes as requested ({cfg.get('classes', 'all 1')})")
+    # case 9: classes must not change the schedule of case 3 (same redshifts)
+    rep.check(set(results["case9_classes"]) == set(results["case3_multi"]), "case9_classes",
+              "snapshot set identical to case3_multi (classes do not alter the schedule)")
 
     # case 1: the near-coincident target is merged (only z=2 inserts a step),
     # and exactly one snapshot exists at the merged moment

@@ -27,6 +27,11 @@
 #   case6_tailinsert - z=0 inserted after the legacy stop step (NlastX fix)
 #   case7_closepairs - the four DEGRACE pairs closer than 0.5%: all scheduled
 #   case8_pinned     - second member of a pair must not re-move a pinned step
+#   case9_classes    - per-output class list (1 full / 2 station) reaches
+#                      OutputSchedule.dat; schedule unchanged by classes
+#   case4e           - class count /= #outputs rejected by PMP2init
+#   every sim case   - OutputSchedule.dat lists exactly the marked steps with
+#                      their epochs, comoving distances and classes
 #
 # Usage:   bash run_tests.sh          (interactive; ~1-2 min on a login node)
 #          SKIP_MODULES=1 bash run_tests.sh   (if the Intel env is already loaded)
@@ -165,6 +170,17 @@ set_outputs case8_pinned -2 " 0.49337 0.4920"
 run_init case8_pinned || echo "  (init failed)"
 copy_ics case8_pinned && run_main case8_pinned
 
+echo "== case9_classes: per-output classes + OutputSchedule.dat (#outputs = -3, classes 2 1 2)"
+prep_case case9_classes
+set_outputs case9_classes -3 " 2.5 0.512 1.1"
+{ echo 'Output classes            =         3  0-all class 1'
+  echo ' 2 1 2'
+  echo 'Lens slabs per axis       =         0  0-off'
+  echo 'Lens plane grid           =         0  0-Ngrid'
+} >> "$WORK/case9_classes/Init.dat"
+run_init case9_classes || echo "  (init failed)"
+copy_ics case9_classes && run_main case9_classes
+
 # ---------------------------------------------------------------- error cases
 echo "== case4a_zbig / case4b_zneg: rejected by PMP2init"
 prep_case case4a_zbig
@@ -173,6 +189,13 @@ run_init case4a_zbig
 prep_case case4b_zneg
 set_outputs case4b_zneg -1 " -0.5"
 run_init case4b_zneg
+echo "== case4e_classes: class count differs from #outputs: rejected by PMP2init"
+prep_case case4e_classes
+set_outputs case4e_classes -3 " 2.5 0.512 1.1"
+{ echo 'Output classes            =         2  0-all class 1'
+  echo ' 2 1'
+} >> "$WORK/case4e_classes/Init.dat"
+run_init case4e_classes
 
 echo "== case4c_dup / case4d_range: rejected by PMP2main (hand-edited Setup.dat)"
 mkdir -p "$WORK/case4c_dup/Run1" "$WORK/case4d_range/Run1"

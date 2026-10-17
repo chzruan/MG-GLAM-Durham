@@ -15,6 +15,7 @@ Module LocalData
     Real*4     :: dAlist(NstepM)  ! step da used for each step (exact-z mode)
     Integer*4  :: MarkX(NstepM)   ! =1: step lands exactly on a requested output redshift
     Integer*4  :: NlastX          ! last step to execute (exact-z mode)
+    Integer*4  :: Nclass(NstepM)  ! per-output class of a marked step (1 full, 2 station); 0 = not an output
 end Module LocalData
 !
 !-------------------------------------------------
@@ -78,6 +79,7 @@ Program PMP
         IF (Nlist(ISTEP) == 1) THEN
             CALL MG_scratch_release
             mDENSIT = 1              ! flag for DM density. =0- dm is ready to use
+            OutClass = max(1, Nclass(ISTEP))   ! 1 = full output, 2 = station (Analysis skips BDM/extras)
             IF (iSave == 1) CALL WriteDataPM(1, Path)
             CALL Analysis(Path, mDENSIT)
             CALL MG_scratch_ensure
@@ -105,6 +107,7 @@ END Program PMP
 subroutine Initialize(Path)
     use Tools
     use LocalData
+    use ExtraOutputs
     use ExtradofBackgroundData  ! used for MG_model = 4 or 5
 
     character(len=*) :: Path
@@ -170,6 +173,7 @@ subroutine Initialize(Path)
     Nlist(:) = 0
     dAlist(:) = 0.
     MarkX(:) = 0
+    Nclass(:) = 0
     da = ASTEP0
     a = AEXPN0
     Alist(1) = a
@@ -196,10 +200,16 @@ subroutine Initialize(Path)
             da1 = Alist(j) - a
             da0 = a - Alist(j - 1)
             If (da1 < da0) Then    !-- mark closest time step for analysis
-                Nlist(j) = 1
+                jm = j
             else
-                Nlist(j - 1) = 1
+                jm = j - 1
             end If
+            Nlist(jm) = 1
+            If (Nclass(jm) == 0) Then          !-- per-output class (1 = full, 2 = station);
+                Nclass(jm) = zclass(i)         !   two moments on one step: the fuller class wins
+            Else
+                Nclass(jm) = min(Nclass(jm), zclass(i))
+            End If
         end Do
     End If                   !-- #outputs < 0: zout handled exactly in SetExactSteps
 
@@ -215,6 +225,7 @@ subroutine Initialize(Path)
             end if
         end if
     end Do
+    Call WriteOutputSchedule(Ntotal, Alist, Nlist, MarkX, Nclass)   !-- step -> epoch index file
 
 end subroutine Initialize
 !------------------------------
@@ -241,6 +252,7 @@ Subroutine SetExactSteps
     Real*4, parameter :: DUPTOL = 1.e-6  ! targets closer than this are one Real*4 epoch
     Real*4    :: atgt(1000), aprev, atol
     Integer*4 :: i, j, k, jnear
+    Integer*4 :: iord(1000)              ! original index of each sorted target (carries its class)
 
     If (Nexact <= 0) Return
 
@@ -259,16 +271,22 @@ Subroutine SetExactSteps
         End If
     End Do
 
-    !---- sort ascending in a (descending in z)
+    !---- sort ascending in a (descending in z), carrying the original index
+    Do i = 1, Nexact
+        iord(i) = i
+    End Do
     Do i = 2, Nexact
         aprev = atgt(i)
+        k = iord(i)
         j = i - 1
         Do While (j >= 1)
             If (atgt(j) <= aprev) exit
             atgt(j+1) = atgt(j)
+            iord(j+1) = iord(j)
             j = j - 1
         End Do
         atgt(j+1) = aprev
+        iord(j+1) = k
     End Do
 
     !---- reject duplicate targets only: a zero-length step would break the
@@ -305,6 +323,7 @@ Subroutine SetExactSteps
             If (jnear < Ntotal) dAlist(jnear+1) = Alist(jnear+1) - atgt(i)
             Nlist(jnear) = 1
             MarkX(jnear) = 1
+            Nclass(jnear) = zclass(iord(i))
         Else
             !-- add the target as a new timestep before step j
             If (Ntotal + 1 > NstepM) Stop 'Too many timesteps.Increase length of Alist'
@@ -313,6 +332,7 @@ Subroutine SetExactSteps
                 dAlist(k+1) = dAlist(k)
                 Nlist(k+1) = Nlist(k)
                 MarkX(k+1) = MarkX(k)
+                Nclass(k+1) = Nclass(k)
             End Do
             Ntotal = Ntotal + 1
             If (j == 1) Then
@@ -325,6 +345,7 @@ Subroutine SetExactSteps
             dAlist(j+1) = Alist(j+1) - atgt(i)
             Nlist(j) = 1
             MarkX(j) = 1
+            Nclass(j) = zclass(iord(i))
         End If
     End Do
 

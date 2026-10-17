@@ -31,6 +31,10 @@ Module Param
     Real*4   :: densThr, sigV
     Real*4   :: zout(1000), BiasPars(1000)
     Integer*4:: iExactZ = 0         ! =1: zout requested as exact redshifts (#outputs < 0)
+    Integer*4:: Nclasses = 0        ! extra outputs: per-output classes (0 = all class 1)
+    Integer*4:: zclass(1000) = 1    ! class per zout entry: 1 = full, 2 = station
+    Integer*4:: LensSlab = 0        ! lens planes: slabs per axis (0 = off)
+    Integer*4:: LensGrid = 0        ! lens planes: plane grid (0 = Ngrid)
     Real*8   :: rf, OmLOm0
     Real*4   :: xkt(0:NtabM), Pkt(0:NtabM)  ! Power spectrum
     Real*4   :: StepK, alog0
@@ -244,6 +248,23 @@ Program Initialize
         End Do
     End If
 
+    !---- extra outputs: validate the per-output classes and the lens-plane geometry
+    Do i = 1, Nclasses
+        If (zclass(i) < 1 .or. zclass(i) > 2) Then
+            write (*, '(a,i3,a,i5)') ' Error: output class of redshift #', i, ' is ', zclass(i)
+            Stop 'Output classes must be 1 (full) or 2 (station)'
+        End If
+    End Do
+    If (LensSlab < 0 .or. LensGrid < 0) Stop 'Lens-plane parameters must not be negative'
+    If (LensSlab > 0) Then
+        If (mod(Ngrid, LensSlab) /= 0) Stop 'Lens slabs per axis must divide Ngrid'
+        If (LensGrid == 0) LensGrid = Ngrid
+        If (LensGrid > Ngrid .or. mod(Ngrid, LensGrid) /= 0) Stop 'Lens plane grid must divide Ngrid'
+        write (*, '(a,i3,a,f9.3,a,i5)') ' Lens planes: ', LensSlab, ' slabs per axis of depth ', &
+            Box/LensSlab, ' Mpc/h, plane grid ', LensGrid
+    End If
+    If (Nclasses > 0) write (*, '(a,i4,a)') ' Output classes read for ', Nclasses, ' redshifts'
+
     OPEN (10, file='Setup.dat')
     OPEN (1, file='lcdm.dat')
 
@@ -367,6 +388,11 @@ Program Initialize
     write (10, 60) csf_potential, 'coupled scalar field model potential type: 1 - inverse power law, 2 - SUGRA'
     write (10, 50) csf_alpha, 'coupled scalar field model potential parameter'
     write (10, 50) csf_beta, 'coupled scalar field model coupling parameter'
+    write (10, *) '!------------ extra outputs (DEGRACE companions) ---------------'
+    write (10, 60) Nclasses, 'Number of output classes (0 = all class 1)'
+    If (Nclasses > 0) write (10, '(50i3)') (zclass(i), i=1, Nclasses)
+    write (10, 60) LensSlab, 'Lens planes: slabs per axis (0 = off)'
+    write (10, 60) LensGrid, 'Lens planes: plane grid (0 = Ngrid)'
 50  format(es12.5, T20, a)
 60  format(i5, T20, a)
 70  format(L, T20, a)
@@ -490,6 +516,20 @@ Subroutine ReadInit
     csf_alpha = ParseLine(11)
     csf_beta = ParseLine(11)
 
+    !---- optional trailing lines (extra outputs for the DEGRACE companions);
+    !     absent in older Init.dat files, in which case the defaults (off) apply
+    Nclasses = iParseLineOpt(11, 0)
+    If (Nclasses > 0) Then
+        If (Nclasses /= Nout) Then
+            write (*, '(2(a,i5))') ' Error: Output classes =', Nclasses, ' but #outputs =', Nout
+            Stop 'Init.dat: one output class per listed redshift is required'
+        End If
+        read (11, *, iostat=ierr) (zclass(i), i=1, Nclasses)
+        If (ierr /= 0) Stop 'Init.dat: output class list unreadable'
+    End If
+    LensSlab = iParseLineOpt(11, 0)
+    LensGrid = iParseLineOpt(11, 0)
+
     If (BiasPars(10) < 0.1) BiasPars(10) = 1.0
     !--- make new da
     ! fr = da*(1.+zinit)*100.     ! = da/a*100
@@ -572,6 +612,9 @@ Subroutine CheckInit
         write (11, '(a,i9)') 'csf_potential             = ', 1         ! csf model potential type
         write (11, '(a,f9.5)') 'csf_alpha                 = ', 0.1D0     ! csf model potential parameter alpha
         write (11, '(a,f9.5)') 'csf_beta                  = ', -0.2D0    ! csf model coupling parameter beta
+        write (11, '(a,i9,a)') 'Output classes            = ', 0, '  0-all class 1; else one class (1 full, 2 station) per redshift on the next line'
+        write (11, '(a,i9,a)') 'Lens slabs per axis       = ', 0, '  0-off'
+        write (11, '(a,i9,a)') 'Lens plane grid           = ', 0, '  0-Ngrid'
         stop
     end if
 
@@ -675,6 +718,33 @@ Function iParseLine(iFile)
     iParseLine = idummy
 
 end Function iParseLine
+!--------------------------------------------------
+!        read an OPTIONAL integer line: returns idef at the end of
+!        the file or when the next line carries no '=' sign (keeps
+!        Init.dat files written before the parameter existed valid)
+Function iParseLineOpt(iFile, idef)
+    Character :: Line*120, Line2*120, Line3(120)
+    Integer*4 :: iParseLineOpt, idef, ios
+
+    Read (iFile, '(a)', iostat=ios) Line
+    If (ios /= 0) Then
+        iParseLineOpt = idef
+        Return
+    End If
+    Ieq = INDEX(Line, '=', BACK=.TRUE.)
+    backspace (iFile)
+    If (Ieq == 0) Then
+        iParseLineOpt = idef
+        Return
+    End If
+    write (Line2, '(a1,i2,a)') '(', Ieq, 'a1,i10)'
+    Read (iFile, Line2, iostat=ios) (Line3(i), i=1, Ieq), idummy
+    If (ios /= 0) Then
+        iParseLineOpt = idef
+    Else
+        iParseLineOpt = idummy
+    End If
+end Function iParseLineOpt
 !--------------------------------------------------
 !        read line from  input file iFile
 !                          logical format
