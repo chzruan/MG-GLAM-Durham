@@ -54,6 +54,8 @@ SIM_CASES = {       # case dir -> configuration (zout list + sign of #outputs)
     "case10_lens36": dict(zout=[2.5, 0.512, 1.1], exact=True, lens=(2, 36)),
     # low-k mode dumps (I8): density from POWERfft5's transform (iPower=1), momentum on N_dep=36
     "case11_modes": dict(zout=[2.5, 0.512, 1.1], exact=True, modes=dict(kc=0.5, ndep=36)),
+    # f(R) smoke test: BDM + f_R at halo centres (I10); the box may host few or no haloes
+    "case12_frhalo": dict(zout=[1.1, 0.512], exact=True, frhalo=True),
 }
 BOX = 150.0
 NGRID = 72
@@ -431,6 +433,36 @@ def main(work):
     rep.check(ok_herm, "case11_modes", "iz = 0 plane is Hermitian (layout and sign convention)")
     rep.check(ok_k0, "case11_modes", "k = 0 mode is zero")
     rep.check(ok_pk, "case11_modes", "P(k) from the density cube equals PowerDM.R bin by bin (< 1e-4), V2")
+
+    # f_R at halo centres (I10): one float32 pair per catalogue row, finite, |f_R| <= |fR_bg| * max(u)^2
+    _, _, _, _, marks12, _ = oracle_full(SIM_CASES["case12_frhalo"])
+    rundir = os.path.join(work, "case12_frhalo", "Run1")
+    ok_fr = ok_rows = True
+    nrows_total = 0
+    for step in sorted(marks12):
+        fb = os.path.join(rundir, f"fR_halo.{step:04d}.0001.bin")
+        fm = os.path.join(rundir, f"fR_halo.{step:04d}.0001.meta")
+        cat = os.path.join(rundir, "CATALOGS", f"CatshortV.{step:04d}.0001.DAT")
+        if not (os.path.exists(fb) and os.path.exists(fm) and os.path.exists(cat)):
+            ok_fr = False
+            continue
+        vals = np.fromfile(fb, dtype="<f4").reshape(-1, 2)
+        meta = read_meta(fm)
+        ncat = 0
+        for line in open(cat):                       # data rows: >= 20 numeric fields
+            p = line.split()
+            try:
+                float(p[0]); float(p[1])
+                ncat += len(p) >= 20
+            except (ValueError, IndexError):
+                pass
+        ok_rows &= vals.shape[0] == ncat == int(meta["rows"])
+        nrows_total += vals.shape[0]
+        if vals.size:
+            fRbg = float(meta["fR_bg(a_old)"])
+            ok_fr &= bool(np.all(np.isfinite(vals))) and bool(np.all(vals <= 0)) and bool(np.all(np.abs(vals) < 10 * abs(fRbg)))
+    rep.check(ok_fr, "case12_frhalo", f"fR_halo files per output, finite, sign of fR0 (rows in total: {nrows_total})")
+    rep.check(ok_rows, "case12_frhalo", "fR_halo rows == CatshortV rows == meta rows")
 
     # 36 = 2x2 block mean of 72 at the same steps (same IC, same schedule)
     ok_blk = True

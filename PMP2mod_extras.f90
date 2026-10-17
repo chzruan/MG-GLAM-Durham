@@ -14,6 +14,9 @@ Module ExtraOutputs
     integer*4, parameter, private :: Nlenmax = 16384
     real*8, save, private :: work(Nlenmax), wsave(Nlenmax)
 !$OMP THREADPRIVATE(work, wsave)
+    Logical, save :: fRHaloActive = .false.        ! f_R-at-haloes file open (set by fRHaloOpen/Close)
+    Integer*4, save, private :: nfRrows = 0, fRmoment = 0
+    Real*8, save, private :: fRbg_old = 0.d0, a_old_fR = 0.d0
 Contains
 !---------------------------------------------------------
 !   Comoving distance chi(a) in Mpc/h for the flat matter+Lambda
@@ -548,4 +551,118 @@ Contains
         Call system_clock(c1)
         write (*, '(a,i5,a,f8.2,a)') '   extra modes: momentum on N_dep=', Nd, '   time =', dble(c1 - c0)/dble(cr), ' s'
     End Subroutine ExtraModes
+!---------------------------------------------------------
+!   f_R at halo centres (item I10, f(R) runs). FI2 holds the converged
+!   scalar field u = |f_R|^(1/(n+1)) normalised by its background value,
+!   solved at the pre-step epoch a_old = AEXPN - ASTEP, so that
+!   f_R(x) = fR_bg(a_old) * FI2(x)^(n+1), fR_bg(a) = fR0 (R0/R(a))^(n+1),
+!   R(a) = 3 (Om/a^3 + 4 OmL). Grid node i sits at code coordinate X = i.
+!   fRHaloOpen is called by BDM before WriteFiles, fRHaloRow once per
+!   catalogue row (same order as CatshortV), fRHaloClose afterwards.
+!   File fR_halo.<step>.<box>.bin: float32 pairs (fR_centre, fR_mean).
+!---------------------------------------------------------
+    Subroutine fRHaloOpen(moment)
+        Integer*4, intent(in) :: moment
+        Real*8 :: R0, Rold
+        Character*120 :: Name
+        a_old_fR = dble(AEXPN) - dble(ASTEP)
+        R0 = 3.d0*(dble(Om) + 4.d0*dble(OmL))
+        Rold = 3.d0*(dble(Om)/a_old_fR**3 + 4.d0*dble(OmL))
+        fRbg_old = fR0*(R0/Rold)**(fr_n + 1)
+        write (Name, '(2(a,i4.4),a)') 'fR_halo.', moment, '.', Nrealization, '.bin'
+        open (31, file=TRIM(Name), status='replace', access='stream', form='unformatted', convert='little_endian')
+        nfRrows = 0
+        fRmoment = moment
+        fRHaloActive = .true.
+    End Subroutine fRHaloOpen
+
+    Subroutine fRHaloRow(x, y, z, rvir)
+        Real*4, intent(in) :: x, y, z, rvir          ! centre [Mpc/h] in [0,Box), aperture radius [Mpc/h]
+        Real*8 :: X1, Y1, Z1, D1, D2, D3, T1, T2, T3, uc, um, r, dx, dy, dz, XN
+        Integer*4 :: I, J, K, I1, J1, K1, ii, jj, kk, ip, jp, kp, nr, ncell
+        If (.not. fRHaloActive) Return
+        XN = dble(NGRID)
+        X1 = modulo(dble(x)*XN/dble(Box), XN) + 1.d0
+        Y1 = modulo(dble(y)*XN/dble(Box), XN) + 1.d0
+        Z1 = modulo(dble(z)*XN/dble(Box), XN) + 1.d0
+        I = int(X1); J = int(Y1); K = int(Z1)
+        If (I > NGRID) I = NGRID
+        If (J > NGRID) J = NGRID
+        If (K > NGRID) K = NGRID
+        D1 = X1 - I; D2 = Y1 - J; D3 = Z1 - K
+        T1 = 1.d0 - D1; T2 = 1.d0 - D2; T3 = 1.d0 - D3
+        I1 = I + 1; If (I1 > NGRID) I1 = 1
+        J1 = J + 1; If (J1 > NGRID) J1 = 1
+        K1 = K + 1; If (K1 > NGRID) K1 = 1
+        uc = T3*(T1*(T2*dble(FI2(I,J,K))**(fr_n+1) + D2*dble(FI2(I,J1,K))**(fr_n+1)) &
+                + D1*(T2*dble(FI2(I1,J,K))**(fr_n+1) + D2*dble(FI2(I1,J1,K))**(fr_n+1))) &
+           + D3*(T1*(T2*dble(FI2(I,J,K1))**(fr_n+1) + D2*dble(FI2(I,J1,K1))**(fr_n+1)) &
+                + D1*(T2*dble(FI2(I1,J,K1))**(fr_n+1) + D2*dble(FI2(I1,J1,K1))**(fr_n+1)))
+        ! mean of f_R over the grid cells whose centres lie within rvir of the centre
+        r = dble(rvir)*XN/dble(Box)
+        nr = int(r) + 1
+        um = 0.d0
+        ncell = 0
+        If (r >= 0.5d0) Then
+            Do kk = K - nr, K + nr
+                dz = dble(kk) - Z1
+                kp = modulo(kk - 1, NGRID) + 1
+                Do jj = J - nr, J + nr
+                    dy = dble(jj) - Y1
+                    jp = modulo(jj - 1, NGRID) + 1
+                    Do ii = I - nr, I + nr
+                        dx = dble(ii) - X1
+                        If (dx*dx + dy*dy + dz*dz <= r*r) Then
+                            ip = modulo(ii - 1, NGRID) + 1
+                            um = um + dble(FI2(ip, jp, kp))**(fr_n+1)
+                            ncell = ncell + 1
+                        End If
+                    End Do
+                End Do
+            End Do
+        End If
+        If (ncell > 0) Then
+            um = um/ncell
+        Else
+            um = uc
+        End If
+        write (31) real(fRbg_old*uc, 4), real(fRbg_old*um, 4)
+        nfRrows = nfRrows + 1
+    End Subroutine fRHaloRow
+
+    Subroutine fRHaloClose(nhalo)
+        Integer*4, intent(in) :: nhalo
+        Character*120 :: Name
+        If (.not. fRHaloActive) Return
+        close (31)
+        fRHaloActive = .false.
+        If (nhalo /= nfRrows) write (*, '(a,2i10)') ' WARNING fR_halo: rows written /= catalogue rows', nfRrows, nhalo
+        write (Name, '(2(a,i4.4),a)') 'fR_halo.', fRmoment, '.', Nrealization, '.meta'
+        open (30, file=TRIM(Name), status='replace')
+        write (30, '(a)') 'product = fR_halo'
+        write (30, '(a)') 'format = raw little-endian float32 pairs (fR_centre, fR_mean), one pair per catalogue row, same order as CatshortV'
+        write (Name, '(2(a,i4.4),a)') 'CATALOGS/CatshortV.', fRmoment, '.', Nrealization, '.DAT'
+        write (30, '(a,a)') 'catalogue = ', TRIM(Name)
+        write (30, '(a,i10)') 'rows = ', nfRrows
+        write (30, '(a)') 'fR_centre = f_R interpolated (CIC) at the BDM halo centre'
+        write (30, '(a)') 'fR_mean = mean of f_R over the grid cells whose centres lie within the catalogue radius (aperture Rvir) of the centre; equals fR_centre when the radius is below half a cell'
+        write (30, '(a)') 'conversion = f_R(x) = fR_bg(a_old) * u(x)^(n+1), u = the code field FI2 (scalar field normalised by its background value), solved at the pre-step epoch a_old'
+        write (30, '(a)') 'fR_bg(a) = fR0 * (R0/R(a))^(n+1), R(a) = 3 (Omega_m/a^3 + 4 Omega_L), R0 = R(1)'
+        write (30, '(a,es16.8)') 'fR0 = ', fR0
+        write (30, '(a,i3)') 'n = ', fr_n
+        write (30, '(a,es16.8)') 'a_old = ', a_old_fR
+        write (30, '(a,es16.8)') 'fR_bg(a_old) = ', fRbg_old
+        write (30, '(a,es16.8)') 'a = ', AEXPN
+        write (30, '(a,es16.8)') 'z = ', 1./AEXPN - 1.
+        write (30, '(a,i6)') 'step = ', fRmoment
+        write (30, '(a,i6)') 'realization = ', Nrealization
+        write (30, '(a,f12.4)') 'Box = ', Box
+        write (30, '(a,i6)') 'N_grid = ', NGRID
+        write (30, '(a,f10.6)') 'Omega_m = ', Om
+        write (30, '(a,f10.6)') 'Omega_L = ', OmL
+        write (30, '(a,f10.6)') 'hubble = ', hubble
+        write (30, '(a,a)') 'header = ', TRIM(HEADER)
+        close (30)
+        write (*, '(a,i8,a)') '   fR_halo: ', nfRrows, ' rows written'
+    End Subroutine fRHaloClose
 End Module ExtraOutputs

@@ -35,7 +35,7 @@ PMP2main: $(OBJ)  PMP2main.o
 PMP2BDM: $(OBJ) PMP2bdm.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
 
-PMP2linker.o: PMP2linker.f90 PMP2mod_tools.o PMP2mod_density.o
+PMP2linker.o: PMP2linker.f90 PMP2mod_tools.o PMP2mod_density.o PMP2mod_extras.o
 	$(FC) $(BDM_FFLAGS) $(BDM_PRECISE_FLAGS) -w -c $<
 
 # Gadget-2 -> MG-GLAM PM converter (reuses Tools/WriteDataPM).

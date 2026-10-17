@@ -30,6 +30,7 @@
 #   case9_classes    - per-output class list (1 full / 2 station) reaches
 #                      OutputSchedule.dat; schedule unchanged by classes
 #   case4e           - class count /= #outputs rejected by PMP2init
+#   case12_frhalo    - f(R) run with BDM: fR_halo rows match the catalogue rows
 #   case11_modes     - low-k density modes from POWERfft5 (P(k) from the cube equals
 #                      PowerDM.R bin by bin) and momentum modes on N_dep=36
 #   case10_lens72/36 - lens planes (2 slabs per axis) at plane grid 72 and 36:
@@ -217,6 +218,25 @@ sed -i 's/^DM power spectrum         =         0/DM power spectrum         =    
 } >> "$WORK/case11_modes/Init.dat"
 run_init case11_modes || echo "  (init failed)"
 copy_ics case11_modes && run_main case11_modes
+
+echo "== case12_frhalo: f(R) (F5) run with BDM and f_R at halo centres (#outputs = -2)"
+prep_case case12_frhalo
+set_outputs case12_frhalo -2 " 1.1 0.512"
+sed -i 's/^Find BDM halos            =         0/Find BDM halos            =         1/; s/^MG_flag                   =         0/MG_flag                   =         1/' "$WORK/case12_frhalo/Init.dat"
+{ echo 'Output classes            =         0  0-all class 1'
+  echo 'Lens slabs per axis       =         0  0-off'
+  echo 'Lens plane grid           =         0  0-Ngrid'
+  echo 'Extra outputs             =         1  0-off'
+  echo 'kc_delta                  =     0.500  h/Mpc'
+  echo 'kc_mom                    =     0.500  h/Mpc'
+  echo 'N_dep_mom                 =        36  0-Ngrid/2'
+  echo 'Subsample M               =         0  0-off'
+  echo 'fR at halos               =         1  0-off'
+} >> "$WORK/case12_frhalo/Init.dat"
+cp "$ROOT/test/BDM.config" "$WORK/case12_frhalo/Run1/BDM.config"
+mkdir -p "$WORK/case12_frhalo/Run1/CATALOGS"     # BDM needs it
+run_init case12_frhalo || echo "  (init failed)"
+copy_ics case12_frhalo && run_main case12_frhalo
 
 # ---------------------------------------------------------------- error cases
 echo "== case4a_zbig / case4b_zneg: rejected by PMP2init"

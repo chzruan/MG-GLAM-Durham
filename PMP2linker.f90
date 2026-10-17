@@ -116,6 +116,7 @@ Module  LinkerList
   use Structures
   use Tools
   use BdmDuplicateRules
+  use ExtraOutputs, only: fRHaloOpen, fRHaloRow, fRHaloClose, fRHaloActive
 
 Contains
 !----------------------------------------------------------
@@ -205,7 +206,9 @@ Contains
       write(*,*) ' Go to Write Catshort: ',Nparticles
 
       tstart = seconds()
+      If(iExtra==1 .and. FRhalo==1 .and. MG_flag==1 .and. OutClass==1) Call fRHaloOpen(ISTEP)   ! f_R at halo centres (I10)
       Call WriteFiles
+      Call fRHaloClose(Nhalo)
       tfinish = seconds()
       write(13,'(10x,a,T50,2f10.2)') ' time for WriteFiles  =',tfinish-tstart,tfinish-t0      
       write(*,'(10x,a,T50,2f10.2)')  ' time for WriteFiles  =',tfinish-tstart,tfinish-t0      
@@ -632,6 +635,7 @@ SUBROUTINE WriteFiles
        x,y,z,VxMaxx(ip),VyMaxx(ip),VzMaxx(ip),Mvir(ip),Mtotal(ip), &
        rr,Vrms,VmaxM(ip),iHalo,Cvir,aNpart,0,Xoff(ip),VirRat,LambdaM(ip), &
        1.e3*RadRms(ip),Axba(ip),Axca(ip),Xax(ip),Yax(ip),Zax(ip)
+     if(fRHaloActive) call fRHaloRow(x,y,z,Rvir(ip))     ! same row order as the catalogue (I10)
    enddo
    Nhalo=iHalo
    call PublishCatalogue

@@ -11,4 +11,6 @@ FFLAGS="-O2 -qopenmp -march=core-avx2 -mcmodel=medium -convert big_endian -I$ROO
 ifx $FFLAGS -o "$W/test_modes.exe" "$HERE/test_modes.f90" "$ROOT"/PMP2mod_tools.o "$ROOT"/PMP2mod_fft5.o \
     "$ROOT"/PMP2mod_random.o "$ROOT"/PMP2MG_subroutines.o "$ROOT"/PMP2mod_MGbackground.o "$ROOT"/PMP2mod_density.o "$ROOT"/PMP2mod_extras.o -module "$W" || exit 2
 ( cd "$W" && OMP_NUM_THREADS=2 ./test_modes.exe ) || exit 2
-python3 "$HERE/check_modes.py" "$W/vtest.0001.0001.bin"
+python3 "$HERE/check_modes.py" "$W/vtest.0001.0001.bin"; rc=$?
+python3 "$HERE/check_frhalo.py" "$W/fR_halo.0002.0001.bin" "$W/fR_halo.0002.0001.meta" || rc=1
+exit $rc
