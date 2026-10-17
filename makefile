@@ -3,7 +3,7 @@
 #LDFLAGS =  -O2  -g -fbacktrace   -fopenmp   -mcmodel=medium -fconvert=big-endian
 # FC = ifort 
 FC = ifx
-FFLAGS =   -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -qopt-report=2 -qopt-report-phase=vec,openmp -shared-intel -mcmodel=medium -convert big_endian
+FFLAGS =   -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian
 LDFLAGS =  -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian
 # C helper for the hashed particle subsample (glam_hash.c, called through iso_c_binding)
 CC = icx
@@ -12,6 +12,11 @@ CFLAGS = -O2 -g -march=core-avx2 -mcmodel=medium
 # Append the finder safety flags after overrides, including recursive bitmatch
 # builds. Intel resolves repeated FP-model options in favour of the last one.
 BDM_FFLAGS = $(FFLAGS)
+
+# Build everything in the order that satisfies the Fortran module dependencies
+# from a clean tree (PMP2init first builds the shared modules; see the OBJ note).
+all: PMP2init PMP2start PMP2main PMP2MG ic2pm
+.PHONY: all
 BDM_PRECISE_FLAGS = $(if $(filter gfortran%,$(notdir $(FC))),-fno-fast-math -ffp-contract=off,-fp-model precise)
 FMPI = mpiifort
 MPIFLAGS =  -O3 -lmpi -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian

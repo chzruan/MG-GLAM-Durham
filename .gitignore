@@ -91,3 +91,4 @@ LCDM_*/
 test/extras/work/
 __pycache__/
 test/precise_z/work/
+archive/*.tar.gz

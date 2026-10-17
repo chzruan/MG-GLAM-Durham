@@ -1,0 +1,76 @@
+Baojiu Li
+Hi @CZ Ruan, can you output the data every time interval corresponding to 256Mpc/h comoving distance? This is mainly for lensing maps. For the density field, I wonder if it would be much cheaper if we calculate and store only the projected density field with a projection depth of 256Mpc/h. The 2D grid size can be 2048^3. Then for each snapshot we will have 12 such “lens planes” (3 axes, each axis is spit into 4 planes). Do you think this will save  a lot of disk space? (edited)
+
+CZ Ruan
+Output snapshots at fixed comoving distance means different cosmologies have different snapshots. I suggest following FORGE to set primary redshifts (common among cosmologies) and secondary snapshots (for 256 Mpc/h comoving distance interval).
+
+Baojiu Li
+Yes that is what I used in the DEGRACE ECOSMOG simulations. So in addition to the fixed comoving distance interval snapshots, I also asked the code to output at the following redshifts (note that by default z=0 is an output snapshot time too):
+0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0, 1.125, 1.25, 1.375, 1.5, 1.625, 1.75, 1.875, 2.0
+
+I did a quick run of my code which tells me that the output times (scale factor values) should be:
+
+0.09885636873988636,
+0.11436339923360468,
+0.13101192462219735,
+0.14880957763634076,
+0.16776699787816512,
+0.18789864408246054,
+0.2092238939643731,
+0.2317683231209623,
+0.25556525683790143,
+0.2806576241072646,
+0.30710027529154543,
+0.3333333333333333,
+0.33496251467163335,
+0.34782608695652173,
+0.36363636363636365,
+0.3643315849360659,
+0.38095238095238093,
+0.3953165138959508,
+0.4,
+0.42105263157894735,
+0.42805303395318656,
+0.4444444444444444,
+0.4627096181121927,
+0.47058823529411764,
+0.49949502290382997,
+0.5,
+0.5333333333333333,
+0.5386678234812446,
+0.5714285714285714,
+0.5805485755215236,
+0.6153846153846154,
+0.6255358719332695,
+0.6666666666666666,
+0.6741267910946328,
+0.7269451849577723,
+0.7272727272727273,
+0.7847794661808203,
+0.8,
+0.8486352893278191,
+0.8888888888888888,
+0.9198100312830662,
+1.0
+
+A total of 42 snapshots including the fixed redshifts mentioned in my message above. This covers comoving distance from 0 to 6400Mpc/h.
+
+To be safe, can you do a cross check of these scale factor values for the Planck 2015 cosmological parameter values you gave in the GoogleDoc file? It will be a useful sanity check so that I am confident that my ECOSMOG runs also have the correct snapshot times.
+
+As for the resolution, that is a fair point. So if we store all the particle data (particle positions and velocities) then it is 200 GB per snapshot and so 9TB per simulation, which is clearly not feasible for 100 LCDM simulations.
+
+If we store the density field in lens planes of size 4096^3, then for each snapshot we need 4096^2*12 which will be 0.8GB, so 34GB per simulation (each with 42 snapshots), and 3.4TB for 100 LCDM simulations, which is acceptable?
+I think 4096^2 is the best grid size that we can get for this simulation resolution?
+
+
+CZ Ruan
+I think a 4096^3 float32 mesh is ~275 GB per snapshot, instead of 34 GB?
+Yes, a 4096 modified gravity run takes 950+ GB memory, taking full use of a COSMA8 compute node.
+I will check the these scale factors in Planck15 cosmology
+
+
+Baojiu Li
+I meant that we project the box to 4 lens planes along each axis, so in total 12 lens planes each of projection depth 256Mpc/h and each with 4096^2 (not 4096^3) cells.
+
+This will be much cheaper — 0.8GB per snapshot, 34GB per simulation, and 3.4TB for 100 simulations.
+But we lose the velocity information, which I think is not a big deal since we will have the velocities in the halo catalogues.
