@@ -24,6 +24,14 @@ da0 = 6e-4 (163 steps, the legacy late-time ladder), Nrow 1024, Ngrid 2048.
 `--cosmology OMEGA_M H SIGMA8 --pk FILE [--fR0 ...]` serves new cosmologies
 (stations computed from χ(a), matter + Λ only).
 
+Extra on-the-fly products (plan items I8–I10) are switched on with
+`--extra` (low-k density modes `deltam` from the P(k) transform and
+momentum modes `mom_x/y/z` on an `N_dep` grid at class-1 outputs;
+`--kc-delta 1.5 --kc-mom 1.0 --ndep-mom 0`), `--subsample-m 100` (1 %
+hashed quantised particle subsample, once I9 is integrated) and
+`--fr-halos` (f_R at the BDM halo centres, f(R) runs). Every product has a
+`.meta` sidecar; see the plan's section 3 for the conventions.
+
 ## Running
 
 A run directory holds `Init.dat`, `PkTable.dat`, `bin/` (frozen copies of
