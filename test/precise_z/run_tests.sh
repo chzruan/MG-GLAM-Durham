@@ -195,6 +195,7 @@ for c in case10_lens72:72 case10_lens36:36; do
     prep_case "$d"
     set_outputs "$d" -3 " 2.5 0.512 1.1"
     sed -i 's/^Dump random fraction      =         0/Dump random fraction      =         1/' "$WORK/$d/Init.dat"
+    [ "$d" = case10_lens72 ] && sed -i 's/^DM power spectrum         =         0/DM power spectrum         =         1/' "$WORK/$d/Init.dat"   # L3: P_2D vs 3-D P(k)
     { echo 'Output classes            =         0  0-all class 1'
       echo 'Lens slabs per axis       =         2  0-off'
       echo "Lens plane grid           =        $g  0-Ngrid"

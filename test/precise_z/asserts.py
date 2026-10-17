@@ -552,6 +552,58 @@ def main(work):
         ok_blk &= np.max(np.abs(blk - pl36)) < 1e-5
     rep.check(ok_blk, "case10_lens36", "planes equal the 2x2 block means of the full-resolution planes")
 
+    # L3: plane power spectra vs the 3-D P(k) of the same output through the exact projection
+    # formula of the periodic box (Limber-free): P_2D(k_perp) = (1/L) sum_kz P_3D(|k|) |W(kz)|^2 with
+    # the discrete slab top-hat W(kz) = sin(kz nc dz/2) / (nc sin(kz dz/2)), nc cells of size dz.
+    # PowerDM.R and the planes are both raw CIC quantities and the CIC window is isotropic to
+    # O(k^2 dx^2), so neither side is deconvolved. The comparison is statistical: a 2-D ring holds a
+    # few modes while the 3-D bins average over shells, so each ring must agree within 3 sigma
+    # (sigma = 1/sqrt(N_eff), N_eff = 3 axes x independent modes in the ring) and the mean ratio over
+    # 0.08 < k_perp < 0.5 h/Mpc (k_N = 1.5) within 10 per cent.
+    ok_l3 = ok_l3mean = True
+    nslab, nlens = SIM_CASES["case10_lens72"]["lens"]
+    rundir = os.path.join(work, "case10_lens72", "Run1")
+    kf = 2 * np.pi / BOX
+    nc = NGRID // nslab
+    dz = BOX / NGRID
+    mz = np.fft.fftfreq(NGRID) * NGRID
+    kz = kf * mz
+    with np.errstate(divide="ignore", invalid="ignore"):
+        W2 = np.where(mz == 0, 1.0, (np.sin(kz * nc * dz / 2) / (nc * np.sin(kz * dz / 2))) ** 2)
+    mx, my = np.meshgrid(np.fft.fftfreq(nlens) * nlens, np.fft.fftfreq(nlens) * nlens, indexing="ij")
+    mperp = np.sqrt(mx ** 2 + my ** 2)
+    bperp = np.rint(mperp).astype(int)
+    for (case, step), pl in sorted(planes.items()):
+        if case != "case10_lens72":
+            continue
+        fp = os.path.join(rundir, f"PowerDM.R.{step:04d}.0001.dat")
+        if not os.path.exists(fp):
+            ok_l3 = ok_l3mean = False
+            continue
+        pdm = read_powerdm(fp)
+        kt, pt = pdm[:, 1], pdm[:, 3]
+        p3d = lambda k: np.exp(np.interp(np.log(np.clip(k, kt[0], kt[-1])), np.log(kt), np.log(pt)))
+        p2d = np.zeros((nlens, nlens))
+        for p in pl:                                    # N^-2 convention, P_2D = L^2 <|delta_2D|^2>
+            p2d += np.abs(np.fft.fft2(p - 1.0) / nlens ** 2) ** 2 * BOX ** 2
+        p2d /= len(pl)
+        ratios = []
+        for b in range(2, 13):                          # 0.08 < k_perp < 0.5 h/Mpc
+            sel = bperp == b
+            pred = np.mean([np.sum(p3d(np.sqrt(kp ** 2 + kz ** 2)) * W2) / BOX for kp in kf * mperp[sel]])
+            ratio = p2d[sel].mean() / pred
+            neff = 3 * sel.sum() / 2
+            sig = 1.0 / np.sqrt(neff)
+            ratios.append(ratio)
+            if abs(ratio - 1) >= 3 * sig:
+                ok_l3 = False
+                print(f"      L3 step {step} ring b={b} (k_perp={kf * b:.3f}): P_2D/pred = {ratio:.3f}, sigma = {sig:.3f}")
+        print(f"      L3 step {step}: P_2D/prediction over the {len(ratios)} rings: mean {np.mean(ratios):.3f}, "
+              f"min {min(ratios):.3f}, max {max(ratios):.3f}")
+        ok_l3mean &= abs(np.mean(ratios) - 1) < 0.10
+    rep.check(ok_l3, "case10_lens72", "L3: plane P_2D(k_perp) within 3 sigma of the projected 3-D P(k) in every ring, 0.08 < k_perp < 0.5")
+    rep.check(ok_l3mean, "case10_lens72", "L3: mean P_2D/prediction over the rings within 10 per cent of 1")
+
     # case 9: classes must not change the schedule of case 3 (same redshifts)
     rep.check(set(results["case9_classes"]) == set(results["case3_multi"]), "case9_classes",
               "snapshot set identical to case3_multi (classes do not alter the schedule)")

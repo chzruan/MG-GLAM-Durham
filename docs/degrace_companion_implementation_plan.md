@@ -474,7 +474,7 @@ Schedule and lens planes:
 | S2 | generator reproduces Baojiu's fiducial list and all 96 ECOSMOG lists | < 1e-7 / < 1e-6 in a |
 | L1 | plane means and slab sums on the test box | mean = 1 to float error; 4 slabs = full projection |
 | L2 | planes vs. offline projection of a full snapshot (test box, `iSave=1`) | identical to float rounding |
-| L3 | plane power spectrum vs. the 3-D P(k) at k ≪ k_N (Limber-free check on the test box) | within shot noise |
+| L3 | plane power spectrum vs. the 3-D P(k) at k ≪ k_N (Limber-free check on the test box) | within shot noise. **Passed 2026-10-17** (`case10_lens72`): P_2D(k_⊥) of the six planes vs the exact periodic-box projection of `PowerDM.R`, (1/L) Σ_kz P_3D \|W_slab(kz)\|², agrees within 3σ in every ring 0.08 < k_⊥ < 0.5 and on average to 7/4/3 % at the three outputs (sample variance of a few modes per ring) |
 
 Extra outputs (from the brief):
 
@@ -614,7 +614,7 @@ For CZ:
 - [x] ECOSMOG suite metadata pinned (`docs/degrace_ecosmog/`, 2026-10-16)
 - [ ] Phase 0 answers in section 16
 - [x] I3 generator + S2; I4 `OutputSchedule.dat`; I5 class list (`degrace-track-a` `cb09e3c`)
-- [x] I2 lens planes + L1, L2 (`degrace-track-a` `b774f8d`); L3 (plane P(k) vs 3-D P(k)) pending
+- [x] I2 lens planes + L1, L2 (`degrace-track-a` `b774f8d`); L3 (plane P(k) vs 3-D P(k)) in the suite since 2026-10-17
 - [ ] Pilot node 2 vs the ECOSMOG twins (ΛCDM job 12180066 submitted 2026-10-17; f(R) next)
 - [x] I7 δ_L dump, route 1 in the FML generator + V3, V7, V8 (`degrace-track-a`, 2026-10-17; `test/extras/run_deltaL_test.sh`); legacy pilots out of scope (decision)
 - [x] I8 + V1, V2 (`degrace-track-a` `a41ae37`); V3 passed with I7; V4 needs the pilot catalogues
@@ -785,3 +785,14 @@ For CZ:
   grid nodes is non-analytic in Ψ, so the assertions use residual rms,
   binned means, cross-correlation coefficients and the mean phase per axis
   (a coordinate-offset estimator) instead of per-mode ratios.
+- 2026-10-17, L3 and run verification: `case10_lens72` now also writes
+  `PowerDM.R`; `asserts.py` compares the plane power with the exact
+  projection formula (177/177 checks). `DEGRACE-companion/check_run.py`
+  verifies a run directory (schedule vs `Init.dat` and the pinned ECOSMOG
+  list, 42 PowerDM + LensPlanes with sizes/epochs/means, catalogues at the
+  17 primaries, ic2pm epoch, `timing.log` output overhead, sacct). Dry run
+  on the running ΛCDM pilot after 140 steps: non-output step 0.61 min;
+  station outputs 0.99 min (Analysis 0.43 = 2048³ P(k) + planes 1.8 s,
+  IO 0.21 for the 201 MB plane file); primary outputs 2.53 min (BDM, logged
+  in the Analysis column); output steps so far 25 % of the wall time, of
+  which the lens planes themselves are < 1 %.

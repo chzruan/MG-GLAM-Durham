@@ -45,3 +45,19 @@ class) written at start-up.
 
 `runs/` is git-ignored: record each campaign's inputs, job IDs and results
 in the plan's section 16.
+
+## Verifying a run
+
+```sh
+micromamba run -n cosemu python3 DEGRACE-companion/check_run.py \
+    DEGRACE-companion/runs/Node_002_LCDM_L1024Np1024Ng2048 --node Node_002 \
+    --aout docs/degrace_ecosmog/aout.json [--planes all] [--job JOBID]
+```
+
+Checks the 42-output schedule (exact flags, 17 + 25 classes, epochs equal to
+float32(1/(1+z)) of `Init.dat` and to the pinned ECOSMOG list), one
+`PowerDM.R` and one `LensPlanes` pair per output (size, epoch, axis means
+= 1 on a sample or all files), BDM catalogues at the class-1 outputs, the
+`ic2pm` velocity epoch, the `timing.log` breakdown (median step, output
+overhead) and, when the job is finished, sacct elapsed / MaxRSS / CPU
+efficiency. Exit 0 = all checks passed.
