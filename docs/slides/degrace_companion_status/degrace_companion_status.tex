@@ -442,8 +442,8 @@
       $x, y, z$ [$h^{-1}$Mpc]; $V_x, V_y, V_z$ [km/s]; $M_{\rm bound}$, $M_{\rm tot}$ [$h^{-1}M_\odot$]; $R_{\rm vir}$
       [$h^{-1}$kpc]; $V_{\rm rms}$, $V_{\rm circ}$ [km/s]; row index; $c_{\rm vir}$; $N_{\rm part}$; distinct/sub flag;
       $X_{\rm off}$; $2K/E_p - 1$; spin $\lambda$; RadRMS; $b/a$, $c/a$; major-axis direction $(x, y, z)$.
-    \item \textbf{Binary twin} (\texttt{CatalogueFormat = text|binary|both} in \texttt{BDM.config}, compiled default text,
-      the companion inputs set both; 2026-10-17/18): \texttt{CatshortV.<step>.0001.bin}, 96-byte little-endian records
+    \item \textbf{Binary twin} (\texttt{CatalogueFormat = text|binary|both} in \texttt{BDM.config}, compiled default binary
+      since 2026-10-18, \texttt{text} or \texttt{both} on request; 2026-10-17/18): \texttt{CatshortV.<step>.0001.bin}, 96-byte little-endian records
       holding the same 24 columns (22 float32 + 2 int32), same rows and order, lossless; $3\times$ smaller apparent,
       $\approx 40\,\%$ on disk (this Lustre compresses text $1.9\times$); sidecar \texttt{.meta} with columns, units,
       rows, $a$, $a_v$, $\Delta a$, cosmology, $m_p$, \texttt{MassMin}, $\Delta_{\rm vir}$, definitions. Reader:

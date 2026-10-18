@@ -44,6 +44,13 @@ This reverses the "default both" of the 2026-10-17 proposal; it is a one-word
 change in `PMP2linker.f90` (`CatalogueFormat='text'`) if the user prefers
 `both`.
 
+**Superseded the same day by the user's decision: the compiled default is
+`binary`** (neither `text` nor `both`), set before the merge into `cz`. A run
+without the key writes `.bin` + `.meta` only; `text` and `both` are opt-in
+through `BDM.config` (`gen_inputs.py --catalogue-format`). case14 checks the
+binary-only default; the fR_halo sidecar states for each `catalogue` line
+when the file exists.
+
 ## Minors and Nits: handled
 
 - R3-01 row self-check in the binary reader; R3-05 `columns`/`dtypes` lines
@@ -89,5 +96,6 @@ change in `PMP2linker.f90` (`CatalogueFormat='text'`) if the user prefers
 - `DEGRACE-companion/check_run.py` on the ΛCDM pilot: 0 FAIL, 0 WARN, 17 of
   17 catalogues, no staged temporaries.
 - `gen_inputs.py` without `--catalogue-format` writes no key; with `both`
-  writes `CatalogueFormat = both`; provenance records the choice.
+  writes `CatalogueFormat = both`; provenance records the choice (and, when
+  the key is absent, that the compiled default depends on the build date).
 - Deck rebuilt (19 frames); the two changed frames inspected.

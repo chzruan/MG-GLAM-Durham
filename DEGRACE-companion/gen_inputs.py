@@ -217,7 +217,7 @@ def bdm_config(catalogue_format=None):
         "          MassMin   =  1.000E+11       ! Minimum halo mass\n"
         "          dLogR     =  2.000E-02       ! size of log binning for potential\n"
         "          dLogP     =  1.000E-02       ! size of log binning for profiles\n"
-        + (f"          CatalogueFormat = {catalogue_format}   ! text (CatshortV.*.DAT), binary (.bin + .meta) or both\n"
+        + (f"          CatalogueFormat = {catalogue_format}   ! binary (.bin + .meta, default), text (CatshortV.*.DAT) or both\n"
            if catalogue_format else "")
     )
 
@@ -240,9 +240,10 @@ def main() -> int:
     ap.add_argument("--no-bdm", action="store_true")
     ap.add_argument("--catalogue-format", choices=["text", "binary", "both"], default=None,
                     help="BDM catalogue files (BDM.config CatalogueFormat, needs a PMP2main built from cz after 2026-10-18): "
-                         "text (legacy CatshortV.*.DAT, the compiled default), binary (.bin + .meta) or both. "
-                         "Not given: the key is not written and any build accepts the file. Use both for the "
-                         "companions until halocat reads the binary catalogue, then binary.")
+                         "binary (.bin + .meta, the compiled default since 2026-10-18), text (legacy CatshortV.*.DAT) or both. "
+                         "Not given: the key is not written and any build accepts the file; a build from 2026-10-18 on "
+                         "then writes the binary only, an older build the text. Pass both (or text) only while a "
+                         "consumer still needs the .DAT, e.g. halocat before it imports glamio.")
     ap.add_argument("--classes", choices=["all", "primary"], default="all",
                     help="per-output classes: 'all' = every output class 1 (BDM everywhere); "
                          "'primary' = the 17 primary redshifts class 1, the 25 stations class 2 (no BDM/extras)")
@@ -297,7 +298,7 @@ def main() -> int:
              classes=args.classes, lens_slabs=args.lens_slabs, lens_grid=args.lens_grid,
              extra=1 if args.extra else 0, kc_delta=args.kc_delta, kc_mom=args.kc_mom, ndep_mom=args.ndep_mom,
              subsample_m=args.subsample_m, fr_halos=1 if (args.fr_halos and args.gravity == "fr") else 0,
-             catalogue_format=args.catalogue_format or "default (key not written: text)")
+             catalogue_format=args.catalogue_format or "default (key not written: binary with a build from 2026-10-18 on, text before)")
     if args.lens_slabs and args.ngrid % args.lens_slabs:
         sys.exit("--lens-slabs must divide --ngrid")
     if args.lens_grid and args.ngrid % args.lens_grid:
@@ -313,7 +314,7 @@ def main() -> int:
                 epochs=[float(e) for e in epochs], hubble_expected=h, omch2=omch2, ombh2=ombh2)
     (out / "inputs_provenance.json").write_text(json.dumps(prov, indent=1))
     print(f"wrote {out}/PkTable.dat ({len(pk)} rows), Init.dat ({len(epochs)} exact outputs), "
-          f"Run1/BDM.config (CatalogueFormat {args.catalogue_format or 'not written: compiled default text'}), inputs_provenance.json")
+          f"Run1/BDM.config (CatalogueFormat {args.catalogue_format or 'not written: compiled default binary'}), inputs_provenance.json")
     print(f"  Om={om} h={h} sigma8={sigma8} gravity={args.gravity} fR0={fr0 if a['mg_flag'] else 'n/a'}; "
           f"Nrow={args.nrow} Ngrid={args.ngrid} z_init={args.zinit} da0={args.da}")
     return 0

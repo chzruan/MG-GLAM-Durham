@@ -52,12 +52,12 @@ Real*4 ::            TotalMemory=0.2, t0                           ! current mem
 Real*4 ::            Xleft,Xright,Yleft,Yright,Zleft,Zright,dBuffer    ! boundaries of domain
 Character*120 ::     CatshortName,CatalogName,    &                ! names of halo catalogs 
                      outputName                                    ! dump file
-! Catalogue output format (BDM.config "CatalogueFormat = text | binary | both", default text):
+! Catalogue output format (BDM.config "CatalogueFormat = text | binary | both", default binary):
 ! the legacy text CatshortV.<step>.<box>.DAT and/or the raw little-endian
 ! CatshortV.<step>.<box>.bin (96-byte records, 24 four-byte fields, same rows
 ! and order as the text) with a key = value sidecar .meta.
-character(8) :: CatalogueFormat='text'
-logical :: CatText=.true.,CatBinary=.false.
+character(8) :: CatalogueFormat='binary'
+logical :: CatText=.false.,CatBinary=.true.
 character(2) :: CatLabelCur='V.'
 ! Publish a complete catalogue atomically; an interrupted finder may only leave
 ! hidden staged files, never a partially replaced final catalogue. Up to three
@@ -269,7 +269,7 @@ Contains
       NradP=30; iVirial=1; dLogR=0.02; dLogP=0.02
       dBuffer=5.; SlopeR=0.20; Rext=0.15; MassMin=2.5e12
       MaxMemory=500.
-      CatalogueFormat='text'
+      CatalogueFormat='binary'
       inquire(file='BDM.config',exist=FileExists)
       if (FileExists) then
          open(newunit=unit,file='BDM.config',status='old',action='read',iostat=io)
@@ -353,7 +353,7 @@ Contains
       if (exists) then
          write(*,'(a)') ' BDM.config validated at start-up'
       else
-         write(*,'(a)') ' BDM.config absent: the finder writes its defaults at the first catalogue step'
+         write(*,'(a)') ' BDM.config absent: the finder writes its defaults (CatalogueFormat = binary) at the first catalogue step'
       end if
       end SUBROUTINE CheckBdmConfig
 
@@ -378,7 +378,7 @@ Contains
          write(unit,20) 'MaxMemory',MaxMemory,'! Linked-list admission limit in GiB'
          write(unit,20) 'dLogR',dLogR,'! Log bin size for potential'
          write(unit,20) 'dLogP',dLogP,'! Log bin size for profiles'
-         write(unit,30) 'CatalogueFormat',trim(CatalogueFormat),'! text (CatshortV.*.DAT), binary (.bin + .meta) or both'
+         write(unit,30) 'CatalogueFormat',trim(CatalogueFormat),'! binary (.bin + .meta, default), text (CatshortV.*.DAT) or both'
          close(unit)
       end if
       write(*,'(/a)') ' ------ current set of parameters:'
@@ -390,7 +390,7 @@ Contains
       write(*,20) 'MaxMemory',MaxMemory,'! Linked-list admission limit in GiB'
       write(*,20) 'dLogR',dLogR,'! Log bin size for potential'
       write(*,20) 'dLogP',dLogP,'! Log bin size for profiles'
-      write(*,30) 'CatalogueFormat',trim(CatalogueFormat),'! text (CatshortV.*.DAT), binary (.bin + .meta) or both'
+      write(*,30) 'CatalogueFormat',trim(CatalogueFormat),'! binary (.bin + .meta, default), text (CatshortV.*.DAT) or both'
 10    format(10x,a,T20,' = ',i6,T40,a)
 20    format(10x,a,T20,' = ',1p,g10.3,T40,a)
 30    format(10x,a,' = ',a,T45,a)

@@ -58,8 +58,9 @@ SIM_CASES = {       # case dir -> configuration (zout list + sign of #outputs)
     "case12_frhalo": dict(zout=[1.1, 0.512], exact=True, frhalo=True),
     # binary halo catalogue (BDM.config CatalogueFormat = binary): .bin + .meta only, no text
     "case13_catbin": dict(zout=[0.512], exact=True, catbin=True),
-    # no BDM.config at all: the finder writes its defaults at the first catalogue step and must
-    # re-read that file at the second one (regression test for the truncated-key default file)
+    # no BDM.config at all: the finder writes its defaults (CatalogueFormat = binary) at the first
+    # catalogue step and must re-read that file at the second one (regression test for the
+    # truncated-key default file)
     "case14_catdefault": dict(zout=[1.1, 0.512], exact=True, catdefault=True),
     # CatalogueFormat = text: the text catalogue is untouched by the binary machinery; same run as case13
     "case15_cattext": dict(zout=[0.512], exact=True, cattext=True),
@@ -701,7 +702,8 @@ def main(work):
     rep.check(ok_15 and n15 > 0, "case15_cattext", f"CatalogueFormat = text: .DAT only, rows equal case13's binary rows column by column (rows: {n15}, must be > 0)")
 
     # case14: no BDM.config: the finder writes its default file at the first catalogue step and
-    # must accept it at the second (the default must spell the full key); the compiled default is text
+    # must accept it at the second (the default must spell the full key); the compiled default is
+    # binary (user decision 2026-10-18): .bin + .meta only, readable, text_catalogue = none
     _, _, _, _, marks14, _ = oracle_full(SIM_CASES["case14_catdefault"])
     rundir14 = os.path.join(work, "case14_catdefault", "Run1")
     cfg14 = os.path.join(rundir14, "BDM.config")
@@ -713,13 +715,27 @@ def main(work):
             if "=" in line:
                 k, v = line.split("=", 1)
                 keys14[k.strip()] = v.strip()
-    ok_14 &= keys14.get("CatalogueFormat") == "text" and "MassMin" in keys14 and "iVirial" in keys14
+    ok_14 &= keys14.get("CatalogueFormat") == "binary" and "MassMin" in keys14 and "iVirial" in keys14
+    n14 = 0
+    problems = []
     for step in sorted(marks14):
         stem = os.path.join(rundir14, "CATALOGS", f"CatshortV.{step:04d}.0001")
-        ok_14 &= os.path.exists(stem + ".DAT") and not os.path.exists(stem + ".bin") and not os.path.exists(stem + ".meta")
+        ok_14 &= os.path.exists(stem + ".bin") and os.path.exists(stem + ".meta") and not os.path.exists(stem + ".DAT")
+        if not ok_14:
+            continue
+        cat = try_read(stem, problems)
+        if cat is None:
+            ok_14 = False
+            continue
+        n14 += len(cat)
+        ok_14 &= int(cat.meta["rows"]) == len(cat) and cat.meta["text_catalogue"].strip() == "none"
+        ok_14 &= bool(np.all(cat["row"] == np.arange(1, len(cat) + 1)))
     text14 = open(os.path.join(rundir14, "main.log"), errors="replace").read()
     ok_14 &= "BDM.config absent" in text14 and "configuration error" not in text14
-    rep.check(ok_14, "case14_catdefault", f"no BDM.config: default file written with the full key (CatalogueFormat = {keys14.get('CatalogueFormat')}), re-read at the second catalogue step, text only")
+    ok_14 &= not glob.glob(os.path.join(rundir14, "CATALOGS", ".Catshort*"))
+    for pr in problems:
+        print("      glamio: " + pr)
+    rep.check(ok_14 and n14 > 0, "case14_catdefault", f"no BDM.config: default file written with the full key (CatalogueFormat = {keys14.get('CatalogueFormat')}), re-read at the second catalogue step, binary only (.bin + .meta readable, text_catalogue = none; rows: {n14}, must be > 0)")
 
     # 36 = 2x2 block mean of 72 at the same steps (same IC, same schedule)
     ok_blk = True

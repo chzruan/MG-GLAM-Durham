@@ -488,13 +488,14 @@ by `ReadParameters` in `PMP2linker.f90`; branch `bdm-binary-catalogue`,
 
 | `BDM.config` key | Default | Meaning |
 |---|---|---|
-| `CatalogueFormat` | `text` (compiled default; `gen_inputs.py --catalogue-format both` for the companions) | `text`: legacy `CatshortV.<step>.<box>.DAT`; `binary`: `CatshortV.<step>.<box>.bin` (96-byte little-endian records, 24 four-byte fields = the 24 text columns, 22 float32 + 2 int32, same rows and order) plus a `key = value` sidecar `.meta` (columns, dtypes, units, rows, a, z, a_v, da, cosmology, particle mass, MassMin, overdensity, iVirial, finder, header); `both`: all three files. Any other value stops the run at the first catalogue step. All files are staged as hidden temporaries and renamed into place text → bin → meta, so a published `.meta` marks a complete `.bin`. |
+| `CatalogueFormat` | `binary` (compiled default since 2026-10-18, user decision; `gen_inputs.py --catalogue-format both` or `text` while a consumer still needs the `.DAT`) | `text`: legacy `CatshortV.<step>.<box>.DAT`; `binary`: `CatshortV.<step>.<box>.bin` (96-byte little-endian records, 24 four-byte fields = the 24 text columns, 22 float32 + 2 int32, same rows and order) plus a `key = value` sidecar `.meta` (columns, dtypes, units, rows, a, z, a_v, da, cosmology, particle mass, MassMin, overdensity, iVirial, finder, header); `both`: all three files. Any other value stops the run at the first catalogue step. All files are staged as hidden temporaries and renamed into place text → bin → meta, so a published `.meta` marks a complete `.bin`. |
 
 The companion input generator writes `Run1/BDM.config`; the key is written
 only when `--catalogue-format` is given (a build older than 2026-10-18
 rejects the key, so the generated inputs stay usable with the frozen pilot
-binaries); use `both` for the companions until halocat reads the binary
-catalogue, then `binary`. Since 2026-10-18 `PMP2main` validates
+binaries, which write the text). Without the key a current build writes
+the binary only; pass `both` or `text` while a consumer (halocat, until it
+imports glamio) still needs the `.DAT`. Since 2026-10-18 `PMP2main` validates
 `BDM.config` at start-up when `Find BDM halos = 1` (`CheckBdmConfig`), so a
 typo or an unknown key stops the run before any compute instead of at the
 first catalogue step. A finder killed between staging and publication
@@ -611,8 +612,9 @@ For CZ:
     `velocity_scale`, glamio's `velocities_at_av()` applies a/a_v) or
     switch the writer to 1/a_v. A switch changes every GLAM catalogue, so
     it is a separate commit after this decision.
-12. Production catalogue files: `CatalogueFormat = binary` once halocat
-    ingests the binary, `both` until then. On disk the binary saves ≈ 40 %
+12. Production catalogue files: `binary` (the compiled default since
+    2026-10-18, user decision); `both` only for a run whose catalogues
+    halocat must ingest before it reads the binary. On disk the binary saves ≈ 40 %
     of the catalogue space (≈ 1.3 GB per 2048³ box with 17 catalogues,
     ≈ 0.25 TB over the suite), not the 3× of the apparent sizes, because
     this Lustre compresses the text 1.9× and float32 only 1.09×.
@@ -985,7 +987,8 @@ For CZ:
   particle mass, MassMin, overdensity, iVirial, buffer width, finder,
   header). Text and binary rows come from the same variables, so they
   agree to the text's printed precision; the binary keeps the full real*4
-  values. (Corrected 2026-10-18: the compiled default is `text`, the
+  values. (Corrected 2026-10-18: the compiled default is `binary`, see the
+  entries below; the
   size figures below are apparent bytes; on disk the saving is ≈ 40 %, see
   section 9.) The staged-file publication was generalised to the three files
   (renamed text → bin → meta). HDF5 was rejected for the Fortran side: the
@@ -1007,8 +1010,8 @@ For CZ:
   outputs died at the second one; found by two reviewers, one by running
   it) and six Majors, all fixed the same day: format fixed and a
   default-config test added (case14); `CheckBdmConfig` validates
-  `BDM.config` at start-up; the compiled default is now `text` (opt-in
-  binary; `gen_inputs.py` writes the key only when asked); the sidecar's
+  `BDM.config` at start-up; the compiled default was set to `text` in this
+  round (`gen_inputs.py` writes the key only when asked); the sidecar's
   `definitions` line now states Rvir = R_SO + resolution correction and
   Mbound = bound mass inside R_SO; `check_run.py` verifies `.bin`/`.meta`
   and reports stale staged temporaries; the storage figures distinguish
@@ -1018,3 +1021,15 @@ For CZ:
   required layout lines, `mmap`, unified meta keys and two tests; the suite
   gained case15 (text mode equals case13's binary rows) and catches
   glamio's own exceptions as failures; 215/215 checks pass.
+- 2026-10-18, compiled default `CatalogueFormat = binary` (user decision
+  before the merge into `cz`): a run without `BDM.config`, or with one that
+  lacks the key, writes `.bin` + `.meta` only. The review round had set the
+  default to `text` to spare the text consumers; the user chose the
+  binary-only default instead (≈ 40 % less catalogue space on disk, no
+  duplicate files). Consequences: halocat and any script that opens
+  `CatshortV.*.DAT` from a run made with a build from this commit on needs
+  the glamio reader or `CatalogueFormat = text|both` in that run's
+  `BDM.config`; the frozen pilot binaries and every existing catalogue are
+  unaffected. The fR_halo sidecar now says for each `catalogue` line when
+  the file exists. case14 checks the binary-only default (readable, rows
+  > 0, `text_catalogue = none`); the suite passes 215/215 (36 s, 4 threads).

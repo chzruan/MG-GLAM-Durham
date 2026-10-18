@@ -42,8 +42,9 @@ deletes the checkpoint files at the end. Outputs per analysis step:
 `PowerDM.*`, `LensPlanes.<step>.<box>.{bin,meta}`, `CATALOGS/CatshortV.*`
 (class-1 outputs only; `.DAT` text and/or `.bin` + `.meta` binary, chosen
 by `CatalogueFormat` in `Run1/BDM.config`, which `gen_inputs.py` writes
-only when `--catalogue-format` is given; the compiled default is `text`,
-use `both` for the companions until halocat reads the binary), and
+only when `--catalogue-format` is given; the compiled default is `binary`
+since 2026-10-18, so a run without the key writes `.bin` + `.meta` only;
+pass `both` or `text` while a consumer still needs the `.DAT`), and
 `OutputSchedule.dat` (step, a, z, χ, exact, class) written at start-up.
 `PMP2main` validates `BDM.config` at start-up. Read the catalogues with
 `python/glamio` (`glamio.read_catalogue(stem)`); `check_run.py` verifies

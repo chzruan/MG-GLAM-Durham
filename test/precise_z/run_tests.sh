@@ -36,6 +36,7 @@
 #   case13_catbin    - BDM with CatalogueFormat = binary: .bin + .meta only, no text
 #   case15_cattext   - the case13 run with CatalogueFormat = text: .DAT only, rows equal case13's binary
 #   case14_catdefault - BDM on without BDM.config: the default file is written with the full key and re-read
+#                      (compiled default binary: .bin + .meta only, no .DAT)
 #   case4g_badcatfmt - BDM.config CatalogueFormat = hdf5 is rejected at start-up (CheckBdmConfig)
 #   case11_modes     - low-k density modes from POWERfft5 (P(k) from the cube equals
 #                      PowerDM.R bin by bin), momentum modes on N_dep=36, and the
@@ -241,7 +242,7 @@ sed -i 's/^Find BDM halos            =         0/Find BDM halos            =    
   echo 'Subsample M               =         0  0-off'
   echo 'fR at halos               =         1  0-off'
 } >> "$WORK/case12_frhalo/Init.dat"
-{ cat "$ROOT/test/BDM.config"; echo; echo '          CatalogueFormat = both       ! text, binary or both (compiled default text)'; } > "$WORK/case12_frhalo/Run1/BDM.config"
+{ cat "$ROOT/test/BDM.config"; echo; echo '          CatalogueFormat = both       ! text, binary or both (compiled default binary)'; } > "$WORK/case12_frhalo/Run1/BDM.config"
 mkdir -p "$WORK/case12_frhalo/Run1/CATALOGS"     # BDM needs it
 run_init case12_frhalo || echo "  (init failed)"
 copy_ics case12_frhalo && run_main case12_frhalo
@@ -250,7 +251,7 @@ echo "== case13_catbin: LCDM run with BDM and CatalogueFormat = binary (no text 
 prep_case case13_catbin
 set_outputs case13_catbin -1 " 0.512"
 sed -i 's/^Find BDM halos            =         0/Find BDM halos            =         1/' "$WORK/case13_catbin/Init.dat"
-{ cat "$ROOT/test/BDM.config"; echo; echo '          CatalogueFormat = binary     ! text, binary or both (default both)'; } > "$WORK/case13_catbin/Run1/BDM.config"
+{ cat "$ROOT/test/BDM.config"; echo; echo '          CatalogueFormat = binary     ! text, binary or both (compiled default binary)'; } > "$WORK/case13_catbin/Run1/BDM.config"
 mkdir -p "$WORK/case13_catbin/Run1/CATALOGS"
 run_init case13_catbin || echo "  (init failed)"
 copy_ics case13_catbin && run_main case13_catbin

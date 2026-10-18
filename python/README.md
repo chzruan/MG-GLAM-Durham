@@ -28,6 +28,9 @@ or `A` for the overdensity definition, `V` = virial being the usual one):
   `z`, `a_v`, `velocity_scale`, `step`, `Box`, `N_grid`, `N_row`, `Omega_m`,
   `Omega_L`, `hubble`, `particle_mass`, `overdensity`, ...).
 
+Since 2026-10-18 the finder writes the binary form by default
+(`CatalogueFormat = binary` in `BDM.config`); `text` and `both` are opt-in.
+
 Record layout (`glamio.CATALOGUE_DTYPE`, itemsize 96):
 
 | # | name | dtype | unit / meaning |
