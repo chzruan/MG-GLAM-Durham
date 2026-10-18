@@ -9,6 +9,7 @@ temp dir when unset) and removed afterwards.
 from __future__ import annotations
 
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -346,7 +347,7 @@ def test_read_meta(workdir: str) -> None:
         pass
     else:
         raise AssertionError("non-numeric value should raise ValueError")
-    assert glamio.__version__ == "0.1.0"
+    assert re.fullmatch(r"\d+\.\d+\.\d+", glamio.__version__), glamio.__version__   # single source: pyproject reads it
 
 
 TESTS = [

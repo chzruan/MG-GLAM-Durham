@@ -737,6 +737,122 @@ def main(work):
         print("      glamio: " + pr)
     rep.check(ok_14 and n14 > 0, "case14_catdefault", f"no BDM.config: default file written with the full key (CatalogueFormat = {keys14.get('CatalogueFormat')}), re-read at the second catalogue step, binary only (.bin + .meta readable, text_catalogue = none; rows: {n14}, must be > 0)")
 
+    # glamio readers of the other products (OutputSchedule.dat, LensPlanes, deltam/mom cubes,
+    # PowerDM, Subsample + PMcrd/PMcrs, fR_halo) must agree with this file's independent decoders
+    # on the suite's real outputs (python/glamio; plan section 6). Reader exceptions are failures.
+    import glamio as G
+    import numpy as np
+    r10 = os.path.join(work, "case10_lens72", "Run1")
+    r11 = os.path.join(work, "case11_modes", "Run1")
+    r12 = os.path.join(work, "case12_frhalo", "Run1")
+
+    def glamio_check(label, fn):
+        try:
+            ok, detail = fn()
+        except Exception as exc:                      # noqa: BLE001
+            import traceback
+            tb = traceback.extract_tb(exc.__traceback__)[-1]
+            ok, detail = False, f"{type(exc).__name__}: {exc} (at {os.path.basename(tb.filename)}:{tb.lineno})"
+        rep.check(ok, "glamio", f"{label}: {detail}")
+
+    def chk_schedule():
+        # case11 (all exact, class 1), case9_classes (classes 2 2 1) and case5a_legacy (exact 0 0)
+        ok, nrows, seen = True, 0, set()
+        for case in ("case11_modes", "case9_classes", "case5a_legacy"):
+            p = os.path.join(work, case, "Run1", "OutputSchedule.dat")
+            s = G.read_schedule(p)
+            ref = read_schedule(p)
+            ok &= len(s) == len(ref) > 0 and s.omega_m is not None and s.omega_l is not None
+            for r in s.rows:
+                rr = ref[int(r["step"])]
+                ok &= abs(r["a"] - rr[0]) < 1e-12 and abs(r["z"] - rr[1]) < 1e-12 and abs(r["chi"] - rr[2]) < 1e-9
+                ok &= (int(r["exact"]), int(r["class"])) == rr[3:]
+                seen.add((int(r["exact"]), int(r["class"])))
+                ok &= s.row_at_z(r["z"])["step"] == r["step"]
+            ok &= len(s.primary()) + len(s.stations()) == len(s)
+            nrows += len(s)
+        ok &= {(1, 1), (1, 2), (0, 1)} <= seen            # the exact and class columns are discriminated
+        return ok, f"{nrows} rows of 3 runs equal the suite's parser (exact and class values {sorted(seen)}); Om/OmL parsed; row_at_z"
+
+    def chk_lens():
+        metas = sorted(glob.glob(os.path.join(r10, "LensPlanes.*.meta")))
+        ok = len(metas) > 0
+        for fm in metas:
+            L = G.read_lensplanes(fm)
+            m = read_meta(fm)
+            ref = read_planes(fm[:-5] + ".bin", int(m["N_slab"]), int(m["N_lens"]))
+            ok &= np.array_equal(L.planes, ref) and np.array_equal(L.plane("x", 1), ref[0].T)
+            ok &= np.allclose(L.axis_means(), 1, atol=1e-5) and L.box == BOX
+        return ok, f"{len(metas)} outputs: planes equal the suite's decoder, plane('x', 1) orientation, axis means 1"
+
+    def chk_modes():
+        ok, n = True, 0
+        for prod in ("deltam", "mom_x", "mom_y", "mom_z"):
+            for fm in sorted(glob.glob(os.path.join(r11, f"{prod}.*.meta"))):
+                M = G.read_modes(fm)
+                nn = M.n
+                ref = read_modes(fm[:-5] + ".bin", nn)
+                ok &= np.array_equal(M.data, ref) and M.product == prod and nn >= 1
+                probes = [(ix, iy, iz) for ix, iy, iz in ((1, 2, 1), (2, -1, 3), (-1, 1, 1), (0, 1, 1)) if max(abs(ix), abs(iy), iz) <= nn]
+                ok &= all(M.mode(ix, iy, iz) == complex(ref[ix + nn, iy + nn, iz]) for ix, iy, iz in probes)            # direct branch
+                ok &= all(M.mode(ix, iy, -iz) == complex(np.conj(ref[-ix + nn, -iy + nn, iz])) for ix, iy, iz in probes)  # Hermitian branch
+                _, pk, _ = M.power()
+                ok &= np.allclose(pk, binned_power(ref, nn, M.box, nn), rtol=1e-6, equal_nan=True)
+                n += 1
+        return ok and n > 0, f"{n} cubes: data equal the suite's decoder, Hermitian accessor, power() == binned_power to 1e-6"
+
+    def chk_power():
+        files = sorted(glob.glob(os.path.join(r11, "PowerDM.*.dat")))
+        ok = len(files) > 0
+        for f in files:
+            P = G.read_powerdm(f)
+            ok &= np.array_equal(P.data, read_powerdm(f)) and P.ngrid == NGRID and P.columns == ["bin", "k", "nmodes", "pk"]
+            ok &= abs(P.k_nyq - np.pi * NGRID / BOX) < 0.01 and P.step == int(os.path.basename(f).split(".")[2])
+            a_ref = float(read_meta(os.path.join(r11, f"deltam.{P.step:04d}.0001.meta"))["a"].split()[0])
+            ok &= abs(P.a - a_ref) < 1e-5 and abs(P.z - (1.0 / P.a - 1.0)) < 2e-3          # f8.5 and f8.3 prints
+            ok &= abs(G.read_powerdm(f, box=BOX).k_nyq - np.pi * NGRID / BOX) < 1e-12
+        return ok, f"{len(files)} files: tables equal the suite's parser; a (vs the deltam sidecar), z, step, Ngrid, kNyq parsed"
+
+    def chk_subsample_snapshot():
+        metas = sorted(glob.glob(os.path.join(r11, "Subsample.*.meta")))
+        ok, n = len(metas) > 0, 0
+        for fm in metas:
+            S = G.read_subsample(fm)
+            meta, x, v = read_subsample(fm[:-5] + ".bin", fm)
+            ok &= np.array_equal(S.positions(), x.T) and np.array_equal(S.velocities(), v.T) and S.m == 1
+            ok &= np.array_equal(S.ids(), np.arange(S.n_p, dtype=np.uint64))
+            snap = G.read_snapshot(os.path.join(r11, f"PMcrd.{S.step:04d}.DAT"))
+            h = snap.header
+            ok &= h.aexpn == read_aexpn(snap.path) and h.ngrid == NGRID and h.nparticles == S.n_p and h.box == BOX
+            ok &= h.istep == S.step and abs(h.a_v - S.a_v) < 1e-7 and h.byteorder == ">"
+            # the other header words against the subsample sidecar (pins the field order of the record)
+            ok &= h.nrow == S.n_row and h.nrealization == S.realization and abs(h.astep - 2.0 * (S.a - S.a_v)) < 1e-7
+            ok &= abs(h.om - S.omega_m) < 1e-6 and abs(h.oml - S.omega_l) < 1e-6 and abs(h.hubble - S.hubble) < 1e-6
+            ok &= h.ic_velocity_epoch is None and h.partw == np.float32(NGRID**3 / S.n_p) and h.au0 == 0.0
+            x6 = snap.read(units="physical")
+            dpos = np.abs(np.stack(x6[:3], 1) - S.positions())
+            dpos = np.minimum(dpos, BOX - dpos)
+            dvel = np.abs(np.stack(x6[3:], 1) - S.velocities())
+            ok &= len(x6[0]) == S.n_p and dpos.max() <= S.dx_quant / 2 * (1 + 1e-6) and dvel.max() <= S.dv_quant / 2 * (1 + 1e-3)
+            n += 1
+        return ok, (f"{n} outputs: subsample decode equal the suite's, ids 0..N_p-1; PMcrd header (a, a_v, step, Ngrid, N_p, Box, "
+                    "Nrow, realization, ASTEP, Om, OmL, h, PARTW) and every PMcrs particle equal the subsample within the quanta")
+
+    def chk_frhalo():
+        metas = sorted(glob.glob(os.path.join(r12, "fR_halo.*.meta")))
+        ok, rows = len(metas) > 0, 0
+        for fm in metas:
+            F = G.read_frhalo(fm)
+            ref = np.fromfile(fm[:-5] + ".bin", dtype="<f4").reshape(-1, 2)
+            ok &= np.array_equal(F["fR_centre"], ref[:, 0]) and np.array_equal(F["fR_mean"], ref[:, 1])
+            ok &= len(F.catalogue()) == F.rows and F.fR0 is not None and F.fR0 < 0
+            rows += F.rows
+        return ok, f"{len(metas)} outputs ({rows} rows): pairs equal np.fromfile, catalogue() rows match"
+
+    for label, fn in (("OutputSchedule.dat", chk_schedule), ("LensPlanes", chk_lens), ("deltam/mom cubes", chk_modes),
+                      ("PowerDM", chk_power), ("Subsample + PMcrd/PMcrs", chk_subsample_snapshot), ("fR_halo", chk_frhalo)):
+        glamio_check(label, fn)
+
     # 36 = 2x2 block mean of 72 at the same steps (same IC, same schedule)
     ok_blk = True
     for (case, step), pl in planes.items():

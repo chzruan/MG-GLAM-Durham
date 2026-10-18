@@ -1,8 +1,13 @@
 # glamio
 
-Numpy-only Python readers for GLAM / MG-GLAM simulation outputs. The first
-module reads the BDM halo catalogues written to `CATALOGS/`, in both the legacy
-text form and the new binary form.
+Numpy-only Python readers for GLAM / MG-GLAM simulation outputs: the BDM halo
+catalogues (legacy text and binary), the output schedule, the lens planes, the
+low-k mode cubes, the quantised particle subsample, the f(R) halo values, the
+power spectra and the PM particle snapshots. Every reader validates the file
+against its sidecar (product name, required keys, byte count) and raises
+`ValueError` instead of misreading. The precise_z suite cross-checks each reader
+against independent decoders on real GLAM output
+(`test/precise_z/asserts.py`, the `glamio` checks).
 
 ## Install
 
@@ -12,7 +17,13 @@ From the repository root, into the `cosemu` environment:
 micromamba run -n cosemu python3 -m pip install -e python/
 ```
 
-Only `numpy>=1.24` and Python >= 3.10 are required.
+Only `numpy>=1.24` and Python >= 3.10 are required. Re-run the line after
+a version bump: the editable install records the version at install time
+(`pip show glamio` lags `glamio.__version__` otherwise).
+
+Tests: `python3 tests/test_readers.py` and `python3 tests/test_catalogue.py`
+(script mode, no dependencies) or `python3 -m pytest -q tests` when pytest is
+available (it is not part of cosemu; `python3 -I` hides a user-site pytest).
 
 ## Halo catalogues
 
@@ -82,15 +93,89 @@ converted to km/s with `1/a` of the output epoch `a`. `Catalogue.velocities_at_a
 returns `v_written * a / a_v`, i.e. the velocities converted with `1/a_v`, their
 own epoch. For text catalogues `a_v` is derived from the header (`A - Step/2`).
 
-## Planned modules (not implemented yet)
+## Other products
 
-* `schedule`: `OutputSchedule.dat`
-* `lensplanes`: lens-plane outputs
-* `modes`: `deltam` / `mom_*` / `deltaL` cubes
-* `subsample`: particle subsamples
-* `frhalo`: f(R) halo scalar-field outputs
-* `powerdm`: matter power spectra
-* `pmcrd`: big-endian PM snapshot headers
+The sidecar products (`LensPlanes`, `deltam`, `mom_x/y/z`, `Subsample`,
+`fR_halo`, and the catalogue) share the file scheme
+`<product>.<step>.<box>.{bin,meta}` in the run directory (`Run1/`): raw
+little-endian binary without record markers plus a `key = value` sidecar.
+Their readers accept the `.bin`, the `.meta` or the bare stem, take
+`mmap=True` to memory-map the binary, and return objects that expose the
+sidecar as `.meta` and the common scalars as properties (`a`, `z`, `a_v`,
+`box`, `step`, `realization`, `n_grid`, `n_row`, `n_p`, `omega_m`,
+`omega_l`, `hubble`, `header`; `None` when the key is absent). The three
+other products differ: `OutputSchedule.dat` and `PowerDM.*.dat` are text
+(no sidecar, no `mmap`), and the PM snapshot is a pair of big-endian Fortran
+files whose header is returned as `Snapshot.header` (a `PMHeader`).
+`glamio.product_path(rundir, product, step)` builds the file names and
+`glamio.products_at(rundir, step)` lists what a step has.
+
+| reader | file | returns |
+|---|---|---|
+| `read_schedule(path)` | `OutputSchedule.dat` | `Schedule`: structured `rows` (`step a z chi exact class`), `omega_m/omega_l` from the comment, `row(step)`, `primary()`, `stations()` |
+| `read_lensplanes(stem)` | `LensPlanes.*` | `LensPlanes`: `planes[plane, j, i]` float32 (`3 N_slab` planes X1..XN, Y1..YN, Z1..ZN), `plane(axis, slab)` as `[i, j]` (`slab` 1-based), `slabs(axis)`, `axis_means()` (1 by construction), `plane_means()` (`1 + <delta>_slab`), `pixel_edges()`, `slab_edges()` |
+| `read_modes(stem)` | `deltam.*`, `mom_x/y/z.*`, `*_deltaL.*` | `Modes`: `data[ix+n, iy+n, iz]` complex64, `mode(ix, iy, iz)` with Hermitian completion for `iz < 0`, `wavenumbers()`, `k_magnitude()`, `power()` (shell-averaged `Box^3 <|delta_k|^2>` for the complete shells `1..n`, slab by slab, a few MB of temporaries) |
+| `read_subsample(stem)` | `Subsample.*` | `Subsample`: `q[6, n_sel]` int16, `positions()` Mpc/h, `velocities()` km/s at `a_v`, `ids()` (0-based IDs from the splitmix64 rule; 8 B per particle, capped at 2 GB by default), `lattice_tag` |
+| `read_frhalo(stem)` | `fR_halo.*` | `FRHalo`: `data` (`fR_centre`, `fR_mean`) float32 per catalogue row, `catalogue()` reads the catalogue of the same step |
+| `read_powerdm(path, box=None)` | `PowerDM.R/log.*.dat` (and `Z`, only written by the redshift-space branch) | `PowerDM`: `k`, `nmodes`, `pk` (raw CIC), `a`, `z`, `step`, `ngrid`, `k_nyq` (exact when `box` is given), `binning`; `pk_deconvolved()` with Jing's alias-summed 1-D CIC window |
+| `read_pm_header(path)` | `PMcrd.<step>.DAT` | `PMHeader`: the 529-byte header record (byte order detected; `aexpn`, `astep`, `istep`, `nrow`, `ngrid`, `nparticles`, `extras`, `box`, `a_v`, `ic_velocity_epoch`, `velocity_scale()`, `particle_mass()`) |
+| `read_snapshot(path)` | `PMcrd` + `PMcrs<i>` | `Snapshot`: `iter_pages()` streams 1024^2-particle pages, `read()` loads all into preallocated arrays (24 B per particle in `'code'` units, 48 B in `'physical'`; refuses more than 2^27 particles unless `max_particles` is raised), `units='code'` (grid units, code momenta) or `'physical'` (Mpc/h in [0, Box), km/s at `a_v`); the records-per-file split (512 for GLAM, 256 for PMP2start ICs) is detected |
+
+```python
+import glamio
+
+sched = glamio.read_schedule("Run1/OutputSchedule.dat")
+for step in sched.steps:                              # lens planes and P(k) exist at every output (classes 1 and 2)
+    planes = glamio.read_lensplanes(glamio.product_path("Run1", "LensPlanes", step), mmap=True)
+    sigma_x1 = planes.plane("x", 1)                   # [iy, iz], Sigma/Sigma_bar of the first X slab
+    pk_file = glamio.read_powerdm(glamio.product_path("Run1", "PowerDM.R", step), box=planes.box)
+for step in sched.primary()["step"]:                 # the extras and the catalogue only at class-1 outputs
+    modes = glamio.read_modes(glamio.product_path("Run1", "deltam", step))
+    k, pk, nmodes = modes.power()                     # equals PowerDM.R bin by bin (raw CIC)
+    sub = glamio.read_subsample(glamio.product_path("Run1", "Subsample", step))
+    pos, vel, ids = sub.positions(), sub.velocities(), sub.ids()
+    print(glamio.products_at("Run1", step))           # {'LensPlanes': ..., 'deltam': ..., 'catalogue': ..., ...}
+
+snap = glamio.read_snapshot("Run1/PMcrd.0181.DAT")    # header only; particles stream on demand
+for x, y, z, vx, vy, vz in snap.iter_pages(units="physical"):
+    ...                                               # one 1024^2-particle page at a time
+```
+
+Conventions the readers encode (from the Fortran writers):
+
+* Lens planes: `(N_lens, N_lens)` Fortran column-major per plane, X planes
+  indexed `(y, z)`, Y planes `(x, z)`, Z planes `(x, y)`; with 1-based
+  indices as in the sidecar, pixel `i` covers `[(i-1), i) Box/N_lens` and
+  slab `s` covers `[(s-1), s) Box/N_slab` (0-based numpy index `i` covers
+  `[i, i+1)`). `planes[p]` is the raw `[j, i]` layout; `plane(axis, s)`
+  transposes to `[i, j]`. Only the per-axis mean is 1 by construction; a
+  single plane averages to `1 + <delta>_slab` (`plane_means()`).
+* Mode cubes: `delta_k = N^-3 sum_x f(x) exp(-i k.x)`, `k = (2 pi/Box)(ix, iy, iz)`,
+  cube `|ix|, |iy| <= n`, `0 <= iz <= n`, `k = 0` zeroed; `P(k) = Box^3 <|delta_k|^2>`
+  over the full sphere (`iz > 0` modes count twice). Momentum cubes hold
+  `(1 + delta) v_i` with `v` in km/s at `a_v`.
+* Subsample: ID = array index - 1; kept when `splitmix64(ID xor SALT) mod M == 0`
+  (`SALT = 0x5EED00DE6C0A2026`); `x = (q + 32768 + 0.5) Box/65536`,
+  `v = s dv_quant` (`0.25` km/s), velocities at `a_v = a - da/2`.
+* Snapshots: GLAM is built with `-convert big_endian` (the reader detects the
+  byte order from the record marker); coordinates in grid units `[1, N_grid+1)`,
+  `x = (X - 1) Box/N_grid`; `v = V 100 Box/N_grid / a_v` with `a_v = AEXPN - ASTEP/2`
+  (the subsample's convention; `velocity_epoch="a"` gives the legacy catalogue
+  conversion; an IC file from `ic2pm` in its legacy `sync` mode holds velocities
+  at `AEXPN` and `PMHeader.a_v` says so). The last page of a `PMcrs` file is
+  padded to 1024^2 particles; the reader drops the padding. `AEXP0` and `Nseed`
+  in the header carry no information (an uninitialised word and the running
+  RNG state). `particle_mass()` uses the finder's constant `2.774e11`.
+* `PowerDM`: raw CIC density on the `N_grid` mesh, window not deconvolved, shot
+  noise not subtracted; `pk_deconvolved()` divides by Jing's alias-summed 1-D
+  CIC window `1 - (2/3) sin^2(pi k/2 k_Nyq)` evaluated at the bin `|k|` (not a
+  shell average of the 3-D window; the two differ by up to 37 % near `k_Nyq`).
+
+Helpers that are not readers (`keep_mask`, `select_ids`, `splitmix64`,
+`product_path`, `products_at`, `load_meta`, `check_size`, `load_array`,
+`resolve_pair`, `meta_int`) are exported from the package too. Still without a
+reader: `ProjectionXY/XZ/YZ`, `timing.log`, `main.log`, the BDM `outputB`
+logs.
 
 ## Definitions and caveats (from the finder's code, 2026-10-18 review)
 

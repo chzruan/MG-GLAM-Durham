@@ -254,7 +254,8 @@
   \footnotesize
   \begin{itemize}
     \item \textbf{Epochs.} Positions at the output $a$ ($a_x = a$); velocities half a step behind, $a_v = a - \Delta a/2$
-      with $\Delta a$ the step just taken (leapfrog). Every sidecar records \texttt{step, a, z, a\_x, a\_v}. The legacy
+      with $\Delta a$ the step just taken (leapfrog). Every sidecar records \texttt{step, a, z}; those of products that carry
+      velocities also \texttt{a\_x, a\_v} (\texttt{fR\_halo} records \texttt{a\_old} instead). The legacy
       BDM catalogue converts its velocities with $1/a$ instead of $1/a_v$ (0.3--0.8\,\% low; decision pending).
     \item \textbf{Units.} Comoving $h^{-1}$Mpc, peculiar velocities in km/s, masses in $h^{-1}M_\odot$; axes follow the
       particle $x, y, z$ of the catalogue (\texttt{axis\_map}).
@@ -281,7 +282,7 @@
         \item \textbf{Definition.} For projection axis $X$ and slab $s$ of depth $L/N_{\rm slab} = 256\,h^{-1}$Mpc, pixel
           $(i,j)$ is the mean of $1+\delta$ over the slab column and the pixel block, i.e. $\Sigma_s(i,j)/\bar\Sigma$ with
           $\bar\Sigma = \bar\rho_m\times$ depth; $\delta$ from the CIC deposit on $N_g$, not deconvolved. Each plane
-          averages to 1 by construction.
+          averages to $1 + \langle\delta\rangle_{\rm slab}$; the mean over the slabs of one axis is 1 by construction.
         \item \textbf{Layout.} 12 planes in the order $X_1\ldots X_4, Y_1\ldots Y_4, Z_1\ldots Z_4$; $X$-planes indexed
           $(y, z)$, $Y$ $(x, z)$, $Z$ $(x, y)$; pixel $(i,j)$ covers $[(i-1), i)\,L/N_{\rm lens}$; float32,
           column-major; block average when $N_{\rm lens} < N_g$.
@@ -300,7 +301,7 @@
         L2 vs \texttt{ProjectDENSIT} & $10^{-5}$ \\
         L2 $36^2$ = block mean of $72^2$ & $10^{-5}$ \\
         L3 $P_{2D}$ vs projected $P_{3D}$ & $3\sigma$ per ring; 3--7\,\% \\
-        pilots: plane means & $1 \pm 10^{-7}$ \\
+        pilots: axis means & $1 \pm 10^{-11}$ \\
         pilots: $\Sigma/\bar\Sigma$ range at $z = 0$ & 0.10--51 \\
         \bottomrule
       \end{tabular}
@@ -344,7 +345,7 @@
   \begin{itemize}
     \item \texttt{deltam}: $\delta(\mathbf{x}) = n(\mathbf{x})/\bar n - 1$ from the CIC deposit of the output positions on
       $N_{\rm dep} = N_g$, forward FFT, cube $|k_i| \le k_c = 1.5\,h\,\mathrm{Mpc}^{-1}$ ($n = 244$ at $L = 1024$: 0.47 GB).
-      Offline $P_{mm}(k) = L^3\langle|\tilde\delta_m/W_{\rm CIC}|^2\rangle$ equals \texttt{PowerDM.R} bin by bin to $10^{-4}$ (V2).
+      Offline $P_{mm}(k) = L^3\langle|\tilde\delta_m|^2\rangle$ (raw CIC, no window, as \texttt{PowerDM.R} itself) equals \texttt{PowerDM.R} bin by bin to $10^{-4}$ (V2).
     \item \texttt{mom\_x,y,z}: $p_i(\mathbf{x}) = \bar n_{\rm cell}^{-1}\sum_p v_{i,p}\,W_{\rm CIC}(\mathbf{x}-\mathbf{x}_p)
       = (1+\delta)\,v_i$, $v$ the peculiar velocity in km/s at $a_v$; deposit on $N_{\rm dep} = N_g/2$, $k_c = 0.75$ by
       the rule $k_c \le k_{N,\rm dep}/4 = \pi N_{\rm dep}/4L$ (no interlacing; the f(R) pilot used 1.0).
@@ -454,7 +455,7 @@
       uncorrected radius, $M_{\rm tot}$ = all mass inside $R_{\rm vir}$; \texttt{MassMin} $= 10^{11}$ raised to 20 particles
       ($1.7\times10^{12}\,h^{-1}M_\odot$ at $1024^3$); rows in peak order, not by mass; velocities converted with $1/a$
       (low by $a_v/a$, decisions frame).
-    \item \texttt{PowerDM.R.<step>.0001.dat}: 2 header lines ($a$, step, $z$, $N_g$, $k_{\rm Ny} = \pi N_g/L$), then
+    \item \texttt{PowerDM.R.<step>.0001.dat}: 3 header lines (run header; $a$, step, $z$, $N_g$, $k_{\rm Ny} = \pi N_g/L$; caption), then
       bin, $k$ [$h\,\mathrm{Mpc}^{-1}$], number of modes, $P$ [$(h^{-1}\mathrm{Mpc})^3$] in linear bins of width $2\pi/L$;
       $\delta$ from CIC on $N_g$, raw: divide by the shell-averaged $W_{\rm CIC}^2 \simeq 1 - \tfrac{2}{3}\sin^2(\pi k/2k_{\rm Ny})$
       offline (as in the twin comparison). \texttt{PowerDM.log}: the same in logarithmic bins.

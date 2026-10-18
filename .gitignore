@@ -96,3 +96,4 @@ archive/*.tar.gz
 # Python package (python/glamio, editable install)
 python/glamio.egg-info/
 .pytest_cache/
+python/tmp/
