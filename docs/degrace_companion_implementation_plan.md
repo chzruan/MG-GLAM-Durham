@@ -1190,3 +1190,21 @@ For CZ:
   refusals in `PMP2mod_tools.f90` (five plain `stop`s) and
   `CheckBdmConfig`, whose job-script symptom is a missing first
   catalogue rather than a silent continuation.
+- 2026-10-18, campaign clean-up (file count). Removed, all regenerable:
+  the Python caches (`DEGRACE-companion/__pycache__`, `python/.pytest_cache`,
+  `python/glamio/__pycache__`, `python/tests/__pycache__`,
+  `test/precise_z/__pycache__`, the status deck's `figs/__pycache__`),
+  `python/glamio.egg-info` (a by-product of `pip install -e`; the
+  editable install lives in cosemu's `site-packages` as a PEP 660 finder
+  and still imports), the suite's `test/precise_z/work` and the session
+  scratch. Saved beside the confirmation run, following the f(R) pilot's
+  convention: `check_run_12185817.txt` and `verify_vs_pilot_12185817.txt`
+  (the plane / P(k) / catalogue comparison with job 12180082 and the
+  glamio reads). Nothing scientific was removed. Candidates left for a
+  decision: the 17 Oct ΛCDM pilot run (226 files, 9.1 GB; superseded at
+  round-off level by the confirmation run, which holds every product it
+  has and more; archive as one tarball in `archive/` or delete), the
+  untracked `DEGRACE-pilot/` (July supplement launch scripts, 17 files)
+  and `verify/` (April OpenMP race logs, 6 files), the three BDM review
+  decks of August/September under `docs/slides/`, and the 38 `.o`/`.mod`
+  build intermediates in the repository root.
