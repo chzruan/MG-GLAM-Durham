@@ -1237,6 +1237,7 @@ For CZ:
   haloes above 3e12 at z = 1 and above 1e14 at z = 0; `fR_halo` shows the
   chameleon transition near 3e13 at z = 0 and full screening above 2e12
   at z = 2. The inverse transform of the cube, the lens plane and the
-  subsample at z = 0 show the same web. The scripts are local; they can
-  move to `python/examples/` if the reading patterns are wanted in the
-  repository.
+  subsample at z = 0 show the same web. The scripts live in
+  `python/examples/` (with `README.md`; `--lcdm/--fr/--out/--data`
+  options, defaults = the node-2 runs); the deck's `figs/` holds only
+  their outputs.

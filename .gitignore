@@ -100,3 +100,6 @@ python/tmp/
 
 # Slide decks: kept locally only, never committed (user decision 2026-10-18)
 docs/slides/
+
+# Example-script outputs (figures and caches go to --out)
+python/examples/products_*

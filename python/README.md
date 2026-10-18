@@ -202,3 +202,11 @@ logs.
   it (about 1 GB per output for 3200^3 runs). The binary reader refuses a file
   whose `row` column is not `1..N` (byte-swapped, misaligned or corrupted) and a
   sidecar without `columns`/`dtypes` lines.
+
+## Examples
+
+`examples/` holds two scripts that read every product of the node-2 runs and
+make the figures of the status deck (`measure_products.py`, `plot_products.py`;
+see `examples/README.md`). They are the reference for the reading patterns and
+the physics checks (P(k) vs linear theory, cube vs table, momentum continuity,
+plane growth, velocity rms, mass functions, chameleon screening).
