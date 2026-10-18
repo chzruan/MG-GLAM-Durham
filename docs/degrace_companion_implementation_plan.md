@@ -1091,3 +1091,16 @@ For CZ:
   `products_at()` build and list the files of a step, the README example
   reads lens planes at every output. glamio 0.2.1; suite 221/221 with
   the strengthened checks; unit tests 16/16.
+- 2026-10-18, confirmation pilot of the current `cz` build submitted:
+  `DEGRACE-companion/runs/Node_002_LCDM_L1024Np1024Ng2048_confirm20261018`,
+  Slurm job 12185806 (cosma8-serial, dp203, 64 threads, 220 GB, 8 h limit).
+  Executables built from `cz` 88fa70a (Fortran sources unchanged since
+  69bd63b; md5s in `bin/md5sum.txt`). Same ICs, schedule, classes
+  (primary), planes (4 x 2048^2) and BDM as the 17 Oct pilot (job
+  12180082, build b774f8d), plus `CatalogueFormat = both` and the extras
+  at the 17 primaries (deltam k_c = 1.5, momentum k_c = 1.0 on N_dep =
+  1024, subsample M = 100). Purpose: the production recipe with the
+  merged build. Expected: P(k), lens planes and the text catalogue rows
+  identical to the 17 Oct pilot (the dynamics are unchanged), the binary
+  catalogue equal to the text column by column, every product readable
+  with glamio, `check_run.py` 0 FAIL, ~3 h wall. Result: pending.
