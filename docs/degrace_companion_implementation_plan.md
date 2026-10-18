@@ -1033,3 +1033,24 @@ For CZ:
   unaffected. The fR_halo sidecar now says for each `catalogue` line when
   the file exists. case14 checks the binary-only default (readable, rows
   > 0, `text_catalogue = none`); the suite passes 215/215 (36 s, 4 threads).
+- 2026-10-18, glamio readers for the other products (branch `glamio-readers`
+  from `cz`, python/glamio 0.2.0): `read_schedule` (OutputSchedule.dat),
+  `read_lensplanes`, `read_modes` (deltam, mom_x/y/z and the companion
+  `*_deltaL` cubes; `mode()` with Hermitian completion, `power()` = the
+  shell average that equals PowerDM.R bin by bin), `read_subsample`
+  (decode, `ids()` from the splitmix64 rule), `read_frhalo` (with
+  `catalogue()`), `read_powerdm` (R/log/Z tables, epoch line) and the PM
+  snapshot (`read_pm_header`: the 529-byte big-endian record, byte order
+  detected from the marker; `Snapshot.iter_pages()` streams the 24 MiB
+  `PMcrs` pages, `read()` loads all; `units='physical'` gives Mpc/h and
+  km/s at a_v = AEXPN - ASTEP/2). A shared `MetaProduct` base now holds the
+  sidecar scalars (`Catalogue` inherits it). Validation: the precise_z
+  suite gained six `glamio` checks that compare every reader with the
+  suite's own decoders on real output (case10/11/12), including
+  snapshot particles = subsample particles within the quanta (which also
+  ties the header's a_v to the subsample's); 221/221. Unit tests with
+  synthetic files (`python/tests/test_readers.py`, 8 tests incl. the
+  SplitMix64 reference vector and a little-endian snapshot): 15/15 with
+  the catalogue tests. The pilot's 2048^2 lens planes read memory-mapped
+  with axis means 1. Not done here: the halocat ingest (halocat session),
+  `ProjectionXY/XZ` (legacy product, not in the DEGRACE output list).

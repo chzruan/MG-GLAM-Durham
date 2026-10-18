@@ -55,6 +55,7 @@ import numpy as np
 import math
 
 from .meta import meta_float, read_meta
+from .product import MetaProduct
 
 #: Record layout of the binary catalogue (and of the arrays returned by both readers).
 CATALOGUE_DTYPE = np.dtype(
@@ -111,18 +112,18 @@ _NCOL = len(CATALOGUE_DTYPE.names)
 _PRODUCT_RE = re.compile(r"^(Catshort[A-Za-z])\.(\d+)\.(\d+)\.")
 
 
-class Catalogue:
+class Catalogue(MetaProduct):
     """A halo catalogue: structured array ``data``, sidecar/header ``meta``, source ``path``.
 
     ``cat['Mbound']`` returns the column view, ``len(cat)`` the number of
-    haloes.  The scalar properties are parsed from ``meta`` on access and are
-    ``None`` when the corresponding key is missing.
+    haloes.  The scalar properties (``a``, ``z``, ``a_v``, ``box``, ``step``,
+    ...) come from :class:`glamio.product.MetaProduct`: parsed from ``meta``
+    on access, ``None`` when the corresponding key is missing.
     """
 
     def __init__(self, data: np.ndarray, meta: dict[str, str], path: str):
+        super().__init__(meta, path)
         self.data = data
-        self.meta = meta
-        self.path = path
 
     def __len__(self) -> int:
         return len(self.data)
@@ -137,37 +138,6 @@ class Catalogue:
     def columns(self) -> list[str]:
         """Column names in file order."""
         return list(self.data.dtype.names)
-
-    @property
-    def a(self) -> float | None:
-        """Expansion factor of the output (meta key ``a``)."""
-        return meta_float(self.meta, "a")
-
-    @property
-    def z(self) -> float | None:
-        """Redshift: meta key ``z``, else ``1/a - 1``, else ``None``."""
-        z = meta_float(self.meta, "z")
-        if z is None:
-            a = self.a
-            if a is not None and a != 0.0:
-                z = 1.0 / a - 1.0
-        return z
-
-    @property
-    def a_v(self) -> float | None:
-        """Velocity epoch ``a_v = a - da/2`` (meta key ``a_v``)."""
-        return meta_float(self.meta, "a_v")
-
-    @property
-    def box(self) -> float | None:
-        """Box side in Mpc/h (meta key ``Box``)."""
-        return meta_float(self.meta, "Box")
-
-    @property
-    def step(self) -> int | None:
-        """Time-step number of the output (meta key ``step``)."""
-        value = meta_float(self.meta, "step")
-        return None if value is None else int(round(value))
 
     def positions(self) -> np.ndarray:
         """Return ``(N, 3)`` float64 comoving positions ``[x, y, z]`` in Mpc/h."""

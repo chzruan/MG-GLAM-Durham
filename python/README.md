@@ -1,8 +1,13 @@
 # glamio
 
-Numpy-only Python readers for GLAM / MG-GLAM simulation outputs. The first
-module reads the BDM halo catalogues written to `CATALOGS/`, in both the legacy
-text form and the new binary form.
+Numpy-only Python readers for GLAM / MG-GLAM simulation outputs: the BDM halo
+catalogues (legacy text and binary), the output schedule, the lens planes, the
+low-k mode cubes, the quantised particle subsample, the f(R) halo values, the
+power spectra and the PM particle snapshots. Every reader validates the file
+against its sidecar (product name, required keys, byte count) and raises
+`ValueError` instead of misreading. The precise_z suite cross-checks each reader
+against independent decoders on real GLAM output
+(`test/precise_z/asserts.py`, the `glamio` checks).
 
 ## Install
 
@@ -82,15 +87,66 @@ converted to km/s with `1/a` of the output epoch `a`. `Catalogue.velocities_at_a
 returns `v_written * a / a_v`, i.e. the velocities converted with `1/a_v`, their
 own epoch. For text catalogues `a_v` is derived from the header (`A - Step/2`).
 
-## Planned modules (not implemented yet)
+## Other products
 
-* `schedule`: `OutputSchedule.dat`
-* `lensplanes`: lens-plane outputs
-* `modes`: `deltam` / `mom_*` / `deltaL` cubes
-* `subsample`: particle subsamples
-* `frhalo`: f(R) halo scalar-field outputs
-* `powerdm`: matter power spectra
-* `pmcrd`: big-endian PM snapshot headers
+All per-output products share the file scheme `<product>.<step>.<box>.{bin,meta}`
+in the run directory (`Run1/`), raw little-endian binary without record
+markers plus a `key = value` sidecar; each reader accepts the `.bin`, the
+`.meta` or the bare stem, and `mmap=True` memory-maps the binary. The returned
+objects expose the sidecar as `.meta` and the common scalars as properties
+(`a`, `z`, `a_v`, `box`, `step`, `realization`, `n_grid`, `n_row`, `n_p`,
+`omega_m`, `omega_l`, `hubble`, `header`; `None` when the key is absent).
+
+| reader | file | returns |
+|---|---|---|
+| `read_schedule(path)` | `OutputSchedule.dat` | `Schedule`: structured `rows` (`step a z chi exact class`), `omega_m/omega_l` from the comment, `row(step)`, `primary()`, `stations()` |
+| `read_lensplanes(stem)` | `LensPlanes.*` | `LensPlanes`: `planes[plane, j, i]` float32 (`3 N_slab` planes X1..XN, Y1..YN, Z1..ZN), `plane(axis, slab)` as `[i, j]`, `slabs(axis)`, `axis_means()`, `pixel_edges()`, `slab_edges()` |
+| `read_modes(stem)` | `deltam.*`, `mom_x/y/z.*`, `*_deltaL.*` | `Modes`: `data[ix+n, iy+n, iz]` complex64, `mode(ix, iy, iz)` with Hermitian completion for `iz < 0`, `wavenumbers()`, `k_magnitude()`, `power()` (shell-averaged `Box^3 <|delta_k|^2>`) |
+| `read_subsample(stem)` | `Subsample.*` | `Subsample`: `q[6, n_sel]` int16, `positions()` Mpc/h, `velocities()` km/s at `a_v`, `ids()` (0-based IDs from the splitmix64 rule), `lattice` tag |
+| `read_frhalo(stem)` | `fR_halo.*` | `FRHalo`: `data` (`fR_centre`, `fR_mean`) float32 per catalogue row, `catalogue()` reads the catalogue of the same step |
+| `read_powerdm(path)` | `PowerDM.R/log/Z.*.dat` | `PowerDM`: `k`, `nmodes`, `pk` (raw CIC), `a`, `z`, `step`, `ngrid`, `k_nyq`, `binning`; `pk_deconvolved()` with the approximate shell-averaged CIC window |
+| `read_pm_header(path)` | `PMcrd.<step>.DAT` | `PMHeader`: the 529-byte big-endian header (`aexpn`, `astep`, `istep`, `nrow`, `ngrid`, `nparticles`, `extras`, `box`, `a_v`, `velocity_scale()`) |
+| `read_snapshot(path)` | `PMcrd` + `PMcrs<i>` | `Snapshot`: `iter_pages()` streams 1024^2-particle pages, `read()` loads all (24 B per particle), `units='code'` (grid units, code momenta) or `'physical'` (Mpc/h in [0, Box), km/s at `a_v`) |
+
+```python
+import glamio
+
+sched = glamio.read_schedule("Run1/OutputSchedule.dat")
+for step in sched.primary()["step"]:
+    planes = glamio.read_lensplanes(f"Run1/LensPlanes.{step:04d}.0001", mmap=True)
+    sigma_x1 = planes.plane("x", 1)                   # [iy, iz], Sigma/Sigma_bar of the first X slab
+    modes = glamio.read_modes(f"Run1/deltam.{step:04d}.0001")
+    k, pk, nmodes = modes.power()                     # equals PowerDM.R bin by bin (raw CIC)
+    sub = glamio.read_subsample(f"Run1/Subsample.{step:04d}.0001")
+    pos, vel, ids = sub.positions(), sub.velocities(), sub.ids()
+
+snap = glamio.read_snapshot("Run1/PMcrd.0181.DAT")    # header only; particles stream on demand
+for x, y, z, vx, vy, vz in snap.iter_pages(units="physical"):
+    ...                                               # one 1024^2-particle page at a time
+```
+
+Conventions the readers encode (from the Fortran writers):
+
+* Lens planes: `(N_lens, N_lens)` Fortran column-major per plane, X planes
+  indexed `(y, z)`, Y planes `(x, z)`, Z planes `(x, y)`; pixel `i` covers
+  `[i, i+1) Box/N_lens`, slab `s` (1-based) covers `[(s-1), s) Box/N_slab`.
+  `planes[p]` is the raw `[j, i]` layout; `plane(axis, s)` transposes to `[i, j]`.
+* Mode cubes: `delta_k = N^-3 sum_x f(x) exp(-i k.x)`, `k = (2 pi/Box)(ix, iy, iz)`,
+  cube `|ix|, |iy| <= n`, `0 <= iz <= n`, `k = 0` zeroed; `P(k) = Box^3 <|delta_k|^2>`
+  over the full sphere (`iz > 0` modes count twice). Momentum cubes hold
+  `(1 + delta) v_i` with `v` in km/s at `a_v`.
+* Subsample: ID = array index - 1; kept when `splitmix64(ID xor SALT) mod M == 0`
+  (`SALT = 0x5EED00DE6C0A2026`); `x = (q + 32768 + 0.5) Box/65536`,
+  `v = s dv_quant` (`0.25` km/s), velocities at `a_v = a - da/2`.
+* Snapshots: GLAM is built with `-convert big_endian` (the reader detects the
+  byte order from the record marker); coordinates in grid units `[1, N_grid+1)`,
+  `x = (X - 1) Box/N_grid`; `v = V 100 Box/N_grid / a_v` with `a_v = AEXPN - ASTEP/2`
+  (the subsample's convention; `velocity_epoch="a"` gives the legacy catalogue
+  conversion). The last page of a `PMcrs` file is padded to 1024^2 particles;
+  the reader drops the padding.
+* `PowerDM`: raw CIC density on the `N_grid` mesh, window not deconvolved, shot
+  noise not subtracted; `pk_deconvolved()` divides by
+  `1 - (2/3) sin^2(pi k/2 k_Nyq)`, an approximation of the shell-averaged window.
 
 ## Definitions and caveats (from the finder's code, 2026-10-18 review)
 
