@@ -1113,4 +1113,61 @@ For CZ:
   merged build. Expected: P(k), lens planes and the text catalogue rows
   identical to the 17 Oct pilot (the dynamics are unchanged), the binary
   catalogue equal to the text column by column, every product readable
-  with glamio, `check_run.py` 0 FAIL, ~3 h wall. Result: pending.
+  with glamio, `check_run.py` 0 FAIL, ~3 h wall.
+  **Result (2026-10-18): job 12185817 COMPLETED, exit 0, 2 h 39 m on
+  m8407 (PMP2main 2 h 37 m), CPU efficiency 81 %.** `check_run.py` 0 FAIL,
+  0 WARN; 42 `PowerDM.R`, 42 lens-plane pairs, 17 catalogues in both
+  formats, 17 x 4 mode cubes, 17 subsamples, no staged temporaries.
+  glamio 0.2.1 read every product: the 17 binary catalogues equal the
+  text column by column at the text precision (13,656,386 rows; caveat:
+  glamio's own text reader stores float32 columns, which hold a position
+  in a 1024 box only to one ulp = 6.1e-5, so compare the text through a
+  float64 parse or use the binary); 68 cubes finite with a consistent
+  Hermitian accessor (`deltam` n = 244, k_max = 1.497 h/Mpc; `mom_*`
+  n = 122, k_max = 0.749 on N_dep = 1024); the z = 0 `deltam` cube's
+  `power()` equals the `PowerDM.R` table to four digits at k = 0.02-1.0;
+  the z = 0 subsample keeps 10,741,150 of 1024^3 particles (1 in 99.97
+  at M = 100; lattice tag IDz; unique IDs < 1024^3; positions in [0, L);
+  1-D velocity rms 321 km/s); planes with unit axis means and
+  `MG_model = 1` in the sidecar.
+  **Against the 17 Oct pilot the dynamics agree to float32 round-off,
+  not bitwise.** Planes identical through step 98; one pixel differs by
+  one ulp at step 102; 10 % of the pixels differ at step 105 (max 6e-6
+  relative) and 98 % at z = 0 (rms 4e-6, max 1e-4 in the densest
+  pixels; slab means equal to 1e-11). 58 of ~43,000 P(k) bins differ,
+  all in the last printed digit (max |P_new/P_old - 1| = 9e-6). The
+  catalogues have +1, +1 and +12 rows at z = 2, 0.625 and 0 (of
+  507,388 / 958,104 / 777,651) with the counts above 1e13 and 1e14
+  M_sun/h equal within 1-3; 48 % of the z = 2 rows and 1.3 % of the
+  z = 0 rows print identically. The cause is not the code: the ICs
+  store the particles in Gadget-ID order, so the new `ic2pm` (array
+  index = ID) builds the same particle array as the old file-order
+  placement; `OutputSchedule.dat` is identical; and every new line in
+  the time-step path is guarded by `OutClass == 1`, first true at step
+  105, after the first visible difference. GLAM's CIC deposition
+  (`DENSIT`, `PMP2mod_density.f90` 235-280) adds each particle's eight
+  weights into the shared float32 mesh with `!$OMP ATOMIC`, so the order
+  of the adds into a cell follows thread timing: at 1024^3 with 64
+  threads the code is not bitwise reproducible run to run, and the
+  non-linear evolution amplifies the ulp differences until they show
+  (the suite's 36^3 case with 4 threads does reproduce bitwise: two
+  fresh runs and the suite's own output are identical). Runs of the same
+  configuration therefore compare at round-off tolerance (P(k) 1e-5,
+  planes 1e-4 point-wise, halo counts 1e-5), never byte by byte.
+  **Cost of the new outputs at 1024^3:** `timing.log` 157.0 vs 149.9 min
+  (Analysis 57.7 vs 45.8 min = +0.70 min per primary output for the
+  cubes, subsample and binary catalogue; station outputs unchanged at
+  0.95 min; non-output steps 0.56 vs 0.60 min, node scatter). Process
+  peak RSS (`/usr/bin/time`) 86.65 vs 86.60 GiB: +54 MB, because the
+  extras' buffers (`G(N_dep^3)` = 4 GiB, the `C` cubes, the subsample
+  chunks) are allocated and freed inside Analysis and never coexist
+  with the finder's mesh, so the peak is unchanged. Slurm MaxRSS 121.9
+  vs 112.7 GiB: the difference is the page cache of the written
+  products, which the cgroup counts. Scaling the process footprint by 8
+  gives the full-size need: LCDM with BDM ~0.69 TB, f(R) (123.0 GiB in
+  the f(R) pilot) ~0.98 TB, equal to the 985 GB of job 11448712 in Q8;
+  the earlier 1.4 TB figure scaled sacct and overstated it. Products
+  22 GiB per box at this resolution: planes 7.3, `deltam` 6.9, `mom_*`
+  2.6, subsamples 1.9, catalogues 1.2 binary + 2.3 text, P(k) 2 MB.
+  Run directory kept (checkpoints deleted by the script); outputs of
+  the checks in the session scratchpad only.
