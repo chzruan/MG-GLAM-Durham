@@ -75,7 +75,7 @@ def main():
     check(all(abs(round(s['z'] * 8) / 8 - s['z']) < 2e-6 for s in prim), 'class-1 outputs are the 17 primary redshifts (multiples of 0.125, 0..2)')
 
     # ---- per-output products
-    npow = nlens = nmeta = ncat = 0; bad = []
+    npow = nlens = nmeta = ncat = ncatbin = 0; bad = []
     sizes = set(); plane_means = []
     sample = set([steps[0], steps[len(steps) // 2], steps[-1]]) if steps else set()
     for s in sched:
@@ -98,16 +98,33 @@ def main():
                 means = pl.reshape(3, ns, -1).mean(axis=(1, 2))        # per axis over the slabs
                 plane_means.append((st, means, pl.min(), pl.max()))
                 if np.abs(means - 1).max() > 1e-5 or pl.min() < 0: bad.append('LensPlanes %s axis means %s min %g' % (tag, means, pl.min()))
-        fc = os.path.join(R1, 'CATALOGS', 'CatshortV.%s.DAT' % tag)
-        if os.path.exists(fc):
+        fc = os.path.join(R1, 'CATALOGS', 'CatshortV.%s.DAT' % tag)      # text and/or binary (BDM.config CatalogueFormat)
+        fb = os.path.join(R1, 'CATALOGS', 'CatshortV.%s.bin' % tag)
+        fcm = os.path.join(R1, 'CATALOGS', 'CatshortV.%s.meta' % tag)
+        has_text, has_bin = os.path.exists(fc), os.path.exists(fb)
+        if has_bin != os.path.exists(fcm): bad.append('catalogue %s: .bin and .meta must come together' % tag)
+        if has_text or has_bin:
             ncat += 1
             if s['cls'] != 1: bad.append('catalogue at a station output %s' % tag)
+            if has_bin and os.path.exists(fcm):
+                ncatbin += 1
+                m = read_meta(fcm)
+                rows = int(m.get('rows', '-1').split()[0])
+                if os.path.getsize(fb) != 96 * rows: bad.append('catalogue %s: .bin size %d != 96 x rows %d' % (tag, os.path.getsize(fb), rows))
+                if abs(float(m.get('a', '0').split()[0]) - s['a']) > 1e-6 * s['a']: bad.append('catalogue %s meta a %s vs schedule %g' % (tag, m.get('a'), s['a']))
+                tc = (m.get('text_catalogue', '') or '').split()
+                if (bool(tc) and tc[0] != 'none') != has_text: bad.append('catalogue %s: text_catalogue = %s but .DAT %s' % (tag, tc[:1], 'present' if has_text else 'absent'))
+                if has_text:
+                    with open(fc, 'rb') as fh: nl = sum(buf.count(b'\n') for buf in iter(lambda: fh.read(1 << 22), b''))
+                    if nl - 8 != rows: bad.append('catalogue %s: text rows %d != binary rows %d' % (tag, nl - 8, rows))
         elif s['cls'] == 1:
             bad.append('missing catalogue at primary output %s (z = %.4f)' % (tag, s['z']))
     n = len(sched)
     check(npow == n, 'PowerDM.R files: %d of %d, epochs match' % (npow, n))
     check(nlens == n and len(sizes) == 1, 'LensPlanes bin+meta: %d of %d, one size (%s bytes)' % (nlens, n, sizes))
-    check(ncat == ncls.get(1, 0), 'catalogues at primary outputs: %d of %d' % (ncat, ncls.get(1, 0)))
+    check(ncat == ncls.get(1, 0), 'catalogues at primary outputs: %d of %d (%d with a binary .bin + .meta, checked: size = 96 x rows, meta a, text_catalogue, row counts)' % (ncat, ncls.get(1, 0), ncatbin))
+    stale = glob.glob(os.path.join(R1, 'CATALOGS', '.Catshort*'))
+    check(not stale, 'no staged catalogue temporaries (.Catshort*) left in CATALOGS/' if not stale else '%d staged catalogue temporaries (.Catshort*) in CATALOGS/: a finder died between staging and publication; delete them when no finder is running' % len(stale))
     for st, means, mn, mx in plane_means:
         print('     planes step %4d: axis means %s  min %.3g  max %.3g' % (st, np.array2string(means, precision=7), mn, mx))
     check(not bad, 'per-output consistency (%d problems)' % len(bad))

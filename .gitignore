@@ -92,3 +92,7 @@ test/extras/work/
 __pycache__/
 test/precise_z/work/
 archive/*.tar.gz
+
+# Python package (python/glamio, editable install)
+python/glamio.egg-info/
+.pytest_cache/

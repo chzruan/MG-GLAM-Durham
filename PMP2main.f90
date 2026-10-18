@@ -109,6 +109,7 @@ subroutine Initialize(Path)
     use LocalData
     use ExtraOutputs
     use ExtradofBackgroundData  ! used for MG_model = 4 or 5
+    use LinkerList, only: CheckBdmConfig
 
     character(len=*) :: Path
     logical :: exst
@@ -128,6 +129,7 @@ subroutine Initialize(Path)
     if (.not. exst) Call SetSeeds
 
     Call ReadSetup
+    If (iBDM == 1) Call CheckBdmConfig      ! reject a bad BDM.config before any compute
     CALL ReadDataPM(-1, Path)
     myMemory = Memory(1_8*NGRID*NGRID*NGRID)
     Allocate (FI(NGRID, NGRID, NGRID))

@@ -644,7 +644,9 @@ Contains
         write (30, '(a)') 'product = fR_halo'
         write (30, '(a)') 'format = raw little-endian float32 pairs (fR_centre, fR_mean), one pair per catalogue row, same order as CatshortV'
         write (Name, '(2(a,i4.4),a)') 'CATALOGS/CatshortV.', fRmoment, '.', Nrealization, '.DAT'
-        write (30, '(a,a)') 'catalogue = ', TRIM(Name)
+        write (30, '(3a)') 'catalogue = ', TRIM(Name), '   (text catalogue, when CatalogueFormat is text or both)'
+        write (Name, '(2(a,i4.4),a)') 'CATALOGS/CatshortV.', fRmoment, '.', Nrealization, '.bin'
+        write (30, '(3a)') 'catalogue_bin = ', TRIM(Name), '   (binary catalogue with the same rows, when CatalogueFormat is binary or both; the compiled default)'
         write (30, '(a,i10)') 'rows = ', nfRrows
         write (30, '(a)') 'fR_centre = f_R interpolated (CIC) at the BDM halo centre'
         write (30, '(a)') 'fR_mean = mean of f_R over the grid cells whose centres lie within the catalogue radius (aperture Rvir) of the centre; equals fR_centre when the radius is below half a cell'
