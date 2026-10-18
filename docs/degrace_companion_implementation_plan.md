@@ -1219,3 +1219,24 @@ For CZ:
   intermediates in the repository root (`make` rebuilds them; the five
   `.exe` files stay). Left: the ΛCDM pilot run (decision pending),
   `DEGRACE-highres/` and `resume.md`.
+- 2026-10-18, first look at the products as data (local review deck,
+  frames "In the data (1)–(6)"; scripts `measure_products.py` and
+  `plot_products.py` beside the deck, glamio reads of both node-2 runs,
+  about one minute each on a login node). Findings, all from the
+  on-the-fly outputs alone: `PowerDM.R` follows linear theory to ±2 % for
+  0.02 < k < 0.1 at every primary; the f(R)/ΛCDM ratio reaches +23 % at
+  k = 5 at z = 0 and +4 % at z = 2; the `deltam` cube's own P(k) equals
+  the table to 4e-6 shell by shell; θ = i k·p from the `mom_*` cubes
+  gives P_θθ = (aHf)² P_δδ to 2 % for k < 0.06 at z = 0, 1, 2 with no
+  free parameter, and the density-weighted term dominates beyond k ≈ 0.1
+  (15× at k = 0.7, z = 0); the lens-plane rms on 8 Mpc/h pixels follows
+  D(a) from z = 8.7 to z ≈ 1 and exceeds it by 7 % at z = 0 (on the native
+  0.5 Mpc/h pixels particle discreteness adds 0.125 in quadrature); the
+  subsample's 1-D velocity rms is 4/8/15 % above the linear prediction at
+  z = 2/1/0 with exponential tails; the f(R) mass function has 25 % more
+  haloes above 3e12 at z = 1 and above 1e14 at z = 0; `fR_halo` shows the
+  chameleon transition near 3e13 at z = 0 and full screening above 2e12
+  at z = 2. The inverse transform of the cube, the lens plane and the
+  subsample at z = 0 show the same web. The scripts are local; they can
+  move to `python/examples/` if the reading patterns are wanted in the
+  repository.
