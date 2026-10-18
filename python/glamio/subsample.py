@@ -24,6 +24,7 @@ the halo catalogue.
 from __future__ import annotations
 
 import os
+import re
 
 import numpy as np
 
@@ -33,6 +34,9 @@ from .product import MetaProduct, check_size, load_array, load_meta, meta_int, r
 NQ = 65536
 #: The selection salt (never changes).
 SALT_DEFAULT = 0x5EED00DE6C0A2026
+#: Default cap of :meth:`Subsample.ids` in IDs (2**28 = 2 GB).
+MAX_IDS_DEFAULT = 2 ** 28
+_TAG_RE = re.compile(r",\s*(ID[xz?])\s*$")
 
 
 def splitmix64(x) -> np.ndarray:
@@ -46,13 +50,17 @@ def splitmix64(x) -> np.ndarray:
 
 
 def keep_mask(ids, salt: int = SALT_DEFAULT, m: int = 1) -> np.ndarray:
-    """Boolean mask of the kept IDs: ``splitmix64(ID xor SALT) mod M == 0``."""
+    """Boolean mask of the kept IDs: ``splitmix64(ID xor SALT) mod M == 0`` (``M >= 1``)."""
+    if int(m) < 1:
+        raise ValueError(f"M must be >= 1, got {m}")
     ids = np.asarray(ids, dtype=np.uint64)
     return (splitmix64(ids ^ np.uint64(salt)) % np.uint64(m)) == 0
 
 
 def select_ids(n_p: int, salt: int = SALT_DEFAULT, m: int = 1, block: int = 1 << 24) -> np.ndarray:
-    """IDs (0-based, increasing, uint64) of the kept particles among ``0 .. n_p - 1``."""
+    """IDs (0-based, increasing, uint64) of the kept particles among ``0 .. n_p - 1`` (``M = 1``: ``arange(n_p)``, 8 bytes per particle)."""
+    if int(m) < 1:
+        raise ValueError(f"M must be >= 1, got {m}")
     if m == 1:
         return np.arange(n_p, dtype=np.uint64)
     out = []
@@ -116,13 +124,21 @@ class Subsample(MetaProduct):
         return self._int("n_clip_v")
 
     @property
+    def lattice_tag(self) -> str | None:
+        """The ``ic2pm`` lattice-order tag at the end of the run header: ``'IDx'`` (x fastest, FML), ``'IDz'`` (z fastest, 2LPTic), ``'ID?'`` (undetermined) or ``None``.
+
+        ``None`` means no tag: either a native ``PMP2start`` IC (``ID = 1 + i +
+        Np (j + Np k)``, i along x) or a pre-tag ``ic2pm`` conversion (IC file
+        order); the sidecar's ``lattice`` line (``meta["lattice"]``) spells
+        out both cases.
+        """
+        m = _TAG_RE.search(self.header or "")
+        return m.group(1) if m else None
+
+    @property
     def lattice(self) -> str | None:
-        """Lattice-order tag of the particle IDs from the run header: ``'IDx'``, ``'IDz'``, ``'ID?'`` or ``None``."""
-        h = self.header or ""
-        for tag in ("IDx", "IDz", "ID?"):
-            if tag in h:
-                return tag
-        return None
+        """Alias of :attr:`lattice_tag` (not the sidecar's ``lattice`` description line)."""
+        return self.lattice_tag
 
     def positions(self) -> np.ndarray:
         """``(n_sel, 3)`` float64 comoving positions in Mpc/h, in ``[0, Box)`` (decoded cell centres)."""
@@ -137,11 +153,26 @@ class Subsample(MetaProduct):
             raise ValueError(f"dv_quant is not in the sidecar of {self.path}")
         return self.q[3:].T.astype(np.float64) * dv
 
-    def ids(self, block: int = 1 << 24) -> np.ndarray:
-        """The 0-based particle IDs (uint64, increasing) of the stored particles, recomputed from the selection rule."""
+    def ids(self, block: int = 1 << 24, max_ids: int | None = MAX_IDS_DEFAULT) -> np.ndarray:
+        """The 0-based particle IDs (uint64, increasing) of the stored particles, recomputed from the selection rule.
+
+        For ``M = 1`` the IDs are ``0 .. N_p - 1`` by construction (no hash is
+        evaluated); for ``M > 1`` the rule is re-evaluated over all ``N_p``
+        IDs in blocks of ``block`` (about 0.1 s and 0.5 GB of temporaries per
+        2**24 IDs: ~4 min for a 2048^3 run).  The result costs 8 bytes per
+        stored particle; ``max_ids`` (default :data:`MAX_IDS_DEFAULT`, 2 GB)
+        refuses a larger result with ``ValueError`` (pass ``None`` to lift it).
+        """
         n_p, m = self.n_p, self.m
         if n_p is None or m is None:
             raise ValueError(f"N_p and M must be in the sidecar of {self.path} to recover the IDs")
+        if m < 1:
+            raise ValueError(f"{self.path}: M = {m} in the sidecar is not valid")
+        if m == 1 and len(self) != n_p:
+            raise ValueError(f"{self.path}: M = 1 but the file holds {len(self)} of N_p = {n_p} particles")
+        if max_ids is not None and len(self) > max_ids:
+            raise ValueError(f"{self.path}: {len(self)} IDs exceed max_ids={max_ids} (8 bytes each); "
+                             "for M = 1 the IDs are 0..N_p-1 by construction; pass max_ids=None to allocate anyway")
         ids = select_ids(n_p, self.salt, m, block)
         if ids.size != len(self):
             raise ValueError(f"{self.path}: the selection rule keeps {ids.size} of {n_p} IDs but the file holds {len(self)}")

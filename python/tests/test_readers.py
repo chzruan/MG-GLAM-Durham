@@ -22,8 +22,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import glamio  # noqa: E402
 from glamio import CATALOGUE_DTYPE  # noqa: E402
-from glamio.snapshot import HEADER_BYTES, _header_dtype  # noqa: E402
-from glamio.subsample import NQ, SALT_DEFAULT, select_ids, splitmix64  # noqa: E402
+from glamio.snapshot import HEADER_BYTES  # noqa: E402
+from glamio.subsample import NQ, SALT_DEFAULT, keep_mask, select_ids, splitmix64  # noqa: E402
 
 try:
     import pytest
@@ -32,7 +32,10 @@ except ImportError:  # plain-script mode
 
 
 def _tmpdir() -> str:
-    return tempfile.mkdtemp(prefix="glamio-readers-", dir=os.environ.get("GLAMIO_TEST_TMPDIR") or None)
+    base = os.environ.get("GLAMIO_TEST_TMPDIR") or None
+    if base:
+        os.makedirs(base, exist_ok=True)
+    return tempfile.mkdtemp(prefix="glamio-readers-", dir=base)
 
 
 def _write(path: str, text: str) -> str:
@@ -68,10 +71,13 @@ def test_schedule():
         assert list(s.primary()["step"]) == [70, 98] and list(s.stations()["step"]) == [84]
         assert set(s.by_step()) == {70, 84, 98} and s["a"][0] == float("2.85714298E-01")
         assert _raises(KeyError, s.row, 85)
+        assert s.row_at_z(1.1)["step"] == 84 and _raises(KeyError, s.row_at_z, 1.2)
         _write(os.path.join(d, "bad.dat"), "70 0.5 1.0 100.0 1\n")
         assert _raises(ValueError, glamio.read_schedule, os.path.join(d, "bad.dat"))
         _write(os.path.join(d, "order.dat"), "84 0.5 1.0 100.0 1 1\n70 0.3 2.3 200.0 1 1\n")
         assert _raises(ValueError, glamio.read_schedule, os.path.join(d, "order.dat"))
+        _write(os.path.join(d, "class0.dat"), "70 0.5 1.0 100.0 1 0\n")
+        assert _raises(ValueError, glamio.read_schedule, os.path.join(d, "class0.dat"))
     finally:
         shutil.rmtree(d, ignore_errors=True)
 
@@ -106,6 +112,9 @@ def test_lensplanes():
         assert px[2, 1] == 12.0 and px[1, 2] == 21.0 and np.array_equal(px, planes[0].T)
         assert np.array_equal(L.plane("z", 2), planes[5].T) and L.slabs("y").shape == (2, 3, 3) and L.slabs(1)[0, 0, 0] == 200.0
         assert np.allclose(L.axis_means(), [np.mean(planes[0:2]), np.mean(planes[2:4]), np.mean(planes[4:6])])
+        pm = L.plane_means()
+        assert pm.shape == (3, 2) and np.allclose(pm, [[np.mean(planes[p]) for p in (0, 1)], [np.mean(planes[p]) for p in (2, 3)], [np.mean(planes[p]) for p in (4, 5)]])
+        assert _raises(ValueError, L.plane, True, 1) and _raises(ValueError, L.slabs, 1.0)
         assert np.array_equal(L.pixel_edges(), [0, 50, 100, 150]) and np.array_equal(L.slab_edges(), [0, 75, 150])
         assert _raises(IndexError, L.plane, "x", 0) and _raises(ValueError, L.plane, "w", 1)
         # wrong size, wrong product, missing key
@@ -165,6 +174,9 @@ def test_modes():
         km, pk, w = M.power()
         ref, cnt = _brute_power(M, n)
         assert np.allclose(pk, ref, rtol=1e-12) and np.array_equal(w, cnt)
+        assert _raises(ValueError, M.power, n + 1)
+        sx, sy, sz = M.index_grids(sparse=True)
+        assert sx.shape == (2 * n + 1, 1, 1) and sz.shape == (1, 1, n + 1) and np.array_equal(sx + 0 * sy + 0 * sz, M.index_grids()[0])
         assert abs(km[0] - M.k_fund * np.sum([1] * 6 + [np.sqrt(2)] * 12) / 18) < 1e-12   # bin 1: 6 axis + 12 face-diagonal modes
         M2 = glamio.read_modes(stem, mmap=True, expect_product=("deltam", "mom_x"))
         assert np.array_equal(M2.data, data)
@@ -173,8 +185,14 @@ def test_modes():
         assert _raises(ValueError, glamio.read_modes, stem)
         # a deltaL-style sidecar with only n and Box
         data.tofile(stem + ".bin")
-        _write(stem + ".meta", f"product = deltaL\nn = {n}\nBox = {box}\n")
-        assert glamio.read_modes(stem).k_c is None
+        _write(stem + ".meta", f"product = deltaL\nn = {n}\nBox = {box}\nD_gen(a_ini) = 0.02\n")
+        assert glamio.read_modes(stem).k_c is None and glamio.read_modes(stem).d_gen == 0.02
+        _write(stem + ".meta", f"product = fR_halo\nn = {n}\nBox = {box}\n")
+        assert _raises(ValueError, glamio.read_modes, stem)                       # not a mode product
+        assert glamio.read_modes(stem, expect_product=None).product == "fR_halo"
+        _write(stem + ".meta", f"product = deltam   (cube)\nn = {n}\n")
+        M3 = glamio.read_modes(stem)
+        assert M3.product == "deltam" and _raises(ValueError, M3.power) and _raises(ValueError, M3.k_magnitude)
     finally:
         shutil.rmtree(d, ignore_errors=True)
 
@@ -191,8 +209,8 @@ def test_splitmix64_and_selection():
     assert 1000 / 7 * 0.5 < ids.size < 1000 / 7 * 1.5
 
 
-def _subsample_fixture(d, m, n_p, box=150.0, dv=0.25, step=70):
-    ids = select_ids(n_p, SALT_DEFAULT, m)
+def _subsample_fixture(d, m, n_p, box=150.0, dv=0.25, step=70, salt=SALT_DEFAULT, header="ic2pm: 2LPTic ingest, v at a-da/2, IDz"):
+    ids = select_ids(n_p, salt, m)
     n_sel = ids.size
     q = np.zeros((6, n_sel), dtype="<i2")
     q[0] = (np.arange(n_sel) * 7919 % NQ) - 32768
@@ -205,9 +223,9 @@ def _subsample_fixture(d, m, n_p, box=150.0, dv=0.25, step=70):
     q.tofile(stem + ".bin")
     _write(stem + ".meta",
            f"product = Subsample\nstep = {step}\nrealization = 1\na = 0.2857\nz = 2.5\na_v = 0.2817   (velocity epoch)\n"
-           f"Box = {box:.4f}\nN_grid = 72\nN_row = 36\nN_p = {n_p}\nM = {m}\nSALT = 0x5EED00DE6C0A2026\n"
+           f"Box = {box:.4f}\nN_grid = 72\nN_row = 36\nN_p = {n_p}\nM = {m}\nSALT = 0x{salt:016X}\n"
            f"n_sel = {n_sel}\ndx_quant = {box / NQ:.8E}   (Box/65536 Mpc/h)\ndv_quant = {dv:.4f}   (km/s)\n"
-           f"n_clip_v = 0\nv_scale = 739.4   (km/s per code unit)\nheader = ic2pm: 2LPTic ingest, v at a-da/2, IDz\n")
+           f"n_clip_v = 0\nv_scale = 739.4   (km/s per code unit)\nheader = {header}\n")
     return stem, q, ids
 
 
@@ -216,7 +234,7 @@ def test_subsample():
     try:
         stem, q, ids = _subsample_fixture(d, m=5, n_p=2000)
         S = glamio.read_subsample(stem)
-        assert len(S) == S.n_sel == ids.size and S.m == 5 and S.n_p == 2000 and S.salt == SALT_DEFAULT and S.lattice == "IDz"
+        assert len(S) == S.n_sel == ids.size and S.m == 5 and S.n_p == 2000 and S.salt == SALT_DEFAULT and S.lattice_tag == "IDz" == S.lattice
         assert np.array_equal(S.q, q) and abs(S.dx_quant - 150.0 / NQ) < 1e-10 and S.dv_quant == 0.25 and S.a_v == 0.2817
         pos = S.positions()
         assert pos.shape == (ids.size, 3) and np.all(pos >= 0) and np.all(pos < 150.0)
@@ -230,9 +248,22 @@ def test_subsample():
         assert _raises(ValueError, glamio.read_subsample(stem).ids)
         _write(stem + ".meta", meta.replace(f"n_sel = {ids.size}", f"n_sel = {ids.size + 1}"))
         assert _raises(ValueError, glamio.read_subsample, stem)
-        stem1, q1, ids1 = _subsample_fixture(d, m=1, n_p=12, step=84)
+        stem1, q1, ids1 = _subsample_fixture(d, m=1, n_p=12, step=84, header="N=0036x0072L=0150zi049da=8.00E-04f0.040")
         S1 = glamio.read_subsample(stem1)
-        assert np.array_equal(S1.ids(), np.arange(12, dtype=np.uint64)) and len(S1) == 12
+        assert np.array_equal(S1.ids(), np.arange(12, dtype=np.uint64)) and len(S1) == 12 and S1.lattice_tag is None
+        assert _raises(ValueError, S1.ids, max_ids=11) and S1.ids(max_ids=12).size == 12
+        # a non-default salt from the sidecar selects a different set; M = 0 is rejected
+        stem2, q2, ids2 = _subsample_fixture(d, m=3, n_p=3000, step=98, salt=0x0123456789ABCDEF)
+        S2 = glamio.read_subsample(stem2)
+        assert S2.salt == 0x0123456789ABCDEF and np.array_equal(S2.ids(), ids2) and not np.array_equal(ids2, select_ids(3000, SALT_DEFAULT, 3))
+        assert _raises(ValueError, select_ids, 10, SALT_DEFAULT, 0) and _raises(ValueError, keep_mask, [1, 2], SALT_DEFAULT, 0)
+        # an empty subsample (n_sel = 0) reads with and without mmap
+        stem3 = os.path.join(d, "Subsample.0099.0001")
+        open(stem3 + ".bin", "wb").close()
+        _write(stem3 + ".meta", "product = Subsample\nn_sel = 0\nBox = 150.0\ndv_quant = 0.25\nN_p = 5\nM = 7\n")
+        for mm in (False, True):
+            S3 = glamio.read_subsample(stem3, mmap=mm)
+            assert len(S3) == 0 and S3.positions().shape == (0, 3) and S3.velocities().shape == (0, 3)
     finally:
         shutil.rmtree(d, ignore_errors=True)
 
@@ -272,7 +303,7 @@ def test_frhalo():
         assert F.fR0 == -1e-5 and F.n_fr == 1 and F.a_old == 0.4646 and F.fR_bg_old == float("-2.76490598E-06") and F.step == 84
         paths = F.catalogue_paths()
         assert paths["binary"] == os.path.join(rundir, "CATALOGS", "CatshortV.0084.0001.bin") and paths["text"].endswith(".DAT")
-        assert _raises(FileNotFoundError, F.catalogue)
+        assert _raises(FileNotFoundError, F.catalogue) and _raises(ValueError, F.catalogue, "bogus")
         _catalogue_fixture(rundir, 84, 3)
         cat = F.catalogue()
         assert len(cat) == 3 and cat.path.endswith(".bin")
@@ -280,6 +311,13 @@ def test_frhalo():
         assert _raises(ValueError, F.catalogue)
         pairs[:2].tofile(stem + ".bin")
         assert _raises(ValueError, glamio.read_frhalo, stem)
+        # a box without haloes: empty .bin and rows = 0, readable with and without mmap
+        stem0 = os.path.join(rundir, "fR_halo.0070.0001")
+        open(stem0 + ".bin", "wb").close()
+        _write(stem0 + ".meta", "product = fR_halo\nrows = 0\nfR0 = -1e-5\nstep = 70\n")
+        for mm in (False, True):
+            F0 = glamio.read_frhalo(stem0, mmap=mm)
+            assert len(F0) == 0 and F0.data.dtype == glamio.FRHALO_DTYPE
     finally:
         shutil.rmtree(d, ignore_errors=True)
 
@@ -298,15 +336,21 @@ def test_powerdm():
         assert len(P) == 2 and P.columns == ["bin", "k", "nmodes", "pk"] and P.binning == "linear"
         assert P.a == 0.28571 and P.z == 2.5 and P.step == 70 and P.ngrid == 72 and P.k_nyq == 1.51
         assert P.header.startswith("N=0036x0072") and P.k[1] == 0.09344 and P.nmodes[0] == 18 and P.pk[0] == 1371.39
-        w2 = P.cic_window_sq()
+        w2 = P.cic_window_jing_sq()
         assert np.all((0 < w2) & (w2 <= 1)) and np.allclose(P.pk_deconvolved() * w2, P.pk)
-        assert _raises(KeyError, P.__getitem__, "p0")
+        assert _raises(KeyError, P.__getitem__, "p0") and P.n_grid == 72 and P.box is None
+        Pb = glamio.read_powerdm(p, box=150.0)
+        assert abs(Pb.k_nyq - np.pi * 72 / 150.0) < 1e-12 and Pb.box == 150.0
+        hb = _write(os.path.join(d, "PowerDM.R.0071.0001.dat"), open(p).read().replace("N=0036x0072L=0150zi049da=8.00E-04f0.040      ", "LCDM bin 3 test header"))
+        Ph = glamio.read_powerdm(hb)
+        assert Ph.header == "LCDM bin 3 test header" and len(Ph) == 2 and Ph.columns == P.columns
         z = _write(os.path.join(d, "PowerDM.Z.0250.0001.V300.d2.dat"),
                    "hdr\n Aexpn = 0.2857 Step=  70 Redshift=    2.500 Ngrid=   36 kNyq=     0.75\n"
                    "   bin  k/Mpch    N          Preal        P0_redshift  P2_redshift\n"
                    "     1  0.05345 1.8000E+01  1.37139E+03  1.5E+03  2.0E+02\n")
         Z = glamio.read_powerdm(z)
         assert Z.columns[-2:] == ["p0", "p2"] and Z["p2"][0] == 200.0 and Z.binning == "redshift"
+        assert _raises(ValueError, Z.cic_window_jing_sq) and glamio.read_powerdm(z, box=150.0).k_nyq == 0.75
         _write(os.path.join(d, "bad.dat"), "hdr\n   bin  k/Mpch    N          Preal\n     1  0.05 1.8E+01  1.3E+03\n")
         assert _raises(ValueError, glamio.read_powerdm, os.path.join(d, "bad.dat"))
         _write(os.path.join(d, "bad2.dat"), "hdr\n Aexpn = 0.2857 Step=  70 Redshift=    2.500 Ngrid=   36 kNyq=     0.75\n"
@@ -317,26 +361,35 @@ def test_powerdm():
 
 
 # ----------------------------------------------------------------- PM snapshot
-def _snapshot_fixture(d, byteorder=">", n=9, page=4, rpf=2, ngrid=8, box=100.0, step=70, a=0.5, da=0.02):
-    dt = _header_dtype(byteorder)
-    rec = np.zeros(1, dtype=dt)
-    rec["header"] = b"synthetic PM snapshot, v at a-da/2, IDx"
-    rec["aexpn"], rec["aexp0"], rec["amplt"], rec["astep"], rec["istep"] = a, 0.02, 0.8, da, step
-    rec["partw"] = ngrid**3 / n
-    rec["nrow"], rec["ngrid"], rec["nrealization"], rec["nseed"] = 2, ngrid, 1, 2026
-    rec["om"], rec["oml"], rec["hubble"], rec["nparticles"] = 0.3, 0.7, 0.7, n
-    extras = np.zeros(100, dtype=np.float32)
+HEADER_VALUES = dict(aexpn=0.5, aexp0=0.02, amplt=0.8, astep=0.02, istep=70, partw=56.888889, tintg=0.0, ekin=1.5,
+                     ekin1=2.5, ekin2=3.5, au0=0.0, aeu0=4.5, nrow=2, ngrid=8, nrealization=3, nseed=2026, om=0.3, oml=0.7,
+                     hubble=0.7)
+
+
+def _pack_header(byteorder, header, n, box, **overrides):
+    """The 529-byte PMcrd record packed with struct (independent of the reader's dtype)."""
+    v = dict(HEADER_VALUES, **overrides)
+    extras = [0.0] * 100
     extras[99] = box
-    rec["extras"] = extras
+    return struct.pack(byteorder + "45s4fi7f4i3fq100f", header.encode().ljust(45),
+                       v["aexpn"], v["aexp0"], v["amplt"], v["astep"], v["istep"],
+                       v["partw"], v["tintg"], v["ekin"], v["ekin1"], v["ekin2"], v["au0"], v["aeu0"],
+                       v["nrow"], v["ngrid"], v["nrealization"], v["nseed"], v["om"], v["oml"], v["hubble"], n, *extras)
+
+
+def _snapshot_fixture(d, byteorder=">", n=9, page=4, rpf=2, ngrid=8, box=100.0, step=70, a=0.5, da=0.02,
+                      header="synthetic PM snapshot, v at a-da/2, IDx", istep=None):
+    rec = _pack_header(byteorder, header, n, box, aexpn=a, astep=da, istep=step if istep is None else istep, ngrid=ngrid)
+    assert len(rec) == HEADER_BYTES
     end = "big" if byteorder == ">" else "little"
     marker = HEADER_BYTES.to_bytes(4, end)
     tag = f"{step:04d}"
     crd = os.path.join(d, f"PMcrd.{tag}.DAT")
     with open(crd, "wb") as fh:
-        fh.write(marker + rec.tobytes() + marker)
-    # particles: x = 1 + i*0.5 (grid units), y = 1 + i, z = ngrid + 0.5 wraps, v = i - 4
+        fh.write(marker + rec + marker)
+    # particles: x = 1 + i*0.5 (grid units), y = 1 + i, z = NGRID + 1 (the periodic image of 0), v = i - 4
     i = np.arange(n, dtype=np.float32)
-    comps = [1 + 0.5 * i, 1 + (i % ngrid), np.full(n, ngrid + 0.5, np.float32), i - 4, 2 * i, -i]
+    comps = [1 + 0.5 * i, 1 + (i % ngrid), np.full(n, ngrid + 1, np.float32), i - 4, 2 * i, -i]   # z = NGRID + 1 wraps to 0
     n_pages = (n + page - 1) // page
     files = {}
     for ip in range(n_pages):
@@ -362,12 +415,19 @@ def test_snapshot():
             crd, comps = _snapshot_fixture(sub, byteorder=bo)
             h = glamio.read_pm_header(crd)
             assert h.byteorder == bo and h.header.startswith("synthetic") and h.nparticles == 9 and h.ngrid == 8 and h.box == 100.0
-            assert abs(h.aexpn - 0.5) < 1e-7 and h.istep == 70 and abs(h.a_v - 0.49) < 1e-7 and h.cell == 12.5
+            for name, value in HEADER_VALUES.items():          # every packed field comes back (order and kinds)
+                if name in ("aexpn", "astep", "istep", "ngrid"):
+                    continue
+                got = getattr(h, name)
+                assert abs(got - value) < 1e-6 * max(1.0, abs(value)), (name, got, value)
+            assert abs(h.aexpn - 0.5) < 1e-7 and h.istep == 70 and abs(h.a_v - 0.49) < 1e-7 and h.cell == 12.5 and h.ic_velocity_epoch is None
             assert abs(h.velocity_scale() - 100 * 100.0 / 8 / h.a_v) < 1e-9 and abs(h.velocity_scale("a") - 100 * 100.0 / 8 / h.aexpn) < 1e-9
-            assert abs(h.particle_mass() - 2.7754e11 * h.om * 50.0**3) < 1e3 * 1e11
+            assert abs(h.particle_mass() - glamio.RHO_CRIT_GLAM * h.om * 50.0**3) < 1.0   # h.om is the float32 of 0.3
             snap = glamio.read_snapshot(crd, page=4, records_per_file=2)
             assert snap.n_pages == 3 and len(snap.files) == 2 and snap.tag == "0070" and snap.n_particles == 9
-            x6 = snap.read()
+            auto = glamio.read_snapshot(crd, page=4)                 # split detected from the size of PMcrs0
+            assert auto.records_per_file == 2 and len(auto.files) == 2
+            x6 = snap.read(max_particles=None)
             assert all(c.dtype == np.float32 for c in x6)
             for c in range(6):
                 assert np.array_equal(x6[c], np.asarray(comps[c], dtype=np.float32)), c
@@ -375,13 +435,39 @@ def test_snapshot():
             assert [len(p[0]) for p in pages] == [4, 4, 1] and len(pages[0]) == 3
             x, y, z, vx, vy, vz = snap.read(units="physical")
             assert x.dtype == np.float64 and np.allclose(x, (comps[0] - 1) * 12.5) and np.allclose(y, (comps[1] - 1) * 12.5)
-            assert np.allclose(z, ((8 + 0.5 - 1) * 12.5) % 100.0) and np.all(z < 100.0)
+            assert np.all(z == 0.0)                                   # NGRID + 1 is the periodic image of 0
             assert np.allclose(vx, comps[3] * h.velocity_scale()) and np.allclose(vz, comps[5] * h.velocity_scale())
             _, _, _, vxa, _, _ = snap.read(units="physical", velocity_epoch="a")
             assert np.allclose(vxa, comps[3] * h.velocity_scale("a"))
             assert _raises(ValueError, snap.read, max_particles=8)
             assert _raises(ValueError, snap.iter_pages(units="grid").__next__)
-        # damaged marker, missing particle file, short particle file
+        # exact multiple of the page (no padding, one file) and a single page
+        for n_part, exp_pages, exp_files in ((8, 2, 1), (4, 1, 1), (12, 3, 2)):
+            sub = os.path.join(d, f"n{n_part}")
+            os.makedirs(sub)
+            crd, comps = _snapshot_fixture(sub, n=n_part)
+            snap = glamio.read_snapshot(crd, page=4)
+            assert snap.n_pages == exp_pages and len(snap.files) == exp_files and snap.records_per_file == (2 if exp_files == 2 else exp_pages)
+            x6 = snap.read()
+            assert len(x6[0]) == n_part and np.array_equal(x6[0], np.asarray(comps[0], dtype=np.float32))
+        # a 256-records-per-file split (native PMP2start ICs) is detected without options
+        sub = os.path.join(d, "split3")
+        os.makedirs(sub)
+        crd, comps = _snapshot_fixture(sub, n=11, rpf=3)
+        snap = glamio.read_snapshot(crd, page=4)
+        assert snap.records_per_file == 3 and len(snap.files) == 1 and len(snap.read()[0]) == 11
+        # IC files converted by ic2pm: half-step tag vs legacy sync mode
+        sub = os.path.join(d, "ic")
+        os.makedirs(sub)
+        crd, _ = _snapshot_fixture(sub, header="ic2pm: 2LPTic ingest, v at a-da/2, IDz", istep=0, step=0)
+        h = glamio.read_pm_header(crd)
+        assert h.ic_velocity_epoch == "half" and abs(h.a_v - 0.49) < 1e-7
+        crd, _ = _snapshot_fixture(sub, header="ic2pm: 2LPTic ingest", istep=0, step=1)
+        h = glamio.read_pm_header(crd)
+        assert h.ic_velocity_epoch == "sync" and abs(h.a_v - 0.5) < 1e-7
+        crd, _ = _snapshot_fixture(sub, header="ic2pm: 2LPTic ingest", istep=70, step=2)
+        assert glamio.read_pm_header(crd).ic_velocity_epoch is None     # a run started from a sync IC: later snapshots are half-step
+        # damaged marker, missing particle file, short particle file, wrong file name
         crd, _ = _snapshot_fixture(os.path.join(d, "be"))
         with open(crd, "r+b") as fh:
             fh.write(b"\0\0\0\7")
@@ -398,8 +484,29 @@ def test_snapshot():
         shutil.rmtree(d, ignore_errors=True)
 
 
+# ----------------------------------------------------------------- run paths
+def test_run_paths():
+    d = _tmpdir()
+    try:
+        rundir = os.path.join(d, "Run1")
+        os.makedirs(os.path.join(rundir, "CATALOGS"))
+        assert glamio.product_path(rundir, "deltam", 84) == os.path.join(rundir, "deltam.0084.0001")
+        assert glamio.product_path(rundir, "catalogue", 84, 2) == os.path.join(rundir, "CATALOGS", "CatshortV.0084.0002")
+        assert glamio.product_path(rundir, "PowerDM.R", 84).endswith("PowerDM.R.0084.0001.dat")
+        assert glamio.product_path(rundir, "snapshot", 84).endswith("PMcrd.0084.DAT") and glamio.product_path(rundir, "schedule", 0).endswith("OutputSchedule.dat")
+        assert _raises(ValueError, glamio.product_path, rundir, "bogus", 84)
+        assert glamio.products_at(rundir, 84) == {}
+        _lens_fixture(rundir)                                      # LensPlanes.0070.0001
+        _write(os.path.join(rundir, "PowerDM.R.0070.0001.dat"), "x\n")
+        _catalogue_fixture(rundir, 70, 2)
+        found = glamio.products_at(rundir, 70)
+        assert set(found) == {"LensPlanes", "PowerDM.R", "catalogue"} and found["LensPlanes"].endswith("LensPlanes.0070.0001")
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
 TESTS = [test_schedule, test_lensplanes, test_modes, test_splitmix64_and_selection, test_subsample,
-         test_frhalo, test_powerdm, test_snapshot]
+         test_frhalo, test_powerdm, test_snapshot, test_run_paths]
 
 if __name__ == "__main__":
     failed = 0

@@ -151,13 +151,17 @@ Index ix must be the physical x axis of the halo catalogue; record `axis_map`.
 little-endian binary, Fortran `access='stream', form='unformatted'`, explicit
 `convert='little_endian'` on the OPEN (the build is globally big-endian),
 no record markers. Metadata: a plain-text sidecar `.meta` with `key = value`
-lines. Required keys: `git_hash`, `model`, `fR0` (or `none`), `L`, `N_p`,
-`N_g`, `N_dep`, `a`, `z`, `a_x`, `a_v`, `step`, `box`, `units`, `axis_map`,
-`D_code(a)` (the code's own ΛCDM linear growth at this a, normalised to
-D(1) = 1), plus the item-specific keys below. Names:
-`extra/<run>_a<a:.4f>_<product>.{bin,meta}`, `extra/<run>_deltaL.{bin,meta}`,
-`extra/<run>_a<a:.4f>_lensplanes.{bin,meta}` (adapt to the existing
-`<product>.<step>.<box>.dat` scheme if that is preferred; decide once).
+lines. Keys as implemented (the brief's list, amended 2026-10-18 to what
+the writers emit and `glamio` reads): `product`, `format`, `step`,
+`realization`, `a`, `z`, `a_x`, `a_v` (products that carry velocities;
+`fR_halo` records `a_old` instead), `Box`, `units`, `axis_map`, `N_grid`,
+`N_row`, `N_p`, `N_dep` (cubes), `D_code(a)` (cubes; the code's own ΛCDM
+linear growth at this a, normalised to D(1) = 1), `Omega_m`, `Omega_L`,
+`hubble`, `MG_flag`, `MG_model`, `fR0` (or `none`), `header` (the 45-char
+run header), plus the item-specific keys below. No `git_hash`: the
+campaign's provenance file records the build. Names: GLAM's
+`<product>.<step:04d>.<box:04d>.{bin,meta}` in the run directory (the
+brief's `extra/<run>_a<a>_<product>` was not adopted; Q9 decided).
 
 **Velocity epoch.** GLAM's leapfrog leaves velocities half a step behind the
 positions at every output (v at a − da/2 with the step just taken; in
@@ -225,7 +229,9 @@ called from `Analysis` after `DENSIT` and before `GetPower`.
   (1+δ) of the slab column (Σ/Σ̄); optional block average to the plane grid;
   OpenMP over the outer loop as in `ProjectDENSIT`. Extra memory
   12 × 4096² × 4 B = 0.8 GB.
-- Checks logged per output: each plane averages to 1 within float error; the
+- Checks logged per output: the mean over the slabs of each axis is 1 within
+  float error (a single plane averages to 1 + ⟨δ⟩_slab, its slab's mean
+  overdensity: up to 1e-3 on the pilots); the
   4 slabs sum to the full-box projection; timing.
 - File: one `.bin` per output holding the 12 planes in fixed order X₁…₄,
   Y₁…₄, Z₁…₄, each N_lens × N_lens float32 column-major, plus `.meta` with
@@ -520,7 +526,7 @@ Schedule and lens planes:
 |---|---|---|
 | S1 | `test/precise_z` suite | 65/65 (already passing) |
 | S2 | generator reproduces Baojiu's fiducial list and all 96 ECOSMOG lists | < 1e-7 / < 1e-6 in a |
-| L1 | plane means and slab sums on the test box | mean = 1 to float error; 4 slabs = full projection |
+| L1 | axis means and slab sums on the test box | per-axis mean = 1 to float error (a plane's own mean is 1 + ⟨δ⟩_slab); 4 slabs = full projection |
 | L2 | planes vs. offline projection of a full snapshot (test box, `iSave=1`) | identical to float rounding |
 | L3 | plane power spectrum vs. the 3-D P(k) at k ≪ k_N (Limber-free check on the test box) | within shot noise. **Passed 2026-10-17** (`case10_lens72`): P_2D(k_⊥) of the six planes vs the exact periodic-box projection of `PowerDM.R`, (1/L) Σ_kz P_3D \|W_slab(kz)\|², agrees within 3σ in every ring 0.08 < k_⊥ < 0.5 and on average to 7/4/3 % at the three outputs (sample variance of a few modes per ring) |
 
@@ -529,7 +535,7 @@ Extra outputs (from the brief):
 | ID | Test | Pass criterion |
 |---|---|---|
 | V1 | layout unit test: cos(2π m·x/L), sin(…) for a few integer m through the copy routine | amplitude 1/2 at ±m only, correct signs; zero elsewhere to round-off |
-| V2 | P(k) from `deltam` (CIC deconvolved offline) vs the code's own P_mm(k), same binning, k < k_c | < 1e-3 |
+| V2 | P(k) from `deltam` (raw CIC, no deconvolution: the code's P_mm(k) is raw too), same binning, k < k_c | < 1e-3 (as run: 4e-6, `Modes.power()`) |
 | V3 | `deltam` at the first step vs `deltaL` | Re(ratio) = D_code(a_ini) to < 0.5 % at k < 0.1; \|Im/Re\| < 1e-3; r > 0.999. **Passed 2026-10-17** on the 128³/256³ test box at z = 48 and 30 (ratio/D = 0.9997–1.0012 for k ≤ 0.15, ⟨Im⟩ ≤ 2e-3, r = 0.99998 at k ≤ 0.05, 0.9995 at 0.1–0.15; see I7) |
 | V4 | halo axes/offset: BDM haloes (M ≳ 10¹³) deposited offline, crossed with `deltam` and `deltaL` | r ≳ 0.9 in the lowest bins; no linear-in-k phase |
 | V5 | subsample on the test box with a full-precision snapshot | n_sel within 3σ of N/M; reconstructed IDs match to dx_quant/2; n_clip_v = 0 or logged; C and Python hashes agree on 10⁷ IDs |
@@ -604,8 +610,8 @@ For CZ:
 6. ~~Extras cadence~~ decided 2026-10-17: all 42 outputs (section 9).
 7. k_c,δ = 1.5 or 3.0 (do tidal/environment definitions need R ≈ 1 Mpc/h)?
 8. I7 route for the FML generator and for Baojiu's ICs (section 5, I7).
-9. File naming: the brief's `extra/<run>_a<a>_<product>` or GLAM's
-   `<product>.<step>.<box>.dat`.
+9. File naming: decided for GLAM's `<product>.<step>.<box>.{bin,meta}` in
+   the run directory (as implemented; `glamio.product_path` builds the names).
 10. Companion resolution: N_g = 2048 or 4096 on Baojiu's 1024³ particles.
 11. BDM catalogue velocities: keep the legacy 1/a conversion (text and
     binary agree; the binary `.meta` records `a`, `a_v`, `da` and
@@ -1053,4 +1059,35 @@ For CZ:
   SplitMix64 reference vector and a little-endian snapshot): 15/15 with
   the catalogue tests. The pilot's 2048^2 lens planes read memory-mapped
   with axis means 1. Not done here: the halocat ingest (halocat session),
-  `ProjectionXY/XZ` (legacy product, not in the DEGRACE output list).
+  `ProjectionXY/XZ/YZ` (legacy product, not in the DEGRACE output list),
+  `timing.log`, `main.log` and the BDM `outputB` logs (text, parsed ad hoc by
+  `check_run.py`), `PowerDM.Z` (never written by the DEGRACE runs).
+  `DEGRACE-companion/check_run.py` keeps its own decoders on purpose, as an
+  independent verification of the same files.
+- 2026-10-18, review of `glamio-readers` before the merge: five subagent
+  reviews (`docs/reviews/glamio-readers/`: prompts, five findings files,
+  `TRIAGE.md`). No Blocker; seven distinct Majors, all fixed the same day:
+  `Modes.power()` now works slab by slab (was 9x the cube in temporaries,
+  4.7 GB on the production cube) and refuses `nbins > n` (truncated shells
+  were returned 5-19 % low); `load_array` returns an empty array for a
+  0-row product under `mmap=True` (was a numpy crash on a legitimate
+  `rows = 0` fR_halo); `Snapshot.read()` fills preallocated arrays and
+  refuses more than 2^27 particles by default (was two copies and no cap:
+  412 GB for 2048^3 in physical units); `Subsample.ids()` checks the count
+  first and caps the result (was 69 GB of `arange` at M = 1 for 2048^3);
+  the PMcrd test fixture is packed with `struct` instead of the reader's
+  own dtype and the suite pins Nrow, realization, ASTEP, Om, OmL, h and
+  PARTW against the subsample sidecar (field-order errors were invisible);
+  the per-plane mean claim was corrected here, in the deck and in the
+  `lensplanes` docstring (only the per-axis mean is 1). Minors fixed:
+  `sync`-mode IC files get `a_v = a`, the `PMcrs` split (512 or 256
+  records) is detected from the file size, `particle_mass()` uses the
+  finder's 2.774e11, the caption of `PowerDM` is searched after the epoch
+  line, `read_powerdm(box=)` gives an exact `kNyq`, the CIC window helper
+  is named for what it is (Jing's alias-summed form), `read_modes`
+  accepts only the mode products by default, `M >= 1` and
+  `prefer in (binary, text)` are validated, the schedule rejects bad
+  `exact`/`class` values and gained `row_at_z()`, `product_path()` /
+  `products_at()` build and list the files of a step, the README example
+  reads lens planes at every output. glamio 0.2.1; suite 221/221 with
+  the strengthened checks; unit tests 16/16.

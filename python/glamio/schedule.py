@@ -109,8 +109,16 @@ class Schedule:
             raise KeyError(f"step {step} is not in {self.path}")
         return self.rows[hit[0]]
 
+    def row_at_z(self, z: float, atol_a: float = 1e-4) -> np.void:
+        """The row whose ``a`` is nearest to ``1/(1+z)``; ``KeyError`` when the nearest is farther than ``atol_a``."""
+        a = 1.0 / (1.0 + z)
+        i = int(np.argmin(np.abs(self.rows["a"] - a)))
+        if len(self.rows) == 0 or abs(self.rows["a"][i] - a) > atol_a:
+            raise KeyError(f"no output within {atol_a} in a of z = {z} in {self.path}")
+        return self.rows[i]
+
     def primary(self) -> np.ndarray:
-        """The class-1 rows (full outputs: halo finder and extras)."""
+        """The class-1 rows (full outputs: halo finder and extras); classes other than 1 and 2 are not written today."""
         return self.rows[self.rows["class"] == 1]
 
     def stations(self) -> np.ndarray:
@@ -147,4 +155,6 @@ def read_schedule(path: str | os.PathLike) -> Schedule:
     arr = np.array(rows, dtype=SCHEDULE_DTYPE)
     if len(arr) > 1 and not np.all(np.diff(arr["step"]) > 0):
         raise ValueError(f"{p}: steps are not strictly increasing")
+    if len(arr) and (not np.all(np.isin(arr["exact"], (0, 1))) or np.any(arr["class"] < 1) or np.any(arr["a"] <= 0)):
+        raise ValueError(f"{p}: exact must be 0/1, class >= 1 and a > 0 on every row")
     return Schedule(arr, comments, p)

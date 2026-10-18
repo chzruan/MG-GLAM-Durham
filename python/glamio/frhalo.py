@@ -2,9 +2,10 @@
 
 One float32 pair per catalogue row, in the row order of the ``CatshortV``
 catalogue of the same step: ``fR_centre`` (f_R interpolated with CIC at the
-halo centre) and ``fR_mean`` (the mean of f_R over the mesh cells whose
-centres lie within the catalogue radius ``Rvir`` of the centre; equal to
-``fR_centre`` when the radius is below half a cell).  The field is the
+halo centre) and ``fR_mean`` (the mean of f_R over the mesh nodes that lie
+within the catalogue radius ``Rvir`` of the centre; equal to ``fR_centre``
+when the radius is below half a cell or when no node falls inside it, and
+nothing in the file distinguishes the two cases).  The field is the
 converged scalar field of the pre-step epoch ``a_old = a - da``:
 ``f_R(x) = fR_bg(a_old) u(x)^(n+1)`` with ``fR_bg(a) = fR0 (R0/R(a))^(n+1)``,
 ``R(a) = 3 (Omega_m/a^3 + 4 Omega_L)``.  The sidecar names the text and the
@@ -80,6 +81,8 @@ class FRHalo(MetaProduct):
         Raises ``FileNotFoundError`` when neither exists and ``ValueError``
         when its row count differs from this file's.
         """
+        if prefer not in ("binary", "text"):
+            raise ValueError(f"prefer must be 'binary' or 'text', got {prefer!r}")
         paths = self.catalogue_paths()
         order = ("binary", "text") if prefer == "binary" else ("text", "binary")
         for form in order:

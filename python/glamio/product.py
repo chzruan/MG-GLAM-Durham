@@ -44,8 +44,12 @@ class MetaProduct:
 
     @property
     def product(self) -> str | None:
-        """Product name (meta key ``product``)."""
-        return self._str("product")
+        """Product name: the first token of the meta key ``product`` (a trailing comment is dropped)."""
+        value = self.meta.get("product")
+        if value is None:
+            return None
+        tokens = value.split()
+        return tokens[0] if tokens else ""
 
     @property
     def a(self) -> float | None:
@@ -123,6 +127,8 @@ class MetaProduct:
 def resolve_pair(path: str | os.PathLike, bin_suffix: str = ".bin", meta_suffix: str = ".meta") -> tuple[str, str, str]:
     """Return ``(bin_path, meta_path, stem)`` for a ``.bin``, a ``.meta`` or a bare stem."""
     p = os.fspath(path)
+    if os.path.isdir(p):
+        raise IsADirectoryError(f"{p} is a directory; pass the product's .bin, .meta or stem")
     for suffix in (bin_suffix, meta_suffix):
         if p.endswith(suffix):
             stem = p[: -len(suffix)]
@@ -171,8 +177,10 @@ def check_size(path: str, expected_bytes: int, what: str) -> None:
 
 
 def load_array(path: str, dtype: np.dtype | str, count: int, mmap: bool = False) -> np.ndarray:
-    """Read (or memory-map, read-only) ``count`` items of ``dtype`` from ``path``."""
+    """Read (or memory-map, read-only) ``count`` items of ``dtype`` from ``path``; ``count = 0`` gives an empty array either way."""
     dt = np.dtype(dtype)
+    if count == 0:
+        return np.zeros(0, dtype=dt)              # np.memmap cannot map an empty file; an empty product is legitimate
     if mmap:
         arr = np.memmap(path, dtype=dt, mode="r", shape=(count,))
     else:

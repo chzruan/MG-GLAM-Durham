@@ -13,4 +13,4 @@ ranks, seconds to ~1.5 min), write only under `test/extras/work/`
 | `run_ic2pm_test.sh` | `ic2pm` places particles at index = Gadget ID, detects the ID lattice order (`IDz` 2LPTic-like int32 sequential, `IDx` FML-like int64 shuffled) and refuses a duplicate-ID set; verified through a one-step GLAM run with `Subsample M = 1` (`make_gadget_lattice.py`, `check_ic2pm_order.py`) | `PMP2init.exe`, `PMP2main.exe`, `ic2pm.exe` | seconds |
 
 The scheduler, lens-plane, mode-dump, subsample (V2, V6, L1–L3) and f_R
-smoke cases run in `../precise_z/run_tests.sh` (180 checks, ~1 min).
+smoke cases run in `../precise_z/run_tests.sh` (221 checks, ~1 min).
