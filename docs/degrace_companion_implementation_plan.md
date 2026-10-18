@@ -1093,12 +1093,22 @@ For CZ:
   the strengthened checks; unit tests 16/16.
 - 2026-10-18, confirmation pilot of the current `cz` build submitted:
   `DEGRACE-companion/runs/Node_002_LCDM_L1024Np1024Ng2048_confirm20261018`,
-  Slurm job 12185806 (cosma8-serial, dp203, 64 threads, 220 GB, 8 h limit).
+  Slurm job 12185817 (cosma8-serial, dp203, 64 threads, 220 GB, 8 h limit).
+  A first submission (12185806) stopped in PMP2init after 2 s: it had
+  copied the f(R) pilot's `kc_mom = 1.0`, which the rule added in the
+  review fixes rejects at N_dep = 1024 (k_N/4 = 0.785 h/Mpc; the f(R)
+  pilot's build predates the rule); the job script also missed the
+  failure because PMP2init's `stop` returns exit code 0 and ran ic2pm
+  into the missing `Setup.dat`. Fixed: `kc_mom = 0.75` (the production
+  value), the script now requires `Setup.dat`, and PMP2init was run on
+  the login node before resubmitting. Follow-up for the Fortran:
+  configuration refusals in PMP2init should use `error stop` so that a
+  job script sees a non-zero exit code.
   Executables built from `cz` 88fa70a (Fortran sources unchanged since
   69bd63b; md5s in `bin/md5sum.txt`). Same ICs, schedule, classes
   (primary), planes (4 x 2048^2) and BDM as the 17 Oct pilot (job
   12180082, build b774f8d), plus `CatalogueFormat = both` and the extras
-  at the 17 primaries (deltam k_c = 1.5, momentum k_c = 1.0 on N_dep =
+  at the 17 primaries (deltam k_c = 1.5, momentum k_c = 0.75 on N_dep =
   1024, subsample M = 100). Purpose: the production recipe with the
   merged build. Expected: P(k), lens planes and the text catalogue rows
   identical to the 17 Oct pilot (the dynamics are unchanged), the binary
