@@ -1208,3 +1208,14 @@ For CZ:
   and `verify/` (April OpenMP race logs, 6 files), the three BDM review
   decks of August/September under `docs/slides/`, and the 38 `.o`/`.mod`
   build intermediates in the repository root.
+  Removed on the user's instruction later the same day: `DEGRACE-pilot/`
+  (17 untracked files, 764 KB, July supplement launch scripts and a
+  background test; not archived, gone), `verify/` (6 untracked files, 172 KB,
+  April OpenMP race logs; gone), the three BDM decks
+  (`bdm_duplicate_survival`, `bdm_session3_findings`,
+  `bdm_session4_validated_algorithm`, 24 files; the three decks (24 files) are still in the pushed history before the
+  untrack commit: `git archive 9db3aac docs/slides/bdm_session3_findings | tar -x`
+  restores one), and the 22 `.o` + 16 `.mod` build
+  intermediates in the repository root (`make` rebuilds them; the five
+  `.exe` files stay). Left: the ΛCDM pilot run (decision pending),
+  `DEGRACE-highres/` and `resume.md`.
