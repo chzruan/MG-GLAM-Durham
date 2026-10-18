@@ -97,3 +97,6 @@ archive/*.tar.gz
 python/glamio.egg-info/
 .pytest_cache/
 python/tmp/
+
+# Slide decks: kept locally only, never committed (user decision 2026-10-18)
+docs/slides/

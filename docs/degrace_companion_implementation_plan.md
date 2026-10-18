@@ -22,7 +22,7 @@ done (route 1); I11 is open.
 
 Related references: `docs/degrace_ecosmog/README.md` (Baojiu's ECOSMOG
 suite: design, ICs, output lists, snapshots), `2LPTIC_Gui/VALIDATION.md`
-(2LPTIC and time-stepping validation), review decks under `docs/slides/`.
+(2LPTIC and time-stepping validation), review decks kept locally under `docs/slides/` (not tracked).
 
 ## 0. Ground rules
 
