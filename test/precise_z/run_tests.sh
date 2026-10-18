@@ -113,8 +113,11 @@ set_setup_outputs () { # $1 = Setup.dat path; $2 = signed count; $3 = list
 copy_ics () {    # $1 = case dir
     cp "$WORK/ic/Run1/PMcrd.DAT" "$WORK/ic/Run1/PMcrs0.DAT" "$WORK/ic/Run1/pt.dat" "$WORK/$1/Run1/"
 }
-run_init () {    # $1 = case dir
+run_init () {    # $1 = case dir; init.rc records the exit status (1 = refused via error stop, 0 = Setup.dat written)
     ( cd "$WORK/$1" && "$ROOT/PMP2init.exe" > init.log 2>&1 )
+    local rc=$?
+    echo "$rc" > "$WORK/$1/init.rc"
+    return "$rc"
 }
 run_main () {    # $1 = case dir;  $2 = steps (default NSTEPS)
     ( cd "$WORK/$1/Run1" && echo "${2:-$NSTEPS}" | "$ROOT/PMP2main.exe" > main.log 2>&1 )

@@ -178,7 +178,7 @@ Contains
         !write(*,*) ' Omnu =',Omnu
         da = 1.e-6
         ainit = 3.e-3
-        if (ainit > a) Stop ' error in initial a_exp in linear growth'
+        if (ainit > a) call Refuse('error in initial a_exp in linear growth')
 
         !--- initial conditions
         D0 = 1.
@@ -249,7 +249,7 @@ Program Initialize
             If (zout(i) < 0. .or. zout(i) >= zinit) Then
                 write (*, '(2(a,f10.4))') ' Error: exact output redshift z=', zout(i), &
                     ' is outside the simulation range 0 <= z < z_init=', zinit
-                Stop 'Invalid exact output redshift in Init.dat'
+                call Refuse('Invalid exact output redshift in Init.dat')
             End If
         End Do
     End If
@@ -258,32 +258,32 @@ Program Initialize
     Do i = 1, Nclasses
         If (zclass(i) < 1 .or. zclass(i) > 2) Then
             write (*, '(a,i3,a,i5)') ' Error: output class of redshift #', i, ' is ', zclass(i)
-            Stop 'Output classes must be 1 (full) or 2 (station)'
+            call Refuse('Output classes must be 1 (full) or 2 (station)')
         End If
     End Do
-    If (LensSlab < 0 .or. LensGrid < 0) Stop 'Lens-plane parameters must not be negative'
+    If (LensSlab < 0 .or. LensGrid < 0) call Refuse('Lens-plane parameters must not be negative')
     If (LensSlab > 0) Then
-        If (mod(Ngrid, LensSlab) /= 0) Stop 'Lens slabs per axis must divide Ngrid'
+        If (mod(Ngrid, LensSlab) /= 0) call Refuse('Lens slabs per axis must divide Ngrid')
         If (LensGrid == 0) LensGrid = Ngrid
-        If (LensGrid > Ngrid .or. mod(Ngrid, LensGrid) /= 0) Stop 'Lens plane grid must divide Ngrid'
+        If (LensGrid > Ngrid .or. mod(Ngrid, LensGrid) /= 0) call Refuse('Lens plane grid must divide Ngrid')
         write (*, '(a,i3,a,f9.3,a,i5)') ' Lens planes: ', LensSlab, ' slabs per axis of depth ', &
             Box/LensSlab, ' Mpc/h, plane grid ', LensGrid
     End If
     If (Nclasses > 0) write (*, '(a,i4,a)') ' Output classes read for ', Nclasses, ' redshifts'
-    If (iExtra /= 0 .and. iExtra /= 1) Stop 'Extra outputs switch must be 0 or 1'
+    If (iExtra /= 0 .and. iExtra /= 1) call Refuse('Extra outputs switch must be 0 or 1')
     If (iExtra == 1) Then
-        If (KcDelta <= 0. .or. KcMom <= 0.) Stop 'kc_delta and kc_mom must be positive'
+        If (KcDelta <= 0. .or. KcMom <= 0.) call Refuse('kc_delta and kc_mom must be positive')
         If (NdepMom == 0) NdepMom = Ngrid/2
-        If (NdepMom < 8 .or. NdepMom > Ngrid) Stop 'N_dep_mom must be between 8 and Ngrid'
-        If (int(KcDelta*Box/6.2831853) > Ngrid/2 - 1) Stop 'kc_delta reaches the Nyquist frequency of Ngrid'
-        If (int(KcMom*Box/6.2831853) > NdepMom/2 - 1) Stop 'kc_mom reaches the Nyquist frequency of N_dep_mom'
+        If (NdepMom < 8 .or. NdepMom > Ngrid) call Refuse('N_dep_mom must be between 8 and Ngrid')
+        If (int(KcDelta*Box/6.2831853) > Ngrid/2 - 1) call Refuse('kc_delta reaches the Nyquist frequency of Ngrid')
+        If (int(KcMom*Box/6.2831853) > NdepMom/2 - 1) call Refuse('kc_mom reaches the Nyquist frequency of N_dep_mom')
         If (KcMom > 3.14159265*NdepMom/(4.*Box)) Then      ! plan I8: above k_N,dep/4 the deposit must be interlaced
             write (*, '(a,f8.4,a,f8.4,a)') ' kc_mom =', KcMom, ' h/Mpc is above k_Nyquist(N_dep_mom)/4 =', &
                 3.14159265*NdepMom/(4.*Box), ' h/Mpc'
-            Stop 'kc_mom above k_N/4 would need interlacing, which is not implemented: lower kc_mom or raise N_dep_mom'
+            call Refuse('kc_mom above k_N/4 would need interlacing, which is not implemented: lower kc_mom or raise N_dep_mom')
         End If
-        If (SubM < 0) Stop 'Subsample M must not be negative'
-        If (FRhalo /= 0 .and. FRhalo /= 1) Stop 'fR at halos must be 0 or 1'
+        If (SubM < 0) call Refuse('Subsample M must not be negative')
+        If (FRhalo /= 0 .and. FRhalo /= 1) call Refuse('fR at halos must be 0 or 1')
         If (FRhalo == 1 .and. (MG_flag /= 1 .or. MG_model /= 1)) Then
             write (*, '(a)') ' fR at halos switched off: it needs MG_flag = 1 and MG_model = 1 (f(R))'
             FRhalo = 0
@@ -466,7 +466,7 @@ Subroutine ReadInit
     GOTO 12
 32  Write (*, *) ' Read ', Ntab, ' lines from P(k) table '
     close (10)
-    If (Ntab .le. 1) stop 'wrong table for p(k)'
+    If (Ntab .le. 1) call Refuse('wrong table for p(k)')
     StepK = log10(xkt(Ntab)/xkt(1))/(Ntab - 1)
     alog0 = log10(xkt(1))
 
@@ -475,7 +475,7 @@ Subroutine ReadInit
         ss = log10(xkt(k + 1)/xkt(k))
         If (abs(ss/StepK - 1.) .gt. 2.e-2) Then
             Write (*, *) ' error in K spacing. k=', k, xkt(k + 1), xkt(k)
-            STOP
+            call Refuse('P(k) table is not uniformly log-spaced')
         End If
     End Do
 
@@ -555,10 +555,10 @@ Subroutine ReadInit
     If (Nclasses > 0) Then
         If (Nclasses /= Nout) Then
             write (*, '(2(a,i5))') ' Error: Output classes =', Nclasses, ' but #outputs =', Nout
-            Stop 'Init.dat: one output class per listed redshift is required'
+            call Refuse('Init.dat: one output class per listed redshift is required')
         End If
         read (11, *, iostat=ierr) (zclass(i), i=1, Nclasses)
-        If (ierr /= 0) Stop 'Init.dat: output class list unreadable'
+        If (ierr /= 0) call Refuse('Init.dat: output class list unreadable')
     End If
     LensSlab = iParseLineOpt(11, 0)
     LensGrid = iParseLineOpt(11, 0)
@@ -593,7 +593,7 @@ Subroutine CheckInit
     use Param
     logical :: exst
     Inquire (file='PkTable.dat', exist=exst)
-    if (.not. exst) Stop ' File PkTable with the power spectrum not found'
+    if (.not. exst) call Refuse('File PkTable with the power spectrum not found')
     open (10, file='PkTable.dat')
 
     Inquire (file='Init.dat', exist=exst)
@@ -660,7 +660,7 @@ Subroutine CheckInit
         write (11, '(a,i9,a)') 'N_dep_mom                 = ', 0, '  0-Ngrid/2'
         write (11, '(a,i9,a)') 'Subsample M               = ', 0, '  0-off; keep 1 in M particles'
         write (11, '(a,i9,a)') 'fR at halos               = ', 0, '  0-off 1-on (f(R) runs)'
-        stop
+        call Refuse('Init.dat was missing: a template has been written; edit it and run PMP2init again')
     end if
 
     open (11, file='Init.dat')
@@ -785,7 +785,7 @@ Function iParseLineOpt(iFile, idef)
     Read (Line(Ieq + 1:), *, iostat=ios) iParseLineOpt     ! first token after the last "="
     If (ios /= 0) Then
         write (*, '(3a)') ' Init.dat: no integer after the last "=" in: "', TRIM(Line), '"'
-        Stop 'Init.dat: malformed optional line (a comment must not contain "=")'
+        call Refuse('Init.dat: malformed optional line (a comment must not contain "=")')
     End If
 end Function iParseLineOpt
 !--------------------------------------------------
@@ -809,9 +809,21 @@ Function ParseLineOpt(iFile, def)
     Read (Line(Ieq + 1:), *, iostat=ios) ParseLineOpt
     If (ios /= 0) Then
         write (*, '(3a)') ' Init.dat: no number after the last "=" in: "', TRIM(Line), '"'
-        Stop 'Init.dat: malformed optional line (a comment must not contain "=")'
+        call Refuse('Init.dat: malformed optional line (a comment must not contain "=")')
     End If
 end Function ParseLineOpt
+!--------------------------------------------------
+!        refuse the configuration: message on stdout (the log) and stderr, exit status 1.
+!        A plain STOP returns status 0, which a job script cannot tell from success
+!        (the 2026-10-18 confirmation pilot ran ic2pm into a missing Setup.dat that way).
+Subroutine Refuse(msg)
+    use iso_fortran_env, only: error_unit, output_unit
+    character(len=*), intent(in) :: msg
+    write (output_unit, '(2a)') ' PMP2init refused: ', trim(msg)
+    flush (output_unit)
+    write (error_unit, '(2a)') ' PMP2init refused: ', trim(msg)
+    error stop 1
+end Subroutine Refuse
 !--------------------------------------------------
 !        read line from  input file iFile
 !                          logical format

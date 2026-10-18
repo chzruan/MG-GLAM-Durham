@@ -1103,7 +1103,8 @@ For CZ:
   value), the script now requires `Setup.dat`, and PMP2init was run on
   the login node before resubmitting. Follow-up for the Fortran:
   configuration refusals in PMP2init should use `error stop` so that a
-  job script sees a non-zero exit code.
+  job script sees a non-zero exit code (done later the same day, see the
+  entry below).
   Executables built from `cz` 88fa70a (Fortran sources unchanged since
   69bd63b; md5s in `bin/md5sum.txt`). Same ICs, schedule, classes
   (primary), planes (4 x 2048^2) and BDM as the 17 Oct pilot (job
@@ -1171,3 +1172,21 @@ For CZ:
   2.6, subsamples 1.9, catalogues 1.2 binary + 2.3 text, P(k) 2 MB.
   Run directory kept (checkpoints deleted by the script); outputs of
   the checks in the session scratchpad only.
+- 2026-10-18, PMP2init refusals exit with status 1. Every `stop` in
+  `PMP2init.f90` (22: the Init.dat validation rules, the P(k) table
+  checks, the missing-file cases and the "template written" branch) is
+  now `call Refuse(message)`, a new subroutine that prints
+  `PMP2init refused: <message>` on stdout and stderr and executes
+  `error stop 1`. Measured with ifx 2024.2: a plain `stop 'msg'` returns
+  status 0 with the message on stderr; `error stop 'msg'` returns 128;
+  `error stop 1` returns 1, which is what job scripts and `set -e`
+  expect. Checked with the confirmation run's own inputs: `kc_mom = 1.0`
+  gives status 1 and the interlacing message, `kc_mom = 0.75` gives
+  status 0 and a `Setup.dat` identical to the run's. The suite's
+  `run_init` records the status in `init.rc` and a new check requires 1
+  for the four refused cases (4a, 4b, 4e, 4f) and 0 for the sixteen
+  accepted ones: 222/222. `submit.sh` keeps its `Setup.dat` guard. Not
+  changed (same class, PMP2main's start-up): the `Setup.dat` parse
+  refusals in `PMP2mod_tools.f90` (five plain `stop`s) and
+  `CheckBdmConfig`, whose job-script symptom is a missing first
+  catalogue rather than a silent continuation.

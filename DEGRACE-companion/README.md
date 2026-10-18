@@ -38,7 +38,9 @@ A run directory holds `Init.dat`, `PkTable.dat`, `bin/` (frozen copies of
 `PMP2init.exe`, `ic2pm.exe`, `PMP2main.exe` with md5 and git hash) and
 `Run1/` (`BDM.config`, outputs). `submit.sh` runs `PMP2init` (once), then
 in `Run1/`: `ic2pm.exe <ics.> 1.0 half` and `PMP2main.exe <<< 300`, and
-deletes the checkpoint files at the end. Outputs per analysis step:
+deletes the checkpoint files at the end. `PMP2init` exits with status 1
+when it refuses a configuration (`error stop`; a plain `stop`, status 0,
+before 2026-10-18), so `submit.sh` stops before `ic2pm`. Outputs per analysis step:
 `PowerDM.*`, `LensPlanes.<step>.<box>.{bin,meta}`, `CATALOGS/CatshortV.*`
 (class-1 outputs only; `.DAT` text and/or `.bin` + `.meta` binary, chosen
 by `CatalogueFormat` in `Run1/BDM.config`, which `gen_inputs.py` writes

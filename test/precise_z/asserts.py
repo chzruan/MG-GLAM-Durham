@@ -1001,6 +1001,20 @@ def main(work):
         leftovers = [f for pat in patterns for f in glob.glob(os.path.join(work, case, pat))]
         rep.check(not leftovers, case, f"no {' / '.join(patterns)} produced")
 
+    # PMP2init's exit status (init.rc, written by run_init): 1 for every refused configuration
+    # (error stop; a plain stop returned 0 and let job scripts run on), 0 whenever Setup.dat was written
+    refused = {c for c, (log, _, _) in ERR_CASES.items() if log == "init.log"}
+    rcs = {}
+    for case in sorted(os.listdir(work)):
+        f = os.path.join(work, case, "init.rc")
+        if os.path.exists(f):
+            rcs[case] = int(open(f).read().strip() or -1)
+    wrong = {c: rc for c, rc in rcs.items() if rc != (1 if c in refused else 0)}
+    accepted = len(rcs) - len(refused & set(rcs))
+    rep.check(refused <= set(rcs) and accepted > 0 and not wrong, "PMP2init",
+              f"exit status 1 for the {len(refused)} refused configurations, 0 for the {accepted} accepted ones"
+              + (f" (wrong: {wrong})" if wrong else ""))
+
     print(f"\n{rep.checks - rep.failures}/{rep.checks} checks passed"
           + ("" if rep.failures == 0 else f"  ({rep.failures} FAILED)"))
     return 1 if rep.failures else 0
