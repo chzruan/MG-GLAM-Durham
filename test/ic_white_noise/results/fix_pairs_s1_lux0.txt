@@ -1,0 +1,78 @@
+seed   1156811761 Npairs   20000000 lux_requested   0 luxlev_set   0 nskip_used     0
+accepted_fraction   0.785279 expected   0.785398
+relation_u(p+12)=u(p+7)-u(p)_fraction_holding   9.9994E-01
+x1_p_x1_p+12_mean_product_over_var  -4.2804E-04
+x1_p_x1_p+12_given_acc_p+6_rejected_accepted  -1.1071E-03 -2.4238E-04  counts    4294409  15705579
+x1_p_x1_p+12_given_acc_p+7_rejected_accepted  -4.5768E-01  1.2460E-01  counts    4294409  15705579
+x1_p_x1_p+12_given_acc_p+8_rejected_accepted   1.1049E-04 -5.7530E-04  counts    4294409  15705579
+g_p_g_p+12_both_accepted_given_acc_p+7_rejected_accepted  -5.4784E-01  1.6975E-01  counts    2916573   9417912
+pairlag   1  -4.1115E-05  -2.8695E-05
+pairlag   2   1.6640E-04   1.2354E-04
+pairlag   3   2.2331E-04   1.6775E-05
+pairlag   4   1.3499E-04  -3.2959E-04
+pairlag   5  -4.2392E-04   1.6152E-04
+pairlag   6   2.7252E-04   1.5646E-04
+pairlag   7  -1.8074E-04   1.1286E-04
+pairlag   8   6.0117E-05   3.6193E-04
+pairlag   9   1.3932E-04   2.5356E-05
+pairlag  10   2.1174E-04   2.5522E-04
+pairlag  11   3.5051E-04   3.4980E-04
+pairlag  12  -4.2804E-04   3.6135E-04
+pairlag  13  -8.2392E-05   2.8098E-04
+pairlag  14   4.2026E-04  -1.0008E-04
+pairlag  15  -5.4197E-05   5.8020E-05
+pairlag  16   4.6998E-05  -1.7032E-04
+pairlag  17   1.5731E-04   3.0856E-04
+pairlag  18   1.6831E-04   3.3524E-04
+pairlag  19   7.9159E-05  -2.1567E-04
+pairlag  20   8.3661E-05   1.9857E-04
+pairlag  21   1.1350E-04   2.2887E-04
+pairlag  22   1.9382E-05  -6.2277E-05
+pairlag  23   4.3587E-05  -2.1589E-04
+pairlag  24   2.2351E-04   1.7943E-04
+pairlag  25   2.1167E-04  -9.2967E-05
+pairlag  26  -1.3258E-04  -1.8135E-04
+pairlag  27  -7.5043E-05  -1.0598E-04
+pairlag  28   2.3538E-04  -1.5782E-04
+pairlag  29  -1.7569E-04  -3.6943E-04
+pairlag  30   9.5745E-05  -6.6390E-04
+gausslag   1   3.7871E-04
+gausslag   2   2.4933E-04
+gausslag   3   1.6908E-04
+gausslag   4   2.6950E-04
+gausslag   5  -1.1289E-04
+gausslag   6   2.8125E-05
+gausslag   7  -1.5774E-04
+gausslag   8  -1.6460E-04
+gausslag   9   7.6271E-05
+gausslag  10  -7.2621E-04
+gausslag  11  -3.8124E-04
+gausslag  12  -2.6565E-03
+gausslag  13  -2.2888E-04
+gausslag  14  -7.1413E-03
+gausslag  15  -3.8605E-05
+gausslag  16  -1.1857E-02
+gausslag  17  -1.3594E-04
+gausslag  18  -8.4757E-03
+gausslag  19  -8.0043E-05
+gausslag  20   5.3261E-03
+gausslag  21   1.4823E-05
+gausslag  22   1.5239E-02
+gausslag  23  -1.5704E-04
+gausslag  24   8.8308E-03
+gausslag  25  -1.3985E-04
+gausslag  26   8.6672E-04
+gausslag  27  -4.1573E-05
+gausslag  28   2.5049E-03
+gausslag  29  -5.1072E-05
+gausslag  30   1.2993E-03
+gausslag  31   1.2006E-04
+gausslag  32  -5.3847E-05
+gausslag  33  -1.1978E-06
+gausslag  34  -7.3677E-04
+gausslag  35   1.8616E-04
+gausslag  36  -1.3114E-03
+gausslag  37   9.7628E-05
+gausslag  38  -1.4631E-03
+gausslag  39   9.1754E-05
+gausslag  40  -1.1617E-03

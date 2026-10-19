@@ -6,7 +6,8 @@
       LOGICAL           notyet
 !                            default
 !  Luxury Level     0   1   2  *3*    4
-!    ndskip        /0, 24, 73, 199, 365/
+!    ndskip        /0, 24, 73, 199, 365/   (set in rluxgo since 2026-10-19;
+!                  before that the table was never set and was zero)
 ! Corresponds to p=24  48  97  223  389
 !     time factor   1   2   3    6   10   on slow workstation
 !                   1 1.5   2    3    5   on fast mainframe

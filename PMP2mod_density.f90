@@ -394,8 +394,9 @@ SUBROUTINE getGauss(Gg,jp,kp,N)
   Real*4 :: Gg(N)
 
     Ns =SeedsPage(jp,kp) 
-    lux = 2
+    lux = RanluxLevel()
     Call rluxgo(lux,Ns,0,0)
+    iFlag = 0
     Do i=1,N
       Gg(i) = GAUSS3(gSet,iFlag)
     end Do

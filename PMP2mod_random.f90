@@ -119,10 +119,42 @@ contains
   Real*4 :: Gg(N)
 
     Ns =SeedsPage(jp,kp) 
-    lux = 2
+    lux = RanluxLevel()
     Call rluxgo(lux,Ns,0,0)
     call ranlux(Gg,N)
   end SUBROUTINE getRandom
+
+!---------------------------------------
+!     Luxury level of RANLUX for every stream the code starts
+!     (SetRandomN of PMP2start and PMP2startMPI, getRandom, getGauss).
+!     The environment variable GLAM_RANLUX_LUXURY selects it: 0-4 are
+!     Luscher's levels (p = 24, 48, 97, 223, 389), 24-2000 is p itself.
+!     Default 3 (p = 223), the level recommended by the RANLUX authors.
+!     0 reproduces bit for bit the draws of every run made before
+!     2026-10-19, when the luxury table was zero and every level was 0.
+!---------------------------------------
+  Integer*4 Function RanluxLevel()
+    Integer*4, save   :: levelSaved = -1
+    Integer*4         :: ival, istat, ilen
+    Character(len=32) :: str
+!$OMP CRITICAL (ranlux_level)
+    If (levelSaved < 0) Then
+       levelSaved = 3
+       Call get_environment_variable('GLAM_RANLUX_LUXURY', str, ilen, istat)
+       If (istat == 0 .and. ilen > 0) Then
+          Read (str, *, iostat=istat) ival
+          If (istat == 0 .and. ((ival >= 0 .and. ival <= 4) .or. (ival >= 24 .and. ival <= 2000))) Then
+             levelSaved = ival
+          Else
+             Write (*, '(a,a,a)') ' GLAM_RANLUX_LUXURY = ', trim(str), ' is not 0-4 or 24-2000: using the default 3'
+          End If
+       End If
+       Write (*, '(a,i5,a)') ' RANLUX luxury level =', levelSaved, &
+            '  (GLAM_RANLUX_LUXURY; 0 reproduces runs made before 2026-10-19)'
+    End If
+!$OMP END CRITICAL (ranlux_level)
+    RanluxLevel = levelSaved
+  end Function RanluxLevel
 !
 !!---------------------------------------
 !!                   generate a vector of random numbers    
@@ -241,6 +273,17 @@ INCLUDE 'luxuryp.h'
 INCLUDE 'luxuryp.h' 
       INTEGER iseeds(24)
                                                                         
+!   The skip table of Luscher's luxury levels.  The original RANLUX set it
+!   with a DATA statement; that statement is commented out above and the
+!   COMMON array was never set, so it was zero: every requested level became
+!   level 0 (p = 24, no skipping) and the white noise of the initial
+!   conditions carried correlations at even lags 12-28 along the first index
+!   (docs/ic-white-noise-20261019.md).  Set it here, on every call.
+      ndskip (0) = 0 
+      ndskip (1) = 24 
+      ndskip (2) = 73 
+      ndskip (3) = 199 
+      ndskip (4) = 365 
       IF (lux.LT.0) THEN 
          luxlev = lxdflt 
       ELSEIF (lux.LE.maxlev) THEN 

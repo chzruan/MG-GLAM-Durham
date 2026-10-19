@@ -24,6 +24,13 @@
 - GLAM's native `PMP2start` generators use first-order Zel'dovich ICs. Use
   them for explicitly requested legacy reproduction or IC-method controls;
   do not silently substitute them for the default 2LPTIC workflow.
+- The native generators' white noise was drawn at RANLUX luxury level 0
+  until 2026-10-19 (the luxury table was never set), which modulates the
+  variance of the field along x at harmonics 6-12 of the box; see
+  [`docs/ic-white-noise-20261019.md`](docs/ic-white-noise-20261019.md). The
+  default is now level 3. To reproduce the initial conditions of a run made
+  before that date, set `GLAM_RANLUX_LUXURY=0` and record it in the
+  campaign's provenance.
 - Record the actual generator/version, LPT order, starting redshift, seed
   and input configuration in each campaign's provenance. Resolution
   comparisons also require verified shared modes and consistent normalization.
