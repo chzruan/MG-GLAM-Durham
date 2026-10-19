@@ -80,8 +80,9 @@ Use Random
 INCLUDE 'luxuryp.h' 
 
       gSet  = 0.
+      iFlag = 0                ! was undefined: GAUSS3 starts a fresh Box-Muller pair
       Ns    = Nseed   
-      lux   = 2
+      lux   = RanluxLevel()    ! was 2, and ignored (docs/ic-white-noise-20261019.md)
       Do k=1,NROW                               ! luxury
           CALL rluxgo (lux, Ns, 0, 0)      ! initialize luxury 
             !if(k/10*10==k)write(*,*) ' page number=',k
@@ -906,6 +907,10 @@ PROGRAM  PMstartMp
 
       
       CALL FilesOpen(Trim(Path))                   ! this opens files on disk
+      luxLog = RanluxLevel()
+      Write (16, '(a,i5,a,i5,a,i12,a,i5,a)') ' RANLUX luxury level =', luxLog, '  p =', RanluxP(luxLog), &
+           '  white-noise seed =', Nseed, '  realisation', Nrealization, &
+           '  (GLAM_RANLUX_LUXURY; 0 = runs made before 2026-10-19)'
          AEXP0 = AEXPN 
          AEXPV = AEXPN - ASTEP / 2.
          Fact   = sqrt (Om + OmL * AEXPV**3) 

@@ -1029,7 +1029,7 @@ subroutine GetDMparticles(moment,Path,fraction)
        myMemory =Memory(3_8*iPartMax)
        
        Nseed  = 1210831          !--- initialize luxury 
-       lux    = 2
+       lux    = RanluxLevel()    ! was 2, and ignored (docs/ic-white-noise-20261019.md)
        Ns     = Nseed
        CALL rluxgo (lux, Ns, 0, 0)   
 
