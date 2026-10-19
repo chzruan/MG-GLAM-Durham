@@ -27,7 +27,7 @@ def harmonics(v, mmax):
 
 
 def read_lags(txt):
-    lags = {}
+    lags, hdr = {}, ''
     for ln in open(txt):
         if ln.startswith('lag '):
             p = ln.split()
@@ -79,11 +79,6 @@ for cube in sorted(glob.glob(os.path.join(work, 'cube256_*.bin'))):
         print(f'  delta^2 power at (+-m,0,0)-type modes along {name} over neighbours, m = 1..20: '
               + ' '.join(f'{x:.1f}' for x in ratios[name]))
     del P
-
-# the variance profiles of the two legacy seeds: the same?
-tags = [t for t in out if t.endswith('lux0')]
-if len(tags) == 2:
-    pass
 
 # ---- the 1-D profiles of the NROW = 2048 runs
 prof = {}

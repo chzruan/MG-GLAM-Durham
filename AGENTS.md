@@ -30,7 +30,11 @@
   [`docs/ic-white-noise-20261019.md`](docs/ic-white-noise-20261019.md). The
   default is now level 3. To reproduce the initial conditions of a run made
   before that date, set `GLAM_RANLUX_LUXURY=0` and record it in the
-  campaign's provenance.
+  campaign's provenance; `Results.log` of the run records the level and
+  the seed. Anything built against `PMP2mod_random.f90` to reproduce old
+  draws (the halobias replica `abcs_haloes/degrace_ic/src/lowk_ts.f90`,
+  which hard-codes `lux = 2`) must ask for level 0 explicitly when it is
+  rebuilt; see the note's "Downstream users of the module".
 - Record the actual generator/version, LPT order, starting redshift, seed
   and input configuration in each campaign's provenance. Resolution
   comparisons also require verified shared modes and consistent normalization.

@@ -126,35 +126,72 @@ contains
 
 !---------------------------------------
 !     Luxury level of RANLUX for every stream the code starts
-!     (SetRandomN of PMP2start and PMP2startMPI, getRandom, getGauss).
+!     (SetRandomN of PMP2start and PMP2startMPI, getRandom, getGauss,
+!     ReadDataPMcoords of PMP2correlation).
 !     The environment variable GLAM_RANLUX_LUXURY selects it: 0-4 are
-!     Luscher's levels (p = 24, 48, 97, 223, 389), 24-2000 is p itself.
-!     Default 3 (p = 223), the level recommended by the RANLUX authors.
-!     0 reproduces bit for bit the draws of every run made before
-!     2026-10-19, when the luxury table was zero and every level was 0.
+!     Luscher's levels (p = 24, 48, 97, 223, 389), 24-2000 is p itself
+!     (rluxgo maps p = 24, 48, 97, 223, 389 back to the levels).  The value
+!     must be an integer written with digits, an optional sign in front;
+!     anything else, or a number outside both ranges, prints a message and
+!     uses the default.  Default 3 (p = 223), the level recommended by the
+!     RANLUX authors.  0 reproduces bit for bit the draws of every run made
+!     before 2026-10-19, when the luxury table was zero and every level
+!     was 0.  The level is printed once on standard output; PMP2start and
+!     PMP2startMPI also write it, with p and the seed, into Results.log.
 !---------------------------------------
   Integer*4 Function RanluxLevel()
     Integer*4, save   :: levelSaved = -1
-    Integer*4         :: ival, istat, ilen
-    Character(len=32) :: str
+    Integer*4         :: ival, istat, ilen, n
+    Logical           :: ok
+    Character(len=32) :: str, s
 !$OMP CRITICAL (ranlux_level)
     If (levelSaved < 0) Then
        levelSaved = 3
+       str = ' '
        Call get_environment_variable('GLAM_RANLUX_LUXURY', str, ilen, istat)
        If (istat == 0 .and. ilen > 0) Then
-          Read (str, *, iostat=istat) ival
-          If (istat == 0 .and. ((ival >= 0 .and. ival <= 4) .or. (ival >= 24 .and. ival <= 2000))) Then
+          s = adjustl(str)
+          n = len_trim(s)
+          ok = n > 0
+          If (ok) Then
+             If (s(1:1) == '+' .or. s(1:1) == '-') Then
+                s = s(2:)
+                n = n - 1
+                ok = n > 0
+             End If
+          End If
+          If (ok) ok = verify(s(1:n), '0123456789') == 0
+          ival = -1
+          istat = 1
+          If (ok) Read (str, *, iostat=istat) ival
+          If (ok .and. istat == 0 .and. ((ival >= 0 .and. ival <= 4) .or. (ival >= 24 .and. ival <= 2000))) Then
              levelSaved = ival
           Else
-             Write (*, '(a,a,a)') ' GLAM_RANLUX_LUXURY = ', trim(str), ' is not 0-4 or 24-2000: using the default 3'
+             Write (*, '(a,a,a)') ' GLAM_RANLUX_LUXURY = ', trim(str), &
+                  ' is not an integer 0-4 or 24-2000: using the default 3'
           End If
        End If
-       Write (*, '(a,i5,a)') ' RANLUX luxury level =', levelSaved, &
-            '  (GLAM_RANLUX_LUXURY; 0 reproduces runs made before 2026-10-19)'
+       Write (*, '(a,i5,a,i5,a)') ' RANLUX luxury level =', levelSaved, '  (p =', RanluxP(levelSaved), &
+            ' generated per 24 delivered; GLAM_RANLUX_LUXURY; 0 reproduces runs made before 2026-10-19)'
     End If
 !$OMP END CRITICAL (ranlux_level)
     RanluxLevel = levelSaved
   end Function RanluxLevel
+
+!---------------------------------------
+!     p of RANLUX (numbers generated per 24 delivered) for a value of
+!     RanluxLevel: 24, 48, 97, 223, 389 for the levels 0-4; the value
+!     itself for 24-2000.
+!---------------------------------------
+  Integer*4 Function RanluxP(level)
+    Integer*4, intent(in) :: level
+    Integer*4, parameter  :: ptab(0:4) = (/ 24, 48, 97, 223, 389 /)
+    If (level >= 0 .and. level <= 4) Then
+       RanluxP = ptab(level)
+    Else
+       RanluxP = level
+    End If
+  end Function RanluxP
 !
 !!---------------------------------------
 !!                   generate a vector of random numbers    

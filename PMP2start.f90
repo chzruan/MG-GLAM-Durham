@@ -795,6 +795,10 @@ PROGRAM PMstartMp
     iFlip = min(max(iFlip, -1), 1)
     iWrite = max(min(iWrite, 1), 0)
     CALL FilesOpen                   ! this opens files on disk
+    luxLog = RanluxLevel()
+    Write (16, '(a,i5,a,i5,a,i12,a,i5,a)') ' RANLUX luxury level =', luxLog, '  p =', RanluxP(luxLog), &
+         '  white-noise seed =', Nseed, '  realisation', Nrealization, &
+         '  (GLAM_RANLUX_LUXURY; 0 = runs made before 2026-10-19)'
 
     AEXP0 = AEXPN
     AEXPV = AEXPN - ASTEP/2.
