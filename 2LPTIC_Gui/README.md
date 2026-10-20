@@ -13,8 +13,12 @@ end-to-end comparisons.
 
 ## `ic2pm` velocity epoch — erratum/update (2026-09-17)
 
-Usage is now `ic2pm.exe <IC_basename> [S_vel] [half|sync]` (run from
-`Run<box>/`, reads `../Setup.dat`). `<IC_basename>` includes the trailing
+Usage is now `ic2pm.exe <IC_basename> [S_vel] [half|sync] [realisation]` (run from
+`Run<box>/`, reads `../Setup.dat`). The fourth argument (added 2026-10-20,
+default 1, an integer 0..9999) is the realisation number written to the PM
+header, which PMP2main stamps on every product name (`.<step>.<realisation>.`)
+and `.meta` sidecar; pass the number of the `Run<box>/` directory. It changes
+nothing else: the particle files are byte-identical for any value. `<IC_basename>` includes the trailing
 '.', and the PM files are written to the current directory. The epoch is
 positional, so S_vel must come before it (`ic2pm.exe <IC> 1.0 sync`);
 `ic2pm.exe <IC> sync` is rejected. Every check in `ic2pm` (usage error,

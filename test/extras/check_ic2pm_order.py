@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """After ic2pm + one PMP2main step with Subsample M = 1: particle k of the subsample (index order)
 must sit at the lattice site of Gadget ID k+1 under the lattice formula of the header tag.
-usage: check_ic2pm_order.py <Run1 dir> <expected tag IDx|IDz> [Np=16] [Box=16]"""
+usage: check_ic2pm_order.py <Run1 dir> <expected tag IDx|IDz> [Np=16] [Box=16] [realisation=1]
+The subsample must carry the realisation given to ic2pm in its file tag and its meta."""
 import glob, os, sys
 import numpy as np
 run, tag = sys.argv[1], sys.argv[2]
 Np = int(sys.argv[3]) if len(sys.argv) > 3 else 16; Box = float(sys.argv[4]) if len(sys.argv) > 4 else 16.0
-fb = sorted(glob.glob(os.path.join(run, 'Subsample.*.0001.bin')))[0]; fm = fb[:-4] + '.meta'
+real = int(sys.argv[5]) if len(sys.argv) > 5 else 1
+fbs = sorted(glob.glob(os.path.join(run, 'Subsample.*.%04d.bin' % real)))
+if not fbs:
+    print('FAIL no Subsample.*.%04d.bin (found: %s)' % (real, sorted(os.path.basename(f) for f in glob.glob(os.path.join(run, 'Subsample.*.bin')))))
+    sys.exit(1)
+fb = fbs[0]; fm = fb[:-4] + '.meta'
 meta = {}
 for l in open(fm):
     if '=' in l: k, v = l.split('=', 1); meta[k.strip()] = v.strip()
@@ -20,6 +26,7 @@ def check(ok, msg):
     print(('PASS ' if ok else 'FAIL ') + msg)
     if not ok: fails.append(msg)
 check(n == Np ** 3, 'subsample holds all %d particles (n = %d)' % (Np ** 3, n))
+check(meta.get('realization', '').split()[:1] == [str(real)], 'file tag %04d and meta realization = %s' % (real, meta.get('realization')))
 check(tag in meta.get('header', ''), 'header carries the expected tag %s: "%s"' % (tag, meta.get('header')))
 ID = np.arange(1, n + 1) - 1
 if tag == 'IDx':

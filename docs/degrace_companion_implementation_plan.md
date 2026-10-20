@@ -1266,3 +1266,50 @@ For CZ:
   example away from /tmp, k-space arrays in float32 (peak 5.0 → 3.9 GB);
   output unchanged to float32 round-off).
 
+- 2026-10-20, DEGRACE-MGGLAM pilot at reduced size (Planck 2015 fiducial,
+  seed 2026). New suite root `/cosma8/data/dp203/dc-ruan1/DEGRACE-MGGLAM/`
+  (README there; sizes written `L<box>Np<particles>Ng<grid>`, standard
+  L1024Np2048Ng4096). Pilot `L256Np512Ng1024/Planck2015_LCDM` Run1: the
+  user's CAMB z = 0 spectrum `PK_CAMB_z00_Planck2015.dat` (σ8 = 0.8160,
+  n_s = 0.966 from the file), Ω_m = 0.3089, h = 0.6774, Ω_b h² = 0.0223;
+  FML 2LPT ICs at z = 49 from the spectrum divided by D(0)/D(49) =
+  39.2136 (the FML reader rejects comment lines in the spectrum file: the
+  first IC job 12192754 died on a header, fixed), 512³ on a 512 mesh,
+  seed 2026 (the ECOSMOG convention, one seed for all nodes; seeds for
+  further realizations undecided), `_deltaL` dump k_c = 1.5. Job
+  12192771: 26 s on 16 ranks, P_ini/P_input = 1.002 over 0.05 < k < 0.5.
+  GLAM inputs from `gen_inputs.py --cosmology 0.3089 0.6774 0.8159
+  --ombh2 0.0223 --box 256 --nrow 512 --ngrid 1024 --classes primary
+  --lens-slabs 1 --extra --subsample-m 100` (42 exact outputs computed for
+  this cosmology, equal to Baojiu's fiducial list; 256 Mpc/h deep planes
+  on a 1024² grid; binary catalogues; N_dep_mom = 512; da0 = 6e-4, 163
+  scheduled steps, 184 taken in exact-z mode), binaries of cz 63e654a
+  (Fortran last changed in 56e0d07). Job 12192772 on cosma8-serial: ic2pm
+  half (v_rms 53.4 km/s, IDx), PMP2main 27.8 min on 32 cores, MaxRSS
+  17 GB, CPU efficiency 91 %, output steps 41 % of the time (primaries
+  0.62 min each, Analysis 0.53). `check_run.py --planes all`: 0 FAIL,
+  0 WARN (42 PowerDM, 42 lens planes, 17 binary catalogues, 17 × deltam,
+  mom_x/y/z, Subsample). z = 0: 78,046 haloes (444 above 10^14, most
+  massive 1.8e15), deltam n = 61; P(k)/P_lin = 1.05 at 0.03–0.1 (4 bins),
+  1.25 at 0.1–0.3, 3.4 at 0.3–1 h/Mpc. Scaled by 64 to the standard
+  size: of order 1.1 TB of memory (cosma8-shm) and roughly 8–12 h on
+  128 cores per box.
+- 2026-10-20, seeds of the DEGRACE-MGGLAM suite and the `ic2pm` realisation
+  argument. User decision: Run0 = FML seed 2026 in every cosmology (shares
+  its phases with the ECOSMOG nodes, see 2LPTIC_Gui/README.md: the N-GenIC
+  seed table makes the large-scale modes mesh-independent, verified to k ≈ 1
+  for 1024³ vs 2048³ in the same box; a different box size shares nothing);
+  Run1–100 = the 100 FML seeds selected from 1000 by realised IC power at
+  k ≤ 0.25 h/Mpc in `/cosma8/data/dp203/dc-ruan1/carpool/ic_screen/`
+  (`SEEDS_FOR_DEGRACE_RUNS.md`, map `selection/run_seed_map.csv`; Run1–20 =
+  the 20 training seeds 37 40 72 111 147 167 218 259 374 466 488 520 602 610
+  727 779 802 846 878 904). `ic2pm` hard-coded Nrealization = 1, so every
+  ingested run's products were tagged `.0001`: a fourth positional argument
+  `[realisation]` (0..9999, default 1) now sets it; the pilot's Run1 (seed
+  2026) predates it and keeps the 0001 tag. Verified: the extended
+  `test/extras/run_ic2pm_test.sh` (IDx case as realisation 7: file tag 0007
+  and `realization = 7` in the meta) passes, and on the pilot's 512³ ICs
+  the PMcrd.DAT of realisations 0 and 1 differ only in the Nrealization
+  word (and the known uninitialised AEXP0 word) with byte-identical PMcrs
+  files (34 s, 3.4 GB, login node, scratch removed). Docs: 2LPTIC_Gui and
+  DEGRACE-companion READMEs, the DEGRACE-MGGLAM submit script.

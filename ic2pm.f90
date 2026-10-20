@@ -11,7 +11,7 @@
 !   (the same 2-level directory contract as PMP2start.exe).
 !
 !   Usage:
-!       ic2pm.exe  <IC_basename>  [S_vel]  [half|sync]
+!       ic2pm.exe  <IC_basename>  [S_vel]  [half|sync]  [realisation]
 !
 !   - <IC_basename> is the Gadget file prefix INCLUDING the trailing '.', so the
 !     files are <IC_basename>0, <IC_basename>1, ...  e.g.
@@ -58,6 +58,13 @@
 !              files written by builds of commit 6b629f1 or later:
 !                'ic2pm: 2LPTic ingest, v at a-da/2'  (half)
 !                'ic2pm: 2LPTic ingest'               (sync)
+!   - [realisation] (default 1) is the realisation number written to the PM
+!     header (Nrealization), an integer 0..9999.  PMP2main tags every product
+!     with it (PowerDM.R.<step>.<realisation>.dat, CatshortV.*.<realisation>.*,
+!     LensPlanes/deltam/mom_*/Subsample/fR_halo .<realisation>.{bin,meta}, and
+!     'realization =' in the .meta sidecars), so give the number of the
+!     Run<box>/ directory (PMP2start takes it from stdin instead).  The FML
+!     random_seed is not a GLAM seed: record it in the run's provenance.
 !              Every file written by an OLDER build carries the sync string
 !              whatever its mode (this includes the half-mode A/B runs of jobs
 !              12006891-93 made with an ee44100 build); for those the mode is
@@ -99,7 +106,7 @@ Program IC2PM
    character(len=16)   :: vepoch
    integer*4           :: nfiles_in, ifile_g, np, j, ios
    character(len=*), parameter :: usage = &
-      'Usage: ic2pm.exe <IC_basename incl trailing "."> [S_vel] [half|sync]'
+      'Usage: ic2pm.exe <IC_basename incl trailing "."> [S_vel] [half|sync] [realisation 0..9999]'
    integer*8           :: ip, ioff, nlow, id, nmiss
    integer*4           :: m4, nmx, nmz, nchk, lx, ly, lz
    integer*8, allocatable :: ids(:)
@@ -143,6 +150,18 @@ Program IC2PM
       write(*,*) ' ic2pm: bad velocity-epoch argument "', trim(vepoch), '"'
       write(*,*) usage
       stop 1
+   end if
+   Nrealization = 1
+   if (command_argument_count() >= 4) then
+      call get_command_argument(4, sarg); sarg = adjustl(sarg)
+      ios = 1
+      if (len_trim(sarg) > 0 .and. len_trim(sarg) <= 4 .and. verify(trim(sarg), '0123456789') == 0) &
+         read(sarg, *, iostat=ios) Nrealization
+      if (ios /= 0 .or. Nrealization < 0 .or. Nrealization > 9999) then
+         write(*,'(3a)') ' ic2pm: bad realisation argument "', trim(sarg), '" (must be an integer 0..9999)'
+         write(*,*) usage
+         stop 1
+      end if
    end if
 
 !--- run parameters from ../Setup.dat (NGRID, NROW, Box, cosmology, AEXPN0) ---
@@ -191,7 +210,7 @@ Program IC2PM
    AEXPN        = real(gh%time)         ! = AEXPN0 = 1/(1+z_init)  (e.g. 0.02 at z=49)
    ASTEP        = ASTEP0
    ISTEP        = 0                      ! fresh IC (not nint(z))
-   Nrealization = 1
+                                          ! Nrealization: from the command line (default 1)
    EKIN = 0.0 ; EKIN1 = 0.0 ; EKIN2 = 0.0 ; TINTG = 0.0 ; AEU0 = 0.0
    extras(:)    = 0.0
    extras(100)  = Box                    ! sole Box source for ReadDataPM
@@ -227,6 +246,7 @@ Program IC2PM
    write(*,'(2(a,i7))')    '  NROW =', NROW, '  NGRID =', NGRID
    write(*,'(a,i6)')       '  num_files   = ', nfiles_in
    write(*,'(2a)')         '  velocity epoch = ', trim(vepoch)
+   write(*,'(a,i6)')       '  realisation = ', Nrealization
    write(*,'(a,f12.8,a,es12.4)') '  a_v (velocities) = ', av8, '   ASTEP =', ASTEP
    write(*,'(a,f12.8)')    '  velocity shift factor V(a_v)/V(a_init) = ', fshift
    write(*,'(2(a,es12.4))')'  xs =', xs, '   vfac =', vfac

@@ -37,7 +37,9 @@ hashed quantised particle subsample, once I9 is integrated) and
 A run directory holds `Init.dat`, `PkTable.dat`, `bin/` (frozen copies of
 `PMP2init.exe`, `ic2pm.exe`, `PMP2main.exe` with md5 and git hash) and
 `Run1/` (`BDM.config`, outputs). `submit.sh` runs `PMP2init` (once), then
-in `Run1/`: `ic2pm.exe <ics.> 1.0 half` and `PMP2main.exe <<< 300`, and
+in `Run<box>/`: `ic2pm.exe <ics.> 1.0 half <box>` (the fourth argument, default 1,
+is the realisation number stamped on every product name) and
+`PMP2main.exe <<< 300`, and
 deletes the checkpoint files at the end. `PMP2init` exits with status 1
 when it refuses a configuration (`error stop`; a plain `stop`, status 0,
 before 2026-10-18), so `submit.sh` stops before `ic2pm`. Outputs per analysis step:
