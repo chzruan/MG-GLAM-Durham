@@ -1241,3 +1241,21 @@ For CZ:
   `python/examples/` (with `README.md`; `--lcdm/--fr/--out/--data`
   options, defaults = the node-2 runs); the deck's `figs/` holds only
   their outputs.
+- 2026-10-20, halo environment and tides from the products
+  (`python/examples/halo_environment.py`, glamio reads of the `deltam`
+  cube and the catalogue of one output): δ_R, the tidal eigenvalues,
+  the anisotropy α_R and the T-web class per halo, cubic-spline read-off
+  with the B-spline prefilter applied in Fourier space (exact for periodic
+  grids; scipy's recursive prefilter took 60 s per 512³ field). Feasibility
+  recorded in the deck ("Use case (1)/(2)" frames): the cube supports
+  Gaussian R ≥ 2 Mpc/h (1 % kernel leakage past k_c = 1.5), the 1-in-100
+  subsample is too sparse (shot noise σ = 0.44 at R = 5), halo-scale
+  tides (R_G < 1) and formation times are out of reach, the catalogue has
+  C_vir, λ, b/a, c/a, X_off. Validation at z = 0 of the node-2 ΛCDM run:
+  direct Fourier sums at six haloes agree with the 512³ values to 2 %
+  (R = 2) and 0.02 % (R = 5), 768³ brings R = 2 to 0.25 %; eigenvalue sum
+  = δ_R to 2e-5; ⟨δ_5⟩ rises from 0.29 to 7.7 and ⟨α_5⟩ falls from 0.55 to
+  0.15 between 10^12.2 and 10^15.2 Msun/h. 40 s and 5 GB per R at 512³
+  (100 s, 15 GB at 768³) on a login core; the f(R) pilot runs through the
+  same path (856,309 haloes). README section in `python/examples/`.
+
