@@ -9,7 +9,7 @@ API and of the physics checks each product allows.
 |---|---|---|
 | `measure_products.py {fast,cat,planes} [--lcdm RUN1] [--fr RUN1] [--out DIR]` | reads the products and caches plot-ready arrays in `products_<stage>.npz` (JSON provenance under the key `provenance`) | `fast` 60 s, `cat` 11 s, `planes` 15 s; < 4 GB |
 | `plot_products.py [--data DIR] [--out DIR] [fig ...]` | draws `products_{pk,modes,fields,planes,velocities,haloes}.pdf/.png` in the house style (`house_style.py`, `chz-paper.mplstyle` beside it) | 20 s |
-| `halo_environment.py RUN1 [--z Z | --step N] [--R R ...] [--filter gaussian|tophat] [--ngrid N] [--interp cubic|linear] [--out FILE.npz]` | smoothed overdensity δ_R, tidal eigenvalues λ₁ ≥ λ₂ ≥ λ₃, anisotropy α_R and T-web class at every halo of one output, from the `deltam` cube and the catalogue | 40 s and 5 GB per R at 512³; 100 s and 15 GB at 768³ |
+| `halo_environment.py RUN1 [--z Z / --step N] [--R R ...] [--filter gaussian/tophat] [--ngrid N] [--interp cubic/linear] [--box B] [--out FILE.npz]` | smoothed overdensity δ_R, tidal eigenvalues λ₁ ≥ λ₂ ≥ λ₃, anisotropy α_R and T-web class at every halo of one output, from the `deltam` cube and the catalogue | 40 s and 4 GB per R at 512³; 100 s and 11 GB at 768³ |
 
 The defaults point at the node-2 runs under `DEGRACE-companion/runs/` (the ΛCDM
 confirmation run, job 12185817, and the f(R) pilot, job 12180110); any two
@@ -57,8 +57,11 @@ field's own CIC window with Jing's shell-averaged form before taking ratios.
 ```sh
 nice -n 19 micromamba run -n cosemu python3 python/examples/halo_environment.py \
     DEGRACE-companion/runs/Node_002_LCDM_L1024Np1024Ng2048_confirm20261018/Run1 \
-    --z 0 --R 2 5 --out /tmp/env_z0.npz
+    --z 0 --R 2 5 --out /cosma8/data/dp203/dc-ruan1/scratch/env-20261020/env_z0.npz
 ```
+
+The output is about 150 bytes per halo (117 MB for the node-2 run at z = 0),
+so it belongs on the project filesystem, not in `/tmp`.
 
 Recipe: the `deltam` cube (all modes to k_c = 1.5 h/Mpc) is placed on the
 rfft layout of an N³ grid, divided by the CIC window, multiplied by the
@@ -69,7 +72,8 @@ interpolation (the B-spline prefilter is applied in Fourier space, where it
 is an exact division for periodic data; scipy's recursive prefilter costs
 60 s per field). Per halo the output holds `delta_R<R>`, `lambda_R<R>`
 (n_halo × 3, descending, summing to δ_R), `alpha_R<R>` = √q²/(1+δ_R) with
-q² = ½ Σ(λ_i − λ_j)² (Paranjape, Hahn & Sheth 2018), `nweb_R<R>` (number of
+q² = ½ Σ(λ_i − λ_j)² (Paranjape, Hahn & Sheth 2018; NaN where 1 + δ_R ≤ 0,
+counted in the log and the provenance), `nweb_R<R>` (number of
 eigenvalues above `--lambda-th`, default 0: void/sheet/filament/knot), the
 catalogue columns `row x y z Mtot Mbound Rvir Vcirc Vrms Cvir Npart Xoff
 virial_ratio lambda RadRMS b_a c_a`, and JSON `provenance` with the grid-level

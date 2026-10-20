@@ -24,14 +24,18 @@ underestimates peaks by 10-40 % at R = 2 on a 2 Mpc/h grid).  W is a Gaussian ex
 top-hat 3 (sin x - x cos x) / x^3; the Gaussian is band-limited to the cube
 for R >= 2 Mpc/h (leakage exp(-k_c^2 R^2 / 2) = 1 % at R = 2 for k_c = 1.5).
 
-Cost.  Seven N^3 inverse FFTs per R; N = 512 for the L = 1024 cubes is
-2 Mpc/h sampling, enough for Gaussian R >= 2.  About 2 minutes and 3 GB per R
-on one login-node core; use ``nice -n 19`` and keep to one output there, or
-run the outputs of a suite on cosma8-serial.
+Cost (node-2 run, 777,663 haloes, one login-node core).  Seven N^3 inverse
+FFTs per R: 40 s and 4 GB per R at N = 512 (2 Mpc/h cells, 1-3 % low at the
+peaks for R = 2, converged for R >= 3), 100 s and about 11 GB at N = 768.
+Use ``nice -n 19`` and keep to one output on a login node; the outputs of a
+suite go to cosma8-serial.
 
 Usage
     micromamba run -n cosemu python3 python/examples/halo_environment.py RUN1 \\
-        --z 0 --R 2 5 --filter gaussian --out /tmp/env_z0.npz
+        --z 0 --R 2 5 --filter gaussian --out /cosma8/data/dp203/dc-ruan1/scratch/env-20261020/env_z0.npz
+
+(the output is about 150 bytes per halo, 117 MB for the node-2 run at z = 0:
+keep it on the project filesystem, not in /tmp.)
 
 Output: an ``.npz`` with the catalogue columns copied for every halo (``row``,
 positions, masses, ``Cvir`` ...), one set of ``delta_R<R>``, ``lambda_R<R>``
@@ -73,11 +77,8 @@ def window(k, R, kind):
 
 
 def cic_window(kx, ky, kz, k_nyq):
-    """CIC assignment window for the 1-D sinc^2 product; k_nyq = pi N_dep / L."""
-    w = np.ones(np.broadcast(kx, ky, kz).shape)
-    for ki in (kx, ky, kz):
-        w = w * np.sinc(ki / (2.0 * k_nyq)) ** 2
-    return w
+    """CIC assignment window as three 1-D factors (sinc^2 per axis); k_nyq = pi N_dep / L."""
+    return tuple((np.sinc(ki / (2.0 * k_nyq)) ** 2).astype(np.float32) for ki in (kx, ky, kz))
 
 
 def place_cube(D, N):
@@ -135,8 +136,10 @@ def sample(field, coords, interp):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("run", help="a Run1 directory holding OutputSchedule.dat, deltam.*.meta and CATALOGS/")
-    ap.add_argument("--z", type=float, default=0.0, help="output redshift (resolved through the schedule; default 0)")
-    ap.add_argument("--step", type=int, help="output step instead of --z")
+    when = ap.add_mutually_exclusive_group()
+    when.add_argument("--z", type=float, default=0.0, help="output redshift (resolved through the schedule; default 0)")
+    when.add_argument("--step", type=int, help="output step instead of --z")
+    ap.add_argument("--box", type=int, default=1, help="realization number of the product files (default 1)")
     ap.add_argument("--R", type=float, nargs="+", default=[2.0], help="smoothing scales in Mpc/h (default 2)")
     ap.add_argument("--filter", choices=("gaussian", "tophat"), default="gaussian")
     ap.add_argument("--ngrid", type=int, default=512, help="grid side for the real-space fields (default 512)")
@@ -149,12 +152,12 @@ def main():
 
     run = os.path.abspath(args.run)
     if args.step is None:
-        S = G.read_schedule(os.path.join(run, "OutputSchedule.dat"))
+        S = G.read_schedule(G.product_path(run, "schedule", 0))
         step = int(S.row_at_z(args.z)["step"])
     else:
         step = args.step
-    cube_path = os.path.join(run, f"deltam.{step:04d}.0001.meta")
-    cat_stem = os.path.join(run, "CATALOGS", f"CatshortV.{step:04d}.0001")
+    cube_path = G.product_path(run, "deltam", step, args.box) + ".meta"
+    cat_stem = G.product_path(run, "catalogue", step, args.box)
     out_path = args.out or f"halo_environment_{step:04d}.npz"
 
     D = G.read_modes(cube_path, mmap=True, expect_product="deltam")
@@ -167,28 +170,31 @@ def main():
         f"{nh} haloes, grid {N}^3 ({L / N:.2f} Mpc/h cells)")
 
     kx, ky, kz = rfft_wavenumbers(N, L)
-    k2 = kx ** 2 + ky ** 2 + kz ** 2
-    kmag = np.sqrt(k2)
+    kmag = np.sqrt(kx ** 2 + ky ** 2 + kz ** 2).astype(np.float32)  # dense float32; with inv_k2 the only full-size k arrays
+    with np.errstate(divide="ignore"):
+        inv_k2 = np.where(kmag > 0, 1.0 / kmag ** 2, 0.0).astype(np.float32)
     pos = cat.positions().astype(np.float64)
     coords = (pos.T / L * N) % N
     base = place_cube(D, N)
     if not args.no_deconvolve:
-        base /= cic_window(kx, ky, kz, np.pi * D.n_dep / L).astype(np.float32)
+        for w in cic_window(kx, ky, kz, np.pi * D.n_dep / L):
+            base /= w
     log("cube placed on the grid" + ("" if args.no_deconvolve else " and CIC-deconvolved"))
     prefilter = bspline_prefilter(N) if args.interp == "cubic" else ()
 
     out = {c: cat[c].copy() for c in COPY_COLUMNS if c in cat.columns}
     checks = {}
-    with np.errstate(invalid="ignore", divide="ignore"):
-        kk = np.where(k2 > 0, 1.0 / k2, 0.0)
     pairs = ((0, 0), (1, 1), (2, 2), (0, 1), (0, 2), (1, 2))
-    kvec = (kx, ky, kz)
+    kvec = tuple(k.astype(np.float32) for k in (kx, ky, kz))
 
     for R in args.R:
         tag = f"R{R:g}"
-        if L / N > 0.67 * R and args.filter == "gaussian":
+        if L / N > 0.67 * R:
             log(f"{tag}: cells of {L / N:.2f} Mpc/h are coarse for R = {R:g}: cubic interpolation is 1-3 % low at peaks "
                 f"(0.3 % with --ngrid {int(np.ceil(1.5 * L / R / 64)) * 64})")
+        if args.filter == "tophat":
+            log(f"{tag}: the top-hat is not band-limited: |W(k_c R)| = {abs(window(D.k_c, R, 'tophat')):.3f} at the cube "
+                f"edge, so the field is the cube's truncation of the top-hat")
         A = base * window(kmag, R, args.filter).astype(np.float32)
         var_k = parseval(A)
         for b in prefilter:  # spline coefficients instead of node values, see bspline_prefilter
@@ -201,33 +207,37 @@ def main():
 
         T = np.empty((nh, 3, 3))
         for i, j in pairs:
-            comp = to_real(A * (kvec[i] * kvec[j] * kk).astype(np.float32), N)
+            comp = to_real(A * (kvec[i] * kvec[j] * inv_k2), N)
             T[:, i, j] = T[:, j, i] = sample(comp, coords, args.interp)
             del comp
         del A
         lam = np.linalg.eigvalsh(T)[:, ::-1]  # descending
         trace_err = float(np.abs(lam.sum(axis=1) - dR).max())
         q2 = 0.5 * ((lam[:, 0] - lam[:, 1]) ** 2 + (lam[:, 1] - lam[:, 2]) ** 2 + (lam[:, 2] - lam[:, 0]) ** 2)
-        alpha = np.sqrt(q2) / np.clip(1.0 + dR, 1e-3, None)
+        unphysical = 1.0 + dR <= 0.0  # possible only through the k_c truncation or the CIC deconvolution
+        with np.errstate(divide="ignore", invalid="ignore"):
+            alpha = np.where(unphysical, np.nan, np.sqrt(q2) / (1.0 + dR))
         nweb = (lam > args.lambda_th).sum(axis=1).astype(np.int8)
         log(f"{tag}: eigenvalues done, max |trace - delta_R| = {trace_err:.2e}; "
-            f"alpha_R median {np.median(alpha):.3f}; T-web void/sheet/filament/knot = "
-            + "/".join(str(int((nweb == c).sum())) for c in range(4)))
+            f"alpha_R median {np.nanmedian(alpha):.3f} ({int(unphysical.sum())} haloes with 1 + delta_R <= 0 -> NaN); "
+            f"T-web void/sheet/filament/knot = " + "/".join(str(int((nweb == c).sum())) for c in range(4)))
         out[f"delta_{tag}"] = dR
         out[f"lambda_{tag}"] = lam
         out[f"alpha_{tag}"] = alpha
         out[f"nweb_{tag}"] = nweb
         checks[tag] = {"sigma_parseval": float(np.sqrt(var_k)),
-                       "max_trace_error": trace_err, "mean_delta_at_haloes": float(dR.mean())}
+                       "max_trace_error": trace_err, "mean_delta_at_haloes": float(dR.mean()),
+                       "n_alpha_nan": int(unphysical.sum())}
 
     out["provenance"] = json.dumps({
         "script": os.path.abspath(__file__), "glamio": G.__version__, "date": datetime.datetime.now().isoformat(),
-        "run": run, "step": step, "z": float(D.z), "a": float(D.a), "box": L, "cube": cube_path,
-        "catalogue": cat.path if isinstance(cat.path, str) else str(cat.path), "n_halo": nh,
+        "run": run, "step": step, "realization": args.box, "z": float(D.z), "a": float(D.a), "box": L, "cube": cube_path,
+        "catalogue": str(cat.path), "n_halo": nh,
         "cube_n": int(D.n), "k_c": float(D.k_c), "N_dep": int(D.n_dep), "ngrid": N, "R": list(map(float, args.R)),
         "filter": args.filter, "interp": args.interp, "cic_deconvolved": not args.no_deconvolve, "lambda_th": args.lambda_th,
         "columns_copied": [c for c in COPY_COLUMNS if c in cat.columns], "checks": checks,
-        "conventions": "delta_R = sum of eigenvalues; lambda_R descending; alpha_R = sqrt(q^2)/(1+delta_R); "
+        "conventions": "delta_R = sum of eigenvalues; lambda_R descending; alpha_R = sqrt(q^2)/(1+delta_R), NaN where "
+                       "1+delta_R <= 0; "
                        "nweb_R = number of eigenvalues above lambda_th; positions as in the catalogue (Mpc/h)"})
     np.savez(out_path, **out)
     log(f"wrote {out_path} ({os.path.getsize(out_path) / 1e6:.1f} MB)")

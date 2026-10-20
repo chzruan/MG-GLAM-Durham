@@ -1255,7 +1255,14 @@ For CZ:
   direct Fourier sums at six haloes agree with the 512³ values to 2 %
   (R = 2) and 0.02 % (R = 5), 768³ brings R = 2 to 0.25 %; eigenvalue sum
   = δ_R to 2e-5; ⟨δ_5⟩ rises from 0.29 to 7.7 and ⟨α_5⟩ falls from 0.55 to
-  0.15 between 10^12.2 and 10^15.2 Msun/h. 40 s and 5 GB per R at 512³
-  (100 s, 15 GB at 768³) on a login core; the f(R) pilot runs through the
+  0.15 between 10^12.2 and 10^15.2 Msun/h. 40 s and 4 GB per R at 512³
+  (100 s, 11 GB at 768³) on a login core; the f(R) pilot runs through the
   same path (856,309 haloes). README section in `python/examples/`.
+  Self-reviewed the same day (code-review skill, 9 findings, 7 applied:
+  α_R is NaN where 1 + δ_R ≤ 0 and counted (36 haloes for a top-hat at
+  R = 2, none for Gaussians), paths through `glamio.product_path` with a
+  `--box` option, `--z`/`--step` mutually exclusive, the coarse-grid and
+  top-hat truncation warnings, the README table and the output path
+  example away from /tmp, k-space arrays in float32 (peak 5.0 → 3.9 GB);
+  output unchanged to float32 round-off).
 
