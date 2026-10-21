@@ -316,12 +316,12 @@ def main() -> int:
         sys.exit("--lens-grid must divide --ngrid")
     if any(1.0 / e - 1.0 >= args.zinit for e in epochs):
         sys.exit("an output epoch is at or before z_init")
+    if args.bdm_max_memory is not None and args.bdm_max_memory <= 0:
+        sys.exit("--bdm-max-memory must be positive (GiB)")
     out = args.out
     (out / "Run1" / "CATALOGS").mkdir(parents=True, exist_ok=True)   # BDM writes its catalogues and logs here
     (out / "PkTable.dat").write_text(pktable(ombh2, omch2, om, sigma8, pk))
     (out / "Init.dat").write_text(init_dat(a, epochs))
-    if args.bdm_max_memory is not None and args.bdm_max_memory <= 0:
-        sys.exit("--bdm-max-memory must be positive (GiB)")
     (out / "Run1" / "BDM.config").write_text(bdm_config(args.catalogue_format, args.bdm_max_memory))
     prov.update(pk_file=str(pkfile), pk_md5=md5(pkfile), gravity=args.gravity, init=a,
                 epochs=[float(e) for e in epochs], hubble_expected=h, omch2=omch2, ombh2=ombh2)

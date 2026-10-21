@@ -269,7 +269,7 @@ Contains
       implicit none
       character(64)  :: value
       character(256) :: line
-      integer   :: unit,io,length,status
+      integer   :: unit,io,length,status,cpus
       integer*8 :: kib
       real*8    :: mib
       DefaultMaxMemory=500.
@@ -279,6 +279,21 @@ Contains
          if (io == 0.and.mib > 0.d0) then
             DefaultMaxMemory=real(mib/1024.d0)
             return
+         end if
+      end if
+      ! --mem-per-cpu jobs: Slurm exports the per-CPU amount and the CPUs on the node
+      call get_environment_variable('SLURM_MEM_PER_CPU',value,length,status)
+      if (status == 0.and.length > 0) then
+         read(value,*,iostat=io) mib
+         if (io == 0.and.mib > 0.d0) then
+            call get_environment_variable('SLURM_CPUS_ON_NODE',value,length,status)
+            if (status == 0.and.length > 0) then
+               read(value,*,iostat=io) cpus
+               if (io == 0.and.cpus > 0) then
+                  DefaultMaxMemory=real(mib*dble(cpus)/1024.d0)
+                  return
+               end if
+            end if
          end if
       end if
       open(newunit=unit,file='/proc/meminfo',status='old',action='read',iostat=io)
@@ -440,7 +455,9 @@ Contains
          write(unit,20) 'Rext',Rext,'! Extra radius shift at m=1e15'
          write(unit,20) 'SlopeR',SlopeR,'! Slope for extra radius shift'
          write(unit,20) 'MassMin',MassMin,'! Minimum halo mass'
-         write(unit,20) 'MaxMemory',MaxMemory,'! Linked-list admission limit in GiB'
+         ! MaxMemory is not persisted: the resolved default (job or node memory) would be
+         ! frozen at 3 significant figures and bind later steps or restarts on other nodes.
+         write(unit,'(a)') '! MaxMemory = <GiB>              ! optional linked-list admission limit; default = job or node memory'
          write(unit,20) 'dLogR',dLogR,'! Log bin size for potential'
          write(unit,20) 'dLogP',dLogP,'! Log bin size for profiles'
          write(unit,30) 'CatalogueFormat',trim(CatalogueFormat),'! binary (.bin + .meta, default), text (CatshortV.*.DAT) or both'

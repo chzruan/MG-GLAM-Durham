@@ -679,9 +679,8 @@ subroutine MG_levels_allocate
     Real*4    :: myMemory
     if (allocated(MGL)) return
     call MG_set_level_bounds
-    nlev = levelmax - levelmin
-    if (nlev < 1) stop 'MG_levels_allocate: NGRID leaves no coarse multigrid level'
-    allocate(MGL(nlev))
+    nlev = max(levelmax - levelmin, 0)
+    allocate(MGL(nlev))                   ! nlev = 0 (tiny grids): PM-grid relaxation only, as before
     do l = 1, nlev
        n = NGRID/2**l
        allocate(MGL(l)%res(n,n,n), MGL(l)%rho(n,n,n), MGL(l)%ucopy(n,n,n), &
