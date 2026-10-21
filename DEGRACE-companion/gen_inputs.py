@@ -241,7 +241,10 @@ def main() -> int:
     ap.add_argument("--ngrid", type=int, default=2048)
     ap.add_argument("--zinit", type=float, default=49.0)
     ap.add_argument("--da", type=float, default=6e-4, help="initial step da0 (6e-4: legacy late-time ladder from z=49)")
-    ap.add_argument("--ncheckpoint", type=int, default=50)
+    ap.add_argument("--ncheckpoint", type=int, default=300,
+                    help="steps between checkpoints (PMcrd/PMcrs rewritten in place); 300 exceeds the step count of a "
+                         "z = 49 run, i.e. no checkpoints (user decision 2026-10-21: the suite runs are not restarted); "
+                         "the pilots and the production Run0 of 2026-10-21 used 50")
     ap.add_argument("--no-bdm", action="store_true")
     ap.add_argument("--catalogue-format", choices=["text", "binary", "both"], default=None,
                     help="BDM catalogue files (BDM.config CatalogueFormat, needs a PMP2main built from cz after 2026-10-18): "
