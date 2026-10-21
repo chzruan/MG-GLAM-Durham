@@ -184,7 +184,6 @@ USE Tools
 
   integer :: i_step
   integer :: M1,M2,M3
-  integer :: ngridmax                                                           ! Baojiu 2025-12-17
   real*8  :: r, max_n = 0.05D0, min_n = -0.05D0
   real*8  :: R_bg,R0_bg,fR_bg,u_bg,u_bg2
   
@@ -237,19 +236,7 @@ USE Tools
   END SELECT
 
   ! Baojiu: initialise these global variables here once and for all
-  levelmax = 0   
-  DO WHILE(2**levelmax.LT.NGRID) 
-     levelmax = levelmax + 1
-  END DO  
-  ngridmax = NGRID                                                              ! Baojiu 2025 12 17
-  DO WHILE(MOD(ngridmax,2).EQ.0)                                                ! Baojiu 2025 12 17
-     ngridmax = ngridmax/2                                                      ! Baojiu 2025 12 17
-  END DO                                                                        ! Baojiu 2025 12 17
-  levelmin = 0                                                                  ! Baojiu 2025 12 17
-  DO WHILE(2**levelmin.LT.ngridmax)                                             ! Baojiu 2025 12 17
-     levelmin = levelmin + 1                                                    ! Baojiu 2025 12 17
-  END DO                                                                        ! Baojiu 2025 12 17
-  levelmin = levelmin+1                                                         ! Baojiu 2025-12-17
+  CALL MG_set_level_bounds                                                      ! Baojiu 2025-12-17 rule, now in Tools
 
   WRITE(*,'(A,I5)') 'Maximum multigrid level:',levelmax
   WRITE(*,'(A,I5)') 'Minimum multigrid level:',levelmin
@@ -331,6 +318,11 @@ USE Tools
      !
   END SELECT
 
+  IF(MG_model.EQ.1) THEN
+     ! f(R): the per-level scratch MGL replaces FI3 (docs/memory-audit-20261021.md, cut 2);
+     ! MG_scratch_ensure allocates and zeroes it, this only covers a direct call
+     IF(.NOT.allocated(MGL)) CALL MG_levels_allocate
+  ELSE
 !$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3)
   DO M3=1,NGRID
@@ -340,6 +332,7 @@ USE Tools
         END DO
      END DO
   END DO
+  ENDIF
 
 END SUBROUTINE initialise_extradof
 
@@ -1195,7 +1188,15 @@ use Tools
   joffset2 = 0                                                                  ! Baojiu 2025 12 17
   koffset2 = NGRID/2**(ilevel-1)*(2**(ilevel-1)-2)                              ! Baojiu 2025 12 17
 
-  IF(ilevel.EQ.1) THEN
+  IF(MG_model.EQ.1) THEN
+  ! f(R): per-level arrays (docs/memory-audit-20261021.md, cut 2); the same
+  ! eight-term sum in the same order, written to the level's density array
+     IF(ilevel.EQ.1) THEN
+        CALL restrict_cells(FI,NGRID,MGL(1)%rho,ngrid_level)
+     ELSE
+        CALL restrict_cells(MGL(ilevel-1)%rho,2*ngrid_level,MGL(ilevel)%rho,ngrid_level)
+     ENDIF
+  ELSE IF(ilevel.EQ.1) THEN
   ! case where fine level is the PM grid, where the density field
   ! on fine level is stored in array FI
 !$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
@@ -1248,6 +1249,35 @@ use Tools
  
   CALL TimingMain(8,1)
 
+CONTAINS
+  SUBROUTINE restrict_cells(fine,nf,coarse,nc)
+  ! coarse cell = mean of its 8 son cells, accumulated in double precision
+    integer, intent(in)  :: nf,nc
+    real*4,  intent(in)  :: fine(nf,nf,nf)
+    real*4,  intent(out) :: coarse(nc,nc,nc)
+    integer :: M1,M2,M3
+    real*8  :: P
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
+!$OMP PRIVATE (M1,M2,M3) &
+!$OMP PRIVATE (P)
+    DO M3=1,nc
+       DO M2=1,nc
+          DO M1=1,nc
+             P =   fine(2*M1-1,2*M2-1,2*M3-1)
+             P = P+fine(2*M1  ,2*M2-1,2*M3-1)
+             P = P+fine(2*M1-1,2*M2  ,2*M3-1)
+             P = P+fine(2*M1  ,2*M2  ,2*M3-1)
+             P = P+fine(2*M1-1,2*M2-1,2*M3  )
+             P = P+fine(2*M1  ,2*M2-1,2*M3  )
+             P = P+fine(2*M1-1,2*M2  ,2*M3  )
+             P = P+fine(2*M1  ,2*M2  ,2*M3  )
+             !
+             coarse(M1,M2,M3) = P/8.0d0
+             !
+          END DO
+       END DO
+    END DO
+  END SUBROUTINE restrict_cells
 END SUBROUTINE restrict_density
 
 !-------------------------------------------------------------
@@ -1290,7 +1320,15 @@ use Tools
   joffset2 = NGRID/2**(ilevel-1)                                                ! Baojiu 2025 12 17
   koffset2 = NGRID/2**(ilevel-1)*(2**(ilevel-1)-2)                              ! Baojiu 2025 12 17
 
-  IF(ilevel.EQ.1) THEN
+  IF(MG_model.EQ.1) THEN
+  ! f(R): per-level arrays (docs/memory-audit-20261021.md, cut 2); the restricted
+  ! field goes to ucopy (kept for the prolongation) and to u (the working field)
+     IF(ilevel.EQ.1) THEN
+        CALL restrict_cells2(FI2,NGRID,MGL(1)%ucopy,MGL(1)%u,ngrid_level)
+     ELSE
+        CALL restrict_cells2(MGL(ilevel-1)%u,2*ngrid_level,MGL(ilevel)%ucopy,MGL(ilevel)%u,ngrid_level)
+     ENDIF
+  ELSE IF(ilevel.EQ.1) THEN
   ! case where fine level is the PM grid, where the scalar field
   ! on fine level is stored in array FI2
 !$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
@@ -1346,6 +1384,37 @@ use Tools
     
   CALL TimingMain(8,1)
 
+CONTAINS
+  SUBROUTINE restrict_cells2(fine,nf,coarse1,coarse2,nc)
+  ! two copies of the restricted field: coarse1 (kept) and coarse2 (relaxed)
+    integer, intent(in)  :: nf,nc
+    real*4,  intent(in)  :: fine(nf,nf,nf)
+    real*4,  intent(out) :: coarse1(nc,nc,nc),coarse2(nc,nc,nc)
+    integer :: M1,M2,M3
+    real*8  :: P
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
+!$OMP PRIVATE (M1,M2,M3) &
+!$OMP PRIVATE (P)
+    DO M3=1,nc
+       DO M2=1,nc
+          DO M1=1,nc
+             P =   fine(2*M1-1,2*M2-1,2*M3-1)
+             P = P+fine(2*M1  ,2*M2-1,2*M3-1)
+             P = P+fine(2*M1-1,2*M2  ,2*M3-1)
+             P = P+fine(2*M1  ,2*M2  ,2*M3-1)
+             P = P+fine(2*M1-1,2*M2-1,2*M3  )
+             P = P+fine(2*M1  ,2*M2-1,2*M3  )
+             P = P+fine(2*M1-1,2*M2  ,2*M3  )
+             P = P+fine(2*M1  ,2*M2  ,2*M3  )
+             !
+             coarse1(M1,M2,M3) = P/8.0d0
+             !
+             coarse2(M1,M2,M3) = P/8.0d0
+             !
+          END DO
+       END DO
+    END DO
+  END SUBROUTINE restrict_cells2
 END SUBROUTINE restrict_scalar_field
 
 !-------------------------------------------------------------
@@ -1455,11 +1524,19 @@ SUBROUTINE correct_solution(ilevel)
 !    CLOSE(27)
 ! ENDIF
 
-  IF(ilevel.EQ.1) THEN
+  IF(MG_model.EQ.1) THEN
+  ! f(R): per-level arrays (docs/memory-audit-20261021.md, cut 2); the same
+  ! weights, accumulation order and positivity rule as the FI3 branches below
+     IF(ilevel.EQ.1) THEN
+        CALL prolong_correct(MGL(1)%u,MGL(1)%ucopy,ngrid_level,FI2,NGRID)
+     ELSE
+        CALL prolong_correct(MGL(ilevel)%u,MGL(ilevel)%ucopy,ngrid_level,MGL(ilevel-1)%u,2*ngrid_level)
+     ENDIF
+  ELSE IF(ilevel.EQ.1) THEN
 !$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,pind,sind,ind,i1,i2,i3) &
 !$OMP PRIVATE (pid1,pid2,pid3) &
-!$OMP PRIVATE (P) 
+!$OMP PRIVATE (P,tmpt) 
      DO M3=1,ngrid_level
         DO M2=1,ngrid_level
            DO M1=1,ngrid_level
@@ -1512,7 +1589,7 @@ SUBROUTINE correct_solution(ilevel)
 !$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3,pind,sind,ind,i1,i2,i3) &
 !$OMP PRIVATE (pid1,pid2,pid3) &
-!$OMP PRIVATE (P) 
+!$OMP PRIVATE (P,tmpt) 
      DO M3=1,ngrid_level
         DO M2=1,ngrid_level
            DO M1=1,ngrid_level
@@ -1575,6 +1652,53 @@ SUBROUTINE correct_solution(ilevel)
     
   CALL TimingMain(8,1)
 
+CONTAINS
+  SUBROUTINE prolong_correct(uc,ucopyc,nc,uf,nf)
+  ! Correct the fine field uf (nf = 2 nc cells per side) with the prolonged
+  ! coarse change uc - ucopyc; f(R): the scalar field u must stay positive.
+    integer, intent(in)    :: nc,nf
+    real*4,  intent(in)    :: uc(nc,nc,nc),ucopyc(nc,nc,nc)
+    real*4,  intent(inout) :: uf(nf,nf,nf)
+    integer :: M1,M2,M3,i1,i2,i3,ind,sind,pind
+    integer,dimension(1:27) :: pid1,pid2,pid3
+    real*8  :: P,tmpt
+!$OMP PARALLEL DO COLLAPSE(3) SCHEDULE(STATIC) DEFAULT(SHARED) &
+!$OMP PRIVATE (M1,M2,M3,pind,sind,ind,i1,i2,i3) &
+!$OMP PRIVATE (pid1,pid2,pid3) &
+!$OMP PRIVATE (P,tmpt)
+    DO M3=1,nc
+       DO M2=1,nc
+          DO M1=1,nc
+             ! get 3^3 neighbours of a parent cell (the parent cell is at centre);
+             ! each coarse cell is given a 3D local index from (0,0,0) to (2,2,2),
+             ! and a 3D global index (pid1,pid2,pid3) too; periodic BC is applied.
+             DO pind=1,27
+                i3 = (pind-1)/9
+                i2 = (pind-1-i3*9)/3
+                i1 =  pind-1-i3*9-i2*3
+                pid1(pind) = M1+i1-1; IF(pid1(pind)<1) pid1(pind)=nc; IF(pid1(pind)>nc) pid1(pind)=1
+                pid2(pind) = M2+i2-1; IF(pid2(pind)<1) pid2(pind)=nc; IF(pid2(pind)>nc) pid2(pind)=1
+                pid3(pind) = M3+i3-1; IF(pid3(pind)<1) pid3(pind)=nc; IF(pid3(pind)>nc) pid3(pind)=1
+             END DO
+             ! loop over 2^3 son cells of the parent cell at the centre of block
+             DO sind=1,8
+                i3 = (sind-1)/4
+                i2 = (sind-1-i3*4)/2
+                i1 = (sind-1-i3*4-i2*2)
+                P = 0.0d0
+                ! loop over 8 (of the 27) neighbouring coarse cells: u^H - R(u^h)
+                DO ind=1,8
+                   P = P+bbb(ind)*uc    (pid1(ccc(ind,sind)),pid2(ccc(ind,sind)),pid3(ccc(ind,sind)))
+                   P = P-bbb(ind)*ucopyc(pid1(ccc(ind,sind)),pid2(ccc(ind,sind)),pid3(ccc(ind,sind)))
+                END DO
+                !
+                tmpt = uf(2*M1+i1-1,2*M2+i2-1,2*M3+i3-1)+P
+                IF(tmpt.GT.0.0D0) uf(2*M1+i1-1,2*M2+i2-1,2*M3+i3-1) = tmpt
+             END DO
+          END DO
+       END DO
+    END DO
+  END SUBROUTINE prolong_correct
 END SUBROUTINE correct_solution
 
 

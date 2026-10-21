@@ -203,10 +203,12 @@ def git_hash() -> str:
 
 
 # ----------------------------------------------------------------- main
-def bdm_config(catalogue_format=None):
+def bdm_config(catalogue_format=None, max_memory=None):
     """BDM.config of the companion runs: the finder settings used by the pilots
     (test/BDM.config) plus, when requested, the catalogue file format (text,
-    binary or both; the key is omitted otherwise so that older builds accept the file)."""
+    binary or both; the key is omitted otherwise so that older builds accept the file)
+    and the finder's memory admission limit MaxMemory in GiB (omitted: a build from
+    2026-10-21 on defaults to the job's or node's memory; older builds to 500 GiB)."""
     return (
         "! ------------- BDM configuration file. Spaces between entries are significant\n"
         "!                   These are main parameters:\n"
@@ -219,6 +221,8 @@ def bdm_config(catalogue_format=None):
         "          dLogP     =  1.000E-02       ! size of log binning for profiles\n"
         + (f"          CatalogueFormat = {catalogue_format}   ! binary (.bin + .meta, default), text (CatshortV.*.DAT) or both\n"
            if catalogue_format else "")
+        + (f"          MaxMemory = {max_memory:.1f}          ! finder memory admission limit in GiB (lists + counted arrays)\n"
+           if max_memory else "")
     )
 
 
@@ -244,6 +248,12 @@ def main() -> int:
                          "Not given: the key is not written and any build accepts the file; a build from 2026-10-18 on "
                          "then writes the binary only, an older build the text. Pass both (or text) only while a "
                          "consumer still needs the .DAT, e.g. halocat before it imports glamio.")
+    ap.add_argument("--bdm-max-memory", type=float, default=None, metavar="GIB",
+                    help="BDM.config MaxMemory, the finder's memory admission limit in GiB (int64 lists plus the "
+                         "counted arrays must stay below it, else the run stops at the first catalogue). Not given: "
+                         "the key is not written; a PMP2main built from cz after 2026-10-21 then uses the job's "
+                         "memory (SLURM_MEM_PER_NODE) or the node's MemTotal, an OLDER build 500 GiB, which stops "
+                         "the L1024 Np2048 Ng4096 runs (850 GiB counted at the first catalogue): pass e.g. 1000 for those.")
     ap.add_argument("--classes", choices=["all", "primary"], default="all",
                     help="per-output classes: 'all' = every output class 1 (BDM everywhere); "
                          "'primary' = the 17 primary redshifts class 1, the 25 stations class 2 (no BDM/extras)")
@@ -298,7 +308,8 @@ def main() -> int:
              classes=args.classes, lens_slabs=args.lens_slabs, lens_grid=args.lens_grid,
              extra=1 if args.extra else 0, kc_delta=args.kc_delta, kc_mom=args.kc_mom, ndep_mom=args.ndep_mom,
              subsample_m=args.subsample_m, fr_halos=1 if (args.fr_halos and args.gravity == "fr") else 0,
-             catalogue_format=args.catalogue_format or "default (key not written: binary with a build from 2026-10-18 on, text before)")
+             catalogue_format=args.catalogue_format or "default (key not written: binary with a build from 2026-10-18 on, text before)",
+             bdm_max_memory=args.bdm_max_memory or "default (key not written: job/node memory with a build from 2026-10-21 on, 500 GiB before)")
     if args.lens_slabs and args.ngrid % args.lens_slabs:
         sys.exit("--lens-slabs must divide --ngrid")
     if args.lens_grid and args.ngrid % args.lens_grid:
@@ -309,12 +320,15 @@ def main() -> int:
     (out / "Run1" / "CATALOGS").mkdir(parents=True, exist_ok=True)   # BDM writes its catalogues and logs here
     (out / "PkTable.dat").write_text(pktable(ombh2, omch2, om, sigma8, pk))
     (out / "Init.dat").write_text(init_dat(a, epochs))
-    (out / "Run1" / "BDM.config").write_text(bdm_config(args.catalogue_format))
+    if args.bdm_max_memory is not None and args.bdm_max_memory <= 0:
+        sys.exit("--bdm-max-memory must be positive (GiB)")
+    (out / "Run1" / "BDM.config").write_text(bdm_config(args.catalogue_format, args.bdm_max_memory))
     prov.update(pk_file=str(pkfile), pk_md5=md5(pkfile), gravity=args.gravity, init=a,
                 epochs=[float(e) for e in epochs], hubble_expected=h, omch2=omch2, ombh2=ombh2)
     (out / "inputs_provenance.json").write_text(json.dumps(prov, indent=1))
     print(f"wrote {out}/PkTable.dat ({len(pk)} rows), Init.dat ({len(epochs)} exact outputs), "
-          f"Run1/BDM.config (CatalogueFormat {args.catalogue_format or 'not written: compiled default binary'}), inputs_provenance.json")
+          f"Run1/BDM.config (CatalogueFormat {args.catalogue_format or 'not written: compiled default binary'}, "
+          f"MaxMemory {args.bdm_max_memory or 'not written: job/node memory with a build from 2026-10-21 on'}), inputs_provenance.json")
     print(f"  Om={om} h={h} sigma8={sigma8} gravity={args.gravity} fR0={fr0 if a['mg_flag'] else 'n/a'}; "
           f"Nrow={args.nrow} Ngrid={args.ngrid} z_init={args.zinit} da0={args.da}")
     return 0

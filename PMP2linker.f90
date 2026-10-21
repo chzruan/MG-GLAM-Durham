@@ -75,6 +75,7 @@ Integer*8 ::         Np                                          ! Number of par
 ! simulation state until RemoveBuffer moves it back without inverse arithmetic.
 Real*4, allocatable :: BdmPMX(:),BdmPMY(:),BdmPMZ(:),BdmPMVX(:),BdmPMVY(:),BdmPMVZ(:)
 Integer*8 :: BdmPMCount=0_8
+Logical   :: MaxMemoryFromConfig=.false.   ! BDM.config set MaxMemory (else DefaultMaxMemory: job or node memory)
 Integer*8, allocatable :: OriginalParticleId(:) ! snapshot row; shared by periodic images
 Real*4 :: HaloSearchRadius=0.,ParticleSearchRadius=0. ! maximum SO / aperture radii
                      ! -------------------------  Maxima ----------------------
@@ -168,15 +169,15 @@ Contains
 
       myMemory =Memory(-1_8*NGRID*NGRID*NGRID)
       DeAllocate (FI)
-      write(*,'(a,i11)') ' Go to RescaleCoords    : ',Nparticles
-      Call RescaleCoords(1)  
+      write(*,'(a,i11)') ' Go to RetainParticles  : ',Nparticles
+      Call RetainParticles                 ! originals -> BdmPM*; no rescaled copy (cut 4, memory audit 2026-10-21)
       tfinish = seconds()
 
       write(*,'(a,i11)') ' Go to AddBuffer        : ',Nparticles
       write(13,'(10x,a,T50,2f10.2)') ' time for Dens+Maxima  =',tfinish-tstart,tfinish-t0
       write(*,'(10x,a,T50,2f10.2)')  ' time for Dens+Maxima  =',tfinish-tstart,tfinish-t0
       tstart = seconds()
-      Call AddBuffer
+      Call AddBuffer(rescaleRetained=.true.)   ! rescaled + periodically buffered set straight from BdmPM*
       tfinish = seconds()
       write(13,'(10x,a,T50,2f10.2)') ' time for AddBuffer  =',tfinish-tstart,tfinish-t0
       write(*,'(10x,a,T50,2f10.2)')  ' time for AddBuffer  =',tfinish-tstart,tfinish-t0
@@ -231,6 +232,7 @@ Contains
        Call ReleaseMaxima
       !-------- restore PM structure
        Call RemoveBuffer(NpPM)
+       Call TrimHeap                           ! cut 1: release the per-thread arena residue before FI comes back
        myMemory =Memory(1_8*NGRID*NGRID*NGRID)
        Allocate (FI(NGRID,NGRID,NGRID))
              
@@ -255,6 +257,66 @@ Contains
       released=Memory(-22_8*Nmaxima)
       end SUBROUTINE ReleaseMaxima
 
+      REAL FUNCTION DefaultMaxMemory()
+      ! Admission limit of the finder's int64 lists when BDM.config has no
+      ! MaxMemory (SizeList and List stop the run when the lists plus the
+      ! counted arrays would exceed it): the job's memory when Slurm set one
+      ! (SLURM_MEM_PER_NODE, MiB), else the node's MemTotal from /proc/meminfo,
+      ! else the historical 500 GiB. Until 2026-10-21 the default was 500 GiB
+      ! whatever the node, which would have stopped the L1024 Np2048 Ng4096
+      ! production runs at their first catalogue (851 GiB counted there; cut 0
+      ! of docs/memory-audit-20261021.md).
+      implicit none
+      character(64)  :: value
+      character(256) :: line
+      integer   :: unit,io,length,status
+      integer*8 :: kib
+      real*8    :: mib
+      DefaultMaxMemory=500.
+      call get_environment_variable('SLURM_MEM_PER_NODE',value,length,status)
+      if (status == 0.and.length > 0) then
+         read(value,*,iostat=io) mib
+         if (io == 0.and.mib > 0.d0) then
+            DefaultMaxMemory=real(mib/1024.d0)
+            return
+         end if
+      end if
+      open(newunit=unit,file='/proc/meminfo',status='old',action='read',iostat=io)
+      if (io /= 0) return
+      do
+         read(unit,'(a)',iostat=io) line
+         if (io /= 0) exit
+         if (line(1:9) == 'MemTotal:') then
+            read(line(10:),*,iostat=io) kib
+            if (io == 0.and.kib > 0_8) DefaultMaxMemory=real(dble(kib)/1024.d0**2)
+            exit
+         end if
+      end do
+      close(unit)
+      END FUNCTION DefaultMaxMemory
+
+      SUBROUTINE TrimHeap
+      ! Return the finder's freed heap memory to the kernel. The per-maximum
+      ! temporaries of GetHalo (rows, radii, potential, ids) are allocated
+      ! inside OpenMP loops, i.e. in per-thread glibc arenas; what they free
+      ! stays mapped, and resident under transparent huge pages, until
+      ! malloc_trim walks the arenas. Without this call every catalogue left
+      ! 41-47 MB per thread resident through all later force steps (~7 GiB at
+      ! 128 threads; cut 1 of docs/memory-audit-20261021.md). No numerical
+      ! effect. glibc extension; the interface is the C prototype.
+      use, intrinsic :: iso_c_binding, only: c_int,c_size_t
+      implicit none
+      interface
+         function malloc_trim(pad) bind(C,name='malloc_trim') result(released)
+            import :: c_int,c_size_t
+            integer(c_size_t), value :: pad
+            integer(c_int) :: released
+         end function malloc_trim
+      end interface
+      integer(c_int) :: released
+      released=malloc_trim(0_c_size_t)
+      END SUBROUTINE TrimHeap
+
 !----------------------------------------------------------
 !               Read/create  configuration file BDM.config       
 !                    
@@ -268,7 +330,7 @@ Contains
       character(1024) :: line, key, value
       NradP=30; iVirial=1; dLogR=0.02; dLogP=0.02
       dBuffer=5.; SlopeR=0.20; Rext=0.15; MassMin=2.5e12
-      MaxMemory=500.
+      MaxMemory=DefaultMaxMemory(); MaxMemoryFromConfig=.false.
       CatalogueFormat='binary'
       inquire(file='BDM.config',exist=FileExists)
       if (FileExists) then
@@ -315,6 +377,7 @@ Contains
                read(value,*,iostat=io) MassMin
             case('maxmemory')
                read(value,*,iostat=io) MaxMemory
+               MaxMemoryFromConfig=(io == 0)
             case('catalogueformat','catalogformat','catalogue_format')
                io=0                        ! a string value: nothing is list-directed read here
                if (len_trim(value) > len(CatalogueFormat)) &
@@ -355,6 +418,8 @@ Contains
       else
          write(*,'(a)') ' BDM.config absent: the finder writes its defaults (CatalogueFormat = binary) at the first catalogue step'
       end if
+      if (.not.MaxMemoryFromConfig) write(*,'(a,f9.1,a)') &
+         ' BDM MaxMemory not configured: admission limit = ',MaxMemory,' GiB (the job''s or the node''s memory)'
       end SUBROUTINE CheckBdmConfig
 
 
@@ -606,7 +671,50 @@ Contains
 !                      
 !                    
 
+SUBROUTINE RetainParticles
+  ! Move the simulation particle arrays into the finder's retained workspace
+  ! BdmPM* (RemoveBuffer moves them back untouched). Xpar..VZ are left
+  ! unallocated; the caller builds the analysis set: RescaleCoords allocates
+  ! the rescaled copy, AddBuffer(rescaleRetained=.true.) the periodically
+  ! buffered set directly (cut 4 of docs/memory-audit-20261021.md).
+  implicit none
+  if(allocated(BdmPMX))error stop 'BDM particle workspace already active'
+  if(Np/=Nparticles.or.Np<0_8)error stop 'BDM original particle count is inconsistent'
+  if(NGRID<=0.or.Box<=0..or.AEXPN<=0.)error stop 'Invalid BDM coordinate scales'
+  BdmPMCount=Nparticles
+  call move_alloc(Xpar,BdmPMX); call move_alloc(Ypar,BdmPMY); call move_alloc(Zpar,BdmPMZ)
+  call move_alloc(VX,BdmPMVX); call move_alloc(VY,BdmPMVY); call move_alloc(VZ,BdmPMVZ)
+  if(size(BdmPMX,kind=8)/=Np.or.size(BdmPMY,kind=8)/=Np.or.size(BdmPMZ,kind=8)/=Np.or. &
+     size(BdmPMVX,kind=8)/=Np.or.size(BdmPMVY,kind=8)/=Np.or.size(BdmPMVZ,kind=8)/=Np) &
+       error stop 'BDM original particle array size mismatch'
+end SUBROUTINE RetainParticles
+
+pure function BdmScaledCoordinate(x,Xscale) result(r)
+  ! Simulation grid coordinate (1-based cells) -> comoving Mpc/h in [0,Box).
+  ! Conversion to the storage precision can round a value up to Box.
+  ! Shared by RescaleCoords and AddBuffer(rescaleRetained=.true.) so that both
+  ! produce the same bits.
+  implicit none
+  real,   intent(in) :: x
+  real*8, intent(in) :: Xscale
+  real :: r
+  r=real(modulo((dble(x)-1.d0)*Xscale,dble(Box)))
+  if(r>=Box)r=0.
+end function BdmScaledCoordinate
+
+pure function BdmScaledVelocity(v,Vscale) result(r)
+  implicit none
+  real,   intent(in) :: v
+  real*8, intent(in) :: Vscale
+  real :: r
+  r=real(dble(v)*Vscale)
+end function BdmScaledVelocity
+
 SUBROUTINE RescaleCoords(iFlag)
+  ! Retain the simulation arrays and allocate the rescaled analysis copy
+  ! Xpar..VZ (6 words per particle). The inline finder no longer uses this
+  ! path (RetainParticles + AddBuffer(rescaleRetained=.true.) avoid the copy);
+  ! kept for the standalone fixtures and for AddBuffer without the flag.
   use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
   implicit none
   integer, intent(in) :: iFlag
@@ -616,17 +724,9 @@ SUBROUTINE RescaleCoords(iFlag)
   logical :: invalid
 
   if(iFlag/=1)error stop 'BDM RescaleCoords only supports iFlag=1; use RemoveBuffer for restoration'
-  if(allocated(BdmPMX))error stop 'BDM particle workspace already active'
-  if(Np/=Nparticles.or.Np<0_8)error stop 'BDM original particle count is inconsistent'
-  if(NGRID<=0.or.Box<=0..or.AEXPN<=0.)error stop 'Invalid BDM coordinate scales'
+  call RetainParticles
   Xscale=dble(Box)/dble(NGRID)
   Vscale=100.d0*Xscale/dble(AEXPN)
-  BdmPMCount=Nparticles
-  call move_alloc(Xpar,BdmPMX); call move_alloc(Ypar,BdmPMY); call move_alloc(Zpar,BdmPMZ)
-  call move_alloc(VX,BdmPMVX); call move_alloc(VY,BdmPMVY); call move_alloc(VZ,BdmPMVZ)
-  if(size(BdmPMX,kind=8)/=Np.or.size(BdmPMY,kind=8)/=Np.or.size(BdmPMZ,kind=8)/=Np.or. &
-     size(BdmPMVX,kind=8)/=Np.or.size(BdmPMVY,kind=8)/=Np.or.size(BdmPMVZ,kind=8)/=Np) &
-       error stop 'BDM original particle array size mismatch'
   allocate(Xpar(Np),Ypar(Np),Zpar(Np),VX(Np),VY(Np),VZ(Np))
   memoryUsed=Memory(6_8*Np)
   invalid=.false.
@@ -634,16 +734,12 @@ SUBROUTINE RescaleCoords(iFlag)
   do ip=1,Np
     invalid=invalid.or..not.all(ieee_is_finite([BdmPMX(ip),BdmPMY(ip),BdmPMZ(ip), &
                                              BdmPMVX(ip),BdmPMVY(ip),BdmPMVZ(ip)]))
-    Xpar(ip)=real(modulo((dble(BdmPMX(ip))-1.d0)*Xscale,dble(Box)))
-    Ypar(ip)=real(modulo((dble(BdmPMY(ip))-1.d0)*Xscale,dble(Box)))
-    Zpar(ip)=real(modulo((dble(BdmPMZ(ip))-1.d0)*Xscale,dble(Box)))
-    ! Conversion to the storage precision can round a value up to Box.
-    if(Xpar(ip)>=Box)Xpar(ip)=0.
-    if(Ypar(ip)>=Box)Ypar(ip)=0.
-    if(Zpar(ip)>=Box)Zpar(ip)=0.
-    VX(ip)=real(dble(BdmPMVX(ip))*Vscale)
-    VY(ip)=real(dble(BdmPMVY(ip))*Vscale)
-    VZ(ip)=real(dble(BdmPMVZ(ip))*Vscale)
+    Xpar(ip)=BdmScaledCoordinate(BdmPMX(ip),Xscale)
+    Ypar(ip)=BdmScaledCoordinate(BdmPMY(ip),Xscale)
+    Zpar(ip)=BdmScaledCoordinate(BdmPMZ(ip),Xscale)
+    VX(ip)=BdmScaledVelocity(BdmPMVX(ip),Vscale)
+    VY(ip)=BdmScaledVelocity(BdmPMVY(ip),Vscale)
+    VZ(ip)=BdmScaledVelocity(BdmPMVZ(ip),Vscale)
   enddo
   if(invalid)error stop 'Non-finite simulation particle supplied to BDM'
 end SUBROUTINE RescaleCoords
@@ -2171,20 +2267,43 @@ end SUBROUTINE List
 !           -- 
 !           -- move coordinates to new arrays
 
-SUBROUTINE AddBuffer
+SUBROUTINE AddBuffer(rescaleRetained)
+  ! Build the periodically buffered analysis set Xpar..VZ (originals first,
+  ! then their images within dBuffer of the box faces) and OriginalParticleId.
+  ! Source of the originals:
+  !   rescaleRetained absent or .false.: Xpar..VZ already hold the rescaled
+  !     set (RescaleCoords); they are replaced by the buffered set.
+  !   rescaleRetained = .true.: Xpar..VZ are unallocated and the retained
+  !     simulation arrays BdmPM* (RetainParticles) are rescaled on the fly
+  !     with the same functions as RescaleCoords, so the buffered values are
+  !     identical. This skips the intermediate rescaled copy (6 words per
+  !     particle, 192 GiB at Np = 2048^3): cut 4 of docs/memory-audit-20261021.md.
   use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
   implicit none
+  logical, intent(in), optional :: rescaleRetained
   real, allocatable :: Xbb(:),Ybb(:),Zbb(:),VXbb(:),VYbb(:),VZbb(:)
   integer*1, allocatable :: imageCounts(:)
   integer*8, allocatable :: blockEnd(:)
   integer*8, parameter :: blockRows=16384_8
   integer*8 :: ic,ip,originalCount,iPartMax,nx,ny,nz,block,blockCount,first,last,localImages,expectedEnd,scratchWords
   integer :: ilo,ihi,jlo,jhi,klo,khi,i,j,k
-  real :: memoryUsed
-  real*8 :: xx,yy,zz,box64,width64
-  logical :: invalid
+  real :: memoryUsed,x4,y4,z4,vx4,vy4,vz4
+  real*8 :: xx,yy,zz,box64,width64,Xscale,Vscale
+  logical :: invalid,nonfinite,fromRetained
 
+  fromRetained=.false.
+  if(present(rescaleRetained))fromRetained=rescaleRetained
   if(allocated(OriginalParticleId))error stop 'BDM periodic buffer already active'
+  Xscale=0.d0; Vscale=0.d0
+  if(fromRetained)then
+    if(.not.allocated(BdmPMX))error stop 'BDM retained particle workspace missing (RetainParticles)'
+    if(allocated(Xpar).or.allocated(Ypar).or.allocated(Zpar).or.allocated(VX).or.allocated(VY).or.allocated(VZ)) &
+      error stop 'BDM analysis particle arrays already allocated'
+    if(BdmPMCount/=Nparticles)error stop 'BDM retained particle count mismatch'
+    if(NGRID<=0.or.Box<=0..or.AEXPN<=0.)error stop 'Invalid BDM coordinate scales'
+    Xscale=dble(Box)/dble(NGRID)
+    Vscale=100.d0*Xscale/dble(AEXPN)
+  endif
   call PrepareParticleSearch
   if(.not.ieee_is_finite(dBuffer).or.dBuffer<0..or.dBuffer>Box) &
     error stop 'BDM buffer width must be finite and between zero and Box'
@@ -2201,14 +2320,25 @@ SUBROUTINE AddBuffer
   if(mod(originalCount,4_8)/=0_8)scratchWords=scratchWords+1_8
   allocate(imageCounts(originalCount),blockEnd(0:blockCount))
   memoryUsed=Memory(scratchWords)
-  invalid=.false.
+  invalid=.false.; nonfinite=.false.
 !$OMP PARALLEL DO DEFAULT(SHARED) SCHEDULE(STATIC) &
-!$OMP PRIVATE(block,ic,first,last,localImages,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,nx,ny,nz) REDUCTION(.or.:invalid)
+!$OMP PRIVATE(block,ic,first,last,localImages,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,nx,ny,nz) REDUCTION(.or.:invalid,nonfinite)
   do block=1,blockCount
     first=(block-1_8)*blockRows+1_8; last=min(first+blockRows-1_8,originalCount)
     localImages=0_8
     do ic=first,last
-      xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
+      if(fromRetained)then
+        if(.not.all(ieee_is_finite([BdmPMX(ic),BdmPMY(ic),BdmPMZ(ic),BdmPMVX(ic),BdmPMVY(ic),BdmPMVZ(ic)])))then
+          nonfinite=.true.
+          imageCounts(ic)=0_1
+          cycle
+        endif
+        xx=dble(BdmScaledCoordinate(BdmPMX(ic),Xscale))
+        yy=dble(BdmScaledCoordinate(BdmPMY(ic),Xscale))
+        zz=dble(BdmScaledCoordinate(BdmPMZ(ic),Xscale))
+      else
+        xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
+      endif
       if(.not.all(ieee_is_finite([xx,yy,zz])).or.min(xx,yy,zz)<0.d0.or.max(xx,yy,zz)>=box64)then
         invalid=.true.
         imageCounts(ic)=0_1
@@ -2225,6 +2355,7 @@ SUBROUTINE AddBuffer
     enddo
     blockEnd(block)=localImages
   enddo
+  if(nonfinite)error stop 'Non-finite simulation particle supplied to BDM'
   if(invalid)error stop 'BDM original analysis coordinates must lie in [0,Box)'
   blockEnd(0)=originalCount
   ! Prefix only the block totals. Independent blocks retain original row order
@@ -2240,14 +2371,25 @@ SUBROUTINE AddBuffer
   allocate(OriginalParticleId(iPartMax))
   memoryUsed=Memory(8_8*iPartMax) ! six float32 fields and one int64 identity
 !$OMP PARALLEL DO DEFAULT(SHARED) SCHEDULE(STATIC) &
-!$OMP PRIVATE(block,ic,first,last,ip,expectedEnd,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,i,j,k)
+!$OMP PRIVATE(block,ic,first,last,ip,expectedEnd,x4,y4,z4,vx4,vy4,vz4,xx,yy,zz,ilo,ihi,jlo,jhi,klo,khi,i,j,k)
   do block=1,blockCount
     first=(block-1_8)*blockRows+1_8; last=min(first+blockRows-1_8,originalCount)
     ip=blockEnd(block-1_8)
     do ic=first,last
-      xx=dble(Xpar(ic)); yy=dble(Ypar(ic)); zz=dble(Zpar(ic))
-      Xbb(ic)=Xpar(ic); Ybb(ic)=Ypar(ic); Zbb(ic)=Zpar(ic)
-      VXbb(ic)=VX(ic); VYbb(ic)=VY(ic); VZbb(ic)=VZ(ic)
+      if(fromRetained)then
+        x4=BdmScaledCoordinate(BdmPMX(ic),Xscale)
+        y4=BdmScaledCoordinate(BdmPMY(ic),Xscale)
+        z4=BdmScaledCoordinate(BdmPMZ(ic),Xscale)
+        vx4=BdmScaledVelocity(BdmPMVX(ic),Vscale)
+        vy4=BdmScaledVelocity(BdmPMVY(ic),Vscale)
+        vz4=BdmScaledVelocity(BdmPMVZ(ic),Vscale)
+      else
+        x4=Xpar(ic); y4=Ypar(ic); z4=Zpar(ic)
+        vx4=VX(ic); vy4=VY(ic); vz4=VZ(ic)
+      endif
+      xx=dble(x4); yy=dble(y4); zz=dble(z4)
+      Xbb(ic)=x4; Ybb(ic)=y4; Zbb(ic)=z4
+      VXbb(ic)=vx4; VYbb(ic)=vy4; VZbb(ic)=vz4
       OriginalParticleId(ic)=ic
       expectedEnd=ip+int(imageCounts(ic),8)
       ilo=ceiling((-width64-xx)/box64); ihi=floor((box64+width64-xx)/box64)
@@ -2259,7 +2401,7 @@ SUBROUTINE AddBuffer
         if(i==0.and.j==0.and.k==0)cycle
         ip=ip+1_8
         Xbb(ip)=real(xx+dble(i)*box64); Ybb(ip)=real(yy+dble(j)*box64); Zbb(ip)=real(zz+dble(k)*box64)
-        VXbb(ip)=VX(ic); VYbb(ip)=VY(ic); VZbb(ip)=VZ(ic)
+        VXbb(ip)=vx4; VYbb(ip)=vy4; VZbb(ip)=vz4
         OriginalParticleId(ip)=ic
       enddo
       enddo
@@ -2270,8 +2412,10 @@ SUBROUTINE AddBuffer
   enddo
   deallocate(imageCounts,blockEnd)
   memoryUsed=Memory(-scratchWords)
-  deallocate(Xpar,Ypar,Zpar,VX,VY,VZ)
-  memoryUsed=Memory(-6_8*originalCount)
+  if(.not.fromRetained)then
+    deallocate(Xpar,Ypar,Zpar,VX,VY,VZ)
+    memoryUsed=Memory(-6_8*originalCount)
+  endif
   call move_alloc(Xbb,Xpar); call move_alloc(Ybb,Ypar); call move_alloc(Zbb,Zpar)
   call move_alloc(VXbb,VX); call move_alloc(VYbb,VY); call move_alloc(VZbb,VZ)
   Np=iPartMax; Nparticles=Np

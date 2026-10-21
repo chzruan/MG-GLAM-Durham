@@ -136,8 +136,7 @@ subroutine Initialize(Path)
     IF (MG_flag .EQ. 1) THEN
         myMemory = Memory(1_8*NGRID*NGRID*NGRID)
         Allocate (FI2(NGRID, NGRID, NGRID))                              ! Allocate scalar field array FI2
-        myMemory = Memory(1_8*NGRID*NGRID*NGRID)
-        Allocate (FI3(NGRID, NGRID, NGRID))                              ! Allocate scalar field array FI3
+        CALL MG_scratch_ensure                                           ! MG scratch: per-level arrays MGL for f(R), FI3 otherwise
     END IF
     write (*, *) ASTEP0, AEXPN0
     StepFactor = ASTEP0/AEXPN0
