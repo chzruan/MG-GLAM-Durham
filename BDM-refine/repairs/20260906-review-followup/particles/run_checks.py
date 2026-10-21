@@ -59,6 +59,11 @@ contains
              "SizeList", "BdmParticlePosition"]
     generated = structures + "\n" + stub + "\n".join(extract(source, name) for name in names)
     generated += "\n" + extract(source, "BdmParticleCoordinate", "function")
+    if re.search(r"subroutine\s+RetainParticles\b", source, re.I):   # since 2026-10-21 (memory cuts); absent in the baseline
+        generated += "\n" + extract(source, "RetainParticles")
+    for name in ("BdmScaledCoordinate", "BdmScaledVelocity"):
+        if re.search(rf"function\s+{name}\b", source, re.I):
+            generated += "\n" + extract(source, name, "function")
     generated += "\nend module\n" + (HERE / "cases.f90").read_text()
     (work / "cases.f90").write_text(generated)
     if compiler == "gfortran":

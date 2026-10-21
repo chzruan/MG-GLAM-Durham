@@ -49,10 +49,13 @@ use Structures
 use Tools
 contains
 '''
-    names = ['FindDistinctCandidates', 'List', 'Limits', 'RescaleCoords',
+    names = ['FindDistinctCandidates', 'List', 'Limits', 'RescaleCoords', 'RetainParticles',
              'AddBuffer', 'RemoveBuffer', 'PrepareParticleSearch', 'SizeList', 'BdmParticlePosition']
     generated = structures + '\n' + stub + '\n'.join(extract(source, name) for name in names)
     generated += '\n' + extract(source, 'BdmParticleCoordinate', 'function')
+    for name in ('BdmScaledCoordinate', 'BdmScaledVelocity'):   # since 2026-10-21 (memory cuts)
+        if re.search(rf'function\s+{name}\b', source, re.I):
+            generated += '\n' + extract(source, name, 'function')
     generated += '\nend module\n' + (HERE/'particles_cases.f90').read_text()
     (destination/'particle_cases.f90').write_text(generated)
     flags = ['-O0', '-g', '-fcheck=all', '-ffpe-trap=invalid,zero,overflow'] if mode == 'checked' else ['-O3']

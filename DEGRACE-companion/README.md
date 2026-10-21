@@ -110,3 +110,9 @@ IC files, so the low-k ratio is mode-exact (no cosmic variance).
 - Particle IDs: `ic2pm` places each particle at array index = Gadget ID and
   tags the lattice order in the PM header (`IDz` for Baojiu's 2LPTic files,
   `IDx` for our FML generator); see the `lattice` key of `Subsample.*.meta`.
+
+Note (2026-10-21, MG-GLAM branch `memory-cuts-20261021`): the finder's memory admission limit
+`MaxMemory` now defaults to the job's memory (`--mem`, via SLURM_MEM_PER_NODE) or the node's MemTotal
+instead of 500 GiB, so the pilots' `--mem=200G/400G` become their limits (their counted memory is far
+below). `gen_inputs.py --bdm-max-memory GIB` writes an explicit value for builds between 2026-09-06
+and 2026-10-20, which default to 500 GiB.

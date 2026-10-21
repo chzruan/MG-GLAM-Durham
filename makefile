@@ -32,7 +32,7 @@ LDFLAGS_BITMATCH = -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmode
 #FFLAGS = -O3  -mp  -byteswapio -mcmodel=medium -Mlarge_arrays -Mnoframe -Munroll -Knoieee
 #LDFLAGS = -O3  -mp   -byteswapio -mcmodel=medium -Mlarge_arrays -Mnoframe -Munroll -Knoieee
 
-OBJ = PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o  PMP2extradof.o  PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o
+OBJ = PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o glam_kmp_alloc.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o  PMP2extradof.o  PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o
 
 PMP2main: $(OBJ)  PMP2main.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
@@ -46,15 +46,19 @@ PMP2BDM: $(OBJ) PMP2bdm.o
 glam_hash.o: glam_hash.c
 	$(CC) $(CFLAGS) -c $<
 
+# Fortran ALLOCATE through glibc malloc instead of libiomp5's caching allocator (memory audit 2026-10-21, cut 1).
+glam_kmp_alloc.o: glam_kmp_alloc.c
+	$(CC) $(CFLAGS) -c $<
+
 PMP2linker.o: PMP2linker.f90 PMP2mod_tools.o PMP2mod_density.o PMP2mod_extras.o
 	$(FC) $(BDM_FFLAGS) $(BDM_PRECISE_FLAGS) -w -c $<
 
 # Gadget-2 -> MG-GLAM PM converter (reuses Tools/WriteDataPM).
-gadget2pm: PMP2mod_tools.o gadget2pm.o
+gadget2pm: PMP2mod_tools.o glam_kmp_alloc.o gadget2pm.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
 
 # 2LPTic (Gadget format-1) IC -> MG-GLAM PM (reuses Tools::ReadSetup + WriteDataPM).
-ic2pm: PMP2mod_tools.o ic2pm.o
+ic2pm: PMP2mod_tools.o glam_kmp_alloc.o ic2pm.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
 
 # Build PMP2main with pre-Pass-4 FP-equivalent flags for the Task A race test.
@@ -84,15 +88,15 @@ PMP2main-bitmatch:
 
 PMP2analyze: $(OBJ)  PMP2analyze.o                 
 	$(FC) $(LDFLAGS) -o $@.exe $^                
-PMP2spectrum: PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o PMP2mod_power.o PMP2mod_analyze.o  PMP2spectrum.o                 
+PMP2spectrum: PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o glam_kmp_alloc.o PMP2mod_power.o PMP2mod_analyze.o  PMP2spectrum.o                 
 	$(FC) $(LDFLAGS) -o $@.exe $^                
-PMP2init: PMP2init.o
+PMP2init: PMP2init.o glam_kmp_alloc.o
 	$(FC) $(LDFLAGS)  -o $@.exe $^
-PMP2start: PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_power.o PMP2start.o
+PMP2start: PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_power.o glam_kmp_alloc.o PMP2start.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
-PMP2correlation: PMP2mod_tools.o  PMP2mod_random.o PMP2correlation.o
+PMP2correlation: PMP2mod_tools.o  PMP2mod_random.o glam_kmp_alloc.o PMP2correlation.o
 	$(FC) $(LDFLAGS) -o $@.exe  $^
-PMP2density: PMP2mod_tools.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2density.o
+PMP2density: PMP2mod_tools.o PMP2MG_subroutines.o PMP2mod_MGbackground.o glam_kmp_alloc.o PMP2density.o
 	$(FC) $(LDFLAGS) -o $@.exe $^
 PMP2startMPI.o: PMP2startMPI.f90
 	$(FMPI) $(MPIFLAGS) -c PMP2startMPI.f90 
@@ -104,7 +108,7 @@ PMP2mainMPI: $(OBJ) PMP2mainMPI.o
 	$(FMPI) $(MPIFLAGS)  -o $@.exe $^
 
 # Compile MG program
-PMP2MG: PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o  PMP2extradof.o PMP2main.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o 
+PMP2MG: PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o glam_kmp_alloc.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o  PMP2extradof.o PMP2main.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o 
 	$(FC) $(LDFLAGS) -o $@.exe $^
 
 .f.o: 
@@ -114,6 +118,19 @@ PMP2MG: PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mo
 
 .f90.o:
 	$(FC) $(FFLAGS) -w -c $<
+
+# The Fortran runtime must import no allocator entry point beyond the set glam_kmp_alloc.c covers
+# or knows about (memory audit 2026-10-21, cut 1): a newer libifcoremt that allocates through another
+# name would split allocate/free between glibc and libiomp5. Run after a build: make check-alloc-imports
+KNOWN_RT_ALLOC_IMPORTS = kmp_aligned_malloc kmp_realloc kmp_free __kmpc_aligned_alloc __kmpc_alloc __kmpc_free kmpc_sharable_malloc kmpc_sharable_free _mm_malloc _mm_free
+check-alloc-imports: PMP2main.exe
+	@lib=$$(ldd PMP2main.exe | awk '/libifcoremt/{print $$3}'); echo "libifcoremt: $$lib"; \
+	 imports=$$(readelf -W --dyn-syms "$$lib" | awk '$$7=="UND" && $$8 ~ /kmp.*(alloc|free)|_mm_malloc|_mm_free|scalable|omp_alloc|omp_free/ {print $$8}' | sed 's/@.*//'); \
+	 bad=""; for s in $$imports; do case " $(KNOWN_RT_ALLOC_IMPORTS) " in *" $$s "*) ;; *) bad="$$bad $$s";; esac; done; \
+	 if [ -n "$$bad" ]; then echo "UNKNOWN allocator imports in libifcoremt:$$bad -- extend glam_kmp_alloc.c before using this runtime"; exit 1; \
+	 else echo "allocator imports of libifcoremt all known: $$(echo $$imports | tr '\n' ' ')"; fi
+	@nm -D PMP2main.exe | awk '$$2=="T" && ($$3=="kmp_aligned_malloc"||$$3=="kmp_free"||$$3=="kmp_realloc"||$$3=="kmp_malloc"||$$3=="kmp_calloc")' | wc -l | \
+	 awk '{ if ($$1==5) print "PMP2main.exe defines the five kmp_* entry points"; else { print "PMP2main.exe lacks kmp_* definitions"; exit 1 } }'
 
 clean:
 	rm -f *.o *.exe *.mod

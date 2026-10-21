@@ -54,8 +54,24 @@ Module Tools
       Integer*4 :: iStep,Nrealization,Nseed
       Real*4, Allocatable, Dimension(:,:,:), target :: FI       ! Baojiu: single precision
       Real*4, Allocatable, Dimension(:,:,:), target :: FI2      ! MG array FI2: single precision
-      Real*4, Allocatable, Dimension(:,:,:), target :: FI3      ! MG array FI3: single precision
+      Real*4, Allocatable, Dimension(:,:,:), target :: FI3      ! MG array FI3: single precision (MG_model /= 1)
       integer :: levelmax,levelmin                              ! global vars
+      ! f(R) multigrid scratch (MG_model = 1): one set of coarse arrays per level
+      ! instead of sections of the full-grid FI3 (docs/memory-audit-20261021.md,
+      ! cut 2). Level l has n = NGRID/2**l cells per side. The six fields are the
+      ! six sections of the old FI3 layout, same contents, same arithmetic:
+      !   res    restricted residual from the finer level          (old section 1)
+      !   rho    restricted density                                 (old section 2)
+      !   ucopy  restricted scalar field, kept for the prolongation (old section 3)
+      !   u      working scalar field on this level                 (old section 4)
+      !   rhs    physical right-hand side                           (old section 5)
+      !   lres   residual on this level, input of the next restriction (old section 6)
+      ! The fine-level residual is no longer stored: nothing read it. Memory:
+      ! 6/7 of a full grid instead of one full grid (-36.6 GiB at Ng = 4096).
+      type MGLevelArrays
+         Real*4, Allocatable, Dimension(:,:,:) :: res, rho, ucopy, u, rhs, lres
+      end type MGLevelArrays
+      type(MGLevelArrays), Allocatable, Dimension(:), target :: MGL      ! MGL(1:levelmax-levelmin)
       Complex*8, Allocatable, Dimension(:,:,:), target :: FIC
       Real*4, allocatable,  Dimension(:) ::  Xb,Yb,Zb,VXb,Vyb,Vzb
       Real*4, allocatable,  Dimension(:) ::  XPAR,YPAR,ZPAR,VX,VY,VZ
@@ -605,11 +621,16 @@ Real*4 Function Memory(i_add)
 !--------------------------------------------
 subroutine MG_scratch_release
 !--------------------------------------------
-!   Release the MG multigrid scratch FI3 around Analysis / WriteDataPM.
-!   FI3 content does not persist across timesteps — the MG solve rewrites
-!   it before reading. FI2 is deliberately kept (cross-step initial guess).
+!   Release the MG multigrid scratch around Analysis / WriteDataPM: the
+!   per-level arrays MGL for f(R), FI3 for the other models. Its content
+!   does not persist across timesteps — the MG solve rewrites it before
+!   reading. FI2 is deliberately kept (cross-step initial guess).
     Real*4    :: myMemory
     if (MG_flag /= 1) return
+    if (MG_model == 1) then
+        call MG_levels_release
+        return
+    end if
     if (allocated(FI3)) then
         myMemory = Memory(-1_8*NGRID*NGRID*NGRID)
         deallocate(FI3)
@@ -620,10 +641,87 @@ subroutine MG_scratch_ensure
 !--------------------------------------------
     Real*4    :: myMemory
     if (MG_flag /= 1) return
+    if (MG_model == 1) then
+        call MG_levels_allocate
+        return
+    end if
     if (.not. allocated(FI3)) then
         myMemory = Memory(1_8*NGRID*NGRID*NGRID)
         allocate(FI3(NGRID,NGRID,NGRID))
     end if
 end subroutine MG_scratch_ensure
+!--------------------------------------------
+subroutine MG_set_level_bounds
+!--------------------------------------------
+!   levelmax: 2**levelmax >= NGRID. levelmin: one level above the odd part
+!   of NGRID (Baojiu 2025-12-17). The coarse levels of the V-cycle are
+!   ilevel = 1 .. levelmax-levelmin (ilevel = 0 is the PM grid).
+    integer :: ngridmax
+    levelmax = 0
+    DO WHILE (2**levelmax .LT. NGRID)
+       levelmax = levelmax + 1
+    END DO
+    ngridmax = NGRID
+    DO WHILE (MOD(ngridmax,2) .EQ. 0)
+       ngridmax = ngridmax/2
+    END DO
+    levelmin = 0
+    DO WHILE (2**levelmin .LT. ngridmax)
+       levelmin = levelmin + 1
+    END DO
+    levelmin = levelmin + 1
+end subroutine MG_set_level_bounds
+!--------------------------------------------
+subroutine MG_levels_allocate
+!--------------------------------------------
+!   Allocate the per-level f(R) scratch. Every field is written before it is
+!   read in each V-, F- or W-cycle, so the contents need no initialisation;
+!   like the former FI3 (zeroed once in initialise_extradof, re-allocated bare
+!   after each output) the arrays are zeroed in parallel at the first
+!   allocation only, which also gives them a first touch.
+    integer   :: l, n, nlev, M1, M2, M3
+    integer*8 :: words
+    Real*4    :: myMemory
+    logical, save :: zeroed = .false.
+    if (allocated(MGL)) return
+    call MG_set_level_bounds
+    nlev = max(levelmax - levelmin, 0)
+    allocate(MGL(nlev))                   ! nlev = 0 (tiny grids): PM-grid relaxation only, as before
+    words = 0
+    do l = 1, nlev
+       n = NGRID/2**l
+       allocate(MGL(l)%res(n,n,n), MGL(l)%rho(n,n,n), MGL(l)%ucopy(n,n,n), &
+                MGL(l)%u(n,n,n), MGL(l)%rhs(n,n,n), MGL(l)%lres(n,n,n))
+       words = words + 6_8*int(n,8)**3
+       if (.not. zeroed) then
+!$OMP PARALLEL DO COLLAPSE(2) SCHEDULE(STATIC) DEFAULT(SHARED) PRIVATE(M1,M2,M3)
+          do M3 = 1, n
+             do M2 = 1, n
+                do M1 = 1, n
+                   MGL(l)%res(M1,M2,M3) = 0.; MGL(l)%rho(M1,M2,M3) = 0.; MGL(l)%ucopy(M1,M2,M3) = 0.
+                   MGL(l)%u(M1,M2,M3) = 0.;   MGL(l)%rhs(M1,M2,M3) = 0.; MGL(l)%lres(M1,M2,M3) = 0.
+                end do
+             end do
+          end do
+       end if
+    end do
+    zeroed = .true.
+    myMemory = Memory(words)              ! 6/7 of a grid at most, one counter line per allocation
+end subroutine MG_levels_allocate
+!--------------------------------------------
+subroutine MG_levels_release
+!--------------------------------------------
+    integer   :: l, n
+    integer*8 :: words
+    Real*4    :: myMemory
+    if (.not. allocated(MGL)) return
+    words = 0
+    do l = 1, size(MGL)
+       n = size(MGL(l)%u, 1)
+       words = words + 6_8*int(n,8)**3
+    end do
+    myMemory = Memory(-words)
+    deallocate(MGL)                       ! releases every component
+end subroutine MG_levels_release
 
 end Module Tools
