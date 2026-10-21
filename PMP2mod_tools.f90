@@ -674,39 +674,53 @@ end subroutine MG_set_level_bounds
 !--------------------------------------------
 subroutine MG_levels_allocate
 !--------------------------------------------
-!   Allocate the per-level f(R) scratch and zero it in parallel (first touch).
+!   Allocate the per-level f(R) scratch. Every field is written before it is
+!   read in each V-, F- or W-cycle, so the contents need no initialisation;
+!   like the former FI3 (zeroed once in initialise_extradof, re-allocated bare
+!   after each output) the arrays are zeroed in parallel at the first
+!   allocation only, which also gives them a first touch.
     integer   :: l, n, nlev, M1, M2, M3
+    integer*8 :: words
     Real*4    :: myMemory
+    logical, save :: zeroed = .false.
     if (allocated(MGL)) return
     call MG_set_level_bounds
     nlev = max(levelmax - levelmin, 0)
     allocate(MGL(nlev))                   ! nlev = 0 (tiny grids): PM-grid relaxation only, as before
+    words = 0
     do l = 1, nlev
        n = NGRID/2**l
        allocate(MGL(l)%res(n,n,n), MGL(l)%rho(n,n,n), MGL(l)%ucopy(n,n,n), &
                 MGL(l)%u(n,n,n), MGL(l)%rhs(n,n,n), MGL(l)%lres(n,n,n))
-       myMemory = Memory(6_8*int(n,8)**3)
+       words = words + 6_8*int(n,8)**3
+       if (.not. zeroed) then
 !$OMP PARALLEL DO COLLAPSE(2) SCHEDULE(STATIC) DEFAULT(SHARED) PRIVATE(M1,M2,M3)
-       do M3 = 1, n
-          do M2 = 1, n
-             do M1 = 1, n
-                MGL(l)%res(M1,M2,M3) = 0.; MGL(l)%rho(M1,M2,M3) = 0.; MGL(l)%ucopy(M1,M2,M3) = 0.
-                MGL(l)%u(M1,M2,M3) = 0.;   MGL(l)%rhs(M1,M2,M3) = 0.; MGL(l)%lres(M1,M2,M3) = 0.
+          do M3 = 1, n
+             do M2 = 1, n
+                do M1 = 1, n
+                   MGL(l)%res(M1,M2,M3) = 0.; MGL(l)%rho(M1,M2,M3) = 0.; MGL(l)%ucopy(M1,M2,M3) = 0.
+                   MGL(l)%u(M1,M2,M3) = 0.;   MGL(l)%rhs(M1,M2,M3) = 0.; MGL(l)%lres(M1,M2,M3) = 0.
+                end do
              end do
           end do
-       end do
+       end if
     end do
+    zeroed = .true.
+    myMemory = Memory(words)              ! 6/7 of a grid at most, one counter line per allocation
 end subroutine MG_levels_allocate
 !--------------------------------------------
 subroutine MG_levels_release
 !--------------------------------------------
     integer   :: l, n
+    integer*8 :: words
     Real*4    :: myMemory
     if (.not. allocated(MGL)) return
+    words = 0
     do l = 1, size(MGL)
        n = size(MGL(l)%u, 1)
-       myMemory = Memory(-6_8*int(n,8)**3)
+       words = words + 6_8*int(n,8)**3
     end do
+    myMemory = Memory(-words)
     deallocate(MGL)                       ! releases every component
 end subroutine MG_levels_release
 

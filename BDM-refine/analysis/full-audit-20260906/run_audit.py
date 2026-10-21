@@ -65,13 +65,14 @@ contains
 '''
     names = ['FindMaxima', 'GetHalo', 'FindDistinctCandidates', 'RemoveDuplicates',
              'MergeNumericalDuplicates', 'List', 'ListMaxima', 'Limits', 'EigenValues',
-             'ReadParameters', 'SetParameters', 'RescaleCoords', 'AddBuffer', 'RemoveBuffer']
+             'ReadParameters', 'SetParameters', 'RescaleCoords', 'RetainParticles', 'AddBuffer', 'RemoveBuffer']
     routines = '\n'.join(extract(source, name) for name in names)
     tap = 'if(ee <= 0.)Ncount = Ncount +1'
     assert routines.count(tap) == 1
     routines = routines.replace(tap, 'if(ee <= 0.) AuditMembers(jp,ip)=.true.\n' + tap)
     routines += '\n' + '\n'.join(extract(source, name, 'function')
-                                 for name in ['OverdenVir','OverdenAbacus','Concentration'])
+                                 for name in ['OverdenVir','OverdenAbacus','Concentration',
+                                              'BdmScaledCoordinate','BdmScaledVelocity'])   # the last two since 2026-10-21
     generated = '\n'.join(modules) + '\n' + stub + routines + '\nend module\n'
     path = destination/'source_cases.f90'
     path.write_text(generated + (ROOT/'audit_cases.f90').read_text())

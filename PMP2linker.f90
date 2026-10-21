@@ -76,6 +76,7 @@ Integer*8 ::         Np                                          ! Number of par
 Real*4, allocatable :: BdmPMX(:),BdmPMY(:),BdmPMZ(:),BdmPMVX(:),BdmPMVY(:),BdmPMVZ(:)
 Integer*8 :: BdmPMCount=0_8
 Logical   :: MaxMemoryFromConfig=.false.   ! BDM.config set MaxMemory (else DefaultMaxMemory: job or node memory)
+Character(40) :: MaxMemorySource='compiled default (500 GiB)'   ! where the default admission limit came from
 Integer*8, allocatable :: OriginalParticleId(:) ! snapshot row; shared by periodic images
 Real*4 :: HaloSearchRadius=0.,ParticleSearchRadius=0. ! maximum SO / aperture radii
                      ! -------------------------  Maxima ----------------------
@@ -272,12 +273,12 @@ Contains
       integer   :: unit,io,length,status,cpus
       integer*8 :: kib
       real*8    :: mib
-      DefaultMaxMemory=500.
+      DefaultMaxMemory=500.; MaxMemorySource='compiled default (500 GiB)'
       call get_environment_variable('SLURM_MEM_PER_NODE',value,length,status)
       if (status == 0.and.length > 0) then
          read(value,*,iostat=io) mib
          if (io == 0.and.mib > 0.d0) then
-            DefaultMaxMemory=real(mib/1024.d0)
+            DefaultMaxMemory=real(mib/1024.d0); MaxMemorySource='job memory, SLURM_MEM_PER_NODE'
             return
          end if
       end if
@@ -290,7 +291,7 @@ Contains
             if (status == 0.and.length > 0) then
                read(value,*,iostat=io) cpus
                if (io == 0.and.cpus > 0) then
-                  DefaultMaxMemory=real(mib*dble(cpus)/1024.d0)
+                  DefaultMaxMemory=real(mib*dble(cpus)/1024.d0); MaxMemorySource='job memory, SLURM_MEM_PER_CPU x CPUs'
                   return
                end if
             end if
@@ -303,7 +304,9 @@ Contains
          if (io /= 0) exit
          if (line(1:9) == 'MemTotal:') then
             read(line(10:),*,iostat=io) kib
-            if (io == 0.and.kib > 0_8) DefaultMaxMemory=real(dble(kib)/1024.d0**2)
+            if (io == 0.and.kib > 0_8) then
+               DefaultMaxMemory=real(dble(kib)/1024.d0**2); MaxMemorySource='node memory, /proc/meminfo MemTotal'
+            end if
             exit
          end if
       end do
@@ -311,25 +314,20 @@ Contains
       END FUNCTION DefaultMaxMemory
 
       SUBROUTINE TrimHeap
-      ! Return the finder's freed heap memory to the kernel. The per-maximum
-      ! temporaries of GetHalo (rows, radii, potential, ids) are allocated
-      ! inside OpenMP loops, i.e. in per-thread glibc arenas; what they free
-      ! stays mapped, and resident under transparent huge pages, until
-      ! malloc_trim walks the arenas. Without this call every catalogue left
-      ! 41-47 MB per thread resident through all later force steps (~7 GiB at
-      ! 128 threads; cut 1 of docs/memory-audit-20261021.md). No numerical
-      ! effect. glibc extension; the interface is the C prototype.
-      use, intrinsic :: iso_c_binding, only: c_int,c_size_t
+      ! Return the finder's freed memory to the kernel (glam_trim_heap in
+      ! glam_kmp_alloc.c: glibc malloc_trim(0), a no-op elsewhere). Needed
+      ! together with glam_kmp_alloc.c, which routes Fortran ALLOCATE to glibc:
+      ! until 2026-10-21 the allocations went to libiomp5's caching allocator,
+      ! which kept the finder's freed temporaries (41-47 MB per thread) resident
+      ! through every later force step and ignores malloc_trim; see cut 1 of
+      ! docs/memory-audit-20261021.md. Called by the master thread after the
+      ! parallel regions, when the workers hold nothing. No numerical effect.
       implicit none
       interface
-         function malloc_trim(pad) bind(C,name='malloc_trim') result(released)
-            import :: c_int,c_size_t
-            integer(c_size_t), value :: pad
-            integer(c_int) :: released
-         end function malloc_trim
+         subroutine glam_trim_heap() bind(C,name='glam_trim_heap')
+         end subroutine glam_trim_heap
       end interface
-      integer(c_int) :: released
-      released=malloc_trim(0_c_size_t)
+      call glam_trim_heap()
       END SUBROUTINE TrimHeap
 
 !----------------------------------------------------------
@@ -433,8 +431,9 @@ Contains
       else
          write(*,'(a)') ' BDM.config absent: the finder writes its defaults (CatalogueFormat = binary) at the first catalogue step'
       end if
-      if (.not.MaxMemoryFromConfig) write(*,'(a,f9.1,a)') &
-         ' BDM MaxMemory not configured: admission limit = ',MaxMemory,' GiB (the job''s or the node''s memory)'
+      if (.not.MaxMemoryFromConfig) write(*,'(a,f9.1,3a)') &
+         ' BDM MaxMemory not configured: admission limit = ',MaxMemory,' GiB (',trim(MaxMemorySource), &
+         '); the finder counts its nominal arrays only, not runtime overheads'
       end SUBROUTINE CheckBdmConfig
 
 
@@ -1850,8 +1849,11 @@ SUBROUTINE SizeList
   requiredGiB=dble(listBytes)/1024.d0**3
   ! Exact int64 storage estimate. Do not coarsen physical Cell to satisfy an
   ! unrelated allocation estimate; reject insufficient memory explicitly.
-  if(requiredGiB+dble(Memory(0_8))>dble(MaxMemory)) &
+  if(requiredGiB+dble(Memory(0_8))>dble(MaxMemory))then
+    write(*,'(a,f10.3,a,f10.3,a,f10.1,3a)') ' BDM linked lists need ',requiredGiB,' GiB on top of ', &
+      dble(Memory(0_8)),' GiB counted; MaxMemory = ',MaxMemory,' GiB (',trim(MaxMemorySource),')'
     error stop 'BDM linked-list allocation exceeds configured memory limit'
+  endif
   write(13,'(a,g12.3,a,6i6,a,f10.4)') ' Size List: Cell=',Cell, &
        ' Limits=',Nmx,Nbx,Nmy,Nby,Nmz,Nbz,' int64 storage GiB=',requiredGiB
 end SUBROUTINE SizeList
@@ -1898,8 +1900,11 @@ SUBROUTINE List
     compactZ=Nmz>=-int(huge(0_2),4)-1.and.Nbz<=int(huge(0_2),4)
     cacheWords=Np
     if(compactZ)cacheWords=Np/2_8+mod(Np,2_8)
-    if(4.d0*dble(cacheWords)/1024.d0**3+dble(Memory(0_8))>dble(MaxMemory)) &
+    if(4.d0*dble(cacheWords)/1024.d0**3+dble(Memory(0_8))>dble(MaxMemory))then
+      write(*,'(a,f10.3,a,f10.3,a,f10.1,3a)') ' BDM z-cell cache needs ',4.d0*dble(cacheWords)/1024.d0**3, &
+        ' GiB on top of ',dble(Memory(0_8)),' GiB counted; MaxMemory = ',MaxMemory,' GiB (',trim(MaxMemorySource),')'
       error stop 'BDM z-cell cache exceeds configured memory limit'
+    endif
     if(compactZ)then
       allocate(zCell16(Np))
     else
