@@ -382,19 +382,78 @@ OpenMP overheads measured at L256 are below 0.1 GiB); output step 724.6 at
 AddBuffer and ~866-881 in the list / ParametersDistinct phase (unchanged by
 the cuts, per-halo bound ids included); checkpoint 704. The run's peak is the
 force step, 82 GiB below the node, against 960 + 7-24 before the cuts. The
-production-size test (~2300 core-h) has not been run.
+production-size test ran on 2026-10-22 (below): force step 923.5 before the
+first catalogue, 928.7 at most after it; output steps 882.9 at most.
 
 Not tested on this branch: the other gravity models (MG_model 2-5 keep the
 FI3 branches untouched but no run was made); restart from a checkpoint with
 the per-level arrays; the MPI programs (PMP2mainMPI, PMP2startMPI link the
-allocator object but were not built); the standalone finder PMP2BDM; f(R)
-with the glibc-allocator build at more than one thread (the 32-thread memory
-measurement is LCDM, the f(R) checks are single-thread tiny runs); 128
-threads; the `--mem-per-cpu` default; the production size. Open risks: the
+allocator object but were not built); the standalone finder PMP2BDM; the
+`--mem-per-cpu` default. (f(R) with the glibc-allocator build at 128 threads
+and the production size: job 12198748, below.) Open risks: the
 interposition relies on libifcoremt's weak references and a dynamic libiomp5
 of intel_comp/2024.2.0; a static Intel runtime or another toolchain restores
 the caching allocator (static linking fails loudly, another toolchain does
 not; `make check-alloc-imports` after every toolchain change).
+
+Production-size acceptance test (job 12198748, 2026-10-21 21:32 to 2026-10-22
+18:31, user approval 2026-10-21): DEGRACE-MGGLAM Run0,
+`DEGRACE-MGGLAM/L1024Np2048Ng4096/Planck2015_FR` (Planck 2015, Hu-Sawicki
+n = 1, fR0 = -1e-5, L = 1024, 2048^3, Ng = 4096, FML 2LPT ICs seed 2026 at
+z = 49 via ic2pm half, 184 steps, 42 exact outputs with lens planes, BDM
+binary catalogues and all extras at the 17 primaries, checkpoints every 50
+steps), cz 8cf349c, one cosma8 node (m8363), 128 threads. COMPLETED, rc 0,
+job 20 h 59 m (PMP2main 20 h 43 m). VmRSS sampled every 10 s
+(`Run0/rss.log`; `scripts/phase_rss.py`, `scripts/step_times.py`):
+
+| phase (GiB) | old build, nominal | new build, nominal | measured |
+|---|---|---|---|
+| force step, before the first catalogue | 960.0 | 923.4 | 923.5-923.6 |
+| force step, after the catalogues | 960 + residue | 923.4 | 926.6, 927.3, then 928.1-928.7 |
+| output entry + momentum grid (2048^3) | 736.0 | 736.0 | 736.3-741.3 |
+| finder AddBuffer | 916.6 | 724.6 | not resolved (seconds, 10 s sampling) |
+| finder lists / ParametersDistinct | ~866-881 | ~866-881 | 858.1 (z = 2) to 882.9 (z = 0) |
+| run peak, VmRSS (`time -v`) | 960 + 7-24 | 923.4 | 928.7 (928.6), 77.2 below the node |
+| sacct MaxRSS (cgroup, incl. page cache) | 985.3 / 992.3 (11448712, 11568006; 9 outputs) | | 965.9 (42 outputs) |
+
+- Products: `DEGRACE-companion/check_run.py <run> --box 0 --job 12198748`
+  0 FAIL, 0 WARN (output in `scratch/memory-cuts-20261021/check_run_12198748.txt`):
+  42 PowerDM, 42 lens-plane sets, 17 binary catalogues with deltam, mom,
+  Subsample and fR_halo; 75.9 GB in all; PMcrd/PMcrs deleted by the script.
+  5,134,711 haloes at z = 0 (the L256 pilot of the same resolution: 80,189,
+  i.e. 0.05 % fewer per volume); P(k) agrees with that pilot to 1 % (z = 0)
+  and 2-3 % (z = 1, 2) at k > 0.5 h/Mpc, the mass functions within Poisson
+  errors; fR_halo shows screening above 10^13.55 (z = 0) and 10^12.55
+  (z = 1) h^-1 Msun.
+- Residue: the force-step plateau rises by 3.0 GiB after the first
+  catalogue, 0.7 and 0.9 after the next two, then stays within +-0.3 GiB for
+  14 more; bounded at +5.1 GiB, 41 MiB per thread. The run's PMP2main.exe
+  exports the glibc shims (`nm -D`: kmp_aligned_malloc, kmp_malloc,
+  kmp_free, glam_trim_heap), so ALLOCATE did not go through the libiomp5
+  cache. 41 MiB per thread equals the per-thread figure of section 3 (41-48
+  MiB at L256 and node 2, measured with the old allocator), and the
+  glibc-allocator build showed no residue at L256 (LCDM, 32 threads). A
+  candidate is the per-thread glibc arenas (64 MiB heaps) grown by the
+  finder's per-halo temporaries, larger here because the big box has bigger
+  haloes. Not verified; tests without a rebuild:
+  `MALLOC_ARENA_MAX`, a fixed `MALLOC_MMAP_THRESHOLD_`, with the smaps
+  scripts on an L256 f(R) run at 128 threads. Harmless at this size.
+- Wall time: median force step 5.20 min (multigrid 590 of 1240 min in
+  timing.log), +1.44 min per output (P(k), lens planes, density recomputed),
+  +1.85 min (extras; momentum modes ~1.6) and +9.46 min (BDM;
+  ParametersDistinct 4.8-7.0) per primary, +5.1 min per checkpoint. Budget:
+  184 force steps 15.95 h, outputs 1.01, extras 0.52, catalogues 2.68,
+  checkpoints 0.26, first steps 0.26, read-in 0.06, ic2pm 0.26 = 20.98 h.
+  The acceptance criterion "within 5 % of 16 h 46 m" compared different
+  workloads: the old supplement jobs (11448712/3, 11474769, 11568006/11,
+  16.4-17.2 h) ran 157 steps from z = 100 with 9 catalogues and no extras;
+  at this run's unit costs that work takes 15.8 h, so the new build is not
+  slower (other cosmologies, PMP2start inside the old jobs, ~3 % node
+  spread). CPU efficiency 82 % (old 88 %), 2.69k core-h per box (2.65k
+  without checkpoints, the gen_inputs default since 10968e7).
+- Analysis scripts and figures: the local deck
+  `docs/slides/memory_cuts_production` (not committed; `scripts/extract_data.py`,
+  `scripts/make_figs.py`).
 
 How to re-run the verification (all under `scratch/memory-cuts-20261021`):
 `tiny_job.sh` (old vs new single-thread twins), `strict_job.sh` with
