@@ -419,7 +419,7 @@ job 20 h 59 m (PMP2main 20 h 43 m). VmRSS sampled every 10 s
 - Products: `DEGRACE-companion/check_run.py <run> --box 0 --job 12198748`
   0 FAIL, 0 WARN (output in `scratch/memory-cuts-20261021/check_run_12198748.txt`):
   42 PowerDM, 42 lens-plane sets, 17 binary catalogues with deltam, mom,
-  Subsample and fR_halo; 75.9 GB in all; PMcrd/PMcrs deleted by the script.
+  Subsample and fR_halo; 75.0 GB in all (69.0 GB on disk); PMcrd/PMcrs deleted by the script.
   5,134,711 haloes at z = 0 (the L256 pilot of the same resolution: 80,189,
   i.e. 0.05 % fewer per volume); P(k) agrees with that pilot to 1 % (z = 0)
   and 2-3 % (z = 1, 2) at k > 0.5 h/Mpc, the mass functions within Poisson
