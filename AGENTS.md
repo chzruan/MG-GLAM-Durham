@@ -98,7 +98,8 @@
   Then run `md5sum -c packed.md5` in each `Run<box>/` at the destination.
 - Cost for an L1024 Np2048 box (75 GB): pack 20 min, check 15-30 min, prune
   30 min, peak RSS 0.8 GB (sacct MaxRSS reports the 8 GB limit because it
-  counts page cache). The check needs free scratch equal to the box. An L256
+  counts page cache). The check needs free space equal to the box on the run's
+  file system (it unpacks into `pack-check-<job>` beside `Run<box>/`). An L256
   pilot takes 30-100 s (Lustre load varies) and may run on the login node (light tier).
 - Record the pack/prune job IDs, file counts and bytes in the campaign's
   provenance (e.g. the `DEGRACE-MGGLAM/README.md` row of the box).

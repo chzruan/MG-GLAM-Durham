@@ -15,6 +15,10 @@ Examples
   # new cosmology with its own CAMB z=0 spectrum
   python3 gen_inputs.py --cosmology 0.3089 0.6774 0.8159 --ombh2 0.02237 \
       --pk pofk_z0.dat --out runs/fid_box1
+  # your own output redshifts: full outputs at z = 1, 0.5, 0, stations at 0.75 and
+  # 0.25, realisation 0 (Run0/)
+  python3 gen_inputs.py --cosmology 0.3089 0.6774 0.8159 --pk pofk_z0.dat \
+      --redshifts 1.0 0.5 0.0 --stations 0.75 0.25 --run 0 --out runs/small
   # verification S2: regenerate every ECOSMOG list and the fiducial Slack list
   python3 gen_inputs.py --check
 
@@ -113,12 +117,13 @@ def is_primary(a: float) -> bool:
     return bool(np.any(np.isclose(a, 1.0 / (1.0 + PRIMARY_Z), rtol=0, atol=1e-9)))
 
 
-def init_dat(a: dict, epochs: np.ndarray) -> str:
+def init_dat(a: dict, epochs: np.ndarray, classes: list[int] | None = None) -> str:
+    """Init.dat text; ``classes`` (1 full, 2 station) per epoch of ``epochs[::-1]`` overrides ``a['classes']``."""
     z = 1.0 / epochs[::-1] - 1.0           # descending in z, i.e. ascending in a
     z[z < 1e-12] = 0.0
     lines = [" ".join(f"{v:10.7f}" for v in z[i:i + 6]) for i in range(0, len(z), 6)]
-    if a["classes"] == "primary":          # same order as the redshift list
-        cl = [1 if is_primary(e) else 2 for e in epochs[::-1]]
+    if classes is not None or a["classes"] == "primary":   # same order as the redshift list
+        cl = classes if classes is not None else [1 if is_primary(e) else 2 for e in epochs[::-1]]
         class_block = (f"Output classes            = {len(cl):9d}  0-all class 1; 1 full, 2 station per redshift\n"
                        + "\n".join(" ".join(f"{c:2d}" for c in cl[i:i + 20]) for i in range(0, len(cl), 20)) + "\n")
     else:
@@ -235,7 +240,15 @@ def main() -> int:
     ap.add_argument("--pk", type=Path, help="CAMB z=0 matter power (k/h, P) for new cosmologies")
     ap.add_argument("--fR0", type=float, default=None, help="f_R0 (negative) for a new f(R) cosmology")
     ap.add_argument("--gravity", choices=["lcdm", "fr"], default="lcdm")
-    ap.add_argument("--out", type=Path, help="run directory to create (holds Init.dat, PkTable.dat, Run1/)")
+    ap.add_argument("--out", type=Path, help="run directory to create (holds Init.dat, PkTable.dat, Run<N>/)")
+    ap.add_argument("--run", type=int, default=1, metavar="N",
+                    help="realisation (box) number N: BDM.config goes to Run<N>/, where the run writes its outputs "
+                         "(default 1; the DEGRACE-MGGLAM suite uses Run0 for seed 2026)")
+    ap.add_argument("--redshifts", type=float, nargs="+", metavar="Z",
+                    help="your own output redshifts, hit exactly, as full outputs (class 1: BDM haloes and extras); "
+                         "replaces the 42-output DEGRACE list")
+    ap.add_argument("--stations", type=float, nargs="+", metavar="Z", default=[],
+                    help="with --redshifts: further redshifts written as stations (class 2: lens planes and P(k) only)")
     ap.add_argument("--box", type=float, default=1024.0)
     ap.add_argument("--nrow", type=int, default=1024, help="particles per side (1024 for Baojiu's ICs)")
     ap.add_argument("--ngrid", type=int, default=2048)
@@ -278,6 +291,13 @@ def main() -> int:
         return check_lists()
     if not args.out:
         sys.exit("--out is required")
+    if args.stations and not args.redshifts:
+        sys.exit("--stations needs --redshifts")
+    if args.redshifts and args.classes == "primary":
+        sys.exit("--classes primary selects the DEGRACE primaries of the 42-output list; with --redshifts the classes "
+                 "follow --redshifts (full) and --stations")
+    if args.run < 0:
+        sys.exit("--run must be >= 0")
 
     prov = {"generator": "DEGRACE-companion/gen_inputs.py", "git_hash": git_hash()}
     if args.node:
@@ -305,6 +325,19 @@ def main() -> int:
         pkfile = args.pk
         prov.update(cosmology=dict(Omega_m=om, h=h, sigma8=sigma8, ombh2=args.ombh2, fR0=fr0),
                     epochs_source="computed: 17 primary z + 25 stations chi=256k Mpc/h, matter+Lambda")
+    classes = None
+    if args.redshifts:                           # your own list instead of the 42 DEGRACE epochs
+        full, stations = sorted(set(args.redshifts)), sorted(set(args.stations))
+        if min(full + stations) < 0:
+            sys.exit("output redshifts must be >= 0")
+        if set(full) & set(stations):
+            sys.exit(f"redshifts {sorted(set(full) & set(stations))} are given both as full outputs and as stations")
+        epochs = np.sort(1.0 / (1.0 + np.array(full + stations)))
+        full_a = 1.0 / (1.0 + np.array(full))
+        if stations:
+            classes = [1 if np.any(np.isclose(e, full_a, rtol=0, atol=1e-12)) else 2 for e in epochs[::-1]]
+        prov.update(epochs_source=f"--redshifts {full} --stations {stations}", full_redshifts=full,
+                    station_redshifts=stations)
     ombh2 = args.ombh2
     omch2 = om * h * h - ombh2                   # so that PMP2init's hubble = sqrt((ombh2+omch2)/Om) = h
     pk = read_pk(pkfile)
@@ -316,24 +349,36 @@ def main() -> int:
              subsample_m=args.subsample_m, fr_halos=1 if (args.fr_halos and args.gravity == "fr") else 0,
              catalogue_format=args.catalogue_format or "default (key not written: binary with a build from 2026-10-18 on, text before)",
              bdm_max_memory=args.bdm_max_memory or "default (key not written: job/node memory with memory cut 0, branch memory-cuts-20261021; 500 GiB with builds 2026-09-06..2026-10-20)")
+    if args.redshifts:
+        a["classes"] = "per output: --redshifts class 1, --stations class 2" if classes is not None else "all (--redshifts)"
     if args.lens_slabs and args.ngrid % args.lens_slabs:
         sys.exit("--lens-slabs must divide --ngrid")
     if args.lens_grid and args.ngrid % args.lens_grid:
         sys.exit("--lens-grid must divide --ngrid")
     if any(1.0 / e - 1.0 >= args.zinit for e in epochs):
         sys.exit("an output epoch is at or before z_init")
+    if len(epochs) > 1000:
+        sys.exit(f"{len(epochs)} outputs: PMP2main holds at most 1000")
+    z_written = np.round(1.0 / np.sort(epochs) - 1.0, 7)        # Init.dat keeps 7 decimals, PMP2main float32 epochs
+    if np.any(z_written >= args.zinit):
+        sys.exit("an output redshift rounds to z_init or above at the 7 decimals of Init.dat")
+    a32 = np.sort(np.float32(1.0 / (1.0 + z_written)))
+    if np.any(np.diff(a32) < 1e-6 * a32[1:]):                  # PMP2main's DUPTOL: closer targets are one epoch
+        sys.exit("two output redshifts coincide at the precision of Init.dat and PMP2main (float32 epochs)")
     if args.bdm_max_memory is not None and args.bdm_max_memory <= 0:
         sys.exit("--bdm-max-memory must be positive (GiB)")
     out = args.out
-    (out / "Run1" / "CATALOGS").mkdir(parents=True, exist_ok=True)   # BDM writes its catalogues and logs here
+    run_dir = f"Run{args.run}"
+    (out / run_dir / "CATALOGS").mkdir(parents=True, exist_ok=True)   # BDM writes its catalogues and logs here
     (out / "PkTable.dat").write_text(pktable(ombh2, omch2, om, sigma8, pk))
-    (out / "Init.dat").write_text(init_dat(a, epochs))
-    (out / "Run1" / "BDM.config").write_text(bdm_config(args.catalogue_format, args.bdm_max_memory))
-    prov.update(pk_file=str(pkfile), pk_md5=md5(pkfile), gravity=args.gravity, init=a,
+    (out / "Init.dat").write_text(init_dat(a, epochs, classes))
+    (out / run_dir / "BDM.config").write_text(bdm_config(args.catalogue_format, args.bdm_max_memory))
+    prov.update(pk_file=str(pkfile), pk_md5=md5(pkfile), gravity=args.gravity, init=a, run=args.run,
                 epochs=[float(e) for e in epochs], hubble_expected=h, omch2=omch2, ombh2=ombh2)
     (out / "inputs_provenance.json").write_text(json.dumps(prov, indent=1))
-    print(f"wrote {out}/PkTable.dat ({len(pk)} rows), Init.dat ({len(epochs)} exact outputs), "
-          f"Run1/BDM.config (CatalogueFormat {args.catalogue_format or 'not written: compiled default binary'}, "
+    n_cl = "" if classes is None else f": {classes.count(1)} full + {classes.count(2)} stations"
+    print(f"wrote {out}/PkTable.dat ({len(pk)} rows), Init.dat ({len(epochs)} exact outputs{n_cl}), "
+          f"{run_dir}/BDM.config (CatalogueFormat {args.catalogue_format or 'not written: compiled default binary'}, "
           f"MaxMemory {args.bdm_max_memory or 'not written: job/node memory with memory cut 0'}), inputs_provenance.json")
     print(f"  Om={om} h={h} sigma8={sigma8} gravity={args.gravity} fR0={fr0 if a['mg_flag'] else 'n/a'}; "
           f"Nrow={args.nrow} Ngrid={args.ngrid} z_init={args.zinit} da0={args.da}")

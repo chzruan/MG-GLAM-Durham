@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Verify a DEGRACE companion run directory (pilot or production box).
 
-usage: check_run.py <run_dir> [--node Node_002] [--aout docs/degrace_ecosmog/aout.json]
+usage: check_run.py <run_dir> [--box N] [--node Node_002] [--aout docs/degrace_ecosmog/aout.json]
                     [--planes all|sample] [--job JOBID]
 
-Checks: the 42-output schedule (exact flags, classes 17 + 25, epochs equal to
-float32(1/(1+z)) of Init.dat and to the pinned ECOSMOG list), PowerDM and
+Checks: the exact-redshift schedule (exact flags, output classes as Init.dat
+asks, epochs equal to float32(1/(1+z)) of Init.dat and, with --node/--aout, to
+the pinned ECOSMOG list; for the 42-output DEGRACE design also that the 17
+class-1 outputs are the primary redshifts), PowerDM and
 LensPlanes files for every output (sizes, meta epochs, plane means = 1),
 BDM catalogues at the class-1 outputs, the ic2pm velocity epoch, the
 timing.log breakdown (per-step cost, output overhead) and, with sacct,
@@ -26,9 +28,16 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('run'); ap.add_argument('--node', default=None); ap.add_argument('--aout', default=None)
     ap.add_argument('--planes', default='sample', choices=['all', 'sample']); ap.add_argument('--job', default=None)
-    ap.add_argument('--box', type=int, default=1)
+    ap.add_argument('--box', type=int, default=None, help='realisation N of Run<N>/ (default: the only Run<N> directory)')
     a = ap.parse_args()
-    run = a.run.rstrip('/'); R1 = os.path.join(run, 'Run%d' % a.box)
+    run = a.run.rstrip('/')
+    if a.box is None:
+        found = sorted(d for d in os.listdir(run) if re.match(r'^Run\d+$', d) and os.path.isdir(os.path.join(run, d)))
+        if len(found) != 1:
+            sys.exit('give --box: %s holds %s' % (run, found or 'no Run<N> directory'))
+        a.box, R1 = int(found[0][3:]), os.path.join(run, found[0])
+    else:
+        R1 = os.path.join(run, 'Run%d' % a.box)
     fails, warns = [], []
     def check(ok, msg):
         print(('PASS ' if ok else 'FAIL ') + msg)
@@ -47,6 +56,23 @@ def main():
     zs = zs[:abs(nout)]
     check(nout < 0 and len(zs) == abs(nout), 'Init.dat: #outputs = %d with %d redshifts (exact mode)' % (nout, len(zs)))
     a_req = sorted(f32(1.0 / (1.0 + z)) for z in zs)
+    # per-redshift output classes ('Output classes = n' then n values in the order of the redshifts; 0 = all class 1)
+    cls_init = [1] * len(zs)
+    ic = [i for i, l in enumerate(init) if l.startswith('Output classes')]
+    if ic and int(init[ic[0]].split('=')[1].split()[0]) > 0:
+        ncl, vals = int(init[ic[0]].split('=')[1].split()[0]), []
+        for l in init[ic[0] + 1:]:
+            try: vals += [int(v) for v in l.split()]
+            except ValueError: break
+            if len(vals) >= ncl: break
+        cls_init = vals[:ncl]
+    exp_cls = [c for _, c in sorted(zip([f32(1.0 / (1.0 + z)) for z in zs], cls_init))]
+    def init_int(key, default):
+        hit = [l for l in init if l.startswith(key) and '=' in l]
+        return int(hit[0].split('=')[1].split()[0]) if hit else default
+    lens_on = init_int('Lens slabs per axis', 1) > 0       # Init.dat without the key: planes expected, as before
+    bdm_on = init_int('Find BDM halos', 1) > 0
+    nexp = {c: exp_cls.count(c) for c in sorted(set(exp_cls))}
 
     # ---- OutputSchedule.dat
     fs = glamio.run_file(R1, 'OutputSchedule.dat', a.box)
@@ -65,14 +91,19 @@ def main():
           'schedule epochs equal float32(1/(1+z)) of the Init.dat list within 3 ulp (max rel diff %.1e)' %
           (max([abs(x - y) / y for x, y in zip(a_sch, a_req)] or [0])))
     ncls = {c: sum(1 for s in sched if s['cls'] == c) for c in sorted(set(s['cls'] for s in sched))}
-    check(ncls.get(1, 0) == 17 and ncls.get(2, 0) == 25, 'classes: %s (expected 17 primary + 25 stations)' % ncls)
+    check(len(exp_cls) == len(sched) and all(s['cls'] == c for s, c in zip(sched, exp_cls)),
+          'classes: %s (as Init.dat asks: %s)' % (ncls, nexp))
     if a.aout and a.node:
         ao = sorted(json.load(open(a.aout))[a.node])
         d = max(abs(x - y) / y for x, y in zip(a_sch, ao)) if len(ao) == len(a_sch) else 1
         check(len(ao) == len(a_sch) and d < 3e-7, 'schedule epochs match the pinned ECOSMOG %s list (%d values, max rel diff %.1e)' % (a.node, len(ao), d))
-    # primary redshifts sit on the 0.125 grid
+    # DEGRACE design (an ECOSMOG node, or 42 outputs holding the 17 primary redshifts 0, 0.125, ..., 2): 17 primary
+    # outputs + 25 stations, and the primaries on the 0.125 grid
     prim = [s for s in sched if s['cls'] == 1]
-    check(all(abs(round(s['z'] * 8) / 8 - s['z']) < 2e-6 for s in prim), 'class-1 outputs are the 17 primary redshifts (multiples of 0.125, 0..2)')
+    degrace = a.node is not None or (len(zs) == 42 and all(any(abs(z - k / 8) < 2e-6 for z in zs) for k in range(17)))
+    if degrace:
+        check(ncls.get(1, 0) == 17 and ncls.get(2, 0) == 25, 'DEGRACE design: %d primary outputs + %d stations (expected 17 + 25)' % (ncls.get(1, 0), ncls.get(2, 0)))
+        check(all(abs(round(s['z'] * 8) / 8 - s['z']) < 2e-6 for s in prim), 'class-1 outputs are the 17 primary redshifts (multiples of 0.125, 0..2)')
 
     # ---- per-output products
     npow = nlens = nmeta = ncat = ncatbin = 0; bad = []
@@ -122,8 +153,12 @@ def main():
             bad.append('missing catalogue at primary output %s (z = %.4f)' % (tag, s['z']))
     n = len(sched)
     check(npow == n, 'PowerDM.R files: %d of %d, epochs match' % (npow, n))
-    check(nlens == n and len(sizes) == 1, 'LensPlanes bin+meta: %d of %d, one size (%s bytes)' % (nlens, n, sizes))
-    check(ncat == ncls.get(1, 0), 'catalogues at primary outputs: %d of %d (%d with a binary .bin + .meta, checked: size = 96 x rows, meta a, text_catalogue, row counts)' % (ncat, ncls.get(1, 0), ncatbin))
+    if lens_on:
+        check(nlens == n and len(sizes) == 1, 'LensPlanes bin+meta: %d of %d, one size (%s bytes)' % (nlens, n, sizes))
+    else:
+        check(nlens == 0, 'no LensPlanes (Init.dat: Lens slabs per axis = 0): %d found' % nlens)
+    ncat_exp = ncls.get(1, 0) if bdm_on else 0
+    check(ncat == ncat_exp, 'catalogues at primary outputs: %d of %d%s (%d with a binary .bin + .meta, checked: size = 96 x rows, meta a, text_catalogue, row counts)' % (ncat, ncat_exp, '' if bdm_on else ' (Init.dat: Find BDM halos = 0)', ncatbin))
     stale = glob.glob(os.path.join(R1, 'CATALOGS', '.Catshort*'))
     check(not stale, 'no staged catalogue temporaries (.Catshort*) left in CATALOGS/' if not stale else '%d staged catalogue temporaries (.Catshort*) in CATALOGS/: a finder died between staging and publication; delete them when no finder is running' % len(stale))
     for st, means, mn, mx in plane_means:

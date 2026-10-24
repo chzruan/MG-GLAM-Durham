@@ -13,7 +13,7 @@
 #     1. pack in place: Output.<step>.<box>.h5 per output step, RunInfo.<box>.h5 and packed.md5 beside the originals
 #        (each file is verified against the md5 of its originals, flushed, then renamed; an existing packed file is
 #        kept only if it still matches the current originals);
-#     2. byte check: unpack EVERY packed file into $CHECK_DIR (default /cosma8/data/dp203/$USER/scratch/pack-check-<job>),
+#     2. byte check: unpack EVERY packed file into $CHECK_DIR (default pack-check-<job> beside Run<box>/, i.e. in the run directory),
 #        require the same file list and `cmp` equality of every file with Run<box>, then remove the rebuilt copy
 #        (needs free space equal to the box: 75 GB for L1024 Np2048; removed on failure too);
 #     3. unless PRUNE=no: `glamio.pack prune --yes` (refuses while any original is in no packed file; re-verifies every
@@ -38,8 +38,8 @@ export MAMBA_USE_LOCKFILES=false
 RUN=$(readlink -f "${1:?usage: pack_run.sh /abs/path/Run<box>}")
 PRUNE=${PRUNE:-yes}
 JOB=${SLURM_JOB_ID:-$$}
-CHECK_DIR=${CHECK_DIR:-/cosma8/data/dp203/$(id -un)/scratch/pack-check-$JOB}
-PY="micromamba run -n cosemu python3 -I"
+CHECK_DIR=${CHECK_DIR:-$(dirname "$RUN")/pack-check-$JOB}
+PY=${PYTHON:-micromamba run -n cosemu python3}     # needs numpy and h5py; glamio from PYTHONPATH or the environment
 CREATED_CHECK_DIR=""
 cleanup() { if [[ -n $CREATED_CHECK_DIR && -d $CREATED_CHECK_DIR ]]; then rm -r "${CREATED_CHECK_DIR:?}"; echo "removed $CREATED_CHECK_DIR"; fi; }
 trap cleanup EXIT
