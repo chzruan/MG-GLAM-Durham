@@ -1,11 +1,12 @@
 #!/bin/bash
 # Post-processing of a finished GLAM box: pack Run<box>/ into one HDF5 file per output step (glamio.pack),
-# prove that the packed files hold every original byte for byte, and (PRUNE=yes) delete the originals.
+# prove that the packed files hold every original byte for byte, then delete the originals.
 #
-# usage (from the run directory, after the simulation job has finished and check_run.py has passed):
-#   sbatch -J pack_<name> /path/to/MG-GLAM/DEGRACE-companion/pack_run.sh "$PWD/Run<box>"                         # pack + check
-#   sbatch -J pack_<name> --export=ALL,PRUNE=yes /path/to/MG-GLAM/DEGRACE-companion/pack_run.sh "$PWD/Run<box>"  # + delete originals
-# Deleting the originals cannot be undone except by unpacking: agents get the user's OK before PRUNE=yes (AGENTS.md).
+# usage (from the run directory, after the simulation job has finished, check_run.py has passed and every script that
+# needs the native files has run):
+#   sbatch -J pack_<name> /path/to/MG-GLAM/DEGRACE-companion/pack_run.sh "$PWD/Run<box>"                        # pack, check, prune
+#   sbatch -J pack_<name> --export=ALL,PRUNE=no /path/to/MG-GLAM/DEGRACE-companion/pack_run.sh "$PWD/Run<box>"  # keep the originals
+# The originals are deleted only after the byte check below has passed; unpack rebuilds them byte for byte.
 #
 # The job reads `python -m glamio.pack status` and continues from where the box is:
 #   native / incomplete / packed:
@@ -15,10 +16,10 @@
 #     2. byte check: unpack EVERY packed file into $CHECK_DIR (default /cosma8/data/dp203/$USER/scratch/pack-check-<job>),
 #        require the same file list and `cmp` equality of every file with Run<box>, then remove the rebuilt copy
 #        (needs free space equal to the box: 75 GB for L1024 Np2048; removed on failure too);
-#     3. PRUNE=yes only: `glamio.pack prune --yes` (refuses while any original is in no packed file; re-verifies every
+#     3. unless PRUNE=no: `glamio.pack prune --yes` (refuses while any original is in no packed file; re-verifies every
 #        packed file and the md5 of every original; deletes nothing if anything differs), then `md5sum -c packed.md5`
 #        and a read of the packed run through glamio;
-#   partially-pruned (an interrupted prune): PRUNE=yes byte-checks the remaining originals (step 2 on the files still
+#   partially-pruned (an interrupted prune): unless PRUNE=no, byte-checks the remaining originals (step 2 on the files still
 #     there) and finishes the prune (step 3); otherwise the job stops;
 #   pruned: verify only; busy (a .partial exists) or inconsistent: the job stops and changes nothing.
 # Any failure stops the job before an original is touched. Cost for an L1024 Np2048 box (75 GB, one core): pack 20 min,
@@ -35,7 +36,7 @@
 set -euo pipefail
 export MAMBA_USE_LOCKFILES=false
 RUN=$(readlink -f "${1:?usage: pack_run.sh /abs/path/Run<box>}")
-PRUNE=${PRUNE:-no}
+PRUNE=${PRUNE:-yes}
 JOB=${SLURM_JOB_ID:-$$}
 CHECK_DIR=${CHECK_DIR:-/cosma8/data/dp203/$(id -un)/scratch/pack-check-$JOB}
 PY="micromamba run -n cosemu python3 -I"
@@ -108,9 +109,9 @@ case $STATE in
     native|incomplete|packed)
         do_pack
         do_check full
-        if [[ $PRUNE == yes ]]; then do_prune; else echo "originals kept; resubmit with --export=ALL,PRUNE=yes to delete them"; fi ;;
+        if [[ $PRUNE != no ]]; then do_prune; else echo "originals kept (PRUNE=no); resubmit without it to delete them"; fi ;;
     partially-pruned)
-        [[ $PRUNE == yes ]] || fail "$RUN is partially pruned (an interrupted prune?); resubmit with PRUNE=yes to finish it"
+        [[ $PRUNE != no ]] || fail "$RUN is partially pruned (an interrupted prune?); resubmit without PRUNE=no to finish it"
         do_check remaining
         do_prune ;;
     pruned)

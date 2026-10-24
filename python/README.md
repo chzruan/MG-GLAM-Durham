@@ -254,7 +254,7 @@ every original still present, deletes nothing if anything differs, and
 without `--yes` only reports. One core and at most about 1 GB of memory; an
 L1024 Np2048 box (75 GB) takes about 20 min to pack and 30 min to prune, so
 run it under Slurm: `DEGRACE-companion/pack_run.sh` does pack, a full byte
-check and (with `PRUNE=yes`) prune, and resumes from `status`.
+check and then prune (unless `PRUNE=no`), and resumes from `status`.
 
 Reading: the sidecar-product, binary-catalogue, P(k) and schedule readers
 take `<file>.h5/<group>` where they take a native path (`mmap=True` maps the

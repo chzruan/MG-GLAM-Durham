@@ -44,16 +44,18 @@
   uses a frozen native first-order variant and is an exception, not a template
   for the default IC choice in new campaigns.
 
-## After a simulation finishes: verify, then pack
+## After a simulation finishes: verify, pack, delete the originals
 
 - A finished box directory `Run<box>/` holds about 400-430 files (17-19 per
   full output, 4 per lens-plane-only output, about 40 % of them small `.meta`
-  sidecars). Pack every finished production box into one HDF5 file per output
-  step with `glamio.pack` (user decision 2026-10-24; format in
-  [`python/README.md`](python/README.md), "Packed runs"): 42 outputs give
-  `Output.<step>.<box>.h5` x42, `RunInfo.<box>.h5` and `packed.md5`, 44 files.
-  The bytes are stored unchanged, and glamio's readers, `product_path` and
-  `products_at` read packed runs transparently.
+  sidecars). Post-process every finished box that is kept (production, pilot
+  or test): pack it into one HDF5 file per output
+  step with `glamio.pack` (format in [`python/README.md`](python/README.md),
+  "Packed runs"): 42 outputs give `Output.<step>.<box>.h5` x42,
+  `RunInfo.<box>.h5` and `packed.md5`, 44 files. The bytes are stored
+  unchanged, and glamio's readers, `product_path` and `products_at` read
+  packed runs transparently. Then delete the native originals, to cut the
+  file count, but only after the byte check below has passed.
 - Order: wait for the simulation job to finish, run
   `DEGRACE-companion/check_run.py` (it reads the native files) and any other
   script that opens native files by name, then pack. Never pack a directory a
@@ -64,15 +66,16 @@
   It packs in place and proves byte identity: it rebuilds every original from
   the packed files in scratch, requires an identical file list and `cmp`
   equality of every file, then removes the rebuilt copy (also on failure).
-  `--export=ALL,PRUNE=yes` then deletes the originals in the same job, via
-  `glamio.pack prune`, which re-verifies every md5 first, refuses while any
-  original is in no packed file, and deletes nothing if anything differs.
-  Deleting the originals is a bulk delete: get the user's OK before
-  submitting with `PRUNE=yes`, and never delete originals without that byte
-  check.
+  It then deletes the originals in the same job, via `glamio.pack prune`,
+  which re-verifies every md5 first, refuses while any original is in no
+  packed file, and deletes nothing if anything differs. This deletion is the
+  default end of the post-processing and needs no extra confirmation; submit
+  with `--export=ALL,PRUNE=no` only when the originals must be kept (for
+  example while a native-only script still has to run). Never delete
+  originals without the byte check, and never by hand.
 - Reruns resume from `python -m glamio.pack status Run<box>`. A finished pack
   is re-checked against the originals; an interrupted prune
-  (`partially-pruned`) is finished only by a resubmission with `PRUNE=yes`,
+  (`partially-pruned`) is finished by a resubmission (not with `PRUNE=no`),
   which first byte-checks the originals still present;
   `busy` (a `.partial` left by a running or crashed pack) and `inconsistent`
   stop the job without changing anything. Investigate those with the user
@@ -87,7 +90,7 @@
   (byte-identical; `micromamba run -n cosemu python3 -I`, with
   `MAMBA_USE_LOCKFILES=false` in jobs). For an L1024 box this writes 75 GB in
   about 15 min, so run it under Slurm, not on a login node. To copy a packed
-  box elsewhere (e.g. to Baojiu's account), copy the whole run directory:
+  box elsewhere (e.g. to a collaborator's account), copy the whole run directory:
   `Init.dat`, `Setup.dat`, `PkTable.dat`, `TableSeeds.dat`,
   `inputs_provenance.json` and `bin/` carry the provenance and are not packed.
   Then run `md5sum -c packed.md5` in each `Run<box>/` at the destination.

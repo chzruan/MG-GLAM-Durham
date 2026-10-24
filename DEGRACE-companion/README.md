@@ -84,21 +84,21 @@ are unchanged, and `glamio` reads the packed files with the same calls
 
 ```sh
 cd <run dir>     # the directory holding Init.dat and Run<box>/
-sbatch -J pack_<name> <repo>/DEGRACE-companion/pack_run.sh "$PWD/Run0"                         # pack + byte check
-sbatch -J pack_<name> --export=ALL,PRUNE=yes <repo>/DEGRACE-companion/pack_run.sh "$PWD/Run0"  # ... and delete the originals
+sbatch -J pack_<name> <repo>/DEGRACE-companion/pack_run.sh "$PWD/Run0"                        # pack, byte check, delete the originals
+sbatch -J pack_<name> --export=ALL,PRUNE=no <repo>/DEGRACE-companion/pack_run.sh "$PWD/Run0"  # pack and byte check only
 ```
 
 `pack_run.sh` packs in place, rebuilds every original from the packed files
 in scratch, and requires an identical file list and `cmp` equality of every
-file (the rebuilt copy is removed afterwards, also on failure). Only with
-`PRUNE=yes` does it then delete the originals, through `glamio.pack prune`,
-which refuses while any original is in no packed file and re-verifies every
-md5 first. Deleting the originals is irreversible except by unpacking (agents
-ask the user first; see `AGENTS.md`). Any failure stops the job before
+file (the rebuilt copy is removed afterwards, also on failure). It then
+deletes the originals (unless `PRUNE=no`), through `glamio.pack prune`, which
+refuses while any original is in no packed file and re-verifies every md5
+first; this is the default since 2026-10-24, to cut the file count. Any
+failure stops the job before
 anything is deleted. A resubmission resumes from `python -m glamio.pack
 status Run0`: a finished pack is re-checked against the originals, an
-interrupted prune is finished with `PRUNE=yes` (after a byte check of the
-originals still present), and a box that is `busy` (a
+interrupted prune is finished (after a byte check of the originals still
+present; not with `PRUNE=no`), and a box that is `busy` (a
 `.partial` exists) or `inconsistent` is left alone. Run `check_run.py` and
 any script that opens native files by name before pruning; afterwards
 `python -m glamio.pack unpack Run0 --out DIR` rebuilds the native files byte
