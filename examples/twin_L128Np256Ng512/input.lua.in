@@ -1,0 +1,25 @@
+-- FML 2LPT initial conditions of the twin example; 1_ics.sh fills in the @...@ values from config.sh.
+box_1d      = @BOX@                 -- Mpc/h
+Nmesh       = @NP@
+Npart_1D    = @NP@
+random_seed = @SEED@
+lpt_order   = 2                     -- 2LPT
+z_ini       = @ZINIT@
+pofk_path_at_zini = "pofk_zini.txt" -- linear P(k) at z_ini, no header line (the FML reader rejects comments)
+output_prefix     = "@PREFIX@"
+OmegaM      = @OMEGA_M@
+OmegaLambda = 1.0 - OmegaM
+h           = @HUBBLE@
+growth_rate1 = 1.0
+growth_rate2 = 2.0 * growth_rate1
+buffer_factor             = 1.25
+interpolation_method      = "CIC"
+density_assignment_method = "CIC"
+interlacing               = true
+fix_amplitude     = false
+ic_reverse_phases = false
+write_pofk        = true
+pofk_output_path  = "pofk_ics.txt" -- measured P(k) of the ICs, compared with the input by 1_ics.sh
+write_gadget      = true            -- Gadget files, converted to GLAM's format by ic2pm in step 3
+write_deltaL      = true            -- the linear density modes up to deltaL_kc (h/Mpc)
+deltaL_kc         = 1.5

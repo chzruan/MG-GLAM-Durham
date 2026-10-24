@@ -22,7 +22,11 @@ CAMB z=0 spectrum), `Init.dat` (`#outputs = -42` exact mode, `Pk tune = 1`,
 lens-plane geometry) and `inputs_provenance.json`. Defaults: z_init 49,
 da0 = 6e-4 (163 steps, the legacy late-time ladder), Nrow 1024, Ngrid 2048.
 `--cosmology OMEGA_M H SIGMA8 --pk FILE [--fR0 ...]` serves new cosmologies
-(stations computed from χ(a), matter + Λ only).
+(stations computed from χ(a), matter + Λ only). `--redshifts Z ...` replaces
+the 42 epochs by your own list of full outputs and `--stations Z ...` adds
+lens-plane-and-P(k)-only outputs; `--run N` writes `Run<N>/` (default 1).
+[`examples/twin_L128Np256Ng512/`](../examples/twin_L128Np256Ng512/README.md)
+runs a small LCDM / f(R) twin with these options from ICs to packed outputs.
 
 Extra on-the-fly products (plan items I8–I10) are switched on with
 `--extra` (low-k density modes `deltam` from the P(k) transform and
@@ -72,7 +76,10 @@ float32(1/(1+z)) of `Init.dat` and to the pinned ECOSMOG list), one
 = 1 on a sample or all files), BDM catalogues at the class-1 outputs, the
 `ic2pm` velocity epoch, the `timing.log` breakdown (median step, output
 overhead) and, when the job is finished, sacct elapsed / MaxRSS / CPU
-efficiency. Exit 0 = all checks passed. Packed runs are checked the same way
+efficiency. Exit 0 = all checks passed. The output classes are compared with
+`Init.dat`, so any redshift list works (the primary-redshift check applies to
+the 42-output design only), and `--box` defaults to the run's only `Run<N>/`.
+Packed runs are checked the same way
 (the files are read through glamio), plus their `glamio.pack status`
 (`packed` or `pruned` passes; an unfinished pack or prune warns).
 

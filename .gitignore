@@ -79,6 +79,8 @@ DEGRACE_*/
 fid_*/
 LCDM_*/
 *Np[0-9]*Ng[0-9]*/
+# ...except the example folders, which carry only scripts and inputs (their runs go to $WORK)
+!examples/*/
 
 # 2LPTIC (FML) IC generator: the FML clone is its own git repo (103 MB);
 # everything we authored/modified is tracked in 2LPTIC_Gui/fml_intel_port/.
