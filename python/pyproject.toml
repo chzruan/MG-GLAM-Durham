@@ -14,6 +14,7 @@ authors = [{name = "Cheng-Zong Ruan"}]
 
 [project.optional-dependencies]
 test = ["pytest"]
+hdf5 = ["h5py>=3.0"]           # packed runs (glamio.pack, glamio.packed); native files need numpy only
 
 [tool.setuptools.dynamic]
 version = {attr = "glamio.__version__"}

@@ -55,7 +55,8 @@ import numpy as np
 import math
 
 from .meta import meta_float, read_meta
-from .product import MetaProduct
+from .packed import missing_packed_file, split_packed
+from .product import MetaProduct, load_array, nbytes, product_exists, resolve_pair
 
 #: Record layout of the binary catalogue (and of the arrays returned by both readers).
 CATALOGUE_DTYPE = np.dtype(
@@ -173,9 +174,15 @@ def read_catalogue(path: str | os.PathLike, mmap: bool = False) -> Catalogue:
     ``.DAT`` exists, and as binary otherwise (which raises ``FileNotFoundError``
     naming the missing file).  ``mmap=True`` maps the ``.bin`` read-only instead of
     loading it (useful for the ~1 GB catalogues of 3200^3 runs); the text reader
-    ignores it.
+    ignores it.  A packed catalogue (``Output.<step>.<box>.h5/CatshortV``, see
+    :mod:`glamio.packed`) is read like the binary pair.
     """
     p = os.fspath(path)
+    if split_packed(p) is not None:
+        return _read_catalogue_binary(p, mmap=mmap)
+    missing = missing_packed_file(p)
+    if missing is not None:
+        raise FileNotFoundError(f"packed file not found: {missing} (for {p})")
     if p.lower().endswith(".dat"):
         return read_catalogue_text(p)
     if p.endswith(".bin"):
@@ -229,16 +236,20 @@ def _read_catalogue_binary(stem: str, mmap: bool = False) -> Catalogue:
 
     After reading, the ``row`` column must be ``1..N``: a byte-swapped,
     misaligned or truncated-in-the-middle file fails this (a flipped byte in a
-    float column cannot be detected here).
+    float column cannot be detected here).  ``stem`` may be a packed
+    catalogue (``<file>.h5/CatshortV``).
     """
-    bin_path, meta_path = stem + ".bin", stem + ".meta"
+    if split_packed(stem) is not None:
+        bin_path, meta_path, _ = resolve_pair(stem)
+    else:
+        bin_path, meta_path = stem + ".bin", stem + ".meta"
     for p in (bin_path, meta_path):
-        if not os.path.isfile(p):
+        if not product_exists(p):
             raise FileNotFoundError(f"binary catalogue needs both .bin and .meta; missing {p}")
     meta = read_meta(meta_path)
     _check_layout(meta, meta_path)
 
-    size = os.path.getsize(bin_path)
+    size = nbytes(bin_path)
     if size % RECORD_BYTES:
         raise ValueError(
             f"{bin_path}: size {size} bytes is not a multiple of the {RECORD_BYTES}-byte record"
@@ -249,10 +260,7 @@ def _read_catalogue_binary(stem: str, mmap: bool = False) -> Catalogue:
             f"{bin_path}: size {size} bytes, but {meta_path} says rows = {int(rows)} "
             f"({int(rows) * RECORD_BYTES} bytes)"
         )
-    if mmap:
-        data = np.memmap(bin_path, dtype=CATALOGUE_DTYPE, mode="r")
-    else:
-        data = np.fromfile(bin_path, dtype=CATALOGUE_DTYPE)
+    data = load_array(bin_path, CATALOGUE_DTYPE, size // RECORD_BYTES, mmap=mmap)
     n = len(data)
     if n and not (data["row"][0] == 1 and data["row"][-1] == n and bool(np.all(np.diff(data["row"]) == 1))):
         raise ValueError(

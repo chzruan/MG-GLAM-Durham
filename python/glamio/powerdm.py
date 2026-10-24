@@ -21,6 +21,9 @@ import re
 
 import numpy as np
 
+from .packed import split_packed
+from .product import read_text
+
 _EPOCH_RE = re.compile(r"Aexpn\s*=\s*([0-9.]+)\s+Step=\s*(\d+)\s+Redshift=\s*([-0-9.]+)\s+Ngrid=\s*(\d+)\s+kNyq=\s*([0-9.]+)")
 _COLUMN_NAMES = {"bin": "bin", "k/Mpch": "k", "N": "nmodes", "Preal": "pk",
                  "P0_redshift": "p0", "P2_redshift": "p2"}
@@ -100,11 +103,18 @@ def read_powerdm(path: str | os.PathLike, box: float | None = None) -> PowerDM:
     ``box`` (Mpc/h) replaces the printed two-decimal ``kNyq`` by
     ``pi Ngrid/box``.  Raises ``ValueError`` when the epoch line or the
     caption is missing or a data row does not have the caption's number of
-    columns.
+    columns.  ``path`` may be a packed table (``Output.<step>.<box>.h5/PowerDM/R``,
+    see :mod:`glamio.packed`), whose verbatim text is parsed the same way.
     """
     p = os.fspath(path)
-    with open(p, encoding="utf-8", errors="replace") as fh:
-        lines = fh.read().splitlines()
+    inside = split_packed(p)
+    name = os.path.basename(p) if inside is None else inside[1].replace("/", ".") + "."   # PowerDM/R -> PowerDM.R.
+    return _parse_powerdm(read_text(p), p, name, box)
+
+
+def _parse_powerdm(text: str, p: str, name: str, box: float | None) -> PowerDM:
+    """Parse the text of a PowerDM table; ``name`` (a file name) selects the binning, ``p`` labels errors."""
+    lines = text.splitlines()
     if not lines:
         raise ValueError(f"{p}: empty file")
     header = lines[0].strip()
@@ -139,7 +149,6 @@ def read_powerdm(path: str | os.PathLike, box: float | None = None) -> PowerDM:
         except ValueError as exc:
             raise ValueError(f"{p}:{lineno}: cannot parse {line!r}") from exc
     data = np.array(rows, dtype=np.float64).reshape(-1, ncol)
-    name = os.path.basename(p)
     binning = "linear" if ".R." in name else "log" if ".log." in name else "redshift" if ".Z." in name else None
     return PowerDM(data, columns, header, float(epoch.group(1)), float(epoch.group(3)), int(epoch.group(2)),
                    int(epoch.group(4)), float(epoch.group(5)), binning, p, box)
