@@ -7,7 +7,9 @@ headerless ``.bin`` file beside a ``key = value`` text sidecar ``.meta``
 the scalar properties every sidecar carries (``a``, ``z``, ``a_v``, ``Box``,
 ``step``, ...); :func:`resolve_pair`, :func:`load_meta`, :func:`check_size`
 and :func:`load_array` implement the common "find the pair, validate the
-sidecar, check the byte count, read or memory-map" sequence.
+sidecar, check the byte count, read or memory-map" sequence.  All of them
+also take a product inside a packed file (``<file>.h5/<group>``, see
+:mod:`glamio.packed`), so the readers work unchanged on packed runs.
 """
 
 from __future__ import annotations
@@ -16,6 +18,7 @@ import os
 
 import numpy as np
 
+from . import packed
 from .meta import meta_float, read_meta
 
 
@@ -125,8 +128,18 @@ class MetaProduct:
 
 
 def resolve_pair(path: str | os.PathLike, bin_suffix: str = ".bin", meta_suffix: str = ".meta") -> tuple[str, str, str]:
-    """Return ``(bin_path, meta_path, stem)`` for a ``.bin``, a ``.meta`` or a bare stem."""
+    """Return ``(bin_path, meta_path, stem)`` for a ``.bin``, a ``.meta`` or a bare stem.
+
+    For a packed product ``<file>.h5/<group>`` (or its ``<group>/data``) the
+    result is ``(<file>.h5/<group>/data, <file>.h5/<group>, <file>.h5/<group>)``.
+    """
     p = os.fspath(path)
+    inside = packed.split_packed(p)
+    if inside is not None:
+        group = inside[1][: -len("/data")] if inside[1].endswith("/data") else inside[1]
+        stem = f"{inside[0]}/{group}"
+        return stem + "/data", stem, stem
+    _refuse_missing_packed(p)
     if os.path.isdir(p):
         raise IsADirectoryError(f"{p} is a directory; pass the product's .bin, .meta or stem")
     for suffix in (bin_suffix, meta_suffix):
@@ -146,7 +159,7 @@ def load_meta(meta_path: str, expect_product: str | tuple[str, ...] | None = Non
     when ``product`` is not one of ``expect_product`` (a name or a tuple of
     names; ``None`` skips the check) or a ``required`` key is absent.
     """
-    if not os.path.isfile(meta_path):
+    if packed.split_packed(meta_path) is None and not os.path.isfile(meta_path):
         raise FileNotFoundError(f"sidecar not found: {meta_path}")
     meta = read_meta(meta_path)
     if expect_product is not None:
@@ -167,17 +180,52 @@ def meta_int(meta: dict[str, str], key: str, default: int | None = None) -> int 
     return default if value is None else int(round(value))
 
 
-def check_size(path: str, expected_bytes: int, what: str) -> None:
-    """Raise ``ValueError`` unless ``path`` holds exactly ``expected_bytes``."""
+def _refuse_missing_packed(path: str) -> None:
+    """Raise ``FileNotFoundError`` naming the packed file when ``path`` points inside a ``.h5`` that does not exist."""
+    missing = packed.missing_packed_file(path)
+    if missing is not None:
+        raise FileNotFoundError(f"packed file not found: {missing} (for {path})")
+
+
+def product_exists(path: str) -> bool:
+    """True when ``path`` is an existing file or names an object inside an existing packed file."""
+    return packed.exists(path) if packed.split_packed(path) is not None else os.path.isfile(path)
+
+
+def nbytes(path: str) -> int:
+    """Size in bytes of a binary file or of a packed dataset (``FileNotFoundError`` when missing)."""
+    if packed.split_packed(path) is not None:
+        return packed.dataset_nbytes(path)
     if not os.path.isfile(path):
         raise FileNotFoundError(f"binary file not found: {path}")
-    size = os.path.getsize(path)
+    return os.path.getsize(path)
+
+
+def read_text(path: str | os.PathLike) -> str:
+    """The content of a text file, or of a verbatim text stored in a packed file (``<file>.h5/<object>``)."""
+    p = os.fspath(path)
+    if packed.split_packed(p) is not None:
+        return packed.read_text(p)
+    _refuse_missing_packed(p)
+    with open(p, encoding="utf-8", errors="replace") as fh:
+        return fh.read()
+
+
+def check_size(path: str, expected_bytes: int, what: str) -> None:
+    """Raise ``ValueError`` unless ``path`` (a file or a packed dataset) holds exactly ``expected_bytes``."""
+    size = nbytes(path)
     if size != expected_bytes:
         raise ValueError(f"{path}: {size} bytes, expected {expected_bytes} ({what})")
 
 
 def load_array(path: str, dtype: np.dtype | str, count: int, mmap: bool = False) -> np.ndarray:
-    """Read (or memory-map, read-only) ``count`` items of ``dtype`` from ``path``; ``count = 0`` gives an empty array either way."""
+    """Read (or memory-map, read-only) ``count`` items of ``dtype`` from ``path``; ``count = 0`` gives an empty array either way.
+
+    ``path`` may be a packed dataset (``<file>.h5/<group>/data``), mapped at
+    its offset in the HDF5 file (:func:`glamio.packed.load_dataset`).
+    """
+    if packed.split_packed(path) is not None:
+        return packed.load_dataset(path, dtype, count, mmap=mmap)
     dt = np.dtype(dtype)
     if count == 0:
         return np.zeros(0, dtype=dt)              # np.memmap cannot map an empty file; an empty product is legitimate

@@ -3,7 +3,9 @@
 Numpy-only Python readers for GLAM / MG-GLAM simulation outputs: the BDM halo
 catalogues (legacy text and binary), the output schedule, the lens planes, the
 low-k mode cubes, the quantised particle subsample, the f(R) halo values, the
-power spectra and the PM particle snapshots. Every reader validates the file
+power spectra and the PM particle snapshots. The same readers read packed runs
+(one HDF5 file per output step, see [Packed runs](#packed-runs-hdf5)), which
+need h5py in addition. Every reader validates the file
 against its sidecar (product name, required keys, byte count) and raises
 `ValueError` instead of misreading. The precise_z suite cross-checks each reader
 against independent decoders on real GLAM output
@@ -17,13 +19,16 @@ From the repository root, into the `cosemu` environment:
 micromamba run -n cosemu python3 -m pip install -e python/
 ```
 
-Only `numpy>=1.24` and Python >= 3.10 are required. Re-run the line after
-a version bump: the editable install records the version at install time
-(`pip show glamio` lags `glamio.__version__` otherwise).
+Only `numpy>=1.24` and Python >= 3.10 are required; packed runs also need
+`h5py>=3` (the `hdf5` extra; cosemu has h5py 3.15). h5py is imported only
+when a packed file is opened. Re-run the line after a version bump: the
+editable install records the version at install time (`pip show glamio` lags
+`glamio.__version__` otherwise).
 
-Tests: `python3 tests/test_readers.py` and `python3 tests/test_catalogue.py`
-(script mode, no dependencies) or `python3 -m pytest -q tests` when pytest is
-available (it is not part of cosemu; `python3 -I` hides a user-site pytest).
+Tests: `python3 tests/test_readers.py`, `python3 tests/test_catalogue.py` and
+`python3 tests/test_pack.py` (script mode; the last one needs h5py and skips
+without it) or `python3 -m pytest -q tests` when pytest is available (it is not
+part of cosemu; `python3 -I` hides a user-site pytest).
 
 ## Halo catalogues
 
@@ -176,6 +181,116 @@ Helpers that are not readers (`keep_mask`, `select_ids`, `splitmix64`,
 `resolve_pair`, `meta_int`) are exported from the package too. Still without a
 reader: `ProjectionXY/XZ/YZ`, `timing.log`, `main.log`, the BDM `outputB`
 logs.
+
+## Packed runs (HDF5)
+
+A finished run directory holds about 400-430 files (19 per full output in an
+f(R) run, 17 in ΛCDM, 4 per station; about 40 % of them 1-2.5 kB `.meta`
+sidecars). `glamio.pack` packs them, after the run, into one HDF5 file per
+output step:
+
+```
+Run0/
+├── Output.<step>.<box>.h5     one per output step (42 in a DEGRACE run)
+├── RunInfo.<box>.h5           schedule, BDM.config, logs
+└── packed.md5                 md5 of the .h5 files, to check a copy
+```
+
+Inside `Output.<step>.<box>.h5` every product is a group named after it
+(`CatshortV`, `fR_halo`, `Subsample`, `deltam`, `mom_x/y/z`, `LensPlanes`,
+`PowerDM/R`, `PowerDM/log`):
+
+* `<group>/data` holds the `.bin` bytes unchanged: same little-endian type,
+  one contiguous block (no chunking or compression), aligned to 4 KiB in files
+  written since the 2026-10-24 review, with the shape the reader gives the file
+  (`CatshortV/data` a 24-column compound table, `Subsample/data`
+  `(6, n_sel)` int16, `deltam/data` `(2n+1, 2n+1, n+1)` complex64 (an HDF5
+  compound `{r, i}`), `LensPlanes/data` `(3 N_slab, N_lens, N_lens)` float32, ...);
+* the `.meta` is kept verbatim in the group attribute `meta_text` (the
+  authoritative copy); the other group attributes repeat each `key = value`
+  line as `glamio.read_meta` splits it, comments included (a line with two
+  keys, such as `MG_flag = 1   MG_model = 1`, stays one attribute);
+* text files are verbatim `uint8` datasets (`PowerDM/R/text`,
+  `CatshortV/outputB`, `logs/<name>` and `BDM.config` in RunInfo);
+  `PowerDM/<kind>/table` and `schedule/table` repeat the parsed columns;
+* root attributes: `format = glamio-pack`, `format_version`, `layout` (a
+  pointer to this section), the schedule row (`step a z chi exact class`),
+  `products`, the run-wide sidecar values (`Box`, `N_grid`, `N_row`, `N_p`,
+  `Omega_m`, `Omega_L`, `hubble`, `MG_flag`, `MG_model`, `fR0`, which is the
+  string `none` in ΛCDM runs, and `header`), `realization`, `run`, `box_dir`,
+  `source_dir`, `glamio_version`, `glamio_code_sha256`, `packed_utc` and, when
+  `<run dir>/bin/git_hash.txt` exists, `glam_build`; RunInfo has `steps` (the
+  output steps with products, one Output file each);
+* `manifest` lists every original file: `path` (relative to `Run<box>/`),
+  `bytes`, `md5` and `object`, the dataset holding the bytes or, when no
+  dataset has that name, `<group>@<attribute>` (the sidecars). `unpack`
+  rebuilds the files byte for byte from it. File times and permissions are
+  not kept.
+
+Files are written with HDF5 objects readable by HDF5 1.10 and later (the
+2026-10-24 files also read with 1.8.20). `format_version` changes only when an
+older reader would misread a new file; glamio refuses newer versions.
+
+```
+micromamba run -n cosemu python3 -m glamio.pack pack   Run0 [--out DIR]   # write the packed files (originals untouched)
+micromamba run -n cosemu python3 -m glamio.pack verify Run0 [--against Run0]   # --against only while the originals exist
+micromamba run -n cosemu python3 -m glamio.pack unpack Run0 --out DIR     # rebuild the original files (never overwrites)
+micromamba run -n cosemu python3 -m glamio.pack prune  Run0 [--yes]       # delete the originals after re-checking them
+micromamba run -n cosemu python3 -m glamio.pack status Run0               # native, incomplete, packed, partially-pruned, pruned, ...
+```
+
+`pack` refuses a run directory with anything it cannot place: another
+subdirectory, a symbolic link, PM particle or checkpoint files, an unknown
+step-tagged file, a text catalogue (`CATALOGS/*.DAT`), a `.bin` without its
+`.meta`, a wrong box tag, a step missing from `OutputSchedule.dat`, or a
+`packed.md5` it did not write. Each file is written as `<name>.partial`,
+verified (each dataset's bytes in the file against the md5 of its original,
+plus the parsed tables and attributes), flushed to disk and renamed; a failure
+removes the `.partial`. A rerun keeps an existing packed file only if its
+manifest lists exactly the current originals of its step with the recorded
+md5s, and refuses otherwise. `prune` refuses while a `.partial` exists or
+while any original is in no packed file, re-verifies every packed file and
+every original still present, deletes nothing if anything differs, and
+without `--yes` only reports. One core and at most about 1 GB of memory; an
+L1024 Np2048 box (75 GB) takes about 20 min to pack and 30 min to prune, so
+run it under Slurm: `DEGRACE-companion/pack_run.sh` does pack, a full byte
+check and (with `PRUNE=yes`) prune, and resumes from `status`.
+
+Reading: the sidecar-product, binary-catalogue, P(k) and schedule readers
+take `<file>.h5/<group>` where they take a native path (`mmap=True` maps the
+dataset at its offset in the HDF5 file; the text catalogue and snapshot
+readers are native only). `product_path` / `products_at` return such paths
+when the native product is absent or incomplete; the schedule is found with
+any `box` when the directory holds a single RunInfo file. So code written
+against the native layout runs unchanged, and native-only runs never import
+h5py:
+
+```python
+cat = glamio.read_catalogue(glamio.product_path("Run0", "catalogue", 184, box=0))   # Run0/Output.0184.0000.h5/CatshortV
+planes = glamio.read_lensplanes("Run0/Output.0184.0000.h5/LensPlanes", mmap=True)
+sched = glamio.read_schedule(glamio.product_path("Run0", "schedule", 0))            # Run0/RunInfo.0000.h5/schedule
+```
+
+Without glamio:
+
+```python
+import h5py, numpy as np
+with h5py.File("Run0/Output.0184.0000.h5") as f:
+    mbound = f["CatshortV/data"]["Mbound"]                     # one column of the compound table
+    pk = f["PowerDM/R/table"][:]
+    z = f.attrs["z"]
+    meta = f["deltam"].attrs["meta_text"].decode()             # the sidecar text
+    log = f["CatshortV/outputB"][()].tobytes().decode()        # a text file (uint8 dataset)
+    d = f["deltam/data"]
+    cube = np.memmap("Run0/Output.0184.0000.h5", dtype=d.dtype, mode="r",
+                     offset=d.id.get_offset(), shape=d.shape)  # memory map, no copy
+```
+
+`h5dump -d /deltam/data -b LE -o out.bin` writes nothing for compound
+datasets (the catalogue, the complex cubes). To extract a dataset's bytes
+with shell tools, take `OFFSET` and `SIZE` from `h5dump -H -p -d /deltam/data
+Output.0184.0000.h5` and run `tail -c +$((OFFSET + 1)) Output.0184.0000.h5 |
+head -c SIZE`; the result has the manifest's md5.
 
 ## Definitions and caveats (from the finder's code, 2026-10-18 review)
 

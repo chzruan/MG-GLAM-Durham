@@ -16,11 +16,13 @@ depends on ``CatalogueFormat`` in ``BDM.config``.
 from __future__ import annotations
 
 import os
+import re
 
 import numpy as np
 
 from .catalogue import Catalogue, read_catalogue
-from .product import MetaProduct, check_size, load_array, load_meta, meta_int, resolve_pair
+from .packed import CATALOGUE_GROUP, split_packed
+from .product import MetaProduct, check_size, load_array, load_meta, meta_int, product_exists, resolve_pair
 
 #: Record layout of the fR_halo file.
 FRHALO_DTYPE = np.dtype([("fR_centre", "<f4"), ("fR_mean", "<f4")])
@@ -66,7 +68,21 @@ class FRHalo(MetaProduct):
         return self._float("fR_bg(a_old)")
 
     def catalogue_paths(self) -> dict[str, str]:
-        """``{'text': ..., 'binary': ...}`` paths of the catalogue files named by the sidecar, relative to the run directory of the file."""
+        """``{'text': ..., 'binary': ...}`` paths of the catalogue files named by the sidecar, relative to the run directory of the file.
+
+        For a packed ``fR_halo`` the catalogue is the ``Catshort?`` group of the
+        same output file: ``{'binary': '<file>.h5/CatshortV'}``.
+        """
+        inside = split_packed(self.path)
+        if inside is not None:
+            group = CATALOGUE_GROUP
+            for key in ("catalogue_bin", "catalogue"):
+                tokens = self.meta.get(key, "").split()
+                m = re.match(r"(Catshort[A-Za-z])\.", os.path.basename(tokens[0])) if tokens else None
+                if m:
+                    group = m.group(1)
+                    break
+            return {"binary": f"{inside[0]}/{group}"}
         rundir = os.path.dirname(os.path.abspath(self.path))
         out = {}
         for key, name in (("catalogue", "text"), ("catalogue_bin", "binary")):
@@ -87,7 +103,7 @@ class FRHalo(MetaProduct):
         order = ("binary", "text") if prefer == "binary" else ("text", "binary")
         for form in order:
             p = paths.get(form)
-            if p and os.path.isfile(p):
+            if p and product_exists(p):
                 cat = read_catalogue(p)
                 if len(cat) != len(self):
                     raise ValueError(f"{self.path}: {len(self)} rows but the catalogue {p} has {len(cat)}")

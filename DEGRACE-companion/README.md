@@ -74,6 +74,39 @@ float32(1/(1+z)) of `Init.dat` and to the pinned ECOSMOG list), one
 overhead) and, when the job is finished, sacct elapsed / MaxRSS / CPU
 efficiency. Exit 0 = all checks passed.
 
+## Packing a finished run
+
+After the job has finished and `check_run.py` has passed, pack each box
+(about 400-430 files) into one HDF5 file per output step: `Output.<step>.<box>.h5`,
+plus `RunInfo.<box>.h5` and `packed.md5`, 44 files for 42 outputs. The bytes
+are unchanged, and `glamio` reads the packed files with the same calls
+(`python/README.md`, "Packed runs").
+
+```sh
+cd <run dir>     # the directory holding Init.dat and Run<box>/
+sbatch -J pack_<name> <repo>/DEGRACE-companion/pack_run.sh "$PWD/Run0"                         # pack + byte check
+sbatch -J pack_<name> --export=ALL,PRUNE=yes <repo>/DEGRACE-companion/pack_run.sh "$PWD/Run0"  # ... and delete the originals
+```
+
+`pack_run.sh` packs in place, rebuilds every original from the packed files
+in scratch, and requires an identical file list and `cmp` equality of every
+file (the rebuilt copy is removed afterwards, also on failure). Only with
+`PRUNE=yes` does it then delete the originals, through `glamio.pack prune`,
+which refuses while any original is in no packed file and re-verifies every
+md5 first. Deleting the originals is irreversible except by unpacking (agents
+ask the user first; see `AGENTS.md`). Any failure stops the job before
+anything is deleted. A resubmission resumes from `python -m glamio.pack
+status Run0`: a finished pack is re-checked against the originals, an
+interrupted prune is finished with `PRUNE=yes` (after a byte check of the
+originals still present), and a box that is `busy` (a
+`.partial` exists) or `inconsistent` is left alone. Run `check_run.py` and
+any script that opens native files by name before pruning; afterwards
+`python -m glamio.pack unpack Run0 --out DIR` rebuilds the native files byte
+for byte (75 GB for an L1024 box: run it under Slurm). For an L1024 Np2048
+box (75 GB) on one core, pack takes 20 min, the check 15-30 min and the
+prune 30 min. Copy a packed box with its run directory (`Init.dat`, `bin/`,
+provenance) and check it with `md5sum -c packed.md5`.
+
 ## Comparing with the ECOSMOG twin
 
 ```sh

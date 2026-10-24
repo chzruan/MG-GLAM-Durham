@@ -21,6 +21,8 @@ import re
 
 import numpy as np
 
+from .product import read_text
+
 #: Row layout returned by :func:`read_schedule`.
 SCHEDULE_DTYPE = np.dtype([("step", "<i4"), ("a", "<f8"), ("z", "<f8"), ("chi", "<f8"),
                            ("exact", "<i4"), ("class", "<i4")])
@@ -131,27 +133,32 @@ def read_schedule(path: str | os.PathLike) -> Schedule:
 
     Raises ``ValueError`` for a data line without exactly six tokens or when
     the steps are not strictly increasing (the writer emits them in step
-    order).
+    order).  ``path`` may be the packed copy (``RunInfo.<box>.h5/schedule``,
+    see :mod:`glamio.packed`).
     """
     p = os.fspath(path)
+    return _parse_schedule(read_text(p), p)
+
+
+def _parse_schedule(text: str, p: str) -> Schedule:
+    """Parse the text of ``OutputSchedule.dat``; ``p`` labels errors and becomes ``Schedule.path``."""
     comments: list[str] = []
     rows: list[tuple] = []
-    with open(p, encoding="utf-8", errors="replace") as fh:
-        for lineno, line in enumerate(fh, 1):
-            s = line.strip()
-            if not s:
-                continue
-            if s.startswith("#"):
-                comments.append(s)
-                continue
-            tokens = s.split()
-            if len(tokens) != 6:
-                raise ValueError(f"{p}:{lineno}: expected 6 columns (step a z chi exact class), got {len(tokens)}")
-            try:
-                rows.append((int(tokens[0]), float(tokens[1]), float(tokens[2]), float(tokens[3]),
-                             int(tokens[4]), int(tokens[5])))
-            except ValueError as exc:
-                raise ValueError(f"{p}:{lineno}: cannot parse {s!r}") from exc
+    for lineno, line in enumerate(text.split("\n"), 1):
+        s = line.strip()
+        if not s:
+            continue
+        if s.startswith("#"):
+            comments.append(s)
+            continue
+        tokens = s.split()
+        if len(tokens) != 6:
+            raise ValueError(f"{p}:{lineno}: expected 6 columns (step a z chi exact class), got {len(tokens)}")
+        try:
+            rows.append((int(tokens[0]), float(tokens[1]), float(tokens[2]), float(tokens[3]),
+                         int(tokens[4]), int(tokens[5])))
+        except ValueError as exc:
+            raise ValueError(f"{p}:{lineno}: cannot parse {s!r}") from exc
     arr = np.array(rows, dtype=SCHEDULE_DTYPE)
     if len(arr) > 1 and not np.all(np.diff(arr["step"]) > 0):
         raise ValueError(f"{p}: steps are not strictly increasing")
