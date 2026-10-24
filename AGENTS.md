@@ -57,9 +57,11 @@
   packed runs transparently. Then delete the native originals, to cut the
   file count, but only after the byte check below has passed.
 - Order: wait for the simulation job to finish, run
-  `DEGRACE-companion/check_run.py` (it reads the native files) and any other
-  script that opens native files by name, then pack. Never pack a directory a
-  job is still writing, and never run two pack/prune jobs on the same box.
+  `DEGRACE-companion/check_run.py` (it reads native and packed runs alike, but
+  run it before packing so a failed check is caught while the originals
+  exist) and any script that still opens native files by name, then pack.
+  Never pack a directory a job is still writing, and never run two pack/prune
+  jobs on the same box.
 - Use [`DEGRACE-companion/pack_run.sh`](DEGRACE-companion/pack_run.sh)
   (cosma8-serial, one core). Submit it from the run directory as
   `sbatch -J pack_<name> <repo>/DEGRACE-companion/pack_run.sh "$PWD/Run<box>"`.

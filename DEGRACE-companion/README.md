@@ -72,7 +72,9 @@ float32(1/(1+z)) of `Init.dat` and to the pinned ECOSMOG list), one
 = 1 on a sample or all files), BDM catalogues at the class-1 outputs, the
 `ic2pm` velocity epoch, the `timing.log` breakdown (median step, output
 overhead) and, when the job is finished, sacct elapsed / MaxRSS / CPU
-efficiency. Exit 0 = all checks passed.
+efficiency. Exit 0 = all checks passed. Packed runs are checked the same way
+(the files are read through glamio), plus their `glamio.pack status`
+(`packed` or `pruned` passes; an unfinished pack or prune warns).
 
 ## Packing a finished run
 
@@ -99,8 +101,9 @@ anything is deleted. A resubmission resumes from `python -m glamio.pack
 status Run0`: a finished pack is re-checked against the originals, an
 interrupted prune is finished (after a byte check of the originals still
 present; not with `PRUNE=no`), and a box that is `busy` (a
-`.partial` exists) or `inconsistent` is left alone. Run `check_run.py` and
-any script that opens native files by name before pruning; afterwards
+`.partial` exists) or `inconsistent` is left alone. Run `check_run.py` (it
+also reads packed runs) and any script that opens native files by name before
+pruning; afterwards
 `python -m glamio.pack unpack Run0 --out DIR` rebuilds the native files byte
 for byte (75 GB for an L1024 box: run it under Slurm). For an L1024 Np2048
 box (75 GB) on one core, pack takes 20 min, the check 15-30 min and the

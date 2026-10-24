@@ -10,18 +10,17 @@ LensPlanes files for every output (sizes, meta epochs, plane means = 1),
 BDM catalogues at the class-1 outputs, the ic2pm velocity epoch, the
 timing.log breakdown (per-step cost, output overhead) and, with sacct,
 elapsed / MaxRSS / CPU efficiency.  Exit 0 = every check passed.
+
+Native and packed runs (glamio.pack: Output.<step>.<box>.h5, RunInfo.<box>.h5)
+are read alike, through glamio.product_path / run_file / read_text; for a
+packed run the state reported by `glamio.pack status` is checked too.
 """
 import argparse, glob, json, os, re, struct, subprocess, sys
 import numpy as np
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'python'))
+import glamio
 
 def f32(x): return struct.unpack('f', struct.pack('f', x))[0]
-
-def read_meta(f):
-    m = {}
-    for line in open(f):
-        if '=' in line:
-            k, v = line.split('=', 1); m[k.strip()] = v.strip()
-    return m
 
 def main():
     ap = argparse.ArgumentParser()
@@ -35,6 +34,7 @@ def main():
         print(('PASS ' if ok else 'FAIL ') + msg)
         if not ok: fails.append(msg)
     def warn(msg): print('WARN ' + msg); warns.append(msg)
+    packed = os.path.isdir(R1) and any(re.match(r'^RunInfo\.\d{4}\.h5$', n) for n in os.listdir(R1))
 
     # ---- Init.dat redshift list
     init = open(os.path.join(run, 'Init.dat')).read().splitlines()
@@ -49,11 +49,11 @@ def main():
     a_req = sorted(f32(1.0 / (1.0 + z)) for z in zs)
 
     # ---- OutputSchedule.dat
-    fs = os.path.join(R1, 'OutputSchedule.dat')
-    check(os.path.exists(fs), 'OutputSchedule.dat present')
+    fs = glamio.run_file(R1, 'OutputSchedule.dat', a.box)
+    check(glamio.product_exists(fs), 'OutputSchedule.dat present' + (' (packed, in %s)' % os.path.basename(os.path.dirname(fs)) if packed else ''))
     sched = []
-    if os.path.exists(fs):
-        for l in open(fs):
+    if glamio.product_exists(fs):
+        for l in glamio.read_text(fs).splitlines():
             if l.startswith('#'): continue
             p = l.split(); sched.append(dict(step=int(p[0]), a=float(p[1]), z=float(p[2]), chi=float(p[3]), exact=int(p[4]), cls=int(p[5])))
     steps = [s['step'] for s in sched]
@@ -80,37 +80,38 @@ def main():
     sample = set([steps[0], steps[len(steps) // 2], steps[-1]]) if steps else set()
     for s in sched:
         st = s['step']; tag = '%04d.%04d' % (st, a.box)
-        fp = os.path.join(R1, 'PowerDM.R.%s.dat' % tag)
-        if os.path.exists(fp):
+        fp = glamio.product_path(R1, 'PowerDM.R', st, a.box)
+        if glamio.product_exists(fp):
             npow += 1
-            hdr = open(fp).read(400).splitlines()[1]
+            hdr = glamio.read_text(fp)[:400].splitlines()[1]
             ah = float(re.search(r'Aexpn *= *([0-9.Ee+-]+)', hdr).group(1))
             if abs(ah - s['a']) > 1e-5: bad.append('PowerDM %s epoch %g vs schedule %g' % (tag, ah, s['a']))
-        fb = os.path.join(R1, 'LensPlanes.%s.bin' % tag); fm = fb[:-4] + '.meta'
-        if os.path.exists(fb) and os.path.exists(fm):
-            nlens += 1; m = read_meta(fm)
+        lstem = glamio.product_path(R1, 'LensPlanes', st, a.box)
+        fb, fm, _ = glamio.resolve_pair(lstem)
+        if glamio.product_exists(fb) and glamio.product_exists(fm):
+            nlens += 1; m = glamio.read_meta(fm)
             ns, nl = int(m['N_slab']), int(m['N_lens'])
-            exp = 3 * ns * nl * nl * 4; sizes.add(os.path.getsize(fb))
-            if os.path.getsize(fb) != exp: bad.append('LensPlanes %s size %d != %d' % (tag, os.path.getsize(fb), exp))
+            exp = 3 * ns * nl * nl * 4; size = glamio.nbytes(fb); sizes.add(size)
+            if size != exp: bad.append('LensPlanes %s size %d != %d' % (tag, size, exp))
             if abs(float(m['a']) - s['a']) > 1e-6 * s['a']: bad.append('LensPlanes %s meta a %s vs schedule %g' % (tag, m['a'], s['a']))
-            if a.planes == 'all' or st in sample:
-                pl = np.fromfile(fb, dtype='<f4').reshape(3 * ns, nl, nl)
+            if (a.planes == 'all' or st in sample) and size == exp:
+                pl = glamio.load_array(fb, '<f4', 3 * ns * nl * nl, mmap=True).reshape(3 * ns, nl, nl)
                 means = pl.reshape(3, ns, -1).mean(axis=(1, 2))        # per axis over the slabs
                 plane_means.append((st, means, pl.min(), pl.max()))
                 if np.abs(means - 1).max() > 1e-5 or pl.min() < 0: bad.append('LensPlanes %s axis means %s min %g' % (tag, means, pl.min()))
-        fc = os.path.join(R1, 'CATALOGS', 'CatshortV.%s.DAT' % tag)      # text and/or binary (BDM.config CatalogueFormat)
-        fb = os.path.join(R1, 'CATALOGS', 'CatshortV.%s.bin' % tag)
-        fcm = os.path.join(R1, 'CATALOGS', 'CatshortV.%s.meta' % tag)
-        has_text, has_bin = os.path.exists(fc), os.path.exists(fb)
-        if has_bin != os.path.exists(fcm): bad.append('catalogue %s: .bin and .meta must come together' % tag)
+        cstem = glamio.product_path(R1, 'catalogue', st, a.box)        # text and/or binary (BDM.config CatalogueFormat)
+        fc = None if glamio.split_packed(cstem) else cstem + '.DAT'     # a packed run holds the binary form only
+        fb, fcm, _ = glamio.resolve_pair(cstem)
+        has_text, has_bin = fc is not None and os.path.exists(fc), glamio.product_exists(fb)
+        if has_bin != glamio.product_exists(fcm): bad.append('catalogue %s: .bin and .meta must come together' % tag)
         if has_text or has_bin:
             ncat += 1
             if s['cls'] != 1: bad.append('catalogue at a station output %s' % tag)
-            if has_bin and os.path.exists(fcm):
+            if has_bin and glamio.product_exists(fcm):
                 ncatbin += 1
-                m = read_meta(fcm)
+                m = glamio.read_meta(fcm)
                 rows = int(m.get('rows', '-1').split()[0])
-                if os.path.getsize(fb) != 96 * rows: bad.append('catalogue %s: .bin size %d != 96 x rows %d' % (tag, os.path.getsize(fb), rows))
+                if glamio.nbytes(fb) != 96 * rows: bad.append('catalogue %s: .bin size %d != 96 x rows %d' % (tag, glamio.nbytes(fb), rows))
                 if abs(float(m.get('a', '0').split()[0]) - s['a']) > 1e-6 * s['a']: bad.append('catalogue %s meta a %s vs schedule %g' % (tag, m.get('a'), s['a']))
                 tc = (m.get('text_catalogue', '') or '').split()
                 if (bool(tc) and tc[0] != 'none') != has_text: bad.append('catalogue %s: text_catalogue = %s but .DAT %s' % (tag, tc[:1], 'present' if has_text else 'absent'))
@@ -131,19 +132,19 @@ def main():
     for b in bad[:12]: print('     ' + b)
 
     # ---- ic2pm
-    fl = os.path.join(R1, 'ic2pm.log')
-    if os.path.exists(fl):
-        t = open(fl).read()
+    fl = glamio.run_file(R1, 'ic2pm.log', a.box)
+    if glamio.product_exists(fl):
+        t = glamio.read_text(fl)
         ep = re.search(r'velocity epoch *= *(\w+)', t)
         check(ep is not None and ep.group(1) == 'half', 'ic2pm velocity epoch = %s' % (ep.group(1) if ep else '?'))
         for key in ('rms at a_init', 'rms written'):
             l = [x for x in t.splitlines() if key in x]
             if l: print('     ' + l[0].strip())
     # ---- timing.log
-    ft = os.path.join(R1, 'timing.log')
-    if os.path.exists(ft):
+    ft = glamio.run_file(R1, 'timing.log', a.box)
+    if glamio.product_exists(ft):
         rows = []
-        for l in open(ft):
+        for l in glamio.read_text(ft).splitlines():
             p = l.split()
             if len(p) >= 10 and p[0].isdigit(): rows.append([float(v) for v in p])
         T = np.array(rows)
@@ -160,6 +161,16 @@ def main():
             if pr.any(): print('     primary outputs: mean step %.2f min (BDM %.2f, Analysis %.2f, IO %.2f)' % (tot[pr].mean(), T[pr, 7].mean(), T[pr, 8].mean(), T[pr, 5].mean()))
             if stn.any(): print('     station outputs: mean step %.2f min (Analysis %.2f, IO %.2f)' % (tot[stn].mean(), T[stn, 8].mean(), T[stn, 5].mean()))
             check(len(T) >= steps[-1] if steps else True, 'timing.log covers the last scheduled step (%d of %d)' % (len(T), steps[-1] if steps else 0))
+    # ---- packed run: the post-processing state (names and manifests only; `glamio.pack verify` checks the bytes)
+    if packed:
+        from glamio.pack import status
+        state, examples = status(R1)
+        if state in ('packed', 'pruned'):
+            check(True, 'packed run: glamio.pack status = %s' % state)
+        elif state in ('incomplete', 'partially-pruned'):
+            warn('packed run: glamio.pack status = %s (post-processing unfinished: resubmit pack_run.sh) %s' % (state, examples[:3]))
+        else:
+            check(False, 'packed run: glamio.pack status = %s %s' % (state, examples[:3]))
     # ---- sacct
     job = a.job
     if job is None:

@@ -358,6 +358,11 @@ def test_box0_and_path_rules():
         gpack.pack(rundir, out, log=_quiet)
         _compare_reads(rundir, out, box=0)
         assert glamio.product_path(out, "schedule", 0).endswith("RunInfo.0000.h5/schedule")    # default box=1 still finds it
+        for name, obj in (("main.log", "logs/main.log"), ("BDM.config", "BDM.config"), ("OutputSchedule.dat", "schedule")):
+            pn, pp = glamio.run_file(rundir, name, 0), glamio.run_file(out, name)
+            assert pn == os.path.join(rundir, name) and pp.endswith("RunInfo.0000.h5/" + obj)
+            assert glamio.read_text(pn) == glamio.read_text(pp)
+        assert glamio.run_file(out, "nothing.log") == os.path.join(out, "nothing.log")
         assert len(glamio.read_schedule(glamio.product_path(out, "schedule", 0))) == 3
         mixed = os.path.join(d, "mixed", "Run0")                       # an incomplete native pair falls back to the packed copy
         shutil.copytree(rundir, mixed)

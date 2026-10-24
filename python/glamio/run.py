@@ -97,6 +97,29 @@ def product_path(rundir: str | os.PathLike, product: str, step: int, box: int = 
     return native
 
 
+def run_file(rundir: str | os.PathLike, name: str, box: int = 1) -> str:
+    """Path of a run-level file of ``rundir`` (``OutputSchedule.dat``, ``BDM.config``, ``timing.log``, ``ic2pm.log``, ...).
+
+    The native file when it exists; otherwise, in a packed run, its copy in
+    ``RunInfo.<box>.h5`` (``schedule`` for ``OutputSchedule.dat``,
+    ``BDM.config``, ``logs/<name>`` for the others; a run with a single
+    RunInfo file is found whatever ``box`` says); otherwise the native path.
+    Read it with :func:`glamio.read_text`, which takes either form.
+    """
+    r = os.fspath(rundir)
+    native = os.path.join(r, name)
+    if os.path.isfile(native):
+        return native
+    obj = {"OutputSchedule.dat": "schedule", "BDM.config": "BDM.config"}.get(name, f"logs/{name}")
+    try:
+        inside = os.path.join(_runinfo(r, box), obj)
+        if packed.exists(inside):
+            return inside
+    except ImportError:
+        pass
+    return native
+
+
 def products_at(rundir: str | os.PathLike, step: int, box: int = 1) -> dict[str, str]:
     """``{product: path}`` of the products present for ``step`` in ``rundir`` (sidecar products need both files; the catalogue either form).
 

@@ -261,7 +261,10 @@ take `<file>.h5/<group>` where they take a native path (`mmap=True` maps the
 dataset at its offset in the HDF5 file; the text catalogue and snapshot
 readers are native only). `product_path` / `products_at` return such paths
 when the native product is absent or incomplete; the schedule is found with
-any `box` when the directory holds a single RunInfo file. So code written
+any `box` when the directory holds a single RunInfo file. `run_file(rundir,
+name, box)` does the same for the run-level files (`timing.log`, `main.log`,
+`ic2pm.log`, `BDM.config`, `OutputSchedule.dat`, ...), which `read_text` reads
+in either form. So code written
 against the native layout runs unchanged, and native-only runs never import
 h5py:
 
