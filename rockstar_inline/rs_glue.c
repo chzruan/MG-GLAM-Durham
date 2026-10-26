@@ -68,8 +68,16 @@ float find_previous_mass(struct halo *h, struct particle *hp, int64_t *best_num_
     return 0;
 }
 
-/* shadow/assert.h: a failed assertion takes Rockstar's error path (a throw) */
+/* shadow/assert.h: a failed assertion takes Rockstar's error path (a throw); the
+ * expression is kept for the guard's message (rs_guard.cpp), per thread */
+static _Thread_local char last_assertion[200];
+
+const char *rs_last_assertion(void) { return last_assertion; }
+
+void rs_clear_assertion(void) { last_assertion[0] = 0; }
+
 void rs_assert_fail(const char *expr, const char *file, int line) {
     fprintf(stderr, "[rockstar_inline] assertion failed: %s (%s:%d)\n", expr, file, line);
+    snprintf(last_assertion, sizeof last_assertion, "%s", expr);
     rockstar_abort_impl(134, file, line);
 }

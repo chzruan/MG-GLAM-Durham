@@ -11,7 +11,11 @@
  *     once (by the cell with the smaller key), lock-free union-find on the sorted
  *     index with the larger root linked under the smaller one, so each root ends
  *     as the smallest sorted index of its group whatever the thread schedule;
- *  5. groups: sizes, the kept groups (>= nmin) and their canonical order. */
+ *  5. groups: sizes, the kept groups (>= nmin) and their canonical order. The
+ *     positions' memory is reused for the int64 group sizes and the int32 labels,
+ *     so step 5 never needs more than step 4.
+ * Coordinates that rs_pos cannot map (not finite, or more than one box outside
+ * GLAM's range) stop the FoF in step 1 (RS_FOF_ECOORD). */
 #define _POSIX_C_SOURCE 200809L
 #include "rs_fof.h"
 
@@ -22,6 +26,34 @@
 #include <string.h>
 
 float rs_fof_linking_length(double spacing, double b) { return (float)(spacing * b); }
+
+const char *rs_fof_strerror(int rc)
+{
+    switch (rc) {
+    case RS_FOF_OK:      return "ok";
+    case RS_FOF_ENOMEM:  return "out of memory";
+    case RS_FOF_EGRID:   return "no cell grid: the box is too small for the linking length, or float positions "
+                                "too coarse for it";
+    case RS_FOF_ECOORD:  return "particle coordinates not finite or outside GLAM's range";
+    case RS_FOF_EGROUPS: return "2^31 groups or more";
+    default:             return "unknown error";
+    }
+}
+
+double rs_vmrss_gib(void)
+{
+    FILE *f = fopen("/proc/self/status", "r");
+    char line[256];
+    double kb = 0;
+    if (!f) return 0;
+    while (fgets(line, sizeof line, f))
+        if (!strncmp(line, "VmRSS:", 6)) {
+            kb = atof(line + 6);
+            break;
+        }
+    fclose(f);
+    return kb / 1048576.0;
+}
 
 struct grid {
     int64_t nc, m;          /* coarse cells per side, fine cells per coarse side */
@@ -76,6 +108,10 @@ static inline void uf_union(int64_t *parent, int64_t a, int64_t b)
 static int setup_grid(struct grid *g, double box, float r, int64_t nrow)
 {
     double rmin = (double)r * (1.0 + RS_FOF_CELL_MARGIN);
+    /* a wrapped float difference is rounded by up to ulp(Box)/2: the margin must absorb it */
+    const float boxf = (float)box;
+    const double ulp = (double)nextafterf(boxf, INFINITY) - (double)boxf;
+    if (rmin < (double)r + 4.0 * ulp) rmin = (double)r + 4.0 * ulp;
     int64_t ncmax = (int64_t)floor(box / rmin);
     if (ncmax < 3) return -1;
     int64_t nc = nrow / 2;
@@ -98,9 +134,14 @@ double rs_fof_peak_bytes(int64_t n, int64_t nrow, int nthreads)
 {
     int64_t nc = nrow / 2 < 3 ? 3 : nrow / 2;
     if (nc > 2048) nc = 2048;
-    double per_thread = 14.0 * 3.0 * (double)n / (double)nc + 8.0 * (double)nc * (double)nc;
-    /* perm 8 + positions 12 + fine 2 + parent 8 per particle, cell offsets, slab scratch */
-    return 30.0 * (double)n + 8.0 * (double)nc * nc * nc + per_thread * (nthreads > 0 ? nthreads : 1);
+    const double dn = (double)n, offsets = 8.0 * (double)nc * nc * nc, T = nthreads > 0 ? nthreads : 1;
+    /* step 2: perm 8 + positions 12 + fine 2 per particle and the cell offsets, plus per thread a slab
+     * buffer (tperm 8 + tkey 4 + tfine 2 + ffine 2 = 16 B per slab particle, grown by 1.25, slabs up to 3x
+     * the mean) and the (y, z) and fine-cell counters */
+    double step2 = 22.0 * dn + offsets + T * (16.0 * 1.25 * 3.0 * dn / (double)nc + 8.0 * (double)nc * nc + 8.0 * 64001.0);
+    /* step 4 (the scratch of step 2 is gone): + parent 8 per particle; step 5 holds less */
+    double step4 = 30.0 * dn + offsets;
+    return 1.15 * (step2 > step4 ? step2 : step4);     /* allocator and page granularity */
 }
 
 void rs_fof_free_cells(struct rs_cellindex *c)
@@ -166,6 +207,38 @@ static int cmp_i64(const void *pa, const void *pb)
     return a < b ? -1 : (a > b);
 }
 
+/* the canonical group order (a total order, so the result does not depend on the algorithm): chunks
+ * sorted in parallel, then merged pairwise; plain qsort when small or without scratch memory */
+static void sort_groups(struct gsort *gs, int64_t ng)
+{
+    int nchunk = 1;
+    while (nchunk < omp_get_max_threads() && nchunk < 64) nchunk *= 2;
+    struct gsort *tmp = (ng >= 65536 && nchunk > 1) ? malloc((size_t)ng * sizeof(struct gsort)) : NULL;
+    if (!tmp) {
+        qsort(gs, (size_t)ng, sizeof(struct gsort), cmp_groups);
+        return;
+    }
+#pragma omp parallel for schedule(static, 1)
+    for (int c = 0; c < nchunk; c++) {
+        int64_t lo = ng * c / nchunk, hi = ng * (c + 1) / nchunk;
+        qsort(gs + lo, (size_t)(hi - lo), sizeof(struct gsort), cmp_groups);
+    }
+    struct gsort *src = gs, *dst = tmp;
+    for (int width = 1; width < nchunk; width *= 2) {
+#pragma omp parallel for schedule(dynamic, 1)
+        for (int c = 0; c < nchunk; c += 2 * width) {
+            int cm = c + width < nchunk ? c + width : nchunk, ch = c + 2 * width < nchunk ? c + 2 * width : nchunk;
+            int64_t i = ng * c / nchunk, mid = ng * cm / nchunk, j = mid, hi = ng * ch / nchunk, o = i;
+            while (i < mid && j < hi) dst[o++] = cmp_groups(src + j, src + i) < 0 ? src[j++] : src[i++];
+            while (i < mid) dst[o++] = src[i++];
+            while (j < hi) dst[o++] = src[j++];
+        }
+        struct gsort *t = src; src = dst; dst = t;
+    }
+    if (src != gs) memcpy(gs, src, (size_t)ng * sizeof(struct gsort));
+    free(tmp);
+}
+
 int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
                const struct rs_units *u, int64_t nrow, double spacing, double b,
                int64_t nmin, int want_members,
@@ -177,8 +250,8 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
     const float boxf = u->box_f, half = 0.5f * u->box_f;
     struct grid g;
     if (setup_grid(&g, u->box, r, nrow) != 0) {
-        fprintf(stderr, "rs_fof: box %.4g too small for the linking length %.4g\n", u->box, r);
-        return -1;
+        fprintf(stderr, "rs_fof: no cell grid for box %.6g and linking length %.6g\n", u->box, r);
+        return RS_FOF_EGRID;
     }
     const int64_t nc = g.nc, nc2 = nc * nc, nc3 = nc2 * nc, m = g.m, m3 = m * m * m;
     const int T = omp_get_max_threads();
@@ -190,16 +263,24 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
     if (!perm || !offsets || !hist || !slab) goto fail_early;
 
     /* ---- 1. by x-slab: chunk t (indices [n t/T, n (t+1)/T)) is always handled as unit t ---- */
-#pragma omp parallel for schedule(static, 1)
+    int64_t nbad = 0;
+#pragma omp parallel for schedule(static, 1) reduction(+ : nbad)
     for (int t = 0; t < T; t++) {
         int64_t lo = n * t / T, hi = n * (t + 1) / T;
         int64_t *h = hist + (int64_t)t * nc;
         for (int64_t i = lo; i < hi; i++) {
             float p[3]; int64_t c[3], f[3];
+            if (!rs_pos_ok(u, x[i]) || !rs_pos_ok(u, y[i]) || !rs_pos_ok(u, z[i])) nbad++;
             pos_of(u, x, y, z, i, p);
             cell_of(&g, p, c, f);
             h[c[0]]++;
         }
+    }
+    if (nbad > 0) {
+        free(perm); free(offsets); free(hist); free(slab);
+        groups->nbad = nbad;
+        fprintf(stderr, "rs_fof: %lld particles with coordinates outside GLAM's range\n", (long long)nbad);
+        return RS_FOF_ECOORD;
     }
     {
         int64_t acc = 0;
@@ -228,7 +309,7 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
     hist = NULL;
 
     /* ---- 2. per slab: by (y, z) cell, then by fine cell; positions and fine ids in sorted order ---- */
-    float *spos = malloc((size_t)n * 3 * sizeof(float));
+    float *spos = malloc((size_t)n * 3 * sizeof(float) + 8);        /* + 8: the int64 sizes of step 5 */
     uint16_t *fine = malloc((size_t)n * sizeof(uint16_t));
     int failed = !spos || !fine;
     if (!failed) {
@@ -239,13 +320,10 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
             int32_t *tkey = NULL;
             uint16_t *tfine = NULL, *ffine = NULL;
             int64_t *fcnt = malloc((size_t)(m3 + 1) * sizeof(int64_t));
-            if (!cnt || !fcnt) {
-#pragma omp atomic write
-                failed = 1;
-            }
+            if (!cnt || !fcnt) __atomic_store_n(&failed, 1, __ATOMIC_RELAXED);
 #pragma omp for schedule(dynamic, 1)
             for (int64_t s = 0; s < nc; s++) {
-                if (failed) continue;
+                if (__atomic_load_n(&failed, __ATOMIC_RELAXED)) continue;
                 const int64_t s0 = slab[s], ns = slab[s + 1] - s0;
                 if (ns > cap) {
                     cap = ns + ns / 4 + 1024;
@@ -258,8 +336,7 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
                     uint16_t *f2 = realloc(ffine, (size_t)cap * sizeof(uint16_t));
                     if (f2) ffine = f2;
                     if (!a || !k || !f1 || !f2) {
-#pragma omp atomic write
-                        failed = 1;
+                        __atomic_store_n(&failed, 1, __ATOMIC_RELAXED);
                         cap = 0;
                         continue;
                     }
@@ -303,8 +380,10 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
                         memcpy(ffine + a0, tfine + a0, (size_t)na * sizeof(uint16_t));
                     }
                 }
-                memcpy(perm + s0, tperm, (size_t)ns * sizeof(int64_t));
-                memcpy(fine + s0, ffine, (size_t)ns * sizeof(uint16_t));
+                if (ns > 0) {
+                    memcpy(perm + s0, tperm, (size_t)ns * sizeof(int64_t));
+                    memcpy(fine + s0, ffine, (size_t)ns * sizeof(uint16_t));
+                }
                 for (int64_t q = 0; q < ns; q++) pos_of(u, x, y, z, perm[s0 + q], spos + 3 * (s0 + q));
             }
             free(tperm); free(tkey); free(tfine); free(ffine); free(cnt); free(fcnt);
@@ -320,6 +399,7 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
     if (!parent) { free(spos); free(fine); goto fail_early; }
 #pragma omp parallel for schedule(static)
     for (int64_t k = 0; k < n; k++) parent[k] = k;
+    groups->rss_link_gib = rs_vmrss_gib();             /* every array of the linking stage is touched now */
 
     const int64_t nf = nc * m;          /* fine cells per side over the whole box */
 #pragma omp parallel for schedule(dynamic, 64)
@@ -353,8 +433,15 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
                 }
                 for (int64_t i = a0; i < a1; i++) {
                     const float *pi = spos + 3 * i;
+                    int64_t ri = uf_find(parent, i);        /* stale after other unions, but still i's set */
                     for (int64_t j = (keyb == keya ? i + 1 : b0); j < b1; j++)
-                        if (rs_linked(pi, spos + 3 * j, boxf, half, r2)) uf_union(parent, i, j);
+                        if (rs_linked(pi, spos + 3 * j, boxf, half, r2)) {
+                            int64_t rj = uf_find(parent, j);
+                            if (rj != ri) {                 /* rj == ri: ri is a root and j is in its set */
+                                uf_union(parent, ri, rj);
+                                ri = uf_find(parent, ri);
+                            }
+                        }
                 }
             }
             a0 = a1;
@@ -362,14 +449,16 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
     }
 
     free(fine);
-    if (failed) { free(parent); free(spos); goto fail_early; }
 
-    /* ---- 5. groups ---- */
+    /* ---- 5. groups: the positions' memory (12 n + 8 bytes) now holds the int32 labels in its first 4 n
+     *      bytes and the int64 group sizes (then provisional ids) after them ---- */
+    int32_t *label = (int32_t *)spos;
+    int64_t *cnt = (int64_t *)((char *)spos + (((size_t)n * 4 + 7) & ~(size_t)7));
 #pragma omp parallel for schedule(static)
-    for (int64_t k = 0; k < n; k++)                                       /* full compression: no unions now */
+    for (int64_t k = 0; k < n; k++) {                                     /* full compression: no unions now */
         __atomic_store_n(&parent[k], uf_find(parent, k), __ATOMIC_RELAXED);
-    int32_t *cnt = (int32_t *)spos;                                       /* the positions' memory, 12 n bytes */
-    memset(cnt, 0, (size_t)n * sizeof(int32_t));
+        cnt[k] = 0;
+    }
 #pragma omp parallel for schedule(static)
     for (int64_t k = 0; k < n; k++) {
 #pragma omp atomic update
@@ -386,6 +475,12 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
     }
     for (int t = 0; t < T; t++) chunkcount[t + 1] += chunkcount[t];
     const int64_t ng = chunkcount[T];
+    if (ng > INT32_MAX) {
+        free(chunkcount); free(parent); free(spos);
+        free(perm); free(offsets);
+        memset(cells, 0, sizeof *cells);
+        return RS_FOF_EGROUPS;
+    }
     struct gsort *gs = malloc((size_t)(ng > 0 ? ng : 1) * sizeof(struct gsort));
     int64_t *canon = malloc((size_t)(ng > 0 ? ng : 1) * sizeof(int64_t));
     groups->offset = malloc((size_t)(ng + 1) * sizeof(int64_t));
@@ -402,7 +497,7 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
                 gs[id].size = cnt[k];
                 gs[id].minidx = INT64_MAX;
                 gs[id].gp = id;
-                cnt[k] = (int32_t)id++;
+                cnt[k] = id++;
             } else {
                 cnt[k] = -1;
             }
@@ -413,7 +508,7 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
 #pragma omp parallel for schedule(static)
     for (int64_t k = 0; k < n; k++) {
         int64_t gp = cnt[parent[k]];
-        parent[k] = gp;
+        label[k] = (int32_t)gp;
         if (gp >= 0) {
             int64_t pi = perm[k];
             int64_t cur = __atomic_load_n(&gs[gp].minidx, __ATOMIC_RELAXED);
@@ -421,8 +516,12 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
                                                              __ATOMIC_RELAXED, __ATOMIC_RELAXED)) {}
         }
     }
-    free(spos);
-    qsort(gs, (size_t)ng, sizeof(struct gsort), cmp_groups);
+    free(parent);
+    {
+        int32_t *shrunk = realloc(spos, (size_t)(n > 0 ? n : 1) * sizeof(int32_t));    /* keeps the labels */
+        if (shrunk) label = shrunk;
+    }
+    sort_groups(gs, ng);
     groups->ngroups = ng;
     groups->offset[0] = 0;
     int64_t largest = 0;
@@ -436,9 +535,9 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
     free(gs);
 #pragma omp parallel for schedule(static)
     for (int64_t k = 0; k < n; k++)
-        if (parent[k] >= 0) parent[k] = canon[parent[k]];
+        if (label[k] >= 0) label[k] = (int32_t)canon[label[k]];
     free(canon);
-    groups->group_of_sorted = parent;
+    groups->group_of_sorted = label;
 
     if (want_members) {
         groups->member = malloc((size_t)(groups->nmembers > 0 ? groups->nmembers : 1) * sizeof(int64_t));
@@ -447,7 +546,7 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
         memcpy(cursor, groups->offset, (size_t)ng * sizeof(int64_t));
 #pragma omp parallel for schedule(static)
         for (int64_t k = 0; k < n; k++) {
-            int64_t gi = parent[k];
+            int64_t gi = label[k];
             if (gi < 0) continue;
             int64_t d;
 #pragma omp atomic capture
@@ -464,11 +563,11 @@ int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
     cells->cs = g.cs;
     cells->perm = perm;
     cells->offsets = offsets;
-    return 0;
+    return RS_FOF_OK;
 
 fail_early:
     free(perm); free(offsets); free(hist); free(slab);
     memset(cells, 0, sizeof *cells);
     fprintf(stderr, "rs_fof: out of memory\n");
-    return -1;
+    return RS_FOF_ENOMEM;
 }

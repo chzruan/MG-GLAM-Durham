@@ -15,13 +15,22 @@
 extern "C" {
 #endif
 
-/* rs_write.c */
-int rs_columns_text(char *buf, size_t cap);
+/* rs_write.c: the column list of the .meta (descriptions follow BOUND_PROPS); -1 if cap is too small */
+int rs_columns_text(char *buf, size_t cap, int bound_props);
 int rs_write_catalogue(const char *dir, int step, int box, const struct rs_record *rec, int64_t nrows,
                        const char *meta, char *err, int errlen);
+/* 1 when <dir>/Rockstar.<step>.<box>.meta exists and says status = ok */
+int rs_catalogue_ok(const char *dir, int step, int box);
 
-/* rs_parents.c: pid / upid of n records (positions wrapped into the box) */
-int rs_find_parents(int64_t n, struct rs_record *rec, int use_strict_radius);
+/* rs_parents.c: pid / upid of n records (positions wrapped into the box) with the kernel radius r;
+ * 0, or -1: out of memory. A Rockstar error inside throws: call it through rs_guarded_find_parents
+ * (rs_guard.cpp), which releases the call's memory with rs_parents_cleanup */
+int rs_find_parents(int64_t n, struct rs_record *rec);
+void rs_parents_cleanup(void);
+
+/* rs_guard.cpp */
+int rs_guarded_call(int (*fn)(void *), void *arg, const char *what, char *msg, int msglen);
+int rs_guarded_find_parents(int64_t n, struct rs_record *rec, char *msg, int msglen);
 
 /* rs_strict.c: strict SO masses of n records from every particle (GLAM arrays via the cell index);
  * needs calc_mass_definition() on the calling thread (its thresholds are copied into the team) */

@@ -53,6 +53,13 @@ static inline float rs_pos(const struct rs_units *u, float xg)
     return xf;
 }
 
+/* 1 when rs_pos maps xg faithfully: finite and at most one box outside [1, Ngrid+1) */
+static inline int rs_pos_ok(const struct rs_units *u, float xg)
+{
+    double x = ((double)xg - 1.0) * u->xscale;
+    return x >= -u->box && x < 2.0 * u->box;           /* false for NaN */
+}
+
 static inline float rs_vel(const struct rs_units *u, float vg)
 {
     return (float)((double)vg * u->vscale);

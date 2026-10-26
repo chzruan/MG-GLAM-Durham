@@ -27,9 +27,12 @@ def dtype_from_meta(meta):
                      "itemsize": int(meta["record_bytes"])})
 
 
-def read_rsbin(base):
-    """base: path without .bin/.meta. Returns (records, meta)."""
+def read_rsbin(base, allow_status=False):
+    """base: path without .bin/.meta. Returns (records, meta). A catalogue whose status is not ``ok`` (skipped
+    or failed: zero rows) raises ValueError unless allow_status."""
     meta = read_meta(base + ".meta")
+    if meta.get("status") != "ok" and not allow_status:
+        raise ValueError(f"{base}: status {meta.get('status')} ({meta.get('reason')})")
     dt = dtype_from_meta(meta)
     rows = int(meta["rows"])
     data = np.fromfile(base + ".bin", dtype=dt)

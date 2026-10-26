@@ -13,30 +13,53 @@ Rockstar code.
 Each call (`rs_inline_run`, declared in `rs_inline.h`) runs these steps:
 
 1. **FoF.** An exact, periodic friends-of-friends with linking length b = 0.28 over
-   all particles (`rs_fof.c`): parallel, deterministic, int64 throughout. Particles are
-   friends when d² < r² in float, as in Rockstar's own test. Groups smaller than
-   `MIN_HALO_PARTICLES` are dropped.
+   all particles (`rs_fof.c`): parallel and deterministic.
+   - Particles are friends when d² < r² in float, as in Rockstar's own test, with
+     d² = (dx² + dy²) + dz² and no fused multiply-add.
+   - Indices and group sizes are int64; group labels are int32 (fewer than 2³¹ groups,
+     checked).
+   - Groups smaller than `MIN_HALO_PARTICLES` are dropped.
+   - Particle coordinates that are not finite, or more than one box outside GLAM's
+     range, fail the output instead of being moved.
 2. **Gather.** Each group's members are copied into Rockstar's particle array, sorted
    by particle id and unwrapped around the first member. Positions are converted to
    comoving Mpc/h and velocities to physical peculiar km/s (`rs_convert.h`). The
    velocities use the epoch a_v = AEXPN − ASTEP/2, because GLAM's momenta lag its
-   positions by half a leapfrog step.
+   positions by half a leapfrog step. A group spanning half the box or more fails the
+   output (it could not be unwrapped).
 3. **Kernel.** MPI-Rockstar's per-group kernel (`find_subs`) runs on every group in an
    OpenMP loop, largest group first, as MPI-Rockstar's `do_halo_finding` does. The
    haloes are merged in group order, so the catalogue does not depend on the thread
-   count.
+   count. One failing group abandons the output: after an error inside `find_subs`,
+   Rockstar's per-thread buffers cannot be reused until they are freed.
 4. **Output.**
-   - Rockstar's output filter is applied (`MIN_HALO_OUTPUT_SIZE`, `UNBOUND_THRESHOLD`).
+   - Halo centres are wrapped into [0, Box), and Rockstar's output filter is applied
+     (`MIN_HALO_OUTPUT_SIZE`, `UNBOUND_THRESHOLD`).
    - Strict spherical-overdensity masses are computed from every particle
      (`rs_strict.c`, as Rockstar's `STRICT_SO_MASSES`).
-   - Parents are assigned as Rockstar's `find_parents` does (`rs_parents.c`).
+   - Parents are assigned as Rockstar's `find_parents` does (`rs_parents.c`), with the
+     kernel radius `r`. Halos of equal vmax are taken in row order, so the result does
+     not depend on the C library's sort. The strict radius is not used for parents: a
+     subhalo's strict sphere also counts its host's particles, which at L256 turned
+     about 3 % of the hosts into subhaloes.
    - The catalogue is published atomically (`rs_write.c`).
 
-The particle arrays are only read. Nothing in the adapter ends the process:
+The particle arrays are only read. Failures inside the adapter do not end the process:
 - Rockstar's `exit()` and failed assertions become C++ exceptions (`shadow/assert.h`)
-  and are caught for each group (`rs_guard.cpp`).
+  and are caught (`rs_guard.cpp`): per group in the kernel, and around the
+  configuration parser and the parent search.
 - Allocation failures and failed memory pre-checks become a status.
-- In every case a catalogue is still published, and its `.meta` says what happened.
+- A catalogue is then still published, and its `.meta` says what happened. If a
+  complete catalogue of the same step already exists (a restart that repeats the
+  output), it is kept. If the file system refuses the write, only the run's standard
+  output records the reason.
+
+Signals (a segmentation fault) and the kernel's or Slurm's out-of-memory killer still
+end the process. Under Linux's memory overcommit an allocation rarely fails, so the
+memory pre-checks are the real protection against running out of memory: each output
+is skipped when VmRSS plus the estimated need would exceed the ceiling, the smaller of
+`GLAM_MEMORY_CEILING_GIB` and 97 % of the process's memory limit (its cgroups, such as
+a Slurm job's, or MemTotal).
 
 ## Build
 
@@ -45,24 +68,40 @@ runtime:
 
 ```
 module load intel_comp/2024.2.0; module load compiler-rt tbb compiler mpi
-make -C rockstar_inline ROCKSTAR_DIR=<MPI-Rockstar checkout>   # build/librs_inline.a + harness/rs_harness
+make -C rockstar_inline ROCKSTAR_DIR=<MPI-Rockstar checkout>   # build/librs_inline.a, harness/rs_harness, harness/test_fof
 make -C rockstar_inline stub                                    # build/librs_stub.a
 ```
 
-The adapter has been validated against MPI-Rockstar commit 0ae386f. The commit and the
-compiler flags are recorded in every catalogue's `.meta`.
+A program that links `librs_inline.a` also needs `-lstdc++`. The adapter has been
+validated against MPI-Rockstar commit 0ae386f. The commit (with `-dirty` for local
+changes), the compiler version and the flags are recorded in every catalogue's
+`.meta`. The failure-injection hooks of the tests are compiled into the harness only.
 
 ## Configuration
 
 The configuration is read from `Rockstar.config` in the run directory, with Rockstar's
-own parser. `FILE_FORMAT` must be present, although it is not used.
+own parser. `FILE_FORMAT` must be present, although it is not used. The file is read
+once per process (at the start-up check or the first output), so every output of a run
+uses the same settings; a file that cannot be read or holds no entries is an error. The
+`.meta` records the file's checksum (`config_fnv1a64`) and every effective Rockstar
+setting (`config.<KEY>`).
 
 **Values the adapter sets from the run** (they are not read from the file):
 - `BOX_SIZE`, `TOTAL_PARTICLES`, `Om`, `Ol`, `h0`, `SCALE_NOW`;
 - `PARTICLE_MASS` = ρ_c Ω_m L³/N, and the mean particle spacing.
 
 **Values the adapter forces:**
-- `TEMPORAL_HALO_FINDING = 0`, `PERIODIC = 1`, `LIGHTCONE = 0`, `OUTPUT_LEVELS = 0`.
+- `TEMPORAL_HALO_FINDING = 0`, `PERIODIC = 1`, `LIGHTCONE = 0`, `OUTPUT_LEVELS = 0`,
+  `PARALLEL_IO = 1`, `NON_COSMOLOGICAL = 0`, `W0 = -1`, `WA = 0`.
+
+**Keys that have no effect in-line:** `STRICT_SO_MASSES` and `UNFILTERED_HALO_OUTPUT`
+(a warning is printed when they are set; the strict pass is `GLAM_STRICT_SO`, and the
+output filter always applies), and `OUTPUT_FORMAT`.
+
+**Checked:** FORCE_RES > 0; 0 < FOF_LINKING_LENGTH ≤ 0.5; 0 < FOF_FRACTION < 1;
+MIN_HALO_PARTICLES ≥ 2; MIN_HALO_OUTPUT_SIZE ≥ 1; 1 ≤ MIN_PART_PER_BIN ≤
+MIN_SCALE_PART (otherwise Rockstar's NFW fit divides by zero); 1 ≤ MAX_SCALE_BINS ≤
+1000.
 
 **`FORCE_RES`.** It is capped at `FORCE_RES_PHYS_MAX`/a, as Rockstar does. Its value
 matters at GLAM's resolution. At FORCE_RES = 0.25 Mpc/h (one PM cell at 0.5 Mpc/h mean
@@ -71,7 +110,7 @@ converged for FORCE_RES ≤ 0.1 Mpc/h.
 
 **Keys for GLAM:**
 - `GLAM_MEMORY_CEILING_GIB` (default 900): the output is skipped when the memory
-  pre-checks would exceed it.
+  pre-checks would exceed it (or 97 % of the process's memory limit, if smaller).
 - `GLAM_STRICT_SO` (default 1).
 
 ## Catalogue
@@ -85,12 +124,23 @@ Each record is:
 
 The sidecar `.meta` (key = value) gives:
 - every column with its type, byte offset and unit;
-- the effective configuration and the velocity epoch;
-- FoF statistics, timings and memory;
+- the effective configuration, its checksum and the velocity epoch;
+- FoF statistics, timings and memory (VmRSS sampled at each phase's peak, VmHWM);
 - the status: `ok`, `skipped` or `failed`.
 
-Catalogues that are skipped or failed have zero rows. `harness/rsbin.py` reads the
-catalogue into a numpy structured array.
+Column notes:
+- With `BOUND_PROPS = 1` (the default here), Rockstar computes every property except
+  `m` from the bound particles: `r` is the radius of the bound mass `mgrav`, and the
+  `alt_m_*` are bound masses.
+- A mass of 0 in `alt_m_*` or `alt_m_strict_*` means that the threshold was not
+  reached at this `FORCE_RES` (`strict_crossed` says which were); the `*2` shape and
+  inertia columns (`MASS_DEFINITION4`, 500c by default) are then 0 too.
+
+Catalogues that are skipped or failed have zero rows. An interrupted write leaves a
+`.bin` without `.meta` and possibly the hidden temporaries
+`.Rockstar.<step>.<box>.{bin,meta}.tmp`; a rerun of the step replaces them.
+`harness/rsbin.py` reads the catalogue into a numpy structured array (and refuses a
+skipped or failed one unless asked).
 
 ## Tests (`harness/`)
 
@@ -103,31 +153,73 @@ Its commands:
 | `fofcmp DIR STEP` | test T2: the parallel FoF against the serial reference FoF (`fof_ref.c`), checking that the two partitions are exactly equal |
 | `internal DIR STEP OUTDIR NFILES [...]` | writes Rockstar INTERNAL particle files plus a config for standalone MPI-Rockstar (the reference) |
 
+`harness/test_fof` needs no snapshot: it checks the FoF against an O(n²) brute force
+with its own conversion and distance test, on adversarial particle sets at the
+production geometry (pairs at r(1 ± 2×10⁻⁴) across the periodic boundary and across
+cell boundaries, GLAM's coordinate edges, a corner cloud, a blob, a chain). It also
+checks the canonical order, bitwise identical output with 1 to 4 threads, and the
+error codes.
+
 The Python scripts compare the in-line catalogue with standalone MPI-Rockstar run on
-the same particles with the same configuration (`t1_compare.py`, `t1_props.py`). They
-also check units against BDM (`t4_units.py`).
+the same particles with the same configuration:
+- `t1_compare.py` compares mass functions and matches hosts halo by halo. The
+  mass-function ratios get their errors from a paired bootstrap over subvolumes,
+  because both catalogues hold mostly the same haloes. Hosts are compared with a
+  reference run with `STRICT_SO_MASSES = 0`, whose parents use the kernel radius as the
+  in-line ones do; the strict masses are compared with a `STRICT_SO_MASSES = 1`
+  reference over all haloes.
+- `t1_props.py` lists property medians by mass (descriptive).
+- `t4_units.py` compares each host's bulk velocity with the mean velocity of the
+  snapshot particles inside its radius, converted independently by glamio; it also
+  reports the ratio to BDM's velocities.
 
-**Validation** (L128 and L256 boxes at 0.5 Mpc/h particle spacing, ΛCDM and f(R),
-z = 0 and 1):
-- **FoF:** identical partitions to the serial reference.
-- **Determinism:** catalogues are bitwise identical between runs with 3 and 4 threads,
-  and on reruns.
-- **Error paths:** each injected failure is reported, and a clean call afterwards
-  gives the same catalogue.
-- **Mass functions and properties against standalone MPI-Rockstar:**
-  - host and subhalo mass functions agree within Poisson errors (0.1-1 %);
-  - median Vmax, Rs, spin, b/a and T/|U| agree within 0.3 %;
-  - subhalo fractions agree as well.
+**Validation** (ΛCDM and f(R) boxes of 128 and 256 Mpc/h at 0.5 Mpc/h particle spacing;
+L128 at z = 0 and 1, L256 at z = 0):
+- **FoF:** `test_fof` passes. The partitions are identical to the serial reference
+  (T2) at all six outputs, up to 534 098 groups.
+- **Determinism:** the `.bin` is bitwise identical with 3, 4 and 16 threads, and on
+  reruns.
+- **Error paths:** an injected Rockstar `exit()`, failed assertion or allocation
+  failure, an unreadable configuration and an invalid one each give status `failed`
+  with the reason. A clean call afterwards in the same process gives the identical
+  catalogue, and an existing complete catalogue survives a failing rerun.
+- **Against standalone MPI-Rockstar** (the same particles and configuration; hosts
+  compared with `STRICT_SO_MASSES = 0` references, strict masses with
+  `STRICT_SO_MASSES = 1` ones):
+  - Mass functions (all haloes and hosts by bound mass, `m`, and the strict masses)
+    agree within the paired-bootstrap errors in 174 of 175 bins. The exception is
+    L128 f(R) z = 0, hosts of 10¹³-3×10¹³: 542 against 551, 3.06σ.
+  - Median Vmax, Rs, spin, b/a and T/|U| of hosts agree within the reference's
+    statistical error in every mass bin: within 1.5 % at L128, 0.6 % at L256.
+  - Subhalo fractions agree within 0.006; between two standalone runs, within 0.003.
+  - Halo by halo, hosts with ≥ 100 particles matched within 0.1 R200m, and of those
+    the fraction within |Δln M| < 0.02:
 
-  Standalone runs that differ only in rank count or input order differ from each
-  other by the same amounts.
-- **Halo-by-halo identity.** 92-93 % of hosts with ≥ 100 particles match a standalone
-  host within 0.1 R200m, and 89 % match within |Δln M| < 0.02. Between standalone runs
-  the figures are 94-95 % and 92 %.
+    | output | in-line vs standalone | standalone vs standalone |
+    |---|---|---|
+    | L128 ΛCDM z = 0 | 92.6 %, 89.2 % | 94.5 %, 91.7 % |
+    | L128 ΛCDM z = 1 | 90.2 %, 90.0 % | 92.8 %, 92.5 % |
+    | L128 f(R) z = 0 | 93.2 %, 89.2 % | 94.9 %, 91.8 % |
+    | L128 f(R) z = 1 | 91.3 %, 90.6 % | 93.4 %, 93.1 % |
+    | L256 ΛCDM z = 0 | 92.4 %, 89.3 % | 94.3 %, 91.6 % |
+    | L256 f(R) z = 0 | 92.9 %, 89.2 % | 94.7 %, 91.7 % |
+    | L256 ΛCDM z = 0, positions shifted by L/2 | 92.0 %, 88.3 % | 93.8 %, 90.5 % (shifted standalone) |
+    | strict masses, all haloes, L128 / L256 z = 0 | 93.9 %, 84.3 % / 93.9 %, 84.3 % | 95.3 %, 86.8 % / 95.2 %, 86.9 % |
+
+    The in-line catalogue is 1.3-2.7 points below the standalone baseline of the
+    same output in every row. The defaults of `t1_compare.py` (92 % matched, 88 %
+    within 2 %) are met at z = 0; at z = 1 the matched fraction is below 92 % because
+    the standalone baseline itself is lower there.
   - The difference comes from the FoF. Rockstar's own FoF merges groups within 2r of
-    particles with more than 16 neighbours, and does so in an order that depends on
-    the run.
-  - A deterministic emulation of that merging lowered the agreement, so the exact FoF
-    is used.
-- **Velocities against BDM:** bulk velocities agree with BDM's to the expected epoch
-  factor AEXPN/a_v.
+    particles with more than 16 neighbours, in an order that depends on the run. A
+    deterministic emulation of that merging lowered the agreement, so the exact FoF is
+    used.
+- **Units (T4):**
+  - The hosts' bulk velocity divided by the mean velocity of the snapshot particles
+    inside r is 1.0000-1.0001. Those particles were converted independently by glamio
+    at a_v.
+  - A conversion at AEXPN is excluded at more than 40σ (z = 0 and 1).
+  - Against BDM, which converts with AEXPN, the ratio is 1.0014-1.0064, against the
+    expected 1.0027-1.0078. BDM's halo velocity is a different estimator.
+- **Cost at L256** (134 M particles, 16 threads): 28-31 s per output; the peak is
+  4.3-4.6 GiB above the entry VmRSS (35-37 B per particle), during the gather.

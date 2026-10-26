@@ -37,6 +37,8 @@ static inline float rs_dwrap(float d, float box, float half)
     return d;
 }
 
+/* (dx*dx + dy*dy) + dz*dz, each operation rounded to float: the files that use it are compiled with
+ * -ffp-contract=off, so no fused multiply-add changes the rounding */
 static inline int rs_linked(const float *a, const float *b, float box, float half, float r2)
 {
     float dx = rs_dwrap(a[0] - b[0], box, half);
@@ -45,7 +47,11 @@ static inline int rs_linked(const float *a, const float *b, float box, float hal
     return dx * dx + dy * dy + dz * dz < r2;
 }
 
-#define RS_FOF_CELL_MARGIN 1e-3     /* cell sides >= r (1 + margin) */
+#define RS_FOF_CELL_MARGIN 1e-3     /* cell sides >= r (1 + margin), and >= r + 4 ulp(Box) (checked) */
+
+/* return codes of rs_fof_run */
+enum { RS_FOF_OK = 0, RS_FOF_ENOMEM = -1, RS_FOF_EGRID = -2, RS_FOF_ECOORD = -3, RS_FOF_EGROUPS = -4 };
+const char *rs_fof_strerror(int rc);
 
 struct rs_cellindex {               /* particles sorted by coarse cell, kept for the strict SO pass */
     int64_t  nc;                    /* coarse cells per side */
@@ -61,14 +67,18 @@ struct rs_fof_groups {
     int64_t *offset;                /* ngroups + 1: canonical member layout */
     int64_t *member;                /* nmembers particle indices, group by group, each group by index
                                        (NULL unless requested: the adapter scatters straight into its buffer) */
-    int64_t *group_of_sorted;       /* n entries (sorted position k -> group or -1); NULL after rs_fof_release_labels */
+    int32_t *group_of_sorted;       /* n entries (sorted position k -> group or -1; fewer than 2^31 groups,
+                                       checked); NULL after rs_fof_release_labels */
+    int64_t  nbad;                  /* particles whose coordinates are not finite or more than one box outside
+                                       [1, Ngrid+1) (rs_fof_run then returns RS_FOF_ECOORD) */
+    double   rss_link_gib;          /* VmRSS sampled when every array of the linking stage is in use */
 };
 
-/* Runs the FoF on n particles (GLAM grid units, converted by u). b is the linking
- * length in units of the mean spacing `spacing` (Mpc/h); groups of at least nmin
- * members are kept. want_members: also fill groups->member.
- * Returns 0, or -1 on allocation failure (everything released). nthreads <= 0:
- * the OpenMP default. */
+/* Runs the FoF on n particles (GLAM grid units, converted by u) with the OpenMP
+ * default thread count. b is the linking length in units of the mean spacing
+ * `spacing` (Mpc/h); groups of at least nmin members are kept. want_members: also
+ * fill groups->member. Returns RS_FOF_OK, or an RS_FOF_E* code (rs_fof_strerror)
+ * with everything released. */
 int rs_fof_run(int64_t n, const float *x, const float *y, const float *z,
                const struct rs_units *u, int64_t nrow, double spacing, double b,
                int64_t nmin, int want_members,
@@ -81,8 +91,13 @@ void rs_fof_release_labels(struct rs_fof_groups *g);    /* frees group_of_sorted
 void rs_fof_free_groups(struct rs_fof_groups *g);
 void rs_fof_free_cells(struct rs_cellindex *c);
 
-/* bytes the FoF needs at its peak for n particles (the memory pre-check) */
+/* bytes the FoF needs at its peak for n particles (the memory pre-check), and the
+ * bytes it still holds when it returns (cell index and group labels) */
 double rs_fof_peak_bytes(int64_t n, int64_t nrow, int nthreads);
+double rs_fof_retained_bytes(int64_t n, int64_t nrow);
+
+/* VmRSS of this process in GiB (0 if unknown) */
+double rs_vmrss_gib(void);
 
 #ifdef __cplusplus
 }

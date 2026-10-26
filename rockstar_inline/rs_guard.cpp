@@ -13,11 +13,13 @@
 extern "C" {
 #include "fof.h"
 #include "groupies.h"
-#include "io/read_config.h"
 #include "rs_inline.h"
+#include "rs_inline_internal.h"
 }
 
 extern "C" void rs_assert_fail(const char *expr, const char *file, int line);
+extern "C" const char *rs_last_assertion(void);
+extern "C" void rs_clear_assertion(void);
 extern "C" int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z,
                                   const float *vx, const float *vy, const float *vz, double box,
                                   int64_t ngrid, double aexpn, double astep, double om, double oml,
@@ -27,7 +29,12 @@ extern "C" int rs_publish_failure(const char *catalog_dir, int step, int box_ind
 
 static void describe(const rockstar_error &e, char *msg, int msglen)
 {
-    std::snprintf(msg, msglen, "Rockstar error %d at %s:%d", e.code, e.file ? e.file : "?", e.line);
+    const char *a = rs_last_assertion();
+    if (a && *a)
+        std::snprintf(msg, msglen, "Rockstar assertion '%s' failed at %s:%d", a, e.file ? e.file : "?", e.line);
+    else
+        std::snprintf(msg, msglen, "Rockstar error %d at %s:%d", e.code, e.file ? e.file : "?", e.line);
+    rs_clear_assertion();
 }
 
 // inject: 0 none; 1 a Rockstar exit(); 2 a failed assertion (test hooks of rs_inline.c)
@@ -49,16 +56,38 @@ extern "C" int rs_guarded_find_subs(struct fof *f, struct FOFInfo *fofinfo, stru
     return -1;
 }
 
-extern "C" int rs_guarded_load_config(struct configfile *c, const char *path, char *msg, int msglen)
+// a serial step that may reach Rockstar's exit() (the configuration parser and its
+// config_to_* conversions): fn returns 0 or -1 with its own message
+extern "C" int rs_guarded_call(int (*fn)(void *), void *arg, const char *what, char *msg, int msglen)
 {
     try {
-        load_config(c, const_cast<char *>(path));
-        return 0;
+        return fn(arg);
     } catch (const rockstar_error &e) {
-        std::snprintf(msg, msglen, "%s: not a usable Rockstar configuration (FILE_FORMAT must be set)", path);
+        char d[400];
+        describe(e, d, sizeof d);
+        std::snprintf(msg, msglen, "%s: %s", what, d);
+    } catch (const std::bad_alloc &) {
+        std::snprintf(msg, msglen, "%s: out of memory", what);
     } catch (...) {
-        std::snprintf(msg, msglen, "%s: cannot be parsed", path);
+        std::snprintf(msg, msglen, "%s: unknown exception", what);
     }
+    return -1;
+}
+
+extern "C" int rs_guarded_find_parents(int64_t n, struct rs_record *rec, char *msg, int msglen)
+{
+    try {
+        if (rs_find_parents(n, rec) == 0) return 0;
+        std::snprintf(msg, msglen, "parents: out of memory");
+        return -1;
+    } catch (const rockstar_error &e) {
+        char d[400];
+        describe(e, d, sizeof d);
+        std::snprintf(msg, msglen, "parents: %s", d);
+    } catch (...) {
+        std::snprintf(msg, msglen, "parents: unknown exception");
+    }
+    rs_parents_cleanup();
     return -1;
 }
 
@@ -78,8 +107,9 @@ extern "C" int rs_inline_run(int64_t n, const float *x, const float *y, const fl
     } catch (...) {
         std::snprintf(reason, sizeof reason, "unknown exception");
     }
-    // an error outside the guarded kernel calls (serial Rockstar code): the run's
-    // temporaries leak, but the simulation continues and the output says why
+    // the Rockstar calls of rs_inline_run_impl are all guarded above, so this is a
+    // last resort: the run's temporaries leak, but the simulation continues and the
+    // output says why
     std::fprintf(stdout, " Rockstar step %d: FAILED (%s)\n", step, reason);
     std::fflush(stdout);
     if (info) {
