@@ -28,8 +28,9 @@ struct rs_inline_info {
     char    reason[512];                /* why, when not RS_OK */
     int64_t ngroups, nmembers, largest; /* FoF groups (>= MIN_HALO_PARTICLES), their particles, the largest */
     int64_t nhalos_internal;            /* halos the kernel found */
-    int64_t nhalos;                     /* rows written (MIN_HALO_OUTPUT_SIZE, UNBOUND_THRESHOLD) */
-    int64_t nhosts;                     /* rows with pid = -1 */
+    int64_t nhalos;                     /* halos passing Rockstar's output filter (MIN_HALO_OUTPUT_SIZE,
+                                           UNBOUND_THRESHOLD), distinct haloes and subhaloes */
+    int64_t nhosts;                     /* the distinct haloes among them: the rows written */
     double  t_fof, t_gather, t_kernel, t_strict, t_parents, t_write, t_total;   /* seconds */
     double  rss_entry_gib, rss_max_gib; /* VmRSS at entry and the largest sampled during the call */
     double  need_fof_gib, need_kernel_gib;  /* the pre-check estimates */

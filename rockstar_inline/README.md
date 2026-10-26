@@ -2,7 +2,9 @@
 
 This directory holds an adapter. At an output step it finds haloes with the Rockstar
 halo finder (Behroozi et al. 2013), working directly on MG-GLAM's particle arrays in
-memory, and writes a catalogue next to BDM's. The adapter is licensed under the GNU
+memory, and writes a catalogue of distinct haloes next to BDM's. Subhaloes are not
+written: GLAM's fixed mesh resolution does not resolve substructure. The adapter is
+licensed under the GNU
 GPL, version 3 or later, because it links GPLv3 code from
 [MPI-Rockstar](https://github.com/Tomoaki-Ishiyama/mpi-rockstar) (Tokuue et al.
 2024). A GLAM build without the adapter links `rs_stub.c` instead, which contains no
@@ -35,19 +37,25 @@ Each call (`rs_inline_run`, declared in `rs_inline.h`) runs these steps:
 4. **Output.**
    - Halo centres are wrapped into [0, Box), and Rockstar's output filter is applied
      (`MIN_HALO_OUTPUT_SIZE`, `UNBOUND_THRESHOLD`).
-   - Strict spherical-overdensity masses are computed from every particle
-     (`rs_strict.c`, as Rockstar's `STRICT_SO_MASSES`).
-   - Parents are assigned as Rockstar's `find_parents` does (`rs_parents.c`), with the
-     kernel radius `r`. Halos of equal vmax are taken in row order, so the result does
-     not depend on the C library's sort. The strict radius is not used for parents: a
-     subhalo's strict sphere also counts its host's particles, which at L256 turned
-     about 3 % of the hosts into subhaloes.
+   - Only distinct haloes are kept: those without a parent in Rockstar's
+     `find_parents` (`rs_parents.c`), with the kernel radius `r`. Halos of equal vmax
+     are taken in row order, so the selection does not depend on the C library's sort.
+     The strict radius is not used here: a subhalo's strict sphere also counts its
+     host's particles, which at L256 turned about 3 % of the distinct haloes into
+     subhaloes.
+   - Strict spherical-overdensity masses of the distinct haloes are computed from every
+     particle (`rs_strict.c`, as Rockstar's `STRICT_SO_MASSES`).
    - The catalogue is published atomically (`rs_write.c`).
+
+   The kernel itself is unchanged, and it still finds substructure: Rockstar separates
+   neighbouring haloes in one FoF group through the same phase-space hierarchy, and it
+   computes a halo's masses and properties from its own particles and those of its
+   substructure (`num_child_particles`).
 
 The particle arrays are only read. Failures inside the adapter do not end the process:
 - Rockstar's `exit()` and failed assertions become C++ exceptions (`shadow/assert.h`)
   and are caught (`rs_guard.cpp`): per group in the kernel, and around the
-  configuration parser and the parent search.
+  configuration parser and the search for distinct haloes.
 - Allocation failures and failed memory pre-checks become a status.
 - A catalogue is then still published, and its `.meta` says what happened. If a
   complete catalogue of the same step already exists (a restart that repeats the
@@ -115,12 +123,12 @@ converged for FORCE_RES ≤ 0.1 Mpc/h.
 
 ## Catalogue
 
-`CATALOGS/Rockstar.<step>.<box>.bin` holds raw little-endian records of 376 bytes.
-Each record is:
+`CATALOGS/Rockstar.<step>.<box>.bin` holds raw little-endian records of 352 bytes, one
+per distinct halo. Each record is:
 - Rockstar's `struct halo`, 312 bytes, with `OUTPUT_RVMAX`, `OUTPUT_NFW_CHI2` and
   `OUTPUT_INERTIA_TENSOR`;
-- then `pid`, `upid`, the phase-space parent, the FoF group, and the strict SO masses
-  with flags saying which thresholds were reached.
+- then the FoF group, and the strict SO masses with flags saying which thresholds were
+  reached.
 
 The sidecar `.meta` (key = value) gives:
 - every column with its type, byte offset and unit;
@@ -162,12 +170,15 @@ error codes.
 
 The Python scripts compare the in-line catalogue with standalone MPI-Rockstar run on
 the same particles with the same configuration:
-- `t1_compare.py` compares mass functions and matches hosts halo by halo. The
-  mass-function ratios get their errors from a paired bootstrap over subvolumes,
-  because both catalogues hold mostly the same haloes. Hosts are compared with a
-  reference run with `STRICT_SO_MASSES = 0`, whose parents use the kernel radius as the
-  in-line ones do; the strict masses are compared with a `STRICT_SO_MASSES = 1`
-  reference over all haloes.
+- `t1_compare.py` compares the mass functions of distinct haloes ("hosts") and
+  matches them halo by halo.
+  - The mass-function ratios get their errors from a paired bootstrap over
+    subvolumes, because both catalogues hold mostly the same haloes.
+  - The reference's hosts are its rows without a parent in a run with
+    `STRICT_SO_MASSES = 0`, whose parents use the kernel radius as the in-line
+    selection does.
+  - The strict masses are compared with a `STRICT_SO_MASSES = 1` reference. Its hosts
+    are taken from its non-strict twin, which holds the same haloes.
 - `t1_props.py` lists property medians by mass (descriptive).
 - `t4_units.py` compares each host's bulk velocity with the mean velocity of the
   snapshot particles inside its radius, converted independently by glamio; it also
@@ -183,17 +194,16 @@ L128 at z = 0 and 1, L256 at z = 0):
   failure, an unreadable configuration and an invalid one each give status `failed`
   with the reason. A clean call afterwards in the same process gives the identical
   catalogue, and an existing complete catalogue survives a failing rerun.
-- **Against standalone MPI-Rockstar** (the same particles and configuration; hosts
-  compared with `STRICT_SO_MASSES = 0` references, strict masses with
-  `STRICT_SO_MASSES = 1` ones):
-  - Mass functions (all haloes and hosts by bound mass, `m`, and the strict masses)
-    agree within the paired-bootstrap errors in 174 of 175 bins. The exception is
-    L128 f(R) z = 0, hosts of 10¹³-3×10¹³: 542 against 551, 3.06σ.
-  - Median Vmax, Rs, spin, b/a and T/|U| of hosts agree within the reference's
-    statistical error in every mass bin: within 1.5 % at L128, 0.6 % at L256.
-  - Subhalo fractions agree within 0.006; between two standalone runs, within 0.003.
-  - Halo by halo, hosts with ≥ 100 particles matched within 0.1 R200m, and of those
-    the fraction within |Δln M| < 0.02:
+- **Against standalone MPI-Rockstar** (the same particles and configuration; its
+  distinct haloes, "hosts", are those without a parent in a `STRICT_SO_MASSES = 0` run;
+  the strict masses are compared with the `STRICT_SO_MASSES = 1` run of the same haloes):
+  - The mass functions of distinct haloes (bound mass, `m` and the strict mass) agree
+    within the paired-bootstrap errors in 125 of 126 bins. The exception is L128 f(R)
+    z = 0, 10¹³-3×10¹³: 542 against 551, 3.06σ.
+  - Median Vmax, Rs, spin, b/a and T/|U| agree within the reference's statistical
+    error in every mass bin: within 1.5 % at L128, 0.6 % at L256.
+  - Halo by halo, the reference's distinct haloes with ≥ 100 particles matched within
+    0.1 R200m, and of those the fraction within |Δln M| < 0.02:
 
     | output | in-line vs standalone | standalone vs standalone |
     |---|---|---|
@@ -204,7 +214,7 @@ L128 at z = 0 and 1, L256 at z = 0):
     | L256 ΛCDM z = 0 | 92.4 %, 89.3 % | 94.3 %, 91.6 % |
     | L256 f(R) z = 0 | 92.9 %, 89.2 % | 94.7 %, 91.7 % |
     | L256 ΛCDM z = 0, positions shifted by L/2 | 92.0 %, 88.3 % | 93.8 %, 90.5 % (shifted standalone) |
-    | strict masses, all haloes, L128 / L256 z = 0 | 93.9 %, 84.3 % / 93.9 %, 84.3 % | 95.3 %, 86.8 % / 95.2 %, 86.9 % |
+    | strict masses, L128 / L256 ΛCDM z = 0 | 92.7 %, 89.1 % / 92.6 %, 89.2 % | 94.7 %, 91.6 % / 94.4 %, 91.5 % |
 
     The in-line catalogue is 1.3-2.7 points below the standalone baseline of the
     same output in every row. The defaults of `t1_compare.py` (92 % matched, 88 %
@@ -215,11 +225,12 @@ L128 at z = 0 and 1, L256 at z = 0):
     deterministic emulation of that merging lowered the agreement, so the exact FoF is
     used.
 - **Units (T4):**
-  - The hosts' bulk velocity divided by the mean velocity of the snapshot particles
+  - The haloes' bulk velocity divided by the mean velocity of the snapshot particles
     inside r is 1.0000-1.0001. Those particles were converted independently by glamio
     at a_v.
   - A conversion at AEXPN is excluded at more than 40σ (z = 0 and 1).
   - Against BDM, which converts with AEXPN, the ratio is 1.0014-1.0064, against the
     expected 1.0027-1.0078. BDM's halo velocity is a different estimator.
-- **Cost at L256** (134 M particles, 16 threads): 28-31 s per output; the peak is
-  4.3-4.6 GiB above the entry VmRSS (35-37 B per particle), during the gather.
+- **Cost at L256** (134 M particles, 16 threads): 27-31 s per output; the peak is
+  4.3-4.4 GiB above the entry VmRSS (34-35 B per particle), during the gather. The
+  catalogue holds 223 287 (ΛCDM) and 234 230 (f(R)) distinct haloes, 79-82 MB.

@@ -1,9 +1,10 @@
 """Halo properties of the in-line Rockstar against standalone MPI-Rockstar (part of test T1/T4).
 usage: python3 t1_props.py REF_DIR OTHER [OTHER2 ...]   (OTHER: an in-line .bin base or another reference directory)
-For hosts (pid = -1, Np >= 100) in bins of bound Mvir: the medians of Vmax, Rs, spin, T/|U|, b/a and the fraction
-of all haloes that are subhaloes, with the error of the reference median (1.25 sigma / sqrt n). Use a reference run
-with STRICT_SO_MASSES = 0: its PIDs use the kernel radius R, as the in-line pid does. Descriptive (no pass/fail):
-read the ratios against the error column and against the spread between two references.
+For distinct haloes (Np >= 100; the in-line catalogue holds only those, a reference its rows with PID = -1) in
+bins of bound Mvir: the medians of Vmax, Rs, spin, T/|U| and b/a, with the error of the reference median
+(1.25 sigma / sqrt n). Use a reference run with STRICT_SO_MASSES = 0: its PIDs use the kernel radius R, as the
+in-line selection does. Descriptive (no pass/fail): read the ratios against the error column and against the
+spread between two references.
 Part of the MG-GLAM in-line Rockstar adapter; GNU GPL v3 or later."""
 import os
 import sys
@@ -26,7 +27,7 @@ def load(path):
         return d
     c, _ = read_rsbin(path)
     d = {k: c[f].astype(float) for k, f in FIELDS.items()}
-    d.update(M=c["mgrav"].astype(float), Np=c["num_p"].astype(float), host=c["pid"] == -1)
+    d.update(M=c["mgrav"].astype(float), Np=c["num_p"].astype(float), host=np.ones(len(c), bool))
     return d
 
 
@@ -44,6 +45,3 @@ for lo, hi in bins:
         err = 1.25 * np.std(ref) / np.sqrt(max(len(ref), 1))
         others = "  ".join(f"[{i}] {np.median(c[k][s]) / m0:.4f}" for i, (c, s) in enumerate(zip(cats, sel)) if i)
         print(f"   {k:7s} median [0] {m0:10.4g} (+-{err / abs(m0):.4f} rel);  ratios {others}")
-    # subhalo fraction of all haloes in the bin
-    fr = [np.mean(~c["host"][(c["M"] >= lo) & (c["M"] < hi)]) for c in cats]
-    print("   subhalo fraction: " + "  ".join(f"[{i}] {f:.4f}" for i, f in enumerate(fr)))

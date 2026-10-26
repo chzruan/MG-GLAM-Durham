@@ -18,8 +18,11 @@
  *  4. kernel: find_subs on every group in an OpenMP loop (largest first), each
  *     call guarded; halos merged in group order, so the catalogue does not
  *     depend on the thread count; per-thread scratch released on every thread;
- *  5. halo centres wrapped, Rockstar's output filter, strict SO masses
- *     (rs_strict.c), parents (rs_parents.c), publication (rs_write.c).
+ *  5. halo centres wrapped, Rockstar's output filter, the distinct haloes
+ *     (rs_parents.c: Rockstar's find_parents; subhaloes are not written, as GLAM's
+ *     fixed resolution does not resolve substructure, but the kernel still finds
+ *     them: a halo's properties include its substructure's particles), strict SO
+ *     masses (rs_strict.c), publication (rs_write.c).
  * Failures and skips publish an empty catalogue whose .meta says why, unless a
  * complete catalogue of the step already exists (a restart), which is kept. */
 #define _GNU_SOURCE
@@ -426,14 +429,6 @@ static int64_t group_of_halo(const int64_t *gstart, int64_t ng, int64_t i)
     return lo;
 }
 
-static int fix_link(int64_t *link, int64_t bstart, int64_t bcount, int64_t gstart)
-{
-    if (*link == -1) return 0;
-    if (*link < bstart || *link >= bstart + bcount) return -1;    /* links stay inside a FoF group */
-    *link = *link - bstart + gstart;
-    return 0;
-}
-
 /* ------------------------------------------------------------------ the run */
 int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z,
                        const float *vx, const float *vy, const float *vz, double box, int64_t ngrid,
@@ -505,8 +500,8 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
 
     /* ---- second pre-check: the member buffer (32 B per member), per-thread kernel scratch (~134 B per
      *      particle of the largest groups in flight, from the sizes of MPI-Rockstar's per-particle arrays),
-     *      and the halos, twice (the threads' lists and the merged copy): ~1 internal halo per 68 members
-     *      measured at GLAM's resolution, 1 per 50 assumed ---- */
+     *      and the halos, twice (the threads' lists with their extra_halo_info, and the merged copy): ~1
+     *      internal halo per 68 members measured at GLAM's resolution, 1 per 50 assumed ---- */
     {
         double inflight = (double)(ng < T ? ng : T) * (double)groups.largest;
         if (inflight > (double)nm) inflight = (double)nm;
@@ -597,7 +592,6 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
     int64_t *blk_count = malloc((size_t)(ng > 0 ? ng : 1) * sizeof(int64_t));
     int64_t *gstart = malloc((size_t)(ng + 1) * sizeof(int64_t));
     struct halo *all_h = NULL;
-    struct extra_halo_info *all_e = NULL;
     int failed = !blk_start || !blk_count || !gstart;
     char fail_msg[512] = "kernel bookkeeping: out of memory";
     const int64_t inject_group = inject ? ng / 2 : -1;
@@ -652,32 +646,17 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
                 for (int64_t gi = 0; gi < ng; gi++) gstart[gi + 1] = gstart[gi] + blk_count[gi];
                 total = gstart[ng];
                 all_h = malloc((size_t)(total > 0 ? total : 1) * sizeof(struct halo));
-                all_e = malloc((size_t)(total > 0 ? total : 1) * sizeof(struct extra_halo_info));
-                if (!all_h || !all_e) {
+                if (!all_h) {
                     snprintf(fail_msg, sizeof fail_msg, "merge: out of memory");
                     failed = 1;
                 }
             }
         }
-        if (!failed) {
+        if (!failed)
             for (int64_t q = 0; q < nmine; q++) {
-                const int64_t gi = mine[q], bs = blk_start[gi], bc = blk_count[gi], gs = gstart[gi];
-                memcpy(all_h + gs, hinfo.halos + bs, (size_t)bc * sizeof(struct halo));
-                for (int64_t j = 0; j < bc; j++) {
-                    struct extra_halo_info e = hinfo.extra_info[bs + j];
-                    if (fix_link(&e.child, bs, bc, gs) || fix_link(&e.next_cochild, bs, bc, gs) ||
-                        fix_link(&e.prev_cochild, bs, bc, gs) || fix_link(&e.sub_of, bs, bc, gs)) {
-#pragma omp critical(rs_inline_fail)
-                        {
-                            if (!failed) snprintf(fail_msg, sizeof fail_msg,
-                                                  "merge: a halo link leaves FoF group %lld", (long long)gi);
-                            __atomic_store_n(&failed, 1, __ATOMIC_RELAXED);
-                        }
-                    }
-                    all_e[gs + j] = e;
-                }
+                const int64_t gi = mine[q];
+                memcpy(all_h + gstart[gi], hinfo.halos + blk_start[gi], (size_t)blk_count[gi] * sizeof(struct halo));
             }
-        }
 #pragma omp barrier
 #pragma omp master
         sample_rss(info);                   /* the per-thread lists and the merged copy */
@@ -695,7 +674,6 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
     info->t_kernel = omp_get_wtime() - t0;
     if (failed) {
         free(all_h);
-        free(all_e);
         free(gstart);
         rs_fof_free_groups(&groups);
         rs_fof_free_cells(&cells);
@@ -703,13 +681,13 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
     }
     info->nhalos_internal = total;
 
-    /* ---- selection, records ---- */
+    /* ---- selection: Rockstar's output filter, then the distinct haloes ---- */
     int64_t *row = malloc((size_t)(total > 0 ? total : 1) * sizeof(int64_t));
     if (!row) {
-        free(all_h); free(all_e); free(gstart);
+        free(all_h); free(gstart);
         rs_fof_free_groups(&groups);
         rs_fof_free_cells(&cells);
-        return finish(info, catalog_dir, step, box_index, RS_FAILED, "records: out of memory", t_start);
+        return finish(info, catalog_dir, step, box_index, RS_FAILED, "selection: out of memory", t_start);
     }
     int64_t nsel = 0, outside = 0;
     for (int64_t i = 0; i < total; i++) {
@@ -720,40 +698,67 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
         }
         row[i] = should_print(all_h + i) ? nsel++ : -1;
     }
-    struct rs_record *rec = outside ? NULL : calloc((size_t)(nsel > 0 ? nsel : 1), sizeof(struct rs_record));
-    if (!rec) {
-        free(row); free(all_h); free(all_e); free(gstart);
+    struct halo *sel = outside ? NULL : malloc((size_t)(nsel > 0 ? nsel : 1) * sizeof(struct halo));
+    int64_t *selgroup = malloc((size_t)(nsel > 0 ? nsel : 1) * sizeof(int64_t));
+    int64_t *pid = malloc((size_t)(nsel > 0 ? nsel : 1) * sizeof(int64_t));
+    if (!sel || !selgroup || !pid) {
+        free(sel); free(selgroup); free(pid);
+        free(row); free(all_h); free(gstart);
         rs_fof_free_groups(&groups);
         rs_fof_free_cells(&cells);
         if (outside) snprintf(msg, sizeof msg, "%lld halo centre coordinates not finite or outside the box",
                               (long long)outside);
-        return finish(info, catalog_dir, step, box_index, RS_FAILED, outside ? msg : "records: out of memory",
+        return finish(info, catalog_dir, step, box_index, RS_FAILED, outside ? msg : "selection: out of memory",
                       t_start);
     }
 #pragma omp parallel for schedule(static)
     for (int64_t i = 0; i < total; i++) {
         if (row[i] < 0) continue;
-        struct rs_record *r = rec + row[i];
-        r->h = all_h[i];
-        r->h.id = row[i];
-        r->h.desc = -1;
-        r->h.p_start = -1;
-        r->ps_parent = all_e[i].sub_of >= 0 ? row[all_e[i].sub_of] : -1;
-        r->fof_group = group_of_halo(gstart, ng, i);
-        r->m_strict = r->r_strict = NAN;
-        for (int k = 0; k < 4; k++) r->alt_m_strict[k] = NAN;
+        sel[row[i]] = all_h[i];
+        selgroup[row[i]] = group_of_halo(gstart, ng, i);
     }
     free(row);
     free(all_h);
-    free(all_e);
     free(gstart);
     rs_fof_free_groups(&groups);
     info->nhalos = nsel;
 
-    /* ---- strict SO masses ---- */
+    t0 = omp_get_wtime();
+    if (rs_guarded_find_parents(nsel, sel, pid, msg, sizeof msg) != 0) {
+        free(sel); free(selgroup); free(pid);
+        rs_fof_free_cells(&cells);
+        return finish(info, catalog_dir, step, box_index, RS_FAILED, msg, t_start);
+    }
+    int64_t nhost = 0;
+    for (int64_t i = 0; i < nsel; i++) if (pid[i] < 0) nhost++;
+    struct rs_record *rec = calloc((size_t)(nhost > 0 ? nhost : 1), sizeof(struct rs_record));
+    if (!rec) {
+        free(sel); free(selgroup); free(pid);
+        rs_fof_free_cells(&cells);
+        return finish(info, catalog_dir, step, box_index, RS_FAILED, "records: out of memory", t_start);
+    }
+    for (int64_t i = 0, k = 0; i < nsel; i++) {
+        if (pid[i] >= 0) continue;                      /* a subhalo: not written */
+        struct rs_record *r = rec + k;
+        r->h = sel[i];
+        r->h.id = k;
+        r->h.desc = -1;
+        r->h.p_start = -1;
+        r->fof_group = selgroup[i];
+        r->m_strict = r->r_strict = NAN;
+        for (int q = 0; q < 4; q++) r->alt_m_strict[q] = NAN;
+        k++;
+    }
+    free(sel);
+    free(selgroup);
+    free(pid);
+    info->nhosts = nhost;
+    info->t_parents = omp_get_wtime() - t0;
+
+    /* ---- strict SO masses of the distinct haloes ---- */
     t0 = omp_get_wtime();
     int strict_rc = 0;
-    if (cfg_strict) strict_rc = rs_strict_pass(nsel, rec, x, y, z, &u, &cells);
+    if (cfg_strict) strict_rc = rs_strict_pass(nhost, rec, x, y, z, &u, &cells);
     rs_fof_free_cells(&cells);
     info->t_strict = omp_get_wtime() - t0;
     if (strict_rc != 0) {
@@ -761,22 +766,14 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
         return finish(info, catalog_dir, step, box_index, RS_FAILED, "strict SO pass: out of memory", t_start);
     }
 
-    /* ---- parents (the kernel radius r) ---- */
-    t0 = omp_get_wtime();
-    if (rs_guarded_find_parents(nsel, rec, msg, sizeof msg) != 0) {
-        free(rec);
-        return finish(info, catalog_dir, step, box_index, RS_FAILED, msg, t_start);
-    }
-    for (int64_t i = 0; i < nsel; i++) if (rec[i].pid < 0) info->nhosts++;
-    info->t_parents = omp_get_wtime() - t0;
-
     /* ---- publication ---- */
     t0 = omp_get_wtime();
     const double hwm_exit = status_gib("VmHWM:");
     struct mbuf b = {0};
     char err[512] = "metadata: out of memory";
     meta_common(&b, "ok", "", step, box_index);
-    madd(&b, "rows = %lld\nhosts = %lld\n", (long long)nsel, (long long)info->nhosts);
+    madd(&b, "rows = %lld\nhalos_selected = %lld (after Rockstar's output filter; the %lld subhaloes among them are "
+             "not written)\n", (long long)nhost, (long long)nsel, (long long)(nsel - nhost));
     madd(&b, "positions = x [Mpc/h comoving] = (x_grid - 1) * Box/Ngrid, wrapped into [0, Box); particle id = "
              "GLAM array index - 1\n");
     madd(&b, "Om = %.9g\nOl = %.9g\nh0 = %.9g\n", Om, Ol, h0);
@@ -787,7 +784,9 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
          cfg_force_res);
     madd(&b, "bound_props = with BOUND_PROPS = 1 Rockstar computes every property except m from the bound "
              "particles (r, the alt_m_*, vmax, vrms, J, spins, shapes, ...)\n");
-    madd(&b, "strict_so = %d\npid_radius = r (the kernel radius; ties in vmax taken in row order)\n", cfg_strict);
+    madd(&b, "strict_so = %d\nselection = distinct haloes only: no parent in Rockstar's find_parents with the kernel "
+             "radius r (ties in vmax taken in row order). Rockstar's kernel still finds substructure, and a halo's "
+             "masses and properties include the particles of its substructure (num_child_particles)\n", cfg_strict);
     madd(&b, "member_order = particle id (each FoF group is handed to find_subs sorted by particle id)\n");
     madd(&b, "fof_groups = %lld\nfof_members = %lld\nfof_fraction = %.6f\nfof_largest = %lld\n", (long long)ng,
          (long long)nm, n > 0 ? (double)nm / (double)n : 0.0, (long long)info->largest);
@@ -804,7 +803,7 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
          info->need_kernel_gib, ceiling, cfg_ceiling_gib, limit_gib, limit_src);
     meta_config(&b);
     madd_columns(&b);
-    int wrc = (b.s && !b.err) ? rs_write_catalogue(catalog_dir, step, box_index, rec, nsel, b.s, err, sizeof err)
+    int wrc = (b.s && !b.err) ? rs_write_catalogue(catalog_dir, step, box_index, rec, nhost, b.s, err, sizeof err)
                               : -1;
     free(b.s);
     free(rec);
@@ -813,10 +812,10 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
     malloc_trim(0);
     info->t_total = omp_get_wtime() - t_start;
     info->status = RS_OK;
-    fprintf(stdout, " Rockstar step %d: %lld haloes (%lld hosts) from %lld FoF groups (f = %.4f, largest %lld);"
-                    " FoF %.1f s, gather %.1f s, kernel %.1f s, strict %.1f s, parents %.1f s, write %.1f s,"
-                    " total %.1f s; VmRSS %.2f -> max %.2f GiB\n",
-            step, (long long)nsel, (long long)info->nhosts, (long long)ng, n > 0 ? (double)nm / (double)n : 0.0,
+    fprintf(stdout, " Rockstar step %d: %lld distinct haloes (of %lld selected) from %lld FoF groups (f = %.4f, "
+                    "largest %lld); FoF %.1f s, gather %.1f s, kernel %.1f s, strict %.1f s, parents %.1f s, "
+                    "write %.1f s, total %.1f s; VmRSS %.2f -> max %.2f GiB\n",
+            step, (long long)nhost, (long long)nsel, (long long)ng, n > 0 ? (double)nm / (double)n : 0.0,
             (long long)info->largest, info->t_fof, info->t_gather, info->t_kernel, info->t_strict, info->t_parents,
             info->t_write, info->t_total, info->rss_entry_gib, info->rss_max_gib);
     fflush(stdout);

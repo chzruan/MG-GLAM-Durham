@@ -303,7 +303,7 @@ static int run_inline(struct snap *s, const char *config, const char *outdir, do
     printf("%s\n", rs_inline_version());
     int rc = rs_inline_run(h->nparticles, s->x, s->y, s->z, s->vx, s->vy, s->vz, h->box, h->ngrid, h->aexpn,
                            h->astep, h->om, h->oml, h->hubble, h->istep, h->nrealization, config, outdir, &info);
-    printf("status %d (%s); groups %lld members %lld largest %lld; halos %lld internal, %lld written, %lld hosts; "
+    printf("status %d (%s); groups %lld members %lld largest %lld; halos %lld internal, %lld selected, %lld distinct written; "
            "FoF %.2f gather %.2f kernel %.2f strict %.2f parents %.2f write %.2f total %.2f s; "
            "VmRSS %.3f -> %.3f GiB; estimates FoF %.3f kernel %.3f GiB\n",
            rc, rc ? info.reason : "ok", (long long)info.ngroups, (long long)info.nmembers, (long long)info.largest,

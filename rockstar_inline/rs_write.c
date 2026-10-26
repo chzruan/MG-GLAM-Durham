@@ -31,7 +31,7 @@ struct column { const char *name, *type; size_t offset; const char *unit, *unit_
 #define H(f) offsetof(struct rs_record, h.f)
 #define R(f) offsetof(struct rs_record, f)
 static const struct column columns[] = {
-    {"id", "<i8", H(id), "row number in this catalogue (= Rockstar halo id)", NULL},
+    {"id", "<i8", H(id), "row number in this catalogue (distinct haloes only)", NULL},
     {"x", "<f4", H(pos[0]), "Mpc/h comoving, in [0, Box)", NULL},
     {"y", "<f4", H(pos[1]), "Mpc/h comoving, in [0, Box)", NULL},
     {"z", "<f4", H(pos[2]), "Mpc/h comoving, in [0, Box)", NULL},
@@ -82,8 +82,8 @@ static const struct column columns[] = {
     {"m_pe_b", "<f4", H(m_pe_b), "Msun/h, pseudo-evolution mass (Behroozi)", NULL},
     {"m_pe_d", "<f4", H(m_pe_d), "Msun/h, pseudo-evolution mass (Diemer)", NULL},
     {"halfmass_radius", "<f4", H(halfmass_radius), "kpc/h comoving", NULL},
-    {"num_p", "<i8", H(num_p), "particles assigned to the halo (out_*.list Np)", NULL},
-    {"num_child_particles", "<i8", H(num_child_particles), "Rockstar internal", NULL},
+    {"num_p", "<i8", H(num_p), "particles assigned to the halo itself, without its substructure (out_*.list Np)", NULL},
+    {"num_child_particles", "<i8", H(num_child_particles), "particles of the halo and of the substructure Rockstar found in it (not written); the masses and properties use these", NULL},
     {"p_start", "<i8", H(p_start), "-1 (no member list is written)", NULL},
     {"desc", "<i8", H(desc), "-1 (no merger tree)", NULL},
     {"flags", "<i8", H(flags), "Rockstar internal", NULL},
@@ -104,9 +104,6 @@ static const struct column columns[] = {
     {"inertia500c_yz", "<f4", H(inertia_tensor2[4]), "", NULL},
     {"inertia500c_zx", "<f4", H(inertia_tensor2[5]), "", NULL},
     {"chi2", "<f4", H(chi2), "NFW fit chi^2 (OUTPUT_NFW_CHI2)", NULL},
-    {"pid", "<i8", R(pid), "parent row as Rockstar's find_parents with the radius r (ties in vmax by row); -1: host", NULL},
-    {"upid", "<i8", R(upid), "root of the pid chain; -1: host", NULL},
-    {"ps_parent", "<i8", R(ps_parent), "Rockstar's phase-space parent row (sub_of); -1: none or not written", NULL},
     {"fof_group", "<i8", R(fof_group), "canonical FoF group index of the halo", NULL},
     {"m_strict", "<f4", R(m_strict), "Msun/h, MASS_DEFINITION, every particle inside (STRICT_SO_MASSES)", NULL},
     {"r_strict", "<f4", R(r_strict), "kpc/h comoving, radius of m_strict", NULL},

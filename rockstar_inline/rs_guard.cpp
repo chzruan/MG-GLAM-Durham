@@ -74,10 +74,10 @@ extern "C" int rs_guarded_call(int (*fn)(void *), void *arg, const char *what, c
     return -1;
 }
 
-extern "C" int rs_guarded_find_parents(int64_t n, struct rs_record *rec, char *msg, int msglen)
+extern "C" int rs_guarded_find_parents(int64_t n, const struct halo *h, int64_t *pid, char *msg, int msglen)
 {
     try {
-        if (rs_find_parents(n, rec) == 0) return 0;
+        if (rs_find_parents(n, h, pid) == 0) return 0;
         std::snprintf(msg, msglen, "parents: out of memory");
         return -1;
     } catch (const rockstar_error &e) {

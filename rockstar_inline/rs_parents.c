@@ -1,13 +1,13 @@
-/* rs_parents.c: pid / upid of the in-line catalogue, as Rockstar's find_parents
- * (MPI-Rockstar src/parents.c): halos in order of decreasing vmax; each takes the
- * halos whose centres lie inside its radius r (periodic, capped at Box/2.01) and
- * that have a smaller radius as children, a later (lower-vmax) host overwriting an
- * earlier one. Unlike parents.c, halos of equal vmax are taken in row order, so
- * the result does not depend on the C library's qsort. The radius is the kernel's
- * r (that of mgrav when BOUND_PROPS = 1), as in Rockstar's out_*.list without
+/* rs_parents.c: which halos are distinct (the catalogue keeps only those), as
+ * Rockstar's find_parents (MPI-Rockstar src/parents.c) decides it: halos in order
+ * of decreasing vmax; each takes the halos whose centres lie inside its radius r
+ * (periodic, capped at Box/2.01) and that have a smaller radius as children, a
+ * later (lower-vmax) host overwriting an earlier one; a halo without a parent is
+ * distinct. Unlike parents.c, halos of equal vmax are taken in row order, so the
+ * result does not depend on the C library's qsort. The radius is the kernel's r
+ * (that of mgrav when BOUND_PROPS = 1), as in Rockstar's out_*.list without
  * STRICT_SO_MASSES; the strict radius is not used, because a subhalo's strict
- * sphere also counts its host's particles. upid is the root of the pid chain
- * (radii strictly increase along it, so it ends).
+ * sphere also counts its host's particles.
  * Part of the MG-GLAM in-line Rockstar adapter; GNU GPL v3 or later. */
 #include <stdint.h>
 #include <stdlib.h>
@@ -53,9 +53,9 @@ static int cmp_order(const void *a, const void *b)
     return c->id < d->id ? -1 : (c->id > d->id);
 }
 
-int rs_find_parents(int64_t n, struct rs_record *rec)
+int rs_find_parents(int64_t n, const struct halo *h, int64_t *pid)
 {
-    for (int64_t i = 0; i < n; i++) rec[i].pid = rec[i].upid = -1;
+    for (int64_t i = 0; i < n; i++) pid[i] = -1;
     if (n < 2) return 0;
     ph = malloc((size_t)n * sizeof(struct rs_ph));
     order = malloc((size_t)n * sizeof(int64_t));
@@ -64,9 +64,9 @@ int rs_find_parents(int64_t n, struct rs_record *rec)
         return -1;
     }
     for (int64_t i = 0; i < n; i++) {
-        for (int d = 0; d < 3; d++) ph[i].pos[d] = rec[i].h.pos[d];
-        ph[i].radius = rec[i].h.r;
-        ph[i].vmax = rec[i].h.vmax;
+        for (int d = 0; d < 3; d++) ph[i].pos[d] = h[i].pos[d];
+        ph[i].radius = h[i].r;
+        ph[i].vmax = h[i].vmax;
         ph[i].id = i;
         ph[i].parent = -1;
     }
@@ -86,13 +86,7 @@ int rs_find_parents(int64_t n, struct rs_record *rec)
             if (h2->radius < h1->radius) h2->parent = h1->id;
         }
     }
-    for (int64_t i = 0; i < n; i++) rec[ph[i].id].pid = ph[i].parent;
+    for (int64_t i = 0; i < n; i++) pid[ph[i].id] = ph[i].parent;
     rs_parents_cleanup();
-    for (int64_t i = 0; i < n; i++) {
-        int64_t u = rec[i].pid, steps = 0;
-        if (u < 0) continue;
-        while (rec[u].pid >= 0 && steps++ < n) u = rec[u].pid;
-        rec[i].upid = u;
-    }
     return 0;
 }

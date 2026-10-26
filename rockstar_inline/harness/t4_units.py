@@ -1,7 +1,7 @@
 """Test T4 of the in-line Rockstar: positions and velocities in the right units and at the right epoch.
 usage: python3 t4_units.py RUN_DIR STEP INLINE_BASE [--npmin N] [--box-index B]
   RUN_DIR      the run directory with PMcrd.<step>.DAT (+ PMcrs*) and CATALOGS/CatshortV.<step>.<box>
-1. Particle level (the test): for hosts with Np >= npmin, the mean velocity of every snapshot particle within
+1. Particle level (the test): for haloes with Np >= npmin (the catalogue holds distinct haloes only), the mean velocity of every snapshot particle within
    the halo radius r, converted independently by glamio (km/s with velocity_scale('a_v'), positions in Mpc/h),
    against the halo's bulk velocity (bulkvel). The median of the per-halo ratio q = v_bulk . v_mean / |v_mean|^2
    (halos with |v_mean| > 200 km/s) must lie within tol of 1 and farther than tol from a_v / AEXPN, the ratio a
@@ -57,7 +57,7 @@ pos = np.c_[x, y, z]
 del x, y, z
 pos[pos >= box] -= box
 tree = cKDTree(pos, boxsize=box)
-host = (cat["pid"] == -1) & (cat["num_p"] >= a.npmin)
+host = cat["num_p"] >= a.npmin
 hc = np.mod(np.c_[cat["x"], cat["y"], cat["z"]][host].astype(float), box)
 hc[hc >= box] -= box
 vmean = np.zeros((host.sum(), 3))
@@ -79,7 +79,7 @@ sel = (bdm["distinct"] == 0) & (bdm["Mtot"] > 1e13)
 pb = np.mod(np.c_[bdm["x"], bdm["y"], bdm["z"]][sel], box)
 pb[pb >= box] -= box
 vb = np.c_[bdm["vx"], bdm["vy"], bdm["vz"]][sel]
-hall = cat["pid"] == -1
+hall = np.ones(len(cat), bool)
 pi = np.mod(np.c_[cat["x"], cat["y"], cat["z"]][hall].astype(float), box)
 pi[pi >= box] -= box
 d, j = cKDTree(pi, boxsize=box).query(pb)
