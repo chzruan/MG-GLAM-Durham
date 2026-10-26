@@ -105,3 +105,6 @@ docs/slides/
 
 # Example-script outputs (figures and caches go to --out)
 python/examples/products_*
+
+# in-line Rockstar test harness (built by rockstar_inline/makefile)
+rockstar_inline/harness/rs_harness
