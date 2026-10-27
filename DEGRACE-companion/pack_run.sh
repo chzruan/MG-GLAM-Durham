@@ -24,13 +24,14 @@
 #   pruned: verify only; busy (a .partial exists) or inconsistent: the job stops and changes nothing.
 # Any failure stops the job before an original is touched. Cost for an L1024 Np2048 box (75 GB, one core): pack 20 min,
 # check 15-30 min, prune 30 min, measured on 2026-10-24 with the equivalent scratch jobs 12217626, 12217719, 12217742
-# (peak RSS 0.8 GB; sacct MaxRSS shows the 8 GB limit, which is page cache).
+# (peak RSS 0.8 GB; sacct MaxRSS shows the 8 GB limit, which is page cache). A box with in-line Rockstar catalogues
+# is roughly twice as large (estimated), hence the 6 h limit; an interrupted job resumes from its status.
 # Restore the native files later (75 GB: under Slurm) with: python -m glamio.pack unpack Run<box> --out DIR
 #SBATCH -p cosma8-serial
 #SBATCH -A dp203
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=8G
-#SBATCH -t 03:00:00
+#SBATCH -t 06:00:00
 #SBATCH -o %x_%j.out
 #SBATCH -e %x_%j.err
 set -euo pipefail

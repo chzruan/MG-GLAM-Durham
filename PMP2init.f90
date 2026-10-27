@@ -573,7 +573,7 @@ Subroutine ReadInit
     NdepMom = iParseLineOpt(11, 0)
     SubM = iParseLineOpt(11, 0)
     FRhalo = iParseLineOpt(11, 0)
-    iRockstar = iParseLineOpt(11, 0)
+    iRockstar = iParseRockstarLine(11)
 
     If (BiasPars(10) < 0.1) BiasPars(10) = 1.0
     !--- make new da
@@ -789,6 +789,7 @@ Function iParseLineOpt(iFile, idef)
         iParseLineOpt = idef
         Return
     End If
+    Call RefuseRockstarLine(Line, Ieq)
     Read (Line(Ieq + 1:), *, iostat=ios) iParseLineOpt     ! first token after the last "="
     If (ios /= 0) Then
         write (*, '(3a)') ' Init.dat: no integer after the last "=" in: "', TRIM(Line), '"'
@@ -813,12 +814,62 @@ Function ParseLineOpt(iFile, def)
         ParseLineOpt = def
         Return
     End If
+    Call RefuseRockstarLine(Line, Ieq)
     Read (Line(Ieq + 1:), *, iostat=ios) ParseLineOpt
     If (ios /= 0) Then
         write (*, '(3a)') ' Init.dat: no number after the last "=" in: "', TRIM(Line), '"'
         call Refuse('Init.dat: malformed optional line (a comment must not contain "=")')
     End If
 end Function ParseLineOpt
+!--------------------------------------------------
+!        the optional lines are read in order, by position: a "Find Rockstar halos" line
+!        met by the reader of an earlier optional line (some lines before it missing)
+!        would silently set that parameter instead
+Subroutine RefuseRockstarLine(Line, Ieq)
+    Character(len=*), intent(in) :: Line
+    Integer*4, intent(in) :: Ieq
+    If (iHasRockstar(Line(1:Ieq)) == 1) Then
+        write (*, '(3a)') ' Init.dat: "', TRIM(Line), '" is read in the place of an earlier optional line'
+        call Refuse('Init.dat: "Find Rockstar halos" must follow the whole block of extra-output lines, '// &
+                    'ending with "fR at halos"')
+    End If
+end Subroutine RefuseRockstarLine
+!--------------------------------------------------
+!        1 when a key mentions Rockstar (in any case)
+Function iHasRockstar(Key)
+    Character(len=*), intent(in) :: Key
+    Character(len=len(Key)) :: Low
+    Integer*4 :: iHasRockstar, i, ic
+    Low = Key
+    Do i = 1, len(Key)
+        ic = IACHAR(Key(i:i))
+        If (ic >= 65 .and. ic <= 90) Low(i:i) = ACHAR(ic + 32)
+    End Do
+    iHasRockstar = 0
+    If (INDEX(Low, 'rockstar') > 0) iHasRockstar = 1
+end Function iHasRockstar
+!--------------------------------------------------
+!        the OPTIONAL "Find Rockstar halos" line after "fR at halos": 0 when absent;
+!        a line whose key does not mention Rockstar is left unread, as before the line existed
+Function iParseRockstarLine(iFile)
+    Character :: Line*120
+    Integer*4 :: iParseRockstarLine, iFile, ios, Ieq
+
+    iParseRockstarLine = 0
+    Read (iFile, '(a)', iostat=ios) Line
+    If (ios /= 0) Return                     ! end of file: the line is absent
+    Ieq = INDEX(Line, '=', BACK=.TRUE.)
+    If (Ieq == 0) Then                       ! not a "key = value" line: absent, leave it unread
+        backspace (iFile)
+        Return
+    End If
+    If (iHasRockstar(Line(1:Ieq)) == 0) Then
+        backspace (iFile)
+        Return
+    End If
+    Read (Line(Ieq + 1:), *, iostat=ios) iParseRockstarLine
+    If (ios /= 0) call Refuse('Init.dat: malformed "Find Rockstar halos" line')
+end Function iParseRockstarLine
 !--------------------------------------------------
 !        refuse the configuration: message on stdout (the log) and stderr, exit status 1.
 !        A plain STOP returns status 0, which a job script cannot tell from success

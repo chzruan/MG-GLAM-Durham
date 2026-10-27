@@ -279,8 +279,11 @@ subroutine ReadSetup
             iExtra = 0; KcDelta = 1.5; KcMom = 0.75; NdepMom = 0; SubM = 0; FRhalo = 0
          Else                      ! the Rockstar line was added later still: its end of file keeps the extras
             read(11,*,iostat=ierr) iRockstar
-            If(ierr > 0) stop 'Setup.dat: malformed extra-outputs block (Rockstar line)'
             If(ierr < 0) iRockstar = 0
+            If(ierr > 0 .or. iRockstar < 0 .or. iRockstar > 1)Then   ! exit status 1: a job must not go on
+               write(*,'(a)') ' Setup.dat: malformed extra-outputs block (Rockstar line: 0 or 1)'
+               error stop 1
+            End If
          End If
          write (*,'(a,i4,2(a,i5))') '  Extra outputs: output classes=',Nclasses, &
                                     '  lens slabs per axis=',LensSlab,'  lens plane grid=',LensGrid

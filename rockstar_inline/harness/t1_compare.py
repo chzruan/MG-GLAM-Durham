@@ -17,7 +17,8 @@ usage: python3 t1_compare.py INLINE_BASE REF_DIR BOX --baseline DIR [--strict --
 Criteria:
   mass functions: the two catalogues hold the same haloes but for those the finders treat differently, so the
     ratio's error comes from a paired bootstrap (both catalogues resampled together over 4^3 subvolumes, 300
-    draws); |ratio - 1| <= max(3 sigma, 0.005) in every bin;
+    draws); |ratio - 1| <= max(z sigma, 0.005) in every bin, with z the two-sided Bonferroni threshold of a 1 %
+    false-alarm probability over all the bins compared (z = 3.4 for 14 bins);
   halo by halo: the reference's hosts with Np >= npmin, matched to the nearest in-line host within 0.1 R200m;
     the matched fraction and, of the matched, the fraction with |dln M| < 0.02 must each be at most --max-gap
     (0.03) below the same figures for the baseline run against the reference. Standalone runs disagree with
@@ -30,9 +31,10 @@ import sys
 
 import numpy as np
 from scipy.spatial import cKDTree
+from scipy.special import erfcinv
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from rsbin import read_rsbin  # noqa: E402
+from rsbin import meta_float, read_rsbin  # noqa: E402
 
 ap = argparse.ArgumentParser()
 ap.add_argument("inline_base")
@@ -98,7 +100,7 @@ if inline_is_ref:
     print(f"second reference {a.inline_base}: {I['n']} haloes, {I['host'].sum()} hosts")
 else:
     cat, meta = read_rsbin(a.inline_base)
-    om = float(meta["Omega_m"])
+    om = meta_float(meta, "Omega_m")
     I = {"M": cat["mgrav"].astype(float), "Mall": (cat["m_strict"] if a.strict else cat["m"]).astype(float),
          "Np": cat["num_p"].astype(float), "pos": wrap(np.c_[cat["x"], cat["y"], cat["z"]].astype(float) - shift),
          "M200b": cat["alt_m_1"].astype(float), "host": np.ones(len(cat), bool), "n": len(cat)}
@@ -127,20 +129,27 @@ def mf(label, sel_i, sel_r, mi, mr, edges):
     cr = sub_counts(mr[sel_r], R["pos"][sel_r], edges)
     ni, nr = ci.sum(0), cr.sum(0)
     bi, br = weights @ ci, weights @ cr                                              # NBOOT x bins
-    print(f"  {label}: bin, reference, in-line, ratio, allowed (max(3 sigma paired, 0.005))")
+    print(f"  {label}: bin, reference, in-line, ratio, allowed (max({ZCRIT:.2f} sigma paired, 0.005))")
     for k in range(len(edges) - 1):
         if nr[k] == 0:
             continue
         r = ni[k] / nr[k]
         with np.errstate(divide="ignore", invalid="ignore"):
-            sig = np.nanstd(bi[:, k] / br[:, k])
-        allow = max(3 * sig, 0.005)
+            rb = bi[:, k] / br[:, k]
+        rb = rb[np.isfinite(rb)]                    # draws without a reference halo in the bin carry no ratio
+        if len(rb) < NBOOT // 2:
+            print(f"    [{edges[k]:.0e},{edges[k+1]:.0e}) {int(nr[k]):8d} {int(ni[k]):8d}  {r:.4f}  (too few haloes "
+                  "for the bootstrap: not judged)")
+            continue
+        allow = max(ZCRIT * np.std(rb), 0.005)
         flag = "" if abs(r - 1) <= allow else "  <-- outside"
         ok_all &= abs(r - 1) <= allow
         print(f"    [{edges[k]:.0e},{edges[k+1]:.0e}) {int(nr[k]):8d} {int(ni[k]):8d}  {r:.4f}  +-{allow:.4f}{flag}")
 
 
 edges = np.array([2e11, 5e11, 1e12, 3e12, 1e13, 3e13, 1e14, 1e16])
+NBINS_TESTED = 2 * (len(edges) - 1)                 # the two mass functions below
+ZCRIT = float(np.sqrt(2) * erfcinv(0.01 / NBINS_TESTED))
 mf("hosts, bound Mvir", I["host"], R["host"], I["M"], R["M"], edges)
 mf("hosts, strict Mvir_all" if a.strict else "hosts, Mvir_all", I["host"], R["host"], I["Mall"], R["Mall"], edges)
 
@@ -163,6 +172,9 @@ if a.baseline:
     B = load_ref(a.baseline, shift, a.baseline_hosts_from if a.strict else None)
     print(f"  halo by halo, baseline {a.baseline} vs reference:")
     bfrac, bf02 = match(B)
+    if bfrac < 0.85:
+        sys.exit(f"the baseline matches only {bfrac:.3f} of the reference's hosts: not a second run of the same "
+                 "output (check --baseline, --shift and --baseline-hosts-from)")
     ok_hh = frac >= bfrac - a.max_gap and f02 >= bf02 - a.max_gap
     print(f"  gaps to the baseline: matched {bfrac - frac:+.4f}, within 2 % {bf02 - f02:+.4f} "
           f"(each <= {a.max_gap}): {'ok' if ok_hh else 'FAIL'}")

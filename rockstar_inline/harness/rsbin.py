@@ -16,6 +16,11 @@ def read_meta(path):
     return meta
 
 
+def meta_float(meta, key):
+    """the number of a .meta value (its first token: values may carry a comment in parentheses)"""
+    return float(meta[key].split()[0])
+
+
 def dtype_from_meta(meta):
     names, types, offsets = meta["columns"].split(), meta["dtypes"].split(), meta["offsets"].split()
     return np.dtype({"names": names, "formats": ["<" + t for t in types], "offsets": [int(o) for o in offsets],

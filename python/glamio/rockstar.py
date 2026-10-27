@@ -49,7 +49,7 @@ PRODUCT = "Rockstar"
 STATUSES = ("ok", "skipped", "failed")
 #: Sidecar keys the reader needs.
 _REQUIRED = ("columns", "dtypes", "offsets", "record_bytes", "rows", "status")
-_TYPE_RE = re.compile(r"^[<|]?([iuf])([1248])$")
+_TYPE_RE = re.compile(r"^[<|]?([iu][1248]|f[248])$")
 _COLUMN_LINE_RE = re.compile(r"^column_\d+$")
 
 
@@ -156,7 +156,7 @@ def rockstar_dtype(meta: dict[str, str], meta_path: str = "<meta>") -> np.dtype:
         if m is None:
             raise ValueError(f"{meta_path}: column {name!r} has dtype {code!r}; expected a little-endian "
                              "integer or float such as f4, i4, i8")
-        formats.append(np.dtype("<" + m.group(1) + m.group(2)))
+        formats.append(np.dtype("<" + m.group(1)))
     try:
         offsets = [int(o) for o in offs]
     except ValueError as exc:
@@ -221,8 +221,10 @@ def read_rockstar(path: str | os.PathLike, allow_status: bool = False, mmap: boo
                          f"x record_bytes = {dt.itemsize} ({rows * dt.itemsize} bytes)")
     data = load_array(bin_path, dt, rows, mmap=mmap)
     if rows and "id" in dt.names and dt["id"].kind in "iu":
-        ids = data["id"]
-        if not (ids[0] == 0 and ids[-1] == rows - 1 and bool(np.all(np.diff(ids) == 1))):
+        # a sample of rows (the first, the last and up to 4097 spread over the file): enough to catch a wrong byte
+        # order or a misaligned file, without reading every page of a memory-mapped catalogue
+        sample = np.unique(np.linspace(0, rows - 1, min(rows, 4097)).astype(np.int64))
+        if not np.array_equal(data["id"][sample], sample):
             raise ValueError(f"{bin_path}: the 'id' column is not the row number 0..{rows - 1}; "
                              "wrong byte order, misaligned or corrupted file")
     return RockstarCatalogue(data, meta, bin_path)

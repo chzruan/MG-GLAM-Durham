@@ -5,8 +5,8 @@
  * force has its own conversion and distance test (the definition: float
  * differences, minimum image, (dx*dx + dy*dy) + dz*dz < r*r in float), so it does
  * not share code with rs_fof.c. Also checked: the canonical group order, bitwise
- * identical output with 1 to 4 threads, and the error codes for bad coordinates
- * and an impossible grid.
+ * identical output with 1 to 4 threads, the parallel sort of a large number of
+ * groups, and the error codes for bad coordinates and an impossible grid.
  *   test_fof            prints the checks and exits 0 when all pass
  * Part of the MG-GLAM in-line Rockstar adapter; GNU GPL v3 or later. */
 #include <math.h>
@@ -21,7 +21,7 @@
 #define NGRID 4096
 #define NROW 1024                    /* sets the coarse grid only (Nrow/2 cells per side) */
 #define SPACING 0.5                  /* Mpc/h, production's 1024/2048 */
-#define NMAX 40000
+#define NMAX 200000
 
 static float gx[NMAX], gy[NMAX], gz[NMAX];
 static int64_t np = 0;
@@ -202,6 +202,27 @@ int main(void)
             release(&o);
         }
         release(&ref);
+    }
+
+    /* many groups: a pair in each of 44^3 cells, 85 184 groups (the group sort is parallel above 65 536) */
+    {
+        np = 0;
+        const int nl = 44;
+        const double cs = BOX / nl;
+        for (int i = 0; i < nl; i++)
+            for (int j = 0; j < nl; j++)
+                for (int k = 0; k < nl; k++) {
+                    add((i + 0.5) * cs, (j + 0.5) * cs, (k + 0.5) * cs);
+                    add((i + 0.5) * cs + 0.5 * r, (j + 0.5) * cs, (k + 0.5) * cs);
+                }
+        struct out o1, o4;
+        int ok = run(1, b, 2, &o1) == RS_FOF_OK && run(4, b, 2, &o4) == RS_FOF_OK &&
+                 o1.g.ngroups == (int64_t)nl * nl * nl && o1.g.largest == 2 && same(&o1, &o4);
+        printf("  %lld pairs in a lattice (parallel group sort), 1 and 4 threads: %s\n", (long long)np / 2,
+               ok ? "ok" : "FAIL");
+        fails += !ok;
+        release(&o1);
+        release(&o4);
     }
 
     /* error codes: a non-finite coordinate, and a box too small for the linking length */

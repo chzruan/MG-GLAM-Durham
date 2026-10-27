@@ -187,6 +187,8 @@ def main():
         nst = {k: sum(1 for x in rs_status if x[2] == k) for k in ('ok', 'skipped', 'failed')}
         check(nrs == nrs_exp, 'Rockstar catalogues at primary outputs: %d of %d%s (status ok %d, skipped %d, failed %d; checked: size = rows x record_bytes, column layout, meta a)'
               % (nrs, nrs_exp, '' if rs_on else ' (Init.dat: Find Rockstar halos = 0 or absent)', nst['ok'], nst['skipped'], nst['failed']))
+        check(not rs_on or nst['ok'] > 0 or not rs_status,
+              'at least one Rockstar catalogue has rows' if nst['ok'] else 'no Rockstar catalogue has rows: every output was skipped or failed')
         for tag, z, status, reason in rs_status:
             if status == 'skipped': warn('Rockstar catalogue %s (z = %.4f) skipped: %s' % (tag, z, reason))
             elif status == 'failed': check(False, 'Rockstar catalogue %s (z = %.4f) failed: %s' % (tag, z, reason))

@@ -244,10 +244,12 @@ static int load_configuration(const char *path, char *msg, int msglen)
     if (rs_guarded_call(load_body, &a, path, msg, msglen) != 0) return -1;
     cfg_force_res = FORCE_RES;
     cfg_force_res_phys_max = FORCE_RES_PHYS_MAX ? FORCE_RES_PHYS_MAX : FORCE_RES;   /* config.c:35-36 */
-    if (!(FORCE_RES > 0) || !(FOF_LINKING_LENGTH > 0 && FOF_LINKING_LENGTH <= 0.5) || MIN_HALO_PARTICLES < 2 ||
+    if (!(FORCE_RES > 0) || !(cfg_force_res_phys_max > 0) ||
+        !(FOF_LINKING_LENGTH > 0 && FOF_LINKING_LENGTH <= 0.5) || MIN_HALO_PARTICLES < 2 ||
         !(FOF_FRACTION > 0 && FOF_FRACTION < 1) || MIN_HALO_OUTPUT_SIZE < 1 || !(cfg_ceiling_gib > 0) ||
         MIN_PART_PER_BIN < 1 || MIN_PART_PER_BIN > MIN_SCALE_PART || MAX_SCALE_BINS < 1 || MAX_SCALE_BINS > 1000) {
-        snprintf(msg, msglen, "%s: FORCE_RES > 0, 0 < FOF_LINKING_LENGTH <= 0.5, 0 < FOF_FRACTION < 1, "
+        snprintf(msg, msglen, "%s: FORCE_RES > 0 (and FORCE_RES_PHYS_MAX if set), 0 < FOF_LINKING_LENGTH <= 0.5, "
+                              "0 < FOF_FRACTION < 1, "
                               "MIN_HALO_PARTICLES >= 2, MIN_HALO_OUTPUT_SIZE >= 1, GLAM_MEMORY_CEILING_GIB > 0, "
                               "1 <= MIN_PART_PER_BIN <= MIN_SCALE_PART and 1 <= MAX_SCALE_BINS <= 1000 are required",
                  path);
@@ -373,20 +375,29 @@ static void meta_common(struct mbuf *b, const char *status, const char *reason, 
              CRITICAL_DENSITY * run_ctx.box * run_ctx.box * run_ctx.box * run_ctx.om / (double)run_ctx.n);
         madd(b, "MG_flag = %d\nMG_model = %d\n", run_ctx.mg_flag, run_ctx.mg_model);
         if (run_ctx.mg_flag == 1 && run_ctx.mg_model == 1) madd(b, "fR0 = %.6e\n", run_ctx.fr0);
+        else madd(b, "fR0 = none\n");                    /* as GLAM's other sidecars */
     }
     madd(b, "finder = in-line Rockstar of MG-GLAM (rockstar_inline/), %s\n", rs_inline_version());
     if (cfg_path[0]) madd(b, "config_file = %s\nconfig_fnv1a64 = %016llx\n", cfg_path, (unsigned long long)cfg_hash);
     if (run_ctx.set) madd(b, "header = %s\n", run_ctx.header);
 }
 
-/* the sidecar of a skipped or failed output; an existing complete catalogue of the step (a restart
- * that repeats an output) is kept instead */
+/* the sidecar of a skipped or failed output; an existing complete catalogue of this output (a restart
+ * that repeats it: the same a, N_p and configuration) is kept instead, without the temporaries an
+ * interrupted earlier write may have left */
 static int publish_status(const char *dir, int step, int box_index, const char *status, const char *reason)
 {
-    if (rs_catalogue_ok(dir, step, box_index)) {
-        fprintf(stdout, " Rockstar step %d: %s; keeping the existing complete catalogue of this step\n", step,
-                status);
-        return 0;
+    if (run_ctx.set) {
+        char a[64], n_p[32], hash[32];
+        snprintf(a, sizeof a, "%.8f", run_ctx.aexpn);
+        snprintf(n_p, sizeof n_p, "%lld", (long long)run_ctx.n);
+        snprintf(hash, sizeof hash, "%016llx", (unsigned long long)cfg_hash);
+        if (rs_catalogue_ok(dir, step, box_index, a, n_p, cfg_path[0] ? hash : NULL)) {
+            rs_remove_temporaries(dir, step, box_index);
+            fprintf(stdout, " Rockstar step %d: %s; keeping the existing complete catalogue of this output\n",
+                    step, status);
+            return 0;
+        }
     }
     struct mbuf b = {0};
     char err[512] = "metadata: out of memory";
@@ -527,13 +538,14 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
 
     /* ---- second pre-check: the member buffer (32 B per member), per-thread kernel scratch (~134 B per
      *      particle of the largest groups in flight, from the sizes of MPI-Rockstar's per-particle arrays),
-     *      and the halos, twice (the threads' lists with their extra_halo_info, and the merged copy): ~1
-     *      internal halo per 68 members measured at GLAM's resolution, 1 per 50 assumed ---- */
+     *      and the halos, twice (the threads' lists with their extra_halo_info, and the merged copy): 1
+     *      internal halo per 68 members measured at z = 0 and per 48 at z = 1 (GLAM's resolution), 1 per 40
+     *      assumed ---- */
     {
         double inflight = (double)(ng < T ? ng : T) * (double)groups.largest;
         if (inflight > (double)nm) inflight = (double)nm;
         double need = 32.0 * nm + 140.0 * inflight +
-                      ((double)nm / 50.0 + 1.0) * 2.0 * (double)(sizeof(struct halo) + sizeof(struct extra_halo_info));
+                      ((double)nm / 40.0 + 1.0) * 2.0 * (double)(sizeof(struct halo) + sizeof(struct extra_halo_info));
         info->need_kernel_gib = need / GIB;
         double rss = rs_vmrss_gib();
         if (rss + info->need_kernel_gib > ceiling) {
@@ -718,12 +730,13 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
     }
     int64_t nsel = 0, outside = 0;
     for (int64_t i = 0; i < total; i++) {
+        row[i] = should_print(all_h + i) ? nsel++ : -1;
+        if (row[i] < 0) continue;                       /* filtered: an empty internal halo may have no centre */
         wrap_into_box(all_h[i].pos);
         for (int d = 0; d < 3; d++) {                   /* wrap_into_box keeps pos = Box: map it to 0 */
             if (all_h[i].pos[d] == boxf) all_h[i].pos[d] = 0.0f;
             if (!(all_h[i].pos[d] >= 0.0f && all_h[i].pos[d] < boxf)) outside++;
         }
-        row[i] = should_print(all_h + i) ? nsel++ : -1;
     }
     struct halo *sel = outside ? NULL : malloc((size_t)(nsel > 0 ? nsel : 1) * sizeof(struct halo));
     int64_t *selgroup = malloc((size_t)(nsel > 0 ? nsel : 1) * sizeof(int64_t));
@@ -733,8 +746,8 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
         free(row); free(all_h); free(gstart);
         rs_fof_free_groups(&groups);
         rs_fof_free_cells(&cells);
-        if (outside) snprintf(msg, sizeof msg, "%lld halo centre coordinates not finite or outside the box",
-                              (long long)outside);
+        if (outside) snprintf(msg, sizeof msg, "%lld centre coordinates of selected haloes not finite or outside "
+                              "the box", (long long)outside);
         return finish(info, catalog_dir, step, box_index, RS_FAILED, outside ? msg : "selection: out of memory",
                       t_start);
     }

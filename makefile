@@ -12,7 +12,7 @@ CFLAGS = -O2 -g -march=core-avx2 -mcmodel=medium
 # adapter (GNU GPL v3 or later, as it contains MPI-Rockstar); without it, the stub (no Rockstar code), and GLAM
 # refuses Find Rockstar halos = 1 at start-up. The adapter's C++ guard needs -lstdc++.
 ROCKSTAR_DIR ?=
-RS_SRCS = $(wildcard rockstar_inline/*.c rockstar_inline/*.cpp rockstar_inline/*.h rockstar_inline/shadow/*.h) rockstar_inline/makefile
+
 ifneq ($(ROCKSTAR_DIR),)
 RS_LIB = rockstar_inline/build/librs_inline.a
 else
@@ -27,7 +27,8 @@ BDM_FFLAGS = $(FFLAGS)
 # Build everything in the order that satisfies the Fortran module dependencies
 # from a clean tree (PMP2init first builds the shared modules; see the OBJ note).
 all: PMP2init PMP2start PMP2main PMP2MG ic2pm
-.PHONY: all
+.PHONY: all FORCE
+FORCE:
 BDM_PRECISE_FLAGS = $(if $(filter gfortran%,$(notdir $(FC))),-fno-fast-math -ffp-contract=off,-fp-model precise)
 FMPI = mpiifort
 MPIFLAGS =  -O3 -lmpi -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian
@@ -48,8 +49,10 @@ OBJ = PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod
 PMP2main: $(OBJ)  PMP2main.o $(RS_LIB)
 	$(FC) $(LDFLAGS) -o $@.exe $^ $(RS_LIBS)
 
-rockstar_inline/build/librs_inline.a: $(RS_SRCS)
-	$(MAKE) -C rockstar_inline ROCKSTAR_DIR=$(ROCKSTAR_DIR) build/librs_inline.a
+# always asks the adapter's own makefile, which also rebuilds when the MPI-Rockstar checkout or its commit changes;
+# the programs relink only when the archive changes
+rockstar_inline/build/librs_inline.a: FORCE
+	$(MAKE) -C rockstar_inline ROCKSTAR_DIR=$(abspath $(ROCKSTAR_DIR)) build/librs_inline.a
 rockstar_inline/build/librs_stub.a: rockstar_inline/rs_stub.c rockstar_inline/rs_inline.h
 	$(MAKE) -C rockstar_inline stub
 
@@ -150,3 +153,4 @@ check-alloc-imports: PMP2main.exe
 
 clean:
 	rm -f *.o *.exe *.mod
+	$(MAKE) -C rockstar_inline clean

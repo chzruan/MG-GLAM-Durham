@@ -81,6 +81,19 @@ function c_text(s) result(t)
    end do
 end function c_text
 
+!--------------------------------------------
+!     stop the run with exit status 1 (a plain STOP returns 0, which a job script
+!     cannot tell from success); the message goes to stdout (the log) and stderr
+!--------------------------------------------
+subroutine Fatal(msg)
+   use, intrinsic :: iso_fortran_env, only: error_unit, output_unit
+   character(len=*), intent(in) :: msg
+   write (output_unit, '(2a)') ' Rockstar: ', trim(msg)
+   flush (output_unit)
+   write (error_unit, '(2a)') ' Rockstar: ', trim(msg)
+   error stop 1
+end subroutine Fatal
+
 function version_text() result(t)
    character(len=:), allocatable :: t
    character(kind=c_char), dimension(:), pointer :: p
@@ -96,20 +109,12 @@ end function version_text
 subroutine CheckRockstarConfig
    character(kind=c_char) :: msg(512)
    logical :: exists
-   if (rs_inline_available() == 0) then
-      write (*, '(a)') ' Error: Find Rockstar halos = 1, but this executable has no in-line Rockstar:'
-      write (*, '(a)') '        rebuild GLAM with make ROCKSTAR_DIR=<MPI-Rockstar source> (rockstar_inline/README.md)'
-      stop 'in-line Rockstar not built'
-   end if
+   if (rs_inline_available() == 0) &
+      call Fatal('Find Rockstar halos = 1, but this executable has no in-line Rockstar: rebuild GLAM with '// &
+                 'make ROCKSTAR_DIR=<MPI-Rockstar source> (rockstar_inline/README.md)')
    inquire (file=ConfigFile, exist=exists)
-   if (.not. exists) then
-      write (*, '(3a)') ' Error: Find Rockstar halos = 1, but ', ConfigFile, ' is not in the run directory'
-      stop 'Rockstar.config missing'
-   end if
-   if (rs_inline_check_config(ConfigFile//c_null_char, msg, int(size(msg), c_int)) /= 0) then
-      write (*, '(2a)') ' Error: ', c_text(msg)
-      stop 'Rockstar.config not usable'
-   end if
+   if (.not. exists) call Fatal('Find Rockstar halos = 1, but '//ConfigFile//' is not in the run directory')
+   if (rs_inline_check_config(ConfigFile//c_null_char, msg, int(size(msg), c_int)) /= 0) call Fatal(c_text(msg))
    write (*, '(4a)') ' ', ConfigFile, ' validated at start-up; in-line ', version_text()
 end subroutine CheckRockstarConfig
 
@@ -155,7 +160,7 @@ subroutine RockstarHalos(moment)
       if (any(chk1 /= chk0)) then
          write (*, '(a,6z17)') ' Rockstar: particle checksums changed across the call: before ', chk0
          write (*, '(a,6z17)') '                                                        after  ', chk1
-         stop 'in-line Rockstar changed the particle arrays'
+         call Fatal('the particle arrays changed across the call')
       end if
       write (*, '(a,6z17)') ' Rockstar: particle checksums unchanged across the call: ', chk0
    end if

@@ -91,10 +91,8 @@ void rs_fof_release_labels(struct rs_fof_groups *g);    /* frees group_of_sorted
 void rs_fof_free_groups(struct rs_fof_groups *g);
 void rs_fof_free_cells(struct rs_cellindex *c);
 
-/* bytes the FoF needs at its peak for n particles (the memory pre-check), and the
- * bytes it still holds when it returns (cell index and group labels) */
+/* bytes the FoF needs at its peak for n particles (the memory pre-check) */
 double rs_fof_peak_bytes(int64_t n, int64_t nrow, int nthreads);
-double rs_fof_retained_bytes(int64_t n, int64_t nrow);
 
 /* VmRSS of this process in GiB (0 if unknown) */
 double rs_vmrss_gib(void);

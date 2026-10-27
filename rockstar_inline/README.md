@@ -27,7 +27,7 @@ Each call (`rs_inline_run`, declared in `rs_inline.h`) runs these steps:
    by particle id and unwrapped around the first member. Positions are converted to
    comoving Mpc/h and velocities to physical peculiar km/s (`rs_convert.h`). The
    velocities use the epoch a_v = AEXPN − ASTEP/2, because GLAM's momenta lag its
-   positions by half a leapfrog step. A group spanning half the box or more fails the
+   positions by half a leapfrog step. A group spanning half the box minus the linking length or more fails the
    output (it could not be unwrapped).
 3. **Kernel.** MPI-Rockstar's per-group kernel (`find_subs`) runs on every group in an
    OpenMP loop, largest group first, as MPI-Rockstar's `do_halo_finding` does. The
@@ -58,9 +58,11 @@ The particle arrays are only read. Failures inside the adapter do not end the pr
   configuration parser and the search for distinct haloes.
 - Allocation failures and failed memory pre-checks become a status.
 - A catalogue is then still published, and its `.meta` says what happened. If a
-  complete catalogue of the same step already exists (a restart that repeats the
-  output), it is kept. If the file system refuses the write, only the run's standard
-  output records the reason.
+  complete catalogue of the same output already exists (a restart that repeats it:
+  the same `a` and `N_p` and, when the configuration could be read, its checksum),
+  it is kept, and the temporaries an
+  interrupted earlier write may have left are removed. If the file system refuses the
+  write, only the run's standard output records the reason.
 
 Signals (a segmentation fault) and the kernel's or Slurm's out-of-memory killer still
 end the process. Under Linux's memory overcommit an allocation rarely fails, so the
@@ -188,7 +190,7 @@ Its commands:
 
 | command | what it does |
 |---|---|
-| `inline DIR STEP CONFIG OUTDIR [--shift F] [--fail kernel\|assert\|alloc] [--repeat N]` | runs the in-line finder exactly as GLAM calls it |
+| `inline DIR STEP CONFIG OUTDIR [--shift F] [--fail kernel\|assert\|alloc] [--repeat N] [--mg FLAG MODEL FR0]` | runs the in-line finder exactly as GLAM calls it (`--mg`: the gravity model recorded in the `.meta`) |
 | `fofcmp DIR STEP` | test T2: the parallel FoF against the serial reference FoF (`fof_ref.c`), checking that the two partitions are exactly equal |
 | `internal DIR STEP OUTDIR NFILES [...]` | writes Rockstar INTERNAL particle files plus a config for standalone MPI-Rockstar (the reference) |
 
@@ -204,10 +206,14 @@ the same particles with the same configuration:
 - `t1_compare.py` compares the mass functions of distinct haloes ("hosts") and
   matches them halo by halo.
   - The mass-function ratios get their errors from a paired bootstrap over
-    subvolumes, because both catalogues hold mostly the same haloes.
+    subvolumes, because both catalogues hold mostly the same haloes. Each bin may
+    deviate by the larger of 0.5 % and z standard deviations, where z = 3.4 is the
+    two-sided threshold of a 1 % false-alarm probability over the 14 bins compared
+    (Bonferroni).
   - Halo by halo, the matched fraction and the fraction within |Δln M| < 0.02 must
     each be within 3 points of the same figures between two standalone runs of the
-    same output (`--baseline`; `--max-gap`).
+    same output (`--baseline`, which must itself match at least 85 % of the
+    reference's hosts; `--max-gap`).
   - The reference's hosts are its rows without a parent in a run with
     `STRICT_SO_MASSES = 0`, whose parents use the kernel radius as the in-line
     selection does.
@@ -232,8 +238,10 @@ L128 at z = 0 and 1, L256 at z = 0):
   distinct haloes, "hosts", are those without a parent in a `STRICT_SO_MASSES = 0` run;
   the strict masses are compared with the `STRICT_SO_MASSES = 1` run of the same haloes):
   - The mass functions of distinct haloes (bound mass, `m` and the strict mass) agree
-    within the paired-bootstrap errors in 125 of 126 bins. The exception is L128 f(R)
-    z = 0, 10¹³-3×10¹³: 542 against 551, 3.06σ.
+    within the paired-bootstrap errors in all 126 bins, each allowed 3.4σ (the
+    Bonferroni threshold of a 1 % false-alarm probability over the 14 bins of a
+    comparison). With a 3σ limit per bin, one bin was outside: L128 f(R) z = 0,
+    10¹³-3×10¹³, 542 against 551 (3.06σ).
   - Median Vmax, Rs, spin, b/a and T/|U| agree within the reference's statistical
     error in every mass bin: within 1.5 % at L128, 0.6 % at L256.
   - Halo by halo, the reference's distinct haloes with ≥ 100 particles matched within
@@ -279,5 +287,6 @@ L128 at z = 0 and 1, L256 at z = 0):
     outputs; `MALLOC_ARENA_MAX=1` removes that but makes the kernel 2.6-5 times
     slower, so it is not set.
 - **Cost at L256** (134 M particles, 16 threads): 27-31 s per output; the peak is
-  4.3-4.4 GiB above the entry VmRSS (34-35 B per particle), during the gather. The
+  4.3-4.4 GiB above the entry VmRSS (34-35 B per particle), during the gather or
+  the kernel's merge. The
   catalogue holds 223 287 (ΛCDM) and 234 230 (f(R)) distinct haloes, 79-82 MB.

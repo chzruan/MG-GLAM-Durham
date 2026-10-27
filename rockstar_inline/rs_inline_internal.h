@@ -19,8 +19,11 @@ extern "C" {
 int rs_columns_text(char *buf, size_t cap, int bound_props);
 int rs_write_catalogue(const char *dir, int step, int box, const struct rs_record *rec, int64_t nrows,
                        const char *meta, char *err, int errlen);
-/* 1 when <dir>/Rockstar.<step>.<box>.meta exists and says status = ok */
-int rs_catalogue_ok(const char *dir, int step, int box);
+/* 1 when <dir>/Rockstar.<step>.<box>.meta exists, says status = ok and was written for this output: the same
+ * a and N_p (as the .meta prints them) and, unless config_hash is NULL, the same config_fnv1a64 */
+int rs_catalogue_ok(const char *dir, int step, int box, const char *a, const char *n_p, const char *config_hash);
+/* removes the fixed-name temporaries .Rockstar.<step>.<box>.{bin,meta}.tmp an interrupted write left */
+void rs_remove_temporaries(const char *dir, int step, int box);
 
 /* rs_parents.c: the find_parents parent (a row, or -1: distinct) of n halos (positions wrapped into the
  * box) with the kernel radius r; 0, or -1: out of memory. A Rockstar error inside throws: call it

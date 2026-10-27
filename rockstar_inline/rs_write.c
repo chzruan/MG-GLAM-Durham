@@ -216,18 +216,38 @@ int rs_write_catalogue(const char *dir, int step, int box, const struct rs_recor
     return 0;
 }
 
-int rs_catalogue_ok(const char *dir, int step, int box)
+/* the value of "key = value" in a line, without the newline, or NULL */
+static const char *value_of(char *line, const char *key)
 {
-    char path[4096], line[512];
+    size_t k = strlen(key);
+    if (strncmp(line, key, k) || strncmp(line + k, " = ", 3)) return NULL;
+    line[strcspn(line, "\n")] = 0;
+    return line + k + 3;
+}
+
+int rs_catalogue_ok(const char *dir, int step, int box, const char *a, const char *n_p, const char *config_hash)
+{
+    char path[4096], line[8192];
     snprintf(path, sizeof path, "%s/Rockstar.%04d.%04d.meta", dir, step, box);
     FILE *f = fopen(path, "r");
-    int ok = 0;
+    int ok = 0, a_ok = 0, n_ok = 0, hash_ok = config_hash == NULL;
     if (!f) return 0;
-    while (fgets(line, sizeof line, f))
-        if (!strncmp(line, "status = ", 9)) {
-            ok = !strncmp(line + 9, "ok", 2) && (line[11] == '\n' || line[11] == 0);
-            break;
-        }
+    while (fgets(line, sizeof line, f)) {
+        const char *v;
+        if ((v = value_of(line, "status"))) ok = !strcmp(v, "ok");
+        else if ((v = value_of(line, "a"))) a_ok = !strcmp(v, a);
+        else if ((v = value_of(line, "N_p"))) n_ok = !strcmp(v, n_p);
+        else if (config_hash && (v = value_of(line, "config_fnv1a64"))) hash_ok = !strcmp(v, config_hash);
+    }
     fclose(f);
-    return ok;
+    return ok && a_ok && n_ok && hash_ok;
+}
+
+void rs_remove_temporaries(const char *dir, int step, int box)
+{
+    char path[4096];
+    snprintf(path, sizeof path, "%s/.Rockstar.%04d.%04d.bin.tmp", dir, step, box);
+    unlink(path);
+    snprintf(path, sizeof path, "%s/.Rockstar.%04d.%04d.meta.tmp", dir, step, box);
+    unlink(path);
 }

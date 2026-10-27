@@ -197,9 +197,10 @@ def inventory(rundir: str, box: int | None = None) -> Inventory:
                 elif b:
                     add(int(b.group(1)), "outputB", f"{CATALOGUE_GROUP}/outputB", "text", rel, None)
                 elif _ROCKSTAR_TMP_RE.match(sub.name):
-                    problems.append(f"{rel}: temporary of an interrupted Rockstar catalogue write (GLAM stopped while "
-                                    "publishing; the step's Rockstar catalogue may be missing or older): check the run "
-                                    "with check_run.py and delete the temporary once no GLAM job writes to this run")
+                    problems.append(f"{rel}: hidden temporary of an interrupted Rockstar catalogue write (GLAM "
+                                    "stopped while publishing, or an unpack into this directory was killed; the step's "
+                                    "Rockstar catalogue may be missing or older): check the run with check_run.py and "
+                                    "delete the temporary once no job writes to this run")
                 else:
                     problems.append(f"{rel}: unknown file in CATALOGS/ (only Catshort?.<step>.<box>.bin/.meta, "
                                     "Rockstar.<step>.<box>.bin/.meta and outputB.<step>.dat are packed)")

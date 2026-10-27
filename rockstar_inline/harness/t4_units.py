@@ -23,7 +23,7 @@ sys.path.insert(0, here)
 sys.path.insert(0, os.path.join(here, "..", "..", "python"))
 import glamio  # noqa: E402
 from glamio.snapshot import read_snapshot  # noqa: E402
-from rsbin import read_rsbin  # noqa: E402
+from rsbin import meta_float, read_rsbin  # noqa: E402
 
 ap = argparse.ArgumentParser()
 ap.add_argument("run")
@@ -34,7 +34,7 @@ ap.add_argument("--box-index", type=int, default=0)
 a = ap.parse_args()
 
 cat, meta = read_rsbin(a.inline_base)
-aexpn, a_v, box = float(meta["a"]), float(meta["a_v"]), float(meta["Box"])
+aexpn, a_v, box = meta_float(meta, "a"), meta_float(meta, "a_v"), meta_float(meta, "Box")
 snap = read_snapshot(os.path.join(a.run, f"PMcrd.{a.step:04d}.DAT"))
 h = snap.header
 if abs(h.aexpn - aexpn) > 1e-6 or abs(h.a_v - a_v) > 1e-6:

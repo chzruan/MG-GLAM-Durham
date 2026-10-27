@@ -130,10 +130,11 @@ integer or float and that the fields lie inside the record without
 overlapping.
 
 Units (the `.meta` column descriptions are authoritative): positions comoving
-Mpc/h in [0, Box); velocities (`vx, vy, vz`, `corevel_*`, `bulkvel_*`, `vmax`,
-`vrms`) physical peculiar km/s at the velocity epoch `a_v = a - da/2` (the
-adapter converts GLAM's momenta at `a_v`, so no `a/a_v` correction is needed,
-unlike the BDM catalogue); radii comoving kpc/h; masses Msun/h; `id` is the
+Mpc/h in [0, Box); velocities physical km/s at the velocity epoch
+`a_v = a - da/2`: `vx, vy, vz`, `corevel_*` and `bulkvel_*` are peculiar
+velocities, `vmax` and `vrms` circular and dispersion velocities. The adapter
+converts GLAM's momenta at `a_v`, so no `a/a_v` correction is needed, unlike
+the BDM catalogue. Radii comoving kpc/h; masses Msun/h; `id` is the
 0-based row number. With `BOUND_PROPS = 1` (the default) every property except
 `m` comes from the bound particles; a mass of 0 in `alt_m_*` or
 `alt_m_strict_*` means the threshold was not reached (`strict_crossed` holds

@@ -436,8 +436,26 @@ def test_rockstar_config_packed_as_log():
         shutil.rmtree(d, ignore_errors=True)
 
 
+def test_read_golden():
+    """A catalogue written by the adapter itself (rockstar_inline/, L128 LCDM z = 0, its first 3 rows; the config
+    path in the .meta replaced): the real 352-byte, 80-column layout and the full sidecar with its config.* keys."""
+    stem = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "rockstar", "Rockstar.0165.0000")
+    for mmap in (False, True):
+        cat = glamio.read_rockstar(stem, mmap=mmap)
+        assert cat.ok and cat.reason is None and len(cat) == 3 and cat.record_bytes == 352
+        assert len(cat.columns) == 80 and cat.columns[0] == "id" and cat.columns[-1] == "pad"
+        assert list(cat["id"]) == [0, 1, 2] and np.all(cat["mgrav"] > 0) and np.all(cat["num_p"] >= 20)
+        assert cat.units["Jx"] == "Msun/h*Mpc/h*km/s" and cat.units["x"] == "Mpc/h" and cat.units["mgrav"] == "Msun/h"
+        pos = cat.positions()
+        assert pos.shape == (3, 3) and np.all((pos >= 0) & (pos < cat.box))
+    meta = glamio.read_meta(stem + ".meta")
+    assert meta["product"] == "Rockstar" and meta["N_p"] == "16777216" and meta["config.FORCE_RES"] == "0.1"
+    assert glamio.rockstar_dtype(meta).itemsize == 352
+
+
 TESTS = [test_read_ok, test_status_skipped_and_failed, test_layout_errors, test_run_paths_native,
-         test_pack_roundtrip_with_rockstar, test_pack_refuses_rockstar_problems, test_rockstar_config_packed_as_log]
+         test_pack_roundtrip_with_rockstar, test_pack_refuses_rockstar_problems, test_rockstar_config_packed_as_log,
+         test_read_golden]
 
 if __name__ == "__main__":
     failed = 0
