@@ -8,6 +8,17 @@ LDFLAGS =  -O3 -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-mo
 # C helper for the hashed particle subsample (glam_hash.c, called through iso_c_binding)
 CC = icx
 CFLAGS = -O2 -g -march=core-avx2 -mcmodel=medium
+# In-line Rockstar catalogues (rockstar_inline/README.md): make ROCKSTAR_DIR=<MPI-Rockstar source> links the
+# adapter (GNU GPL v3 or later, as it contains MPI-Rockstar); without it, the stub (no Rockstar code), and GLAM
+# refuses Find Rockstar halos = 1 at start-up. The adapter's C++ guard needs -lstdc++.
+ROCKSTAR_DIR ?=
+
+ifneq ($(ROCKSTAR_DIR),)
+RS_LIB = rockstar_inline/build/librs_inline.a
+else
+RS_LIB = rockstar_inline/build/librs_stub.a
+endif
+RS_LIBS = -lstdc++
 # The finder validates IEEE domains and uses reproducible diagnostic arithmetic.
 # Append the finder safety flags after overrides, including recursive bitmatch
 # builds. Intel resolves repeated FP-model options in favour of the last one.
@@ -16,7 +27,8 @@ BDM_FFLAGS = $(FFLAGS)
 # Build everything in the order that satisfies the Fortran module dependencies
 # from a clean tree (PMP2init first builds the shared modules; see the OBJ note).
 all: PMP2init PMP2start PMP2main PMP2MG ic2pm
-.PHONY: all
+.PHONY: all FORCE
+FORCE:
 BDM_PRECISE_FLAGS = $(if $(filter gfortran%,$(notdir $(FC))),-fno-fast-math -ffp-contract=off,-fp-model precise)
 FMPI = mpiifort
 MPIFLAGS =  -O3 -lmpi -g -traceback -ftz -unroll -qopenmp -march=core-avx2 -mfma -fp-model fast=1 -shared-intel -mcmodel=medium -convert big_endian
@@ -32,16 +44,23 @@ LDFLAGS_BITMATCH = -O2 -g -traceback -ftz -unroll -qopenmp -shared-intel -mcmode
 #FFLAGS = -O3  -mp  -byteswapio -mcmodel=medium -Mlarge_arrays -Mnoframe -Munroll -Knoieee
 #LDFLAGS = -O3  -mp   -byteswapio -mcmodel=medium -Mlarge_arrays -Mnoframe -Munroll -Knoieee
 
-OBJ = PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o glam_kmp_alloc.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o  PMP2extradof.o  PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o
+OBJ = PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o glam_kmp_alloc.o PMP2mod_power.o PMP2linker.o PMP2mod_rockstar.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o  PMP2extradof.o  PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o
 
-PMP2main: $(OBJ)  PMP2main.o
-	$(FC) $(LDFLAGS) -o $@.exe $^
+PMP2main: $(OBJ)  PMP2main.o $(RS_LIB)
+	$(FC) $(LDFLAGS) -o $@.exe $^ $(RS_LIBS)
+
+# always asks the adapter's own makefile, which also rebuilds when the MPI-Rockstar checkout or its commit changes;
+# the programs relink only when the archive changes
+rockstar_inline/build/librs_inline.a: FORCE
+	$(MAKE) -C rockstar_inline ROCKSTAR_DIR=$(abspath $(ROCKSTAR_DIR)) build/librs_inline.a
+rockstar_inline/build/librs_stub.a: rockstar_inline/rs_stub.c rockstar_inline/rs_inline.h
+	$(MAKE) -C rockstar_inline stub
 
 # BDM halo finder (entry point PMP2bdm.f90). Reuse the full OBJ list so every
 # module dependency (Tools, Density, Structures/LinkerList, Random/LUXURY,
 # ExtradofBackgroundData) is satisfied.
-PMP2BDM: $(OBJ) PMP2bdm.o
-	$(FC) $(LDFLAGS) -o $@.exe $^
+PMP2BDM: $(OBJ) PMP2bdm.o $(RS_LIB)
+	$(FC) $(LDFLAGS) -o $@.exe $^ $(RS_LIBS)
 
 glam_hash.o: glam_hash.c
 	$(CC) $(CFLAGS) -c $<
@@ -86,10 +105,10 @@ PMP2main-bitmatch:
 	@if [ -f PMP2main.exe.stash ]; then mv PMP2main.exe.stash PMP2main.exe; fi
 	rm -f *.o *.mod
 
-PMP2analyze: $(OBJ)  PMP2analyze.o                 
-	$(FC) $(LDFLAGS) -o $@.exe $^                
-PMP2spectrum: PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o glam_kmp_alloc.o PMP2mod_power.o PMP2mod_analyze.o  PMP2spectrum.o                 
-	$(FC) $(LDFLAGS) -o $@.exe $^                
+PMP2analyze: $(OBJ)  PMP2analyze.o $(RS_LIB)
+	$(FC) $(LDFLAGS) -o $@.exe $^ $(RS_LIBS)
+PMP2spectrum: PMP2mod_tools.o  PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o glam_kmp_alloc.o PMP2mod_power.o PMP2mod_rockstar.o PMP2mod_analyze.o  PMP2spectrum.o $(RS_LIB)
+	$(FC) $(LDFLAGS) -o $@.exe $^ $(RS_LIBS)
 PMP2init: PMP2init.o glam_kmp_alloc.o
 	$(FC) $(LDFLAGS)  -o $@.exe $^
 PMP2start: PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_power.o glam_kmp_alloc.o PMP2start.o
@@ -100,16 +119,16 @@ PMP2density: PMP2mod_tools.o PMP2MG_subroutines.o PMP2mod_MGbackground.o glam_km
 	$(FC) $(LDFLAGS) -o $@.exe $^
 PMP2startMPI.o: PMP2startMPI.f90
 	$(FMPI) $(MPIFLAGS) -c PMP2startMPI.f90 
-PMP2startMPI: $(OBJ) PMP2startMPI.o
-	$(FMPI) $(MPIFLAGS)  -o $@.exe $^
+PMP2startMPI: $(OBJ) PMP2startMPI.o $(RS_LIB)
+	$(FMPI) $(MPIFLAGS)  -o $@.exe $^ $(RS_LIBS)
 PMP2mainMPI.o: PMP2mainMPI.f90
 	$(FMPI) $(MPIFLAGS) -c PMP2mainMPI.f90 
-PMP2mainMPI: $(OBJ) PMP2mainMPI.o
-	$(FMPI) $(MPIFLAGS)  -o $@.exe $^
+PMP2mainMPI: $(OBJ) PMP2mainMPI.o $(RS_LIB)
+	$(FMPI) $(MPIFLAGS)  -o $@.exe $^ $(RS_LIBS)
 
 # Compile MG program
-PMP2MG: PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o glam_kmp_alloc.o PMP2mod_power.o PMP2linker.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o  PMP2extradof.o PMP2main.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o 
-	$(FC) $(LDFLAGS) -o $@.exe $^
+PMP2MG: PMP2mod_tools.o PMP2mod_fft5.o PMP2mod_random.o PMP2mod_density.o PMP2mod_extras.o PMP2mod_subsample.o glam_hash.o glam_kmp_alloc.o PMP2mod_power.o PMP2linker.o PMP2mod_rockstar.o PMP2mod_analyze.o PMP2MG_subroutines.o PMP2mod_MGbackground.o PMP2MGsolver_fR.o  PMP2extradof.o PMP2main.o PMP2MGsolver_DGP.o PMP2MGsolver_sym.o PMP2MGsolver_kmf.o PMP2MGsolver_csf.o $(RS_LIB)
+	$(FC) $(LDFLAGS) -o $@.exe $^ $(RS_LIBS)
 
 .f.o: 
 	$(FC) -c $(FFLAGS) $<
@@ -134,3 +153,4 @@ check-alloc-imports: PMP2main.exe
 
 clean:
 	rm -f *.o *.exe *.mod
+	$(MAKE) -C rockstar_inline clean

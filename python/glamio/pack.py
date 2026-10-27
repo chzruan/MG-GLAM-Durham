@@ -9,7 +9,7 @@ usage: python -m glamio.pack pack   RUNDIR [--out DIR] [--box N] [--steps S [S .
 ``pack`` reads ``RUNDIR`` (the ``Run<box>/`` directory of a finished GLAM
 run), checks every binary product with its glamio reader and writes, into
 ``--out`` (default ``RUNDIR``), ``Output.<step>.<box>.h5`` for each output
-step, ``RunInfo.<box>.h5`` (schedule, ``BDM.config``, logs) and
+step, ``RunInfo.<box>.h5`` (schedule, ``BDM.config``, ``Rockstar.config``, logs) and
 ``packed.md5`` (md5 of those files, to check a later copy).  The layout is
 described in :mod:`glamio.packed`.  Each file is written as
 ``<name>.partial``, verified (every dataset's bytes in the file against the
@@ -36,8 +36,12 @@ which ``DEGRACE-companion/pack_run.sh`` uses to resume.
 ``pack`` refuses a run directory holding anything it cannot place (another
 subdirectory, symbolic links, PM particle or checkpoint files, a step-tagged
 file of an unknown product, a text catalogue, a ``.bin`` without its
-``.meta``, a wrong box tag, a step missing from ``OutputSchedule.dat``, a
-``packed.md5`` it did not write) rather than leave it behind silently.  One
+``.meta``, the hidden temporaries ``CATALOGS/.Rockstar.*.tmp`` of an
+interrupted Rockstar catalogue write, a wrong box tag, a step missing from
+``OutputSchedule.dat``, a ``packed.md5`` it did not write) rather than leave
+it behind silently.  The in-line Rockstar catalogues
+(``CATALOGS/Rockstar.<step>.<box>.{bin,meta}``) are packed as the group
+``Rockstar``, skipped and failed ones (an empty ``.bin``) included.  One
 process, one core; memory stays below about 1 GB (blocks of at most 256 MiB).
 File modification times and permissions are not recorded.
 """
@@ -63,10 +67,11 @@ from .frhalo import read_frhalo
 from .lensplanes import read_lensplanes
 from .meta import parse_meta
 from .modes import read_modes
-from .packed import (CATALOGUE_GROUP, FORMAT, FORMAT_VERSION, _text, as_bytes, check_format, h5py_module,
-                     output_file_name, runinfo_file_name)
+from .packed import (CATALOGUE_GROUP, FORMAT, FORMAT_VERSION, ROCKSTAR_GROUP, _text, as_bytes, check_format,
+                     h5py_module, output_file_name, runinfo_file_name)
 from .powerdm import _parse_powerdm, read_powerdm
-from .run import SIDECAR_PRODUCTS
+from .rockstar import read_rockstar
+from .run import RUN_OBJECTS, SIDECAR_PRODUCTS
 from .schedule import _parse_schedule, read_schedule
 from .subsample import read_subsample
 
@@ -90,7 +95,8 @@ _READERS = {"LensPlanes": (read_lensplanes, "planes"), "deltam": (read_modes, "d
             "mom_y": (read_modes, "data"), "mom_z": (read_modes, "data"), "Subsample": (read_subsample, "q"),
             "fR_halo": (read_frhalo, "data")}
 #: Order of the groups in an output file.
-_ORDER = ("Catshort", "outputB", "fR_halo", "Subsample", "deltam", "mom_x", "mom_y", "mom_z", "LensPlanes", "PowerDM")
+_ORDER = ("Catshort", "outputB", "Rockstar", "fR_halo", "Subsample", "deltam", "mom_x", "mom_y", "mom_z", "LensPlanes",
+          "PowerDM")
 #: Run-wide sidecar keys copied, typed, to the root attributes of each output file.
 _COMMON_KEYS = (("Box", float), ("N_grid", int), ("N_row", int), ("N_p", int), ("Omega_m", float), ("Omega_L", float),
                 ("hubble", float), ("MG_flag", int), ("MG_model", int), ("fR0", float), ("header", str))
@@ -101,6 +107,8 @@ _MD5_LINE_RE = re.compile(r"^[0-9a-f]{32}  (Output\.\d{4}\.\d{4}|RunInfo\.\d{4})
 _SIDECAR_RE = re.compile(r"^(%s)\.(\d{4})\.(\d{4})\.(bin|meta)$" % "|".join(SIDECAR_PRODUCTS))
 _POWER_RE = re.compile(r"^PowerDM\.([A-Za-z]+)\.(\d{4})\.(\d{4})\.dat$")
 _CAT_RE = re.compile(r"^(Catshort[A-Za-z])\.(\d{4})\.(\d{4})\.(bin|meta)$")
+_ROCKSTAR_RE = re.compile(r"^(%s)\.(\d{4})\.(\d{4})\.(bin|meta)$" % ROCKSTAR_GROUP)
+_ROCKSTAR_TMP_RE = re.compile(r"^\.%s\." % ROCKSTAR_GROUP)
 _OUTPUTB_RE = re.compile(r"^outputB\.(\d{4})\.dat$")
 _TAGGED_RE = re.compile(r"\.\d{4}\.")
 _PM_RE = re.compile(r"^PMcr[ds]")
@@ -181,15 +189,21 @@ def inventory(rundir: str, box: int | None = None) -> Inventory:
                 continue
             for sub in sorted(os.scandir(entry.path), key=lambda e: e.name):
                 rel = os.path.join("CATALOGS", sub.name)
-                m, b = _CAT_RE.match(sub.name), _OUTPUTB_RE.match(sub.name)
+                m, b = _CAT_RE.match(sub.name) or _ROCKSTAR_RE.match(sub.name), _OUTPUTB_RE.match(sub.name)
                 if sub.is_symlink() or not sub.is_file(follow_symlinks=False):
                     problems.append(f"{rel}: not a regular file")
                 elif m:
                     add(int(m.group(2)), "catalogue", m.group(1), m.group(4), rel, int(m.group(3)))
                 elif b:
                     add(int(b.group(1)), "outputB", f"{CATALOGUE_GROUP}/outputB", "text", rel, None)
+                elif _ROCKSTAR_TMP_RE.match(sub.name):
+                    problems.append(f"{rel}: hidden temporary of an interrupted Rockstar catalogue write (GLAM "
+                                    "stopped while publishing, or an unpack into this directory was killed; the step's "
+                                    "Rockstar catalogue may be missing or older): check the run with check_run.py and "
+                                    "delete the temporary once no job writes to this run")
                 else:
-                    problems.append(f"{rel}: unknown file in CATALOGS/ (only Catshort?.<step>.<box>.bin/.meta and outputB.<step>.dat are packed)")
+                    problems.append(f"{rel}: unknown file in CATALOGS/ (only Catshort?.<step>.<box>.bin/.meta, "
+                                    "Rockstar.<step>.<box>.bin/.meta and outputB.<step>.dat are packed)")
         elif not entry.is_file(follow_symlinks=False):
             problems.append(f"{name}: not a regular file")
         elif name == MD5_FILE and not _is_own_md5(entry.path):
@@ -388,7 +402,10 @@ def _run_attrs(rundir: str, box: int) -> dict:
 def _write_sidecar(h, rundir: str, item: Item, manifest: list) -> dict[str, str]:
     bin_path = os.path.join(rundir, item.files["bin"])
     meta_path = os.path.join(rundir, item.files["meta"])
-    if item.kind == "catalogue":
+    if item.kind == "catalogue" and item.group == ROCKSTAR_GROUP:
+        obj = read_rockstar(bin_path, allow_status=True, mmap=True)     # skipped and failed (empty) catalogues pack too
+        arr = obj.data
+    elif item.kind == "catalogue":
         obj = read_catalogue(bin_path, mmap=True)
         arr = obj.data
     else:
@@ -469,10 +486,8 @@ def _write_runinfo(path: str, rundir: str, inv: Inventory, run_attrs: dict) -> N
             if name == "OutputSchedule.dat":
                 obj = "schedule/text"
                 h.create_dataset("schedule/table", data=read_schedule(src).rows)
-            elif name == "BDM.config":
-                obj = "BDM.config"
             else:
-                obj = f"logs/{name}"
+                obj = RUN_OBJECTS.get(name, f"logs/{name}")     # BDM.config, Rockstar.config at the root
             n, md5 = _put_file(h, obj, src)
             manifest.append((name, n, md5, obj))
         h.attrs.update(run_attrs)

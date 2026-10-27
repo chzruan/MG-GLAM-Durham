@@ -9,7 +9,10 @@ asks, epochs equal to float32(1/(1+z)) of Init.dat and, with --node/--aout, to
 the pinned ECOSMOG list; for the 42-output DEGRACE design also that the 17
 class-1 outputs are the primary redshifts), PowerDM and
 LensPlanes files for every output (sizes, meta epochs, plane means = 1),
-BDM catalogues at the class-1 outputs, the ic2pm velocity epoch, the
+BDM catalogues at the class-1 outputs, with `Find Rockstar halos = 1` in
+Init.dat the in-line Rockstar catalogues at the class-1 outputs (.bin size =
+rows x record_bytes, column layout; status ok passes, skipped warns, failed
+fails, each with the reason), the ic2pm velocity epoch, the
 timing.log breakdown (per-step cost, output overhead) and, with sacct,
 elapsed / MaxRSS / CPU efficiency.  Exit 0 = every check passed.
 
@@ -72,6 +75,7 @@ def main():
         return int(hit[0].split('=')[1].split()[0]) if hit else default
     lens_on = init_int('Lens slabs per axis', 1) > 0       # Init.dat without the key: planes expected, as before
     bdm_on = init_int('Find BDM halos', 1) > 0
+    rs_on = init_int('Find Rockstar halos', 0) > 0         # Init.dat without the key: no in-line Rockstar
     nexp = {c: exp_cls.count(c) for c in sorted(set(exp_cls))}
 
     # ---- OutputSchedule.dat
@@ -106,7 +110,7 @@ def main():
         check(all(abs(round(s['z'] * 8) / 8 - s['z']) < 2e-6 for s in prim), 'class-1 outputs are the 17 primary redshifts (multiples of 0.125, 0..2)')
 
     # ---- per-output products
-    npow = nlens = nmeta = ncat = ncatbin = 0; bad = []
+    npow = nlens = nmeta = ncat = ncatbin = nrs = 0; bad = []; rs_status = []
     sizes = set(); plane_means = []
     sample = set([steps[0], steps[len(steps) // 2], steps[-1]]) if steps else set()
     for s in sched:
@@ -151,6 +155,25 @@ def main():
                     if nl - 8 != rows: bad.append('catalogue %s: text rows %d != binary rows %d' % (tag, nl - 8, rows))
         elif s['cls'] == 1:
             bad.append('missing catalogue at primary output %s (z = %.4f)' % (tag, s['z']))
+        rstem = glamio.product_path(R1, 'rockstar', st, a.box)       # in-line Rockstar: CATALOGS/Rockstar.<step>.<box>
+        rb, rm, _ = glamio.resolve_pair(rstem)
+        has_rb, has_rm = glamio.product_exists(rb), glamio.product_exists(rm)
+        if has_rb != has_rm: bad.append('Rockstar %s: .bin and .meta must come together (%s missing)' % (tag, '.meta' if has_rb else '.bin'))
+        if has_rb or has_rm:
+            nrs += 1
+            if s['cls'] != 1: bad.append('Rockstar catalogue at a station output %s' % tag)
+            if has_rb and has_rm:
+                m = glamio.read_meta(rm)
+                status = (m.get('status') or '?').split()[0]
+                rs_status.append((tag, s['z'], status, m.get('reason', '-')))
+                try:
+                    rows, rbytes = int(m['rows'].split()[0]), glamio.rockstar_dtype(m, rm).itemsize
+                    if glamio.nbytes(rb) != rows * rbytes: bad.append('Rockstar %s: .bin size %d != rows %d x record_bytes %d' % (tag, glamio.nbytes(rb), rows, rbytes))
+                except (KeyError, IndexError, ValueError) as e:
+                    bad.append('Rockstar %s: unreadable layout in the .meta (%s)' % (tag, e))
+                if 'a' in m and abs(float(m['a'].split()[0]) - s['a']) > 1e-6 * s['a']: bad.append('Rockstar %s meta a %s vs schedule %g' % (tag, m['a'], s['a']))
+        elif rs_on and s['cls'] == 1:
+            bad.append('missing Rockstar catalogue at primary output %s (z = %.4f)' % (tag, s['z']))
     n = len(sched)
     check(npow == n, 'PowerDM.R files: %d of %d, epochs match' % (npow, n))
     if lens_on:
@@ -159,8 +182,22 @@ def main():
         check(nlens == 0, 'no LensPlanes (Init.dat: Lens slabs per axis = 0): %d found' % nlens)
     ncat_exp = ncls.get(1, 0) if bdm_on else 0
     check(ncat == ncat_exp, 'catalogues at primary outputs: %d of %d%s (%d with a binary .bin + .meta, checked: size = 96 x rows, meta a, text_catalogue, row counts)' % (ncat, ncat_exp, '' if bdm_on else ' (Init.dat: Find BDM halos = 0)', ncatbin))
+    if rs_on or nrs:                                       # silent for runs without the in-line Rockstar
+        nrs_exp = ncls.get(1, 0) if rs_on else 0
+        nst = {k: sum(1 for x in rs_status if x[2] == k) for k in ('ok', 'skipped', 'failed')}
+        check(nrs == nrs_exp, 'Rockstar catalogues at primary outputs: %d of %d%s (status ok %d, skipped %d, failed %d; checked: size = rows x record_bytes, column layout, meta a)'
+              % (nrs, nrs_exp, '' if rs_on else ' (Init.dat: Find Rockstar halos = 0 or absent)', nst['ok'], nst['skipped'], nst['failed']))
+        check(not rs_on or nst['ok'] > 0 or not rs_status,
+              'at least one Rockstar catalogue has rows' if nst['ok'] else 'no Rockstar catalogue has rows: every output was skipped or failed')
+        for tag, z, status, reason in rs_status:
+            if status == 'skipped': warn('Rockstar catalogue %s (z = %.4f) skipped: %s' % (tag, z, reason))
+            elif status == 'failed': check(False, 'Rockstar catalogue %s (z = %.4f) failed: %s' % (tag, z, reason))
+            elif status != 'ok': check(False, 'Rockstar catalogue %s (z = %.4f): unknown status %r (%s)' % (tag, z, status, reason))
     stale = glob.glob(os.path.join(R1, 'CATALOGS', '.Catshort*'))
     check(not stale, 'no staged catalogue temporaries (.Catshort*) left in CATALOGS/' if not stale else '%d staged catalogue temporaries (.Catshort*) in CATALOGS/: a finder died between staging and publication; delete them when no finder is running' % len(stale))
+    rstale = glob.glob(os.path.join(R1, 'CATALOGS', '.Rockstar*'))
+    if rs_on or rstale:
+        check(not rstale, 'no Rockstar temporaries (.Rockstar*) left in CATALOGS/' if not rstale else '%d Rockstar temporaries (.Rockstar*) in CATALOGS/: GLAM stopped while publishing a Rockstar catalogue (that step\'s catalogue may be missing or older); delete them when no GLAM job is running' % len(rstale))
     for st, means, mn, mx in plane_means:
         print('     planes step %4d: axis means %s  min %.3g  max %.3g' % (st, np.array2string(means, precision=7), mn, mx))
     check(not bad, 'per-output consistency (%d problems)' % len(bad))

@@ -110,6 +110,7 @@ subroutine Initialize(Path)
     use ExtraOutputs
     use ExtradofBackgroundData  ! used for MG_model = 4 or 5
     use LinkerList, only: CheckBdmConfig
+    use Rockstar, only: CheckRockstarConfig
 
     character(len=*) :: Path
     logical :: exst
@@ -130,6 +131,7 @@ subroutine Initialize(Path)
 
     Call ReadSetup
     If (iBDM == 1) Call CheckBdmConfig      ! reject a bad BDM.config before any compute
+    If (iRockstar == 1) Call CheckRockstarConfig   ! and a missing adapter or a bad Rockstar.config
     CALL ReadDataPM(-1, Path)
     myMemory = Memory(1_8*NGRID*NGRID*NGRID)
     Allocate (FI(NGRID, NGRID, NGRID))

@@ -136,7 +136,9 @@ def init_dat(a: dict, epochs: np.ndarray, classes: list[int] | None = None) -> s
                    + f"kc_mom                    = {a['kc_mom']:9.3f}  h/Mpc\n"
                    + f"N_dep_mom                 = {a['ndep_mom']:9d}  0-Ngrid/2\n"
                    + f"Subsample M               = {a['subsample_m']:9d}  0-off; keep 1 in M particles\n"
-                   + f"fR at halos               = {a['fr_halos']:9d}  0-off 1-on (f(R) runs)\n")
+                   + f"fR at halos               = {a['fr_halos']:9d}  0-off 1-on (f(R) runs)\n"
+                   + (f"Find Rockstar halos       = {a['rockstar']:9d}  0-no 1-yes (Run<box>/Rockstar.config; "
+                      "build with ROCKSTAR_DIR)\n" if a["rockstar"] else ""))
     params = "".join("Parametr =     0.000\n" for _ in range(9))
     fr0 = "0.0" if a["mg_flag"] == 0 else f"{a['fR0']:.4E}"
     return (
@@ -232,6 +234,25 @@ def bdm_config(catalogue_format=None, max_memory=None):
     )
 
 
+def rockstar_config(force_res: float, ceiling_gib: float) -> str:
+    """Run<N>/Rockstar.config of the in-line Rockstar (rockstar_inline/README.md): the settings it was validated
+    with against standalone MPI-Rockstar (P2 of the in-line campaign)."""
+    return (
+        "# In-line Rockstar of MG-GLAM (rockstar_inline/README.md), written by gen_inputs.py\n"
+        "FILE_FORMAT = \"GLAM_INLINE\"     # required by Rockstar's parser; not used\n"
+        f"FORCE_RES = {force_res:g}                 # comoving Mpc/h; host counts are converged for <= 0.1 at 0.5 Mpc/h spacing\n"
+        "MASS_DEFINITION = \"vir\"\n"
+        "MIN_HALO_OUTPUT_SIZE = 20\n"
+        "MIN_HALO_PARTICLES = 10\n"
+        "FOF_LINKING_LENGTH = 0.28\n"
+        "FOF_FRACTION = 0.7\n"
+        "BOUND_PROPS = 1\n"
+        "UNBOUND_THRESHOLD = 0.5\n"
+        f"GLAM_MEMORY_CEILING_GIB = {ceiling_gib:g}   # skip an output whose memory pre-check exceeds this (or 97 % of the job's limit)\n"
+        "GLAM_STRICT_SO = 1              # strict SO masses from every particle\n"
+    )
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--node", type=int, help="ECOSMOG node 1..96 (companion run)")
@@ -284,6 +305,13 @@ def main() -> int:
     ap.add_argument("--ndep-mom", type=int, default=0, help="momentum deposit grid (0 = Ngrid/2)")
     ap.add_argument("--subsample-m", type=int, default=0, help="keep 1 in M particles (0 = off)")
     ap.add_argument("--fr-halos", action="store_true", help="f_R at halo centres (f(R) runs)")
+    ap.add_argument("--rockstar", action="store_true",
+                    help="in-line Rockstar catalogues of distinct haloes at class-1 outputs: Init.dat 'Find Rockstar halos "
+                         "= 1' and Run<N>/Rockstar.config (needs a GLAM built with make ROCKSTAR_DIR=..., "
+                         "rockstar_inline/README.md)")
+    ap.add_argument("--rockstar-force-res", type=float, default=0.1, help="Rockstar.config FORCE_RES (comoving Mpc/h)")
+    ap.add_argument("--rockstar-ceiling", type=float, default=900.0, metavar="GIB",
+                    help="Rockstar.config GLAM_MEMORY_CEILING_GIB: an output is skipped when its memory pre-check exceeds it")
     ap.add_argument("--check", action="store_true", help="S2: verify the epoch generator against the ECOSMOG lists")
     args = ap.parse_args()
 
@@ -347,6 +375,7 @@ def main() -> int:
              classes=args.classes, lens_slabs=args.lens_slabs, lens_grid=args.lens_grid,
              extra=1 if args.extra else 0, kc_delta=args.kc_delta, kc_mom=args.kc_mom, ndep_mom=args.ndep_mom,
              subsample_m=args.subsample_m, fr_halos=1 if (args.fr_halos and args.gravity == "fr") else 0,
+             rockstar=1 if args.rockstar else 0,
              catalogue_format=args.catalogue_format or "default (key not written: binary with a build from 2026-10-18 on, text before)",
              bdm_max_memory=args.bdm_max_memory or "default (key not written: job/node memory with memory cut 0, branch memory-cuts-20261021; 500 GiB with builds 2026-09-06..2026-10-20)")
     if args.redshifts:
@@ -367,12 +396,17 @@ def main() -> int:
         sys.exit("two output redshifts coincide at the precision of Init.dat and PMP2main (float32 epochs)")
     if args.bdm_max_memory is not None and args.bdm_max_memory <= 0:
         sys.exit("--bdm-max-memory must be positive (GiB)")
+    if args.rockstar and not (args.rockstar_force_res > 0 and args.rockstar_ceiling > 0):
+        sys.exit("--rockstar-force-res and --rockstar-ceiling must be positive")
     out = args.out
     run_dir = f"Run{args.run}"
     (out / run_dir / "CATALOGS").mkdir(parents=True, exist_ok=True)   # BDM writes its catalogues and logs here
     (out / "PkTable.dat").write_text(pktable(ombh2, omch2, om, sigma8, pk))
     (out / "Init.dat").write_text(init_dat(a, epochs, classes))
     (out / run_dir / "BDM.config").write_text(bdm_config(args.catalogue_format, args.bdm_max_memory))
+    if args.rockstar:
+        (out / run_dir / "Rockstar.config").write_text(rockstar_config(args.rockstar_force_res, args.rockstar_ceiling))
+        prov.update(rockstar_config=rockstar_config(args.rockstar_force_res, args.rockstar_ceiling))
     prov.update(pk_file=str(pkfile), pk_md5=md5(pkfile), gravity=args.gravity, init=a, run=args.run,
                 epochs=[float(e) for e in epochs], hubble_expected=h, omch2=omch2, ombh2=ombh2)
     (out / "inputs_provenance.json").write_text(json.dumps(prov, indent=1))
@@ -380,6 +414,9 @@ def main() -> int:
     print(f"wrote {out}/PkTable.dat ({len(pk)} rows), Init.dat ({len(epochs)} exact outputs{n_cl}), "
           f"{run_dir}/BDM.config (CatalogueFormat {args.catalogue_format or 'not written: compiled default binary'}, "
           f"MaxMemory {args.bdm_max_memory or 'not written: job/node memory with memory cut 0'}), inputs_provenance.json")
+    if args.rockstar:
+        print(f"  in-line Rockstar on: {run_dir}/Rockstar.config (FORCE_RES {args.rockstar_force_res:g}, memory ceiling "
+              f"{args.rockstar_ceiling:g} GiB); build GLAM with make ROCKSTAR_DIR=<MPI-Rockstar source>")
     print(f"  Om={om} h={h} sigma8={sigma8} gravity={args.gravity} fR0={fr0 if a['mg_flag'] else 'n/a'}; "
           f"Nrow={args.nrow} Ngrid={args.ngrid} z_init={args.zinit} da0={args.da}")
     return 0

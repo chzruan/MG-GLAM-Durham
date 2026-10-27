@@ -62,6 +62,12 @@
   exist) and any script that still opens native files by name, then pack.
   Never pack a directory a job is still writing, and never run two pack/prune
   jobs on the same box.
+- With in-line Rockstar catalogues (`Find Rockstar halos = 1`), `check_run.py`
+  warns for an output whose catalogue was skipped (memory pre-check) and fails
+  for one that failed; the `.meta` gives the reason. A finished run cannot
+  produce that catalogue again except by rerunning from a checkpoint before the
+  output. Decide with the user whether to rerun or to pack as it is; record the
+  output, status and reason in the campaign's provenance either way.
 - Use [`DEGRACE-companion/pack_run.sh`](DEGRACE-companion/pack_run.sh)
   (cosma8-serial, one core). Submit it from the run directory as
   `sbatch -J pack_<name> <repo>/DEGRACE-companion/pack_run.sh "$PWD/Run<box>"`.
@@ -85,7 +91,8 @@
 - `pack` refuses another subdirectory, symbolic links, PM particle or
   checkpoint files, step-tagged files of an unknown product, text catalogues
   (`CATALOGS/*.DAT`, written when `CatalogueFormat` is `text` or `both`), a
-  `.bin` without its `.meta`, a wrong box tag, a step missing from
+  `.bin` without its `.meta`, the hidden `.Rockstar*` temporaries of an
+  interrupted in-line Rockstar catalogue, a wrong box tag, a step missing from
   `OutputSchedule.dat` and a `packed.md5` it did not write. Resolve those with
   the user first, never by deleting them to get past it.
 - Restore native files with `python -m glamio.pack unpack Run<box> --out DIR`
@@ -98,7 +105,10 @@
   Then run `md5sum -c packed.md5` in each `Run<box>/` at the destination.
 - Cost for an L1024 Np2048 box (75 GB): pack 20 min, check 15-30 min, prune
   30 min, peak RSS 0.8 GB (sacct MaxRSS reports the 8 GB limit because it
-  counts page cache). The check needs free space equal to the box on the run's
+  counts page cache). In-line Rockstar catalogues add two files per class-1
+  output and, estimated from L256 tests, about 5 GB per class-1 output at
+  L1024 Np2048 (more at higher redshift), so such a box is roughly twice as
+  large and takes about twice as long; measure it on the first one. The check needs free space equal to the box on the run's
   file system (it unpacks into `pack-check-<job>` beside `Run<box>/`). An L256
   pilot takes 30-100 s (Lustre load varies) and may run on the login node (light tier).
 - Record the pack/prune job IDs, file counts and bytes in the campaign's

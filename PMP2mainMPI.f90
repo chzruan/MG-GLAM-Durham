@@ -131,6 +131,11 @@ subroutine Initialize(Path)
       CALL MPI_BCAST(iBias,     1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
       CALL MPI_BCAST(iWriteMock,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
       CALL MPI_BCAST(iBDM,      1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
+      CALL MPI_BCAST(iRockstar, 1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
+      If(iRockstar==1)Then          ! the in-line Rockstar would see one process's particles only
+         If(node==0) write(*,*) ' Find Rockstar halos = 1 is not supported by the MPI build: switched off'
+         iRockstar = 0
+      End If
 
       Nsub = Nsub + node
       Nrealization = Nsub

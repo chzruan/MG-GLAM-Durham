@@ -20,6 +20,7 @@ use LUXURY
 use Random
 use Power
 use LinkerList
+use Rockstar, only: RockstarHalos
         character*120 :: NameF
         character(len=*) :: Path
 
@@ -200,6 +201,10 @@ use LinkerList
  
 10 continue
  If(iBDM==1 .and. OutClass==1)Call BDM(mDENSIT)    ! class-2 (station) outputs skip the halo finder
+ If(iRockstar==1 .and. OutClass==1)Then             ! in-line Rockstar catalogue (rockstar_inline/), after BDM
+    Call RockstarHalos(moment)
+    mDENSIT = 1                                     ! FI was released for Rockstar
+ End If
      Call Timing(7,1)      ! stop reading time
 
   end subroutine Analysis

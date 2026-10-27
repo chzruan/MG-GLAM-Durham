@@ -47,6 +47,7 @@ Module Tools
       Integer*4 :: NdepMom = 0       ! momentum deposit grid (0 = NGRID/2)
       Integer*4 :: SubM = 0          ! particle subsample: keep 1 in SubM particles (0 = off)
       Integer*4 :: FRhalo = 0        ! f_R at halo centres (f(R) runs only)
+      Integer*4 :: iRockstar = 0     ! in-line Rockstar catalogues at full outputs (rockstar_inline/)
 
       Real*4    :: AEXPN0,ASTEP0,AMPLT,EKIN,EKIN1,EKIN2,AEU0,  &
                    TINTG,                 &
@@ -253,6 +254,7 @@ subroutine ReadSetup
       zclass(:) = 1
       LensSlab = 0
       LensGrid = 0
+      iRockstar = 0
       read(11,'(a)',iostat=ierr) Line
       If(ierr == 0 .and. index(Line,'extra outputs') > 0)Then
          read(11,*,iostat=ierr) Nclasses
@@ -275,11 +277,19 @@ subroutine ReadSetup
          If(ierr > 0) stop 'Setup.dat: malformed extra-outputs block (extras lines)'
          If(ierr < 0)Then          ! end of file: the four-line block of older Setup.dat files
             iExtra = 0; KcDelta = 1.5; KcMom = 0.75; NdepMom = 0; SubM = 0; FRhalo = 0
+         Else                      ! the Rockstar line was added later still: its end of file keeps the extras
+            read(11,*,iostat=ierr) iRockstar
+            If(ierr < 0) iRockstar = 0
+            If(ierr > 0 .or. iRockstar < 0 .or. iRockstar > 1)Then   ! exit status 1: a job must not go on
+               write(*,'(a)') ' Setup.dat: malformed extra-outputs block (Rockstar line: 0 or 1)'
+               error stop 1
+            End If
          End If
          write (*,'(a,i4,2(a,i5))') '  Extra outputs: output classes=',Nclasses, &
                                     '  lens slabs per axis=',LensSlab,'  lens plane grid=',LensGrid
          If(iExtra == 1) write (*,'(a,2(a,f6.3),3(a,i6))') '  Extra outputs ON:', &
             ' kc_delta=',KcDelta,' kc_mom=',KcMom,' N_dep_mom=',NdepMom,' subsample M=',SubM,' fR_halo=',FRhalo
+         If(iRockstar == 1) write (*,'(a)') '  In-line Rockstar catalogues ON (Rockstar.config)'
       End If
 
       If(Nexact > 0)Then

@@ -2,7 +2,7 @@
 
 :mod:`glamio.pack` turns a finished run directory (``Run<box>/``) into
 ``Output.<step>.<box>.h5`` (one per output step), ``RunInfo.<box>.h5`` (the
-schedule, ``BDM.config`` and the logs) and ``packed.md5``.  Layout
+schedule, ``BDM.config``, ``Rockstar.config`` and the logs) and ``packed.md5``.  Layout
 (``format = glamio-pack``, ``format_version = 1``):
 
 * every ``.bin`` becomes the dataset ``<group>/data``: the file's bytes
@@ -22,11 +22,11 @@ schedule, ``BDM.config`` and the logs) and ``packed.md5``.  Layout
   :mod:`glamio.pack` rebuilds the files byte for byte from it.
 
 Group names are the native product names (``LensPlanes``, ``deltam``,
-``mom_x``, ``Subsample``, ``fR_halo``, ``CatshortV``) and ``PowerDM/R``,
-``PowerDM/log``.  A product inside a packed file is named by the path
+``mom_x``, ``Subsample``, ``fR_halo``, ``CatshortV``, ``Rockstar``) and
+``PowerDM/R``, ``PowerDM/log``.  A product inside a packed file is named by the path
 ``<file>.h5/<group>``, e.g. ``Run0/Output.0184.0000.h5/deltam``; the
-sidecar-product, binary-catalogue, P(k) and schedule readers accept such a
-path where they accept a native one, and :func:`glamio.product_path` returns
+sidecar-product, binary-catalogue (BDM and Rockstar), P(k) and schedule readers
+accept such a path where they accept a native one, and :func:`glamio.product_path` returns
 one when the native files are absent.  h5py is imported on first use only,
 so reading native files still needs numpy alone.
 
@@ -55,6 +55,8 @@ FORMAT = "glamio-pack"
 FORMAT_VERSION = 1
 #: Group of the halo catalogue inside an output file.
 CATALOGUE_GROUP = "CatshortV"
+#: Group of the in-line Rockstar catalogue inside an output file.
+ROCKSTAR_GROUP = "Rockstar"
 
 
 def output_file_name(step: int, box: int) -> str:

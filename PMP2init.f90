@@ -41,6 +41,7 @@ Module Param
     Integer*4:: NdepMom = 0         ! momentum deposit grid (0 = Ngrid/2)
     Integer*4:: SubM = 0            ! subsample: keep 1 in M particles (0 = off)
     Integer*4:: FRhalo = 0          ! f_R at halo centres (f(R) only)
+    Integer*4:: iRockstar = 0       ! in-line Rockstar catalogues at full outputs (rockstar_inline/)
     Real*8   :: rf, OmLOm0
     Real*4   :: xkt(0:NtabM), Pkt(0:NtabM)  ! Power spectrum
     Real*4   :: StepK, alog0
@@ -291,6 +292,9 @@ Program Initialize
         write (*, '(a,2(a,f6.3),a,i6,a,i6,a,i2)') ' Extra outputs ON:', ' kc_delta =', KcDelta, &
             '  kc_mom =', KcMom, '  N_dep_mom =', NdepMom, '  subsample M =', SubM, '  fR_halo =', FRhalo
     End If
+    If (iRockstar /= 0 .and. iRockstar /= 1) call Refuse('Find Rockstar halos must be 0 or 1')
+    If (iRockstar == 1) write (*, '(a)') ' In-line Rockstar catalogues ON: needs Run<box>/Rockstar.config and '// &
+        'a GLAM build with ROCKSTAR_DIR'
 
     OPEN (10, file='Setup.dat')
     OPEN (1, file='lcdm.dat')
@@ -426,6 +430,7 @@ Program Initialize
     write (10, 60) NdepMom, 'Momentum deposit grid (0 = Ngrid/2)'
     write (10, 60) SubM, 'Subsample: keep 1 in M particles (0 = off)'
     write (10, 60) FRhalo, 'f_R at halo centres (0/1, f(R) only)'
+    write (10, 60) iRockstar, 'Find Rockstar halos (0/1, rockstar_inline/)'
 50  format(es12.5, T20, a)
 60  format(i5, T20, a)
 70  format(L, T20, a)
@@ -568,6 +573,7 @@ Subroutine ReadInit
     NdepMom = iParseLineOpt(11, 0)
     SubM = iParseLineOpt(11, 0)
     FRhalo = iParseLineOpt(11, 0)
+    iRockstar = iParseRockstarLine(11)
 
     If (BiasPars(10) < 0.1) BiasPars(10) = 1.0
     !--- make new da
@@ -660,6 +666,7 @@ Subroutine CheckInit
         write (11, '(a,i9,a)') 'N_dep_mom                 = ', 0, '  0-Ngrid/2'
         write (11, '(a,i9,a)') 'Subsample M               = ', 0, '  0-off; keep 1 in M particles'
         write (11, '(a,i9,a)') 'fR at halos               = ', 0, '  0-off 1-on (f(R) runs)'
+        write (11, '(a,i9,a)') 'Find Rockstar halos       = ', 0, '  0-no 1-yes (Run<box>/Rockstar.config; build with ROCKSTAR_DIR)'
         call Refuse('Init.dat was missing: a template has been written; edit it and run PMP2init again')
     end if
 
@@ -782,6 +789,7 @@ Function iParseLineOpt(iFile, idef)
         iParseLineOpt = idef
         Return
     End If
+    Call RefuseRockstarLine(Line, Ieq)
     Read (Line(Ieq + 1:), *, iostat=ios) iParseLineOpt     ! first token after the last "="
     If (ios /= 0) Then
         write (*, '(3a)') ' Init.dat: no integer after the last "=" in: "', TRIM(Line), '"'
@@ -806,12 +814,62 @@ Function ParseLineOpt(iFile, def)
         ParseLineOpt = def
         Return
     End If
+    Call RefuseRockstarLine(Line, Ieq)
     Read (Line(Ieq + 1:), *, iostat=ios) ParseLineOpt
     If (ios /= 0) Then
         write (*, '(3a)') ' Init.dat: no number after the last "=" in: "', TRIM(Line), '"'
         call Refuse('Init.dat: malformed optional line (a comment must not contain "=")')
     End If
 end Function ParseLineOpt
+!--------------------------------------------------
+!        the optional lines are read in order, by position: a "Find Rockstar halos" line
+!        met by the reader of an earlier optional line (some lines before it missing)
+!        would silently set that parameter instead
+Subroutine RefuseRockstarLine(Line, Ieq)
+    Character(len=*), intent(in) :: Line
+    Integer*4, intent(in) :: Ieq
+    If (iHasRockstar(Line(1:Ieq)) == 1) Then
+        write (*, '(3a)') ' Init.dat: "', TRIM(Line), '" is read in the place of an earlier optional line'
+        call Refuse('Init.dat: "Find Rockstar halos" must follow the whole block of extra-output lines, '// &
+                    'ending with "fR at halos"')
+    End If
+end Subroutine RefuseRockstarLine
+!--------------------------------------------------
+!        1 when a key mentions Rockstar (in any case)
+Function iHasRockstar(Key)
+    Character(len=*), intent(in) :: Key
+    Character(len=len(Key)) :: Low
+    Integer*4 :: iHasRockstar, i, ic
+    Low = Key
+    Do i = 1, len(Key)
+        ic = IACHAR(Key(i:i))
+        If (ic >= 65 .and. ic <= 90) Low(i:i) = ACHAR(ic + 32)
+    End Do
+    iHasRockstar = 0
+    If (INDEX(Low, 'rockstar') > 0) iHasRockstar = 1
+end Function iHasRockstar
+!--------------------------------------------------
+!        the OPTIONAL "Find Rockstar halos" line after "fR at halos": 0 when absent;
+!        a line whose key does not mention Rockstar is left unread, as before the line existed
+Function iParseRockstarLine(iFile)
+    Character :: Line*120
+    Integer*4 :: iParseRockstarLine, iFile, ios, Ieq
+
+    iParseRockstarLine = 0
+    Read (iFile, '(a)', iostat=ios) Line
+    If (ios /= 0) Return                     ! end of file: the line is absent
+    Ieq = INDEX(Line, '=', BACK=.TRUE.)
+    If (Ieq == 0) Then                       ! not a "key = value" line: absent, leave it unread
+        backspace (iFile)
+        Return
+    End If
+    If (iHasRockstar(Line(1:Ieq)) == 0) Then
+        backspace (iFile)
+        Return
+    End If
+    Read (Line(Ieq + 1:), *, iostat=ios) iParseRockstarLine
+    If (ios /= 0) call Refuse('Init.dat: malformed "Find Rockstar halos" line')
+end Function iParseRockstarLine
 !--------------------------------------------------
 !        refuse the configuration: message on stdout (the log) and stderr, exit status 1.
 !        A plain STOP returns status 0, which a job script cannot tell from success
