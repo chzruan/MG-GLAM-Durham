@@ -23,7 +23,8 @@ extern "C" void rs_clear_assertion(void);
 extern "C" int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z,
                                   const float *vx, const float *vy, const float *vz, double box,
                                   int64_t ngrid, double aexpn, double astep, double om, double oml,
-                                  double hubble, int step, int box_index, const char *config_path,
+                                  double hubble, int mg_flag, int mg_model, double fr0, const char *header,
+                                  int step, int box_index, const char *config_path,
                                   const char *catalog_dir, struct rs_inline_info *info);
 extern "C" int rs_publish_failure(const char *catalog_dir, int step, int box_index, const char *reason);
 
@@ -93,13 +94,14 @@ extern "C" int rs_guarded_find_parents(int64_t n, const struct halo *h, int64_t 
 
 extern "C" int rs_inline_run(int64_t n, const float *x, const float *y, const float *z, const float *vx,
                              const float *vy, const float *vz, double box, int64_t ngrid, double aexpn,
-                             double astep, double om, double oml, double hubble, int step, int box_index,
+                             double astep, double om, double oml, double hubble, int mg_flag, int mg_model,
+                             double fr0, const char *header, int step, int box_index,
                              const char *config_path, const char *catalog_dir, struct rs_inline_info *info)
 {
     char reason[512] = "";
     try {
-        return rs_inline_run_impl(n, x, y, z, vx, vy, vz, box, ngrid, aexpn, astep, om, oml, hubble, step,
-                                  box_index, config_path, catalog_dir, info);
+        return rs_inline_run_impl(n, x, y, z, vx, vy, vz, box, ngrid, aexpn, astep, om, oml, hubble, mg_flag,
+                                  mg_model, fr0, header, step, box_index, config_path, catalog_dir, info);
     } catch (const rockstar_error &e) {
         describe(e, reason, sizeof reason);
     } catch (const std::bad_alloc &) {

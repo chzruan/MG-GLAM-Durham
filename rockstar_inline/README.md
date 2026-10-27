@@ -69,6 +69,31 @@ is skipped when VmRSS plus the estimated need would exceed the ceiling, the smal
 `GLAM_MEMORY_CEILING_GIB` and 97 % of the process's memory limit (its cgroups, such as
 a Slurm job's, or MemTotal).
 
+## In GLAM
+
+- **Switch:** the optional `Init.dat` line `Find Rockstar halos = 1`, after
+  `fR at halos` (`gen_inputs.py --rockstar` writes it); `PMP2init` copies it into
+  the extra-outputs block of `Setup.dat`. Older `Setup.dat` files without the line
+  read as 0.
+- **Configuration:** `Run<box>/Rockstar.config`, next to `BDM.config`
+  (`gen_inputs.py --rockstar` writes the validated settings).
+- **Build:** GLAM's makefile links `build/librs_inline.a` with
+  `make ROCKSTAR_DIR=<MPI-Rockstar source>`, and the stub otherwise.
+- **Start-up check:** `PMP2main`/`PMP2MG` stop before any compute when the switch is
+  on but the build has only the stub, `Rockstar.config` is missing, or it is not
+  usable (`CheckRockstarConfig` in `PMP2mod_rockstar.f90`).
+- **When it runs:** at class-1 outputs, after BDM (`Analysis` in
+  `PMP2mod_analyze.f90`). The PM density array `FI` is freed for the call and
+  allocated again afterwards: after BDM it is not resident, and `DENSIT` rebuilds it
+  at the next step. The scalar field of f(R) runs (`FI2`) is not touched.
+- **Particle arrays:** only read. With `GLAM_ROCKSTAR_CHECKSUM=1` in the environment,
+  GLAM compares checksums of the six particle arrays before and after each call and
+  stops if they differ (a test, not for production).
+- **Not supported:** the MPI build switches the catalogues off (each process holds
+  only part of the particles).
+- **Post-processing:** `check_run.py` and glamio read and pack the catalogue (see
+  `python/README.md`).
+
 ## Build
 
 Use the Intel toolchain, as for GLAM, so that GLAM and the adapter share one OpenMP
@@ -130,11 +155,16 @@ per distinct halo. Each record is:
 - then the FoF group, and the strict SO masses with flags saying which thresholds were
   reached.
 
-The sidecar `.meta` (key = value) gives:
-- every column with its type, byte offset and unit;
-- the effective configuration, its checksum and the velocity epoch;
-- FoF statistics, timings and memory (VmRSS sampled at each phase's peak, VmHWM);
-- the status: `ok`, `skipped` or `failed`.
+The sidecar `.meta` (key = value) follows the other GLAM sidecars:
+- `product = Rockstar`, `status` (`ok`, `skipped` or `failed`) and `reason`;
+- the column lists `columns`, `dtypes`, `offsets` and `units`, and one
+  `column_NN = name: description` line per column;
+- the epochs (`a`, `a_x`, `z`, `a_v`, `da`, `velocity_scale`), `step`,
+  `realization`, the run (`Box`, `N_grid`, `N_row`, `N_p`, `particle_mass`), the
+  cosmology (`Omega_m`, `Omega_L`, `hubble`), the gravity model (`MG_flag`,
+  `MG_model`, `fR0`) and the run's `header`;
+- the effective Rockstar configuration (`config.<KEY>`) and its file's checksum;
+- FoF statistics, timings and memory (VmRSS sampled at each phase's peak, VmHWM).
 
 Column notes:
 - With `BOUND_PROPS = 1` (the default here), Rockstar computes every property except
@@ -147,8 +177,9 @@ Column notes:
 Catalogues that are skipped or failed have zero rows. An interrupted write leaves a
 `.bin` without `.meta` and possibly the hidden temporaries
 `.Rockstar.<step>.<box>.{bin,meta}.tmp`; a rerun of the step replaces them.
-`harness/rsbin.py` reads the catalogue into a numpy structured array (and refuses a
-skipped or failed one unless asked).
+`glamio.read_rockstar` reads the catalogue, native or packed, into a numpy structured
+array; it refuses a skipped or failed one unless asked (`python/README.md`, "In-line
+Rockstar catalogues"). `harness/rsbin.py` is the test harness's minimal reader.
 
 ## Tests (`harness/`)
 
@@ -233,6 +264,20 @@ L128 at z = 0 and 1, L256 at z = 0):
   - A conversion at AEXPN is excluded at more than 40σ (z = 0 and 1).
   - Against BDM, which converts with AEXPN, the ratio is 1.0014-1.0064, against the
     expected 1.0027-1.0078. BDM's halo velocity is a different estimator.
+- **In GLAM** (test runs from 2LPT initial conditions: L128 ΛCDM and f(R) with outputs
+  at z = 1, 0.5 and 0; L256 ΛCDM and f(R) at z = 1 and 0):
+  - catalogues at every full output, `check_run.py` without failures, and packing
+    and unpacking byte for byte;
+  - the particle checksums are identical before and after every call;
+  - with Rockstar on and off, P(k) differs by at most 7×10⁻⁶ (two runs with it off:
+    6×10⁻⁶, GLAM's round-off), and the BDM catalogues hold the same number of haloes
+    above 10¹², 10¹³ and 10¹⁴;
+  - a run stopped after an output and restarted from the checkpoint before it
+    replaces that output's catalogue, with nothing duplicated or left over;
+  - at L256 on 32 threads a call takes 12-19 s, and its memory stays below the peak
+    BDM has already set. VmRSS before the call grows by 0.4 GiB between the two
+    outputs; `MALLOC_ARENA_MAX=1` removes that but makes the kernel 2.6-5 times
+    slower, so it is not set.
 - **Cost at L256** (134 M particles, 16 threads): 27-31 s per output; the peak is
   4.3-4.4 GiB above the entry VmRSS (34-35 B per particle), during the gather. The
   catalogue holds 223 287 (ΛCDM) and 234 230 (f(R)) distinct haloes, 79-82 MB.

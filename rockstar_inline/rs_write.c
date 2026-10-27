@@ -117,20 +117,39 @@ static const struct column columns[] = {
 #undef H
 #undef R
 
+/* the unit token of a column for the units list (the description starts with its unit) */
+static const char *unit_token(const char *desc)
+{
+    static const char *const units[] = {"Mpc/h", "kpc/h", "km/s", "Msun/h"};
+    if (!strncmp(desc, "(Msun/h) (Mpc/h) km/s", 21)) return "Msun/h*Mpc/h*km/s";
+    for (size_t k = 0; k < sizeof units / sizeof units[0]; k++)
+        if (!strncmp(desc, units[k], strlen(units[k]))) return units[k];
+    return "-";
+}
+
+/* as the other GLAM sidecars: space-separated lists of the column names, dtypes (little-endian) and units,
+ * plus the byte offsets; then one description line per column */
 int rs_columns_text(char *buf, size_t cap, int bound_props)
 {
     size_t used = 0;
-    int n = (int)(sizeof columns / sizeof columns[0]);
-    int w = snprintf(buf, cap, "columns = %d\n", n);
-    if (w < 0 || (size_t)w >= cap) return -1;
-    used = (size_t)w;
+    const int n = (int)(sizeof columns / sizeof columns[0]);
+    int w;
+#define PUT(...) do { w = snprintf(buf + used, cap - used, __VA_ARGS__); \
+                      if (w < 0 || (size_t)w >= cap - used) return -1; used += (size_t)w; } while (0)
+    PUT("columns =");
+    for (int i = 0; i < n; i++) PUT(" %s", columns[i].name);
+    PUT("\ndtypes =");
+    for (int i = 0; i < n; i++) PUT(" %s", columns[i].type + 1);      /* "<f4" -> "f4" */
+    PUT("\noffsets =");
+    for (int i = 0; i < n; i++) PUT(" %zu", columns[i].offset);
+    PUT("\nunits =");
+    for (int i = 0; i < n; i++) PUT(" %s", unit_token(columns[i].unit));
+    PUT("\n");
     for (int i = 0; i < n; i++) {
-        const char *unit = (!bound_props && columns[i].unit_unbound) ? columns[i].unit_unbound : columns[i].unit;
-        w = snprintf(buf + used, cap - used, "column_%02d = %s %s %zu %s\n", i + 1, columns[i].name,
-                     columns[i].type, columns[i].offset, unit);
-        if (w < 0 || (size_t)w >= cap - used) return -1;
-        used += (size_t)w;
+        const char *desc = (!bound_props && columns[i].unit_unbound) ? columns[i].unit_unbound : columns[i].unit;
+        PUT("column_%02d = %s: %s\n", i + 1, columns[i].name, *desc ? desc : "-");
     }
+#undef PUT
     return (int)used;
 }
 

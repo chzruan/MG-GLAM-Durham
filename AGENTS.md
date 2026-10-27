@@ -85,7 +85,8 @@
 - `pack` refuses another subdirectory, symbolic links, PM particle or
   checkpoint files, step-tagged files of an unknown product, text catalogues
   (`CATALOGS/*.DAT`, written when `CatalogueFormat` is `text` or `both`), a
-  `.bin` without its `.meta`, a wrong box tag, a step missing from
+  `.bin` without its `.meta`, the hidden `.Rockstar*` temporaries of an
+  interrupted in-line Rockstar catalogue, a wrong box tag, a step missing from
   `OutputSchedule.dat` and a `packed.md5` it did not write. Resolve those with
   the user first, never by deleting them to get past it.
 - Restore native files with `python -m glamio.pack unpack Run<box> --out DIR`

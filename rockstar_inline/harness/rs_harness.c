@@ -15,7 +15,8 @@
  *            --shift F moves every particle by F*Box first (periodic test T3);
  *            --fail kernel|assert|alloc injects that failure into a first call, then
  *            runs a clean one in the same process (error-path test); --repeat N calls it N
- *            times in one process and prints VmRSS before each (residue test)
+ *            times in one process and prints VmRSS before each (residue test); --mg FLAG
+ *            MODEL FR0 records the gravity model in the .meta (default 0 1 0: LCDM)
  *   fofcmp   DIR STEP [--no-reference]       test T2: the adapter's parallel FoF (rs_fof.c)
  *            against the serial reference, exact equality of the partitions
  *   fof      DIR STEP [B]                    serial reference FoF (fof_ref.c) with linking
@@ -286,6 +287,9 @@ static int run_fofcmp(const struct snap *s, double b, int skip_reference)
     return rc;
 }
 
+static int mg_flag = 0, mg_model = 1;           /* the .meta's gravity model (--mg) */
+static double mg_fr0 = 0.0;
+
 static int run_inline(struct snap *s, const char *config, const char *outdir, double shift)
 {
     const struct pm_header *h = &s->h;
@@ -302,7 +306,8 @@ static int run_inline(struct snap *s, const char *config, const char *outdir, do
     struct rs_inline_info info;
     printf("%s\n", rs_inline_version());
     int rc = rs_inline_run(h->nparticles, s->x, s->y, s->z, s->vx, s->vy, s->vz, h->box, h->ngrid, h->aexpn,
-                           h->astep, h->om, h->oml, h->hubble, h->istep, h->nrealization, config, outdir, &info);
+                           h->astep, h->om, h->oml, h->hubble, mg_flag, mg_model, mg_fr0, h->title, h->istep,
+                           h->nrealization, config, outdir, &info);
     printf("status %d (%s); groups %lld members %lld largest %lld; halos %lld internal, %lld selected, %lld distinct written; "
            "FoF %.2f gather %.2f kernel %.2f strict %.2f parents %.2f write %.2f total %.2f s; "
            "VmRSS %.3f -> %.3f GiB; estimates FoF %.3f kernel %.3f GiB\n",
@@ -333,10 +338,16 @@ int main(int argc, char **argv)
         double shift = 0.0;
         const char *fail = NULL;
         int repeat = 1;
-        for (int i = 6; i + 1 < argc; i += 2) {
-            if (!strcmp(argv[i], "--shift")) shift = atof(argv[i + 1]);
-            else if (!strcmp(argv[i], "--fail")) fail = argv[i + 1];
-            else if (!strcmp(argv[i], "--repeat")) repeat = atoi(argv[i + 1]);
+        for (int i = 6; i + 1 < argc; i++) {
+            if (!strcmp(argv[i], "--shift")) shift = atof(argv[++i]);
+            else if (!strcmp(argv[i], "--fail")) fail = argv[++i];
+            else if (!strcmp(argv[i], "--repeat")) repeat = atoi(argv[++i]);
+            else if (!strcmp(argv[i], "--mg") && i + 3 < argc) {
+                mg_flag = atoi(argv[i + 1]);
+                mg_model = atoi(argv[i + 2]);
+                mg_fr0 = atof(argv[i + 3]);
+                i += 3;
+            }
         }
         load(dir, step, &s);
         if (repeat > 1) {   /* residue test: VmRSS before each of `repeat` calls in one process */
@@ -345,8 +356,8 @@ int main(int argc, char **argv)
                 struct rs_inline_info info;
                 const struct pm_header *h = &s.h;
                 rc |= rs_inline_run(h->nparticles, s.x, s.y, s.z, s.vx, s.vy, s.vz, h->box, h->ngrid, h->aexpn,
-                                    h->astep, h->om, h->oml, h->hubble, h->istep, h->nrealization, argv[4], argv[5],
-                                    &info);
+                                    h->astep, h->om, h->oml, h->hubble, mg_flag, mg_model, mg_fr0, h->title,
+                                    h->istep, h->nrealization, argv[4], argv[5], &info);
                 printf("call %d: status %d, VmRSS at entry %.4f GiB, max sampled %.4f GiB\n", k + 1, info.status,
                        info.rss_entry_gib, info.rss_max_gib);
             }

@@ -51,11 +51,14 @@ int rs_inline_check_config(const char *config_path, char *msg, int msglen);
  *   x..vz         GLAM's particle arrays (grid units, code velocities), n entries
  *   box           Mpc/h;  ngrid  GLAM's mesh;  aexpn, astep  the step's a and da
  *   om, oml, hubble  cosmology
+ *   mg_flag, mg_model, fr0, header  recorded in the .meta (the gravity model and the run's
+ *                 header line), as in GLAM's other sidecars
  * Returns the status (also in *info when info is not NULL). */
 int rs_inline_run(int64_t n, const float *x, const float *y, const float *z,
                   const float *vx, const float *vy, const float *vz,
                   double box, int64_t ngrid, double aexpn, double astep,
-                  double om, double oml, double hubble, int step, int box_index,
+                  double om, double oml, double hubble, int mg_flag, int mg_model, double fr0,
+                  const char *header, int step, int box_index,
                   const char *config_path, const char *catalog_dir, struct rs_inline_info *info);
 
 #ifdef __cplusplus

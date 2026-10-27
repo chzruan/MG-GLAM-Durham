@@ -1,7 +1,8 @@
 # glamio
 
 Numpy-only Python readers for GLAM / MG-GLAM simulation outputs: the BDM halo
-catalogues (legacy text and binary), the output schedule, the lens planes, the
+catalogues (legacy text and binary), the in-line Rockstar halo catalogues, the
+output schedule, the lens planes, the
 low-k mode cubes, the quantised particle subsample, the f(R) halo values, the
 power spectra and the PM particle snapshots. The same readers read packed runs
 (one HDF5 file per output step, see [Packed runs](#packed-runs-hdf5)), which
@@ -25,8 +26,9 @@ when a packed file is opened. Re-run the line after a version bump: the
 editable install records the version at install time (`pip show glamio` lags
 `glamio.__version__` otherwise).
 
-Tests: `python3 tests/test_readers.py`, `python3 tests/test_catalogue.py` and
-`python3 tests/test_pack.py` (script mode; the last one needs h5py and skips
+Tests: `python3 tests/test_readers.py`, `python3 tests/test_catalogue.py`,
+`python3 tests/test_pack.py` and `python3 tests/test_rockstar.py` (script mode;
+`test_pack.py` and the packing tests of `test_rockstar.py` need h5py and skip
 without it) or `python3 -m pytest -q tests` when pytest is available (it is not
 part of cosemu; `python3 -I` hides a user-site pytest).
 
@@ -98,10 +100,87 @@ converted to km/s with `1/a` of the output epoch `a`. `Catalogue.velocities_at_a
 returns `v_written * a / a_v`, i.e. the velocities converted with `1/a_v`, their
 own epoch. For text catalogues `a_v` is derived from the header (`A - Step/2`).
 
+## In-line Rockstar catalogues
+
+With `Find Rockstar halos = 1` in `Init.dat` (and `Run<box>/Rockstar.config`),
+GLAM runs the in-line Rockstar adapter (`rockstar_inline/`, see its README) at
+every class-1 output, after BDM, and writes the distinct haloes (no subhaloes)
+to `CATALOGS/Rockstar.<step>.<box>.{bin,meta}`:
+
+* `.bin`: headerless little-endian records of `record_bytes` (352) bytes,
+  `rows` of them: Rockstar's `struct halo` (312 bytes; MPI-Rockstar built with
+  `OUTPUT_RVMAX`, `OUTPUT_NFW_CHI2`, `OUTPUT_INERTIA_TENSOR`) followed by the
+  adapter's `fof_group`, strict SO masses (`m_strict`, `r_strict`,
+  `alt_m_strict_1..4`), `strict_crossed` and `pad`.
+* `.meta`: a `key = value` sidecar that describes the layout itself:
+  `columns`, `dtypes` (`i8`, `f4`, `i4`, little-endian), `offsets` (bytes into
+  the record) and `units` are space-separated lists with one entry per column,
+  and `column_NN = name: description` lines explain each column. It also holds
+  `status`, `reason`, `rows`, `record_bytes`, the epochs (`a`, `a_x`, `z`,
+  `a_v`, `da`), the run (`step`, `realization`, `Box`, `N_grid`, `N_row`,
+  `N_p`, `Omega_m`, `Omega_L`, `hubble`, `MG_flag`, `MG_model`, and `fR0` in
+  f(R) runs), `particle_mass`, `header`, `finder` (MPI-Rockstar commit,
+  compiler and flags), the configuration file and its checksum, every effective
+  Rockstar setting (`config.<KEY>`), FoF statistics, timings and memory.
+
+The reader builds the record type from the sidecar, so columns are found by
+name rather than through a layout fixed in glamio. It checks that
+the lists have one entry per column, that every type is a little-endian
+integer or float and that the fields lie inside the record without
+overlapping.
+
+Units (the `.meta` column descriptions are authoritative): positions comoving
+Mpc/h in [0, Box); velocities (`vx, vy, vz`, `corevel_*`, `bulkvel_*`, `vmax`,
+`vrms`) physical peculiar km/s at the velocity epoch `a_v = a - da/2` (the
+adapter converts GLAM's momenta at `a_v`, so no `a/a_v` correction is needed,
+unlike the BDM catalogue); radii comoving kpc/h; masses Msun/h; `id` is the
+0-based row number. With `BOUND_PROPS = 1` (the default) every property except
+`m` comes from the bound particles; a mass of 0 in `alt_m_*` or
+`alt_m_strict_*` means the threshold was not reached (`strict_crossed` holds
+the bits). `rockstar_inline/README.md` explains the columns and the validation.
+
+Status: every class-1 output publishes a pair, also when the finder does not
+succeed (unless the file system refuses the write, or a restart repeats an
+output whose complete catalogue exists, which is kept). `status = ok` is the
+catalogue. `status = skipped` (a memory pre-check would exceed the ceiling) or
+`status = failed` (an error inside the adapter, e.g. an invalid
+`Rockstar.config`) comes with a 0-byte `.bin`, `rows = 0`, the same column
+lists and a `reason`. These are legitimate products: they pack, verify, unpack
+and prune like any other. They are not empty volumes, so the reader refuses
+them unless asked. An interrupted write leaves a `.bin` without `.meta` and
+possibly the hidden temporaries `CATALOGS/.Rockstar.<step>.<box>.{bin,meta}.tmp`;
+`glamio.pack` and `DEGRACE-companion/check_run.py` refuse both.
+
+```python
+import glamio
+
+stem = glamio.product_path("Run0", "rockstar", 165, box=0)   # Run0/CATALOGS/Rockstar.0165.0000 (or .../Output.0165.0000.h5/Rockstar)
+cat = glamio.read_rockstar(stem)            # .bin, .meta, stem or packed path; mmap=True maps the records
+len(cat), cat.columns                       # number of distinct haloes, column names
+cat["m"], cat["mgrav"], cat["vmax"]         # columns of the structured array cat.data
+cat.units["r"], cat.descriptions["r"]       # 'kpc/h' and the column description of the .meta
+pos, vel = cat.positions(), cat.velocities()   # (N, 3) float64: Mpc/h, and km/s at a_v
+cat.a, cat.a_v, cat.box, cat.particle_mass, cat.meta["config.FORCE_RES"]
+
+c = glamio.read_rockstar(glamio.product_path("Run0", "rockstar", 114, box=0), allow_status=True)
+if not c.ok:
+    print(c.status, c.reason)               # e.g. 'skipped', 'memory pre-check: ...'; len(c) == 0
+```
+
+Without `allow_status`, `read_rockstar` raises `ValueError` naming the status
+and the reason of a skipped or failed catalogue. It always raises when the
+`.bin` does not hold `rows x record_bytes` bytes, when the `id` column is not
+`0..N-1` (byte-swapped, misaligned or corrupted file), for a status other than
+`ok`, `skipped` or `failed`, and for a skipped or failed sidecar with rows.
+`products_at` lists the catalogue as `'rockstar'`, and
+`run_file(rundir, "Rockstar.config")` finds the configuration natively or in
+`RunInfo`. `glamio.rockstar_dtype(meta)` returns the record type of a parsed
+sidecar.
+
 ## Other products
 
 The sidecar products (`LensPlanes`, `deltam`, `mom_x/y/z`, `Subsample`,
-`fR_halo`, and the catalogue) share the file scheme
+`fR_halo`, and the catalogues, these under `CATALOGS/`) share the file scheme
 `<product>.<step>.<box>.{bin,meta}` in the run directory (`Run1/`): raw
 little-endian binary without record markers plus a `key = value` sidecar.
 Their readers accept the `.bin`, the `.meta` or the bare stem, take
@@ -177,8 +256,9 @@ Conventions the readers encode (from the Fortran writers):
   shell average of the 3-D window; the two differ by up to 37 % near `k_Nyq`).
 
 Helpers that are not readers (`keep_mask`, `select_ids`, `splitmix64`,
-`product_path`, `products_at`, `load_meta`, `check_size`, `load_array`,
-`resolve_pair`, `meta_int`) are exported from the package too. Still without a
+`product_path`, `products_at`, `run_file`, `rockstar_dtype`, `load_meta`,
+`check_size`, `load_array`, `resolve_pair`, `meta_int`) are exported from the
+package too. Still without a
 reader: `ProjectionXY/XZ/YZ`, `timing.log`, `main.log`, the BDM `outputB`
 logs.
 
@@ -192,18 +272,20 @@ output step:
 ```
 Run0/
 ├── Output.<step>.<box>.h5     one per output step (42 in a DEGRACE run)
-├── RunInfo.<box>.h5           schedule, BDM.config, logs
+├── RunInfo.<box>.h5           schedule, BDM.config, Rockstar.config, logs
 └── packed.md5                 md5 of the .h5 files, to check a copy
 ```
 
 Inside `Output.<step>.<box>.h5` every product is a group named after it
-(`CatshortV`, `fR_halo`, `Subsample`, `deltam`, `mom_x/y/z`, `LensPlanes`,
-`PowerDM/R`, `PowerDM/log`):
+(`CatshortV`, `Rockstar`, `fR_halo`, `Subsample`, `deltam`, `mom_x/y/z`,
+`LensPlanes`, `PowerDM/R`, `PowerDM/log`):
 
 * `<group>/data` holds the `.bin` bytes unchanged: same little-endian type,
   one contiguous block (no chunking or compression), aligned to 4 KiB in files
   written since the 2026-10-24 review, with the shape the reader gives the file
-  (`CatshortV/data` a 24-column compound table, `Subsample/data`
+  (`CatshortV/data` a 24-column compound table, `Rockstar/data` a `(rows,)`
+  compound table with the sidecar's record type, offsets and record size kept
+  (`(0,)` for a skipped or failed output), `Subsample/data`
   `(6, n_sel)` int16, `deltam/data` `(2n+1, 2n+1, n+1)` complex64 (an HDF5
   compound `{r, i}`), `LensPlanes/data` `(3 N_slab, N_lens, N_lens)` float32, ...);
 * the `.meta` is kept verbatim in the group attribute `meta_text` (the
@@ -211,7 +293,8 @@ Inside `Output.<step>.<box>.h5` every product is a group named after it
   line as `glamio.read_meta` splits it, comments included (a line with two
   keys, such as `MG_flag = 1   MG_model = 1`, stays one attribute);
 * text files are verbatim `uint8` datasets (`PowerDM/R/text`,
-  `CatshortV/outputB`, `logs/<name>` and `BDM.config` in RunInfo);
+  `CatshortV/outputB`, `logs/<name>`, `BDM.config` and `Rockstar.config` in
+  RunInfo);
   `PowerDM/<kind>/table` and `schedule/table` repeat the parsed columns;
 * root attributes: `format = glamio-pack`, `format_version`, `layout` (a
   pointer to this section), the schedule row (`step a z chi exact class`),
@@ -242,8 +325,9 @@ micromamba run -n cosemu python3 -m glamio.pack status Run0               # nati
 `pack` refuses a run directory with anything it cannot place: another
 subdirectory, a symbolic link, PM particle or checkpoint files, an unknown
 step-tagged file, a text catalogue (`CATALOGS/*.DAT`), a `.bin` without its
-`.meta`, a wrong box tag, a step missing from `OutputSchedule.dat`, or a
-`packed.md5` it did not write. Each file is written as `<name>.partial`,
+`.meta`, the temporaries of an interrupted Rockstar write
+(`CATALOGS/.Rockstar.*.tmp`), a wrong box tag, a step missing from
+`OutputSchedule.dat`, or a `packed.md5` it did not write. Each file is written as `<name>.partial`,
 verified (each dataset's bytes in the file against the md5 of its original,
 plus the parsed tables and attributes), flushed to disk and renamed; a failure
 removes the `.partial`. A rerun keeps an existing packed file only if its
@@ -256,20 +340,21 @@ L1024 Np2048 box (75 GB) takes about 20 min to pack and 30 min to prune, so
 run it under Slurm: `DEGRACE-companion/pack_run.sh` does pack, a full byte
 check and then prune (unless `PRUNE=no`), and resumes from `status`.
 
-Reading: the sidecar-product, binary-catalogue, P(k) and schedule readers
-take `<file>.h5/<group>` where they take a native path (`mmap=True` maps the
+Reading: the sidecar-product, binary-catalogue (BDM and Rockstar), P(k) and
+schedule readers take `<file>.h5/<group>` where they take a native path (`mmap=True` maps the
 dataset at its offset in the HDF5 file; the text catalogue and snapshot
 readers are native only). `product_path` / `products_at` return such paths
 when the native product is absent or incomplete; the schedule is found with
 any `box` when the directory holds a single RunInfo file. `run_file(rundir,
 name, box)` does the same for the run-level files (`timing.log`, `main.log`,
-`ic2pm.log`, `BDM.config`, `OutputSchedule.dat`, ...), which `read_text` reads
-in either form. So code written
+`ic2pm.log`, `BDM.config`, `Rockstar.config`, `OutputSchedule.dat`, ...), which
+`read_text` reads in either form. So code written
 against the native layout runs unchanged, and native-only runs never import
 h5py:
 
 ```python
 cat = glamio.read_catalogue(glamio.product_path("Run0", "catalogue", 184, box=0))   # Run0/Output.0184.0000.h5/CatshortV
+rs = glamio.read_rockstar(glamio.product_path("Run0", "rockstar", 184, box=0))      # Run0/Output.0184.0000.h5/Rockstar
 planes = glamio.read_lensplanes("Run0/Output.0184.0000.h5/LensPlanes", mmap=True)
 sched = glamio.read_schedule(glamio.product_path("Run0", "schedule", 0))            # Run0/RunInfo.0000.h5/schedule
 ```
@@ -280,6 +365,7 @@ Without glamio:
 import h5py, numpy as np
 with h5py.File("Run0/Output.0184.0000.h5") as f:
     mbound = f["CatshortV/data"]["Mbound"]                     # one column of the compound table
+    mvir = f["Rockstar/data"]["mgrav"]                         # the Rockstar catalogue (status: f["Rockstar"].attrs["status"])
     pk = f["PowerDM/R/table"][:]
     z = f.attrs["z"]
     meta = f["deltam"].attrs["meta_text"].decode()             # the sidecar text

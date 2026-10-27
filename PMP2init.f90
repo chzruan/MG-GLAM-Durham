@@ -41,6 +41,7 @@ Module Param
     Integer*4:: NdepMom = 0         ! momentum deposit grid (0 = Ngrid/2)
     Integer*4:: SubM = 0            ! subsample: keep 1 in M particles (0 = off)
     Integer*4:: FRhalo = 0          ! f_R at halo centres (f(R) only)
+    Integer*4:: iRockstar = 0       ! in-line Rockstar catalogues at full outputs (rockstar_inline/)
     Real*8   :: rf, OmLOm0
     Real*4   :: xkt(0:NtabM), Pkt(0:NtabM)  ! Power spectrum
     Real*4   :: StepK, alog0
@@ -291,6 +292,9 @@ Program Initialize
         write (*, '(a,2(a,f6.3),a,i6,a,i6,a,i2)') ' Extra outputs ON:', ' kc_delta =', KcDelta, &
             '  kc_mom =', KcMom, '  N_dep_mom =', NdepMom, '  subsample M =', SubM, '  fR_halo =', FRhalo
     End If
+    If (iRockstar /= 0 .and. iRockstar /= 1) call Refuse('Find Rockstar halos must be 0 or 1')
+    If (iRockstar == 1) write (*, '(a)') ' In-line Rockstar catalogues ON: needs Run<box>/Rockstar.config and '// &
+        'a GLAM build with ROCKSTAR_DIR'
 
     OPEN (10, file='Setup.dat')
     OPEN (1, file='lcdm.dat')
@@ -426,6 +430,7 @@ Program Initialize
     write (10, 60) NdepMom, 'Momentum deposit grid (0 = Ngrid/2)'
     write (10, 60) SubM, 'Subsample: keep 1 in M particles (0 = off)'
     write (10, 60) FRhalo, 'f_R at halo centres (0/1, f(R) only)'
+    write (10, 60) iRockstar, 'Find Rockstar halos (0/1, rockstar_inline/)'
 50  format(es12.5, T20, a)
 60  format(i5, T20, a)
 70  format(L, T20, a)
@@ -568,6 +573,7 @@ Subroutine ReadInit
     NdepMom = iParseLineOpt(11, 0)
     SubM = iParseLineOpt(11, 0)
     FRhalo = iParseLineOpt(11, 0)
+    iRockstar = iParseLineOpt(11, 0)
 
     If (BiasPars(10) < 0.1) BiasPars(10) = 1.0
     !--- make new da
@@ -660,6 +666,7 @@ Subroutine CheckInit
         write (11, '(a,i9,a)') 'N_dep_mom                 = ', 0, '  0-Ngrid/2'
         write (11, '(a,i9,a)') 'Subsample M               = ', 0, '  0-off; keep 1 in M particles'
         write (11, '(a,i9,a)') 'fR at halos               = ', 0, '  0-off 1-on (f(R) runs)'
+        write (11, '(a,i9,a)') 'Find Rockstar halos       = ', 0, '  0-no 1-yes (Run<box>/Rockstar.config; build with ROCKSTAR_DIR)'
         call Refuse('Init.dat was missing: a template has been written; edit it and run PMP2init again')
     end if
 

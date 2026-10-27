@@ -98,7 +98,7 @@ if inline_is_ref:
     print(f"second reference {a.inline_base}: {I['n']} haloes, {I['host'].sum()} hosts")
 else:
     cat, meta = read_rsbin(a.inline_base)
-    om = float(meta["Om"])
+    om = float(meta["Omega_m"])
     I = {"M": cat["mgrav"].astype(float), "Mall": (cat["m_strict"] if a.strict else cat["m"]).astype(float),
          "Np": cat["num_p"].astype(float), "pos": wrap(np.c_[cat["x"], cat["y"], cat["z"]].astype(float) - shift),
          "M200b": cat["alt_m_1"].astype(float), "host": np.ones(len(cat), bool), "n": len(cat)}

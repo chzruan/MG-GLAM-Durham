@@ -21,12 +21,13 @@ int rs_inline_check_config(const char *config_path, char *msg, int msglen)
 int rs_inline_run(int64_t n, const float *x, const float *y, const float *z,
                   const float *vx, const float *vy, const float *vz,
                   double box, int64_t ngrid, double aexpn, double astep,
-                  double om, double oml, double hubble, int step, int box_index,
+                  double om, double oml, double hubble, int mg_flag, int mg_model, double fr0,
+                  const char *header, int step, int box_index,
                   const char *config_path, const char *catalog_dir, struct rs_inline_info *info)
 {
     (void)n; (void)x; (void)y; (void)z; (void)vx; (void)vy; (void)vz; (void)box; (void)ngrid; (void)aexpn;
-    (void)astep; (void)om; (void)oml; (void)hubble; (void)step; (void)box_index; (void)config_path;
-    (void)catalog_dir;
+    (void)astep; (void)om; (void)oml; (void)hubble; (void)mg_flag; (void)mg_model; (void)fr0; (void)header;
+    (void)step; (void)box_index; (void)config_path; (void)catalog_dir;
     if (info) {
         memset(info, 0, sizeof *info);
         info->status = RS_NOT_BUILT;

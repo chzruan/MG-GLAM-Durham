@@ -74,7 +74,12 @@ static char     cfg_path[4096];         /* the configuration loaded in this proc
 static uint64_t cfg_hash;               /* FNV-1a 64 of its bytes */
 
 /* the output being written, for the sidecars of skipped and failed outputs too */
-static struct { int set; double aexpn, astep, box; int64_t ngrid, n; } run_ctx;
+static struct {
+    int set, mg_flag, mg_model;
+    double aexpn, astep, box, om, oml, hubble, fr0;
+    int64_t ngrid, n;
+    char header[128];
+} run_ctx;
 
 int rs_inline_available(void) { return 1; }
 
@@ -340,25 +345,38 @@ static void madd_columns(struct mbuf *b)
     else b->err = 1;
 }
 
+/* the keys every GLAM sidecar carries (product, epochs, run, cosmology, gravity model), then the status */
 static void meta_common(struct mbuf *b, const char *status, const char *reason, int step, int box_index)
 {
-    madd(b, "format = raw little-endian records, %zu bytes per halo: Rockstar's struct halo (312 bytes, "
+    madd(b, "product = Rockstar\n");
+    madd(b, "format = raw little-endian records, %zu bytes per distinct halo: Rockstar's struct halo (312 bytes, "
             "MPI-Rockstar halo.h with OUTPUT_RVMAX, OUTPUT_NFW_CHI2, OUTPUT_INERTIA_TENSOR) followed by the "
-            "adapter's columns; no header; columns listed below\n", sizeof(struct rs_record));
+            "adapter's columns; no header\n", sizeof(struct rs_record));
     madd(b, "record_bytes = %zu\n", sizeof(struct rs_record));
-    madd(b, "status = %s\n", status);
+    madd(b, "status = %s\n", status);                       /* ok, skipped or failed (then no rows) */
     madd(b, "reason = %s\n", reason && *reason ? reason : "-");
-    madd(b, "step = %d\nbox_index = %d\n", step, box_index);
-    madd(b, "finder = in-line Rockstar of MG-GLAM (rockstar_inline/), %s\n", rs_inline_version());
     if (run_ctx.set) {
         const double a_v = run_ctx.aexpn - 0.5 * run_ctx.astep;
-        madd(b, "a = %.8f\nz = %.8f\n", run_ctx.aexpn, 1.0 / run_ctx.aexpn - 1.0);
-        madd(b, "a_v = %.8f\nvelocity_epoch = a_v = AEXPN - ASTEP/2 (GLAM's momenta lag the positions by half "
-                "a step); v [km/s] = V * 100 * (Box/Ngrid) / a_v; ASTEP = %.8f\n", a_v, run_ctx.astep);
-        madd(b, "Box = %.9g\nNgrid = %lld\nNparticles = %lld\n", run_ctx.box, (long long)run_ctx.ngrid,
-             (long long)run_ctx.n);
+        madd(b, "a = %.8f\na_x = %.8f   (epoch of the positions; same as a)\nz = %.8f\n", run_ctx.aexpn,
+             run_ctx.aexpn, 1.0 / run_ctx.aexpn - 1.0);
+        madd(b, "a_v = %.8f   (epoch of the velocities, a - da/2: GLAM's momenta lag the positions by half a "
+                "step)\nda = %.8f\n", a_v, run_ctx.astep);
+        madd(b, "velocity_scale = 1/a_v   (velocities are peculiar km/s at a_v: code velocity * 100 Box/N_grid / "
+                "a_v)\n");
     }
+    madd(b, "step = %d\nrealization = %d\n", step, box_index);
+    if (run_ctx.set) {
+        madd(b, "Box = %.4f\nN_grid = %lld\nN_row = %lld\nN_p = %lld\n", run_ctx.box, (long long)run_ctx.ngrid,
+             (long long)llround(cbrt((double)run_ctx.n)), (long long)run_ctx.n);
+        madd(b, "Omega_m = %.6f\nOmega_L = %.6f\nhubble = %.6f\n", run_ctx.om, run_ctx.oml, run_ctx.hubble);
+        madd(b, "particle_mass = %.8e   (Msun/h, Rockstar's: CRITICAL_DENSITY Omega_m Box^3 / N_p)\n",
+             CRITICAL_DENSITY * run_ctx.box * run_ctx.box * run_ctx.box * run_ctx.om / (double)run_ctx.n);
+        madd(b, "MG_flag = %d\nMG_model = %d\n", run_ctx.mg_flag, run_ctx.mg_model);
+        if (run_ctx.mg_flag == 1 && run_ctx.mg_model == 1) madd(b, "fR0 = %.6e\n", run_ctx.fr0);
+    }
+    madd(b, "finder = in-line Rockstar of MG-GLAM (rockstar_inline/), %s\n", rs_inline_version());
     if (cfg_path[0]) madd(b, "config_file = %s\nconfig_fnv1a64 = %016llx\n", cfg_path, (unsigned long long)cfg_hash);
+    if (run_ctx.set) madd(b, "header = %s\n", run_ctx.header);
 }
 
 /* the sidecar of a skipped or failed output; an existing complete catalogue of the step (a restart
@@ -432,9 +450,9 @@ static int64_t group_of_halo(const int64_t *gstart, int64_t ng, int64_t i)
 /* ------------------------------------------------------------------ the run */
 int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z,
                        const float *vx, const float *vy, const float *vz, double box, int64_t ngrid,
-                       double aexpn, double astep, double om, double oml, double hubble, int step,
-                       int box_index, const char *config_path, const char *catalog_dir,
-                       struct rs_inline_info *info)
+                       double aexpn, double astep, double om, double oml, double hubble, int mg_flag,
+                       int mg_model, double fr0, const char *header, int step, int box_index,
+                       const char *config_path, const char *catalog_dir, struct rs_inline_info *info)
 {
     struct rs_inline_info local;
     if (!info) info = &local;
@@ -448,6 +466,15 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
     run_ctx.box = box;
     run_ctx.ngrid = ngrid;
     run_ctx.n = n;
+    run_ctx.om = om;
+    run_ctx.oml = oml;
+    run_ctx.hubble = hubble;
+    run_ctx.mg_flag = mg_flag;
+    run_ctx.mg_model = mg_model;
+    run_ctx.fr0 = fr0;
+    snprintf(run_ctx.header, sizeof run_ctx.header, "%s", header ? header : "");
+    for (char *c = run_ctx.header; *c; c++) if (*c == '\n' || *c == '\r') *c = ' ';
+    for (size_t k = strlen(run_ctx.header); k > 0 && run_ctx.header[k - 1] == ' '; k--) run_ctx.header[k - 1] = 0;
     char msg[512] = "";
 #ifdef RS_INLINE_TEST_HOOKS     /* the harness's build only (makefile): kernel | assert | alloc */
     const char *test = getenv("RS_INLINE_TEST_FAIL");
@@ -774,9 +801,7 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
     meta_common(&b, "ok", "", step, box_index);
     madd(&b, "rows = %lld\nhalos_selected = %lld (after Rockstar's output filter; the %lld subhaloes among them are "
              "not written)\n", (long long)nhost, (long long)nsel, (long long)(nsel - nhost));
-    madd(&b, "positions = x [Mpc/h comoving] = (x_grid - 1) * Box/Ngrid, wrapped into [0, Box); particle id = "
-             "GLAM array index - 1\n");
-    madd(&b, "Om = %.9g\nOl = %.9g\nh0 = %.9g\n", Om, Ol, h0);
+    madd(&b, "positions = x [Mpc/h comoving] = (x_grid - 1) * Box/N_grid, wrapped into [0, Box)\n");
     madd(&b, "fof_r_link = %.9g\nfof = exact periodic friends-of-friends of the adapter (rs_fof.c), d^2 < r^2 in "
              "float; Rockstar's own FoF additionally merges groups within 2r of particles with > 16 neighbours\n",
          (double)rs_fof_linking_length(AVG_PARTICLE_SPACING, FOF_LINKING_LENGTH));

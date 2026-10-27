@@ -36,6 +36,13 @@ hashed quantised particle subsample, once I9 is integrated) and
 `--fr-halos` (f_R at the BDM halo centres, f(R) runs). Every product has a
 `.meta` sidecar; see the plan's section 3 for the conventions.
 
+`--rockstar` adds in-line Rockstar catalogues of distinct haloes at class-1
+outputs (`CATALOGS/Rockstar.<step>.<box>.{bin,meta}`, after BDM): it writes the
+`Find Rockstar halos = 1` line of `Init.dat` and `Run<N>/Rockstar.config`
+(`--rockstar-force-res 0.1`, `--rockstar-ceiling 900` GiB). GLAM must then be built
+with `make ROCKSTAR_DIR=<MPI-Rockstar source>`; see
+[`rockstar_inline/README.md`](../rockstar_inline/README.md).
+
 ## Running
 
 A run directory holds `Init.dat`, `PkTable.dat`, `bin/` (frozen copies of
