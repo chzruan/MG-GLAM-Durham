@@ -106,8 +106,9 @@
 - Cost for an L1024 Np2048 box (75 GB): pack 20 min, check 15-30 min, prune
   30 min, peak RSS 0.8 GB (sacct MaxRSS reports the 8 GB limit because it
   counts page cache). In-line Rockstar catalogues add two files per class-1
-  output and, estimated from L256 tests, about 5 GB per class-1 output at
-  L1024 Np2048 (more at higher redshift), so such a box is roughly twice as
+  output: 0.63-0.88 GB per output at L512 Np1024 for z = 0-1 (2026-10-28
+  test), so about 5-7 GB per class-1 output at L1024 Np2048 (more at higher
+  redshift), and such a box is roughly twice as
   large and takes about twice as long; measure it on the first one. The check needs free space equal to the box on the run's
   file system (it unpacks into `pack-check-<job>` beside `Run<box>/`). An L256
   pilot takes 30-100 s (Lustre load varies) and may run on the login node (light tier).
