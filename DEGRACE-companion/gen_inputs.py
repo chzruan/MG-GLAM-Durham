@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Generate MG-GLAM inputs (PkTable.dat, Init.dat, provenance) for a DEGRACE
 companion run: either a companion of one of Baojiu Li's ECOSMOG nodes (same
-cosmology, same 42 output epochs, his CAMB linear spectrum) or a new cosmology
+cosmology, same output epochs, his CAMB linear spectrum) or a new cosmology
 with the 17 primary redshifts plus 25 stations chi = 256 k Mpc/h computed
-here (matter + Lambda only, the convention of the ECOSMOG suite).
+here (matter + Lambda only, the convention of the ECOSMOG suite). A station
+closer than --merge-tol to a primary redshift is dropped in favour of the
+primary, so a box has 38-41 outputs (42 with --merge-tol 0).
 
 Item I3 of docs/degrace_companion_implementation_plan.md.
 
@@ -46,6 +48,7 @@ BL267_ICS = Path("/cosma8/data/dp203/bl267/Projects/Ongoing/DEGRACE/ICs/IC_data/
 C_H0 = 2997.92458  # Mpc/h
 PRIMARY_Z = np.arange(0.0, 2.0001, 0.125)
 STATION_CHI = 256.0 * np.arange(1, 26)
+CLOSE_PAIR_TOL = 0.005  # relative in a; a station this close to a primary redshift is merged into it
 # Baojiu's 42 scale factors for the Planck fiducial (Slack, slack-chat-degrace-prep.txt)
 FIDUCIAL_A = sorted([
     0.09885636873988636, 0.11436339923360468, 0.13101192462219735, 0.14880957763634076,
@@ -70,6 +73,22 @@ def output_epochs(om: float) -> np.ndarray:
     """The 42 expansion factors: 17 primary + 25 stations, ascending in a."""
     stations = [brentq(lambda x: chi(x, om) - c, 0.005, 0.9999999, xtol=1e-14) for c in STATION_CHI]
     return np.sort(np.concatenate([1.0 / (1.0 + PRIMARY_Z), stations]))
+
+
+def merge_close_pairs(epochs: np.ndarray, tol: float) -> tuple[np.ndarray, list[tuple[float, float]]]:
+    """Drop every station closer than ``tol`` (relative in a) to a primary redshift, which is kept.
+
+    Returns the remaining epochs and the (dropped station a, kept primary a) pairs.
+    """
+    primaries = 1.0 / (1.0 + PRIMARY_Z)
+    kept, merged = [], []
+    for e in epochs:
+        p = primaries[np.argmin(np.abs(primaries - e))]
+        if not is_primary(e) and abs(e - p) < tol * p:
+            merged.append((float(e), float(p)))
+        else:
+            kept.append(e)
+    return np.array(kept), merged
 
 
 def check_lists() -> int:
@@ -294,9 +313,12 @@ def main() -> int:
                          "(SLURM_MEM_PER_NODE, or SLURM_MEM_PER_CPU x SLURM_CPUS_ON_NODE) or the node's MemTotal; a build from 2026-09-06 to 2026-10-20 "
                          "uses 500 GiB, which stops the L1024 Np2048 Ng4096 runs (851 GiB counted at the first "
                          "catalogue), so pass e.g. 1000 for those; a build before 2026-09-06 rejects the key.")
+    ap.add_argument("--merge-tol", type=float, default=CLOSE_PAIR_TOL, metavar="TOL",
+                    help="drop a station closer than TOL (relative in a) to a primary redshift and keep the primary; "
+                         "0 keeps every station (default %(default)g; not used with --redshifts)")
     ap.add_argument("--classes", choices=["all", "primary"], default="all",
                     help="per-output classes: 'all' = every output class 1 (BDM everywhere); "
-                         "'primary' = the 17 primary redshifts class 1, the 25 stations class 2 (no BDM/extras)")
+                         "'primary' = the 17 primary redshifts class 1, the stations class 2 (no BDM/extras)")
     ap.add_argument("--lens-slabs", type=int, default=0, help="lens planes: slabs per axis (0 = off; 4 = 256 Mpc/h at L=1024)")
     ap.add_argument("--lens-grid", type=int, default=0, help="lens planes: plane grid (0 = Ngrid)")
     ap.add_argument("--extra", action="store_true", help="extra outputs at class-1 outputs: low-k density and momentum modes (+ subsample, fR at halos if set)")
@@ -322,7 +344,7 @@ def main() -> int:
     if args.stations and not args.redshifts:
         sys.exit("--stations needs --redshifts")
     if args.redshifts and args.classes == "primary":
-        sys.exit("--classes primary selects the DEGRACE primaries of the 42-output list; with --redshifts the classes "
+        sys.exit("--classes primary selects the DEGRACE primaries of the output list; with --redshifts the classes "
                  "follow --redshifts (full) and --stations")
     if args.run < 0:
         sys.exit("--run must be >= 0")
@@ -354,7 +376,12 @@ def main() -> int:
         prov.update(cosmology=dict(Omega_m=om, h=h, sigma8=sigma8, ombh2=args.ombh2, fR0=fr0),
                     epochs_source="computed: 17 primary z + 25 stations chi=256k Mpc/h, matter+Lambda")
     classes = None
-    if args.redshifts:                           # your own list instead of the 42 DEGRACE epochs
+    if not args.redshifts:
+        epochs, merged = merge_close_pairs(epochs, args.merge_tol)
+        prov.update(merge_tol=args.merge_tol,
+                    merged_stations=[dict(a_station=e, z_station=1.0 / e - 1.0, chi_station=chi(e, om), a_primary=p,
+                                          z_primary=1.0 / p - 1.0, dchi=chi(p, om) - chi(e, om)) for e, p in merged])
+    if args.redshifts:                           # your own list instead of the DEGRACE epochs
         full, stations = sorted(set(args.redshifts)), sorted(set(args.stations))
         if min(full + stations) < 0:
             sys.exit("output redshifts must be >= 0")

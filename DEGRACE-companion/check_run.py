@@ -6,8 +6,8 @@ usage: check_run.py <run_dir> [--box N] [--node Node_002] [--aout docs/degrace_e
 
 Checks: the exact-redshift schedule (exact flags, output classes as Init.dat
 asks, epochs equal to float32(1/(1+z)) of Init.dat and, with --node/--aout, to
-the pinned ECOSMOG list; for the 42-output DEGRACE design also that the 17
-class-1 outputs are the primary redshifts), PowerDM and
+the pinned ECOSMOG list; for the DEGRACE design (38-42 outputs) also the 17
+primary redshifts, each station or its merge into a primary, and the classes), PowerDM and
 LensPlanes files for every output (sizes, meta epochs, plane means = 1),
 BDM catalogues at the class-1 outputs, with `Find Rockstar halos = 1` in
 Init.dat the in-line Rockstar catalogues at the class-1 outputs (.bin size =
@@ -26,6 +26,39 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(
 import glamio
 
 def f32(x): return struct.unpack('f', struct.pack('f', x))[0]
+
+PRIMARY_A = [1.0 / (1.0 + k / 8.0) for k in range(17)]
+MERGE_TOL = 0.005      # relative in a: gen_inputs.py drops a station this close to a primary redshift
+MERGE_DCHI = 20.0      # Mpc/h: largest chi offset of a merged station (17.5 over the 96 ECOSMOG nodes)
+
+
+def pinned_list_checks(a_sch, pinned, node):
+    """The schedule against a pinned ECOSMOG list: every output is on the list, and a listed epoch without
+    an output is a station merged into a primary redshift."""
+    near = lambda x, xs: any(abs(x - y) <= 3e-7 * y for y in xs)
+    extra = [x for x in a_sch if not near(x, pinned)]
+    missing = [x for x in pinned if not near(x, a_sch)]
+    merged = lambda x: 2e-6 < min(abs(x - p) / p for p in PRIMARY_A) < MERGE_TOL and near(min(PRIMARY_A, key=lambda p: abs(x - p)), a_sch)
+    return [(not extra, 'schedule epochs are on the pinned ECOSMOG %s list (%d outputs, %d not on it)' % (node, len(a_sch), len(extra))),
+            (all(merged(x) for x in missing), 'pinned epochs without an output are stations merged into a kept primary redshift (%d merged, %d others)'
+             % (sum(merged(x) for x in missing), sum(not merged(x) for x in missing)))]
+
+
+def design_checks(sched):
+    """The DEGRACE design: the 17 primary redshifts, one output or a merged primary for each station chi = 256 k,
+    and either every output full (class 1) or the primaries full and the stations class 2."""
+    is_prim = lambda s: abs(round(s['z'] * 8) / 8 - s['z']) < 2e-6 and s['z'] < 2.0 + 1e-5
+    prim, stn = [s for s in sched if is_prim(s)], [s for s in sched if not is_prim(s)]
+    found = [any(abs(s['chi'] - 256.0 * k) < 0.5 for s in stn) for k in range(1, 26)]
+    covered = [f or any(abs(s['chi'] - 256.0 * k) < MERGE_DCHI for s in prim) for k, f in enumerate(found, 1)]
+    ncl1 = sum(s['cls'] == 1 for s in sched)
+    all_full = ncl1 == len(sched)
+    return [(len(prim) == 17, 'DEGRACE design: %d primary redshifts (expected 17)' % len(prim)),
+            (all(covered) and sum(found) == len(stn), 'DEGRACE design: %d stations chi = 256 k + %d merged into a primary redshift (expected 25 in all, no other outputs)'
+             % (sum(found), sum(covered) - sum(found))),
+            (all_full or (ncl1 == 17 and all(s['cls'] == 1 for s in prim) and all(s['cls'] == 2 for s in stn)),
+             'DEGRACE design classes: %s' % ('every output class 1' if all_full else '%d class 1 (expected the 17 primary redshifts) + %d class 2' % (ncl1, len(sched) - ncl1)))]
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -98,16 +131,12 @@ def main():
     check(len(exp_cls) == len(sched) and all(s['cls'] == c for s, c in zip(sched, exp_cls)),
           'classes: %s (as Init.dat asks: %s)' % (ncls, nexp))
     if a.aout and a.node:
-        ao = sorted(json.load(open(a.aout))[a.node])
-        d = max(abs(x - y) / y for x, y in zip(a_sch, ao)) if len(ao) == len(a_sch) else 1
-        check(len(ao) == len(a_sch) and d < 3e-7, 'schedule epochs match the pinned ECOSMOG %s list (%d values, max rel diff %.1e)' % (a.node, len(ao), d))
-    # DEGRACE design (an ECOSMOG node, or 42 outputs holding the 17 primary redshifts 0, 0.125, ..., 2): 17 primary
-    # outputs + 25 stations, and the primaries on the 0.125 grid
+        for ok, msg in pinned_list_checks(a_sch, sorted(json.load(open(a.aout))[a.node]), a.node): check(ok, msg)
+    # DEGRACE design (an ECOSMOG node, or 38-42 outputs holding the 17 primary redshifts 0, 0.125, ..., 2)
     prim = [s for s in sched if s['cls'] == 1]
-    degrace = a.node is not None or (len(zs) == 42 and all(any(abs(z - k / 8) < 2e-6 for z in zs) for k in range(17)))
+    degrace = a.node is not None or (38 <= len(zs) <= 42 and all(any(abs(z - k / 8) < 2e-6 for z in zs) for k in range(17)))
     if degrace:
-        check(ncls.get(1, 0) == 17 and ncls.get(2, 0) == 25, 'DEGRACE design: %d primary outputs + %d stations (expected 17 + 25)' % (ncls.get(1, 0), ncls.get(2, 0)))
-        check(all(abs(round(s['z'] * 8) / 8 - s['z']) < 2e-6 for s in prim), 'class-1 outputs are the 17 primary redshifts (multiples of 0.125, 0..2)')
+        for ok, msg in design_checks(sched): check(ok, msg)
 
     # ---- per-output products
     npow = nlens = nmeta = ncat = ncatbin = nrs = 0; bad = []; rs_status = []
