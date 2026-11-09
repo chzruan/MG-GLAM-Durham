@@ -5,7 +5,8 @@ cosmology, same output epochs, his CAMB linear spectrum) or a new cosmology
 with the 17 primary redshifts plus 25 stations chi = 256 k Mpc/h computed
 here (matter + Lambda only, the convention of the ECOSMOG suite). A station
 closer than --merge-tol to a primary redshift is dropped in favour of the
-primary, so a box has 38-41 outputs (42 with --merge-tol 0).
+primary, so a box has 38-41 outputs (42 with --merge-tol 0). Outputs above
+--full-zmax (default z = 5) are stations: P(k) and lens planes only.
 
 Item I3 of docs/degrace_companion_implementation_plan.md.
 
@@ -49,6 +50,7 @@ C_H0 = 2997.92458  # Mpc/h
 PRIMARY_Z = np.arange(0.0, 2.0001, 0.125)
 STATION_CHI = 256.0 * np.arange(1, 26)
 CLOSE_PAIR_TOL = 0.005  # relative in a; a station this close to a primary redshift is merged into it
+FULL_ZMAX = 5.0         # outputs above this redshift are class 2: no halo finders and no extras
 # Baojiu's 42 scale factors for the Planck fiducial (Slack, slack-chat-degrace-prep.txt)
 FIDUCIAL_A = sorted([
     0.09885636873988636, 0.11436339923360468, 0.13101192462219735, 0.14880957763634076,
@@ -316,8 +318,11 @@ def main() -> int:
     ap.add_argument("--merge-tol", type=float, default=CLOSE_PAIR_TOL, metavar="TOL",
                     help="drop a station closer than TOL (relative in a) to a primary redshift and keep the primary; "
                          "0 keeps every station (default %(default)g; not used with --redshifts)")
+    ap.add_argument("--full-zmax", type=float, default=FULL_ZMAX, metavar="Z",
+                    help="with --classes all: outputs above redshift Z are class 2 (lens planes and P(k), no halo finders or "
+                         "extras); inf keeps every output full (default %(default)g; not used with --redshifts)")
     ap.add_argument("--classes", choices=["all", "primary"], default="all",
-                    help="per-output classes: 'all' = every output class 1 (BDM everywhere); "
+                    help="per-output classes: 'all' = every output up to --full-zmax class 1 (BDM and extras); "
                          "'primary' = the 17 primary redshifts class 1, the stations class 2 (no BDM/extras)")
     ap.add_argument("--lens-slabs", type=int, default=0, help="lens planes: slabs per axis (0 = off; 4 = 256 Mpc/h at L=1024)")
     ap.add_argument("--lens-grid", type=int, default=0, help="lens planes: plane grid (0 = Ngrid)")
@@ -341,6 +346,8 @@ def main() -> int:
         return check_lists()
     if not args.out:
         sys.exit("--out is required")
+    if args.full_zmax < PRIMARY_Z[-1]:
+        sys.exit(f"--full-zmax must be at least {PRIMARY_Z[-1]:g}: the primary redshifts stay full outputs")
     if args.stations and not args.redshifts:
         sys.exit("--stations needs --redshifts")
     if args.redshifts and args.classes == "primary":
@@ -378,7 +385,9 @@ def main() -> int:
     classes = None
     if not args.redshifts:
         epochs, merged = merge_close_pairs(epochs, args.merge_tol)
-        prov.update(merge_tol=args.merge_tol,
+        if args.classes == "all" and np.any(1.0 / epochs - 1.0 > args.full_zmax):
+            classes = [1 if 1.0 / e - 1.0 <= args.full_zmax else 2 for e in epochs[::-1]]
+        prov.update(merge_tol=args.merge_tol, full_zmax=args.full_zmax if np.isfinite(args.full_zmax) else None,
                     merged_stations=[dict(a_station=e, z_station=1.0 / e - 1.0, chi_station=chi(e, om), a_primary=p,
                                           z_primary=1.0 / p - 1.0, dchi=chi(p, om) - chi(e, om)) for e, p in merged])
     if args.redshifts:                           # your own list instead of the DEGRACE epochs
@@ -407,6 +416,8 @@ def main() -> int:
              bdm_max_memory=args.bdm_max_memory or "default (key not written: job/node memory with memory cut 0, branch memory-cuts-20261021; 500 GiB with builds 2026-09-06..2026-10-20)")
     if args.redshifts:
         a["classes"] = "per output: --redshifts class 1, --stations class 2" if classes is not None else "all (--redshifts)"
+    elif classes is not None:
+        a["classes"] = f"class 1 up to z = {args.full_zmax:g}, class 2 above"
     if args.lens_slabs and args.ngrid % args.lens_slabs:
         sys.exit("--lens-slabs must divide --ngrid")
     if args.lens_grid and args.ngrid % args.lens_grid:

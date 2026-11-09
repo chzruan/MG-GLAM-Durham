@@ -46,18 +46,18 @@ def pinned_list_checks(a_sch, pinned, node):
 
 def design_checks(sched):
     """The DEGRACE design: the 17 primary redshifts, one output or a merged primary for each station chi = 256 k,
-    and either every output full (class 1) or the primaries full and the stations class 2."""
+    the primaries class 1, and the stations class 1 up to some redshift and class 2 above it."""
     is_prim = lambda s: abs(round(s['z'] * 8) / 8 - s['z']) < 2e-6 and s['z'] < 2.0 + 1e-5
     prim, stn = [s for s in sched if is_prim(s)], [s for s in sched if not is_prim(s)]
     found = [any(abs(s['chi'] - 256.0 * k) < 0.5 for s in stn) for k in range(1, 26)]
     covered = [f or any(abs(s['chi'] - 256.0 * k) < MERGE_DCHI for s in prim) for k, f in enumerate(found, 1)]
-    ncl1 = sum(s['cls'] == 1 for s in sched)
-    all_full = ncl1 == len(sched)
+    full = [s['z'] for s in stn if s['cls'] == 1]; st2 = [s['z'] for s in stn if s['cls'] == 2]
+    classes_ok = all(s['cls'] == 1 for s in prim) and len(full) + len(st2) == len(stn) and (not full or not st2 or max(full) < min(st2))
     return [(len(prim) == 17, 'DEGRACE design: %d primary redshifts (expected 17)' % len(prim)),
             (all(covered) and sum(found) == len(stn), 'DEGRACE design: %d stations chi = 256 k + %d merged into a primary redshift (expected 25 in all, no other outputs)'
              % (sum(found), sum(covered) - sum(found))),
-            (all_full or (ncl1 == 17 and all(s['cls'] == 1 for s in prim) and all(s['cls'] == 2 for s in stn)),
-             'DEGRACE design classes: %s' % ('every output class 1' if all_full else '%d class 1 (expected the 17 primary redshifts) + %d class 2' % (ncl1, len(sched) - ncl1)))]
+            (classes_ok, 'DEGRACE design classes: primaries class 1, %d stations class 1 (up to z = %.2f), %d class 2 above them'
+             % (len(full), max(full) if full else 0.0, len(st2)))]
 
 
 def main():
