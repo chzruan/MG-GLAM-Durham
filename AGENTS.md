@@ -81,6 +81,16 @@
   with `--export=ALL,PRUNE=no` only when the originals must be kept (for
   example while a native-only script still has to run). Never delete
   originals without the byte check, and never by hand.
+- To run the check and the packing automatically, chain
+  [`DEGRACE-companion/post_run.sh`](DEGRACE-companion/post_run.sh) to the
+  simulation job when submitting it:
+  `j=$(sbatch --parsable submit.sh); sbatch --dependency=afterok:$j --kill-on-invalid-dep=yes -J post_<name> <repo>/DEGRACE-companion/post_run.sh "$PWD/Run<box>" $j`.
+  It runs `check_run.py --planes all` (report `check_run_<job>.txt` in the run
+  directory) and then `pack_run.sh`, in one cosma8-serial core-job; it packs
+  only when the check reports 0 FAIL and 0 WARN, and otherwise stops with the
+  originals untouched. Do not pack inside the simulation job itself: that job
+  holds a whole node, and packing is a single-core task of several hours at
+  L1024 Np2048 (about 300 GB with in-line Rockstar).
 - Reruns resume from `python -m glamio.pack status Run<box>`. A finished pack
   is re-checked against the originals; an interrupted prune
   (`partially-pruned`) is finished by a resubmission (not with `PRUNE=no`),
