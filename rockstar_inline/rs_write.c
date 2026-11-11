@@ -1,6 +1,9 @@
 /* rs_write.c: publication of CATALOGS/Rockstar.<step>.<box>.bin + .meta.
  * Part of the MG-GLAM in-line Rockstar adapter; GNU GPL v3 or later.
  *
+ * The record written is 40 columns of struct rs_record (168 bytes, the default) or all of it
+ * (GLAM_FULL_RECORD = 1, 352 bytes); the .meta lists the columns written with their offsets.
+ *
  * Both files are written as hidden temporaries in the catalogue directory and
  * renamed into place: first the old .meta is removed, then the .bin is renamed,
  * then the .meta, so a .meta always describes the .bin next to it and marks a
@@ -116,6 +119,82 @@ static const struct column columns[] = {
 };
 #undef H
 #undef R
+#define NCOLUMNS ((int)(sizeof columns / sizeof columns[0]))
+
+/* The record written (GLAM_FULL_RECORD, rs_select_record). Full: struct rs_record as it is, every column above.
+ * Default: these columns, in this order, each at its natural alignment from offset 0 (168 bytes, no gaps):
+ * left out are Rockstar's bookkeeping (child_r, vmax_r, energy, p_start, desc, flags, n_core, the min_*_err),
+ * the core and bulk velocities, klypin_rs (a function of vmax and the mass), the pseudo-evolution masses, the
+ * second shape (MASS_DEFINITION4) and both inertia tensors, chi2, num_child_particles, fof_group and pad. */
+static const char *const slim_names[] = {
+    "id", "num_p", "x", "y", "z", "vx", "vy", "vz", "m", "mgrav", "r", "vmax", "rvmax", "vrms", "rs",
+    "Jx", "Jy", "Jz", "spin", "bullock_spin", "alt_m_1", "alt_m_2", "alt_m_3", "alt_m_4", "Xoff", "Voff",
+    "kin_to_pot", "b_to_a", "c_to_a", "Ax", "Ay", "Az", "halfmass_radius", "m_strict", "r_strict",
+    "alt_m_strict_1", "alt_m_strict_2", "alt_m_strict_3", "alt_m_strict_4", "strict_crossed",
+};
+
+static struct {
+    int ready, full, n;
+    int idx[NCOLUMNS];        /* the columns written, as indices into columns[] */
+    size_t off[NCOLUMNS];     /* their byte offsets in the written record */
+    size_t bytes;             /* the written record size; 0 if the slim table names an unknown column */
+} layout;
+
+static size_t type_bytes(const char *type) { return (size_t)(type[2] - '0'); }    /* "<f4" -> 4, "<i8" -> 8 */
+
+static void layout_build(void)
+{
+    if (layout.ready) return;
+    size_t off = 0;
+    int n = 0;
+    if (layout.full) {
+        for (int i = 0; i < NCOLUMNS; i++) {
+            layout.idx[i] = i;
+            layout.off[i] = columns[i].offset;
+        }
+        n = NCOLUMNS;
+        off = sizeof(struct rs_record);
+    } else {
+        for (size_t s = 0; s < sizeof slim_names / sizeof slim_names[0]; s++) {
+            int i = 0;
+            while (i < NCOLUMNS && strcmp(columns[i].name, slim_names[s])) i++;
+            if (i == NCOLUMNS) {
+                layout.n = 0;
+                layout.bytes = 0;
+                layout.ready = 1;
+                return;
+            }
+            const size_t w = type_bytes(columns[i].type);
+            off = (off + w - 1) / w * w;
+            layout.idx[n] = i;
+            layout.off[n] = off;
+            n++;
+            off += w;
+        }
+        off = (off + 7) / 8 * 8;
+    }
+    layout.n = n;
+    layout.bytes = off;
+    layout.ready = 1;
+}
+
+void rs_select_record(int full)
+{
+    layout.full = full ? 1 : 0;
+    layout.ready = 0;
+}
+
+size_t rs_record_bytes(void)
+{
+    layout_build();
+    return layout.bytes;
+}
+
+int rs_record_columns(void)
+{
+    layout_build();
+    return layout.n;
+}
 
 /* the unit token of a column for the units list (the description starts with its unit) */
 static const char *unit_token(const char *desc)
@@ -128,29 +207,49 @@ static const char *unit_token(const char *desc)
 }
 
 /* as the other GLAM sidecars: space-separated lists of the column names, dtypes (little-endian) and units,
- * plus the byte offsets; then one description line per column */
+ * plus the byte offsets in the written record; then one description line per column */
 int rs_columns_text(char *buf, size_t cap, int bound_props)
 {
     size_t used = 0;
-    const int n = (int)(sizeof columns / sizeof columns[0]);
     int w;
+    layout_build();
+    if (layout.bytes == 0) return -1;
+    const int n = layout.n;
+#define C(j) columns[layout.idx[j]]
 #define PUT(...) do { w = snprintf(buf + used, cap - used, __VA_ARGS__); \
                       if (w < 0 || (size_t)w >= cap - used) return -1; used += (size_t)w; } while (0)
     PUT("columns =");
-    for (int i = 0; i < n; i++) PUT(" %s", columns[i].name);
+    for (int j = 0; j < n; j++) PUT(" %s", C(j).name);
     PUT("\ndtypes =");
-    for (int i = 0; i < n; i++) PUT(" %s", columns[i].type + 1);      /* "<f4" -> "f4" */
+    for (int j = 0; j < n; j++) PUT(" %s", C(j).type + 1);      /* "<f4" -> "f4" */
     PUT("\noffsets =");
-    for (int i = 0; i < n; i++) PUT(" %zu", columns[i].offset);
+    for (int j = 0; j < n; j++) PUT(" %zu", layout.off[j]);
     PUT("\nunits =");
-    for (int i = 0; i < n; i++) PUT(" %s", unit_token(columns[i].unit));
+    for (int j = 0; j < n; j++) PUT(" %s", unit_token(C(j).unit));
     PUT("\n");
-    for (int i = 0; i < n; i++) {
-        const char *desc = (!bound_props && columns[i].unit_unbound) ? columns[i].unit_unbound : columns[i].unit;
-        PUT("column_%02d = %s: %s\n", i + 1, columns[i].name, *desc ? desc : "-");
+    for (int j = 0; j < n; j++) {
+        const char *desc = (!bound_props && C(j).unit_unbound) ? C(j).unit_unbound : C(j).unit;
+        PUT("column_%02d = %s: %s\n", j + 1, C(j).name, *desc ? desc : "-");
     }
 #undef PUT
+#undef C
     return (int)used;
+}
+
+/* the default record built in place: row k moves from rec + k to byte k * layout.bytes. A row is copied out
+ * first, as its new place overlaps its old one for k = 0; it never reaches row k + 1, which starts at byte
+ * (k + 1) * sizeof(struct rs_record) > (k + 1) * layout.bytes */
+static void compact_records(struct rs_record *rec, int64_t nrows)
+{
+    char *base = (char *)rec;
+    for (int64_t k = 0; k < nrows; k++) {
+        struct rs_record row = rec[k];
+        char *d = base + (size_t)k * layout.bytes;
+        memset(d, 0, layout.bytes);
+        for (int j = 0; j < layout.n; j++)
+            memcpy(d + layout.off[j], (const char *)&row + columns[layout.idx[j]].offset,
+                   type_bytes(columns[layout.idx[j]].type));
+    }
 }
 
 static int write_file(const char *path, const void *data, size_t bytes, char *err, int errlen)
@@ -181,10 +280,16 @@ static int write_file(const char *path, const void *data, size_t bytes, char *er
     return 0;
 }
 
-int rs_write_catalogue(const char *dir, int step, int box, const struct rs_record *rec, int64_t nrows,
+int rs_write_catalogue(const char *dir, int step, int box, struct rs_record *rec, int64_t nrows,
                        const char *meta, char *err, int errlen)
 {
     char fin_bin[4096], fin_meta[4096], tmp_bin[4096], tmp_meta[4096];
+    layout_build();
+    if (layout.bytes == 0) {
+        snprintf(err, errlen, "the default record names a column that does not exist (rs_write.c)");
+        return -1;
+    }
+    if (!layout.full && nrows > 0) compact_records(rec, nrows);
     if (mkdir(dir, 0755) != 0 && errno != EEXIST) {
         snprintf(err, errlen, "cannot create %s: %s", dir, strerror(errno));
         return -1;
@@ -193,7 +298,7 @@ int rs_write_catalogue(const char *dir, int step, int box, const struct rs_recor
     snprintf(fin_meta, sizeof fin_meta, "%s/Rockstar.%04d.%04d.meta", dir, step, box);
     snprintf(tmp_bin, sizeof tmp_bin, "%s/.Rockstar.%04d.%04d.bin.tmp", dir, step, box);
     snprintf(tmp_meta, sizeof tmp_meta, "%s/.Rockstar.%04d.%04d.meta.tmp", dir, step, box);
-    if (write_file(tmp_bin, rec, (size_t)nrows * sizeof(struct rs_record), err, errlen) != 0) return -1;
+    if (write_file(tmp_bin, rec, (size_t)nrows * layout.bytes, err, errlen) != 0) return -1;
     if (write_file(tmp_meta, meta, strlen(meta), err, errlen) != 0) {
         unlink(tmp_bin);
         return -1;

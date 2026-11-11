@@ -21,8 +21,9 @@
  *  5. halo centres wrapped, Rockstar's output filter, the distinct haloes
  *     (rs_parents.c: Rockstar's find_parents; subhaloes are not written, as GLAM's
  *     fixed resolution does not resolve substructure, but the kernel still finds
- *     them: a halo's properties include its substructure's particles), strict SO
- *     masses (rs_strict.c), publication (rs_write.c).
+ *     them: a halo's properties include its substructure's particles), the mass
+ *     cut (GLAM_MIN_MGRAV_PARTICLES), strict SO masses (rs_strict.c),
+ *     publication in the selected record (rs_write.c, GLAM_FULL_RECORD).
  * Failures and skips publish an empty catalogue whose .meta says why, unless a
  * complete catalogue of the step already exists (a restart), which is kept. */
 #define _GNU_SOURCE
@@ -69,6 +70,8 @@ int rs_guarded_find_subs(struct fof *f, struct FOFInfo *fofinfo, struct HaloInfo
 
 static double cfg_ceiling_gib = 900;    /* GLAM_MEMORY_CEILING_GIB */
 static int    cfg_strict = 1;           /* GLAM_STRICT_SO */
+static double cfg_min_mgrav = 20;       /* GLAM_MIN_MGRAV_PARTICLES: distinct haloes below it are not written */
+static double cfg_full_record = 0;      /* GLAM_FULL_RECORD: 1 writes the 352-byte record, 0 the 40 columns */
 static double cfg_force_res, cfg_force_res_phys_max;
 static char     cfg_path[4096];         /* the configuration loaded in this process ("" = none) */
 static uint64_t cfg_hash;               /* FNV-1a 64 of its bytes */
@@ -209,6 +212,8 @@ static int load_body(void *v)
 #undef integer
     cfg_ceiling_gib = config_to_real(&c, "GLAM_MEMORY_CEILING_GIB", 900);
     cfg_strict = (int)config_to_real(&c, "GLAM_STRICT_SO", 1);
+    cfg_min_mgrav = config_to_real(&c, "GLAM_MIN_MGRAV_PARTICLES", 20);
+    cfg_full_record = config_to_real(&c, "GLAM_FULL_RECORD", 0);
     syntax_check(&c, "[rockstar_inline warning]");
     free_config(c);
     return 0;
@@ -247,12 +252,19 @@ static int load_configuration(const char *path, char *msg, int msglen)
     if (!(FORCE_RES > 0) || !(cfg_force_res_phys_max > 0) ||
         !(FOF_LINKING_LENGTH > 0 && FOF_LINKING_LENGTH <= 0.5) || MIN_HALO_PARTICLES < 2 ||
         !(FOF_FRACTION > 0 && FOF_FRACTION < 1) || MIN_HALO_OUTPUT_SIZE < 1 || !(cfg_ceiling_gib > 0) ||
-        MIN_PART_PER_BIN < 1 || MIN_PART_PER_BIN > MIN_SCALE_PART || MAX_SCALE_BINS < 1 || MAX_SCALE_BINS > 1000) {
+        MIN_PART_PER_BIN < 1 || MIN_PART_PER_BIN > MIN_SCALE_PART || MAX_SCALE_BINS < 1 || MAX_SCALE_BINS > 1000 ||
+        !(cfg_min_mgrav >= 0 && cfg_min_mgrav <= 1e9) || (cfg_full_record != 0 && cfg_full_record != 1)) {
         snprintf(msg, msglen, "%s: FORCE_RES > 0 (and FORCE_RES_PHYS_MAX if set), 0 < FOF_LINKING_LENGTH <= 0.5, "
                               "0 < FOF_FRACTION < 1, "
                               "MIN_HALO_PARTICLES >= 2, MIN_HALO_OUTPUT_SIZE >= 1, GLAM_MEMORY_CEILING_GIB > 0, "
-                              "1 <= MIN_PART_PER_BIN <= MIN_SCALE_PART and 1 <= MAX_SCALE_BINS <= 1000 are required",
+                              "1 <= MIN_PART_PER_BIN <= MIN_SCALE_PART, 1 <= MAX_SCALE_BINS <= 1000, "
+                              "GLAM_MIN_MGRAV_PARTICLES >= 0 and GLAM_FULL_RECORD = 0 or 1 are required",
                  path);
+        return -1;
+    }
+    rs_select_record((int)cfg_full_record);
+    if (rs_record_bytes() == 0) {
+        snprintf(msg, msglen, "the default Rockstar record names a column that does not exist (rs_write.c)");
         return -1;
     }
     if (STRICT_SO_MASSES || UNFILTERED_HALO_OUTPUT)
@@ -351,10 +363,16 @@ static void madd_columns(struct mbuf *b)
 static void meta_common(struct mbuf *b, const char *status, const char *reason, int step, int box_index)
 {
     madd(b, "product = Rockstar\n");
-    madd(b, "format = raw little-endian records, %zu bytes per distinct halo: Rockstar's struct halo (312 bytes, "
-            "MPI-Rockstar halo.h with OUTPUT_RVMAX, OUTPUT_NFW_CHI2, OUTPUT_INERTIA_TENSOR) followed by the "
-            "adapter's columns; no header\n", sizeof(struct rs_record));
-    madd(b, "record_bytes = %zu\n", sizeof(struct rs_record));
+    if (rs_record_bytes() == sizeof(struct rs_record))          /* the layout rs_write.c writes, not the key */
+        madd(b, "format = raw little-endian records, %zu bytes per distinct halo: Rockstar's struct halo (312 bytes, "
+                "MPI-Rockstar halo.h with OUTPUT_RVMAX, OUTPUT_NFW_CHI2, OUTPUT_INERTIA_TENSOR) followed by the "
+                "adapter's columns (GLAM_FULL_RECORD = 1); no header\n", rs_record_bytes());
+    else
+        madd(b, "format = raw little-endian records, %zu bytes per distinct halo: %d columns of Rockstar's struct halo "
+                "(MPI-Rockstar halo.h with OUTPUT_RVMAX, OUTPUT_NFW_CHI2, OUTPUT_INERTIA_TENSOR) and of the adapter's "
+                "strict-SO columns, at the offsets below (GLAM_FULL_RECORD = 0; 1 writes all %zu bytes); no header\n",
+             rs_record_bytes(), rs_record_columns(), sizeof(struct rs_record));
+    madd(b, "record_bytes = %zu\n", rs_record_bytes());
     madd(b, "status = %s\n", status);                       /* ok, skipped or failed (then no rows) */
     madd(b, "reason = %s\n", reason && *reason ? reason : "-");
     if (run_ctx.set) {
@@ -769,8 +787,16 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
         rs_fof_free_cells(&cells);
         return finish(info, catalog_dir, step, box_index, RS_FAILED, msg, t_start);
     }
-    int64_t nhost = 0;
-    for (int64_t i = 0; i < nsel; i++) if (pid[i] < 0) nhost++;
+    /* GLAM_MIN_MGRAV_PARTICLES: a distinct halo is written when its bound mass is at least N particles (mgrav is
+     * a whole number of particle masses; N - 1/2 absorbs its rounding). The distinct haloes were found before
+     * this cut, so it removes rows without changing which haloes are distinct. */
+    const double mgrav_min = cfg_min_mgrav > 0 ? (cfg_min_mgrav - 0.5) * PARTICLE_MASS : 0;
+    int64_t nhost = 0, nlight = 0;
+    for (int64_t i = 0; i < nsel; i++)
+        if (pid[i] < 0) {
+            if (sel[i].mgrav < mgrav_min) nlight++;
+            else nhost++;
+        }
     struct rs_record *rec = calloc((size_t)(nhost > 0 ? nhost : 1), sizeof(struct rs_record));
     if (!rec) {
         free(sel); free(selgroup); free(pid);
@@ -779,6 +805,7 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
     }
     for (int64_t i = 0, k = 0; i < nsel; i++) {
         if (pid[i] >= 0) continue;                      /* a subhalo: not written */
+        if (sel[i].mgrav < mgrav_min) continue;         /* below GLAM_MIN_MGRAV_PARTICLES: not written */
         struct rs_record *r = rec + k;
         r->h = sel[i];
         r->h.id = k;
@@ -813,7 +840,11 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
     char err[512] = "metadata: out of memory";
     meta_common(&b, "ok", "", step, box_index);
     madd(&b, "rows = %lld\nhalos_selected = %lld (after Rockstar's output filter; the %lld subhaloes among them are "
-             "not written)\n", (long long)nhost, (long long)nsel, (long long)(nsel - nhost));
+             "not written)\n", (long long)nhost, (long long)nsel, (long long)(nsel - nhost - nlight));
+    madd(&b, "min_mgrav_particles = %.9g (GLAM_MIN_MGRAV_PARTICLES: a distinct halo is written when mgrav >= "
+             "(N - 1/2) particle masses; 0 = every distinct halo)\nrows_below_min_mgrav = %lld (distinct haloes not "
+             "written)\nfull_record = %d (GLAM_FULL_RECORD)\n", cfg_min_mgrav, (long long)nlight,
+         rs_record_bytes() == sizeof(struct rs_record));
     madd(&b, "positions = x [Mpc/h comoving] = (x_grid - 1) * Box/N_grid, wrapped into [0, Box)\n");
     madd(&b, "fof_r_link = %.9g\nfof = exact periodic friends-of-friends of the adapter (rs_fof.c), d^2 < r^2 in "
              "float; Rockstar's own FoF additionally merges groups within 2r of particles with > 16 neighbours\n",
@@ -823,8 +854,9 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
     madd(&b, "bound_props = with BOUND_PROPS = 1 Rockstar computes every property except m from the bound "
              "particles (r, the alt_m_*, vmax, vrms, J, spins, shapes, ...)\n");
     madd(&b, "strict_so = %d\nselection = distinct haloes only: no parent in Rockstar's find_parents with the kernel "
-             "radius r (ties in vmax taken in row order). Rockstar's kernel still finds substructure, and a halo's "
-             "masses and properties include the particles of its substructure (num_child_particles)\n", cfg_strict);
+             "radius r (ties in vmax taken in row order), with mgrav of at least min_mgrav_particles particles. "
+             "Rockstar's kernel still finds substructure, and a halo's masses and properties include the particles "
+             "of its substructure (num_child_particles)\n", cfg_strict);
     madd(&b, "member_order = particle id (each FoF group is handed to find_subs sorted by particle id)\n");
     madd(&b, "fof_groups = %lld\nfof_members = %lld\nfof_fraction = %.6f\nfof_largest = %lld\n", (long long)ng,
          (long long)nm, n > 0 ? (double)nm / (double)n : 0.0, (long long)info->largest);
@@ -850,10 +882,11 @@ int rs_inline_run_impl(int64_t n, const float *x, const float *y, const float *z
     malloc_trim(0);
     info->t_total = omp_get_wtime() - t_start;
     info->status = RS_OK;
-    fprintf(stdout, " Rockstar step %d: %lld distinct haloes (of %lld selected) from %lld FoF groups (f = %.4f, "
-                    "largest %lld); FoF %.1f s, gather %.1f s, kernel %.1f s, strict %.1f s, parents %.1f s, "
-                    "write %.1f s, total %.1f s; VmRSS %.2f -> max %.2f GiB\n",
-            step, (long long)nhost, (long long)nsel, (long long)ng, n > 0 ? (double)nm / (double)n : 0.0,
+    fprintf(stdout, " Rockstar step %d: %lld distinct haloes (of %lld selected; %lld below the mgrav cut) from %lld "
+                    "FoF groups (f = %.4f, largest %lld); FoF %.1f s, gather %.1f s, kernel %.1f s, strict %.1f s, "
+                    "parents %.1f s, write %.1f s, total %.1f s; VmRSS %.2f -> max %.2f GiB\n",
+            step, (long long)nhost, (long long)nsel, (long long)nlight, (long long)ng,
+            n > 0 ? (double)nm / (double)n : 0.0,
             (long long)info->largest, info->t_fof, info->t_gather, info->t_kernel, info->t_strict, info->t_parents,
             info->t_write, info->t_total, info->rss_entry_gib, info->rss_max_gib);
     fflush(stdout);

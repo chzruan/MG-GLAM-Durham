@@ -118,7 +118,12 @@
   counts page cache). In-line Rockstar catalogues add two files per class-1
   output: 0.63-0.88 GB per output at L512 Np1024 for z = 0-1 (2026-10-28
   test), so about 5-7 GB per class-1 output at L1024 Np2048 (more at higher
-  redshift). Measured on the first such box (2026-11-10, 300 GB, 673 files,
+  redshift). These are catalogues of the full 352-byte record with every
+  distinct halo. The default now writes 40 columns (168 bytes) and only haloes
+  with a bound mass of at least 20 particles (`GLAM_FULL_RECORD`,
+  `GLAM_MIN_MGRAV_PARTICLES` in `rockstar_inline/README.md`): 0.27 of the bytes
+  over the 34 full outputs of fiducial-LCDM-Run0 (from its halo counts), so
+  expect about 52 GB of Rockstar per L1024 ΛCDM box instead of 194 GB. Measured on the first such box (2026-11-10, 300 GB, 673 files,
   job 12335438): pack 2 h 22 min, check 2 h 00 min, prune 1 h 24 min, 5 h 46 min
   in all; `check_run.py --planes all` takes about 2 min. Both `pack_run.sh` and
   `post_run.sh` ask for 12 h, twice that. The check needs free space equal to the box on the run's

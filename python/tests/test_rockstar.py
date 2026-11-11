@@ -453,9 +453,30 @@ def test_read_golden():
     assert glamio.rockstar_dtype(meta).itemsize == 352
 
 
+def test_read_golden_default_record():
+    """The default record (GLAM_FULL_RECORD = 0, GLAM_MIN_MGRAV_PARTICLES = 20) as the adapter writes it (L512 LCDM
+    z = 0, its first 3 rows; the config path in the .meta replaced): 40 columns in 168 bytes, every distinct halo
+    with mgrav >= 20 particle masses."""
+    stem = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "rockstar", "slim", "Rockstar.0164.0000")
+    for mmap in (False, True):
+        cat = glamio.read_rockstar(stem, mmap=mmap)
+        assert cat.ok and len(cat) == 3 and cat.record_bytes == 168 and len(cat.columns) == 40
+        assert cat.columns[:3] == ["id", "num_p", "x"] and cat.columns[-1] == "strict_crossed"
+        assert "bulkvel_x" not in cat.columns and "pad" not in cat.columns and "m_strict" in cat.columns
+        assert list(cat["id"]) == [0, 1, 2] and np.all(cat["num_p"] >= 20)
+        assert np.all(cat["mgrav"] >= 19.5 * cat.particle_mass)
+        assert cat.units["Jx"] == "Msun/h*Mpc/h*km/s" and cat.units["mgrav"] == "Msun/h"
+        pos = cat.positions()
+        assert pos.shape == (3, 3) and np.all((pos >= 0) & (pos < cat.box))
+    meta = glamio.read_meta(stem + ".meta")
+    assert meta["min_mgrav_particles"].split()[0] == "20" and meta["full_record"].split()[0] == "0"
+    assert int(meta["rows_below_min_mgrav"].split()[0]) > 0
+    assert glamio.rockstar_dtype(meta).itemsize == 168
+
+
 TESTS = [test_read_ok, test_status_skipped_and_failed, test_layout_errors, test_run_paths_native,
          test_pack_roundtrip_with_rockstar, test_pack_refuses_rockstar_problems, test_rockstar_config_packed_as_log,
-         test_read_golden]
+         test_read_golden, test_read_golden_default_record]
 
 if __name__ == "__main__":
     failed = 0

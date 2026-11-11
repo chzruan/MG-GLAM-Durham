@@ -9,7 +9,9 @@
  * (halo.h of MPI-Rockstar 0ae386f, built with -DOUTPUT_RVMAX -DOUTPUT_NFW_CHI2
  * -DOUTPUT_INERTIA_TENSOR: 312 bytes, HALO_FORMAT_REVISION 2), as Rockstar's
  * halos_*.bin would hold it, with id = the row number, desc = -1 and p_start = -1
- * (no member particle list is written). The adapter's own columns follow. */
+ * (no member particle list is written). The adapter's own columns follow.
+ * This is the record in memory, and in the file with GLAM_FULL_RECORD = 1; by
+ * default rs_write.c writes 40 of its columns (168 bytes per halo). */
 #ifndef RS_RECORD_H
 #define RS_RECORD_H
 

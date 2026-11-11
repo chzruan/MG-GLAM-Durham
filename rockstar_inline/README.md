@@ -147,15 +147,44 @@ converged for FORCE_RES ≤ 0.1 Mpc/h.
 - `GLAM_MEMORY_CEILING_GIB` (default 900): the output is skipped when the memory
   pre-checks would exceed it (or 97 % of the process's memory limit, if smaller).
 - `GLAM_STRICT_SO` (default 1).
+- `GLAM_MIN_MGRAV_PARTICLES` (default 20): a distinct halo is written when its bound mass
+  `mgrav` is at least this many particle masses (`mgrav ≥ (N − ½) m_p`, as `mgrav` is a
+  whole number of them); 0 writes every distinct halo. Rockstar's `MIN_HALO_OUTPUT_SIZE`
+  counts the particles assigned to a halo (`num_p`), not its mass: at L1024 Np2048, 31 %
+  of the distinct haloes it lets through at z = 0 have `mgrav` below 20 particles, and 66 %
+  at z = 5 (BDM's catalogue requires 20). The cut is applied after the distinct haloes are found, so it
+  removes rows without changing which haloes are distinct; the `.meta` gives
+  `min_mgrav_particles` and the number of rows left out (`rows_below_min_mgrav`).
+- `GLAM_FULL_RECORD` (default 0): 0 writes 40 columns in 168 bytes per halo, 1 the whole
+  352-byte record (see "Catalogue").
+
+The validation (T1-T4, the L512 test) was done with `GLAM_FULL_RECORD = 1` and
+`GLAM_MIN_MGRAV_PARTICLES = 0`, the behaviour before these keys existed; set both to repeat
+it (`harness/t4_units.py` needs the bulk velocities of the full record).
 
 ## Catalogue
 
-`CATALOGS/Rockstar.<step>.<box>.bin` holds raw little-endian records of 352 bytes, one
-per distinct halo. Each record is:
+`CATALOGS/Rockstar.<step>.<box>.bin` holds raw little-endian records, one per distinct
+halo, with no header. The adapter builds each halo's full record (`rs_record.h`, 352 bytes):
 - Rockstar's `struct halo`, 312 bytes, with `OUTPUT_RVMAX`, `OUTPUT_NFW_CHI2` and
   `OUTPUT_INERTIA_TENSOR`;
 - then the FoF group, and the strict SO masses with flags saying which thresholds were
   reached.
+
+By default (`GLAM_FULL_RECORD = 0`) it writes 40 of these 80 columns, 168 bytes per halo
+(`slim_names` in `rs_write.c`), each value unchanged:
+- `id`, `num_p` (int64); positions `x y z`, velocities `vx vy vz`;
+- masses and radii `m`, `mgrav`, `r`, `alt_m_1..4`, `halfmass_radius`;
+- `vmax`, `rvmax`, `vrms`, `rs`; angular momentum `Jx Jy Jz`, `spin`, `bullock_spin`;
+- `Xoff`, `Voff`, `kin_to_pot`; shape `b_to_a`, `c_to_a`, `Ax Ay Az`;
+- the strict SO masses `m_strict`, `r_strict`, `alt_m_strict_1..4`, `strict_crossed` (int32).
+
+Left out: Rockstar's bookkeeping (`child_r`, `vmax_r`, `energy`, `p_start`, `desc`,
+`flags`, `n_core`, `min_*_err`), the core and bulk velocities, `klypin_rs` (a function of
+`vmax` and the mass), the pseudo-evolution masses `m_pe_*`, the second shape and both
+inertia tensors, `chi2`, `num_child_particles`, `fof_group` and `pad`. `GLAM_FULL_RECORD
+= 1` writes all of them. Readers take the layout from the `.meta` (`columns`, `dtypes`,
+`offsets`, `record_bytes`), so both records read the same way.
 
 The sidecar `.meta` (key = value) follows the other GLAM sidecars:
 - `product = Rockstar`, `status` (`ok`, `skipped` or `failed`) and `reason`;

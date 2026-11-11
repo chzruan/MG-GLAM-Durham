@@ -257,7 +257,9 @@ def bdm_config(catalogue_format=None, max_memory=None):
 
 def rockstar_config(force_res: float, ceiling_gib: float) -> str:
     """Run<N>/Rockstar.config of the in-line Rockstar (rockstar_inline/README.md): the settings it was validated
-    with against standalone MPI-Rockstar (P2 of the in-line campaign)."""
+    with against standalone MPI-Rockstar (P2 of the in-line campaign), plus the catalogue's mass cut and record
+    (the validation wrote every distinct halo in the full record: GLAM_MIN_MGRAV_PARTICLES = 0,
+    GLAM_FULL_RECORD = 1)."""
     return (
         "# In-line Rockstar of MG-GLAM (rockstar_inline/README.md), written by gen_inputs.py\n"
         "FILE_FORMAT = \"GLAM_INLINE\"     # required by Rockstar's parser; not used\n"
@@ -271,6 +273,8 @@ def rockstar_config(force_res: float, ceiling_gib: float) -> str:
         "UNBOUND_THRESHOLD = 0.5\n"
         f"GLAM_MEMORY_CEILING_GIB = {ceiling_gib:g}   # skip an output whose memory pre-check exceeds this (or 97 % of the job's limit)\n"
         "GLAM_STRICT_SO = 1              # strict SO masses from every particle\n"
+        "GLAM_MIN_MGRAV_PARTICLES = 20   # write distinct haloes with a bound mass mgrav of at least 20 particles\n"
+        "GLAM_FULL_RECORD = 0            # 0: 40 columns, 168 bytes per halo; 1: the full 352-byte record\n"
     )
 
 

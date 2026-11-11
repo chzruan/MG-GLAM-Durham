@@ -107,11 +107,17 @@ GLAM runs the in-line Rockstar adapter (`rockstar_inline/`, see its README) at
 every class-1 output, after BDM, and writes the distinct haloes (no subhaloes)
 to `CATALOGS/Rockstar.<step>.<box>.{bin,meta}`:
 
-* `.bin`: headerless little-endian records of `record_bytes` (352) bytes,
-  `rows` of them: Rockstar's `struct halo` (312 bytes; MPI-Rockstar built with
-  `OUTPUT_RVMAX`, `OUTPUT_NFW_CHI2`, `OUTPUT_INERTIA_TENSOR`) followed by the
-  adapter's `fof_group`, strict SO masses (`m_strict`, `r_strict`,
-  `alt_m_strict_1..4`), `strict_crossed` and `pad`.
+* `.bin`: headerless little-endian records of `record_bytes` bytes, `rows` of
+  them. By default 168 bytes: 40 columns (positions, velocities, masses,
+  radii, `vmax`, `vrms`, spins, shape, the strict SO masses `m_strict`,
+  `r_strict`, `alt_m_strict_1..4`, `strict_crossed`; the list is in
+  `rockstar_inline/README.md`), and only distinct haloes whose bound mass
+  `mgrav` is at least 20 particles. With `GLAM_FULL_RECORD = 1` in
+  `Rockstar.config`, 352 bytes: Rockstar's whole `struct halo` (312 bytes;
+  MPI-Rockstar built with `OUTPUT_RVMAX`, `OUTPUT_NFW_CHI2`,
+  `OUTPUT_INERTIA_TENSOR`) followed by the adapter's `fof_group`, strict SO
+  masses, `strict_crossed` and `pad` (catalogues written before these keys
+  existed have this record and no mass cut).
 * `.meta`: a `key = value` sidecar that describes the layout itself:
   `columns`, `dtypes` (`i8`, `f4`, `i4`, little-endian), `offsets` (bytes into
   the record) and `units` are space-separated lists with one entry per column,

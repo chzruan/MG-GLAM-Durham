@@ -5,8 +5,10 @@ Rockstar adapter (``rockstar_inline/``) at every class-1 (full) output and
 publishes ``CATALOGS/Rockstar.<step>.<box>.bin`` + ``.meta``:
 
 * ``.bin``: headerless, little-endian, one ``record_bytes``-byte record per
-  distinct halo (352 bytes today: Rockstar's ``struct halo`` followed by the
-  adapter's FoF-group and strict-SO columns), ``rows`` records;
+  distinct halo, ``rows`` records: by default 168 bytes (40 columns), or 352
+  with ``GLAM_FULL_RECORD = 1`` and in catalogues written before that key
+  existed (Rockstar's ``struct halo`` followed by the adapter's FoF-group and
+  strict-SO columns);
 * ``.meta``: a ``key = value`` sidecar (:mod:`glamio.meta`) that describes the
   layout itself: ``columns``, ``dtypes`` (``f4``, ``i8``, ``i4``, ...,
   little-endian), ``offsets`` (bytes into the record) and ``units`` are

@@ -15,9 +15,16 @@
 extern "C" {
 #endif
 
-/* rs_write.c: the column list of the .meta (descriptions follow BOUND_PROPS); -1 if cap is too small */
+/* rs_write.c: the record written (GLAM_FULL_RECORD): full = 1 writes struct rs_record as it is (352 bytes, 80
+ * columns), 0 (the default) the 40 columns of rs_write.c's slim_names (168 bytes) */
+void rs_select_record(int full);
+size_t rs_record_bytes(void);           /* 0: the default record names an unknown column (a programming error) */
+int rs_record_columns(void);
+/* the column list of the .meta for the record written (descriptions follow BOUND_PROPS); -1 if cap is too
+ * small */
 int rs_columns_text(char *buf, size_t cap, int bound_props);
-int rs_write_catalogue(const char *dir, int step, int box, const struct rs_record *rec, int64_t nrows,
+/* writes the catalogue in the selected record; with the default record, rec is rewritten in place */
+int rs_write_catalogue(const char *dir, int step, int box, struct rs_record *rec, int64_t nrows,
                        const char *meta, char *err, int errlen);
 /* 1 when <dir>/Rockstar.<step>.<box>.meta exists, says status = ok and was written for this output: the same
  * a and N_p (as the .meta prints them) and, unless config_hash is NULL, the same config_fnv1a64 */
