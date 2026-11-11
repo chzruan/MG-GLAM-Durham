@@ -118,8 +118,10 @@
   counts page cache). In-line Rockstar catalogues add two files per class-1
   output: 0.63-0.88 GB per output at L512 Np1024 for z = 0-1 (2026-10-28
   test), so about 5-7 GB per class-1 output at L1024 Np2048 (more at higher
-  redshift), and such a box is roughly twice as
-  large and takes about twice as long; measure it on the first one. The check needs free space equal to the box on the run's
+  redshift). Measured on the first such box (2026-11-10, 300 GB, 673 files,
+  job 12335438): pack 2 h 22 min, check 2 h 00 min, prune 1 h 24 min, 5 h 46 min
+  in all; `check_run.py --planes all` takes about 2 min. Both `pack_run.sh` and
+  `post_run.sh` ask for 12 h, twice that. The check needs free space equal to the box on the run's
   file system (it unpacks into `pack-check-<job>` beside `Run<box>/`). An L256
   pilot takes 30-100 s (Lustre load varies) and may run on the login node (light tier).
 - Record the pack/prune job IDs, file counts and bytes in the campaign's

@@ -14,7 +14,7 @@
 #SBATCH -A dp203
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=8G
-#SBATCH -t 24:00:00
+#SBATCH -t 12:00:00
 #SBATCH -o %x_%j.out
 #SBATCH -e %x_%j.err
 set -euo pipefail
