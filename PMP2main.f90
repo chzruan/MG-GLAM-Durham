@@ -1091,8 +1091,10 @@ end SUBROUTINE POTENTfft5
 
 SUBROUTINE POTENT_FOR_MG
     use Tools
+    use ExtradofBackgroundData  ! CSF: background field for A(phi_bar)
     real*8  :: ctilde, R_bg, R0_bg, fR_bg, fct1, sf
-    integer :: M1, M2, M3
+    real*8  :: phibar, Abar     ! background scalar field and coupling A(phi_bar)
+    integer :: M1, M2, M3, ist
 
 !  OPEN(UNIT=29, FILE='phi_newtonian.txt', FORM='FORMATTED', STATUS='REPLACE')
 !  OPEN(UNIT=30, FILE='phi_MG_N1.txt', FORM='FORMATTED', STATUS='REPLACE')
@@ -1101,6 +1103,26 @@ SUBROUTINE POTENT_FOR_MG
 !     WRITE(29,'(F23.9,F23.15)') DBLE(M1)/DBLE(NGRID),FI(M1,NGRID/2,NGRID/2)
 !  END DO
 !  CLOSE(29)
+
+    ! Coupled scalar field (MG_model = 5, exponential coupling A = exp(beta*phi)):
+    ! MOVE multiplies the gradient of the whole FI (Newtonian + fifth force) by
+    ! bs_fct = A(phi_bar). That factor belongs to the Newtonian part only, which
+    ! POTENTfft5 solves from the density without A. The scalar field is already
+    ! sourced by beta*A*rho, so the fifth force added to FI below is divided by
+    ! A(phi_bar) and reaches the particles with one factor of A.
+    ! For CSF the linear source is then Om*A*(1 + 2*beta^2), not Om*A*(1 + 2*beta^2*A).
+    Abar = 1.0D0
+    IF (MG_model .EQ. 5 .AND. csf_coupling .EQ. 1) THEN
+        ist = 1
+        DO WHILE (BackgroundEvolution(ist, 1) < AEXPN)
+            ist = ist + 1
+        END DO
+        phibar = BackgroundEvolution(ist - 1, 2) + &
+               & (BackgroundEvolution(ist, 2) - BackgroundEvolution(ist - 1, 2))/ &
+               & (BackgroundEvolution(ist, 1) - BackgroundEvolution(ist - 1, 1))* &
+               & (AEXPN - BackgroundEvolution(ist - 1, 1))
+        IF (MG_model .EQ. 5) Abar = DEXP(csf_beta*phibar)
+    END IF
 
     SELECT CASE (MG_model)
         !
@@ -1209,7 +1231,7 @@ SUBROUTINE POTENT_FOR_MG
         !
         ! coupled scalar field part
     CASE (5)
-        IF (csf_coupling .EQ. 1) fct1 = csf_beta
+        IF (csf_coupling .EQ. 1) fct1 = csf_beta/Abar  ! /A(phi_bar): see above
 !$OMP PARALLEL DO DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3) &
 !$OMP PRIVATE (sf)
