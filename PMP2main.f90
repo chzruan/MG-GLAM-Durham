@@ -548,6 +548,7 @@ SUBROUTINE MOVE(FactV)
     integer*8 :: IN
     integer*4 :: ist    ! MG for background quantity interpolation
     real*8    :: fric_fac, param_beta, bs_fct   ! MG additional force coefficients
+    real*8    :: fric_h                         ! CSF: half friction factor of the centred kick
     real*8    :: fct1, fct3, dphidN, HoH0, phidot, phidot2, fif2Newt    ! linearised kmoufage fifth force Baojiu-01-07-2021
     Logical   :: Linear_Kmo = .False.
 
@@ -653,6 +654,7 @@ SUBROUTINE MOVE(FactV)
     IF (MG_flag .EQ. 1) THEN
         !
         fric_fac = 0.0
+        fric_h = 0.0D0
         !
         ! symmetron case
         IF (MG_model .EQ. 3 .AND. AEXPN .GT. sym_astar) THEN
@@ -686,6 +688,14 @@ SUBROUTINE MOVE(FactV)
                      & (AEXPN - BackgroundEvolution(ist - 1, 1))
             fric_fac = fric_fac/AEXPN                                     ! d\varphi/da
             fric_fac = -fric_fac*param_beta
+            !
+            ! CSF: the velocity-dependent force dP/da = fric_fac*P is applied centred
+            ! over the kick interval da_k = ASTEP/FactV (trapezoidal in P):
+            !     P_new = [(1 + h)*P_old + g*da_k]/(1 - h),   h = fric_fac*da_k/2,
+            ! with g*da_k the gravitational + fifth-force kick. The explicit update
+            ! P_new = P_old + fric_fac*P_old*da_k + g*da_k, still used for k-mouflage,
+            ! is first order in the time step.
+            fric_h = 0.5D0*fric_fac*ASTEP/FactV
         END IF
         !
     END IF
@@ -839,10 +849,16 @@ SUBROUTINE MOVE(FactV)
                 VVZ = VVZ + fric_fac*FI2(I, J, K)*VVZ*ASTEP/FactV                ! z component
             END IF
             !
-            IF ((MG_model .EQ. 4) .OR. (MG_model .EQ. 5)) THEN
+            IF (MG_model .EQ. 4) THEN                               ! k-mouflage: explicit (first order)
                 VVX = VVX + fric_fac*VVX*ASTEP/FactV                ! x component
                 VVY = VVY + fric_fac*VVY*ASTEP/FactV                ! y component
                 VVZ = VVZ + fric_fac*VVZ*ASTEP/FactV                ! z component
+            END IF
+            !
+            IF (MG_model .EQ. 5) THEN                               ! CSF centred kick, part 1: (1+h)*P_old
+                VVX = VVX*(1.0D0 + fric_h)                          ! (division by 1-h after all kicks)
+                VVY = VVY*(1.0D0 + fric_h)
+                VVZ = VVZ*(1.0D0 + fric_h)
             END IF
             !
             ! boost of Newtonian force due to varying particle mass
@@ -873,6 +889,13 @@ SUBROUTINE MOVE(FactV)
             VVZ = VVZ + GZ*fif2Newt
         END IF
         ! Baojiu-01-07-2021 added block linearised kmoflage fifth force; end
+        !
+        ! CSF centred kick, part 2: P_new = [(1+h)*P_old + g*da_k]/(1-h)
+        IF (MG_flag .EQ. 1 .AND. MG_model .EQ. 5) THEN
+            VVX = VVX/(1.0D0 - fric_h)
+            VVY = VVY/(1.0D0 - fric_h)
+            VVZ = VVZ/(1.0D0 - fric_h)
+        END IF
         !
         X = X + VVX*XCONST
         Y = Y + VVY*XCONST
