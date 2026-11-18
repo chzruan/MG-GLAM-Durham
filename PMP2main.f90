@@ -1114,7 +1114,7 @@ end SUBROUTINE POTENTfft5
 
 SUBROUTINE POTENT_FOR_MG
     use Tools
-    use ExtradofBackgroundData  ! CSF: background field for A(phi_bar)
+    use ExtradofBackgroundData  ! k-mouflage and CSF: background field for A(phi_bar)
     real*8  :: ctilde, R_bg, R0_bg, fR_bg, fct1, sf
     real*8  :: phibar, Abar     ! background scalar field and coupling A(phi_bar)
     integer :: M1, M2, M3, ist
@@ -1127,15 +1127,15 @@ SUBROUTINE POTENT_FOR_MG
 !  END DO
 !  CLOSE(29)
 
-    ! Coupled scalar field (MG_model = 5, exponential coupling A = exp(beta*phi)):
-    ! MOVE multiplies the gradient of the whole FI (Newtonian + fifth force) by
-    ! bs_fct = A(phi_bar). That factor belongs to the Newtonian part only, which
-    ! POTENTfft5 solves from the density without A. The scalar field is already
-    ! sourced by beta*A*rho, so the fifth force added to FI below is divided by
-    ! A(phi_bar) and reaches the particles with one factor of A.
+    ! k-mouflage (MG_model = 4) and coupled scalar field (MG_model = 5, exponential
+    ! coupling A = exp(beta*phi)): MOVE multiplies the gradient of the whole FI
+    ! (Newtonian + fifth force) by bs_fct = A(phi_bar). That factor belongs to the
+    ! Newtonian part only, which POTENTfft5 solves from the density without A. The
+    ! scalar field is already sourced by beta*A*rho, so the fifth force added to FI
+    ! below is divided by A(phi_bar) and reaches the particles with one factor of A.
     ! For CSF the linear source is then Om*A*(1 + 2*beta^2), not Om*A*(1 + 2*beta^2*A).
     Abar = 1.0D0
-    IF (MG_model .EQ. 5 .AND. csf_coupling .EQ. 1) THEN
+    IF (MG_model .EQ. 4 .OR. (MG_model .EQ. 5 .AND. csf_coupling .EQ. 1)) THEN
         ist = 1
         DO WHILE (BackgroundEvolution(ist, 1) < AEXPN)
             ist = ist + 1
@@ -1144,6 +1144,7 @@ SUBROUTINE POTENT_FOR_MG
                & (BackgroundEvolution(ist, 2) - BackgroundEvolution(ist - 1, 2))/ &
                & (BackgroundEvolution(ist, 1) - BackgroundEvolution(ist - 1, 1))* &
                & (AEXPN - BackgroundEvolution(ist - 1, 1))
+        IF (MG_model .EQ. 4) Abar = DEXP(kmf_beta*phibar)
         IF (MG_model .EQ. 5) Abar = DEXP(csf_beta*phibar)
     END IF
 
@@ -1237,7 +1238,7 @@ SUBROUTINE POTENT_FOR_MG
         ! k-mouflage part
     CASE (4)
         ctilde = 2.99792458D3*DBLE(NGRID)/Box
-        fct1 = kmf_beta*ctilde
+        fct1 = kmf_beta*ctilde/Abar                 ! /A(phi_bar): see above
 !$OMP PARALLEL DO DEFAULT(SHARED) &
 !$OMP PRIVATE (M1,M2,M3) &
 !$OMP PRIVATE (sf)
